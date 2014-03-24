@@ -28,5 +28,15 @@ namespace _3880_80_FlashStation
         {
             Environment.Exit(0);
         }
+
+        private void StoreSettings(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void ConnectDisconnect(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

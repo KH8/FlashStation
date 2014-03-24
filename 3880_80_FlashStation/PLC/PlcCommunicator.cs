@@ -115,14 +115,14 @@ namespace _3880_80_FlashStation.PLC
         {
             if (configurator.PlcConfiguration.PlcConfigurationStatus != 1)
             {
-                _connectionStatus = -1;
+                _configurationStatus = -1;
             }
             else
             {
                 _plcConfiguration = configurator.PlcConfiguration;
                 _readBytes = new byte[_plcConfiguration.PlcReadLength];
                 _writeBytes = new byte[_plcConfiguration.PlcWriteLength];
-                _connectionStatus = 1;
+                _configurationStatus = 1;
             }
         }
 
@@ -169,8 +169,6 @@ namespace _3880_80_FlashStation.PLC
 
         private void DataAquisition()
         {
-            Thread.Sleep(1000);
-
             while (_dataAquisitionThread.IsAlive)
             {
                 if (_connectionStatus == 1)
@@ -191,8 +189,6 @@ namespace _3880_80_FlashStation.PLC
 
         private void WatchDog()
         {
-            Thread.Sleep(1000);
-
             while (_communicationWatchDogThread.IsAlive)
             {
                 if (_daveConnection != null && _daveConnection.connectPLC() == 0)
