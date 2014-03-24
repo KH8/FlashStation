@@ -99,11 +99,11 @@ namespace _3880_80_FlashStation.PLC
             _dataAquisitionThread = new Thread(DataAquisition);
 
             _communicationWatchDogThread.SetApartmentState(ApartmentState.STA);
-            _communicationWatchDogThread.IsBackground = false;
+            _communicationWatchDogThread.IsBackground = true;
             _communicationWatchDogThread.Start();
 
             _dataAquisitionThread.SetApartmentState(ApartmentState.STA);
-            _dataAquisitionThread.IsBackground = false;
+            _dataAquisitionThread.IsBackground = true;
             _dataAquisitionThread.Start();
         }
 
