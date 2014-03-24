@@ -34,6 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="libnodave.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\libnodave.net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -44,11 +52,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Vector.vFlash.Automation.vFlash, Version=2.5.3100.59554, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Vector.vFlash.Automation.vFlashStation, Version=2.5.3100.59554, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Vector\Vector.vFlash.Automation.vFlash.dll</HintPath>
-    </Reference>
-    <Reference Include="Vector.vFlash.Automation.vFlashStation">
       <HintPath>Vector\Vector.vFlash.Automation.vFlashStation.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -74,6 +79,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PLC\PlcCommunicator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -100,13 +106,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Vector\Vector.vFlash.Automation.vFlashStation.dll">
+    <Content Include="Resources\CsvHelper.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
+    <Content Include="Resources\libnodave.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\libnodave.net.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vector\Vector.vFlash.Automation.vFlashStation.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

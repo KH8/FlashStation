@@ -11,7 +11,6 @@ namespace _3880_80_FlashStation
         {
             InitializeComponent();
 
-           
         }
     }
 }
