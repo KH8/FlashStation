@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using _3880_80_FlashStation.Configuration;
+using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation
 {
@@ -11,6 +13,8 @@ namespace _3880_80_FlashStation
         {
             InitializeComponent();
 
+            var plc = new PlcCommunicator();
+            plc.SetupConnection(new PlcCommunicator.PlcConfig());
         }
     }
 }

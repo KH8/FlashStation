@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_3880_80_FlashStation.Configuration" GeneratedClassName="PlcCommunication">
+  <Profiles />
+  <Settings>
+    <Setting Name="PlcIpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.10.1</Value>
+    </Setting>
+    <Setting Name="PlcPortNumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">102</Value>
+    </Setting>
+    <Setting Name="PlcRackNumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcSlotNumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcReadDbNumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcReadStartAddress" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcReadLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcWriteDbNumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcWriteStartAddress" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PlcWriteLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ConfigurationStatus" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
