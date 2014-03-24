@@ -44,6 +44,13 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Vector.vFlash.Automation.vFlash, Version=2.5.3100.59554, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Vector\Vector.vFlash.Automation.vFlash.dll</HintPath>
+    </Reference>
+    <Reference Include="Vector.vFlash.Automation.vFlashStation">
+      <HintPath>Vector\Vector.vFlash.Automation.vFlashStation.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -92,6 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Vector\Vector.vFlash.Automation.vFlashStation.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
