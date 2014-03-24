@@ -9,9 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace _3880_80_FlashStation.Properties {
-    using System;
-    
-    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
