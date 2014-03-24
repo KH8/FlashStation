@@ -169,6 +169,8 @@ namespace _3880_80_FlashStation.PLC
 
         private void DataAquisition()
         {
+            Thread.Sleep(1000);
+
             while (_dataAquisitionThread.IsAlive)
             {
                 if (_connectionStatus == 1)
@@ -189,6 +191,8 @@ namespace _3880_80_FlashStation.PLC
 
         private void WatchDog()
         {
+            Thread.Sleep(1000);
+
             while (_communicationWatchDogThread.IsAlive)
             {
                 if (_daveConnection != null && _daveConnection.connectPLC() == 0)
