@@ -15,7 +15,7 @@ namespace _3880_80_FlashStation.DataAquisition
             return new BitArray(new int[] { BitConverter.ToUInt16(valByte1, pos) });
         }
 
-        public static int ReadInteger(byte[] valByte, int pos)
+        public static Int16 ReadInteger(byte[] valByte, int pos)
         {
             var valByte1 = new byte[2];
             valByte1[1] = valByte[pos + 0];
@@ -23,7 +23,7 @@ namespace _3880_80_FlashStation.DataAquisition
             return BitConverter.ToInt16(valByte1, 0);
         }
 
-        public static int ReadDInteger(byte[] valByte, int pos)
+        public static Int32 ReadDInteger(byte[] valByte, int pos)
         {
             var valByte1 = new byte[4];
             valByte1[3] = valByte[pos + 0];
@@ -59,14 +59,14 @@ namespace _3880_80_FlashStation.DataAquisition
             valByte[pos + 1] = valByte1[1];
         }
 
-        public static void WriteInteger(byte[] valByte, int pos, short valInteger)
+        public static void WriteInteger(byte[] valByte, int pos, Int16 valInteger)
         {
             byte[] valByte1 = BitConverter.GetBytes(valInteger);
             valByte[pos + 0] = valByte1[1];
             valByte[pos + 1] = valByte1[0];
         }
 
-        public static void WriteDInteger(byte[] valByte, int pos, int valDInteger)
+        public static void WriteDInteger(byte[] valByte, int pos, Int32 valDInteger)
         {
             byte[] valByte1 = BitConverter.GetBytes(valDInteger);
             valByte[pos + 0] = valByte1[3];

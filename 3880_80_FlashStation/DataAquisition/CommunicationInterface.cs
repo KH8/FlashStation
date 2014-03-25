@@ -8,20 +8,20 @@ namespace _3880_80_FlashStation.DataAquisition
 
     public abstract class CommunicationInterfaceComponent
     {
-        private int _id;
+        private string _name;
         private int _pos;
         private string _type;
 
-        public CommunicationInterfaceComponent(int id, int pos, string type)
+        public CommunicationInterfaceComponent(string name, int pos, string type)
         {
-            _id = id;
+            _name = name;
             _pos = pos;
             _type = type;
         }
 
-        public int Id
+        public string Name
         {
-            get { return _id; }
+            get { return _name; }
         }
 
         public int Pos
@@ -36,6 +36,8 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public abstract void Add(CommunicationInterfaceComponent c);
         public abstract void Remove(CommunicationInterfaceComponent c);
+        public abstract void ReadValue(byte[] valByte);
+        public abstract void WriteValue(byte[] valByte);
     }
 
     #endregion
@@ -47,7 +49,7 @@ namespace _3880_80_FlashStation.DataAquisition
         private List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
 
         // Constructor
-        public CommunicationInterfaceComposite() : base(0, 0, "Composite")
+        public CommunicationInterfaceComposite(string name) : base(name, 0, "Composite")
         {
         }
 
@@ -61,11 +63,27 @@ namespace _3880_80_FlashStation.DataAquisition
             _children.Remove(component);
         }
 
-        public CommunicationInterfaceVariable ReturnVariable(int id)
+        public override void ReadValue(byte[] valByte)
         {
             foreach (CommunicationInterfaceComponent component in _children)
             {
-                if (component.Id == id)
+                component.ReadValue(valByte);
+            }
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            foreach (CommunicationInterfaceComponent component in _children)
+            {
+                component.WriteValue(valByte);
+            }
+        }
+
+        public CommunicationInterfaceVariable ReturnVariable(string name)
+        {
+            foreach (CommunicationInterfaceComponent component in _children)
+            {
+                if (component.Name == name)
                 {
                     return (CommunicationInterfaceVariable) component;
                 }
@@ -78,11 +96,11 @@ namespace _3880_80_FlashStation.DataAquisition
 
     #region Variables
 
-    public class CommunicationInterfaceVariable : CommunicationInterfaceComponent
+    public abstract class CommunicationInterfaceVariable : CommunicationInterfaceComponent
     {
         // Constructor
-        public CommunicationInterfaceVariable(int id, int pos, string type)
-            : base(id, pos, type)
+        public CommunicationInterfaceVariable(string name, int pos, string type)
+            : base(name, pos, type)
         {
         }
 
@@ -107,10 +125,20 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiBitArray(int id, int pos, string type, BitArray value)
-            : base(id, pos, type)
+        public CiBitArray(string name, int pos, string type, BitArray value)
+            : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.Read16Bits(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.Write16Bits(valByte, Pos, _value);
         }
     }
 
@@ -124,10 +152,20 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiInteger(int id, int pos, string type, Int16 value)
-            : base(id, pos, type)
+        public CiInteger(string name, int pos, string type, Int16 value)
+            : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.ReadInteger(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.WriteInteger(valByte, Pos, _value);
         }
     }
 
@@ -141,10 +179,20 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiDoubleInteger(int id, int pos, string type, Int32 value)
-            : base(id, pos, type)
+        public CiDoubleInteger(string name, int pos, string type, Int32 value)
+            : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.ReadDInteger(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.WriteDInteger(valByte, Pos, _value);
         }
     }
 
@@ -158,16 +206,27 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiReal(int id, int pos, string type, float value)
-            : base(id, pos, type)
+        public CiReal(string name, int pos, string type, float value)
+            : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.ReadReal(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.WriteReal(valByte, Pos, _value);
         }
     }
 
     public class CiString : CommunicationInterfaceVariable
     {
         private string _value;
+        private int _length;
 
         public string Value
         {
@@ -175,10 +234,27 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiString(int id, int pos, string type, string value)
-            : base(id, pos, type)
+        public int Length
+        {
+            get { return _length; }
+            set { _length = value; }
+        }
+
+        public CiString(string name, int pos, string type, string value, int length)
+            : base(name, pos, type)
         {
             _value = value;
+            _length = length;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.ReadString(valByte, Pos, _length);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.WriteString(valByte, Pos, _value);
         }
     }
 
