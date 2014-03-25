@@ -23,6 +23,9 @@ namespace _3880_80_FlashStation.Visual
         {
             InitializeComponent();
 
+            OnlineReadDataListBox.Items.Add("Read area: ");
+            OnlineWriteDataListBox.Items.Add("Write area: ");
+
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
 
@@ -58,7 +61,6 @@ namespace _3880_80_FlashStation.Visual
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
             _statusThread.Start();
-
         }
 
         private void StatusHandler()

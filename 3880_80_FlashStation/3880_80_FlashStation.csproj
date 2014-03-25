@@ -76,12 +76,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Auxiliaries\DataMapper.cs" />
     <Compile Include="Configuration\PlcConfigurationFile.cs" />
     <Compile Include="Configuration\PlcConfigurationFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>PlcConfigurationFile.settings</DependentUpon>
     </Compile>
+    <Compile Include="DataAquisition\CommunicationInterface.cs" />
     <Compile Include="Visual\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
