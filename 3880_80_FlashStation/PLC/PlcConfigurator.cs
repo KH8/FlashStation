@@ -31,13 +31,17 @@
 
         #endregion
 
+        #region Methods
+
         public void UpdateConfiguration(PlcConfig configuration)
         {
             //to do: be done verification
             configuration.PlcConfigurationStatus = 1;
-
             _plcConfiguration = configuration;
         }
+
+        #endregion
+
 
     }
 }

@@ -134,7 +134,7 @@ namespace _3880_80_FlashStation.PLC
                 throw new PlcException("Error: Plc communication is not configured.");
             }
             // Open connection only if was closed
-            if (_connectionStatus == -1)
+            if (_connectionStatus != 1)
             {
                 _daveOSserialType.rfd = libnodave.openSocket(_plcConfiguration.PlcPortNumber, _plcConfiguration.PlcIpAddress);
                 _daveOSserialType.wfd = _daveOSserialType.rfd;
@@ -178,7 +178,7 @@ namespace _3880_80_FlashStation.PLC
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytes);
                 }
-
+                _writeBytes = _readBytes;
                 Thread.Sleep(100);
             }
         }
@@ -191,14 +191,22 @@ namespace _3880_80_FlashStation.PLC
                 if (_errorReadByteNoDave != 0)
                 {
                     CloseConnection();
-                    throw new PlcException("Error: Can not read data from PLC.");
+                    _connectionStatus = -2;
+                    //throw new PlcException("Error: Can not read data from PLC.");
                 }
                 // Writeing...
                 if (_errorWriteByteNoDave != 0)
                 {
                     CloseConnection();
-                    throw new PlcException("Error: Can not write data to PLC.");
+                    _connectionStatus = -2;
+                    //throw new PlcException("Error: Can not write data to PLC.");
                 }
+                if (_connectionStatus == -2)
+                {
+                    try { OpenConnection();}
+                    catch (Exception e) { Console.WriteLine(e);}
+                }
+                Thread.Sleep(2000);
             }
         }
 

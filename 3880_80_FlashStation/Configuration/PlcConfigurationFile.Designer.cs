@@ -27,15 +27,12 @@ namespace _3880_80_FlashStation.Configuration {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public PlcCommunicatorBase.PlcConfig Configuration
-        {
-            get
-            {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public PlcCommunicatorBase.PlcConfig Configuration {
+            get {
                 return ((PlcCommunicatorBase.PlcConfig)(this["Configuration"]));
             }
-            set
-            {
+            set {
                 this["Configuration"] = value;
             }
         }

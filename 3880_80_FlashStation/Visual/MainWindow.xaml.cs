@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.PLC;
 
@@ -27,30 +28,30 @@ namespace _3880_80_FlashStation.Visual
 
             _guiPlcConfiguration = new PlcCommunicatorBase.PlcConfig
             {
-                PlcIpAddress = "192.168.100.100",
+                PlcIpAddress = "192.168.10.80",
                 PlcPortNumber = 102,
                 PlcRackNumber = 0,
                 PlcSlotNumber = 0,
                 PlcReadDbNumber = 1000,
                 PlcReadStartAddress = 0,
-                PlcReadLength = 256,
+                PlcReadLength = 100,
                 PlcWriteDbNumber = 1000,
-                PlcWriteStartAddress = 256,
-                PlcWriteLength = 256,
+                PlcWriteStartAddress = 512,
+                PlcWriteLength = 100,
             };
 
             PlcConfigurationFile.Default.Configuration = new PlcCommunicatorBase.PlcConfig
             {
-                PlcIpAddress = "192.168.100.100",
+                PlcIpAddress = "192.168.10.80",
                 PlcPortNumber = 102,
                 PlcRackNumber = 0,
                 PlcSlotNumber = 0,
                 PlcReadDbNumber = 1000,
                 PlcReadStartAddress = 0,
-                PlcReadLength = 256,
+                PlcReadLength = 100,
                 PlcWriteDbNumber = 1000,
-                PlcWriteStartAddress = 256,
-                PlcWriteLength = 256,
+                PlcWriteStartAddress = 512,
+                PlcWriteLength = 100,
             };
 
             _statusThread = new Thread(StatusHandler);
@@ -78,8 +79,9 @@ namespace _3880_80_FlashStation.Visual
                     ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = _plcCommunication.PlcConfiguration.PlcWriteLength; })));
 
                     StatusBarHandler(_plcCommunication);
+                    OnlineDataDisplayHandler(_plcCommunication);
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
         }
 
@@ -105,7 +107,19 @@ namespace _3880_80_FlashStation.Visual
 
         private void ConnectDisconnect(object sender, RoutedEventArgs e)
         {
-
+            if (_plcCommunication != null)
+            {
+                if (_plcCommunication.ConnectionStatus != 1)
+                {
+                    _plcCommunication.OpenConnection();
+                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+                }
+                else
+                {
+                    _plcCommunication.CloseConnection();
+                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
+                } 
+            }
         }
 
         #endregion
@@ -179,10 +193,60 @@ namespace _3880_80_FlashStation.Visual
         private void StatusBarHandler(PlcCommunicator communication)
         {
             string statusBar = "0";
-            if (communication.ConfigurationStatus != 1) statusBar = "Wrong Configuration";
-            if (communication.ConfigurationStatus == 1) statusBar = "Configuration verified, ready to connect."; 
-            if (communication.ConnectionStatus == 1) statusBar = "Connected to IP address: " +_plcCommunication.PlcConfiguration.PlcIpAddress;
-            StatusLabel.Dispatcher.BeginInvoke((new Action(delegate { StatusLabel.Content = statusBar; })));
+            Brush brush = Brushes.Red;
+            if (communication.ConfigurationStatus != 1)
+            {
+                statusBar = "Wrong Configuration";
+                brush = Brushes.Red;
+            }
+            if (communication.ConfigurationStatus == 1)
+            {
+                statusBar = "Configuration verified, ready to connect."; 
+                brush = Brushes.Black;
+            }
+            if (communication.ConnectionStatus == 1)
+            {
+                statusBar = "Connected to IP address " +_plcCommunication.PlcConfiguration.PlcIpAddress;
+                brush = Brushes.Green;
+                ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+            }
+            if (communication.ConnectionStatus == -2)
+            {
+                statusBar = "A connection with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " was interrupted.";
+                brush = Brushes.Red;
+                ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
+            }
+            StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                StatusLabel.Content = statusBar;
+                StatusLabel.Foreground = brush;
+            })));
+        }
+
+        private void OnlineDataDisplayHandler(PlcCommunicator communication)
+        {
+            if (communication.ConnectionStatus == 1)
+            {
+                OnlineListBox.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    int address;
+                    OnlineListBox.Items.Clear();
+                    OnlineListBox.Items.Add("Read area: ");
+                    for (int i = 0; i < communication.PlcConfiguration.PlcReadLength; i++)
+                    {
+                        address = communication.PlcConfiguration.PlcReadStartAddress + i;
+                        OnlineListBox.Items.Add("DB" + communication.PlcConfiguration.PlcReadDbNumber + ".DBB" + address +
+                                                " : " + communication.ReadBytes[i]);
+                    }
+                    OnlineListBox.Items.Add("\nWrite area: ");
+                    for (int i = 0; i < communication.PlcConfiguration.PlcWriteLength; i++)
+                    {
+                        address = communication.PlcConfiguration.PlcWriteStartAddress + i;
+                        OnlineListBox.Items.Add("DB" + communication.PlcConfiguration.PlcWriteDbNumber + ".DBB" + address +
+                                                " : " + communication.WriteBytes[i]);
+                    }
+                })));
+            }
         }
 
         #endregion

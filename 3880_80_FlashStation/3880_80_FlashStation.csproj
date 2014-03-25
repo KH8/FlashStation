@@ -76,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Configuration\PlcConfigurationFile.cs" />
     <Compile Include="Configuration\PlcConfigurationFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -123,9 +124,10 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\CsvHelper.dll" />
-    <Content Include="Resources\libnodave.dll">
+    <None Include="libnodave.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <None Include="Resources\libnodave.dll" />
     <Content Include="Resources\libnodave.net.dll" />
     <Resource Include="teamtechnik.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
