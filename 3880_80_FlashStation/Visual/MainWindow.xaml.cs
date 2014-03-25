@@ -109,18 +109,25 @@ namespace _3880_80_FlashStation.Visual
 
         private void ConnectDisconnect(object sender, RoutedEventArgs e)
         {
-            if (_plcCommunication != null)
+            try
             {
-                if (_plcCommunication.ConnectionStatus != 1)
+                if (_plcCommunication != null)
                 {
-                    _plcCommunication.OpenConnection();
-                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+                    if (_plcCommunication.ConnectionStatus != 1)
+                    {
+                        _plcCommunication.OpenConnection();
+                        ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+                    }
+                    else
+                    {
+                        _plcCommunication.CloseConnection();
+                        ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
+                    } 
                 }
-                else
-                {
-                    _plcCommunication.CloseConnection();
-                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
-                } 
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Connection Failed");
             }
         }
 

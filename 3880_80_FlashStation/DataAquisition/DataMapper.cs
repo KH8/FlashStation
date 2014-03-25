@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 
-namespace _3880_80_FlashStation.Auxiliaries
+namespace _3880_80_FlashStation.DataAquisition
 {
-    static public class DataMapper
+    static class DataMapper
     {
         #region Methods
 
