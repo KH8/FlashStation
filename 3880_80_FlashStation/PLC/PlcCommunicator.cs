@@ -174,13 +174,9 @@ namespace _3880_80_FlashStation.PLC
                 if (_connectionStatus == 1)
                 {
                     // Reading...
-                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytes);
-                    if (_errorReadByteNoDave != 0)
-                        throw new PlcException("Error: Can not read data from PLC.");
+                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytes);         
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytes);
-                    if (_errorWriteByteNoDave != 0)
-                        throw new PlcException("Error: Can not write data to PLC.");
                 }
 
                 Thread.Sleep(100);
@@ -191,12 +187,18 @@ namespace _3880_80_FlashStation.PLC
         {
             while (_communicationWatchDogThread.IsAlive)
             {
-                if (_daveConnection != null && _daveConnection.connectPLC() == 0)
-                    _connectionStatus = 1;
-                else
-                    _connectionStatus = -1;
-
-                Thread.Sleep(100);
+                // Reading...
+                if (_errorReadByteNoDave != 0)
+                {
+                    CloseConnection();
+                    throw new PlcException("Error: Can not read data from PLC.");
+                }
+                // Writeing...
+                if (_errorWriteByteNoDave != 0)
+                {
+                    CloseConnection();
+                    throw new PlcException("Error: Can not write data to PLC.");
+                }
             }
         }
 
