@@ -8,15 +8,30 @@ namespace _3880_80_FlashStation.DataAquisition
 
     public abstract class CommunicationInterfaceComponent
     {
-        protected int Id;
-        protected int Pos;
-        protected string Type;
+        private int _id;
+        private int _pos;
+        private string _type;
 
         public CommunicationInterfaceComponent(int id, int pos, string type)
         {
-            Id = id;
-            Pos = pos;
-            Type = type;
+            _id = id;
+            _pos = pos;
+            _type = type;
+        }
+
+        public int Id
+        {
+            get { return _id; }
+        }
+
+        public int Pos
+        {
+            get { return _pos; }
+        }
+
+        public string Type
+        {
+            get { return _type; }
         }
 
         public abstract void Add(CommunicationInterfaceComponent c);
@@ -32,8 +47,7 @@ namespace _3880_80_FlashStation.DataAquisition
         private List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
 
         // Constructor
-        public CommunicationInterfaceComposite(int id, int pos, string type)
-            : base(id, pos, type)
+        public CommunicationInterfaceComposite() : base(0, 0, "Composite")
         {
         }
 
@@ -45,6 +59,18 @@ namespace _3880_80_FlashStation.DataAquisition
         public override void Remove(CommunicationInterfaceComponent component)
         {
             _children.Remove(component);
+        }
+
+        public CommunicationInterfaceVariable ReturnVariable(int id)
+        {
+            foreach (CommunicationInterfaceComponent component in _children)
+            {
+                if (component.Id == id)
+                {
+                    return (CommunicationInterfaceVariable) component;
+                }
+            }
+            throw new CompositeException("Error: Variable not found");
         }
     }
 
@@ -62,12 +88,12 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public override void Add(CommunicationInterfaceComponent c)
         {
-            throw new CompositeException("Cannot add to a single variable");
+            throw new CompositeException("Error: Cannot add to a single variable");
         }
 
         public override void Remove(CommunicationInterfaceComponent c)
         {
-            throw new CompositeException("Cannot remove from a single variable");
+            throw new CompositeException("Error: Cannot remove from a single variable");
         }
     }
 
