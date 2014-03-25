@@ -110,6 +110,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="3880_80_FlashStation.cd" />
     <None Include="Configuration\PlcConfigurationFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PlcConfigurationFile.Designer.cs</LastGenOutput>
