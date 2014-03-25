@@ -56,7 +56,7 @@
       <FileName>PLC\PlcConfigurator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_3880_80_FlashStation.Properties.Resources" Collapsed="true">
+  <Class Name="_3880_80_FlashStation.Properties.Resources">
     <Position X="9.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
