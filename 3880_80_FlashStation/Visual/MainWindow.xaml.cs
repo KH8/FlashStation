@@ -227,30 +227,33 @@ namespace _3880_80_FlashStation.Visual
         {
             if (communication.ConnectionStatus == 1)
             {
-                OnlineListBox.Dispatcher.BeginInvoke((new Action(delegate
+                int address;
+                OnlineReadDataListBox.Dispatcher.BeginInvoke((new Action(delegate
                 {
-                    int address;
-                    OnlineListBox.Items.Clear();
-                    OnlineListBox.Items.Add("Read area: ");
+                    OnlineReadDataListBox.Items.Clear();
+                    OnlineReadDataListBox.Items.Add("Read area: ");
                     for (int i = 0; i < communication.PlcConfiguration.PlcReadLength; i++)
                     {
                         address = communication.PlcConfiguration.PlcReadStartAddress + i;
-                        OnlineListBox.Items.Add("DB" + communication.PlcConfiguration.PlcReadDbNumber + ".DBB" + address +
+                        OnlineReadDataListBox.Items.Add("DB" + communication.PlcConfiguration.PlcReadDbNumber + ".DBB" + address +
                                                 " : " + communication.ReadBytes[i]);
                     }
-                    OnlineListBox.Items.Add("\nWrite area: ");
-                    for (int i = 0; i < communication.PlcConfiguration.PlcWriteLength; i++)
+                })));
+                OnlineWriteDataListBox.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    OnlineWriteDataListBox.Items.Clear();
+                    OnlineWriteDataListBox.Items.Add("Write area: ");
+                    for (int i = 0; i < communication.PlcConfiguration.PlcReadLength; i++)
                     {
                         address = communication.PlcConfiguration.PlcWriteStartAddress + i;
-                        OnlineListBox.Items.Add("DB" + communication.PlcConfiguration.PlcWriteDbNumber + ".DBB" + address +
-                                                " : " + communication.WriteBytes[i]);
+                        OnlineWriteDataListBox.Items.Add("DB" + communication.PlcConfiguration.PlcWriteDbNumber + ".DBB" +
+                                                        address +
+                                                        " : " + communication.WriteBytes[i]);
                     }
                 })));
             }
         }
 
         #endregion
-
-
     }
 }

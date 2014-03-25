@@ -69,7 +69,8 @@
             </TabItem>
             <TabItem Header="Online">
                 <Grid Background="#FFFFFFFF">
-                    <ListBox Name="OnlineListBox" HorizontalAlignment="Center" Height="241" Margin="0,0,0,0" VerticalAlignment="Center" Width="495"/>
+                    <ListBox Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,0,0,0" VerticalAlignment="Center" Width="245"/>
+                    <ListBox Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="250,0,0,0" VerticalAlignment="Center" Width="245"/>
                 </Grid>
             </TabItem>
             <TabItem Header="About">
