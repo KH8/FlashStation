@@ -5,20 +5,20 @@ namespace _3880_80_FlashStation.DataAquisition
 {
     static public class CommunicationInterfaceFactory
     {
-        public static CommunicationInterfaceVariable CreateCommunicationInterfaceVariable(int id, int pos, string type)
+        public static CommunicationInterfaceVariable CreateVariable(string name, int pos, string type)
         {
             switch (type)
             {
                 case "BitArray":
-                    return new CiBitArray(id, pos, type, new BitArray(2));
+                    return new CiBitArray(name, pos, type, new BitArray(2));
                 case "Integer":
-                    return new CiInteger(id, pos, type, 0);
+                    return new CiInteger(name, pos, type, 0);
                 case "DoubleInteger":
-                    return new CiDoubleInteger(id, pos, type, 0);
+                    return new CiDoubleInteger(name, pos, type, 0);
                 case "Real":
-                    return new CiReal(id, pos, type, 0.0f);
+                    return new CiReal(name, pos, type, 0.0f);
                 case "String":
-                    return new CiString(id, pos, type, "");
+                    return new CiString(name, pos, type, "", 0);
                 default:
                     throw new FactoryException("Cannot remove from a single variable");
             }

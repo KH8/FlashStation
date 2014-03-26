@@ -20,9 +20,15 @@ namespace _3880_80_FlashStation.Visual
         private PlcConfigurator _plcConfiguration;
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
 
+        private CommunicationInterfaceComposite _readInterfaceComposite;
+        private CommunicationInterfaceComposite _writeInterfaceComposite;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _readInterfaceComposite = CommunicationInterfaceInitializer.Initialize("readInterface");
+            _writeInterfaceComposite = CommunicationInterfaceInitializer.Initialize("writeInterface");
 
             OnlineReadDataListBox.Items.Add("Read area: ");
             OnlineWriteDataListBox.Items.Add("Write area: ");
@@ -62,14 +68,6 @@ namespace _3880_80_FlashStation.Visual
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
             _statusThread.Start();
-
-            var ReadInterface = new CommunicationInterfaceComposite();
-            ReadInterface.Add(CommunicationInterfaceFactory.CreateCommunicationInterfaceVariable(1, 0, "Real"));
-            ReadInterface.Add(CommunicationInterfaceFactory.CreateCommunicationInterfaceVariable(2, 4, "Real"));
-            ReadInterface.Add(CommunicationInterfaceFactory.CreateCommunicationInterfaceVariable(3, 8, "Real"));
-            ReadInterface.Add(CommunicationInterfaceFactory.CreateCommunicationInterfaceVariable(4, 12, "Integer"));
-            ReadInterface.Add(CommunicationInterfaceFactory.CreateCommunicationInterfaceVariable(5, 14, "Real"));
-            ReadInterface.Add(CommunicationInterfaceFactory.CreateCommunicationInterfaceVariable(6, 18, "Real"));
         }
 
         private void StatusHandler()

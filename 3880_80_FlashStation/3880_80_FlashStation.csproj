@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="DataAquisition\CommunicationInterface.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceFactory.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfaceInitializer.cs" />
     <Compile Include="DataAquisition\DataMapper.cs" />
     <Compile Include="Visual\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
