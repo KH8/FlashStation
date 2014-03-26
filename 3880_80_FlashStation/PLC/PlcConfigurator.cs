@@ -35,7 +35,7 @@
 
         public void UpdateConfiguration(PlcConfig configuration)
         {
-            //to do: be done verification
+            //todo: config verification must be done
             configuration.PlcConfigurationStatus = 1;
             _plcConfiguration = configuration;
         }

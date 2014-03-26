@@ -31,12 +31,15 @@ namespace _3880_80_FlashStation.Vector
 
         private void VectorBackgroundThread()
         {
+            Int16 val = 0;
+
             while(_vectorThread.IsAlive)
             {
                 if (_outputInterface != null)
                 {
-                    _outputInterface.ModifyValue("ANTWORT", (Int16)99);
-                    _outputInterface.ModifyValue("FEHLERCODE", (Int16)32);
+                    val += 1;
+                    _outputInterface.ModifyValue("ANTWORT", val);
+                    _outputInterface.ModifyValue("FEHLERCODE", (Int16)(val - 2 * val));
                 }
                 Thread.Sleep(10);
             }

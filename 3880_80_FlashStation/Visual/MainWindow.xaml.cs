@@ -70,7 +70,7 @@ namespace _3880_80_FlashStation.Visual
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(10);
             }
         }
 
