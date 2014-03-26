@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading;
-using System.Windows.Media.Animation;
 using _3880_80_FlashStation.DataAquisition;
 
 namespace _3880_80_FlashStation.Vector
 {
-    class VectorHandler
+    class VFlashHandler
     {
         private Thread _vectorThread;
         private CommunicationInterfaceComposite _inputInterface;
@@ -22,7 +21,7 @@ namespace _3880_80_FlashStation.Vector
             set { _outputInterface = value; }
         }
 
-        public VectorHandler()
+        public VFlashHandler()
         {
             _vectorThread = new Thread(VectorBackgroundThread);
             _vectorThread.SetApartmentState(ApartmentState.STA);

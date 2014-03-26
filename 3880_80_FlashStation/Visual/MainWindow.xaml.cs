@@ -21,9 +21,9 @@ namespace _3880_80_FlashStation.Visual
         private readonly Thread _synchronizationThread;
         private readonly PlcCommunicator _plcCommunication;
         private readonly PlcConfigurator _plcConfiguration;
-        private VectorHandler _vector;
+        private readonly VFlashHandler _vector;
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
-        private CommunicationInterfaceHandler _communicationHandler;
+        private readonly CommunicationInterfaceHandler _communicationHandler;
 
         public MainWindow()
         {
@@ -47,7 +47,7 @@ namespace _3880_80_FlashStation.Visual
                 StoreSettings();
             }
 
-            _vector = new VectorHandler();
+            _vector = new VFlashHandler();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -65,18 +65,8 @@ namespace _3880_80_FlashStation.Visual
             while (_statusThread.IsAlive)
             {
                 if (_plcCommunication != null)
-                { 
-                    ActIpAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActIpAddressLabel.Content = _plcCommunication.PlcConfiguration.PlcIpAddress; })));
-                    ActPortLabel.Dispatcher.BeginInvoke((new Action(delegate { ActPortLabel.Content = _plcCommunication.PlcConfiguration.PlcPortNumber; })));
-                    ActRackLabel.Dispatcher.BeginInvoke((new Action(delegate { ActRackLabel.Content = _plcCommunication.PlcConfiguration.PlcRackNumber; })));
-                    ActSlotLabel.Dispatcher.BeginInvoke((new Action(delegate { ActSlotLabel.Content = _plcCommunication.PlcConfiguration.PlcSlotNumber; })));
-                    ActReadDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadDbNumberLabel.Content = _plcCommunication.PlcConfiguration.PlcReadDbNumber; })));
-                    ActReadStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadStartAddressLabel.Content = _plcCommunication.PlcConfiguration.PlcReadStartAddress; })));
-                    ActReadLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadLengthLabel.Content = _plcCommunication.PlcConfiguration.PlcReadLength; })));
-                    ActWriteDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteDbNumberLabel.Content = _plcCommunication.PlcConfiguration.PlcWriteDbNumber; })));
-                    ActWriteStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteStartAddressLabel.Content = _plcCommunication.PlcConfiguration.PlcWriteStartAddress; })));
-                    ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = _plcCommunication.PlcConfiguration.PlcWriteLength; })));
-
+                {
+                    ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
                 }
@@ -209,6 +199,20 @@ namespace _3880_80_FlashStation.Visual
         #endregion
 
         #region Auxiliaries
+
+        private void ActualConfigurationHandler(PlcCommunicatorBase.PlcConfig configuration)
+        {
+            ActIpAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActIpAddressLabel.Content = configuration.PlcIpAddress; })));
+            ActPortLabel.Dispatcher.BeginInvoke((new Action(delegate { ActPortLabel.Content = configuration.PlcPortNumber; })));
+            ActRackLabel.Dispatcher.BeginInvoke((new Action(delegate { ActRackLabel.Content = configuration.PlcRackNumber; })));
+            ActSlotLabel.Dispatcher.BeginInvoke((new Action(delegate { ActSlotLabel.Content = configuration.PlcSlotNumber; })));
+            ActReadDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadDbNumberLabel.Content = configuration.PlcReadDbNumber; })));
+            ActReadStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadStartAddressLabel.Content = configuration.PlcReadStartAddress; })));
+            ActReadLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadLengthLabel.Content = configuration.PlcReadLength; })));
+            ActWriteDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteDbNumberLabel.Content = configuration.PlcWriteDbNumber; })));
+            ActWriteStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteStartAddressLabel.Content = configuration.PlcWriteStartAddress; })));
+            ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = configuration.PlcWriteLength; })));
+        }
 
         private void StatusBarHandler(PlcCommunicator communication)
         {

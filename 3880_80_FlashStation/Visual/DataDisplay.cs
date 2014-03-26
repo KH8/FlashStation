@@ -9,7 +9,6 @@ namespace _3880_80_FlashStation.Visual
     {
         public static void Display(ListBox onlineReadDataListBox, ListBox onlineWriteDataListBox, PlcCommunicator communication, CommunicationInterfaceHandler communicationHandler)
         {
-            int address;
             onlineReadDataListBox.Dispatcher.BeginInvoke((new Action(delegate
             {
                 onlineReadDataListBox.Items.Clear();
@@ -57,31 +56,31 @@ namespace _3880_80_FlashStation.Visual
         private static void DisplayComponent(ListBox listBox, CiBitArray component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
-            listBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+            listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiInteger component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
-            listBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+            listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiDoubleInteger component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
-            listBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+            listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiReal component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
-            listBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+            listBox.Items.Add("DBD " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiString component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
-            listBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+            listBox.Items.Add("DB " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
     }
 }
