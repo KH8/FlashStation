@@ -46,7 +46,12 @@ namespace _3880_80_FlashStation.DataAquisition
 
     public class CommunicationInterfaceComposite : CommunicationInterfaceComponent
     {
-        private List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
+        private readonly List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
+
+        public List<CommunicationInterfaceComponent> Children
+        {
+            get { return _children; }
+        }
 
         // Constructor
         public CommunicationInterfaceComposite(string name) : base(name, 0, "Composite")

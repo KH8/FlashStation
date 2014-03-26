@@ -1,6 +1,6 @@
 namespace _3880_80_FlashStation.PLC
 {
-    internal abstract class PlcCommunicatorBase
+    public abstract class PlcCommunicatorBase
     {
         public struct PlcConfig
         {

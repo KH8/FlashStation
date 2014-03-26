@@ -78,6 +78,7 @@ namespace _3880_80_FlashStation.PLC
                 }
                 throw new PlcException("Error: Plc communication is not configured.");
             }
+            set { _writeBytes = value; }
         }
 
         #endregion
@@ -178,7 +179,6 @@ namespace _3880_80_FlashStation.PLC
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytes);
                 }
-                _writeBytes = _readBytes;
                 Thread.Sleep(100);
             }
         }

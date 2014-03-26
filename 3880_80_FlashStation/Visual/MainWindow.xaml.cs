@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,20 +17,20 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class MainWindow
     {
-        private Thread _statusThread;
-        private PlcCommunicator _plcCommunication;
-        private PlcConfigurator _plcConfiguration;
+        private readonly Thread _statusThread;
+        private readonly Thread _synchronizationThread;
+        private readonly PlcCommunicator _plcCommunication;
+        private readonly PlcConfigurator _plcConfiguration;
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
-
-        private CommunicationInterfaceComposite _readInterfaceComposite;
-        private CommunicationInterfaceComposite _writeInterfaceComposite;
+        private CommunicationInterfaceHandler _communicationHandler;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            _readInterfaceComposite = CommunicationInterfaceInitializer.Initialize("readInterface");
-            _writeInterfaceComposite = CommunicationInterfaceInitializer.Initialize("writeInterface");
+            _communicationHandler = new CommunicationInterfaceHandler();
+            _communicationHandler.Initialize("readInterface");
+            _communicationHandler.Initialize("writeInterface");
 
             OnlineReadDataListBox.Items.Add("Read area: ");
             OnlineWriteDataListBox.Items.Add("Write area: ");
@@ -36,38 +38,23 @@ namespace _3880_80_FlashStation.Visual
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
 
-            _guiPlcConfiguration = new PlcCommunicatorBase.PlcConfig
-            {
-                PlcIpAddress = "192.168.10.80",
-                PlcPortNumber = 102,
-                PlcRackNumber = 0,
-                PlcSlotNumber = 0,
-                PlcReadDbNumber = 1000,
-                PlcReadStartAddress = 0,
-                PlcReadLength = 100,
-                PlcWriteDbNumber = 1000,
-                PlcWriteStartAddress = 512,
-                PlcWriteLength = 100,
-            };
+            _guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
+            UpdateSettings();
 
-            PlcConfigurationFile.Default.Configuration = new PlcCommunicatorBase.PlcConfig
+            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1)
             {
-                PlcIpAddress = "192.168.10.80",
-                PlcPortNumber = 102,
-                PlcRackNumber = 0,
-                PlcSlotNumber = 0,
-                PlcReadDbNumber = 1000,
-                PlcReadStartAddress = 0,
-                PlcReadLength = 100,
-                PlcWriteDbNumber = 1000,
-                PlcWriteStartAddress = 512,
-                PlcWriteLength = 100,
-            };
+                StoreSettings();
+            }
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
             _statusThread.Start();
+
+            _synchronizationThread = new Thread(SynchronizationHandler);
+            _synchronizationThread.SetApartmentState(ApartmentState.STA);
+            _synchronizationThread.IsBackground = true;
+            _synchronizationThread.Start();
         }
 
         private void StatusHandler()
@@ -94,8 +81,21 @@ namespace _3880_80_FlashStation.Visual
             }
         }
 
+        private void SynchronizationHandler()
+        {
+            while (_synchronizationThread.IsAlive)
+            {
+                if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1)
+                {
+                    _communicationHandler.MaintainConnection(_plcCommunication);
+                }
+                Thread.Sleep(100);
+            }
+        }
+
         private void StoreSettings()
         {
+            _guiPlcConfiguration.PlcConfigurationStatus = 1;
             PlcConfigurationFile.Default.Configuration = _guiPlcConfiguration;
             PlcConfigurationFile.Default.Save();
             _plcConfiguration.UpdateConfiguration(PlcConfigurationFile.Default.Configuration);
@@ -247,27 +247,47 @@ namespace _3880_80_FlashStation.Visual
                 OnlineReadDataListBox.Dispatcher.BeginInvoke((new Action(delegate
                 {
                     OnlineReadDataListBox.Items.Clear();
-                    OnlineReadDataListBox.Items.Add("Read area: ");
-                    for (int i = 0; i < communication.PlcConfiguration.PlcReadLength; i++)
+                    OnlineReadDataListBox.Items.Add("Read area: " + "DB" + communication.PlcConfiguration.PlcReadDbNumber);
+                    foreach (CommunicationInterfaceComponent inputComponent in _communicationHandler.ReadInterfaceComposite.Children)
                     {
-                        address = communication.PlcConfiguration.PlcReadStartAddress + i;
-                        OnlineReadDataListBox.Items.Add("DB" + communication.PlcConfiguration.PlcReadDbNumber + ".DBB" + address +
-                                                " : " + communication.ReadBytes[i]);
+                        if (inputComponent.Type == "Integer")
+                        {
+                            var component = (CiInteger) inputComponent;
+                            address = communication.PlcConfiguration.PlcReadStartAddress + component.Pos;
+                            OnlineReadDataListBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+                        }
                     }
                 })));
                 OnlineWriteDataListBox.Dispatcher.BeginInvoke((new Action(delegate
                 {
                     OnlineWriteDataListBox.Items.Clear();
-                    OnlineWriteDataListBox.Items.Add("Write area: ");
-                    for (int i = 0; i < communication.PlcConfiguration.PlcReadLength; i++)
+                    OnlineWriteDataListBox.Items.Add("Write area: " + "DB" + communication.PlcConfiguration.PlcWriteDbNumber);
+                    foreach (CommunicationInterfaceComponent inputComponent in _communicationHandler.WriteInterfaceComposite.Children)
                     {
-                        address = communication.PlcConfiguration.PlcWriteStartAddress + i;
-                        OnlineWriteDataListBox.Items.Add("DB" + communication.PlcConfiguration.PlcWriteDbNumber + ".DBB" +
-                                                        address +
-                                                        " : " + communication.WriteBytes[i]);
+                        if (inputComponent.Type == "Integer")
+                        {
+                            var component = (CiInteger)inputComponent;
+                            address = communication.PlcConfiguration.PlcWriteStartAddress + component.Pos;
+                            OnlineWriteDataListBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+                        }
                     }
                 })));
             }
+        }
+
+        private void UpdateSettings()
+        {
+            IpAddressBox.Text = _guiPlcConfiguration.PlcIpAddress;
+            PortBox.Text = _guiPlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture);
+            SlotBox.Text = _guiPlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture);
+            RackBox.Text = _guiPlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture);
+            ReadDbAddressBox.Text = _guiPlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture);
+            ReadDbStartAddressBox.Text = _guiPlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture);
+            ReadDbLengthBox.Text = _guiPlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture);
+            WriteDbAddressBox.Text = _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture);
+            WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
+            WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
+
         }
 
         #endregion
