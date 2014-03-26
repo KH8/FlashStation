@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace _3880_80_FlashStation.PLC
 {
-    class PlcCommunicator : PlcCommunicatorBase
+    public class PlcCommunicator : PlcCommunicatorBase
     {
         #region Variables
         

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Threading;
@@ -9,6 +8,7 @@ using System.Windows.Media;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.PLC;
+using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual
 {
@@ -21,6 +21,7 @@ namespace _3880_80_FlashStation.Visual
         private readonly Thread _synchronizationThread;
         private readonly PlcCommunicator _plcCommunication;
         private readonly PlcConfigurator _plcConfiguration;
+        private VectorHandler _vector;
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private CommunicationInterfaceHandler _communicationHandler;
 
@@ -45,6 +46,8 @@ namespace _3880_80_FlashStation.Visual
             {
                 StoreSettings();
             }
+
+            _vector = new VectorHandler();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -83,13 +86,14 @@ namespace _3880_80_FlashStation.Visual
 
         private void SynchronizationHandler()
         {
+            _vector.OutputInterface = _communicationHandler.WriteInterfaceComposite;
+
             while (_synchronizationThread.IsAlive)
             {
-                if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1)
-                {
-                    _communicationHandler.MaintainConnection(_plcCommunication);
-                }
-                Thread.Sleep(100);
+                _communicationHandler.WriteInterfaceComposite = _vector.OutputInterface;
+                if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1) { _communicationHandler.MaintainConnection(_plcCommunication); }
+                _vector.InputInterface = _communicationHandler.ReadInterfaceComposite;
+                Thread.Sleep(10);
             }
         }
 
@@ -243,35 +247,7 @@ namespace _3880_80_FlashStation.Visual
         {
             if (communication.ConnectionStatus == 1)
             {
-                int address;
-                OnlineReadDataListBox.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    OnlineReadDataListBox.Items.Clear();
-                    OnlineReadDataListBox.Items.Add("Read area: " + "DB" + communication.PlcConfiguration.PlcReadDbNumber);
-                    foreach (CommunicationInterfaceComponent inputComponent in _communicationHandler.ReadInterfaceComposite.Children)
-                    {
-                        if (inputComponent.Type == "Integer")
-                        {
-                            var component = (CiInteger) inputComponent;
-                            address = communication.PlcConfiguration.PlcReadStartAddress + component.Pos;
-                            OnlineReadDataListBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
-                        }
-                    }
-                })));
-                OnlineWriteDataListBox.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    OnlineWriteDataListBox.Items.Clear();
-                    OnlineWriteDataListBox.Items.Add("Write area: " + "DB" + communication.PlcConfiguration.PlcWriteDbNumber);
-                    foreach (CommunicationInterfaceComponent inputComponent in _communicationHandler.WriteInterfaceComposite.Children)
-                    {
-                        if (inputComponent.Type == "Integer")
-                        {
-                            var component = (CiInteger)inputComponent;
-                            address = communication.PlcConfiguration.PlcWriteStartAddress + component.Pos;
-                            OnlineWriteDataListBox.Items.Add("DBB" + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
-                        }
-                    }
-                })));
+                DataDisplay.Display(OnlineReadDataListBox,OnlineWriteDataListBox,communication,_communicationHandler);
             }
         }
 
@@ -287,7 +263,6 @@ namespace _3880_80_FlashStation.Visual
             WriteDbAddressBox.Text = _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture);
             WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
             WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
-
         }
 
         #endregion

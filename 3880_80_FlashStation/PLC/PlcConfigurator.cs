@@ -1,6 +1,6 @@
 ﻿namespace _3880_80_FlashStation.PLC
 {
-    class PlcConfigurator : PlcCommunicatorBase
+    public class PlcConfigurator : PlcCommunicatorBase
     {
         #region Variables
 

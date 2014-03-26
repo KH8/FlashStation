@@ -3,7 +3,7 @@ using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.DataAquisition
 {
-    class CommunicationInterfaceHandler
+    public class CommunicationInterfaceHandler
     {
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;

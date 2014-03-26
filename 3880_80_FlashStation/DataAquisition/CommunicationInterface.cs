@@ -95,6 +95,75 @@ namespace _3880_80_FlashStation.DataAquisition
             }
             throw new CompositeException("Error: Variable not found");
         }
+
+        #region ModifyValue Methods
+
+        public void ModifyValue(string name, BitArray bitArrayValue)
+        {
+            foreach (CiBitArray component in _children)
+            {
+                if (component.Name == name)
+                {
+                    component.Value = bitArrayValue;
+                    return;
+                }
+            }
+            throw new CompositeException("Error: Variable not found");
+        }
+
+        public void ModifyValue(string name, Int16 integerValue)
+        {
+            foreach (CiInteger component in _children)
+            {
+                if (component.Name == name)
+                {
+                    component.Value = integerValue;
+                    return;
+                }
+            }
+            throw new CompositeException("Error: Variable not found");
+        }
+
+        public void ModifyValue(string name, Int32 doubleIntegerValue)
+        {
+            foreach (CiDoubleInteger component in _children)
+            {
+                if (component.Name == name)
+                {
+                    component.Value = doubleIntegerValue;
+                    return;
+                }
+            }
+            throw new CompositeException("Error: Variable not found");
+        }
+
+        public void ModifyValue(string name, float realValue)
+        {
+            foreach (CiReal component in _children)
+            {
+                if (component.Name == name)
+                {
+                    component.Value = realValue;
+                    return;
+                }
+            }
+            throw new CompositeException("Error: Variable not found");
+        }
+
+        public void ModifyValue(string name, string stringValue)
+        {
+            foreach (CiString component in _children)
+            {
+                if (component.Name == name)
+                {
+                    component.Value = stringValue;
+                    return;
+                }
+            }
+            throw new CompositeException("Error: Variable not found");
+        }
+
+        #endregion
     }
 
     #endregion
