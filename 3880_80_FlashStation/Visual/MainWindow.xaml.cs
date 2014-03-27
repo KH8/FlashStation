@@ -19,15 +19,21 @@ namespace _3880_80_FlashStation.Visual
     {
         private readonly Thread _statusThread;
         private readonly Thread _synchronizationThread;
+
         private readonly PlcCommunicator _plcCommunication;
         private readonly PlcConfigurator _plcConfiguration;
+
         private readonly VFlashHandler _vector;
+
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private readonly CommunicationInterfaceHandler _communicationHandler;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            VFlash1UnloadButton.IsEnabled = false;
+            VFlash1FlashButton.IsEnabled = false;
 
             _communicationHandler = new CommunicationInterfaceHandler();
             _communicationHandler.Initialize("readInterface");
@@ -154,7 +160,12 @@ namespace _3880_80_FlashStation.Visual
                 {
                     case "VFlash1LoadButton":
                         // Open document
-                        _vector.ProjectPaths[1] = dlg.FileName;
+                        try
+                        {
+                            _vector.AddChannelSetup(dlg.FileName, 1);
+                            _vector.LoadProject(1);
+                        }
+                        catch (Exception exception) { MessageBox.Show(exception.Message, "Project Loading Failed"); }
                         LogListBox.Items.Add(DateTime.Now + " project has been loaded to the channel nr 1");
                         break;
                         //todo: implement for the others
@@ -164,7 +175,17 @@ namespace _3880_80_FlashStation.Visual
 
         private void UnloadVFlashProject(object sender, RoutedEventArgs e)
         {
-
+            var unloadButton = (Button)sender;
+            switch (unloadButton.Name)
+            {
+                case "VFlash1UnloadButton":
+                    // Open document
+                    try {_vector.UnloadProject(1);}
+                    catch (Exception exception) { MessageBox.Show(exception.Message, "Project Unloading Failed"); }
+                    LogListBox.Items.Add(DateTime.Now + " project has been Unloaded from the channel nr 1");
+                    break;
+                //todo: implement for the others
+            }
         }
 
         private void FlashVFlashProject(object sender, RoutedEventArgs e)
@@ -302,7 +323,58 @@ namespace _3880_80_FlashStation.Visual
 
         private void VectorDisplayHandler(VFlashHandler vector)
         {
-            VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1ProjectPathLabel.Content = vector.ProjectPaths[1]; })));
+            string path;
+            string status;
+            Brush colourBrush;
+
+            switch (vector.Channels[1].Status)
+            {
+                default:
+                    path = "Channel is not activated";
+                    status = vector.Channels[1].Status;
+                    colourBrush = Brushes.Red;
+                    break;
+                case "Created":
+                    path = "No project loaded yet.";
+                    status = "Channel created";
+                    colourBrush = Brushes.Black;
+                    break;
+                case "Loading":
+                    path = "Channel is not activated";
+                    status = "Loading ...";
+                    colourBrush = Brushes.Black;
+                    break;
+                case "Loaded":
+                    path = vector.Channels[1].Path;
+                    status = "Project was loaded succesfully";
+                    colourBrush = Brushes.Green;
+
+                    VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
+                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
+
+                    break;
+                case "Unloading":
+                    path = vector.Channels[1].Path;
+                    status = "Unloading ...";
+                    colourBrush = Brushes.Black;
+                    break;
+                case "Unloaded":
+                    path = "Channel is not activated";
+                    status = "Project was unloaded succesfully";
+                    colourBrush = Brushes.Green;
+
+                    VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
+                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
+
+                    break;
+            }
+
+            VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate{ VFlash1ProjectPathLabel.Content = path; })));
+            VFlash1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                VFlash1StatusLabel.Content = status;
+                VFlash1StatusLabel.Foreground = colourBrush;
+            })));
         }
 
         private void UpdateSettings()
@@ -317,8 +389,10 @@ namespace _3880_80_FlashStation.Visual
             WriteDbAddressBox.Text = _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture);
             WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
             WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
-        }
 
+            //_errorCollector.AddMessage("Handle {0}: {1}", handle, errorMessage);
+        }
+        
         #endregion
     }
 }

@@ -30,9 +30,11 @@ namespace _3880_80_FlashStation.DataAquisition
                     break;
                 case "writeInterface":
                     _writeInterfaceComposite = new CommunicationInterfaceComposite("PC");
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("ANTWORT", 0, "Integer"));
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("STATUS", 2, "Integer"));
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("FEHLERCODE", 4, "Integer"));
+                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("LEBENSZAECHLER", 0, "Integer"));
+                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("ANTWORT", 2, "Integer"));
+                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("STATUS", 4, "Integer"));
+                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("PROGRAMMTYPAKTIV", 4, "Integer"));
+                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("FEHLERCODE", 8, "Integer"));
                     break;
                 default: throw new InitializerException("Error: Wrong interface type.");
             }

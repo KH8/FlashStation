@@ -15,7 +15,7 @@ namespace _3880_80_FlashStation.Vector
   /// <summary>
   /// DockConfig
   /// </summary>
-  internal class VFlashDockConfig
+  internal class VFlashChannelConfigurator
   {
     private long _projectHandle;
     private string _flashProjectPath;
@@ -23,12 +23,12 @@ namespace _3880_80_FlashStation.Vector
     private CallbackProgressDelegate _progressDelegate;
     private CallbackStatusDelegate _statusDelegate;
 
-    public VFlashDockConfig()
+    public VFlashChannelConfigurator()
     {
       _projectHandle = -1;
     }
 
-    public VFlashDockConfig(string flashProjectPath, uint channelId, CallbackProgressDelegate progressDelegate, CallbackStatusDelegate statusDelegate)
+    public VFlashChannelConfigurator(string flashProjectPath, uint channelId, CallbackProgressDelegate progressDelegate, CallbackStatusDelegate statusDelegate)
     {
       _progressDelegate = progressDelegate;
       _statusDelegate = statusDelegate;

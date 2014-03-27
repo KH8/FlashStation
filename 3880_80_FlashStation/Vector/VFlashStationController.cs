@@ -31,7 +31,7 @@ namespace _3880_80_FlashStation.Vector
       _reportErrorDelegate = reportErrorDelegate;
     }
 
-    internal bool InitializeAndLoadProjects(List<VFlashDockConfig> dockConfigs)
+    internal bool InitializeAndLoadProjects(List<VFlashChannelConfigurator> dockConfigs)
     {
       //--- Initialize vFlash Station ---
       VFlashStationResult res = VFlashStationAPI.Initialize();
@@ -44,9 +44,9 @@ namespace _3880_80_FlashStation.Vector
       }
       
       //--- Load projects ---
-      foreach (VFlashDockConfig dockConfig in dockConfigs)
+      foreach (VFlashChannelConfigurator dockConfig in dockConfigs)
       {
-        long projectHandle;
+        long projectHandle = -1;
         res = VFlashStationAPI.LoadProjectForChannel(dockConfig.FlashProjectPath, dockConfig.ChannelId, out projectHandle);
 
         if (res != VFlashStationResult.Success)
@@ -64,9 +64,9 @@ namespace _3880_80_FlashStation.Vector
     }
 
 
-    internal bool UnloadProjectsAndDeinitialize(List<VFlashDockConfig> dockConfigs)
+    internal bool UnloadProjectsAndDeinitialize(List<VFlashChannelConfigurator> dockConfigs)
     {
-      foreach (VFlashDockConfig dockConfig in dockConfigs)
+      foreach (VFlashChannelConfigurator dockConfig in dockConfigs)
       {
         if (dockConfig.ProjectHandle != -1)
         {
@@ -91,9 +91,9 @@ namespace _3880_80_FlashStation.Vector
     }
 
 
-    internal bool StartFlashing(List<VFlashDockConfig> dockConfigs)
+    internal bool StartFlashing(List<VFlashChannelConfigurator> dockConfigs)
     {
-      foreach (VFlashDockConfig dockConfig in dockConfigs)
+      foreach (VFlashChannelConfigurator dockConfig in dockConfigs)
       {
         if (dockConfig.ProjectHandle != -1)
         {
@@ -110,11 +110,11 @@ namespace _3880_80_FlashStation.Vector
       return true;
     }
 
-    internal bool AbortFlashing(List<VFlashDockConfig> dockConfigs)
+    internal bool AbortFlashing(List<VFlashChannelConfigurator> dockConfigs)
     {
       bool errorOccurredButContinued = false;
 
-      foreach (VFlashDockConfig dockConfig in dockConfigs)
+      foreach (VFlashChannelConfigurator dockConfig in dockConfigs)
       {
         if (dockConfig.ProjectHandle != -1)
         {
