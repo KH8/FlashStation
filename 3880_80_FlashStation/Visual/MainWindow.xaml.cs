@@ -69,6 +69,7 @@ namespace _3880_80_FlashStation.Visual
                     ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
+                    VectorDisplayHandler(_vector);
                 }
                 Thread.Sleep(10);
             }
@@ -118,11 +119,13 @@ namespace _3880_80_FlashStation.Visual
                     {
                         _plcCommunication.OpenConnection();
                         ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+                        LogListBox.Items.Add(DateTime.Now + " connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                     }
                     else
                     {
                         _plcCommunication.CloseConnection();
                         ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
+                        LogListBox.Items.Add(DateTime.Now + " disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                     } 
                 }
             }
@@ -130,6 +133,48 @@ namespace _3880_80_FlashStation.Visual
             {
                 MessageBox.Show(exception.Message, "Connection Failed");
             }
+        }
+
+        private void LoadVFlashProject(object sender, RoutedEventArgs e)
+        {
+            var loadButton = (Button) sender;
+
+            // Create OpenFileDialog
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Project (.vflashpack)|*.vflashpack" };
+
+            // Set filter for file extension and default file extension
+
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                switch (loadButton.Name)
+                {
+                    case "VFlash1LoadButton":
+                        // Open document
+                        _vector.ProjectPaths[1] = dlg.FileName;
+                        LogListBox.Items.Add(DateTime.Now + " project has been loaded to the channel nr 1");
+                        break;
+                        //todo: implement for the others
+                }
+            }
+        }
+
+        private void UnloadVFlashProject(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FlashVFlashProject(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void VFlashShowFaults(object sender, RoutedEventArgs e)
+        {
+
         }
 
         #endregion
@@ -255,6 +300,11 @@ namespace _3880_80_FlashStation.Visual
             }
         }
 
+        private void VectorDisplayHandler(VFlashHandler vector)
+        {
+            VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1ProjectPathLabel.Content = vector.ProjectPaths[1]; })));
+        }
+
         private void UpdateSettings()
         {
             IpAddressBox.Text = _guiPlcConfiguration.PlcIpAddress;
@@ -270,20 +320,5 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
-
-        private void LoadVFlashProject(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UnloadVFlashProject(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FlashVFlashProject(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

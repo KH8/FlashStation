@@ -67,7 +67,7 @@
                     <Button Content="Use Settings" HorizontalAlignment="Center" Height="25" Margin="389,211,6,0" VerticalAlignment="Top" Width="100" Click="StoreSettings"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Online">
+            <TabItem Header="Online Communication">
                 <Grid Background="#FFFFFFFF">
                     <ListBox Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,0,0,0" VerticalAlignment="Center" Width="245"/>
                     <ListBox Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="250,0,0,0" VerticalAlignment="Center" Width="245"/>
@@ -77,15 +77,16 @@
                 <Grid Background="#FFFFFFFF">
                     <GroupBox Header="Channel 1 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="495" Margin="0,0,0,0">
                         <Grid>
-                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="421" Foreground="{x:Null}" UseLayoutRounding="False"/>
-                            <Button Content="Load Project" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject"/>
-                            <Button Content="Unload Project" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject"/>
-                            <Button Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"/>
+                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="420" Foreground="{x:Null}" UseLayoutRounding="False"/>
                             <Label Content="Actual Project Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112"/>
-                            <Label Name="VFlash1ProjectPathLabel" Content="c://" HorizontalAlignment="Left" VerticalAlignment="Top" Width="371" Margin="112,0,0,0"/>
+                            <Label Name="VFlash1ProjectPathLabel" Content="c://" HorizontalAlignment="Left" VerticalAlignment="Top" Width="370" Height="22" Margin="112,2,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
                             <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
-                            <Label Content="Progress: " HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="193" Margin="0,47,0,0" FontSize="10" Foreground="Red" Height="25"/>
-                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,77,0,0" Width="75" FlowDirection="RightToLeft"/>
+                            <Label Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="193" Margin="0,47,0,0" FontSize="10" Foreground="Red" Height="25"/>
+                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,72,1,0" Width="75" FlowDirection="RightToLeft"/>
+                            <Button Name="VFlash1LoadButton" Content="Load Project" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject"/>
+                            <Button Name="VFlash1UnloadButton" Content="Unload Project" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject"/>
+                            <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject" FontWeight="Bold"/>
+                            <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Channel 2 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="495" Margin="0,120,0,0">
@@ -93,8 +94,15 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
+            <TabItem Header="Log">
+                <Grid Background="#FFFFFFFF">
+                    <ListBox Name="LogListBox" HorizontalAlignment="Left" Height="241" Margin="0,2,0,0" VerticalAlignment="Center" Width="495"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="About">
-                <Grid Background="#FFFFFFFF"/>
+                <Grid Background="#FF05467C" Margin="0,189,0,0">
+                    <Image HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="211" Source="/3880_80_FlashStation;component/logoTT.jpg"/>
+                </Grid>
             </TabItem>
         </TabControl>
         <Label Name="StatusLabel" Content="Wrong Configuration!" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="10,285,7,0" VerticalAlignment="Top" Width="502"  FontSize="10" Foreground="Red"/>

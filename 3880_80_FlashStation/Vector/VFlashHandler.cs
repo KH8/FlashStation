@@ -11,6 +11,8 @@ namespace _3880_80_FlashStation.Vector
         private CommunicationInterfaceComposite _outputInterface;
         private int _controlMode;
 
+        private string[] _projectPaths;
+
         public CommunicationInterfaceComposite InputInterface
         {
             set { _inputInterface = value; }
@@ -28,9 +30,16 @@ namespace _3880_80_FlashStation.Vector
             set { _controlMode = value; }
         }
 
+        public string[] ProjectPaths
+        {
+            get { return _projectPaths; }
+            set { _projectPaths = value; }
+        }
+
         public VFlashHandler()
         {
             _controlMode = 1;
+            _projectPaths = new string[4];
 
             _vectorThread = new Thread(VectorBackgroundThread);
             _vectorThread.SetApartmentState(ApartmentState.STA);

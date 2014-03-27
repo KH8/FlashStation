@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="logoTT.jpg" />
     <Content Include="Resources\CsvHelper.dll" />
     <None Include="libnodave.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
