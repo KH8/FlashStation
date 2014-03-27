@@ -17,54 +17,54 @@ namespace _3880_80_FlashStation.Vector
   /// </summary>
   internal class VFlashDockConfig
   {
-    private long _mProjectHandle;
-    private string _mFlashProjectPath;
-    private uint _mChannelId;
-    private CallbackProgressDelegate _mProgressDelegate;
-    private CallbackStatusDelegate _mStatusDelegate;
+    private long _projectHandle;
+    private string _flashProjectPath;
+    private uint _channelId;
+    private CallbackProgressDelegate _progressDelegate;
+    private CallbackStatusDelegate _statusDelegate;
 
     public VFlashDockConfig()
     {
-      _mProjectHandle = -1;
+      _projectHandle = -1;
     }
 
     public VFlashDockConfig(string flashProjectPath, uint channelId, CallbackProgressDelegate progressDelegate, CallbackStatusDelegate statusDelegate)
     {
-      _mProgressDelegate = progressDelegate;
-      _mStatusDelegate = statusDelegate;
-      _mFlashProjectPath = flashProjectPath;
-      _mChannelId = channelId;
-      _mProjectHandle = -1;
+      _progressDelegate = progressDelegate;
+      _statusDelegate = statusDelegate;
+      _flashProjectPath = flashProjectPath;
+      _channelId = channelId;
+      _projectHandle = -1;
     }
 
     public uint ChannelId
     {
-      get { return _mChannelId; }
-      set { _mChannelId = value; }
+      get { return _channelId; }
+      set { _channelId = value; }
     }
 
     public long ProjectHandle
     {
-      get { return _mProjectHandle; }
-      set { _mProjectHandle = value; }
+      get { return _projectHandle; }
+      set { _projectHandle = value; }
     }
 
     public string FlashProjectPath
     {
-      get { return _mFlashProjectPath; }
-      set { _mFlashProjectPath = value; }
+      get { return _flashProjectPath; }
+      set { _flashProjectPath = value; }
     }
 
     public CallbackProgressDelegate ProgressDelegate
     {
-      get { return _mProgressDelegate; }
-      set { _mProgressDelegate = value; }
+      get { return _progressDelegate; }
+      set { _progressDelegate = value; }
     }
 
     public CallbackStatusDelegate StatusDelegate
     {
-      get { return _mStatusDelegate; }
-      set { _mStatusDelegate = value; }
+      get { return _statusDelegate; }
+      set { _statusDelegate = value; }
     }
   }
 }

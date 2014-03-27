@@ -17,37 +17,37 @@ namespace _3880_80_FlashStation.Vector
   /// </summary>
   internal class VFlashErrorCollector
   {
-    private readonly List<string> _mMessages = new List<string>();
+    private readonly List<string> _messages = new List<string>();
 
     public void Clear()
     {
-      lock (_mMessages)
+      lock (_messages)
       {
-        _mMessages.Clear();
+        _messages.Clear();
       }
     }
 
     public void AddMessage(string message)
     {
-      lock (_mMessages)
+      lock (_messages)
       {
-        _mMessages.Add(message);
+        _messages.Add(message);
       }
     }
 
     public void AddMessage(string formatString, params object[] parameters)
     {
-      lock (_mMessages)
+      lock (_messages)
       {
-        _mMessages.Add(string.Format(formatString, parameters));
+        _messages.Add(string.Format(formatString, parameters));
       }
     }
 
     public bool HasErrors()
     {
-      lock (_mMessages)
+      lock (_messages)
       {
-        return _mMessages.Count > 0;
+        return _messages.Count > 0;
       }
     }
 
@@ -55,9 +55,9 @@ namespace _3880_80_FlashStation.Vector
     {
       StringBuilder reportBuilder = new StringBuilder();
 
-      lock (_mMessages)
+      lock (_messages)
       {
-        foreach (string message in _mMessages)
+        foreach (string message in _messages)
         {
           reportBuilder.AppendLine(message);
         }

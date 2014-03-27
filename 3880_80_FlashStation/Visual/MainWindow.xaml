@@ -73,10 +73,32 @@
                     <ListBox Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="250,0,0,0" VerticalAlignment="Center" Width="245"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="VFlash">
+                <Grid Background="#FFFFFFFF">
+                    <GroupBox Header="Channel 1 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="495" Margin="0,0,0,0">
+                        <Grid>
+                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="421" Foreground="{x:Null}" UseLayoutRounding="False"/>
+                            <Button Content="Load Project" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject"/>
+                            <Button Content="Unload Project" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject"/>
+                            <Button Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"/>
+                            <Label Content="Actual Project Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112"/>
+                            <Label Name="VFlash1ProjectPathLabel" Content="c://" HorizontalAlignment="Left" VerticalAlignment="Top" Width="371" Margin="112,0,0,0"/>
+                            <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
+                            <Label Content="Progress: " HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="193" Margin="0,47,0,0" FontSize="10" Foreground="Red" Height="25"/>
+                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,77,0,0" Width="75" FlowDirection="RightToLeft"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Channel 2 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="495" Margin="0,120,0,0">
+                        <Grid/>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
             <TabItem Header="About">
                 <Grid Background="#FFFFFFFF"/>
             </TabItem>
         </TabControl>
         <Label Name="StatusLabel" Content="Wrong Configuration!" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="10,285,7,0" VerticalAlignment="Top" Width="502"  FontSize="10" Foreground="Red"/>
+        
+
     </Grid>
 </Window>

@@ -270,5 +270,20 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
+
+        private void LoadVFlashProject(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UnloadVFlashProject(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FlashVFlashProject(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
