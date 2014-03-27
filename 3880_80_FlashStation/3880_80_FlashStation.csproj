@@ -83,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Visual\FaultReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Visual\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +110,9 @@
     <Compile Include="Vector\VFlashHandler.cs" />
     <Compile Include="Vector\VFlashStationController.cs" />
     <Compile Include="Visual\DataDisplay.cs" />
+    <Compile Include="Visual\FaultReport.xaml.cs">
+      <DependentUpon>FaultReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

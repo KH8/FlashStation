@@ -28,6 +28,8 @@ namespace _3880_80_FlashStation.Visual
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private readonly CommunicationInterfaceHandler _communicationHandler;
 
+        private FaultReport _windowReport;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -195,7 +197,17 @@ namespace _3880_80_FlashStation.Visual
 
         private void VFlashShowFaults(object sender, RoutedEventArgs e)
         {
+            _windowReport = new FaultReport();
+            _windowReport.Show();
+            _windowReport.FaultListBox.Items.Add(_vector.ErrorCollector.CreateReport());
+            _vector.ErrorCollector.CreateReport();
+        }
 
+        private void ClearFaults()
+        {
+            _vector.ErrorCollector.Clear();
+            _windowReport.FaultListBox.Items.Clear();
+            _windowReport.FaultListBox.Items.Add(_vector.ErrorCollector.CreateReport());
         }
 
         #endregion

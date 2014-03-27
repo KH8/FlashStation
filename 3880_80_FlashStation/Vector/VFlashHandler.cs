@@ -27,8 +27,6 @@ namespace _3880_80_FlashStation.Vector
         private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _errorCollector;
 
-        internal delegate void ReportErrorDelegate(long handle, string message);
-
         private readonly Thread _vectorThread;
 
         #endregion
@@ -51,12 +49,18 @@ namespace _3880_80_FlashStation.Vector
             get { return _channels; }
         }
 
+        public VFlashErrorCollector ErrorCollector
+        {
+            get { return _errorCollector; }
+        }
+
         #endregion
 
         #region Constructor
 
         public VFlashHandler()
         {
+            _channelsConfigurators = new List<VFlashChannelConfigurator>();
             _channels = new Channel[5];
 
             _errorCollector = new VFlashErrorCollector();
@@ -174,7 +178,7 @@ namespace _3880_80_FlashStation.Vector
 
         internal void ReportError(long handle, string errorMessage)
         {
-            _errorCollector.AddMessage("Handle {0}: {1}", handle, errorMessage);
+            ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
             _channels[1].Command = "";
             _channels[1].Status = errorMessage;
         }

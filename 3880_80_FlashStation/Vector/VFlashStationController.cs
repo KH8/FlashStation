@@ -46,7 +46,7 @@ namespace _3880_80_FlashStation.Vector
       //--- Load projects ---
       foreach (VFlashChannelConfigurator dockConfig in dockConfigs)
       {
-        long projectHandle = -1;
+        long projectHandle;
         res = VFlashStationAPI.LoadProjectForChannel(dockConfig.FlashProjectPath, dockConfig.ChannelId, out projectHandle);
 
         if (res != VFlashStationResult.Success)

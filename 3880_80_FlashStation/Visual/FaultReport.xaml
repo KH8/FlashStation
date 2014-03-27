@@ -1,0 +1,10 @@
+﻿<Window x:Class="_3880_80_FlashStation.Visual.FaultReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Fault Report" Height="306.818" Width="525" Icon="/3880_80_FlashStation;component/teamtechnik.ico" ResizeMode="NoResize" SnapsToDevicePixels="True">
+    <Grid>
+        <ListBox Name="FaultListBox"  HorizontalAlignment="Left" Height="231" VerticalAlignment="Top" Width="519"/>
+        <Button Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Margin="0,0,0,10" Click="ClearFaults" RenderTransformOrigin="0.37,0.601"/>
+
+    </Grid>
+</Window>
