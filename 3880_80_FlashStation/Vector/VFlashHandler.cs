@@ -68,7 +68,10 @@ namespace _3880_80_FlashStation.Vector
             foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
             {
                 if (channel.ChannelId == chanId)
-                    channel.Command = "Load";
+                    if (channel.Command == "")
+                    { channel.Command = "Load"; }
+                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
+                    //todo: other conditions
                 return;
             }
             throw new FlashHandlerException("Error: Channel to be loaded was not found");
@@ -79,10 +82,41 @@ namespace _3880_80_FlashStation.Vector
             foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
             {
                 if (channel.ChannelId == chanId)
-                    channel.Command = "Unload";
+                    if (channel.Command == "")
+                    { channel.Command = "Unload"; }
+                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
+                    //todo: other conditions
                 return;
             }
             throw new FlashHandlerException("Error: Channel to be unloaded was not found");
+        }
+
+        public void StartFlashing(uint chanId)
+        {
+            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
+            {
+                if (channel.ChannelId == chanId)
+                    if (channel.Command == "")
+                    { channel.Command = "Start"; }
+                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
+                //todo: other conditions
+                return;
+            }
+            throw new FlashHandlerException("Error: Channel to be flashed was not found");
+        }
+
+        public void AbortFlashing(uint chanId)
+        {
+            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
+            {
+                if (channel.ChannelId == chanId)
+                    if (channel.Command == "")
+                    { channel.Command = "Stop"; }
+                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
+                //todo: other conditions
+                return;
+            }
+            throw new FlashHandlerException("Error: Channel to be aborted was not found");
         }
 
         #endregion
@@ -128,6 +162,26 @@ namespace _3880_80_FlashStation.Vector
                                 channel.Status = "Unloaded";
                             }
                             break;
+                        case "Start":
+                            channel.Status = "Flashing";
+                            channel.Result = _vFlashStationController.StartFlashing(_channelsConfigurators);
+                            if (channel.Result)
+                            {
+                                channel.Command = "";
+                                channel.Result = false;
+                                channel.Status = "Loaded";
+                            }
+                            break;
+                        case "Stop":
+                            channel.Status = "Aborting";
+                            channel.Result = _vFlashStationController.AbortFlashing(_channelsConfigurators);
+                            if (channel.Result)
+                            {
+                                channel.Command = "";
+                                channel.Result = false;
+                                channel.Status = "Loaded";
+                            }
+                            break;
                     }
                 }
                 Thread.Sleep(50);
@@ -161,7 +215,6 @@ namespace _3880_80_FlashStation.Vector
                     channel.Status = errorMessage;
                 return;
             }
-            throw new FlashHandlerException("Error: Channel to be unloaded was not found");
         }
 
         #endregion
