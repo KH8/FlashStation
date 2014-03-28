@@ -8,6 +8,8 @@
   Copyright (c) Vector Informatik GmbH. All rights reserved.
 ------------------------------------------------------------------------ */
 
+using System;
+using System.Windows.Controls.Primitives;
 using Vector.vFlash.Automation;
 
 namespace _3880_80_FlashStation.Vector
@@ -20,6 +22,9 @@ namespace _3880_80_FlashStation.Vector
     private long _projectHandle;
     private string _flashProjectPath;
     private uint _channelId;
+    private string _command;
+    private string _status;
+    private Boolean _result;
     private CallbackProgressDelegate _progressDelegate;
     private CallbackStatusDelegate _statusDelegate;
 
@@ -30,11 +35,14 @@ namespace _3880_80_FlashStation.Vector
 
     public VFlashChannelConfigurator(string flashProjectPath, uint channelId, CallbackProgressDelegate progressDelegate, CallbackStatusDelegate statusDelegate)
     {
-      _progressDelegate = progressDelegate;
-      _statusDelegate = statusDelegate;
-      _flashProjectPath = flashProjectPath;
-      _channelId = channelId;
-      _projectHandle = -1;
+        _command = "";
+        _status = "Created";
+        _progressDelegate = progressDelegate;
+        _statusDelegate = statusDelegate;
+        _flashProjectPath = flashProjectPath;
+        _channelId = channelId;
+        _projectHandle = -1;
+        _result = false;
     }
 
     public uint ChannelId
@@ -66,5 +74,23 @@ namespace _3880_80_FlashStation.Vector
       get { return _statusDelegate; }
       set { _statusDelegate = value; }
     }
+
+    public string Command
+    {
+        get { return _command; }
+        set { _command = value; }
+    }
+
+      public string Status
+      {
+          get { return _status; }
+          set { _status = value; }
+      }
+
+      public bool Result
+      {
+          get { return _result; }
+          set { _result = value; }
+      }
   }
 }

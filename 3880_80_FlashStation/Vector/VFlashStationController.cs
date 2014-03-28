@@ -20,7 +20,7 @@ namespace _3880_80_FlashStation.Vector
   {
     private readonly ReportErrorDelegate _reportErrorDelegate;
 
-    internal delegate void ReportErrorDelegate(long handle, string message);
+    internal delegate void ReportErrorDelegate(uint channelId, long handle, string message);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VFlashStationController"/> class.
@@ -38,7 +38,7 @@ namespace _3880_80_FlashStation.Vector
       if (res != VFlashStationResult.Success)
       {
         string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
-        _reportErrorDelegate(-1, String.Format("Initialization of vFlash Station failed ({0}).", errMsg));            
+        _reportErrorDelegate(0, -1, String.Format("Initialization of vFlash Station failed ({0}).", errMsg));            
  
         return false;
       }
@@ -52,7 +52,7 @@ namespace _3880_80_FlashStation.Vector
         if (res != VFlashStationResult.Success)
         {
           string errMsg = VFlashStationAPI.GetLastErrorMessage(projectHandle);
-          _reportErrorDelegate(projectHandle, String.Format("Loading project failed ({0}) -> Rewind!", errMsg));
+          _reportErrorDelegate(dockConfig.ChannelId, projectHandle, String.Format("Loading project failed ({0}) -> Rewind!", errMsg));
           UnloadProjectsAndDeinitialize(dockConfigs);
           return false;
         }
@@ -74,7 +74,7 @@ namespace _3880_80_FlashStation.Vector
           if (res != VFlashStationResult.Success)
           {
             string errMsg = VFlashStationAPI.GetLastErrorMessage(dockConfig.ProjectHandle);
-            _reportErrorDelegate(dockConfig.ProjectHandle, String.Format("Unload project failed ({0}).", errMsg));
+            _reportErrorDelegate(dockConfig.ChannelId, dockConfig.ProjectHandle, String.Format("Unload project failed ({0}).", errMsg));
           }
           dockConfig.ProjectHandle = -1;
         }
@@ -84,7 +84,7 @@ namespace _3880_80_FlashStation.Vector
       if (resDeinit != VFlashStationResult.Success)
       {
         string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
-        _reportErrorDelegate(-1, String.Format("Deinitialization of vFlash Station during rewinding failed ({0}).", errMsg));            
+        _reportErrorDelegate(0, -1, String.Format("Deinitialization of vFlash Station during rewinding failed ({0}).", errMsg));            
       } 
       
       return true;
@@ -102,7 +102,7 @@ namespace _3880_80_FlashStation.Vector
           if (res != VFlashStationResult.Success)
           {
             string errMsg = VFlashStationAPI.GetLastErrorMessage(dockConfig.ProjectHandle);
-            _reportErrorDelegate(dockConfig.ProjectHandle, String.Format("Start reprogramming failed ({0}).", errMsg));
+            _reportErrorDelegate(dockConfig.ChannelId, dockConfig.ProjectHandle, String.Format("Start reprogramming failed ({0}).", errMsg));
           }
         }
       }
@@ -122,7 +122,7 @@ namespace _3880_80_FlashStation.Vector
           if (res != VFlashStationResult.Success)
           {
             string errMsg = VFlashStationAPI.GetLastErrorMessage(dockConfig.ProjectHandle);
-            _reportErrorDelegate(dockConfig.ProjectHandle, String.Format("Stop reprogramming failed ({0}).", errMsg));
+            _reportErrorDelegate(dockConfig.ChannelId, dockConfig.ProjectHandle, String.Format("Stop reprogramming failed ({0}).", errMsg));
             errorOccurredButContinued = true;
           }
         }

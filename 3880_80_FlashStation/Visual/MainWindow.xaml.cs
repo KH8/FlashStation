@@ -197,7 +197,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void VFlashShowFaults(object sender, RoutedEventArgs e)
         {
-            _windowReport = new FaultReport();
+            _windowReport = new FaultReport(ClearFaults);
             _windowReport.Show();
             _windowReport.FaultListBox.Items.Add(_vector.ErrorCollector.CreateReport());
             _vector.ErrorCollector.CreateReport();
@@ -339,11 +339,16 @@ namespace _3880_80_FlashStation.Visual
             string status;
             Brush colourBrush;
 
-            switch (vector.Channels[1].Status)
+            VFlashChannelConfigurator channel;
+
+            try { channel = vector.ReturnChannelSetup(1); }
+            catch (Exception e) { return; }
+
+            switch (channel.Status)
             {
                 default:
                     path = "Channel is not activated";
-                    status = vector.Channels[1].Status;
+                    status = channel.Status;
                     colourBrush = Brushes.Red;
                     break;
                 case "Created":
@@ -357,7 +362,7 @@ namespace _3880_80_FlashStation.Visual
                     colourBrush = Brushes.Black;
                     break;
                 case "Loaded":
-                    path = vector.Channels[1].Path;
+                    path = channel.FlashProjectPath;
                     status = "Project was loaded succesfully";
                     colourBrush = Brushes.Green;
 
@@ -366,7 +371,7 @@ namespace _3880_80_FlashStation.Visual
 
                     break;
                 case "Unloading":
-                    path = vector.Channels[1].Path;
+                    path = channel.FlashProjectPath;
                     status = "Unloading ...";
                     colourBrush = Brushes.Black;
                     break;

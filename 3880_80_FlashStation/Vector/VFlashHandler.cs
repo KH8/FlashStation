@@ -10,16 +10,6 @@ namespace _3880_80_FlashStation.Vector
     {
         #region Variables
 
-        public struct Channel
-        {
-            public string Command;
-            public Boolean Result;
-            public string Status;
-            public string Path;
-        }
-
-        private readonly Channel[] _channels;
-
         private CommunicationInterfaceComposite _inputInterface;
         private CommunicationInterfaceComposite _outputInterface;
 
@@ -43,12 +33,7 @@ namespace _3880_80_FlashStation.Vector
             get { return _outputInterface; }
             set { _outputInterface = value; }
         }
-
-        public Channel[] Channels
-        {
-            get { return _channels; }
-        }
-
+        
         public VFlashErrorCollector ErrorCollector
         {
             get { return _errorCollector; }
@@ -61,7 +46,6 @@ namespace _3880_80_FlashStation.Vector
         public VFlashHandler()
         {
             _channelsConfigurators = new List<VFlashChannelConfigurator>();
-            _channels = new Channel[5];
 
             _errorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError);
@@ -82,35 +66,41 @@ namespace _3880_80_FlashStation.Vector
             {
                 if (channel.ChannelId == chanId)
                     channel.FlashProjectPath = projectPath;
-                    _channels[chanId].Path = projectPath;
                 return;
             }
             _channelsConfigurators.Add(new VFlashChannelConfigurator(projectPath, chanId, UpdateProgress, UpdateStatus));
-            _channels[chanId].Path = projectPath;
-            _channels[chanId].Command = "";
-            _channels[chanId].Status = "Created";
         }
 
-        public void LoadProject(int channel)
+        public VFlashChannelConfigurator ReturnChannelSetup(uint chanId)
         {
-            switch (channel)
+            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
             {
-                case 1:
-                    _channels[1].Command = "Load";
-                    break;
-                    //todo: 
+                if (channel.ChannelId == chanId)
+                    return channel;
             }
+            throw new FlashHandlerException("Error: Channel was not found");
         }
 
-        public void UnloadProject(int channel)
+        public void LoadProject(uint chanId)
         {
-            switch (channel)
+            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
             {
-                case 1:
-                    _channels[1].Command = "Unload";
-                    break;
-                    //todo: 
+                if (channel.ChannelId == chanId)
+                    channel.Command = "Load";
+                return;
             }
+            throw new FlashHandlerException("Error: Channel to be loaded was not found");
+        }
+
+        public void UnloadProject(uint chanId)
+        {
+            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
+            {
+                if (channel.ChannelId == chanId)
+                    channel.Command = "Unload";
+                return;
+            }
+            throw new FlashHandlerException("Error: Channel to be unloaded was not found");
         }
 
         #endregion
@@ -129,33 +119,36 @@ namespace _3880_80_FlashStation.Vector
                     _outputInterface.ModifyValue("FEHLERCODE", (Int16) (val - 2*val));
                 }
 
-                switch (_channels[1].Command)
+                foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
                 {
-                    default:
-                        _channels[1].Command = "";
-                        break;
-                    case "Load":
-                        _channels[1].Status = "Loading";
-                        _channels[1].Result = _vFlashStationController.InitializeAndLoadProjects(_channelsConfigurators);
-                        if (_channels[1].Result)
-                        {
-                            _channels[1].Command = "";
-                            _channels[1].Result = false;
-                            _channels[1].Status = "Loaded";
-                        }
-                        break;
-                    case "Unload":
-                        _channels[1].Status = "Unloading";
-                        _channels[1].Result = _vFlashStationController.UnloadProjectsAndDeinitialize(_channelsConfigurators);
-                        if (_channels[1].Result)
-                        {
-                            _channels[1].Command = "";
-                            _channels[1].Result = false;
-                            _channels[1].Status = "Unloaded";
-                        }
-                        break;
+                    switch (channel.Command)
+                    {
+                        default:
+                            channel.Command = "";
+                            break;
+                        case "Load":
+                            channel.Status = "Loading";
+                            channel.Result = _vFlashStationController.InitializeAndLoadProjects(_channelsConfigurators);
+                            if (channel.Result)
+                            {
+                                channel.Command = "";
+                                channel.Result = false;
+                                channel.Status = "Loaded";
+                            }
+                            break;
+                        case "Unload":
+                            channel.Status = "Unloading";
+                            channel.Result = _vFlashStationController.UnloadProjectsAndDeinitialize(_channelsConfigurators);
+                            if (channel.Result)
+                            {
+                                channel.Command = "";
+                                channel.Result = false;
+                                channel.Status = "Unloaded";
+                            }
+                            break;
+                    }
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(50);
             }
         }
 
@@ -176,11 +169,17 @@ namespace _3880_80_FlashStation.Vector
         {
         }
 
-        internal void ReportError(long handle, string errorMessage)
+        internal void ReportError(uint channelId, long handle, string errorMessage)
         {
             ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
-            _channels[1].Command = "";
-            _channels[1].Status = errorMessage;
+            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
+            {
+                if (channel.ChannelId == channelId)
+                    channel.Command = "";
+                    channel.Status = errorMessage;
+                return;
+            }
+            throw new FlashHandlerException("Error: Channel to be unloaded was not found");
         }
 
         #endregion

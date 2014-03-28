@@ -79,7 +79,7 @@
                         <Grid>
                             <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="420" Foreground="{x:Null}" UseLayoutRounding="False"/>
                             <Label Content="Actual Project Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112"/>
-                            <Label Name="VFlash1ProjectPathLabel" Content="c://" HorizontalAlignment="Left" VerticalAlignment="Top" Width="370" Height="22" Margin="112,2,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
+                            <Label Name="VFlash1ProjectPathLabel" Content="Channel is not activated" HorizontalAlignment="Left" VerticalAlignment="Top" Width="370" Height="22" Margin="112,2,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
                             <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
                             <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,43,0,0" FontSize="10" Foreground="Red" Height="25"/>
                             <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,72,1,0" Width="75" FlowDirection="RightToLeft"/>
