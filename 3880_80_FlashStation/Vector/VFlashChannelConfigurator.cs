@@ -9,7 +9,6 @@
 ------------------------------------------------------------------------ */
 
 using System;
-using System.Windows.Controls.Primitives;
 using Vector.vFlash.Automation;
 
 namespace _3880_80_FlashStation.Vector

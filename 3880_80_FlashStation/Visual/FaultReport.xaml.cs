@@ -9,7 +9,7 @@ namespace _3880_80_FlashStation.Visual
     {
         public delegate void ClearErrorDelegate();
 
-        private ClearErrorDelegate _clearErrorDelegate;
+        private readonly ClearErrorDelegate _clearErrorDelegate;
 
         public FaultReport(ClearErrorDelegate clearErrorDelegate)
         {

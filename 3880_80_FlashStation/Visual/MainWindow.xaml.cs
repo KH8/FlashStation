@@ -55,7 +55,7 @@ namespace _3880_80_FlashStation.Visual
                 StoreSettings();
             }
 
-            _vector = new VFlashHandler();
+            _vector = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite);
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -85,13 +85,9 @@ namespace _3880_80_FlashStation.Visual
 
         private void SynchronizationHandler()
         {
-            _vector.OutputInterface = _communicationHandler.WriteInterfaceComposite;
-
             while (_synchronizationThread.IsAlive)
             {
-                _communicationHandler.WriteInterfaceComposite = _vector.OutputInterface;
                 if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1) { _communicationHandler.MaintainConnection(_plcCommunication); }
-                _vector.InputInterface = _communicationHandler.ReadInterfaceComposite;
                 Thread.Sleep(10);
             }
         }
@@ -216,61 +212,61 @@ namespace _3880_80_FlashStation.Visual
 
         private void IpAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox) sender;
+            var box = (TextBox) sender;
             _guiPlcConfiguration.PlcIpAddress = box.Text;
         }
 
         private void PortBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcPortNumber = Convert.ToInt32(box.Text);
         }
 
         private void RackBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcRackNumber = Convert.ToInt32(box.Text);
         }
 
         private void SlotBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcSlotNumber = Convert.ToInt32(box.Text);
         }
 
         private void ReadDbNumberBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcReadDbNumber = Convert.ToInt32(box.Text);
         }
 
         private void ReadStartAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcReadStartAddress = Convert.ToInt32(box.Text);
         }
 
         private void ReadLengthBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcReadLength = Convert.ToInt32(box.Text);
         }
 
         private void WriteDbNumberBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcWriteDbNumber = Convert.ToInt32(box.Text);
         }
 
         private void WriteStartAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcWriteStartAddress = Convert.ToInt32(box.Text);
         }
 
         private void WriteLengthBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            TextBox box = (TextBox)sender;
+            var box = (TextBox)sender;
             _guiPlcConfiguration.PlcWriteLength = Convert.ToInt32(box.Text);
         }
 
@@ -339,10 +335,8 @@ namespace _3880_80_FlashStation.Visual
             string status;
             Brush colourBrush;
 
-            VFlashChannelConfigurator channel;
-
-            try { channel = vector.ReturnChannelSetup(1); }
-            catch (Exception e) { return; }
+            var channel = vector.ReturnChannelSetup(1);
+            if (channel == null) { return; }
 
             switch (channel.Status)
             {

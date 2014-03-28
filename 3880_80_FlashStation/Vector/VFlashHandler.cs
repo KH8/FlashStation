@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Vector.vFlash.Automation;
 using _3880_80_FlashStation.DataAquisition;
@@ -9,9 +10,6 @@ namespace _3880_80_FlashStation.Vector
     class VFlashHandler
     {
         #region Variables
-
-        private CommunicationInterfaceComposite _inputInterface;
-        private CommunicationInterfaceComposite _outputInterface;
 
         private readonly List<VFlashChannelConfigurator> _channelsConfigurators;
         private readonly VFlashStationController _vFlashStationController;
@@ -23,17 +21,6 @@ namespace _3880_80_FlashStation.Vector
 
         #region Properties
 
-        public CommunicationInterfaceComposite InputInterface
-        {
-            set { _inputInterface = value; }
-        }
-
-        public CommunicationInterfaceComposite OutputInterface
-        {
-            get { return _outputInterface; }
-            set { _outputInterface = value; }
-        }
-        
         public VFlashErrorCollector ErrorCollector
         {
             get { return _errorCollector; }
@@ -43,14 +30,14 @@ namespace _3880_80_FlashStation.Vector
 
         #region Constructor
 
-        public VFlashHandler()
+        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
         {
             _channelsConfigurators = new List<VFlashChannelConfigurator>();
 
             _errorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError);
 
-            _vectorThread = new Thread(VectorBackgroundThread);
+            _vectorThread = new Thread(() => VectorBackgroundThread(inputComposite, outputComposite));
             _vectorThread.SetApartmentState(ApartmentState.STA);
             _vectorThread.IsBackground = true;
             _vectorThread.Start();
@@ -73,12 +60,7 @@ namespace _3880_80_FlashStation.Vector
 
         public VFlashChannelConfigurator ReturnChannelSetup(uint chanId)
         {
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
-            {
-                if (channel.ChannelId == chanId)
-                    return channel;
-            }
-            throw new FlashHandlerException("Error: Channel was not found");
+            return _channelsConfigurators.FirstOrDefault(channel => channel.ChannelId == chanId);
         }
 
         public void LoadProject(uint chanId)
@@ -107,16 +89,16 @@ namespace _3880_80_FlashStation.Vector
 
         #region Background methods
 
-        private void VectorBackgroundThread()
+        private void VectorBackgroundThread(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
         {
             Int16 val = 0;
             while (_vectorThread.IsAlive)
             {
-                if (_outputInterface != null)
+                if (outputComposite != null)
                 {
                     val += 1;
-                    _outputInterface.ModifyValue("ANTWORT", val);
-                    _outputInterface.ModifyValue("FEHLERCODE", (Int16) (val - 2*val));
+                    outputComposite.ModifyValue("ANTWORT", val);
+                    outputComposite.ModifyValue("FEHLERCODE", (Int16)(val - 2 * val));
                 }
 
                 foreach (VFlashChannelConfigurator channel in _channelsConfigurators)

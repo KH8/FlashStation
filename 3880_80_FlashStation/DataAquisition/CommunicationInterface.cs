@@ -8,11 +8,11 @@ namespace _3880_80_FlashStation.DataAquisition
 
     public abstract class CommunicationInterfaceComponent
     {
-        private string _name;
-        private int _pos;
-        private string _type;
+        private readonly string _name;
+        private readonly int _pos;
+        private readonly string _type;
 
-        public CommunicationInterfaceComponent(string name, int pos, string type)
+        protected CommunicationInterfaceComponent(string name, int pos, string type)
         {
             _name = name;
             _pos = pos;
@@ -173,7 +173,7 @@ namespace _3880_80_FlashStation.DataAquisition
     public abstract class CommunicationInterfaceVariable : CommunicationInterfaceComponent
     {
         // Constructor
-        public CommunicationInterfaceVariable(string name, int pos, string type)
+        protected CommunicationInterfaceVariable(string name, int pos, string type)
             : base(name, pos, type)
         {
         }
