@@ -15,6 +15,9 @@ namespace _3880_80_FlashStation.Vector
         private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _errorCollector;
 
+        private readonly CommunicationInterfaceComposite _inputComposite;
+        private readonly CommunicationInterfaceComposite _outputComposite;
+
         private readonly Thread _vectorThread;
 
         #endregion
@@ -32,12 +35,15 @@ namespace _3880_80_FlashStation.Vector
 
         public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
         {
+            _inputComposite = inputComposite;
+            _outputComposite = outputComposite;
+
             _channelsConfigurators = new List<VFlashChannelConfigurator>();
 
             _errorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError);
 
-            _vectorThread = new Thread(() => VectorBackgroundThread(inputComposite, outputComposite));
+            _vectorThread = new Thread(VectorBackgroundThread);
             _vectorThread.SetApartmentState(ApartmentState.STA);
             _vectorThread.IsBackground = true;
             _vectorThread.Start();
@@ -123,16 +129,16 @@ namespace _3880_80_FlashStation.Vector
 
         #region Background methods
 
-        private void VectorBackgroundThread(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
+        private void VectorBackgroundThread()
         {
             Int16 val = 0;
             while (_vectorThread.IsAlive)
             {
-                if (outputComposite != null)
+                if (_outputComposite != null)
                 {
                     val += 1;
-                    outputComposite.ModifyValue("ANTWORT", val);
-                    outputComposite.ModifyValue("FEHLERCODE", (Int16)(val - 2 * val));
+                    _outputComposite.ModifyValue("ANTWORT", val);
+                    _outputComposite.ModifyValue("FEHLERCODE", (Int16)(val - 2 * val));
                 }
 
                 foreach (VFlashChannelConfigurator channel in _channelsConfigurators)

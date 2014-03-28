@@ -18,7 +18,6 @@ namespace _3880_80_FlashStation.Visual
     public partial class MainWindow
     {
         private readonly Thread _statusThread;
-        private readonly Thread _synchronizationThread;
 
         private readonly PlcCommunicator _plcCommunication;
         private readonly PlcConfigurator _plcConfiguration;
@@ -61,11 +60,6 @@ namespace _3880_80_FlashStation.Visual
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
             _statusThread.Start();
-
-            _synchronizationThread = new Thread(SynchronizationHandler);
-            _synchronizationThread.SetApartmentState(ApartmentState.STA);
-            _synchronizationThread.IsBackground = true;
-            _synchronizationThread.Start();
         }
 
         private void StatusHandler()
@@ -79,15 +73,6 @@ namespace _3880_80_FlashStation.Visual
                     OnlineDataDisplayHandler(_plcCommunication);
                     VectorDisplayHandler(_vector);
                 }
-                Thread.Sleep(10);
-            }
-        }
-
-        private void SynchronizationHandler()
-        {
-            while (_synchronizationThread.IsAlive)
-            {
-                if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1) { _communicationHandler.MaintainConnection(_plcCommunication); }
                 Thread.Sleep(10);
             }
         }

@@ -63,7 +63,6 @@ namespace _3880_80_FlashStation.Vector
       return true;
     }
 
-
     internal bool UnloadProjectsAndDeinitialize(List<VFlashChannelConfigurator> dockConfigs)
     {
       foreach (VFlashChannelConfigurator dockConfig in dockConfigs)
@@ -89,7 +88,6 @@ namespace _3880_80_FlashStation.Vector
       
       return true;
     }
-
 
     internal bool StartFlashing(List<VFlashChannelConfigurator> dockConfigs)
     {
