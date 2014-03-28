@@ -165,6 +165,7 @@ namespace _3880_80_FlashStation.Visual
                         }
                         catch (Exception exception) { MessageBox.Show(exception.Message, "Project Loading Failed"); }
                         LogListBox.Items.Add(DateTime.Now + " project has been loaded to the channel nr 1");
+                        //todo: logging sucks
                         break;
                         //todo: implement for the others
                 }
@@ -181,6 +182,7 @@ namespace _3880_80_FlashStation.Visual
                     try {_vector.UnloadProject(1);}
                     catch (Exception exception) { MessageBox.Show(exception.Message, "Project Unloading Failed"); }
                     LogListBox.Items.Add(DateTime.Now + " project has been Unloaded from the channel nr 1");
+                    //todo: logging sucks
                     break;
                 //todo: implement for the others
             }
