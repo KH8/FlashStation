@@ -240,8 +240,8 @@ namespace _3880_80_FlashStation.Vector
         {
             if (ProjectHandle != -1)
             {
-                VFlashStationResult res = VFlashStationAPI.UnloadProject(ProjectHandle);
-                if (res != VFlashStationResult.Success)
+                VFlashStationResult resUnload = VFlashStationAPI.UnloadProject(ProjectHandle);
+                if (resUnload != VFlashStationResult.Success)
                 {
                     string errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
                     _reportErrorDelegate(ChannelId, ProjectHandle, String.Format("Unload project failed ({0}).", errMsg));
