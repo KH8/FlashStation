@@ -105,10 +105,9 @@
     <Compile Include="DataAquisition\CommunicationInterfaceFactory.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceHandler.cs" />
     <Compile Include="DataAquisition\DataMapper.cs" />
-    <Compile Include="Vector\VFlashChannelConfigurator.cs" />
+    <Compile Include="Vector\VFlashStation.cs" />
     <Compile Include="Vector\VFlashErrorCollector.cs" />
     <Compile Include="Vector\VFlashHandler.cs" />
-    <Compile Include="Vector\VFlashStationController.cs" />
     <Compile Include="Visual\DataDisplay.cs" />
     <Compile Include="Visual\FaultReport.xaml.cs">
       <DependentUpon>FaultReport.xaml</DependentUpon>

@@ -11,7 +11,6 @@ namespace _3880_80_FlashStation.Vector
     {
         #region Variables
 
-        private readonly List<VFlashChannelConfigurator> _channelsConfigurators;
         private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _errorCollector;
 
@@ -38,10 +37,9 @@ namespace _3880_80_FlashStation.Vector
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
 
-            _channelsConfigurators = new List<VFlashChannelConfigurator>();
-
             _errorCollector = new VFlashErrorCollector();
-            _vFlashStationController = new VFlashStationController(ReportError);
+            _vFlashStationController = new VFlashStationController(ReportError, 0);
+            _vFlashStationController.Initialize();
 
             _vectorThread = new Thread(VectorBackgroundThread);
             _vectorThread.SetApartmentState(ApartmentState.STA);
@@ -53,76 +51,49 @@ namespace _3880_80_FlashStation.Vector
 
         #region Methods
 
-        public void AddChannelSetup(string projectPath, uint chanId)
-        {
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
-            {
-                if (channel.ChannelId == chanId)
-                    channel.FlashProjectPath = projectPath;
-                return;
-            }
-            _channelsConfigurators.Add(new VFlashChannelConfigurator(projectPath, chanId, UpdateProgress, UpdateStatus));
-        }
-
-        public VFlashChannelConfigurator ReturnChannelSetup(uint chanId)
-        {
-            return _channelsConfigurators.FirstOrDefault(channel => channel.ChannelId == chanId);
-        }
-
         public void LoadProject(uint chanId)
         {
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
-            {
-                if (channel.ChannelId == chanId)
-                    if (channel.Command == "")
-                    { channel.Command = "Load"; }
-                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
-                    //todo: other conditions
-                return;
-            }
-            throw new FlashHandlerException("Error: Channel to be loaded was not found");
+            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be loaded was not found");
+            if (channelFound.Command == "")
+            { channelFound.Command = "Load"; }
+            else ReportError(chanId, channelFound.ProjectHandle, "Error: An attempt to call two commands at the same time");   
+            //todo: other conditions
         }
 
         public void UnloadProject(uint chanId)
         {
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
-            {
-                if (channel.ChannelId == chanId)
-                    if (channel.Command == "")
-                    { channel.Command = "Unload"; }
-                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
-                    //todo: other conditions
-                return;
-            }
-            throw new FlashHandlerException("Error: Channel to be unloaded was not found");
+            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be unloaded was not found");
+            if (channelFound.Command == "")
+            { channelFound.Command = "Unload"; }
+            else ReportError(chanId, channelFound.ProjectHandle, "Error: An attempt to call two commands at the same time");
+            //todo: other conditions
         }
 
         public void StartFlashing(uint chanId)
         {
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
-            {
-                if (channel.ChannelId == chanId)
-                    if (channel.Command == "")
-                    { channel.Command = "Start"; }
-                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
-                //todo: other conditions
-                return;
-            }
-            throw new FlashHandlerException("Error: Channel to be flashed was not found");
+            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be flashed was not found");
+            if (channelFound.Command == "")
+            { channelFound.Command = "Start"; }
+            else ReportError(chanId, channelFound.ProjectHandle, "Error: An attempt to call two commands at the same time");
+            //todo: other conditions
         }
 
         public void AbortFlashing(uint chanId)
         {
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
-            {
-                if (channel.ChannelId == chanId)
-                    if (channel.Command == "")
-                    { channel.Command = "Stop"; }
-                    else ReportError(chanId, channel.ProjectHandle, "Error: An attempt to call two commands at the same time");
-                //todo: other conditions
-                return;
-            }
-            throw new FlashHandlerException("Error: Channel to be aborted was not found");
+            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be aborted was not found");
+            if (channelFound.Command == "")
+            { channelFound.Command = "Stop"; }
+            else ReportError(chanId, channelFound.ProjectHandle, "Error: An attempt to call two commands at the same time");
+            //todo: other conditions
+        }
+
+        public void Deinitialize()
+        {
+            _vFlashStationController.Deinitialize();
         }
 
         #endregion
@@ -141,7 +112,7 @@ namespace _3880_80_FlashStation.Vector
                     _outputComposite.ModifyValue("FEHLERCODE", (Int16)(val - 2 * val));
                 }
 
-                foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
+                foreach (VFlashChannel channel in _channelsConfigurators)
                 {
                     switch (channel.Command)
                     {
@@ -205,16 +176,18 @@ namespace _3880_80_FlashStation.Vector
 
         internal void UpdateProgress(long handle, uint progressInPercent, uint remainingTimeInSecs)
         {
+
         }
 
         internal void UpdateStatus(long handle, VFlashStationStatus status)
         {
+
         }
 
         internal void ReportError(uint channelId, long handle, string errorMessage)
         {
             ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
-            foreach (VFlashChannelConfigurator channel in _channelsConfigurators)
+            foreach (VFlashChannel channel in _channelsConfigurators)
             {
                 if (channel.ChannelId == channelId)
                     channel.Command = "";

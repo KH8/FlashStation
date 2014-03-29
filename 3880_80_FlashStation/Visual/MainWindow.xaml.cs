@@ -90,6 +90,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
         {
+            _vector.Deinitialize();
             Environment.Exit(0);
         }
 

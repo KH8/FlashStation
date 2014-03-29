@@ -1,186 +1,193 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="_3880_80_FlashStation.App" Collapsed="true">
-    <Position X="24.5" Y="2.75" Width="1.5" />
+    <Position X="28.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Configuration.PlcConfigurationFile" Collapsed="true">
-    <Position X="24.5" Y="4.75" Width="1.5" />
+    <Position X="28.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CommunicationInterfaceComponent" Collapsed="true">
-    <Position X="16.25" Y="2.75" Width="1.5" />
+    <Position X="20" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAIAAAAAAAAAQAAAAABAQAAACAAAQAAQAAAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CommunicationInterfaceComposite" Collapsed="true">
-    <Position X="10.75" Y="4" Width="1.5" />
+    <Position X="14.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYQAAAAABAAAAAAAAAEBAAAAAAAAAQAAAAAAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CommunicationInterfaceVariable" Collapsed="true">
-    <Position X="17.5" Y="4" Width="1.5" />
+    <Position X="21.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CiBitArray" Collapsed="true">
-    <Position X="22" Y="5.5" Width="1.5" />
+    <Position X="25.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CiInteger" Collapsed="true">
-    <Position X="13" Y="5.5" Width="1.5" />
+    <Position X="16.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CiDoubleInteger" Collapsed="true">
-    <Position X="15.25" Y="5.5" Width="1.5" />
+    <Position X="19" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CiReal" Collapsed="true">
-    <Position X="17.5" Y="5.5" Width="1.5" />
+    <Position X="21.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CiString" Collapsed="true">
-    <Position X="19.75" Y="5.5" Width="1.5" />
+    <Position X="23.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAABAAAAAAAQABAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CompositeException" Collapsed="true">
-    <Position X="29.75" Y="2.75" Width="1.5" />
+    <Position X="33.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CommunicationInterfaceFactory" Collapsed="true">
-    <Position X="26.25" Y="2.75" Width="1.5" />
+    <Position X="30" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.CommunicationInterfaceHandler" Collapsed="true">
-    <Position X="28" Y="2.75" Width="1.5" />
+    <Position X="31.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAABAAAAAQQAAAAAAAAAAAAAACAAIAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.DataAquisition.DataMapper" Collapsed="true">
-    <Position X="26.25" Y="3.75" Width="1.5" />
+    <Position X="30" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIgAAAAEAAAAAEAgEAAAQAAAEAAQAACAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\DataMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.PLC.PlcCommunicator" Collapsed="true">
-    <Position X="10.25" Y="8" Width="1.5" />
+    <Position X="19" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAJAIAAAEAAAAAgEBRABAASQAAAEACAIgICEAQABA=</HashCode>
       <FileName>PLC\PlcCommunicator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.PLC.PlcException" Collapsed="true">
-    <Position X="26.25" Y="4.75" Width="1.5" />
+    <Position X="30" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PLC\PlcCommunicator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.PLC.PlcCommunicatorBase" Collapsed="true">
-    <Position X="11.5" Y="6.75" Width="1.5" />
+    <Position X="20.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PLC\PlcCommunicatorBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.PLC.PlcConfigurator" Collapsed="true">
-    <Position X="12.5" Y="8" Width="1.5" />
+    <Position X="21.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PLC\PlcConfigurator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Properties.Resources" Collapsed="true">
-    <Position X="28" Y="4.75" Width="1.5" />
+    <Position X="31.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Properties.Settings" Collapsed="true">
-    <Position X="29.75" Y="4.75" Width="1.5" />
+    <Position X="33.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="_3880_80_FlashStation.Vector.VFlashChannelConfigurator" Collapsed="true">
-    <Position X="24.5" Y="5.75" Width="1.5" />
+  <Class Name="_3880_80_FlashStation.Vector.VFlashStationComponent" Collapsed="true">
+    <Position X="15.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAEABAAAAAGAAAABAQAQAAAAAgIKAQAABABAAA=</HashCode>
-      <FileName>Vector\VFlashChannelConfigurator.cs</FileName>
+      <HashCode>AEIAAAAEAAAAAAAABAAABAAAAAEAAAAQAAQgABAAAAA=</HashCode>
+      <FileName>Vector\VFlashStation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3880_80_FlashStation.Vector.VFlashStationController" Collapsed="true">
+    <Position X="14" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQAAAAAAAAAQAABAIEBAQAAAEAAAAQAAAgAAAAAAA=</HashCode>
+      <FileName>Vector\VFlashStation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_3880_80_FlashStation.Vector.VFlashChannel" Collapsed="true">
+    <Position X="16.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAABAAAAAGBAAABAQAQAEAAAgYKAAgAAABAAA=</HashCode>
+      <FileName>Vector\VFlashStation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Vector.VFlashErrorCollector" Collapsed="true">
-    <Position X="26.25" Y="5.75" Width="1.5" />
+    <Position X="28.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAEAAAAAAAAAAAAAAAAAAAIEAAAAABAAAA=</HashCode>
       <FileName>Vector\VFlashErrorCollector.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Vector.VFlashHandler" Collapsed="true">
-    <Position X="28" Y="5.75" Width="1.5" />
+    <Position X="30" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIACABAMAAgAkEAABAAAAAIAEAEAAABQEAAgAAAAAAA=</HashCode>
       <FileName>Vector\VFlashHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_3880_80_FlashStation.Vector.VFlashStationController" Collapsed="true">
-    <Position X="29.75" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AABAAAAAAEAAAAAAAAAAAAQAAAEAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Vector\VFlashStationController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="_3880_80_FlashStation.Visual.DataDisplay" Collapsed="true">
-    <Position X="24.5" Y="3.75" Width="1.5" />
+    <Position X="28.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\DataDisplay.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Visual.FaultReport" Collapsed="true">
-    <Position X="28" Y="3.75" Width="1.5" />
+    <Position X="31.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Visual\FaultReport.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Visual.MainWindow" Collapsed="true">
-    <Position X="29.75" Y="3.75" Width="1.5" />
+    <Position X="33.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>GEAAggCAQQFAAAAJgAAA0gAAAAAaAoAIBAgEEAAAAjA=</HashCode>
       <FileName>Visual\MainWindow.xaml.cs</FileName>
