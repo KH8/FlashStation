@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Vector.vFlash.Automation;
@@ -32,15 +31,14 @@ namespace _3880_80_FlashStation.Vector
 
         #region Constructor
 
-        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
+        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite, CallbackProgressDelegate updateProgressDelegate, CallbackStatusDelegate updateStatusDelegate)
         {
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
 
             _errorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, 0);
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", 1, UpdateProgress, UpdateStatus));
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", 2, UpdateProgress, UpdateStatus));
+            _vFlashStationController.Add(new VFlashChannel(ReportError, "", 1, updateProgressDelegate, updateStatusDelegate));
             _vFlashStationController.Initialize();
 
             _vFlashThread = new Thread(VectorBackgroundThread);
@@ -124,16 +122,6 @@ namespace _3880_80_FlashStation.Vector
         public class FlashHandlerException : ApplicationException
         {
             public FlashHandlerException(string info) : base(info) { }
-        }
-
-        internal void UpdateProgress(long handle, uint progressInPercent, uint remainingTimeInSecs)
-        {
-
-        }
-
-        internal void UpdateStatus(long handle, VFlashStationStatus status)
-        {
-
         }
 
         internal void ReportError(uint channelId, long handle, string errorMessage)

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Vector.vFlash.Automation;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.PLC;
@@ -54,7 +55,7 @@ namespace _3880_80_FlashStation.Visual
                 StoreSettings();
             }
 
-            _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite);
+            _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, UpdateProgress, UpdateStatus);
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -356,7 +357,6 @@ namespace _3880_80_FlashStation.Visual
 
             var channel = vector.ReturnChannelSetup(1);
             if (channel == null) { return; }
-
             switch (channel.Status)
             {
                 case "Created":
@@ -392,7 +392,8 @@ namespace _3880_80_FlashStation.Visual
                     break;
                 case "Flashing":
                     path = channel.FlashProjectPath;
-                    status = "Flashing ...";
+                    VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate{ VFlash1ProjectPathLabel.Content = path; })));
+                    status = VFlash1StatusLabel.Content.ToString();
                     colourBrush = Brushes.Black;
 
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
@@ -422,6 +423,24 @@ namespace _3880_80_FlashStation.Visual
             {
                 VFlash1StatusLabel.Content = status;
                 VFlash1StatusLabel.Foreground = colourBrush;
+            })));
+        }
+
+        internal void UpdateProgress(long handle, uint progressInPercent, uint remainingTimeInSecs)
+        {
+            VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining: " + remainingTimeInSecs + " sec."; })));
+            VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                if (progressInPercent > 100) { VFlash1ProgressBar.Value = 0; }
+                else { VFlash1ProgressBar.Value = (int)progressInPercent; }
+            })));
+        }
+
+        internal void UpdateStatus(long handle, VFlashStationStatus status)
+        {
+            VFlash1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                VFlash1StatusLabel.Content = status;
             })));
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using Vector.vFlash.Automation;
@@ -11,7 +10,7 @@ namespace _3880_80_FlashStation.Vector
 
     public abstract class VFlashStationComponent
     {
-        private uint _channelId;
+        private readonly uint _channelId;
         private string _command;
         private string _status;
 
@@ -164,13 +163,6 @@ namespace _3880_80_FlashStation.Vector
         private readonly ReportErrorDelegate _reportErrorDelegate;
 
         private readonly Thread _vFlashThread;
-
-        public VFlashChannel(ReportErrorDelegate reportErrorDelegate, uint channelId)
-            : base(channelId)
-        {
-            _reportErrorDelegate = reportErrorDelegate;
-            _projectHandle = -1;
-        }
 
         public VFlashChannel(ReportErrorDelegate reportErrorDelegate, string flashProjectPath, uint channelId,
             CallbackProgressDelegate progressDelegate, CallbackStatusDelegate statusDelegate)
