@@ -11,7 +11,8 @@ namespace _3880_80_FlashStation.Vector
         #region Variables
 
         private readonly VFlashStationController _vFlashStationController;
-        private readonly VFlashErrorCollector _errorCollector;
+        private readonly VFlashErrorCollector _vFlashErrorCollector;
+        private readonly VFlashTypeBank _vFlashTypeBank;
 
         private readonly CommunicationInterfaceComposite _inputComposite;
         private readonly CommunicationInterfaceComposite _outputComposite;
@@ -24,7 +25,12 @@ namespace _3880_80_FlashStation.Vector
 
         public VFlashErrorCollector ErrorCollector
         {
-            get { return _errorCollector; }
+            get { return _vFlashErrorCollector; }
+        }
+
+        public VFlashTypeBank VFlashTypeBank
+        {
+            get { return _vFlashTypeBank; }
         }
 
         #endregion
@@ -36,12 +42,15 @@ namespace _3880_80_FlashStation.Vector
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
 
-            _errorCollector = new VFlashErrorCollector();
+            _vFlashErrorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, 0);
             _vFlashStationController.Add(new VFlashChannel(ReportError, "", 1, updateProgressDelegate, updateStatusDelegate));
             _vFlashStationController.Initialize();
 
-            _vFlashThread = new Thread(VectorBackgroundThread);
+            _vFlashTypeBank = new VFlashTypeBank();
+            _vFlashErrorCollector = new VFlashErrorCollector();
+
+            _vFlashThread = new Thread(VFlashPlcCommunicationThread);
             _vFlashThread.SetApartmentState(ApartmentState.STA);
             _vFlashThread.IsBackground = true;
             _vFlashThread.Start();
@@ -100,16 +109,81 @@ namespace _3880_80_FlashStation.Vector
 
         #region Background methods
 
-        private void VectorBackgroundThread()
+        private void VFlashPlcCommunicationThread()
         {
-            Int16 val = 0;
+            Int16 counter = 0;
             while (_vFlashThread.IsAlive)
             {
+                var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
+                var inputComposite = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
+
+                if (channelFound != null)
+                    switch (inputComposite.Value)
+                    {
+                        case 100:
+                            if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", (Int16)100);
+                            break;
+                        case 200:
+                            channelFound.ExecuteCommand("Load");
+                            if (_outputComposite != null && channelFound.Status == "Loaded") _outputComposite.ModifyValue("ANTWORT", (Int16)200);
+                            break;
+                        case 300:
+                            channelFound.ExecuteCommand("Unload");
+                            if (_outputComposite != null && channelFound.Status == "Unloaded") _outputComposite.ModifyValue("ANTWORT", (Int16)300);
+                            break;
+                        case 400:
+                            channelFound.ExecuteCommand("Start");
+                            if (_outputComposite != null && channelFound.Status == "Flashed") _outputComposite.ModifyValue("ANTWORT", (Int16)400);
+                            break;
+                        case 500:
+                            channelFound.ExecuteCommand("Abort");
+                            if (_outputComposite != null && channelFound.Status == "Loaded") _outputComposite.ModifyValue("ANTWORT", (Int16)500);
+                            break;
+                        default:
+                            if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", (Int16)0);
+                            break;
+                    }
+                
+                    Int16 statusInt = 0;
+                if (channelFound != null)
+                    switch (channelFound.Status)
+                    {
+                        case "Created":
+                            statusInt = 100;
+                            break;
+                        case "Loading":
+                            statusInt = 299;
+                            break;
+                        case "Loaded":
+                            statusInt = 200;
+                            break;
+                        case "Unloading":
+                            statusInt = 399;
+                            break;
+                        case "Unloaded":
+                            statusInt = 300;
+                            break;
+                        case "Flashing":
+                            statusInt = 499;
+                            break;
+                        case "Flashed":
+                            statusInt = 400;
+                            break;
+                        case "Aborting":
+                            statusInt = 599;
+                            break;
+                        case "Fault occured!":
+                            statusInt = 999;
+                            break;
+                        default:
+                            statusInt = 0;
+                            break;
+                    }
                 if (_outputComposite != null)
                 {
-                    val += 1;
-                    _outputComposite.ModifyValue("ANTWORT", val);
-                    _outputComposite.ModifyValue("FEHLERCODE", (Int16)(val - 2 * val));
+                    _outputComposite.ModifyValue("STATUS", statusInt);
+                    _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
+                    counter++;
                 }
                 Thread.Sleep(50);
             }

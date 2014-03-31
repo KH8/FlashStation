@@ -19,6 +19,7 @@ namespace _3880_80_FlashStation.Visual
     public partial class MainWindow
     {
         private readonly Thread _statusThread;
+        private readonly Thread _communicationThread;
 
         private readonly PlcCommunicator _plcCommunication;
         private readonly PlcConfigurator _plcConfiguration;
@@ -49,18 +50,20 @@ namespace _3880_80_FlashStation.Visual
 
             _guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
             UpdateSettings();
-
-            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1)
-            {
-                StoreSettings();
-            }
+            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
 
             _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, UpdateProgress, UpdateStatus);
+            foreach (VFlashTypeComponent type in _vFlash.VFlashTypeBank.Children) { VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path); }
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
             _statusThread.Start();
+
+            _communicationThread = new Thread(CommunicationHandler);
+            _communicationThread.SetApartmentState(ApartmentState.STA);
+            _communicationThread.IsBackground = true;
+            _communicationThread.Start();
         }
 
         private void StatusHandler()
@@ -74,7 +77,19 @@ namespace _3880_80_FlashStation.Visual
                     OnlineDataDisplayHandler(_plcCommunication);
                     VectorDisplayHandler(_vFlash);
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(21);
+            }
+        }
+
+        private void CommunicationHandler()
+        {
+            while (_communicationThread.IsAlive)
+            {
+                if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1)
+                {
+                    _communicationHandler.MaintainConnection(_plcCommunication);
+                }
+                Thread.Sleep(11);
             }
         }
 
@@ -129,15 +144,11 @@ namespace _3880_80_FlashStation.Visual
         private void LoadVFlashProject(object sender, RoutedEventArgs e)
         {
             var loadButton = (Button) sender;
-
             // Create OpenFileDialog
             var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Project (.vflashpack)|*.vflashpack" };
-
             // Set filter for file extension and default file extension
-
             // Display OpenFileDialog by calling ShowDialog method
             bool? result = dlg.ShowDialog();
-
             // Get the selected file name and display in a TextBox
             if (result == true)
             {
@@ -224,6 +235,24 @@ namespace _3880_80_FlashStation.Visual
             _vFlash.ErrorCollector.Clear();
             _windowReport.FaultListBox.Items.Clear();
             _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
+        }
+
+        private void TypeCreation(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Project (.vflashpack)|*.vflashpack" };
+            // Set filter for file extension and default file extension
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+            // Get the selected file name and display in a TextBox
+            if (result == true) { _vFlash.VFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), dlg.FileName));}
+
+            VFlashTypeBankFile.Default.TypeBank.Clear();
+            foreach (VFlashType type in _vFlash.VFlashTypeBank.Children) { VFlashTypeBankFile.Default.TypeBank.Add(type.Type,type.Path); }
+            VFlashTypeBankFile.Default.Save();
+
+            VFlashBankListBox.Items.Clear();
+            foreach (VFlashTypeComponent type in _vFlash.VFlashTypeBank.Children) { VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path); }
         }
 
         #endregion
@@ -456,10 +485,9 @@ namespace _3880_80_FlashStation.Visual
             WriteDbAddressBox.Text = _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture);
             WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
             WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
-
-            //_errorCollector.AddMessage("Handle {0}: {1}", handle, errorMessage);
         }
         
         #endregion
+
     }
 }
