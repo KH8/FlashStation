@@ -53,7 +53,7 @@ namespace _3880_80_FlashStation.Vector
 
     public string CreateReport()
     {
-      StringBuilder reportBuilder = new StringBuilder();
+      var reportBuilder = new StringBuilder();
 
       lock (_messages)
       {

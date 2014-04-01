@@ -338,7 +338,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            LogListBox.Dispatcher.BeginInvoke((new Action(delegate { Logger.DumpLog(LogListBox); })));
+            LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
         }
 
         #endregion
@@ -459,8 +459,12 @@ namespace _3880_80_FlashStation.Visual
                     break;
             }
 
-            if (channel.FlashProjectPath != "") { path = channel.FlashProjectPath; }
-            VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate{ VFlash1ProjectPathLabel.Content = path; })));
+            if (channel.FlashProjectPath != "")
+            {
+                string[] words = channel.FlashProjectPath.Split('\\');
+                path = words[words.GetLength(0) - 1];
+            }
+            VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1ProjectPathLabel.Content = path; })));
             VFlash1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
                 VFlash1StatusLabel.Content = status;
