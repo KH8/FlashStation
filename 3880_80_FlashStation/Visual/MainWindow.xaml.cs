@@ -110,7 +110,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
         {
-            _vFlash.Deinitialize();
+            //_vFlash.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
