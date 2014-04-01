@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace _3880_80_FlashStation.Vector
@@ -56,6 +57,24 @@ namespace _3880_80_FlashStation.Vector
         {
             Type = type;
             Path = path;
+        }
+    }
+
+    static class VFlashTypeConverter
+    {
+        public static string[] VFlashTypesToStrings(List<VFlashType> list)
+        {
+            var output = new string[list.Count];
+                uint i = 0;
+                foreach (VFlashTypeComponent type in list){ output[i] = type.Type + "=" + type.Path; i++; }
+            return output;
+        }
+
+        public static void StringsToVFlashChannels(string[] types, VFlashTypeBank bank)
+        {
+            var dictionary = types.Select(type => type.Split('=')).ToDictionary<string[], uint, string>(words => Convert.ToUInt16(words[0]), words => words[1]);
+            var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
+            foreach (KeyValuePair<uint, string> type in sortedDict) {bank.Add(new VFlashTypeComponent(type.Key, type.Value));}
         }
     }
 }

@@ -83,6 +83,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
+    <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />
     <None Include="Vector\VFlashTypeBankFile.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>VFlashTypeBankFile.Designer.cs</LastGenOutput>

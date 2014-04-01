@@ -53,6 +53,8 @@ namespace _3880_80_FlashStation.Visual
             if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
 
             _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, UpdateProgress, UpdateStatus);
+
+            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlash.VFlashTypeBank);
             foreach (VFlashTypeComponent type in _vFlash.VFlashTypeBank.Children) { VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path); }
 
             _statusThread = new Thread(StatusHandler);
@@ -245,14 +247,16 @@ namespace _3880_80_FlashStation.Visual
             // Display OpenFileDialog by calling ShowDialog method
             bool? result = dlg.ShowDialog();
             // Get the selected file name and display in a TextBox
-            if (result == true) { _vFlash.VFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), dlg.FileName));}
+            if (result == true)
+            {
+                _vFlash.VFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), dlg.FileName));
 
-            VFlashTypeBankFile.Default.TypeBank.Clear();
-            foreach (VFlashType type in _vFlash.VFlashTypeBank.Children) { VFlashTypeBankFile.Default.TypeBank.Add(type.Type,type.Path); }
-            VFlashTypeBankFile.Default.Save();
+                VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlash.VFlashTypeBank.Children);
+                VFlashTypeBankFile.Default.Save();
 
-            VFlashBankListBox.Items.Clear();
-            foreach (VFlashTypeComponent type in _vFlash.VFlashTypeBank.Children) { VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path); }
+                VFlashBankListBox.Items.Clear();
+                foreach (VFlashTypeComponent type in _vFlash.VFlashTypeBank.Children) {VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path);}
+            }
         }
 
         #endregion

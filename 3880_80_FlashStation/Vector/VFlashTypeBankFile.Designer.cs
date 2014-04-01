@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace _3880_80_FlashStation.Vector {
     
     
@@ -28,9 +26,10 @@ namespace _3880_80_FlashStation.Vector {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public Dictionary<uint,string> TypeBank
-        {
-            get { return (Dictionary<uint, string>) (this["TypeBank"]); }
+        public string[] TypeBank {
+            get {
+                return ((string[])(this["TypeBank"]));
+            }
             set {
                 this["TypeBank"] = value;
             }
