@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace _3880_80_FlashStation.Log
 {
