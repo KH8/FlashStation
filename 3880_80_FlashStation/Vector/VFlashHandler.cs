@@ -112,6 +112,9 @@ namespace _3880_80_FlashStation.Vector
         private void VFlashPlcCommunicationThread()
         {
             Int16 counter = 0;
+            Int16 antwort = 0;
+            Int16 caseAuxiliary = 0;
+
             while (_vFlashThread.IsAlive)
             {
                 var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
@@ -121,28 +124,51 @@ namespace _3880_80_FlashStation.Vector
                     switch (inputComposite.Value)
                     {
                         case 100:
-                            if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", (Int16)100);
+                            if (_outputComposite != null) antwort = 100;
+                            caseAuxiliary = 100;
                             break;
                         case 200:
-                            channelFound.ExecuteCommand("Load");
-                            if (_outputComposite != null && channelFound.Status == "Loaded") _outputComposite.ModifyValue("ANTWORT", (Int16)200);
+                            if (caseAuxiliary != 200) { channelFound.ExecuteCommand("Load");}
+                            if (_outputComposite != null)
+                            {
+                                if (channelFound.Status == "Loaded") antwort = 200;
+                                if (channelFound.Status == "Fault occured!") antwort = 999;   
+                            }
+                            caseAuxiliary = 200;
                             break;
                         case 300:
-                            channelFound.ExecuteCommand("Unload");
-                            if (_outputComposite != null && channelFound.Status == "Unloaded") _outputComposite.ModifyValue("ANTWORT", (Int16)300);
+                            if (caseAuxiliary != 300) { channelFound.ExecuteCommand("Unload");}
+                            if (_outputComposite != null)
+                            {
+                                if (channelFound.Status == "Unloaded") antwort = 300;
+                                if (channelFound.Status == "Fault occured!") antwort = 999;
+                            }
+                            caseAuxiliary = 300;
                             break;
                         case 400:
-                            channelFound.ExecuteCommand("Start");
-                            if (_outputComposite != null && channelFound.Status == "Flashed") _outputComposite.ModifyValue("ANTWORT", (Int16)400);
+                            if (caseAuxiliary != 400) { channelFound.ExecuteCommand("Start");}
+                            if (_outputComposite != null)
+                            {
+                                if (channelFound.Status == "Flashed") antwort = 400;
+                                if (channelFound.Status == "Fault occured!") antwort = 999;
+                            }
+                            caseAuxiliary = 400;
                             break;
                         case 500:
-                            channelFound.ExecuteCommand("Abort");
-                            if (_outputComposite != null && channelFound.Status == "Loaded") _outputComposite.ModifyValue("ANTWORT", (Int16)500);
+                            if (caseAuxiliary != 500) { channelFound.ExecuteCommand("Abort");}
+                            if (_outputComposite != null)
+                            {
+                                if (channelFound.Status == "Loaded") antwort = 500;
+                                if (channelFound.Status == "Fault occured!") antwort = 999;
+                            }
+                            caseAuxiliary = 500;
                             break;
                         default:
-                            if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", (Int16)0);
+                            antwort = 0;
                             break;
                     }
+
+                if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", antwort);
                 
                     Int16 statusInt = 0;
                 if (channelFound != null)
