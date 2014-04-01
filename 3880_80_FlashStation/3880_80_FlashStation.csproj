@@ -56,12 +56,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\CsvHelper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="libnodave.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\libnodave.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -83,6 +88,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <None Include="packages.config" />
     <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
     <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />
     <None Include="Vector\VFlashTypeBankFile.settings">
@@ -111,6 +117,7 @@
     <Compile Include="DataAquisition\CommunicationInterfaceFactory.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceHandler.cs" />
     <Compile Include="DataAquisition\DataMapper.cs" />
+    <Compile Include="Log\Logger.cs" />
     <Compile Include="Vector\VFlashTypeBank.cs" />
     <Compile Include="Vector\VFlashStation.cs" />
     <Compile Include="Vector\VFlashErrorCollector.cs" />
@@ -183,6 +190,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logoTT.jpg" />
+    <None Include="Log\Log.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Resources\CsvHelper.dll" />
     <None Include="libnodave.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

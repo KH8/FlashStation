@@ -1,4 +1,7 @@
-﻿namespace _3880_80_FlashStation.PLC
+﻿using _3880_80_FlashStation.Configuration;
+using _3880_80_FlashStation.Log;
+
+namespace _3880_80_FlashStation.PLC
 {
     public class PlcConfigurator : PlcCommunicatorBase
     {

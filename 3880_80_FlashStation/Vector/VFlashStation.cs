@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Vector.vFlash.Automation;
+using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.Vector
 {
@@ -75,6 +76,7 @@ namespace _3880_80_FlashStation.Vector
         {
             //--- Initialize vFlash Station ---
             VFlashStationResult resInit = VFlashStationAPI.Initialize();
+            Logger.Log("VFlash: Initialization");
             if (resInit != VFlashStationResult.Success)
             {
                 string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
@@ -88,6 +90,7 @@ namespace _3880_80_FlashStation.Vector
         {
             //--- Deinitialize vFlash Station ---
             VFlashStationResult resDeinit = VFlashStationAPI.Deinitialize();
+            Logger.Log("VFlash: Deinitialization");
             if (resDeinit != VFlashStationResult.Success)
             {
                 string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
@@ -309,6 +312,7 @@ namespace _3880_80_FlashStation.Vector
                                 Command = "";
                                 Result = false;
                                 Status = "Loaded";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Loaded succesfully");
                             }
                         }
                         break;
@@ -322,6 +326,7 @@ namespace _3880_80_FlashStation.Vector
                                 Command = "";
                                 Result = false;
                                 Status = "Unloaded";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Unloaded succesfully");
                             }
                         }
                         break;
@@ -335,6 +340,7 @@ namespace _3880_80_FlashStation.Vector
                                 Command = "";
                                 Result = false;
                                 Status = "Flashed";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
                             }
                         }
                         break;
@@ -347,7 +353,7 @@ namespace _3880_80_FlashStation.Vector
                             {
                                 Command = "";
                                 Result = false;
-                                Status = "Loaded";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Aborted");
                             }
                         }
                         break;

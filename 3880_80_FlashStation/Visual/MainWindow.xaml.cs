@@ -8,6 +8,7 @@ using System.Windows.Media;
 using Vector.vFlash.Automation;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
+using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
 
@@ -34,6 +35,7 @@ namespace _3880_80_FlashStation.Visual
         public MainWindow()
         {
             InitializeComponent();
+            Logger.Log("Program Started");
 
             VFlash1UnloadButton.IsEnabled = false;
             VFlash1FlashButton.IsEnabled = false;
@@ -109,11 +111,13 @@ namespace _3880_80_FlashStation.Visual
         private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
         {
             _vFlash.Deinitialize();
+            Logger.Log("Program Closed");
             Environment.Exit(0);
         }
 
         private void StoreSettings(object sender, RoutedEventArgs e)
         {
+            Logger.Log("Communication configuration has been changed");
             StoreSettings();
         }
 
@@ -127,19 +131,21 @@ namespace _3880_80_FlashStation.Visual
                     {
                         _plcCommunication.OpenConnection();
                         ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
-                        LogListBox.Items.Add(DateTime.Now + " connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
+                        Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                     }
                     else
                     {
                         _plcCommunication.CloseConnection();
                         ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
-                        LogListBox.Items.Add(DateTime.Now + " disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
+                        Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                     } 
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Connection Failed");
+                if (_plcCommunication != null)
+                    Logger.Log("Connection trial with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " failed");
             }
         }
 
@@ -161,10 +167,9 @@ namespace _3880_80_FlashStation.Visual
                         {
                             _vFlash.SetProjectPath(1, dlg.FileName);
                             _vFlash.LoadProject(1);
+                            Logger.Log("Project load requested by the operator");
                         }
                         catch (Exception exception) { MessageBox.Show(exception.Message, "Project Loading Failed"); }
-                        LogListBox.Items.Add(DateTime.Now + " project has been loaded to the channel nr 1");
-                        //todo: logging sucks
                         break;
                         //todo: implement for the others
                 }
@@ -177,10 +182,12 @@ namespace _3880_80_FlashStation.Visual
             switch (unloadButton.Name)
             {
                 case "VFlash1UnloadButton":
-                    try {_vFlash.UnloadProject(1);}
+                    try
+                    {
+                        _vFlash.UnloadProject(1);
+                        Logger.Log("Project unload requested by the operator");
+                    }
                     catch (Exception exception) { MessageBox.Show(exception.Message, "Project Unloading Failed"); }
-                    LogListBox.Items.Add(DateTime.Now + " project has been Unloaded from the channel nr 1");
-                    //todo: logging sucks
                     break;
                 //todo: implement for the others
             }
@@ -198,26 +205,24 @@ namespace _3880_80_FlashStation.Visual
                         try
                         {
                             _vFlash.AbortFlashing(1);
+                            Logger.Log("Flash abort requested by the operator");
                         }
                         catch (Exception exception)
                         {
                             MessageBox.Show(exception.Message, "Flash Abort Failed");
                         }
-                        LogListBox.Items.Add(DateTime.Now + " project flashing on the channel nr 1 aborted");
-                        //todo: logging sucks
                     }
                     if (channel.Status != "Flashing")
                     {
                         try
                         {
                             _vFlash.StartFlashing(1);
+                            Logger.Log("Project start requested by the operator");
                         }
                         catch (Exception exception)
                         {
                             MessageBox.Show(exception.Message, "Project Flashing Failed");
                         }
-                        LogListBox.Items.Add(DateTime.Now + " project flashing on the channel nr 1 started");
-                        //todo: logging sucks
                     }
                     break;
                     //todo implement for the others
@@ -237,6 +242,7 @@ namespace _3880_80_FlashStation.Visual
             _vFlash.ErrorCollector.Clear();
             _windowReport.FaultListBox.Items.Clear();
             _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
+            Logger.Log("VFlash: Fault list ereased");
         }
 
         private void TypeCreation(object sender, RoutedEventArgs e)
@@ -323,6 +329,18 @@ namespace _3880_80_FlashStation.Visual
             _guiPlcConfiguration.PlcWriteLength = Convert.ToInt32(box.Text);
         }
 
+        private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var box = (CheckBox)sender;
+            _vFlash.PcControlMode = true;
+            box.IsChecked = _vFlash.PcControlMode;
+        }
+
+        private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            LogListBox.Dispatcher.BeginInvoke((new Action(delegate { Logger.DumpLog(LogListBox); })));
+        }
+
         #endregion
 
         #region Auxiliaries
@@ -384,7 +402,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void VectorDisplayHandler(VFlashHandler vector)
         {
-            string path;
+            string path = "File path is not specified";
             string status;
             Brush colourBrush;
 
@@ -393,17 +411,14 @@ namespace _3880_80_FlashStation.Visual
             switch (channel.Status)
             {
                 case "Created":
-                    path = "No project loaded yet.";
                     status = "Channel created";
                     colourBrush = Brushes.Black;
                     break;
                 case "Loading":
-                    path = "Channel is not activated";
                     status = "Loading ...";
                     colourBrush = Brushes.Black;
                     break;
                 case "Loaded":
-                    path = channel.FlashProjectPath;
                     status = "Project was loaded succesfully";
                     colourBrush = Brushes.Green;
 
@@ -411,12 +426,10 @@ namespace _3880_80_FlashStation.Visual
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
                     break;
                 case "Unloading":
-                    path = channel.FlashProjectPath;
                     status = "Unloading ...";
                     colourBrush = Brushes.Black;
                     break;
                 case "Unloaded":
-                    path = "Channel is not activated";
                     status = "Project was unloaded succesfully";
                     colourBrush = Brushes.Green;
 
@@ -424,33 +437,29 @@ namespace _3880_80_FlashStation.Visual
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
                     break;
                 case "Flashing":
-                    path = channel.FlashProjectPath;
-                    VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate{ VFlash1ProjectPathLabel.Content = path; })));
                     status = VFlash1StatusLabel.Content.ToString();
                     colourBrush = Brushes.Black;
 
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
                     break;
                 case "Aborting":
-                    path = channel.FlashProjectPath;
                     status = "Flash Aborting ...";
                     colourBrush = Brushes.Red;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
                     break;
                 case "Flashed":
-                    path = channel.FlashProjectPath;
                     status = "Flashing succeed";
                     colourBrush = Brushes.Green;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
                     break;
                 default:
-                    path = "Channel is not activated";
                     status = channel.Status;
                     colourBrush = Brushes.Red;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
                     break;
             }
 
+            if (channel.FlashProjectPath != "") { path = channel.FlashProjectPath; }
             VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate{ VFlash1ProjectPathLabel.Content = path; })));
             VFlash1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
@@ -490,7 +499,7 @@ namespace _3880_80_FlashStation.Visual
             WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
             WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
         }
-        
+
         #endregion
 
     }
