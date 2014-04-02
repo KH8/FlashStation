@@ -129,17 +129,20 @@ namespace _3880_80_FlashStation.Vector
             while (_vFlashThread.IsAlive)
             {
                 var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
-                var inputComposite = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
+
+                var inputCompositeCommand = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
+                var inputCompositeProgrammTyp = (CiInteger)_inputComposite.ReturnVariable("PROGRAMMTYP");
+
                 _pcControlModeChangeAllowed = false;
 
                 if (channelFound != null && !_pcControlMode)
-                    switch (inputComposite.Value)
+                    switch (inputCompositeCommand.Value)
                     {
                         case 100:
                             if (caseAuxiliary != 100)
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
-                                SetProjectPath(1, VFlashTypeBank.ReturnPath(1));
+                                SetProjectPath(1, VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
                             }
                             if (_outputComposite != null) antwort = 100;
                             caseAuxiliary = 100;
@@ -206,6 +209,7 @@ namespace _3880_80_FlashStation.Vector
                     antwort = 998;
                     _pcControlModeChangeAllowed = true;
                 }
+
                 if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", antwort);
                 
                     Int16 statusInt = 0;

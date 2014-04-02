@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.Vector
