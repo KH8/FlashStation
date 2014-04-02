@@ -20,36 +20,36 @@ namespace _3880_80_FlashStation.Output
                 + "_" + fixedName + "." + extension;
         }
 
-        public static List<string> InterfaceToStrings(CommunicationInterfaceComposite inputComposite, int startPos, int stopPos)
+        public List<string> InterfaceToStrings(CommunicationInterfaceComposite inputComposite, int startPos, int stopPos)
         {
             var list = new List<string>();
-            foreach (CommunicationInterfaceVariable variable in inputComposite.Children.Cast<CommunicationInterfaceVariable>().Where(variable => variable.Pos >= startPos && variable.Pos <stopPos))
+            foreach (CommunicationInterfaceComponent variable in inputComposite.Children.Where(variable => variable.Pos >= startPos && variable.Pos < stopPos))
             {
                 switch (variable.Type)
                 {
                     case "BitArray":
                         var variableCastedBitArray = (CiBitArray) variable;
-                        list.Add(variableCastedBitArray.Name + ";" + variableCastedBitArray.Type + ";" +
+                        list.Add(variableCastedBitArray.Pos + variableCastedBitArray.Name + ";" + variableCastedBitArray.Type + ";" +
                                  variableCastedBitArray.Value);
                         break;
                     case "Integer":
                         var variableCastedInteger = (CiInteger) variable;
-                        list.Add(variableCastedInteger.Name + ";" + variableCastedInteger.Type + ";" +
+                        list.Add(variableCastedInteger.Pos + variableCastedInteger.Name + ";" + variableCastedInteger.Type + ";" +
                                  variableCastedInteger.Value);
                         break;
                     case "DoubleInteger":
                         var variableCastedDoubleInteger = (CiDoubleInteger) variable;
-                        list.Add(variableCastedDoubleInteger.Name + ";" + variableCastedDoubleInteger.Type + ";" +
+                        list.Add(variableCastedDoubleInteger.Pos + variableCastedDoubleInteger.Name + ";" + variableCastedDoubleInteger.Type + ";" +
                                  variableCastedDoubleInteger.Value);
                         break;
                     case "Real":
                         var variableCastedReal = (CiReal) variable;
-                        list.Add(variableCastedReal.Name + ";" + variableCastedReal.Type + ";" +
+                        list.Add(variableCastedReal.Pos + variableCastedReal.Name + ";" + variableCastedReal.Type + ";" +
                                  variableCastedReal.Value);
                         break;
                     case "String":
                         var variableCastedString = (CiString) variable;
-                        list.Add(variableCastedString.Name + ";" + variableCastedString.Type + ";" +
+                        list.Add(variableCastedString.Pos + variableCastedString.Name + ";" + variableCastedString.Type + ";" +
                                  variableCastedString.Value);
                         break;
                 }
@@ -62,19 +62,22 @@ namespace _3880_80_FlashStation.Output
     {
         public override void CreateOutput(string fixedName, List<string> elementsList)
         {
-            using (XmlWriter writer = XmlWriter.Create(FileNameCreator(fixedName, "xml")))
+            var fileName = FileNameCreator(fixedName, "xml");
+            using (XmlWriter writer = XmlWriter.Create(fileName))
             {
                 writer.WriteStartDocument();
-                writer.WriteStartElement("Employees");
+                writer.WriteStartElement("PLC Variables");
 
                 foreach (string line in elementsList)
                 {
-                    writer.WriteStartElement("Employee");
+                    string[] linecomponents = line.Split(';');
 
-                    writer.WriteElementString("ID", employee.Id.ToString());
-                    writer.WriteElementString("FirstName", employee.FirstName);
-                    writer.WriteElementString("LastName", employee.LastName);
-                    writer.WriteElementString("Salary", employee.Salary.ToString());
+                    writer.WriteStartElement("Variable");
+
+                    writer.WriteElementString("Position", linecomponents[1]);
+                    writer.WriteElementString("Name", linecomponents[1]);
+                    writer.WriteElementString("Type", linecomponents[2]);
+                    writer.WriteElementString("Value", linecomponents[3]);
 
                     writer.WriteEndElement();
                 }
