@@ -108,6 +108,7 @@
     <Compile Include="DataAquisition\CommunicationInterfaceHandler.cs" />
     <Compile Include="DataAquisition\DataMapper.cs" />
     <Compile Include="Log\Logger.cs" />
+    <Compile Include="OutputWriter.cs" />
     <Compile Include="Vector\VFlashTypeBank.cs" />
     <Compile Include="Vector\VFlashStation.cs" />
     <Compile Include="Vector\VFlashErrorCollector.cs" />
