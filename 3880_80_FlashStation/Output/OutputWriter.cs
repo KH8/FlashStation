@@ -78,12 +78,10 @@ namespace _3880_80_FlashStation.Output
                     string[] linecomponents = line.Split(';');
 
                     writer.WriteStartElement("Variable");
-
                     writer.WriteElementString("Position", linecomponents[0]);
                     writer.WriteElementString("Name", linecomponents[1]);
                     writer.WriteElementString("Type", linecomponents[2]);
                     writer.WriteElementString("Value", linecomponents[3]);
-
                     writer.WriteEndElement();
                 }
 
@@ -106,14 +104,10 @@ namespace _3880_80_FlashStation.Output
                 {
                     string[] linecomponents = line.Split(';');
 
-                    writer.WriteField("Position");
-                    writer.WriteField(linecomponents[0]);
-                    writer.WriteField("Name");
-                    writer.WriteField(linecomponents[1]);
-                    writer.WriteField("Type");
-                    writer.WriteField(linecomponents[2]);
-                    writer.WriteField("Value");
-                    writer.WriteField(linecomponents[3]);
+                    writer.WriteField("Position"); writer.WriteField(linecomponents[0]);
+                    writer.WriteField("Name"); writer.WriteField(linecomponents[1]);
+                    writer.WriteField("Type"); writer.WriteField(linecomponents[2]);
+                    writer.WriteField("Value"); writer.WriteField(linecomponents[3]);
                     writer.NextRecord();
                 }
                 streamWriter.Close();

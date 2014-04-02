@@ -45,9 +45,6 @@ namespace _3880_80_FlashStation.Visual
             _communicationHandler.Initialize("readInterface");
             _communicationHandler.Initialize("writeInterface");
 
-            var xmlWriter = new OutputCsvWriter();
-            xmlWriter.CreateOutput("out", xmlWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
-
             OnlineReadDataListBox.Items.Add("Read area: ");
             OnlineWriteDataListBox.Items.Add("Write area: ");
 
@@ -266,6 +263,30 @@ namespace _3880_80_FlashStation.Visual
 
                 VFlashBankListBox.Items.Clear();
                 foreach (VFlashTypeComponent type in _vFlash.VFlashTypeBank.Children) {VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path);}
+            }
+        }
+
+        private void CreateOutput(object sender, RoutedEventArgs e)
+        {
+            var selection = OutputTypeComboBox.SelectedValue;
+            if (selection == null) 
+            { 
+                MessageBox.Show("No file type selected!", "Error");
+                return;
+            }
+            switch (selection.ToString())
+            {
+                case "System.Windows.Controls.ComboBoxItem: *.xml":
+                    var xmlWriter = new OutputXmlWriter();
+                    xmlWriter.CreateOutput("out", xmlWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
+                    break;
+                case "System.Windows.Controls.ComboBoxItem: *.csv":
+                    var csvWriter = new OutputCsvWriter();
+                    csvWriter.CreateOutput("out", csvWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
+                    break;
+                case "System.Windows.Controls.ComboBoxItem: *.xls":
+                    var xlsWriter = new OutputXlsWriter();
+                    break;
             }
         }
 
