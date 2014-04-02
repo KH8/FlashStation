@@ -9,6 +9,7 @@ using Vector.vFlash.Automation;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
+using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
 
@@ -43,6 +44,9 @@ namespace _3880_80_FlashStation.Visual
             _communicationHandler = new CommunicationInterfaceHandler();
             _communicationHandler.Initialize("readInterface");
             _communicationHandler.Initialize("writeInterface");
+
+            var xmlWriter = new OutputCsvWriter();
+            xmlWriter.CreateOutput("out", xmlWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
 
             OnlineReadDataListBox.Items.Add("Read area: ");
             OnlineWriteDataListBox.Items.Add("Write area: ");

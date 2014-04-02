@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using CsvHelper;
 using _3880_80_FlashStation.DataAquisition;
 
 namespace _3880_80_FlashStation.Output
@@ -15,7 +16,9 @@ namespace _3880_80_FlashStation.Output
 
         internal static string FileNameCreator(string fixedName, string extension)
         {
-            return "Output\\" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + "_" 
+            const string directoryPath = "Output";
+            if (!Directory.Exists(directoryPath)) { Directory.CreateDirectory(directoryPath); }
+            return directoryPath + "\\" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + "_" 
                 + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second 
                 + "_" + fixedName + "." + extension;
         }
@@ -29,27 +32,27 @@ namespace _3880_80_FlashStation.Output
                 {
                     case "BitArray":
                         var variableCastedBitArray = (CiBitArray) variable;
-                        list.Add(variableCastedBitArray.Pos + variableCastedBitArray.Name + ";" + variableCastedBitArray.Type + ";" +
+                        list.Add(variableCastedBitArray.Pos + ";" + variableCastedBitArray.Name + ";" + variableCastedBitArray.Type + ";" +
                                  variableCastedBitArray.Value);
                         break;
                     case "Integer":
                         var variableCastedInteger = (CiInteger) variable;
-                        list.Add(variableCastedInteger.Pos + variableCastedInteger.Name + ";" + variableCastedInteger.Type + ";" +
+                        list.Add(variableCastedInteger.Pos + ";" + variableCastedInteger.Name + ";" + variableCastedInteger.Type + ";" +
                                  variableCastedInteger.Value);
                         break;
                     case "DoubleInteger":
                         var variableCastedDoubleInteger = (CiDoubleInteger) variable;
-                        list.Add(variableCastedDoubleInteger.Pos + variableCastedDoubleInteger.Name + ";" + variableCastedDoubleInteger.Type + ";" +
+                        list.Add(variableCastedDoubleInteger.Pos + ";" + variableCastedDoubleInteger.Name + ";" + variableCastedDoubleInteger.Type + ";" +
                                  variableCastedDoubleInteger.Value);
                         break;
                     case "Real":
                         var variableCastedReal = (CiReal) variable;
-                        list.Add(variableCastedReal.Pos + variableCastedReal.Name + ";" + variableCastedReal.Type + ";" +
+                        list.Add(variableCastedReal.Pos + ";" + variableCastedReal.Name + ";" + variableCastedReal.Type + ";" +
                                  variableCastedReal.Value);
                         break;
                     case "String":
                         var variableCastedString = (CiString) variable;
-                        list.Add(variableCastedString.Pos + variableCastedString.Name + ";" + variableCastedString.Type + ";" +
+                        list.Add(variableCastedString.Pos + ";" + variableCastedString.Name + ";" + variableCastedString.Type + ";" +
                                  variableCastedString.Value);
                         break;
                 }
@@ -63,10 +66,12 @@ namespace _3880_80_FlashStation.Output
         public override void CreateOutput(string fixedName, List<string> elementsList)
         {
             var fileName = FileNameCreator(fixedName, "xml");
-            using (XmlWriter writer = XmlWriter.Create(fileName))
+
+            var settings = new XmlWriterSettings {Indent = true, IndentChars = "\t"};
+            using (XmlWriter writer = XmlWriter.Create(fileName, settings))
             {
                 writer.WriteStartDocument();
-                writer.WriteStartElement("PLC Variables");
+                writer.WriteStartElement("PLCVariables");
 
                 foreach (string line in elementsList)
                 {
@@ -74,7 +79,7 @@ namespace _3880_80_FlashStation.Output
 
                     writer.WriteStartElement("Variable");
 
-                    writer.WriteElementString("Position", linecomponents[1]);
+                    writer.WriteElementString("Position", linecomponents[0]);
                     writer.WriteElementString("Name", linecomponents[1]);
                     writer.WriteElementString("Type", linecomponents[2]);
                     writer.WriteElementString("Value", linecomponents[3]);
@@ -92,7 +97,27 @@ namespace _3880_80_FlashStation.Output
     {
         public override void CreateOutput(string fixedName, List<string> elementsList)
         {
-            throw new NotImplementedException();
+            var fileName = FileNameCreator(fixedName, "csv");
+            using (StreamWriter streamWriter = File.AppendText(fileName))
+            {
+                var writer = new CsvWriter(streamWriter);
+                writer.Configuration.Delimiter = ";";
+                foreach (string line in elementsList)
+                {
+                    string[] linecomponents = line.Split(';');
+
+                    writer.WriteField("Position");
+                    writer.WriteField(linecomponents[0]);
+                    writer.WriteField("Name");
+                    writer.WriteField(linecomponents[1]);
+                    writer.WriteField("Type");
+                    writer.WriteField(linecomponents[2]);
+                    writer.WriteField("Value");
+                    writer.WriteField(linecomponents[3]);
+                    writer.NextRecord();
+                }
+                streamWriter.Close();
+            }
         }
     }
 

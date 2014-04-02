@@ -37,11 +37,6 @@ namespace _3880_80_FlashStation.DataAquisition
                     _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("STATUS", 4, "Integer"));
                     _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("PROGRAMMTYPAKTIV", 6, "Integer"));
                     _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("FEHLERCODE", 8, "Integer"));
-
-                    var xlsWriter = new OutputXlsWriter();
-                    var list = xlsWriter.InterfaceToStrings(_writeInterfaceComposite, 0, 10);
-                    xlsWriter.CreateOutput("out", list);
-
                     break;
                 default: throw new InitializerException("Error: Wrong interface type.");
             }
