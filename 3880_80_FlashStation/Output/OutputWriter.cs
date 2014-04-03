@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using CsvHelper;
 using _3880_80_FlashStation.DataAquisition;
+using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.Output
 {
@@ -88,6 +89,7 @@ namespace _3880_80_FlashStation.Output
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
+            Logger.Log("*.xml output file created");
         }
     }
 
@@ -112,6 +114,7 @@ namespace _3880_80_FlashStation.Output
                 }
                 streamWriter.Close();
             }
+            Logger.Log("*.csv output file created");
         }
     }
 
@@ -119,7 +122,7 @@ namespace _3880_80_FlashStation.Output
     {
         public override void CreateOutput(string fixedName, List<string> elementsList)
         {
-            throw new NotImplementedException();
+            Logger.Log("*.xls output file created");
         }
     }
 }

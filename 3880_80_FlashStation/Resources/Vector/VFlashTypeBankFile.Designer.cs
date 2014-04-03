@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _3880_80_FlashStation.Vector {
+namespace _3880_80_FlashStation.Resources.Vector {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
