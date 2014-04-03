@@ -206,7 +206,7 @@ namespace _3880_80_FlashStation.Visual
             var flashButton = (Button)sender;
             switch (flashButton.Name)
             {
-                case "VFlash1UnloadButton":
+                case "VFlash1FlashButton":
                     var channel = _vFlash.ReturnChannelSetup(1);
                     if (channel.Status == "Flashing")
                     {
