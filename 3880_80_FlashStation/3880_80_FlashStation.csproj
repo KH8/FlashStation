@@ -79,12 +79,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <None Include="Resources\Vector\Vector.vFlash.Automation.vFlash.chm" />
-    <None Include="Resources\Vector\Vector.vFlash.Automation.vFlashStation.chm" />
-    <None Include="Resources\Vector\VFlashTypeBankFile.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>VFlashTypeBankFile.Designer.cs</LastGenOutput>
-    </None>
+    <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
+    <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />
+    <None Include="Vector\VFlashTypeBankFile.settings" />
     <Page Include="Visual\FaultReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,15 +106,11 @@
     <Compile Include="DataAquisition\DataMapper.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Output\OutputWriter.cs" />
-    <Compile Include="Resources\Vector\VFlashTypeBank.cs" />
-    <Compile Include="Resources\Vector\VFlashStation.cs" />
-    <Compile Include="Resources\Vector\VFlashErrorCollector.cs" />
-    <Compile Include="Resources\Vector\VFlashHandler.cs" />
-    <Compile Include="Resources\Vector\VFlashTypeBankFile.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
-    </Compile>
+    <Compile Include="Vector\VFlashErrorCollector.cs" />
+    <Compile Include="Vector\VFlashHandler.cs" />
+    <Compile Include="Vector\VFlashStation.cs" />
+    <Compile Include="Vector\VFlashTypeBank.cs" />
+    <Compile Include="Vector\VFlashTypeBankFile.Designer.cs" />
     <Compile Include="Visual\DataDisplay.cs" />
     <Compile Include="Visual\FaultReport.xaml.cs">
       <DependentUpon>FaultReport.xaml</DependentUpon>
@@ -182,6 +175,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll" />
+    <Content Include="Vector\Vector.vFlash.Automation.vFlashStation.dll" />
     <Resource Include="logoTT.jpg" />
     <None Include="Log\Log.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -195,9 +190,8 @@
     <Resource Include="teamtechnik.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Resources\Vector\Vector.vFlash.Automation.vFlash.dll" />
-    <Content Include="Resources\Vector\Vector.vFlash.Automation.vFlashStation.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
