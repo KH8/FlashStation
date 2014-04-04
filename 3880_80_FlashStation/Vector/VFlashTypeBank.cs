@@ -67,7 +67,9 @@ namespace _3880_80_FlashStation.Vector
         {
             var output = new string[list.Count];
                 uint i = 0;
-                foreach (VFlashTypeComponent type in list){ output[i] = type.Type + "=" + type.Path; i++; }
+                foreach (var vFlashType in list){
+                    var type = (VFlashTypeComponent) vFlashType;
+                    output[i] = type.Type + "=" + type.Path; i++; }
             return output;
         }
 

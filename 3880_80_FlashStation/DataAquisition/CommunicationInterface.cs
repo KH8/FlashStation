@@ -100,8 +100,9 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void ModifyValue(string name, BitArray bitArrayValue)
         {
-            foreach (CiBitArray component in _children)
+            foreach (var communicationInterfaceComponent in _children)
             {
+                var component = (CiBitArray) communicationInterfaceComponent;
                 if (component.Name == name)
                 {
                     component.Value = bitArrayValue;
@@ -113,8 +114,9 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void ModifyValue(string name, Int16 integerValue)
         {
-            foreach (CiInteger component in _children)
+            foreach (var communicationInterfaceComponent in _children)
             {
+                var component = (CiInteger) communicationInterfaceComponent;
                 if (component.Name == name)
                 {
                     component.Value = integerValue;
@@ -126,8 +128,9 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void ModifyValue(string name, Int32 doubleIntegerValue)
         {
-            foreach (CiDoubleInteger component in _children)
+            foreach (var communicationInterfaceComponent in _children)
             {
+                var component = (CiDoubleInteger) communicationInterfaceComponent;
                 if (component.Name == name)
                 {
                     component.Value = doubleIntegerValue;
@@ -139,8 +142,9 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void ModifyValue(string name, float realValue)
         {
-            foreach (CiReal component in _children)
+            foreach (var communicationInterfaceComponent in _children)
             {
+                var component = (CiReal) communicationInterfaceComponent;
                 if (component.Name == name)
                 {
                     component.Value = realValue;
@@ -152,8 +156,9 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void ModifyValue(string name, string stringValue)
         {
-            foreach (CiString component in _children)
+            foreach (var communicationInterfaceComponent in _children)
             {
+                var component = (CiString) communicationInterfaceComponent;
                 if (component.Name == name)
                 {
                     component.Value = stringValue;
