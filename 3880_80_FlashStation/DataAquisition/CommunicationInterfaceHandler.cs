@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.DataAquisition

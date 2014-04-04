@@ -6,7 +6,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Vector.vFlash.Automation;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
@@ -57,7 +56,7 @@ namespace _3880_80_FlashStation.Visual
             UpdateSettings();
             if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
 
-            try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite,_communicationHandler.WriteInterfaceComposite, UpdateProgress, UpdateStatus);}
+            try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite,_communicationHandler.WriteInterfaceComposite);}
             catch (Exception)
             {
                 MessageBox.Show("VFlash initialization failed", "VFlash Failed");
@@ -87,7 +86,7 @@ namespace _3880_80_FlashStation.Visual
                     ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
-                    VectorDisplayHandler(_vFlash);
+                    VFlashDisplayHandler(_vFlash);
                 }
                 Thread.Sleep(21);
             }
@@ -422,10 +421,10 @@ namespace _3880_80_FlashStation.Visual
                 brush = Brushes.Red;
                 ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
             }
-            StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
+            PlcStatusLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
-                StatusLabel.Content = statusBar;
-                StatusLabel.Foreground = brush;
+                PlcStatusLabel.Content = statusBar;
+                PlcStatusLabel.Foreground = brush;
             })));
         }
 
@@ -437,7 +436,7 @@ namespace _3880_80_FlashStation.Visual
             }
         }
 
-        private void VectorDisplayHandler(VFlashHandler vector)
+        private void VFlashDisplayHandler(VFlashHandler vector)
         {
             string path = "File path is not specified";
             string status;
@@ -458,7 +457,7 @@ namespace _3880_80_FlashStation.Visual
                 case "Loaded":
                     status = "Project was loaded succesfully";
                     colourBrush = Brushes.Green;
-
+                    VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
                     VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
                     break;
@@ -469,14 +468,13 @@ namespace _3880_80_FlashStation.Visual
                 case "Unloaded":
                     status = "Project was unloaded succesfully";
                     colourBrush = Brushes.Green;
-
+                    VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = true; })));
                     VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
                     break;
                 case "Flashing":
-                    status = VFlash1StatusLabel.Content.ToString();
+                    status = "Flashing ...";
                     colourBrush = Brushes.Black;
-
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
                     break;
                 case "Aborting":
@@ -507,24 +505,26 @@ namespace _3880_80_FlashStation.Visual
                 VFlash1StatusLabel.Content = status;
                 VFlash1StatusLabel.Foreground = colourBrush;
             })));
+
+            VFlashStatusHandler(1, colourBrush);
         }
 
-        internal void UpdateProgress(long handle, uint progressInPercent, uint remainingTimeInSecs)
+        private void VFlashStatusHandler(uint chanId, Brush colourBrush)
         {
-            VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining: " + remainingTimeInSecs + " sec."; })));
-            VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate
+            var channel = _vFlash.ReturnChannelSetup(chanId);
+            
+            switch (chanId)
             {
-                if (progressInPercent > 100) { VFlash1ProgressBar.Value = 0; }
-                else { VFlash1ProgressBar.Value = (int)progressInPercent; }
-            })));
-        }
-
-        internal void UpdateStatus(long handle, VFlashStationStatus status)
-        {
-            VFlash1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                VFlash1StatusLabel.Content = status;
-            })));
+                case 1:
+                    VFlashChannel1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
+                    {
+                        VFlashChannel1StatusLabel.Content = "vFlash channel " + channel.ChannelId + ": " + channel.Status;
+                        VFlashChannel1StatusLabel.Foreground = colourBrush;
+                    })));
+                    VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining: " + channel.RemainingTimeInSecs + "sec"; })));
+                    VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate { VFlash1ProgressBar.Value = channel.ProgressPercentage; })));
+                    break;
+            }
         }
 
         private void UpdateSettings()

@@ -43,8 +43,8 @@ namespace _3880_80_FlashStation.Vector
         public abstract void Remove(VFlashStationComponent c);
         protected abstract bool LoadProject();
         protected abstract bool UnloadProject();
-        protected abstract bool StartFlashing();
-        protected abstract bool AbortFlashing();
+        public abstract bool StartFlashing();
+        public abstract bool AbortFlashing();
     }
 
     #endregion
@@ -61,11 +61,7 @@ namespace _3880_80_FlashStation.Vector
             get { return _children; }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VFlashStationController"/> class.
-        /// </summary>
-        /// <param name="reportErrorDelegate">The report error delegate.</param>
-        /// <param name="id">Id</param>
+        //--- vFlash Station Constructor ---
         internal VFlashStationController(ReportErrorDelegate reportErrorDelegate, uint id)
             : base(id)
         {
@@ -75,7 +71,7 @@ namespace _3880_80_FlashStation.Vector
         internal bool Initialize()
         {
             //--- Initialize vFlash Station ---
-            VFlashStationResult resInit = VFlashStationAPI.Initialize();
+            var resInit = VFlashStationAPI.Initialize();
             Logger.Log("VFlash: Initialization");
             if (resInit != VFlashStationResult.Success)
             {
@@ -89,7 +85,7 @@ namespace _3880_80_FlashStation.Vector
         internal bool Deinitialize()
         {
             //--- Deinitialize vFlash Station ---
-            VFlashStationResult resDeinit = VFlashStationAPI.Deinitialize();
+            var resDeinit = VFlashStationAPI.Deinitialize();
             Logger.Log("VFlash: Deinitialization");
             if (resDeinit != VFlashStationResult.Success)
             {
@@ -111,8 +107,9 @@ namespace _3880_80_FlashStation.Vector
 
         protected override bool LoadProject()
         {
-            foreach (VFlashChannel channel in _children)
+            foreach (var vFlashStationComponent in _children)
             {
+                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand("Load");
             }
             return true;
@@ -120,26 +117,29 @@ namespace _3880_80_FlashStation.Vector
 
         protected override bool UnloadProject()
         {
-            foreach (VFlashChannel channel in _children)
+            foreach (var vFlashStationComponent in _children)
             {
+                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand("Unload");
             }
             return true;
         }
 
-        protected override bool StartFlashing()
+        public override bool StartFlashing()
         {
-            foreach (VFlashChannel channel in _children)
+            foreach (var vFlashStationComponent in _children)
             {
+                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand("Start");
             }
             return true;
         }
 
-        protected override bool AbortFlashing()
+        public override bool AbortFlashing()
         {
-            foreach (VFlashChannel channel in _children)
+            foreach (var vFlashStationComponent in _children)
             {
+                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand("Abort");
             }
             return true;
@@ -160,25 +160,26 @@ namespace _3880_80_FlashStation.Vector
         private long _projectHandle;
         private string _flashProjectPath;
         private Boolean _result;
-        private CallbackProgressDelegate _progressDelegate;
-        private CallbackStatusDelegate _statusDelegate;
+
+        private uint _progressPercentage;
+        private uint _remainingTimeInSecs;
 
         private readonly ReportErrorDelegate _reportErrorDelegate;
 
         private readonly Thread _vFlashThread;
 
-        public VFlashChannel(ReportErrorDelegate reportErrorDelegate, string flashProjectPath, uint channelId,
-            CallbackProgressDelegate progressDelegate, CallbackStatusDelegate statusDelegate)
+        public VFlashChannel(ReportErrorDelegate reportErrorDelegate, string flashProjectPath, uint channelId)
             : base(channelId)
         {
             Command = "";
             Status = "Created";
 
             _reportErrorDelegate = reportErrorDelegate;
-            _progressDelegate = progressDelegate;
-            _statusDelegate = statusDelegate;
             _flashProjectPath = flashProjectPath;
             _projectHandle = -1;
+
+            _progressPercentage = 0;
+            _remainingTimeInSecs = 0;
 
             _result = false;
 
@@ -200,22 +201,20 @@ namespace _3880_80_FlashStation.Vector
             set { _flashProjectPath = value; }
         }
 
-        public CallbackProgressDelegate ProgressDelegate
-        {
-            get { return _progressDelegate; }
-            set { _progressDelegate = value; }
-        }
-
-        public CallbackStatusDelegate StatusDelegate
-        {
-            get { return _statusDelegate; }
-            set { _statusDelegate = value; }
-        }
-
         public bool Result
         {
             get { return _result; }
             set { _result = value; }
+        }
+
+        public uint ProgressPercentage
+        {
+            get { return _progressPercentage; }
+        }
+
+        public uint RemainingTimeInSecs
+        {
+            get { return _remainingTimeInSecs; }
         }
 
         public override void Add(VFlashStationComponent c)
@@ -263,11 +262,11 @@ namespace _3880_80_FlashStation.Vector
             return true;
         }
 
-        protected override bool StartFlashing()
+        public override bool StartFlashing()
         {
             if (ProjectHandle != -1)
             {
-                VFlashStationResult res = VFlashStationAPI.Start(ProjectHandle, ProgressDelegate, StatusDelegate);
+                VFlashStationResult res = VFlashStationAPI.Start(ProjectHandle, UpdateProgress, UpdateStatus);
                 if (res != VFlashStationResult.Success)
                 {
                     string errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
@@ -277,7 +276,7 @@ namespace _3880_80_FlashStation.Vector
             return true;
         }
 
-        protected override bool AbortFlashing()
+        public override bool AbortFlashing()
         {
             bool errorOccurredButContinued = false;
             if (ProjectHandle != -1)
@@ -293,6 +292,26 @@ namespace _3880_80_FlashStation.Vector
             return !errorOccurredButContinued;
         }
 
+        internal void UpdateStatus(long handle, VFlashStationStatus status)
+        {
+           Status = status.ToString();
+            if (status == VFlashStationStatus.Success)
+            {
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
+            }
+            else
+            {
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashing failed with reason: " + status);
+                _reportErrorDelegate(ChannelId, ProjectHandle, String.Format("Flashing failed ({0}).", status));
+            }
+        }
+
+        internal void UpdateProgress(long handle, uint progressInPercent, uint remainingTimeInSecs)
+        {
+            _progressPercentage = progressInPercent;
+            _remainingTimeInSecs = remainingTimeInSecs;
+        }
+
         private void VectorBackgroundThread()
         {
             while (_vFlashThread.IsAlive)
@@ -303,58 +322,46 @@ namespace _3880_80_FlashStation.Vector
                         Command = "";
                         break;
                     case "Load":
-                        if (Array.LastIndexOf(new[] { "Created", "Unloaded", "Loading", "Fault occured!" }, Status) != -1)
+                        Status = "Loading";
+                        Result = LoadProject();
+                        if (Result)
                         {
-                            Status = "Loading";
-                            Result = LoadProject();
-                            if (Result)
-                            {
-                                Command = "";
-                                Result = false;
-                                Status = "Loaded";
-                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Loaded succesfully");
-                            }
+                            Command = "";
+                            Result = false;
+                            Status = "Loaded";
+                            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Loaded succesfully");
                         }
                         break;
                     case "Unload":
-                        if (Array.LastIndexOf(new[] { "Loaded", "Unloading", "Flashed", "Fault occured!" }, Status) != -1)
+                        Status = "Unloading";
+                        Result = UnloadProject();
+                        if (Result)
                         {
-                            Status = "Unloading";
-                            Result = UnloadProject();
-                            if (Result)
-                            {
-                                Command = "";
-                                Result = false;
-                                Status = "Unloaded";
-                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Unloaded succesfully");
-                            }
+                            Command = "";
+                            Result = false;
+                            Status = "Unloaded";
+                            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Unloaded succesfully");
                         }
                         break;
                     case "Start":
-                        if (Array.LastIndexOf(new[] { "Loaded", "Flashing" }, Status) != -1)
+                        Status = "Flashing";
+                        Result = StartFlashing();
+                        if (Result)
                         {
+                            Command = "";
+                            Result = false;
                             Status = "Flashing";
-                            Result = StartFlashing();
-                            if (Result)
-                            {
-                                Command = "";
-                                Result = false;
-                                Status = "Flashed";
-                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
-                            }
                         }
                         break;
                     case "Abort":
-                        if (Array.LastIndexOf(new[] { "Flashing", "Aborting" }, Status) != -1)
+                        Status = "Aborting";
+                        Result = AbortFlashing();
+                        if (Result)
                         {
-                            Status = "Aborting";
-                            Result = AbortFlashing();
-                            if (Result)
-                            {
-                                Command = "";
-                                Result = false;
-                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Aborted");
-                            }
+                            Command = "";
+                            Result = false;
+                            Status = "Aborted";
+                            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Aborted");
                         }
                         break;
                 }

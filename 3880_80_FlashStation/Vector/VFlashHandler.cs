@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using Vector.vFlash.Automation;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 
@@ -47,14 +46,14 @@ namespace _3880_80_FlashStation.Vector
 
         #region Constructor
 
-        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite, CallbackProgressDelegate updateProgressDelegate, CallbackStatusDelegate updateStatusDelegate)
+        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
         {
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
 
             _vFlashErrorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, 0);
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", 1, updateProgressDelegate, updateStatusDelegate));
+            _vFlashStationController.Add(new VFlashChannel(ReportError, "", 1));
             _vFlashStationController.Initialize();
 
             _vFlashTypeBank = new VFlashTypeBank();
