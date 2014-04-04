@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows.Documents;
 using Vector.vFlash.Automation;
 using _3880_80_FlashStation.Log;
 
@@ -322,46 +323,58 @@ namespace _3880_80_FlashStation.Vector
                         Command = "";
                         break;
                     case "Load":
-                        Status = "Loading";
-                        Result = LoadProject();
-                        if (Result)
+                        if (new List<string>{"Created", "Fault occured!", "Unloaded"}.Contains(Status))
                         {
-                            Command = "";
-                            Result = false;
-                            Status = "Loaded";
-                            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Loaded succesfully");
+                            Status = "Loading";
+                            Result = LoadProject();
+                            if (Result)
+                            {
+                                Command = "";
+                                Result = false;
+                                Status = "Loaded";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Loaded succesfully");
+                            }
                         }
                         break;
                     case "Unload":
-                        Status = "Unloading";
-                        Result = UnloadProject();
-                        if (Result)
+                        if (new List<string>{"Loaded", "Fault occured!", "Flashed", "Aborted"}.Contains(Status))
                         {
-                            Command = "";
-                            Result = false;
-                            Status = "Unloaded";
-                            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Unloaded succesfully");
+                            Status = "Unloading";
+                            Result = UnloadProject();
+                            if (Result)
+                            {
+                                Command = "";
+                                Result = false;
+                                Status = "Unloaded";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Unloaded succesfully");
+                            }
                         }
                         break;
                     case "Start":
-                        Status = "Flashing";
-                        Result = StartFlashing();
-                        if (Result)
+                        if (new List<string>{"Loaded", "Fault occured!", "Flashed", "Aborted"}.Contains(Status))
                         {
-                            Command = "";
-                            Result = false;
                             Status = "Flashing";
+                            Result = StartFlashing();
+                            if (Result)
+                            {
+                                Command = "";
+                                Result = false;
+                                Status = "Flashing";
+                            }
                         }
                         break;
                     case "Abort":
-                        Status = "Aborting";
-                        Result = AbortFlashing();
-                        if (Result)
+                        if (new List<string>{"Flashing"}.Contains(Status))
                         {
-                            Command = "";
-                            Result = false;
-                            Status = "Aborted";
-                            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Aborted");
+                            Status = "Aborting";
+                            Result = AbortFlashing();
+                            if (Result)
+                            {
+                                Command = "";
+                                Result = false;
+                                Status = "Aborted";
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Aborted");
+                            }
                         }
                         break;
                 }
