@@ -36,7 +36,7 @@
             </TabItem>
             <TabItem Header="Configuration">
                 <Grid Background="#FFFFFFFF">
-                    <GroupBox Header="PLC Communication Setup" HorizontalAlignment="Center" Height="206" VerticalAlignment="Top" Width="335" Margin="0,0,339,0">
+                    <GroupBox Header="PLC Communication Setup" HorizontalAlignment="Center" Height="148" VerticalAlignment="Top" Width="334" Margin="0,0,339,0">
                         <Grid>
                             <Label Content="IP Address:" HorizontalAlignment="Left" Height="25" Margin="68,10,0,0" VerticalAlignment="Top" Width="80"/>
                             <TextBox Name="IpAddressBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,10,0,0" TextWrapping="Wrap" Text="192.168.10.80" VerticalAlignment="Top" Width="100" TextChanged="IpAddressBoxChanged"/>
@@ -65,6 +65,13 @@
                         </Grid>
                     </GroupBox>
                     <Button Content="Use Settings" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="StoreSettings"/>
+                    <Button IsEnabled="False" Content="Load File" HorizontalAlignment="Right" Height="25" Margin="0,211,339,0" VerticalAlignment="Top" Width="100" Click="LoadSettingFile"/>
+                    <GroupBox Header="Interface Configuration" HorizontalAlignment="Center" Height="58" VerticalAlignment="Top" Width="334" Margin="0,148,339,0">
+                        <Grid>
+                            <Label Content="Configuration File:" HorizontalAlignment="Left" Height="25" Margin="31,5,0,0" VerticalAlignment="Top" Width="112"/>
+                            <TextBox x:Name="InterfacePathBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,5,0,0" TextWrapping="Wrap" Text="File not loaded" VerticalAlignment="Top" Width="164"/>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Online Communication">
@@ -73,7 +80,7 @@
                     <ListBox Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="VFlash">
+            <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">
                 <Grid Background="#FFFFFFFF">
                     <GroupBox Header="Channel 1 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673">
                         <Grid>
@@ -95,7 +102,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="VFlash Projects">
+            <TabItem Name="VFlashProjectsTab" Header="VFlash Projects" IsEnabled="False">
                 <Grid Background="#FFFFFFFF">
                     <ListBox Name="VFlashBankListBox" HorizontalAlignment="Left" Height="206" Margin="0,0,0,37" VerticalAlignment="Center" Width="673"/>
                     <Button Content="Create Type" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="TypeCreation"/>

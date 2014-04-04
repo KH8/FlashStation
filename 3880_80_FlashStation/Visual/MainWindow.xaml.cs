@@ -24,13 +24,13 @@ namespace _3880_80_FlashStation.Visual
         private readonly Thread _statusThread;
         private readonly Thread _communicationThread;
 
-        private readonly PlcCommunicator _plcCommunication;
-        private readonly PlcConfigurator _plcConfiguration;
+        private PlcCommunicator _plcCommunication;
+        private PlcConfigurator _plcConfiguration;
 
-        private readonly VFlashHandler _vFlash;
+        private VFlashHandler _vFlash;
 
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
-        private readonly CommunicationInterfaceHandler _communicationHandler;
+        private CommunicationInterfaceHandler _communicationHandler;
 
         private FaultReport _windowReport;
 
@@ -39,32 +39,9 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            VFlash1UnloadButton.IsEnabled = false;
-            VFlash1FlashButton.IsEnabled = false;
-
-            _communicationHandler = new CommunicationInterfaceHandler();
-            _communicationHandler.Initialize("readInterface");
-            _communicationHandler.Initialize("writeInterface");
-
-            OnlineReadDataListBox.Items.Add("Read area: ");
-            OnlineWriteDataListBox.Items.Add("Write area: ");
-
-            _plcCommunication = new PlcCommunicator();
-            _plcConfiguration = new PlcConfigurator();
-
-            _guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
-            UpdateSettings();
-            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
-
-            try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite,_communicationHandler.WriteInterfaceComposite);}
-            catch (Exception)
-            {
-                MessageBox.Show("VFlash initialization failed", "VFlash Failed");
-                Environment.Exit(0);
-            }
-
-            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlash.VFlashTypeBank);
-            foreach (var type in _vFlash.VFlashTypeBank.Children.Cast<VFlashTypeComponent>()) { VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path); }
+            InitializeInterface();
+            InitializePlcCommunication();
+            InitializeVFlash();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -76,6 +53,75 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
         }
+
+        #region Init Methods
+
+        internal void InitializeInterface()
+        {
+            _communicationHandler = new CommunicationInterfaceHandler();
+            if (CommunicationInterfacePath.Default.ConfigurationStatus == 1)
+            {
+                string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
+                InterfacePathBox.Text = words[words.Length - 1];
+                _communicationHandler.Initialize();
+                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
+            }
+            else
+            {
+                CommunicationInterfacePath.Default.Path = "DataAquisition\\DB1000.csv";
+                CommunicationInterfacePath.Default.ConfigurationStatus = 1;
+                CommunicationInterfacePath.Default.Save();
+                string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
+                InterfacePathBox.Text = words[words.Length - 1];
+                _communicationHandler.Initialize();
+                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
+            }
+        }
+
+        internal void InitializePlcCommunication()
+        {
+            OnlineReadDataListBox.Items.Add("Read area: ");
+            OnlineWriteDataListBox.Items.Add("Write area: ");
+
+            _plcCommunication = new PlcCommunicator();
+            _plcConfiguration = new PlcConfigurator();
+
+            _guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
+            UpdateSettings();
+
+            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1)
+            {
+                StoreSettings();
+            }
+        }
+
+        internal void InitializeVFlash()
+        {
+            VFlashTab.IsEnabled = true;
+            VFlashProjectsTab.IsEnabled = true;
+            VFlash1UnloadButton.IsEnabled = false;
+            VFlash1FlashButton.IsEnabled = false;
+
+            try
+            {
+                _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite,
+                    _communicationHandler.WriteInterfaceComposite);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("VFlash initialization failed", "VFlash Failed");
+                Environment.Exit(0);
+            }
+
+            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlash.VFlashTypeBank);
+            foreach (var type in _vFlash.VFlashTypeBank.Children.Cast<VFlashTypeComponent>())
+            {
+                VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path);
+            }
+        }
+
+        #endregion
+
 
         private void StatusHandler()
         {
@@ -298,6 +344,39 @@ namespace _3880_80_FlashStation.Visual
                     var xlsWriter = new OutputXlsWriter();
                     xlsWriter.CreateOutput("out", xlsWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
                     break;
+            }
+        }
+
+        private void LoadSettingFile(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".csv", Filter = "CSV (MS-DOS) (.csv)|*.csv" };
+            // Set filter for file extension and default file extension
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                CommunicationInterfacePath.Default.Path = dlg.FileName;
+                
+                try
+                {
+                    CommunicationInterfaceBuilder.InitializeInterface("readInterface");
+                    CommunicationInterfaceBuilder.InitializeInterface("writeInterface");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Input file cannot be used", "Error");
+                    return;
+                }
+
+                CommunicationInterfacePath.Default.ConfigurationStatus = 1;
+                CommunicationInterfacePath.Default.Save();
+
+                string[] words = dlg.FileName.Split('\\');
+                InterfacePathBox.Text = words[words.Length - 1];
+
+                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
             }
         }
 

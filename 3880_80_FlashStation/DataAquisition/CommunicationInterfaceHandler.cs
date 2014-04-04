@@ -19,25 +19,10 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _writeInterfaceComposite = value; }
         }
 
-        public void Initialize(string type)
+        public void Initialize()
         {
-            switch (type)
-            {
-                case "readInterface":
-                    _readInterfaceComposite = new CommunicationInterfaceComposite("SPS");
-                    _readInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("BEFEHL", 0, "Integer"));
-                    _readInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("PROGRAMMTYP", 2, "Integer"));
-                    break;
-                case "writeInterface":
-                    _writeInterfaceComposite = new CommunicationInterfaceComposite("PC");
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("LEBENSZAECHLER", 0, "Integer"));
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("ANTWORT", 2, "Integer"));
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("STATUS", 4, "Integer"));
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("PROGRAMMTYPAKTIV", 6, "Integer"));
-                    _writeInterfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable("FEHLERCODE", 8, "Integer"));
-                    break;
-                default: throw new InitializerException("Error: Wrong interface type.");
-            }
+            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface("readInterface");
+            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface("writeInterface");
         }
 
         public void MaintainConnection(PlcCommunicator communication)

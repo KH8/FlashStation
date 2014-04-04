@@ -79,6 +79,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <None Include="DataAquisition\CommunicationInterfacePath.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAquisition\DB1000.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
     <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />
     <None Include="Vector\VFlashTypeBankFile.settings" />
@@ -101,8 +108,14 @@
       <DependentUpon>PlcConfigurationFile.settings</DependentUpon>
     </Compile>
     <Compile Include="DataAquisition\CommunicationInterface.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfaceBuilder.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceFactory.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceHandler.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfacePath.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>CommunicationInterfacePath.settings</DependentUpon>
+    </Compile>
     <Compile Include="DataAquisition\DataMapper.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Output\OutputWriter.cs" />
