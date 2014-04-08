@@ -41,7 +41,7 @@ namespace _3880_80_FlashStation.Visual
 
             InitializeInterface();
             InitializePlcCommunication();
-            InitializeVFlash();
+            //InitializeVFlash();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -101,7 +101,7 @@ namespace _3880_80_FlashStation.Visual
             VFlashProjectsTab.IsEnabled = true;
             VFlash1UnloadButton.IsEnabled = false;
             VFlash1FlashButton.IsEnabled = false;
-
+            
             try
             {
                 _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite,
@@ -132,7 +132,7 @@ namespace _3880_80_FlashStation.Visual
                     ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
-                    VFlashDisplayHandler(_vFlash);
+                    //VFlashDisplayHandler(_vFlash);
                 }
                 Thread.Sleep(21);
             }
@@ -163,7 +163,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
         {
-            _vFlash.Deinitialize();
+            //_vFlash.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
