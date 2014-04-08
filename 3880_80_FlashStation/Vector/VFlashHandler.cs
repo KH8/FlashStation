@@ -73,28 +73,28 @@ namespace _3880_80_FlashStation.Vector
         {
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be loaded was not found");
-            channelFound.ExecuteCommand("Load"); 
+            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load); 
         }
 
         public void UnloadProject(uint chanId)
         {
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be unloaded was not found");
-            channelFound.ExecuteCommand("Unload"); 
+            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload); 
         }
 
         public void StartFlashing(uint chanId)
         {
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be flashed was not found");
-            channelFound.ExecuteCommand("Start"); 
+            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Start); 
         }
 
         public void AbortFlashing(uint chanId)
         {
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be aborted was not found");
-            channelFound.ExecuteCommand("Abort"); 
+            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Abort); 
         }
 
         public void SetProjectPath(uint chanId, string projectPath)
@@ -150,12 +150,12 @@ namespace _3880_80_FlashStation.Vector
                             if (caseAuxiliary != 200)
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Project load requested from PLC");
-                                channelFound.ExecuteCommand("Load");
+                                channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
                             }
                             if (_outputComposite != null)
                             {
-                                if (channelFound.Status == "Loaded") antwort = 200;
-                                if (channelFound.Status == "Fault occured!") antwort = 999;   
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Loaded) antwort = 200;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;   
                             }
                             caseAuxiliary = 200;
                             break;
@@ -163,12 +163,12 @@ namespace _3880_80_FlashStation.Vector
                             if (caseAuxiliary != 300)
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Project unload requested from PLC");
-                                channelFound.ExecuteCommand("Unload");
+                                channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
                             }
                             if (_outputComposite != null)
                             {
-                                if (channelFound.Status == "Unloaded") antwort = 300;
-                                if (channelFound.Status == "Fault occured!") antwort = 999;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded) antwort = 300;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
                             }
                             caseAuxiliary = 300;
                             break;
@@ -176,12 +176,12 @@ namespace _3880_80_FlashStation.Vector
                             if (caseAuxiliary != 400)
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing requested from PLC");
-                                channelFound.ExecuteCommand("Start");
+                                channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Start);
                             }
                             if (_outputComposite != null)
                             {
-                                if (channelFound.Status == "Flashed") antwort = 400;
-                                if (channelFound.Status == "Fault occured!") antwort = 999;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Flashed) antwort = 400;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
                             }
                             caseAuxiliary = 400;
                             break;
@@ -189,12 +189,12 @@ namespace _3880_80_FlashStation.Vector
                             if (caseAuxiliary != 500)
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing abort requested from PLC");
-                                channelFound.ExecuteCommand("Abort");
+                                channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Abort);
                             }
                             if (_outputComposite != null)
                             {
-                                if (channelFound.Status == "Loaded") antwort = 500;
-                                if (channelFound.Status == "Fault occured!") antwort = 999;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Aborted) antwort = 500;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
                             }
                             caseAuxiliary = 500;
                             break;
@@ -215,35 +215,35 @@ namespace _3880_80_FlashStation.Vector
                 if (channelFound != null)
                     switch (channelFound.Status)
                     {
-                        case "Created":
+                        case VFlashStationComponent.VFlashStatus.Created:
                             statusInt = 100;
                             _pcControlModeChangeAllowed = true;
                             break;
-                        case "Loading":
+                        case VFlashStationComponent.VFlashStatus.Loading:
                             statusInt = 299;
                             break;
-                        case "Loaded":
+                        case VFlashStationComponent.VFlashStatus.Loaded:
                             statusInt = 200;
                             _pcControlModeChangeAllowed = true;
                             break;
-                        case "Unloading":
+                        case VFlashStationComponent.VFlashStatus.Unloading:
                             statusInt = 399;
                             break;
-                        case "Unloaded":
+                        case VFlashStationComponent.VFlashStatus.Unloaded:
                             statusInt = 300;
                             _pcControlModeChangeAllowed = true;
                             break;
-                        case "Flashing":
+                        case VFlashStationComponent.VFlashStatus.Flashing:
                             statusInt = 499;
                             break;
-                        case "Flashed":
+                        case VFlashStationComponent.VFlashStatus.Flashed:
                             statusInt = 400;
                             _pcControlModeChangeAllowed = true;
                             break;
-                        case "Aborting":
+                        case VFlashStationComponent.VFlashStatus.Aborting:
                             statusInt = 599;
                             break;
-                        case "Fault occured!":
+                        case VFlashStationComponent.VFlashStatus.Fault:
                             _pcControlModeChangeAllowed = true;
                             statusInt = 999;
                             break;
@@ -278,8 +278,8 @@ namespace _3880_80_FlashStation.Vector
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == channelId);
             if (channelFound != null)
             {
-                channelFound.Command = "";
-                channelFound.Status = "Fault occured!";
+                channelFound.Command = VFlashStationComponent.VFlashCommand.NoCommand;
+                channelFound.Status = VFlashStationComponent.VFlashStatus.Fault;
             }
         }
 

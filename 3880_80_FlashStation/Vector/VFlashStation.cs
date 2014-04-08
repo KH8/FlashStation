@@ -12,8 +12,8 @@ namespace _3880_80_FlashStation.Vector
     public abstract class VFlashStationComponent
     {
         private readonly uint _channelId;
-        private string _command;
-        private string _status;
+        private VFlashCommand _command;
+        private VFlashStatus _status;
 
         public delegate void ReportErrorDelegate(uint channelId, long handle, string message);
 
@@ -22,18 +22,41 @@ namespace _3880_80_FlashStation.Vector
             _channelId = id;
         }
 
+        public enum VFlashCommand
+        {
+            Load,
+            Unload,
+            Start,
+            Abort,
+            NoCommand
+        }
+
+        public enum VFlashStatus
+        {
+            Created,
+            Loading,
+            Loaded,
+            Unloading,
+            Unloaded,
+            Flashing,
+            Flashed,
+            Aborting,
+            Aborted,
+            Fault
+        }
+
         public uint ChannelId
         {
             get { return _channelId; }
         }
 
-        public string Command
+        public VFlashCommand Command
         {
             get { return _command; }
             set { _command = value; }
         }
 
-        public string Status
+        public VFlashStatus Status
         {
             get { return _status; }
             set { _status = value; }
@@ -110,7 +133,7 @@ namespace _3880_80_FlashStation.Vector
             foreach (var vFlashStationComponent in _children)
             {
                 var channel = (VFlashChannel) vFlashStationComponent;
-                channel.ExecuteCommand("Load");
+                channel.ExecuteCommand(VFlashCommand.Load);
             }
             return true;
         }
@@ -120,7 +143,7 @@ namespace _3880_80_FlashStation.Vector
             foreach (var vFlashStationComponent in _children)
             {
                 var channel = (VFlashChannel) vFlashStationComponent;
-                channel.ExecuteCommand("Unload");
+                channel.ExecuteCommand(VFlashCommand.Unload);
             }
             return true;
         }
@@ -130,7 +153,7 @@ namespace _3880_80_FlashStation.Vector
             foreach (var vFlashStationComponent in _children)
             {
                 var channel = (VFlashChannel) vFlashStationComponent;
-                channel.ExecuteCommand("Start");
+                channel.ExecuteCommand(VFlashCommand.Start);
             }
             return true;
         }
@@ -140,7 +163,7 @@ namespace _3880_80_FlashStation.Vector
             foreach (var vFlashStationComponent in _children)
             {
                 var channel = (VFlashChannel) vFlashStationComponent;
-                channel.ExecuteCommand("Abort");
+                channel.ExecuteCommand(VFlashCommand.Abort);
             }
             return true;
         }
@@ -171,8 +194,8 @@ namespace _3880_80_FlashStation.Vector
         public VFlashChannel(ReportErrorDelegate reportErrorDelegate, string flashProjectPath, uint channelId)
             : base(channelId)
         {
-            Command = "";
-            Status = "Created";
+            Command = VFlashCommand.NoCommand;
+            Status = VFlashStatus.Created;
 
             _reportErrorDelegate = reportErrorDelegate;
             _flashProjectPath = flashProjectPath;
@@ -223,9 +246,9 @@ namespace _3880_80_FlashStation.Vector
         public override void Remove(VFlashStationComponent c)
         {}
 
-        public void ExecuteCommand(string command)
+        public void ExecuteCommand(VFlashCommand command)
         {
-            if (Array.LastIndexOf(new[] {"Load", "Unload", "Start", "Abort"}, command) != -1 && FlashProjectPath != "")
+            if (FlashProjectPath != "")
             {
                 Command = command;
             }
@@ -294,7 +317,6 @@ namespace _3880_80_FlashStation.Vector
 
         internal void UpdateStatus(long handle, VFlashStationStatus status)
         {
-           Status = status.ToString();
             if (status == VFlashStationStatus.Success)
             {
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
@@ -319,59 +341,59 @@ namespace _3880_80_FlashStation.Vector
                 switch (Command)
                 {
                     default:
-                        Command = "";
+                        Command = VFlashCommand.NoCommand;
                         break;
-                    case "Load":
-                        if (new List<string>{"Created", "Fault occured!", "Unloaded"}.Contains(Status))
+                    case VFlashCommand.Load:
+                        if (new List<VFlashStatus> { VFlashStatus.Created, VFlashStatus.Fault, VFlashStatus.Unloaded }.Contains(Status))
                         {
-                            Status = "Loading";
+                            Status = VFlashStatus.Loading;
                             Result = LoadProject();
                             if (Result)
                             {
-                                Command = "";
+                                Command = VFlashCommand.NoCommand;
                                 Result = false;
-                                Status = "Loaded";
+                                Status = VFlashStatus.Loaded;
                                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Loaded succesfully");
                             }
                         }
                         break;
-                    case "Unload":
-                        if (new List<string>{"Loaded", "Fault occured!", "Flashed", "Aborted"}.Contains(Status))
+                    case VFlashCommand.Unload:
+                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted }.Contains(Status))
                         {
-                            Status = "Unloading";
+                            Status = VFlashStatus.Unloading;
                             Result = UnloadProject();
                             if (Result)
                             {
-                                Command = "";
+                                Command = VFlashCommand.NoCommand;
                                 Result = false;
-                                Status = "Unloaded";
+                                Status = VFlashStatus.Unloaded;
                                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Unloaded succesfully");
                             }
                         }
                         break;
-                    case "Start":
-                        if (new List<string>{"Loaded", "Fault occured!", "Flashed", "Aborted"}.Contains(Status))
+                    case VFlashCommand.Start:
+                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted }.Contains(Status))
                         {
-                            Status = "Flashing";
+                            Status = VFlashStatus.Flashing;
                             Result = StartFlashing();
                             if (Result)
                             {
-                                Command = "";
+                                Command = VFlashCommand.NoCommand;
                                 Result = false;
-                                Status = "Flashing";
+                                Status = VFlashStatus.Flashing;
                             }
                         }
                         break;
-                    case "Abort":
-                        if (new List<string>{"Flashing"}.Contains(Status))
+                    case VFlashCommand.Abort:
+                        if (new List<VFlashStatus> { VFlashStatus.Flashing }.Contains(Status))
                         {
-                            Status = "Aborting";
+                            Status = VFlashStatus.Aborting;
                             Result = AbortFlashing();
                             if (Result)
                             {
-                                Command = "";
+                                Command = VFlashCommand.NoCommand;
                                 Result = false;
-                                Status = "Aborted";
+                                Status = VFlashStatus.Aborted;
                                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Aborted");
                             }
                         }

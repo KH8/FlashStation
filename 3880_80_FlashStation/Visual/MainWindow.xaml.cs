@@ -253,7 +253,7 @@ namespace _3880_80_FlashStation.Visual
             {
                 case "VFlash1FlashButton":
                     var channel = _vFlash.ReturnChannelSetup(1);
-                    if (channel.Status == "Flashing")
+                    if (channel.Status == VFlashStationComponent.VFlashStatus.Flashing)
                     {
                         try
                         {
@@ -265,7 +265,7 @@ namespace _3880_80_FlashStation.Visual
                             MessageBox.Show(exception.Message, "Flash Abort Failed");
                         }
                     }
-                    if (channel.Status != "Flashing")
+                    if (channel.Status != VFlashStationComponent.VFlashStatus.Flashing)
                     {
                         try
                         {
@@ -525,49 +525,49 @@ namespace _3880_80_FlashStation.Visual
             if (channel == null) { return; }
             switch (channel.Status)
             {
-                case "Created":
+                case VFlashStationComponent.VFlashStatus.Created:
                     status = "Channel created";
                     colourBrush = Brushes.Black;
                     break;
-                case "Loading":
+                case VFlashStationComponent.VFlashStatus.Loading:
                     status = "Loading ...";
                     colourBrush = Brushes.Black;
                     break;
-                case "Loaded":
+                case VFlashStationComponent.VFlashStatus.Loaded:
                     status = "Project was loaded succesfully";
                     colourBrush = Brushes.Green;
                     VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
                     VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
                     break;
-                case "Unloading":
+                case VFlashStationComponent.VFlashStatus.Unloading:
                     status = "Unloading ...";
                     colourBrush = Brushes.Black;
                     break;
-                case "Unloaded":
+                case VFlashStationComponent.VFlashStatus.Unloaded:
                     status = "Project was unloaded succesfully";
                     colourBrush = Brushes.Green;
                     VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = true; })));
                     VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
                     break;
-                case "Flashing":
+                case VFlashStationComponent.VFlashStatus.Flashing:
                     status = "Flashing ...";
                     colourBrush = Brushes.Black;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
                     break;
-                case "Aborting":
+                case VFlashStationComponent.VFlashStatus.Aborting:
                     status = "Flash Aborting ...";
                     colourBrush = Brushes.Red;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
                     break;
-                case "Flashed":
+                case VFlashStationComponent.VFlashStatus.Flashed:
                     status = "Flashing succeed";
                     colourBrush = Brushes.Green;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
                     break;
                 default:
-                    status = channel.Status;
+                    status = channel.Status.ToString();
                     colourBrush = Brushes.Red;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
                     break;
