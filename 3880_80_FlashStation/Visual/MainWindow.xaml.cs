@@ -361,8 +361,8 @@ namespace _3880_80_FlashStation.Visual
                 
                 try
                 {
-                    CommunicationInterfaceBuilder.InitializeInterface("readInterface");
-                    CommunicationInterfaceBuilder.InitializeInterface("writeInterface");
+                    CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.ReadInterface);
+                    CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.WriteInterface);
                 }
                 catch (Exception)
                 {

@@ -5,7 +5,7 @@ namespace _3880_80_FlashStation.DataAquisition
 {
     static class CommunicationInterfaceBuilder
     {
-        public static CommunicationInterfaceComposite InitializeInterface(string type)
+        public static CommunicationInterfaceComposite InitializeInterface(CommunicationInterfaceComponent.InterfaceType type)
         {
             bool readAreaFound = false;
             bool writeAreaFound = false;
@@ -13,15 +13,16 @@ namespace _3880_80_FlashStation.DataAquisition
             int readStartAddress = -1;
             int writeStartAddress = -1;
 
-            var interfaceComposite = new CommunicationInterfaceComposite(type);
+            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
             var reader = new StreamReader(CommunicationInterfacePath.Default.Path);
 
             string line;
             string[] words;
+            var variableType = CommunicationInterfaceComponent.VariableType.NoType;
 
             switch (type)
             {
-                case "readInterface":
+                case CommunicationInterfaceComponent.InterfaceType.ReadInterface:
                     while (true)
                     {
                         line = reader.ReadLine();
@@ -34,19 +35,19 @@ namespace _3880_80_FlashStation.DataAquisition
                             switch (words[2])
                             {
                                 case "INT":
-                                    words[2] = "Integer";
+                                    variableType = CommunicationInterfaceComponent.VariableType.Integer;
                                     break;
                                 case "REAL":
-                                    words[2] = "Real";
+                                    variableType = CommunicationInterfaceComponent.VariableType.Real;
                                     break;
                             }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - readStartAddress, words[2]));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - readStartAddress, variableType));
                         }
                         if (words[0] == "#READ") readAreaFound = true;
                     }
                     if (!readAreaFound) { throw new Exception("Read Area not found"); }
                     break;
-                case "writeInterface":
+                case CommunicationInterfaceComponent.InterfaceType.WriteInterface:
                     while (true)
                     {
                         line = reader.ReadLine();
@@ -56,17 +57,16 @@ namespace _3880_80_FlashStation.DataAquisition
                         if (writeAreaFound)
                         {
                             if (writeStartAddress == -1) writeStartAddress = Convert.ToUInt16(words[0]);
-                            if (words[2] == "INT") words[2] = "Integer";
                             switch (words[2])
                             {
                                 case "INT":
-                                    words[2] = "Integer";
+                                    variableType = CommunicationInterfaceComponent.VariableType.Integer;
                                     break;
                                 case "REAL":
-                                    words[2] = "Real";
+                                    variableType = CommunicationInterfaceComponent.VariableType.Real;
                                     break;
                             }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - writeStartAddress, words[2]));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - writeStartAddress, variableType));
                         }
                         if (words[0] == "#WRITE") writeAreaFound = true;
                     }

@@ -31,27 +31,27 @@ namespace _3880_80_FlashStation.Output
             {
                 switch (variable.Type)
                 {
-                    case "BitArray":
+                    case CommunicationInterfaceComponent.VariableType.BitArray:
                         var variableCastedBitArray = (CiBitArray) variable;
                         list.Add(variableCastedBitArray.Pos + ";" + variableCastedBitArray.Name + ";" + variableCastedBitArray.Type + ";" +
                                  variableCastedBitArray.Value);
                         break;
-                    case "Integer":
+                    case CommunicationInterfaceComponent.VariableType.Integer:
                         var variableCastedInteger = (CiInteger) variable;
                         list.Add(variableCastedInteger.Pos + ";" + variableCastedInteger.Name + ";" + variableCastedInteger.Type + ";" +
                                  variableCastedInteger.Value);
                         break;
-                    case "DoubleInteger":
+                    case CommunicationInterfaceComponent.VariableType.DoubleInteger:
                         var variableCastedDoubleInteger = (CiDoubleInteger) variable;
                         list.Add(variableCastedDoubleInteger.Pos + ";" + variableCastedDoubleInteger.Name + ";" + variableCastedDoubleInteger.Type + ";" +
                                  variableCastedDoubleInteger.Value);
                         break;
-                    case "Real":
+                    case CommunicationInterfaceComponent.VariableType.Real:
                         var variableCastedReal = (CiReal) variable;
                         list.Add(variableCastedReal.Pos + ";" + variableCastedReal.Name + ";" + variableCastedReal.Type + ";" +
                                  variableCastedReal.Value);
                         break;
-                    case "String":
+                    case CommunicationInterfaceComponent.VariableType.String:
                         var variableCastedString = (CiString) variable;
                         list.Add(variableCastedString.Pos + ";" + variableCastedString.Name + ";" + variableCastedString.Type + ";" +
                                  variableCastedString.Value);

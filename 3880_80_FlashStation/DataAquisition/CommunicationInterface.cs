@@ -10,13 +10,29 @@ namespace _3880_80_FlashStation.DataAquisition
     {
         private readonly string _name;
         private readonly int _pos;
-        private readonly string _type;
+        private readonly VariableType _type;
 
-        protected CommunicationInterfaceComponent(string name, int pos, string type)
+        protected CommunicationInterfaceComponent(string name, int pos, VariableType type)
         {
             _name = name;
             _pos = pos;
             _type = type;
+        }
+
+        public enum VariableType
+        {
+            BitArray,
+            Integer,
+            DoubleInteger,
+            Real,
+            String,
+            NoType
+        }
+
+        public enum InterfaceType
+        {
+            ReadInterface,
+            WriteInterface,
         }
 
         public string Name
@@ -29,7 +45,7 @@ namespace _3880_80_FlashStation.DataAquisition
             get { return _pos; }
         }
 
-        public string Type
+        public VariableType Type
         {
             get { return _type; }
         }
@@ -54,7 +70,8 @@ namespace _3880_80_FlashStation.DataAquisition
         }
 
         // Constructor
-        public CommunicationInterfaceComposite(string name) : base(name, 0, "Composite")
+        public CommunicationInterfaceComposite(string name)
+            : base(name, 0, VariableType.NoType)
         {
         }
 
@@ -178,7 +195,7 @@ namespace _3880_80_FlashStation.DataAquisition
     public abstract class CommunicationInterfaceVariable : CommunicationInterfaceComponent
     {
         // Constructor
-        protected CommunicationInterfaceVariable(string name, int pos, string type)
+        protected CommunicationInterfaceVariable(string name, int pos, VariableType type)
             : base(name, pos, type)
         {
         }
@@ -204,7 +221,7 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiBitArray(string name, int pos, string type, BitArray value)
+        public CiBitArray(string name, int pos, VariableType type, BitArray value)
             : base(name, pos, type)
         {
             _value = value;
@@ -231,7 +248,7 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiInteger(string name, int pos, string type, Int16 value)
+        public CiInteger(string name, int pos, VariableType type, Int16 value)
             : base(name, pos, type)
         {
             _value = value;
@@ -258,7 +275,7 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiDoubleInteger(string name, int pos, string type, Int32 value)
+        public CiDoubleInteger(string name, int pos, VariableType type, Int32 value)
             : base(name, pos, type)
         {
             _value = value;
@@ -285,7 +302,7 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _value = value; }
         }
 
-        public CiReal(string name, int pos, string type, float value)
+        public CiReal(string name, int pos, VariableType type, float value)
             : base(name, pos, type)
         {
             _value = value;
@@ -319,7 +336,7 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _length = value; }
         }
 
-        public CiString(string name, int pos, string type, string value, int length)
+        public CiString(string name, int pos, VariableType type, string value, int length)
             : base(name, pos, type)
         {
             _value = value;

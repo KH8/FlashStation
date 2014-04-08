@@ -17,15 +17,15 @@ namespace _3880_80_FlashStation.Visual
                 {
                     switch (inputComponent.Type)
                     {
-                        case "BitArray": DisplayComponent(onlineReadDataListBox, inputComponent as CiBitArray, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.BitArray: DisplayComponent(onlineReadDataListBox, inputComponent as CiBitArray, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
-                        case "Integer": DisplayComponent(onlineReadDataListBox, inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Integer: DisplayComponent(onlineReadDataListBox, inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
-                        case "DoubleInteger": DisplayComponent(onlineReadDataListBox, inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.DoubleInteger: DisplayComponent(onlineReadDataListBox, inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
-                        case "Real": DisplayComponent(onlineReadDataListBox, inputComponent as CiReal, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Real: DisplayComponent(onlineReadDataListBox, inputComponent as CiReal, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
-                        case "String": DisplayComponent(onlineReadDataListBox, inputComponent as CiString, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.String: DisplayComponent(onlineReadDataListBox, inputComponent as CiString, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
                     }
                 }
@@ -38,15 +38,15 @@ namespace _3880_80_FlashStation.Visual
                 {
                     switch (inputComponent.Type)
                     {
-                        case "BitArray": DisplayComponent(onlineWriteDataListBox, inputComponent as CiBitArray, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.BitArray: DisplayComponent(onlineWriteDataListBox, inputComponent as CiBitArray, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
-                        case "Integer": DisplayComponent(onlineWriteDataListBox, inputComponent as CiInteger, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Integer: DisplayComponent(onlineWriteDataListBox, inputComponent as CiInteger, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
-                        case "DoubleInteger": DisplayComponent(onlineWriteDataListBox, inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.DoubleInteger: DisplayComponent(onlineWriteDataListBox, inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
-                        case "Real": DisplayComponent(onlineWriteDataListBox, inputComponent as CiReal, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Real: DisplayComponent(onlineWriteDataListBox, inputComponent as CiReal, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
-                        case "String": DisplayComponent(onlineWriteDataListBox, inputComponent as CiString, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.String: DisplayComponent(onlineWriteDataListBox, inputComponent as CiString, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
                     }
                 }

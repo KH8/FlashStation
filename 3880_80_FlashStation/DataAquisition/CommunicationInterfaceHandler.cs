@@ -21,8 +21,8 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void Initialize()
         {
-            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface("readInterface");
-            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface("writeInterface");
+            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.ReadInterface);
+            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.WriteInterface);
         }
 
         public void MaintainConnection(PlcCommunicator communication)
