@@ -41,7 +41,7 @@ namespace _3880_80_FlashStation.DataAquisition
                                     variableType = CommunicationInterfaceComponent.VariableType.Real;
                                     break;
                             }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - readStartAddress, variableType));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - readStartAddress, 0, variableType));
                         }
                         if (words[0] == "#READ") readAreaFound = true;
                     }
@@ -66,7 +66,7 @@ namespace _3880_80_FlashStation.DataAquisition
                                     variableType = CommunicationInterfaceComponent.VariableType.Real;
                                     break;
                             }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - writeStartAddress, variableType));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - writeStartAddress, 0, variableType));
                         }
                         if (words[0] == "#WRITE") writeAreaFound = true;
                     }

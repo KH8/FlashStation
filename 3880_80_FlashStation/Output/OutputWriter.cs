@@ -31,6 +31,9 @@ namespace _3880_80_FlashStation.Output
             {
                 switch (variable.Type)
                 {
+                    case CommunicationInterfaceComponent.VariableType.SingleBit:
+                        //todo:
+                        break;
                     case CommunicationInterfaceComponent.VariableType.BitArray:
                         var variableCastedBitArray = (CiBitArray) variable;
                         list.Add(variableCastedBitArray.Pos + ";" + variableCastedBitArray.Name + ";" + variableCastedBitArray.Type + ";" +
