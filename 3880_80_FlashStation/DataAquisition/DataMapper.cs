@@ -15,6 +15,12 @@ namespace _3880_80_FlashStation.DataAquisition
             return new BitArray(new int[] { BitConverter.ToUInt16(valByte1, pos) });
         }
 
+        public static Boolean ReadSingleBit(byte[] valByte, int pos, int bitpos)
+        {
+            var bitArray = Read16Bits(valByte, pos);
+            return bitArray[bitpos];
+        }
+
         public static Int16 ReadInteger(byte[] valByte, int pos)
         {
             var valByte1 = new byte[2];
@@ -57,6 +63,13 @@ namespace _3880_80_FlashStation.DataAquisition
             valBitArray.CopyTo(valByte1, 0);
             valByte[pos + 0] = valByte1[0];
             valByte[pos + 1] = valByte1[1];
+        }
+
+        public static void WriteSingleBit(byte[] valByte, int pos, int bitpos, Boolean value)
+        {
+            var bitArray = Read16Bits(valByte, pos);
+            bitArray[bitpos] = value;
+            Write16Bits(valByte, pos, bitArray);
         }
 
         public static void WriteInteger(byte[] valByte, int pos, Int16 valInteger)

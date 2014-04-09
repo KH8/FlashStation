@@ -21,6 +21,7 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public enum VariableType
         {
+            SingleBit,
             BitArray,
             Integer,
             DoubleInteger,
@@ -235,6 +236,41 @@ namespace _3880_80_FlashStation.DataAquisition
         public override void WriteValue(byte[] valByte)
         {
             DataMapper.Write16Bits(valByte, Pos, _value);
+        }
+    }
+
+    public class CiSingleBit : CommunicationInterfaceVariable
+    {
+        private Boolean _value;
+        private int _bitPosition;
+
+        public Boolean Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public int BitPosition
+        {
+            get { return _bitPosition; }
+            set { _bitPosition = value; }
+        }
+
+        public CiSingleBit(string name, int pos, int bitPos, VariableType type, Boolean value)
+            : base(name, pos, type)
+        {
+            _value = value;
+            _bitPosition = bitPos;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.ReadSingleBit(valByte, Pos, _bitPosition);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.WriteSingleBit(valByte, Pos, _bitPosition, _value);
         }
     }
 

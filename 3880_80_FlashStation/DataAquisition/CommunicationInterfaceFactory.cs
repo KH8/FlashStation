@@ -20,7 +20,18 @@ namespace _3880_80_FlashStation.DataAquisition
                 case CommunicationInterfaceComponent.VariableType.String:
                     return new CiString(name, pos, type, "", 0);
                 default:
-                    throw new FactoryException("Cannot remove from a single variable");
+                    throw new FactoryException("Cannot create a variable");
+            }
+        }
+
+        public static CommunicationInterfaceVariable CreateVariable(string name, int pos, int posBit, CommunicationInterfaceComponent.VariableType type)
+        {
+            switch (type)
+            {
+                case CommunicationInterfaceComponent.VariableType.BitArray:
+                    return new CiSingleBit(name, pos, posBit, type, false);
+                default:
+                    throw new FactoryException("Cannot create a variable");
             }
         }
 

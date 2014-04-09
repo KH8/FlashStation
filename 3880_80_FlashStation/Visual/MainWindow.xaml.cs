@@ -41,7 +41,7 @@ namespace _3880_80_FlashStation.Visual
 
             InitializeInterface();
             InitializePlcCommunication();
-            //InitializeVFlash();
+            InitializeVFlash();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -122,6 +122,7 @@ namespace _3880_80_FlashStation.Visual
 
         #endregion
 
+        #region Thread Methods
 
         private void StatusHandler()
         {
@@ -132,7 +133,7 @@ namespace _3880_80_FlashStation.Visual
                     ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
-                    //VFlashDisplayHandler(_vFlash);
+                    VFlashDisplayHandler(_vFlash);
                 }
                 Thread.Sleep(21);
             }
@@ -150,20 +151,13 @@ namespace _3880_80_FlashStation.Visual
             }
         }
 
-        private void StoreSettings()
-        {
-            _guiPlcConfiguration.PlcConfigurationStatus = 1;
-            PlcConfigurationFile.Default.Configuration = _guiPlcConfiguration;
-            PlcConfigurationFile.Default.Save();
-            _plcConfiguration.UpdateConfiguration(PlcConfigurationFile.Default.Configuration);
-            _plcCommunication.SetupConnection(_plcConfiguration);
-        }
+        #endregion
 
         #region Buttons
 
         private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
         {
-            //_vFlash.Deinitialize();
+            _vFlash.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
@@ -178,20 +172,18 @@ namespace _3880_80_FlashStation.Visual
         {
             try
             {
-                if (_plcCommunication != null)
+                if (_plcCommunication == null) return;
+                if (_plcCommunication.ConnectionStatus != 1)
                 {
-                    if (_plcCommunication.ConnectionStatus != 1)
-                    {
-                        _plcCommunication.OpenConnection();
-                        ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
-                        Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
-                    }
-                    else
-                    {
-                        _plcCommunication.CloseConnection();
-                        ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
-                        Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
-                    } 
+                    _plcCommunication.OpenConnection();
+                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+                    Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
+                }
+                else
+                {
+                    _plcCommunication.CloseConnection();
+                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
+                    Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                 }
             }
             catch (Exception exception)
@@ -200,6 +192,15 @@ namespace _3880_80_FlashStation.Visual
                 if (_plcCommunication != null)
                     Logger.Log("Connection trial with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " failed");
             }
+        }
+
+        private void StoreSettings()
+        {
+            _guiPlcConfiguration.PlcConfigurationStatus = 1;
+            PlcConfigurationFile.Default.Configuration = _guiPlcConfiguration;
+            PlcConfigurationFile.Default.Save();
+            _plcConfiguration.UpdateConfiguration(PlcConfigurationFile.Default.Configuration);
+            _plcCommunication.SetupConnection(_plcConfiguration);
         }
 
         private void LoadVFlashProject(object sender, RoutedEventArgs e)
