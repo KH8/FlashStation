@@ -7,6 +7,11 @@ namespace _3880_80_FlashStation.DataAquisition
     {
         #region Methods
 
+        public static Byte Read8Bits(byte[] valByte, int pos)
+        {
+            return valByte[pos + 0];
+        }
+
         public static BitArray Read16Bits(byte[] valByte, int pos)
         {
             var valByte1 = new byte[2];
@@ -55,6 +60,11 @@ namespace _3880_80_FlashStation.DataAquisition
             for (int i = 0; i < stringLength; i++)
                 valChar[i] = Convert.ToChar(valByte[pos + i]);
             return new string(valChar);
+        }
+
+        public static void Write8Bits(byte[] valByte, int pos, Byte valByteSource)
+        {
+            valByte[pos + 0] = valByteSource;
         }
 
         public static void Write16Bits(byte[] valByte, int pos, BitArray valBitArray)

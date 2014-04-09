@@ -18,7 +18,6 @@ namespace _3880_80_FlashStation.DataAquisition
 
             string line;
             string[] words;
-            var variableType = CommunicationInterfaceComponent.VariableType.NoType;
 
             switch (type)
             {
@@ -32,16 +31,7 @@ namespace _3880_80_FlashStation.DataAquisition
                         if (readAreaFound)
                         {
                             if (readStartAddress == -1) readStartAddress = Convert.ToUInt16(words[0]);
-                            switch (words[2])
-                            {
-                                case "INT":
-                                    variableType = CommunicationInterfaceComponent.VariableType.Integer;
-                                    break;
-                                case "REAL":
-                                    variableType = CommunicationInterfaceComponent.VariableType.Real;
-                                    break;
-                            }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - readStartAddress, 0, variableType));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[2], Convert.ToUInt16(words[0]) - readStartAddress, 0, StringToVariableType(words[3])));
                         }
                         if (words[0] == "#READ") readAreaFound = true;
                     }
@@ -57,16 +47,7 @@ namespace _3880_80_FlashStation.DataAquisition
                         if (writeAreaFound)
                         {
                             if (writeStartAddress == -1) writeStartAddress = Convert.ToUInt16(words[0]);
-                            switch (words[2])
-                            {
-                                case "INT":
-                                    variableType = CommunicationInterfaceComponent.VariableType.Integer;
-                                    break;
-                                case "REAL":
-                                    variableType = CommunicationInterfaceComponent.VariableType.Real;
-                                    break;
-                            }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[1], Convert.ToUInt16(words[0]) - writeStartAddress, 0, variableType));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[2], Convert.ToUInt16(words[0]) - writeStartAddress, 0, StringToVariableType(words[3])));
                         }
                         if (words[0] == "#WRITE") writeAreaFound = true;
                     }
@@ -75,6 +56,37 @@ namespace _3880_80_FlashStation.DataAquisition
                 default: throw new Exception("Error: Wrong interface type.");    
             }
             return interfaceComposite;
+        }
+
+        internal static CommunicationInterfaceComponent.VariableType StringToVariableType(string typeString)
+        {
+            var variableType = CommunicationInterfaceComponent.VariableType.Integer;
+            switch (typeString)
+            {
+                case "BOOL":
+                    variableType = CommunicationInterfaceComponent.VariableType.Bit;
+                    break;
+                case "BYTE":
+                    variableType = CommunicationInterfaceComponent.VariableType.Byte;
+                    break;
+                case "WORD":
+                    variableType = CommunicationInterfaceComponent.VariableType.Word;
+                    break;
+                case "INT":
+                    variableType = CommunicationInterfaceComponent.VariableType.Integer;
+                    break;
+                case "TIME":
+                    variableType = CommunicationInterfaceComponent.VariableType.Integer;
+                    break;
+                case "REAL":
+                    variableType = CommunicationInterfaceComponent.VariableType.Real;
+                    break;
+                case "STRING":
+                    variableType = CommunicationInterfaceComponent.VariableType.String;
+                    //todo:
+                    break;
+            }
+            return variableType;
         }
     }
 }

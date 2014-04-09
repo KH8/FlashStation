@@ -21,13 +21,14 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public enum VariableType
         {
-            SingleBit,
-            BitArray,
+            Bit,
+            Byte,
+            Word,
             Integer,
             DoubleInteger,
             Real,
             String,
-            NoType
+            Composite
         }
 
         public enum InterfaceType
@@ -72,7 +73,7 @@ namespace _3880_80_FlashStation.DataAquisition
 
         // Constructor
         public CommunicationInterfaceComposite(string name)
-            : base(name, 0, VariableType.NoType)
+            : base(name, 0, VariableType.Composite)
         {
         }
 
@@ -120,7 +121,7 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             foreach (var communicationInterfaceComponent in _children)
             {
-                var component = (CiBitArray) communicationInterfaceComponent;
+                var component = (CiWord) communicationInterfaceComponent;
                 if (component.Name == name)
                 {
                     component.Value = bitArrayValue;
@@ -212,34 +213,7 @@ namespace _3880_80_FlashStation.DataAquisition
         }
     }
 
-    public class CiBitArray : CommunicationInterfaceVariable
-    {
-        private BitArray _value;
-
-        public BitArray Value
-        {
-            get { return _value; }
-            set { _value = value; }
-        }
-
-        public CiBitArray(string name, int pos, VariableType type, BitArray value)
-            : base(name, pos, type)
-        {
-            _value = value;
-        }
-
-        public override void ReadValue(byte[] valByte)
-        {
-            _value = DataMapper.Read16Bits(valByte, Pos);
-        }
-
-        public override void WriteValue(byte[] valByte)
-        {
-            DataMapper.Write16Bits(valByte, Pos, _value);
-        }
-    }
-
-    public class CiSingleBit : CommunicationInterfaceVariable
+    public class CiBit : CommunicationInterfaceVariable
     {
         private Boolean _value;
         private int _bitPosition;
@@ -256,7 +230,7 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _bitPosition = value; }
         }
 
-        public CiSingleBit(string name, int pos, int bitPos, VariableType type, Boolean value)
+        public CiBit(string name, int pos, int bitPos, VariableType type, Boolean value)
             : base(name, pos, type)
         {
             _value = value;
@@ -271,6 +245,60 @@ namespace _3880_80_FlashStation.DataAquisition
         public override void WriteValue(byte[] valByte)
         {
             DataMapper.WriteSingleBit(valByte, Pos, _bitPosition, _value);
+        }
+    }
+
+    public class CiByte : CommunicationInterfaceVariable
+    {
+        private Byte _value;
+
+        public Byte Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public CiByte(string name, int pos, VariableType type, Byte value)
+            : base(name, pos, type)
+        {
+            _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.Read8Bits(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.Write8Bits(valByte, Pos, _value);
+        }
+    }
+
+    public class CiWord : CommunicationInterfaceVariable
+    {
+        private BitArray _value;
+
+        public BitArray Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public CiWord(string name, int pos, VariableType type, BitArray value)
+            : base(name, pos, type)
+        {
+            _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.Read16Bits(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.Write16Bits(valByte, Pos, _value);
         }
     }
 

@@ -17,9 +17,11 @@ namespace _3880_80_FlashStation.Visual
                 {
                     switch (inputComponent.Type)
                     {
-                        case CommunicationInterfaceComponent.VariableType.SingleBit: DisplayComponent(onlineReadDataListBox, inputComponent as CiSingleBit, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Bit: DisplayComponent(onlineReadDataListBox, inputComponent as CiBit, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
-                        case CommunicationInterfaceComponent.VariableType.BitArray: DisplayComponent(onlineReadDataListBox, inputComponent as CiBitArray, communication.PlcConfiguration.PlcReadStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Byte: DisplayComponent(onlineReadDataListBox, inputComponent as CiByte, communication.PlcConfiguration.PlcReadStartAddress);
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.Word: DisplayComponent(onlineReadDataListBox, inputComponent as CiWord, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
                         case CommunicationInterfaceComponent.VariableType.Integer: DisplayComponent(onlineReadDataListBox, inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress);
                             break;
@@ -40,9 +42,11 @@ namespace _3880_80_FlashStation.Visual
                 {
                     switch (inputComponent.Type)
                     {
-                        case CommunicationInterfaceComponent.VariableType.SingleBit: DisplayComponent(onlineWriteDataListBox, inputComponent as CiSingleBit, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Bit: DisplayComponent(onlineWriteDataListBox, inputComponent as CiBit, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
-                        case CommunicationInterfaceComponent.VariableType.BitArray: DisplayComponent(onlineWriteDataListBox, inputComponent as CiBitArray, communication.PlcConfiguration.PlcWriteStartAddress);
+                        case CommunicationInterfaceComponent.VariableType.Byte: DisplayComponent(onlineWriteDataListBox, inputComponent as CiByte, communication.PlcConfiguration.PlcWriteStartAddress);
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.Word: DisplayComponent(onlineWriteDataListBox, inputComponent as CiWord, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
                         case CommunicationInterfaceComponent.VariableType.Integer: DisplayComponent(onlineWriteDataListBox, inputComponent as CiInteger, communication.PlcConfiguration.PlcWriteStartAddress);
                             break;
@@ -57,13 +61,19 @@ namespace _3880_80_FlashStation.Visual
             })));
         }
 
-        private static void DisplayComponent(ListBox listBox, CiSingleBit component, int plcStartAddress)
+        private static void DisplayComponent(ListBox listBox, CiBit component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + "." + component.BitPosition + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
-        private static void DisplayComponent(ListBox listBox, CiBitArray component, int plcStartAddress)
+        private static void DisplayComponent(ListBox listBox, CiByte component, int plcStartAddress)
+        {
+            int address = plcStartAddress + component.Pos;
+            listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
+        }
+
+        private static void DisplayComponent(ListBox listBox, CiWord component, int plcStartAddress)
         {
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);

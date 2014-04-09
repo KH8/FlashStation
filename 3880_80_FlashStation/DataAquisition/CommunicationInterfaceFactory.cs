@@ -9,10 +9,12 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             switch (type)
             {
-                case CommunicationInterfaceComponent.VariableType.SingleBit:
-                    return new CiSingleBit(name, pos, posBit, type, false);
-                case CommunicationInterfaceComponent.VariableType.BitArray:
-                    return new CiBitArray(name, pos, type, new BitArray(2));
+                case CommunicationInterfaceComponent.VariableType.Bit:
+                    return new CiBit(name, pos, posBit, type, false);
+                case CommunicationInterfaceComponent.VariableType.Byte:
+                    return new CiWord(name, pos, type, new BitArray(1));
+                case CommunicationInterfaceComponent.VariableType.Word:
+                    return new CiWord(name, pos, type, new BitArray(2));
                 case CommunicationInterfaceComponent.VariableType.Integer:
                     return new CiInteger(name, pos, type, 0);
                 case CommunicationInterfaceComponent.VariableType.DoubleInteger:
