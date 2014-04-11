@@ -65,7 +65,7 @@
                         </Grid>
                     </GroupBox>
                     <Button Content="Use Settings" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="StoreSettings"/>
-                    <Button IsEnabled="False" Content="Load File" HorizontalAlignment="Right" Height="25" Margin="0,211,339,0" VerticalAlignment="Top" Width="100" Click="LoadSettingFile"/>
+                    <Button IsEnabled="True" Content="Load File" HorizontalAlignment="Right" Height="25" Margin="0,211,339,0" VerticalAlignment="Top" Width="100" Click="LoadSettingFile"/>
                     <GroupBox Header="Interface Configuration" HorizontalAlignment="Center" Height="58" VerticalAlignment="Top" Width="334" Margin="0,148,339,0">
                         <Grid>
                             <Label Content="Configuration File:" HorizontalAlignment="Left" Height="25" Margin="31,5,0,0" VerticalAlignment="Top" Width="112"/>
@@ -76,8 +76,26 @@
             </TabItem>
             <TabItem Header="Online Communication">
                 <Grid Background="#FFFFFFFF">
-                    <ListBox Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335"/>
-                    <ListBox Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335"/>
+                    <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335" ItemsSource="{Binding ReadInterfaceCollection}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="40" Header="Addr." DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Width="180" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="40" Header="Type" DisplayMemberBinding="{Binding Type}" />
+                                <GridViewColumn Width="60" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335" ItemsSource="{Binding WriteInterfaceCollection}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="40" Header="Addr." DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Width="180" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="40" Header="Type" DisplayMemberBinding="{Binding Type}" />
+                                <GridViewColumn Width="60" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">

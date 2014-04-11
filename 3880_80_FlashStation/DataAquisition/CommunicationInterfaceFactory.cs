@@ -12,7 +12,7 @@ namespace _3880_80_FlashStation.DataAquisition
                 case CommunicationInterfaceComponent.VariableType.Bit:
                     return new CiBit(name, pos, posBit, type, false);
                 case CommunicationInterfaceComponent.VariableType.Byte:
-                    return new CiWord(name, pos, type, new BitArray(1));
+                    return new CiByte(name, pos, type, 0);
                 case CommunicationInterfaceComponent.VariableType.Word:
                     return new CiWord(name, pos, type, new BitArray(2));
                 case CommunicationInterfaceComponent.VariableType.Integer:

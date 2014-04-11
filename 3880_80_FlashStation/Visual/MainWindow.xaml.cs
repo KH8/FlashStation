@@ -89,10 +89,7 @@ namespace _3880_80_FlashStation.Visual
             _guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
             UpdateSettings();
 
-            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1)
-            {
-                StoreSettings();
-            }
+            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
         }
 
         internal void InitializeVFlash()
@@ -510,10 +507,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void OnlineDataDisplayHandler(PlcCommunicator communication)
         {
-            if (communication.ConnectionStatus == 1)
-            {
-                DataDisplay.Display(OnlineReadDataListBox,OnlineWriteDataListBox,communication,_communicationHandler);
-            }
+            //DataDisplay.Display(OnlineReadDataListBox, OnlineWriteDataListBox, communication, _communicationHandler);
         }
 
         private void VFlashDisplayHandler(VFlashHandler vector)

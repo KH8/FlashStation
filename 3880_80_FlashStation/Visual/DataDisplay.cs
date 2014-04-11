@@ -7,6 +7,14 @@ namespace _3880_80_FlashStation.Visual
 {
     public class DataDisplay
     {
+        public class DisplayData
+        {
+            public string Address { get; set; }
+            public string Name { get; set; }
+            public string Type { get; set; }
+            public string Value { get; set; }
+        }
+
         public static void Display(ListBox onlineReadDataListBox, ListBox onlineWriteDataListBox, PlcCommunicator communication, CommunicationInterfaceHandler communicationHandler)
         {
             onlineReadDataListBox.Dispatcher.BeginInvoke((new Action(delegate
@@ -63,42 +71,49 @@ namespace _3880_80_FlashStation.Visual
 
         private static void DisplayComponent(ListBox listBox, CiBit component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + "." + component.BitPosition + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiByte component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiWord component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiInteger component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiDoubleInteger component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBW " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiReal component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DBD " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
 
         private static void DisplayComponent(ListBox listBox, CiString component, int plcStartAddress)
         {
+            if (component == null) return;
             int address = plcStartAddress + component.Pos;
             listBox.Items.Add("DB " + address + " : " + component.Name + " : " + component.Type + " : " + component.Value);
         }
