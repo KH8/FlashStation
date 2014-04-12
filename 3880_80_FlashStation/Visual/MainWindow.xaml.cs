@@ -54,9 +54,9 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            //InitializeInterface();
-            //InitializePlcCommunication();
-            //InitializeVFlash();
+            InitializeInterface();
+            InitializePlcCommunication();
+            InitializeVFlash();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -78,8 +78,12 @@ namespace _3880_80_FlashStation.Visual
             {
                 string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
                 InterfacePathBox.Text = words[words.Length - 1];
-                _communicationHandler.Initialize();
-                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
+                try {_communicationHandler.Initialize(); }
+                catch (Exception)
+                {
+                    CommunicationInterfacePath.Default.ConfigurationStatus = 0;
+                    CommunicationInterfacePath.Default.Save();
+                }
             }
             else
             {
