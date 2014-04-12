@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -34,14 +35,28 @@ namespace _3880_80_FlashStation.Visual
 
         private FaultReport _windowReport;
 
+        ObservableCollection<DataDisplay.DisplayData> _readInterfaceCollection =
+        new ObservableCollection<DataDisplay.DisplayData>();
+
+        public ObservableCollection<DataDisplay.DisplayData> ReadInterfaceCollection
+        { get { return _readInterfaceCollection; } }
+
         public MainWindow()
         {
+            _readInterfaceCollection.Add(new DataDisplay.DisplayData
+            {
+                Address = "aAddress",
+                Name = "aName",
+                Type = "aType",
+                Value = "aValue"
+            });
+
             InitializeComponent();
             Logger.Log("Program Started");
 
-            InitializeInterface();
-            InitializePlcCommunication();
-            InitializeVFlash();
+            //InitializeInterface();
+            //InitializePlcCommunication();
+            //InitializeVFlash();
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
