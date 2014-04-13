@@ -35,14 +35,18 @@ namespace _3880_80_FlashStation.Visual
 
         private FaultReport _windowReport;
 
-        private ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-        private ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
+        private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
+        private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
+        private readonly ObservableCollection<VFlashProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashProjectData>();
 
         public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection
         { get { return _readInterfaceCollection; } }
 
         public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection
         { get { return _writeInterfaceCollection; } }
+
+        public ObservableCollection<VFlashProjectData> VFlashProjectCollection
+        { get { return _vFlashProjectCollection; } }
 
         public MainWindow()
         {
@@ -78,6 +82,9 @@ namespace _3880_80_FlashStation.Visual
                 {
                     CommunicationInterfacePath.Default.ConfigurationStatus = 0;
                     CommunicationInterfacePath.Default.Save();
+                    MessageBox.Show("Interface initialization failed,\nRestart application", "Initialization Failed");
+                    Logger.Log("PLC Communication interface initialization failed");
+                    Environment.Exit(0);
                 }
             }
             else
@@ -87,16 +94,21 @@ namespace _3880_80_FlashStation.Visual
                 CommunicationInterfacePath.Default.Save();
                 string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
                 InterfacePathBox.Text = words[words.Length - 1];
-                _communicationHandler.Initialize();
+                try { _communicationHandler.Initialize(); }
+                catch (Exception)
+                {
+                    CommunicationInterfacePath.Default.ConfigurationStatus = 0;
+                    CommunicationInterfacePath.Default.Save();
+                    MessageBox.Show("Interface initialization failed,\nRestart application", "Initialization Failed");
+                    Logger.Log("PLC Communication interface initialization failed");
+                    Environment.Exit(0);
+                }
                 Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
             }
         }
 
         internal void InitializePlcCommunication()
         {
-            //OnlineReadDataListBox.Items.Add("Read area: ");
-            //OnlineWriteDataListBox.Items.Add("Write area: ");
-
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
 
@@ -127,7 +139,11 @@ namespace _3880_80_FlashStation.Visual
             VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlash.VFlashTypeBank);
             foreach (var type in _vFlash.VFlashTypeBank.Children.Cast<VFlashTypeComponent>())
             {
-                VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path);
+                _vFlashProjectCollection.Add(new VFlashProjectData
+                {
+                    Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                    Project = type.Path
+                });
             }
         }
 
@@ -325,11 +341,15 @@ namespace _3880_80_FlashStation.Visual
                 VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlash.VFlashTypeBank.Children);
                 VFlashTypeBankFile.Default.Save();
 
-                VFlashBankListBox.Items.Clear();
+                _vFlashProjectCollection.Clear();
                 foreach (var vFlashType in _vFlash.VFlashTypeBank.Children)
                 {
                     var type = (VFlashTypeComponent) vFlashType;
-                    VFlashBankListBox.Items.Add("Type: " + type.Type + " : " + "File: " + type.Path);
+                    _vFlashProjectCollection.Add(new VFlashProjectData
+                    {
+                        Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                        Project = type.Path
+                    });
                 }
             }
         }

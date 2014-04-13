@@ -123,7 +123,14 @@
             </TabItem>
             <TabItem Name="VFlashProjectsTab" Header="VFlash Projects" IsEnabled="False">
                 <Grid Background="#FFFFFFFF">
-                    <ListBox Name="VFlashBankListBox" HorizontalAlignment="Left" Height="206" Margin="0,0,0,37" VerticalAlignment="Center" Width="673"/>
+                    <ListView Name="VFlashBankListBox" HorizontalAlignment="Left" Height="206" Margin="0,0,0,37" VerticalAlignment="Center" Width="673" ItemsSource="{Binding VFlashProjectCollection}" Foreground="Black">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="60" Header="Type" DisplayMemberBinding="{Binding Type}" />
+                                <GridViewColumn Width="600" Header="Project File" DisplayMemberBinding="{Binding Project}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                     <Button Content="Create Type" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="TypeCreation"/>
                     <Label Content="Type Number:" HorizontalAlignment="Left" Height="25" Margin="430,213,0,0" VerticalAlignment="Top" Width="95"/>
                     <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="525,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>

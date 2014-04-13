@@ -5,6 +5,12 @@ using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.Vector
 {
+    public class VFlashProjectData
+    {
+        public string Type { get; set; }
+        public string Project { get; set; }
+    }
+
     public abstract class VFlashType
     {
         private uint _type;
