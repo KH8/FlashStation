@@ -37,7 +37,7 @@ namespace _3880_80_FlashStation.Visual
 
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-        private readonly ObservableCollection<VFlashProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashProjectData>();
+        private readonly ObservableCollection<VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashDisplayProjectData>();
 
         public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection
         { get { return _readInterfaceCollection; } }
@@ -45,7 +45,7 @@ namespace _3880_80_FlashStation.Visual
         public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection
         { get { return _writeInterfaceCollection; } }
 
-        public ObservableCollection<VFlashProjectData> VFlashProjectCollection
+        public ObservableCollection<VFlashDisplayProjectData> VFlashProjectCollection
         { get { return _vFlashProjectCollection; } }
 
         public MainWindow()
@@ -139,10 +139,10 @@ namespace _3880_80_FlashStation.Visual
             VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlash.VFlashTypeBank);
             foreach (var type in _vFlash.VFlashTypeBank.Children.Cast<VFlashTypeComponent>())
             {
-                _vFlashProjectCollection.Add(new VFlashProjectData
+                _vFlashProjectCollection.Add(new VFlashDisplayProjectData
                 {
                     Type = type.Type.ToString(CultureInfo.InvariantCulture),
-                    Project = type.Path
+                    Path = type.Path
                 });
             }
         }
@@ -234,7 +234,7 @@ namespace _3880_80_FlashStation.Visual
         {
             var loadButton = (Button) sender;
             // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Project (.vflashpack)|*.vflashpack" };
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
             // Set filter for file extension and default file extension
             // Display OpenFileDialog by calling ShowDialog method
             bool? result = dlg.ShowDialog();
@@ -248,9 +248,9 @@ namespace _3880_80_FlashStation.Visual
                         {
                             _vFlash.SetProjectPath(1, dlg.FileName);
                             _vFlash.LoadProject(1);
-                            Logger.Log("Project load requested by the operator");
+                            Logger.Log("Path load requested by the operator");
                         }
-                        catch (Exception exception) { MessageBox.Show(exception.Message, "Project Loading Failed"); }
+                        catch (Exception exception) { MessageBox.Show(exception.Message, "Path Loading Failed"); }
                         break;
                         //todo: implement for the others
                 }
@@ -266,9 +266,9 @@ namespace _3880_80_FlashStation.Visual
                     try
                     {
                         _vFlash.UnloadProject(1);
-                        Logger.Log("Project unload requested by the operator");
+                        Logger.Log("Path unload requested by the operator");
                     }
-                    catch (Exception exception) { MessageBox.Show(exception.Message, "Project Unloading Failed"); }
+                    catch (Exception exception) { MessageBox.Show(exception.Message, "Path Unloading Failed"); }
                     break;
                 //todo: implement for the others
             }
@@ -298,11 +298,11 @@ namespace _3880_80_FlashStation.Visual
                         try
                         {
                             _vFlash.StartFlashing(1);
-                            Logger.Log("Project start requested by the operator");
+                            Logger.Log("Path start requested by the operator");
                         }
                         catch (Exception exception)
                         {
-                            MessageBox.Show(exception.Message, "Project Flashing Failed");
+                            MessageBox.Show(exception.Message, "Path Flashing Failed");
                         }
                     }
                     break;
@@ -329,7 +329,7 @@ namespace _3880_80_FlashStation.Visual
         private void TypeCreation(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Project (.vflashpack)|*.vflashpack" };
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
             // Set filter for file extension and default file extension
             // Display OpenFileDialog by calling ShowDialog method
             bool? result = dlg.ShowDialog();
@@ -345,10 +345,10 @@ namespace _3880_80_FlashStation.Visual
                 foreach (var vFlashType in _vFlash.VFlashTypeBank.Children)
                 {
                     var type = (VFlashTypeComponent) vFlashType;
-                    _vFlashProjectCollection.Add(new VFlashProjectData
+                    _vFlashProjectCollection.Add(new VFlashDisplayProjectData
                     {
                         Type = type.Type.ToString(CultureInfo.InvariantCulture),
-                        Project = type.Path
+                        Path = type.Path
                     });
                 }
             }
@@ -563,7 +563,7 @@ namespace _3880_80_FlashStation.Visual
                     colourBrush = Brushes.Black;
                     break;
                 case VFlashStationComponent.VFlashStatus.Loaded:
-                    status = "Project was loaded succesfully";
+                    status = "Path was loaded succesfully";
                     colourBrush = Brushes.Green;
                     VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
                     VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
@@ -574,7 +574,7 @@ namespace _3880_80_FlashStation.Visual
                     colourBrush = Brushes.Black;
                     break;
                 case VFlashStationComponent.VFlashStatus.Unloaded:
-                    status = "Project was unloaded succesfully";
+                    status = "Path was unloaded succesfully";
                     colourBrush = Brushes.Green;
                     VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = true; })));
                     VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));

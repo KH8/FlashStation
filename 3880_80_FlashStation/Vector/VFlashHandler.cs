@@ -149,7 +149,7 @@ namespace _3880_80_FlashStation.Vector
                         case 200:
                             if (caseAuxiliary != 200)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Project load requested from PLC");
+                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path load requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
                             }
                             if (_outputComposite != null)
@@ -162,7 +162,7 @@ namespace _3880_80_FlashStation.Vector
                         case 300:
                             if (caseAuxiliary != 300)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Project unload requested from PLC");
+                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path unload requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
                             }
                             if (_outputComposite != null)
