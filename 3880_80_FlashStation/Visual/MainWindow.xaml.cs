@@ -390,12 +390,8 @@ namespace _3880_80_FlashStation.Visual
             if (result == true)
             {
                 CommunicationInterfacePath.Default.Path = dlg.FileName;
-                
-                try
-                {
-                    CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.ReadInterface);
-                    CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.WriteInterface);
-                }
+
+                try { _communicationHandler.Initialize(); }
                 catch (Exception)
                 {
                     MessageBox.Show("Input file cannot be used", "Error");
