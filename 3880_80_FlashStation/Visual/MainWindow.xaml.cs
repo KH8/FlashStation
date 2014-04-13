@@ -35,22 +35,20 @@ namespace _3880_80_FlashStation.Visual
 
         private FaultReport _windowReport;
 
-        ObservableCollection<DataDisplay.DisplayData> _readInterfaceCollection =
-        new ObservableCollection<DataDisplay.DisplayData>();
+        ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection =
+        new ObservableCollection<DataDisplayer.DisplayData>();
 
-        public ObservableCollection<DataDisplay.DisplayData> ReadInterfaceCollection
+        ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection =
+        new ObservableCollection<DataDisplayer.DisplayData>();
+
+        public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection
         { get { return _readInterfaceCollection; } }
+
+        public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection
+        { get { return _writeInterfaceCollection; } }
 
         public MainWindow()
         {
-            _readInterfaceCollection.Add(new DataDisplay.DisplayData
-            {
-                Address = "aAddress",
-                Name = "aName",
-                Type = "aType",
-                Value = "aValue"
-            });
-
             InitializeComponent();
             Logger.Log("Program Started");
 
@@ -67,6 +65,8 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
+
+            DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationHandler);
         }
 
         #region Init Methods
@@ -99,8 +99,8 @@ namespace _3880_80_FlashStation.Visual
 
         internal void InitializePlcCommunication()
         {
-            OnlineReadDataListBox.Items.Add("Read area: ");
-            OnlineWriteDataListBox.Items.Add("Write area: ");
+            //OnlineReadDataListBox.Items.Add("Read area: ");
+            //OnlineWriteDataListBox.Items.Add("Write area: ");
 
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
@@ -526,7 +526,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void OnlineDataDisplayHandler(PlcCommunicator communication)
         {
-            //DataDisplay.Display(OnlineReadDataListBox, OnlineWriteDataListBox, communication, _communicationHandler);
+            //DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, communication, _communicationHandler);
         }
 
         private void VFlashDisplayHandler(VFlashHandler vector)

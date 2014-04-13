@@ -268,11 +268,11 @@
       <HashCode>CAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="_3880_80_FlashStation.Visual.DataDisplay" Collapsed="true">
+  <Class Name="_3880_80_FlashStation.Visual.DataDisplayer" Collapsed="true">
     <Position X="26.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Visual\DataDisplay.cs</FileName>
+      <FileName>Visual\DataDisplayer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Visual.FaultReport" Collapsed="true">
@@ -285,7 +285,7 @@
   <Class Name="_3880_80_FlashStation.Visual.MainWindow" Collapsed="true">
     <Position X="24.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>GAAAkgCIQQFQAAABgAAA0gAEAACaAoAoDAiMEQAAAjA=</HashCode>
+      <HashCode>GAAAkgCIQQFQAAABgAAA0gAEAACaAoAoDAiMESAAAjA=</HashCode>
       <FileName>Visual\MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>

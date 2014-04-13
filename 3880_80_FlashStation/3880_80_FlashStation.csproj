@@ -124,7 +124,7 @@
     <Compile Include="Vector\VFlashStation.cs" />
     <Compile Include="Vector\VFlashTypeBank.cs" />
     <Compile Include="Vector\VFlashTypeBankFile.Designer.cs" />
-    <Compile Include="Visual\DataDisplay.cs" />
+    <Compile Include="Visual\DataDisplayer.cs" />
     <Compile Include="Visual\FaultReport.xaml.cs">
       <DependentUpon>FaultReport.xaml</DependentUpon>
     </Compile>
