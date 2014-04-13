@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.PLC;
 
@@ -17,37 +18,39 @@ namespace _3880_80_FlashStation.Visual
 
         public static void Display(ObservableCollection<DisplayData> onlineReadDataCollection, ObservableCollection<DisplayData> onlineWriteDataCollection, PlcCommunicator communication, CommunicationInterfaceHandler communicationHandler)
         {
-            onlineReadDataCollection.Clear();
-            onlineReadDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcReadDbNumber, Name = "-", Type = "-", Value="-"});
-            foreach (CommunicationInterfaceComponent inputComponent in communicationHandler.ReadInterfaceComposite.Children)
+            Application.Current.Dispatcher.Invoke(delegate
             {
-                switch (inputComponent.Type)
+                onlineReadDataCollection.Clear();
+                onlineReadDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcReadDbNumber, Name = "-", Type = "-", Value="-"});
+                foreach (CommunicationInterfaceComponent inputComponent in communicationHandler.ReadInterfaceComposite.Children)
                 {
-                    case CommunicationInterfaceComponent.VariableType.Bit: 
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiBit, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Byte: 
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiByte, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Word:
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiWord, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Integer:
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.DoubleInteger:
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Real:
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiReal, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.String:
-                        onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiString, communication.PlcConfiguration.PlcReadStartAddress));
-                        break;
+                    switch (inputComponent.Type)
+                    {
+                        case CommunicationInterfaceComponent.VariableType.Bit: 
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiBit, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.Byte: 
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiByte, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.Word:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiWord, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.Integer:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.DoubleInteger:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.Real:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiReal, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.String:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiString, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                    }
                 }
-            }
-            onlineWriteDataCollection.Clear();
-            onlineWriteDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcWriteDbNumber, Name = "-", Type = "-", Value = "-" });
+                onlineWriteDataCollection.Clear();
+                onlineWriteDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcWriteDbNumber, Name = "-", Type = "-", Value = "-" });
                 foreach (CommunicationInterfaceComponent inputComponent in communicationHandler.WriteInterfaceComposite.Children)
                 {
                     switch (inputComponent.Type)
@@ -75,6 +78,7 @@ namespace _3880_80_FlashStation.Visual
                             break;
                     }
                 }
+            });
         }
 
         private static DisplayData DisplayComponent(CiBit component, int plcStartAddress)

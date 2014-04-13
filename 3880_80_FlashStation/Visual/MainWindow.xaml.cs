@@ -35,11 +35,8 @@ namespace _3880_80_FlashStation.Visual
 
         private FaultReport _windowReport;
 
-        ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection =
-        new ObservableCollection<DataDisplayer.DisplayData>();
-
-        ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection =
-        new ObservableCollection<DataDisplayer.DisplayData>();
+        private ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
+        private ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
 
         public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection
         { get { return _readInterfaceCollection; } }
@@ -65,8 +62,6 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
-
-            DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationHandler);
         }
 
         #region Init Methods
@@ -526,7 +521,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void OnlineDataDisplayHandler(PlcCommunicator communication)
         {
-            //DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, communication, _communicationHandler);
+            DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, communication, _communicationHandler);
         }
 
         private void VFlashDisplayHandler(VFlashHandler vector)
