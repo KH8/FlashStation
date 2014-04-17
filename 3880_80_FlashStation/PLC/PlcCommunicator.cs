@@ -185,9 +185,11 @@ namespace _3880_80_FlashStation.PLC
                 if (_connectionStatus == 1)
                 {
                     // Reading...
-                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytes);         
+                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytes);   
+                    //todo buffer
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytes);
+                    //todo buffer
                 }
                 Thread.Sleep(100);
             }

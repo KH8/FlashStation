@@ -139,7 +139,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_3880_80_FlashStation.Output.OutputXmlWriter" Collapsed="true">
-    <Position X="9.5" Y="5.75" Width="1.5" />
+    <Position X="9.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Output\OutputWriter.cs</FileName>
@@ -208,6 +208,13 @@
   </Class>
   <Class Name="_3880_80_FlashStation.Vector.VFlashHandler" Collapsed="true">
     <Position X="27.25" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="_3880_80_FlashStation.Vector.VFlashHandler.FlashHandlerException" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Vector\VFlashHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AICIAQBAAAEAgAAABAIAAAIAEAUAAABYEAIhAAAAAAA=</HashCode>
       <FileName>Vector\VFlashHandler.cs</FileName>

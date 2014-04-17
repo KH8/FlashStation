@@ -356,6 +356,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void CreateOutput(object sender, RoutedEventArgs e)
         {
+            OutputWriter outputWriter = null;
             var selection = OutputTypeComboBox.SelectedValue;
             if (selection == null) 
             { 
@@ -365,18 +366,17 @@ namespace _3880_80_FlashStation.Visual
             switch (selection.ToString())
             {
                 case "System.Windows.Controls.ComboBoxItem: *.xml":
-                    var xmlWriter = new OutputXmlWriter();
-                    xmlWriter.CreateOutput("out", xmlWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
+                    outputWriter = new OutputXmlWriter();
                     break;
                 case "System.Windows.Controls.ComboBoxItem: *.csv":
-                    var csvWriter = new OutputCsvWriter();
-                    csvWriter.CreateOutput("out", csvWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
+                    outputWriter = new OutputCsvWriter();
                     break;
                 case "System.Windows.Controls.ComboBoxItem: *.xls":
-                    var xlsWriter = new OutputXlsWriter();
-                    xlsWriter.CreateOutput("out", xlsWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
+                    outputWriter = new OutputXlsWriter();
                     break;
             }
+            if (outputWriter != null)
+                outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
         }
 
         private void LoadSettingFile(object sender, RoutedEventArgs e)
