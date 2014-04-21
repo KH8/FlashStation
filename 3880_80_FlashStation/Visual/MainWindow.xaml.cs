@@ -484,6 +484,13 @@ namespace _3880_80_FlashStation.Visual
             LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
         }
 
+        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = (ListView)sender;
+            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
+            if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
+        }
+
         #endregion
 
         #region Auxiliaries
@@ -646,6 +653,5 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
-
     }
 }
