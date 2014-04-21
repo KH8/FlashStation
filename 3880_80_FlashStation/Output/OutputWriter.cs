@@ -99,7 +99,7 @@ namespace _3880_80_FlashStation.Output
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
-            Logger.Log("*.xml output file created");
+            Logger.Log(fileName + " output file created");
         }
     }
 
@@ -124,7 +124,7 @@ namespace _3880_80_FlashStation.Output
                 }
                 streamWriter.Close();
             }
-            Logger.Log("*.csv output file created");
+            Logger.Log(fileName + " output file created");
         }
     }
 
