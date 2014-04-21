@@ -142,6 +142,8 @@ namespace _3880_80_FlashStation.Vector
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
                                 SetProjectPath(1, VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
+                                if (_outputComposite != null)
+                                    _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", inputCompositeProgrammTyp.Value);
                             }
                             if (_outputComposite != null) antwort = 100;
                             caseAuxiliary = 100;
