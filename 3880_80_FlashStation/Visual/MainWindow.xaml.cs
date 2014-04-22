@@ -358,7 +358,6 @@ namespace _3880_80_FlashStation.Visual
         {
             OutputWriter outputWriter = null;
             var selection = OutputTypeComboBox.SelectedValue;
-            OutputWriter outputWriter = null;
             if (selection == null) 
             { 
                 MessageBox.Show("No file type selected!", "Error");
