@@ -197,9 +197,9 @@ namespace _3880_80_FlashStation.Visual
 
         private void ConnectDisconnect(object sender, RoutedEventArgs e)
         {
+            if (_plcCommunication == null) return;
             try
             {
-                if (_plcCommunication == null) return;
                 if (_plcCommunication.ConnectionStatus != 1)
                 {
                     _plcCommunication.OpenConnection();
@@ -358,6 +358,7 @@ namespace _3880_80_FlashStation.Visual
         {
             OutputWriter outputWriter = null;
             var selection = OutputTypeComboBox.SelectedValue;
+            OutputWriter outputWriter = null;
             if (selection == null) 
             { 
                 MessageBox.Show("No file type selected!", "Error");
@@ -482,6 +483,13 @@ namespace _3880_80_FlashStation.Visual
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
+        }
+
+        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = (ListView)sender;
+            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
+            if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
         }
 
         #endregion
@@ -646,6 +654,5 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
-
     }
 }

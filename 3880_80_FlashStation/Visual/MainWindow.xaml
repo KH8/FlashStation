@@ -32,7 +32,7 @@
                             <Label Name="ActWriteLengthLabel" Content="512" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,158,0,0" VerticalAlignment="Top" Width="85"/>
                         </Grid>
                     </GroupBox>
-                    <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Center" Height="25" Margin="0,212,0,0" VerticalAlignment="Top" Width="100" Click="ConnectDisconnect"/>
+                    <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Center" Height="25" Margin="0,212,0,0" VerticalAlignment="Top" Width="100" Click="ConnectDisconnect" ClickMode="Release"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration">
@@ -109,9 +109,9 @@
                             <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
                             <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="472" Margin="0,43,90,0" FontSize="10" Foreground="Red" Height="25"/>
                             <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,72,1,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged"/>
-                            <Button Name="VFlash1LoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject"/>
-                            <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject"/>
-                            <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject" FontWeight="Bold"/>
+                            <Button Name="VFlash1LoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject" ClickMode="Release"/>
+                            <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject" ClickMode="Release"/>
+                            <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"  ClickMode="Release" FontWeight="Bold"/>
                             <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
                             <Label x:Name="VFlash1TimeLabel" Content="Remaining: 0 sec." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="-1,26,1,0" FontSize="10" Foreground="Black" Height="25"/>
                         </Grid>
@@ -123,7 +123,7 @@
             </TabItem>
             <TabItem Name="VFlashProjectsTab" Header="VFlash Paths" IsEnabled="False">
                 <Grid Background="#FFFFFFFF">
-                    <ListView Name="VFlashBankListBox" HorizontalAlignment="Left" Height="206" Margin="0,0,0,37" VerticalAlignment="Center" Width="673" ItemsSource="{Binding VFlashProjectCollection}" Foreground="Black">
+                    <ListView Name="VFlashBankListBox" HorizontalAlignment="Left" Height="206" Margin="0,0,0,37" VerticalAlignment="Center" Width="673" ItemsSource="{Binding VFlashProjectCollection}" Foreground="Black" SelectionChanged="VFlashProjectbankListViewSelection">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="60" Header="Type" DisplayMemberBinding="{Binding Type}" />
@@ -132,8 +132,8 @@
                         </ListView.View>
                     </ListView>
                     <Button Content="Create Type" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="TypeCreation"/>
-                    <Label Content="Type Number:" HorizontalAlignment="Left" Height="25" Margin="430,213,0,0" VerticalAlignment="Top" Width="95"/>
-                    <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="525,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
+                    <Label Content="Type Number:" HorizontalAlignment="Left" Height="31" Margin="430,213,0,-1" VerticalAlignment="Top" Width="94"/>
+                    <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="524,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Output">
@@ -145,7 +145,7 @@
                             <ComboBoxItem Name="Csv">*.csv</ComboBoxItem>
                             <ComboBoxItem Name="Xls">*.xls</ComboBoxItem>
                         </ComboBox>
-                        <Button Content="CreateOutput" HorizontalAlignment="Right" Height="25" Margin="0,40,6,0" VerticalAlignment="Top" Width="100" Click="CreateOutput"/>
+                        <Button Content="CreateOutput" HorizontalAlignment="Right" Height="25" Margin="0,40,6,0" VerticalAlignment="Top" Width="100" Click="CreateOutput" ClickMode="Release"/>
                     </Grid>
                 </GroupBox>
             </TabItem>
