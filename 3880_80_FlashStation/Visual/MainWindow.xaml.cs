@@ -475,7 +475,7 @@ namespace _3880_80_FlashStation.Visual
         private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
         {
             var box = (CheckBox)sender;
-            _vFlash.PcControlMode = true;
+            _vFlash.PcControlMode = !_vFlash.PcControlMode;
             box.IsChecked = _vFlash.PcControlMode;
         }
 
