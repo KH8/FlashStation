@@ -83,7 +83,7 @@ namespace _3880_80_FlashStation.Vector
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
 
             if (_outputComposite != null)
-                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", -1);
+                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
         }
 
         public void StartFlashing(uint chanId)
@@ -108,7 +108,7 @@ namespace _3880_80_FlashStation.Vector
             Logger.Log("VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
 
             if (_outputComposite != null)
-                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", -1);
+                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
         }
 
         public VFlashChannel ReturnChannelSetup(uint chanId)
@@ -147,13 +147,19 @@ namespace _3880_80_FlashStation.Vector
                             if (caseAuxiliary != 100)
                             {
                                 Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
-                                try { SetProjectPath(1, VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value))); }
-                                catch (Exception) { ReportError(channelFound.ChannelId, channelFound.ProjectHandle, "Project Type was not found"); }
-                            }
-                            if (_outputComposite != null)
-                            {
-                                antwort = 100;
-                                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", inputCompositeProgrammTyp.Value);
+                                var returnedPath = VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
+                                if (returnedPath != null)
+                                {
+                                    SetProjectPath(1, VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
+                                    if (_outputComposite != null) _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", inputCompositeProgrammTyp.Value);
+                                    antwort = 100;
+                                }
+                                else
+                                {
+                                    Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested failed");
+                                    if (_outputComposite != null) _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+                                    antwort = 999;
+                                }
                             }
                             caseAuxiliary = 100;
                             break;
@@ -180,7 +186,7 @@ namespace _3880_80_FlashStation.Vector
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded)
                                 {
-                                    _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", -1);
+                                    _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
                                     antwort = 300;
                                 }
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -215,6 +221,7 @@ namespace _3880_80_FlashStation.Vector
                             break;
                         default:
                             antwort = 0;
+                            caseAuxiliary = 0;
                             break;
                     }
 
