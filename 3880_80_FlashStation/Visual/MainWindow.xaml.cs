@@ -116,6 +116,11 @@ namespace _3880_80_FlashStation.Visual
             UpdateSettings();
 
             if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
+
+            StartUpConnectionControlBox.IsChecked = PlcStartUpConnection.Default.ConnectAtStartUp;
+            if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
+            ConnectDisconnect(null, new RoutedEventArgs());
+            Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");
         }
 
         internal void InitializeVFlash()
@@ -477,6 +482,7 @@ namespace _3880_80_FlashStation.Visual
             var box = (CheckBox)sender;
             _vFlash.PcControlMode = !_vFlash.PcControlMode;
             box.IsChecked = _vFlash.PcControlMode;
+            Logger.Log("VFlash: PC Control mode changed to " + _vFlash.PcControlMode);
         }
 
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
@@ -507,6 +513,12 @@ namespace _3880_80_FlashStation.Visual
             ActWriteDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteDbNumberLabel.Content = configuration.PlcWriteDbNumber; })));
             ActWriteStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteStartAddressLabel.Content = configuration.PlcWriteStartAddress; })));
             ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = configuration.PlcWriteLength; })));
+            StartUpConnectionControlBox.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                if (StartUpConnectionControlBox.IsChecked != null)
+                    PlcStartUpConnection.Default.ConnectAtStartUp = (bool)StartUpConnectionControlBox.IsChecked;
+                PlcStartUpConnection.Default.Save();
+            })));
         }
 
         private void StatusBarHandler(PlcCommunicator communication)

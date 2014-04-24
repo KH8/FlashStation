@@ -33,6 +33,7 @@
                         </Grid>
                     </GroupBox>
                     <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Center" Height="25" Margin="0,212,0,0" VerticalAlignment="Top" Width="100" Click="ConnectDisconnect" ClickMode="Release"/>
+                    <CheckBox x:Name="StartUpConnectionControlBox" Content="Connect at Start Up" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,223,5,0" Width="134" FlowDirection="RightToLeft"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration">
@@ -108,7 +109,7 @@
                             <Label Name="VFlash1ProjectPathLabel" Content="Channel is not activated" HorizontalAlignment="Left" VerticalAlignment="Top" Width="548" Height="22" Margin="112,2,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
                             <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
                             <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="472" Margin="0,43,90,0" FontSize="10" Foreground="Red" Height="25"/>
-                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,72,1,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
+                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,80,5,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
                             <Button Name="VFlash1LoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject" ClickMode="Release"/>
                             <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject" ClickMode="Release"/>
                             <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"  ClickMode="Release" FontWeight="Bold"/>

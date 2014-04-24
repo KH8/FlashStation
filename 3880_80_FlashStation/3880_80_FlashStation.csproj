@@ -79,6 +79,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <None Include="Configuration\PlcStartUpConnection.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>PlcStartUpConnection.Designer.cs</LastGenOutput>
+    </None>
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
@@ -106,6 +110,11 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>PlcConfigurationFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\PlcStartUpConnection.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>PlcStartUpConnection.settings</DependentUpon>
     </Compile>
     <Compile Include="DataAquisition\CommunicationInterface.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceBuilder.cs" />
