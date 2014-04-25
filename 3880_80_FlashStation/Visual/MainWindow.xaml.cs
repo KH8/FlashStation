@@ -645,7 +645,11 @@ namespace _3880_80_FlashStation.Visual
                         VFlashChannel1StatusLabel.Foreground = colourBrush;
                     })));
                     VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining: " + channel.RemainingTimeInSecs + "sec"; })));
-                    VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate { VFlash1ProgressBar.Value = channel.ProgressPercentage; })));
+                    VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate
+                    {
+                        VFlash1ProgressBar.Foreground = Brushes.MidnightBlue;
+                        VFlash1ProgressBar.Value = channel.ProgressPercentage;
+                    })));
                     break;
             }
         }

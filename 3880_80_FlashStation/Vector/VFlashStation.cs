@@ -257,7 +257,7 @@ namespace _3880_80_FlashStation.Vector
         protected override bool LoadProject()
         {
             long projectHandle;
-            VFlashStationResult resLoad = VFlashStationAPI.LoadProjectForChannel(FlashProjectPath, ChannelId, out projectHandle);
+            var resLoad = VFlashStationAPI.LoadProjectForChannel(FlashProjectPath, ChannelId, out projectHandle);
 
             if (resLoad != VFlashStationResult.Success)
             {
@@ -274,7 +274,7 @@ namespace _3880_80_FlashStation.Vector
         {
             if (ProjectHandle != -1)
             {
-                VFlashStationResult resUnload = VFlashStationAPI.UnloadProject(ProjectHandle);
+                var resUnload = VFlashStationAPI.UnloadProject(ProjectHandle);
                 if (resUnload != VFlashStationResult.Success)
                 {
                     string errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
@@ -289,7 +289,7 @@ namespace _3880_80_FlashStation.Vector
         {
             if (ProjectHandle != -1)
             {
-                VFlashStationResult res = VFlashStationAPI.Start(ProjectHandle, UpdateProgress, UpdateStatus);
+                var res = VFlashStationAPI.Start(ProjectHandle, UpdateProgress, UpdateStatus);
                 if (res != VFlashStationResult.Success)
                 {
                     string errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
@@ -301,10 +301,10 @@ namespace _3880_80_FlashStation.Vector
 
         public override bool AbortFlashing()
         {
-            bool errorOccurredButContinued = false;
+            var errorOccurredButContinued = false;
             if (ProjectHandle != -1)
             {
-                VFlashStationResult res = VFlashStationAPI.Stop(ProjectHandle);
+                var res = VFlashStationAPI.Stop(ProjectHandle);
                 if (res != VFlashStationResult.Success)
                 {
                     string errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
@@ -380,7 +380,7 @@ namespace _3880_80_FlashStation.Vector
                             {
                                 Command = VFlashCommand.NoCommand;
                                 Result = false;
-                                Status = VFlashStatus.Flashing;
+                                Status = VFlashStatus.Flashed;
                             }
                         }
                         break;
