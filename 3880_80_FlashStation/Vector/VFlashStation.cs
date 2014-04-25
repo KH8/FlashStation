@@ -319,6 +319,7 @@ namespace _3880_80_FlashStation.Vector
         {
             if (status == VFlashStationStatus.Success)
             {
+                Status = VFlashStatus.Flashed;
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
             }
             else
@@ -380,7 +381,7 @@ namespace _3880_80_FlashStation.Vector
                             {
                                 Command = VFlashCommand.NoCommand;
                                 Result = false;
-                                Status = VFlashStatus.Flashed;
+                                Status = VFlashStatus.Flashing;
                             }
                         }
                         break;
