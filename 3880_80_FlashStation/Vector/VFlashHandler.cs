@@ -284,7 +284,7 @@ namespace _3880_80_FlashStation.Vector
                     _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
                 }
-                Thread.Sleep(50);
+                Thread.Sleep(200);
             }
         }
 

@@ -102,7 +102,7 @@
             </TabItem>
             <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">
                 <Grid Background="#FFFFFFFF">
-                    <GroupBox Header="Channel 1 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673">
+                    <GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673">
                         <Grid>
                             <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="598" Foreground="{x:Null}" UseLayoutRounding="False"/>
                             <Label Content="Actual Path Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112"/>
@@ -114,10 +114,10 @@
                             <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject" ClickMode="Release"/>
                             <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"  ClickMode="Release" FontWeight="Bold"/>
                             <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
-                            <Label x:Name="VFlash1TimeLabel" Content="Remaining: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,26,4,0" FontSize="10" Foreground="Black" Height="25"/>
+                            <Label x:Name="VFlash1TimeLabel" Content="Remaining time: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,26,4,0" FontSize="10" Foreground="Black" Height="25"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Channel 2 Configuration" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673" Margin="0,120,0,0">
+                    <GroupBox Header="Channel 2" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673" Margin="0,120,0,0">
                         <Grid/>
                     </GroupBox>
                 </Grid>

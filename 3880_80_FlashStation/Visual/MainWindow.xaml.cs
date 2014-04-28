@@ -681,7 +681,7 @@ namespace _3880_80_FlashStation.Visual
                         VFlashChannel1StatusLabel.Foreground = colourBrush;
                     })));
                     var remainingTimeInMinutes = new TimeSpan(0, 0, 0, (int)channel.RemainingTimeInSecs);
-                    VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining: " + remainingTimeInMinutes; })));
+                    VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining time: " + remainingTimeInMinutes; })));
                     VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate
                     {
                         VFlash1ProgressBar.Foreground = Brushes.MidnightBlue;
