@@ -320,6 +320,7 @@ namespace _3880_80_FlashStation.Vector
             if (status == VFlashStationStatus.Success)
             {
                 Status = VFlashStatus.Flashed;
+                _progressPercentage = 0;
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
             }
             else
