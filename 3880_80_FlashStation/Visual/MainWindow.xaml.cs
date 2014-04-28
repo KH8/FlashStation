@@ -12,8 +12,8 @@ using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
-using _3880_80_FlashStation.Resources.Vector;
 using _3880_80_FlashStation.Vector;
+using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
 {
@@ -53,9 +53,36 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            InitializeInterface();
-            InitializePlcCommunication();
-            InitializeVFlash();
+            try
+            {
+                InitializeInterface();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Initialization Failed");
+                Logger.Log("Program Closed");
+                Environment.Exit(0);
+            }
+            try
+            {
+                InitializePlcCommunication();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Initialization Failed");
+                Logger.Log("Program Closed");
+                Environment.Exit(0);
+            }
+            try
+            {
+                InitializeVFlash();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Initialization Failed");
+                Logger.Log("Program Closed");
+                Environment.Exit(0);
+            }
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -72,6 +99,8 @@ namespace _3880_80_FlashStation.Visual
 
         internal void InitializeInterface()
         {
+            Logger.Log("Initialization of the interface");
+
             _communicationHandler = new CommunicationInterfaceHandler();
             if (CommunicationInterfacePath.Default.ConfigurationStatus == 1)
             {
@@ -92,7 +121,7 @@ namespace _3880_80_FlashStation.Visual
                 CommunicationInterfacePath.Default.Path = "DataAquisition\\DB1000.csv";
                 CommunicationInterfacePath.Default.ConfigurationStatus = 1;
                 CommunicationInterfacePath.Default.Save();
-                string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
+                var words = CommunicationInterfacePath.Default.Path.Split('\\');
                 InterfacePathBox.Text = words[words.Length - 1];
                 try { _communicationHandler.Initialize(); }
                 catch (Exception)
@@ -105,10 +134,13 @@ namespace _3880_80_FlashStation.Visual
                 }
                 Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
             }
+            Logger.Log("Interface Initialized");
         }
 
         internal void InitializePlcCommunication()
         {
+            Logger.Log("Initialization of PLC communication");
+
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
 
@@ -116,6 +148,7 @@ namespace _3880_80_FlashStation.Visual
             UpdateSettings();
 
             if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
+            Logger.Log("PLC communication initialized");
 
             StartUpConnectionControlBox.IsChecked = PlcStartUpConnection.Default.ConnectAtStartUp;
             if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
@@ -125,6 +158,8 @@ namespace _3880_80_FlashStation.Visual
 
         internal void InitializeVFlash()
         {
+            Logger.Log("Initialization of the vFlash");
+
             VFlashTab.IsEnabled = true;
             VFlashProjectsTab.IsEnabled = true;
             VFlash1UnloadButton.IsEnabled = false;
@@ -150,6 +185,7 @@ namespace _3880_80_FlashStation.Visual
                     Path = type.Path
                 });
             }
+            Logger.Log("vFlash Initialized");
         }
 
         #endregion

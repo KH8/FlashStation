@@ -208,13 +208,6 @@
   </Class>
   <Class Name="_3880_80_FlashStation.Vector.VFlashHandler" Collapsed="true">
     <Position X="27.25" Y="3.5" Width="1.5" />
-    <NestedTypes>
-      <Class Name="_3880_80_FlashStation.Vector.VFlashHandler.FlashHandlerException" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Vector\VFlashHandler.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AICIAQBAAAEAgAAABAIAAAIAEAUAAABYEAIhAAAAAAA=</HashCode>
       <FileName>Vector\VFlashHandler.cs</FileName>
@@ -276,12 +269,6 @@
       <FileName>Vector\VFlashTypeBank.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_3880_80_FlashStation.Resources.Vector.VFlashTypeBankFile" Collapsed="true">
-    <Position X="29" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
   <Class Name="_3880_80_FlashStation.Visual.DataDisplayer" Collapsed="true">
     <Position X="25.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
@@ -299,7 +286,7 @@
   <Class Name="_3880_80_FlashStation.Visual.MainWindow" Collapsed="true">
     <Position X="23.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>GAAIkgCIQQFQAAABgCAA0gAEAACaAsAoDAiMESAAAjA=</HashCode>
+      <HashCode>GAAIkgCIQQFQAAABgCAA0gAEAACaAsAoDAiMMSAAAjA=</HashCode>
       <FileName>Visual\MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>

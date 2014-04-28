@@ -8,12 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _3880_80_FlashStation.Resources.Vector {
+namespace _3880_80_FlashStation.Vector {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    public sealed partial class VFlashTypeBankFile : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class VFlashTypeBankFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static VFlashTypeBankFile defaultInstance = ((VFlashTypeBankFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new VFlashTypeBankFile())));
         
