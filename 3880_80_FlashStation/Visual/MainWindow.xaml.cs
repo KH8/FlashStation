@@ -29,6 +29,7 @@ namespace _3880_80_FlashStation.Visual
         private PlcConfigurator _plcConfiguration;
 
         private VFlashHandler _vFlash;
+        private int _vFlashButtonEnables = 101;
 
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private CommunicationInterfaceHandler _communicationHandler;
@@ -608,6 +609,7 @@ namespace _3880_80_FlashStation.Visual
                 case VFlashStationComponent.VFlashStatus.Created:
                     status = "Channel created";
                     colourBrush = Brushes.Black;
+                    _vFlashButtonEnables = 101;
                     break;
                 case VFlashStationComponent.VFlashStatus.Loading:
                     status = "Loading ...";
@@ -616,9 +618,7 @@ namespace _3880_80_FlashStation.Visual
                 case VFlashStationComponent.VFlashStatus.Loaded:
                     status = "Path was loaded succesfully";
                     colourBrush = Brushes.Green;
-                    VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
-                    VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
-                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
+                    _vFlashButtonEnables = 11;
                     break;
                 case VFlashStationComponent.VFlashStatus.Unloading:
                     status = "Unloading ...";
@@ -627,9 +627,7 @@ namespace _3880_80_FlashStation.Visual
                 case VFlashStationComponent.VFlashStatus.Unloaded:
                     status = "Path was unloaded succesfully";
                     colourBrush = Brushes.Green;
-                    VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = true; })));
-                    VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
-                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
+                    _vFlashButtonEnables = 101;
                     break;
                 case VFlashStationComponent.VFlashStatus.Flashing:
                     status = "Flashing ...";
@@ -645,12 +643,32 @@ namespace _3880_80_FlashStation.Visual
                     status = "Flashing succeed";
                     colourBrush = Brushes.Green;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
+                    _vFlashButtonEnables = 11;
                     break;
                 default:
                     status = channel.Status.ToString();
                     colourBrush = Brushes.Red;
                     VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
                     break;
+            }
+
+            if (_vFlashButtonEnables == 11)
+            {
+                VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
+                VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
+                VFlash1FlashButton.Dispatcher.BeginInvoke( (new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
+            }
+            if (_vFlashButtonEnables == 101)
+            {
+                VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = true; })));
+                VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
+                VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
+            }
+            if (!vector.PcControlMode)
+            {
+                VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
+                VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
+                VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
             }
 
             if (channel.FlashProjectPath != "")
