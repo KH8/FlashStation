@@ -457,61 +457,71 @@ namespace _3880_80_FlashStation.Visual
         private void IpAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox) sender;
-            _guiPlcConfiguration.PlcIpAddress = box.Text;
+            try { _guiPlcConfiguration.PlcIpAddress = box.Text; }
+            catch (Exception) { _guiPlcConfiguration.PlcIpAddress = "0"; }
         }
 
         private void PortBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcPortNumber = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcPortNumber = Convert.ToInt32(box.Text); ; }
+            catch (Exception) { _guiPlcConfiguration.PlcPortNumber = 0; }
         }
 
         private void RackBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcRackNumber = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcRackNumber = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcRackNumber = 0; }
         }
 
         private void SlotBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcSlotNumber = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcSlotNumber = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcSlotNumber = 0; }
         }
 
         private void ReadDbNumberBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcReadDbNumber = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcReadDbNumber = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcReadDbNumber = 0; }
         }
 
         private void ReadStartAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcReadStartAddress = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcReadStartAddress = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcReadStartAddress = 0; }
         }
 
         private void ReadLengthBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcReadLength = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcReadLength = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcReadLength = 0; }
         }
 
         private void WriteDbNumberBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcWriteDbNumber = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcWriteDbNumber = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcWriteDbNumber = 0; }
         }
 
         private void WriteStartAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcWriteStartAddress = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcWriteStartAddress = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcWriteStartAddress = 0; }
         }
 
         private void WriteLengthBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            _guiPlcConfiguration.PlcWriteLength = Convert.ToInt32(box.Text);
+            try { _guiPlcConfiguration.PlcWriteLength = Convert.ToInt32(box.Text); }
+            catch (Exception) { _guiPlcConfiguration.PlcWriteLength = 0; }
         }
 
         private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
@@ -534,6 +544,13 @@ namespace _3880_80_FlashStation.Visual
             if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
         }
 
+        private void StartUpConnectionControlBoxChanged(object sender, RoutedEventArgs e)
+        {
+            if (StartUpConnectionControlBox.IsChecked != null)
+                PlcStartUpConnection.Default.ConnectAtStartUp = (bool)StartUpConnectionControlBox.IsChecked;
+            PlcStartUpConnection.Default.Save();
+        }
+
         #endregion
 
         #region Auxiliaries
@@ -550,12 +567,6 @@ namespace _3880_80_FlashStation.Visual
             ActWriteDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteDbNumberLabel.Content = configuration.PlcWriteDbNumber; })));
             ActWriteStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteStartAddressLabel.Content = configuration.PlcWriteStartAddress; })));
             ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = configuration.PlcWriteLength; })));
-            StartUpConnectionControlBox.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                if (StartUpConnectionControlBox.IsChecked != null)
-                    PlcStartUpConnection.Default.ConnectAtStartUp = (bool)StartUpConnectionControlBox.IsChecked;
-                PlcStartUpConnection.Default.Save();
-            })));
         }
 
         private void StatusBarHandler(PlcCommunicator communication)
