@@ -166,11 +166,7 @@ namespace _3880_80_FlashStation.Visual
             VFlash1UnloadButton.IsEnabled = false;
             VFlash1FlashButton.IsEnabled = false;
             
-            try
-            {
-                _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite,
-                    _communicationHandler.WriteInterfaceComposite);
-            }
+            try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, 1); }
             catch (Exception)
             {
                 MessageBox.Show("VFlash initialization failed", "VFlash Failed");

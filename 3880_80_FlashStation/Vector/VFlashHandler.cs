@@ -46,14 +46,14 @@ namespace _3880_80_FlashStation.Vector
 
         #region Constructor
 
-        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
+        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite, uint channelNumber)
         {
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
 
             _vFlashErrorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, 0);
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", 1));
+            _vFlashStationController.Add(new VFlashChannel(ReportError, "", channelNumber));
             _vFlashStationController.Initialize();
 
             _vFlashTypeBank = new VFlashTypeBank();
