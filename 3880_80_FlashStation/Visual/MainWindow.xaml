@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="ST80 FlashStation" Height="366" Width="701"
-        Closing="CloseApp" ResizeMode="NoResize" Icon="/3880_80_FlashStation;component/teamtechnik.ico">
+        Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" ResizeMode="NoResize">
     <Grid Margin="0,0,0,-7">
         <TabControl HorizontalAlignment="Center" Height="275" VerticalAlignment="Top" Width="683" Margin="0,10,0,0" SelectionChanged="UpdateLog">
             <TabItem Header="Connection Status">
@@ -81,8 +81,8 @@
                     <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335" ItemsSource="{Binding ReadInterfaceCollection}" Foreground="Black">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="55" Header="Addr." DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Width="170" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="65" Header="Addr." DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Width="160" Header="Name" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Width="40" Header="Type" DisplayMemberBinding="{Binding Type}" />
                                 <GridViewColumn Width="60" Header="Value" DisplayMemberBinding="{Binding Value}" />
                             </GridView>
@@ -91,8 +91,8 @@
                     <ListView Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,1" VerticalAlignment="Center" Width="335" ItemsSource="{Binding WriteInterfaceCollection}" Foreground="Black">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="55" Header="Addr." DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Width="170" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="65" Header="Addr." DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Width="160" Header="Name" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Width="40" Header="Type" DisplayMemberBinding="{Binding Type}" />
                                 <GridViewColumn Width="60" Header="Value" DisplayMemberBinding="{Binding Value}" />
                             </GridView>
