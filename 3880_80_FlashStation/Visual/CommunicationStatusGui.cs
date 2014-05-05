@@ -16,8 +16,10 @@ namespace _3880_80_FlashStation.Visual
         public void Initialize(uint id, int xPosition, int yPosition, RoutedEventHandler connectionButtonClick, RoutedEventHandler connectionAtStartUpChecked)
         {
             Id = id;
+            XPosition = xPosition;
+            YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(xPosition,yPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 250);
+            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 250);
 
             var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 180, 0, HorizontalAlignment.Center,
                 VerticalAlignment.Top, 206, 314);

@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Visual\PlcConfigurationGui.cs" />
     <None Include="Configuration\PlcStartUpConnection.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PlcStartUpConnection.Designer.cs</LastGenOutput>
