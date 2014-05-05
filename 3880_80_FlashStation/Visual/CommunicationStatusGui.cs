@@ -1,0 +1,65 @@
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace _3880_80_FlashStation.Visual
+{
+    class CommunicationStatusGui : Gui
+    {
+        public Grid GeneralGrid;
+
+        public override void Initialize(uint id, int xPosition, int yPosition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Initialize(uint id, int xPosition, int yPosition, RoutedEventHandler connectionButtonClick, RoutedEventHandler connectionAtStartUpChecked)
+        {
+            Id = id;
+
+            GeneralGrid = GuiFactory.CreateGrid(xPosition,yPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 250);
+
+            var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 180, 0, HorizontalAlignment.Center,
+                VerticalAlignment.Top, 206, 314);
+            GeneralGrid.Children.Add(guiGroupBox);
+
+            var guiGrid = GuiFactory.CreateGrid();
+            guiGroupBox.Content = guiGrid;
+
+            guiGrid.Children.Add(GuiFactory.CreateLabel("IP Address:", 9, -2, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Port:", 9, 16, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Rack:", 9, 33, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Slot:", 9, 50, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Read DB Number:", 9, 68, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Read Start Address:", 9, 86, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Read Data Length:", 9, 104, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Write DB Number:", 9, 122, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Write Start Address:", 9, 140, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Write Data Length:", 9, 158, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActIpAddressLabel", "192.168.100.100", 195, -2, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActPortLabel", "102", 195, 16, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActRackLabel", "0", 195, 33, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActSlotLabel", "0", 195, 50, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActReadDbNumberLabel", "1000", 211, 68, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActReadStartAddressLabel", "0", 211, 86, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActReadLengthLabel", "512", 211, 104, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteDbNumberLabel", "1000", 211, 122, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteStartAddressLabel", "512", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteLengthLabel", "512", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+
+            GeneralGrid.Children.Add(GuiFactory.CreateButton("StartUpConnectionControlBox", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, connectionButtonClick));
+            GeneralGrid.Children.Add(GuiFactory.CreateCheckBox("ConnectButton", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, connectionAtStartUpChecked));
+        }
+
+        public override void MakeVisible(uint id)
+        {
+            GeneralGrid.Visibility = Visibility.Visible;
+        }
+
+        public override void MakeInvisible(uint id)
+        {
+            GeneralGrid.Visibility = Visibility.Hidden;
+        }
+    }
+}

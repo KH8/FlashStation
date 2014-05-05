@@ -460,7 +460,7 @@ namespace _3880_80_FlashStation.Visual
         private void PortBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcPortNumber = Convert.ToInt32(box.Text); ; }
+            try { _guiPlcConfiguration.PlcPortNumber = Convert.ToInt32(box.Text);}
             catch (Exception) { _guiPlcConfiguration.PlcPortNumber = 0; }
         }
 
