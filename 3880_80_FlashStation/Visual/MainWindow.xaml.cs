@@ -13,6 +13,7 @@ using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
+using _3880_80_FlashStation.Visual.Gui;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
@@ -53,6 +54,10 @@ namespace _3880_80_FlashStation.Visual
         {
             InitializeComponent();
             Logger.Log("Program Started");
+
+            var grid = new GuiPlcConfiguration();
+            grid.Initialize(1, 0, 250);
+            ConfigurationGrid.Children.Add(grid.GeneralGrid);
 
             try
             {

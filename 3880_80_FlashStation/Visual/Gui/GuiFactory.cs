@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace _3880_80_FlashStation.Visual
+namespace _3880_80_FlashStation.Visual.Gui
 {
     static class GuiFactory
     {
@@ -155,6 +154,53 @@ namespace _3880_80_FlashStation.Visual
             checkBox.Unchecked += checkedUnchecked;
 
             return checkBox;
+        }
+
+        #endregion
+
+        #region TextBox
+
+        public static TextBox CreateTextBox(string name, string text, int xPosition, int yPosition,
+            HorizontalAlignment horizontalAlignment,
+            VerticalAlignment verticalAlignment,
+            HorizontalAlignment horizontalContentAlignment, int height, int width)
+        {
+            return new TextBox
+            {
+                Name = name,
+                Text = text,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAlignment,
+                HorizontalContentAlignment = horizontalContentAlignment,
+                Height = height,
+                Width = width,
+                Margin = new Thickness(xPosition, yPosition, 0, 0),
+                TextWrapping = TextWrapping.Wrap,
+            };
+        }
+
+        public static TextBox CreateTextBox(string name, string text, int xPosition, int yPosition,
+            HorizontalAlignment horizontalAlignment,
+            VerticalAlignment verticalAlignment,
+            HorizontalAlignment horizontalContentAlignment,
+            int height, int width, TextChangedEventHandler textChanged)
+        {
+            var textBox = new TextBox
+            {
+                Name = name,
+                Text = text,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAlignment,
+                HorizontalContentAlignment = horizontalContentAlignment,
+                Height = height,
+                Width = width,
+                Margin = new Thickness(xPosition, yPosition, 0, 0),
+                TextWrapping = TextWrapping.Wrap,
+            };
+
+            textBox.TextChanged += textChanged;
+
+            return textBox;
         }
 
         #endregion

@@ -37,7 +37,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration">
-                <Grid>
+                <Grid Name="ConfigurationGrid">
                     <GroupBox Header="PLC Communication Setup" HorizontalAlignment="Center" Height="148" VerticalAlignment="Top" Width="334" Margin="0,0,339,0">
                         <Grid>
                             <Label Content="IP Address:" HorizontalAlignment="Left" Height="25" Margin="68,10,0,0" VerticalAlignment="Top" Width="80"/>

@@ -1,4 +1,4 @@
-﻿namespace _3880_80_FlashStation.Visual
+﻿namespace _3880_80_FlashStation.Visual.Gui
 {
     #region Abstract Class
 
@@ -32,5 +32,4 @@
     }
 
     #endregion
-
 }

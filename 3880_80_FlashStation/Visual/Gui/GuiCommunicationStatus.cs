@@ -2,18 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace _3880_80_FlashStation.Visual
+namespace _3880_80_FlashStation.Visual.Gui
 {
-    class CommunicationStatusGui : Gui
+    class GuiCommunicationStatus : Gui
     {
         public Grid GeneralGrid;
 
         public override void Initialize(uint id, int xPosition, int yPosition)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Initialize(uint id, int xPosition, int yPosition, RoutedEventHandler connectionButtonClick, RoutedEventHandler connectionAtStartUpChecked)
         {
             Id = id;
             XPosition = xPosition;
@@ -50,8 +45,8 @@ namespace _3880_80_FlashStation.Visual
             guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteStartAddressLabel", "512", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
             guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteLengthLabel", "512", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
 
-            GeneralGrid.Children.Add(GuiFactory.CreateButton("StartUpConnectionControlBox", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, connectionButtonClick));
-            GeneralGrid.Children.Add(GuiFactory.CreateCheckBox("ConnectButton", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, connectionAtStartUpChecked));
+            GeneralGrid.Children.Add(GuiFactory.CreateButton("StartUpConnectionControlBox", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
+            GeneralGrid.Children.Add(GuiFactory.CreateCheckBox("ConnectButton", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
         }
 
         public override void MakeVisible(uint id)
@@ -63,5 +58,16 @@ namespace _3880_80_FlashStation.Visual
         {
             GeneralGrid.Visibility = Visibility.Hidden;
         }
+
+        private static void ConnectionButtonClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ConnectionAtStartUpChecked(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

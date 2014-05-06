@@ -82,7 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Visual\PlcConfigurationGui.cs" />
+    <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="Configuration\PlcStartUpConnection.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PlcStartUpConnection.Designer.cs</LastGenOutput>
@@ -143,13 +143,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
     </Compile>
-    <Compile Include="Visual\CommunicationStatusGui.cs" />
-    <Compile Include="Visual\Gui.cs" />
+    <Compile Include="Visual\Gui\GuiCommunicationStatus.cs" />
+    <Compile Include="Visual\Gui\Gui.cs" />
     <Compile Include="Visual\DataDisplayer.cs" />
     <Compile Include="Visual\FaultReport.xaml.cs">
       <DependentUpon>FaultReport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\GuiFactory.cs" />
+    <Compile Include="Visual\Gui\GuiFactory.cs" />
     <Compile Include="Visual\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
