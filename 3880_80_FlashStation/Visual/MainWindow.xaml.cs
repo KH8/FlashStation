@@ -55,9 +55,13 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            var grid = new GuiPlcConfiguration();
-            grid.Initialize(1, 0, 250);
-            ConfigurationGrid.Children.Add(grid.GeneralGrid);
+            var grid1 = new GuiCommunicationStatus();
+            grid1.Initialize(1, 0, 250);
+            ConnectionStatusGrid.Children.Add(grid1.GeneralGrid);
+
+            var grid2 = new GuiPlcConfiguration();
+            grid2.Initialize(1, 0, 250);
+            ConfigurationGrid.Children.Add(grid2.GeneralGrid);
 
             try
             {

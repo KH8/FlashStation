@@ -14,9 +14,9 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 250);
+            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 250, 672);
 
-            var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 180, 0, HorizontalAlignment.Center,
+            var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 0, 0, HorizontalAlignment.Center,
                 VerticalAlignment.Top, 206, 314);
             GeneralGrid.Children.Add(guiGroupBox);
 

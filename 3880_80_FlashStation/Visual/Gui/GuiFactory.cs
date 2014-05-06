@@ -63,7 +63,7 @@ namespace _3880_80_FlashStation.Visual.Gui
                 VerticalAlignment = verticalAlignment,
                 Height = height,
                 Width = width,
-                Margin = new Thickness(xPosition, yPosition, 179, 0)
+                Margin = new Thickness(xPosition, yPosition, 0, 0)
             };
         }
 
@@ -146,7 +146,7 @@ namespace _3880_80_FlashStation.Visual.Gui
                 HorizontalAlignment = horizontalAlignment,
                 VerticalAlignment = verticalAlignment,
                 Width = width,
-                Margin = new Thickness(xPosition, yPosition, 5, 0),
+                Margin = new Thickness(xPosition, yPosition, 0, 0),
                 FlowDirection = FlowDirection.RightToLeft
             };
 

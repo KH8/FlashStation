@@ -14,8 +14,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 280);
-            GeneralGrid.Background = Brushes.Aqua;
+            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 280, 672);
 
             var guiCommunicationGroupBox = GuiFactory.CreateGroupBox("PLC Communication Setup", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 150, 335);
             GeneralGrid.Children.Add(guiCommunicationGroupBox);
@@ -32,7 +31,16 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("RackBox", "0", 148, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, RackBoxChanged));
             guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("SlotBox", "0", 148, 91, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, SlotBoxChanged));
 
-            var guiDataGroupBox = GuiFactory.CreateGroupBox("PLC Data Setup", 339, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 205, 335);
+            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 148, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 335);
+            GeneralGrid.Children.Add(guiInterfaceGroupBox);
+
+            var guiInterfaceGrid = GuiFactory.CreateGrid();
+            guiInterfaceGroupBox.Content = guiInterfaceGrid;
+
+            guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
+            guiInterfaceGrid.Children.Add(GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 148, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
+
+            var guiDataGroupBox = GuiFactory.CreateGroupBox("PLC Data Setup", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, 206, 335);
             GeneralGrid.Children.Add(guiDataGroupBox);
 
             var guiDataGrid = GuiFactory.CreateGrid();
@@ -44,24 +52,15 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiDataGrid.Children.Add(GuiFactory.CreateLabel("Write DB Number:", 63, 92, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
             guiDataGrid.Children.Add(GuiFactory.CreateLabel("WriteDbStartAddressBox", 63, 119, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
             guiDataGrid.Children.Add(GuiFactory.CreateLabel("Write Data Length:", 63, 149, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbAddressBox", "1000", 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadDbNumberBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbStartAddressBox", "0", 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadStartAddressBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbLengthBox", "100", 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadLengthBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbAddressBox", "1000", 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteDbNumberBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbStartAddressBox", "512", 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteStartAddressBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", "100", 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
-
-            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 148, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 335);
-            GeneralGrid.Children.Add(guiInterfaceGroupBox);
-
-            var guiInterfaceGrid = GuiFactory.CreateGrid();
-            guiInterfaceGroupBox.Content = guiInterfaceGrid;
-
-            guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 148, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbAddressBox", "1000", 178, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadDbNumberBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbStartAddressBox", "0", 178, 37, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadStartAddressBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbLengthBox", "100", 178, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadLengthBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbAddressBox", "1000", 178, 92, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteDbNumberBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbStartAddressBox", "512", 178, 119, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteStartAddressBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", "100", 178, 146, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
 
             GeneralGrid.Children.Add(GuiFactory.CreateButton("UseSettingsButton", "Use Settings", 0, 211, HorizontalAlignment.Right, VerticalAlignment.Top, 25, 100, StoreSettings));
-            GeneralGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 339, 211, HorizontalAlignment.Right, VerticalAlignment.Top, 25, 100, LoadSettingFile));
+            GeneralGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 235, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
         }
 
         private void StoreSettings(object sender, RoutedEventArgs e)
