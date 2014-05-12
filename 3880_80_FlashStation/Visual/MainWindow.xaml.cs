@@ -23,6 +23,7 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class MainWindow
     {
+        private GuiCommunicationStatus _grid;
         private readonly Thread _statusThread;
         private readonly Thread _communicationThread;
 
@@ -55,13 +56,9 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            var grid1 = new GuiCommunicationStatus();
-            grid1.Initialize(1, 0, 250);
-            ConnectionStatusGrid.Children.Add(grid1.GeneralGrid);
-
-            var grid2 = new GuiPlcConfiguration();
+            /*var grid2 = new GuiPlcConfiguration();
             grid2.Initialize(1, 0, 250);
-            ConfigurationGrid.Children.Add(grid2.GeneralGrid);
+            ConfigurationGrid.Children.Add(grid2.GeneralGrid);*/
 
             try
             {
@@ -103,6 +100,10 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
+
+            _grid = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
+            _grid.Initialize(1, 0, 250);
+            ConnectionStatusGrid.Children.Add(_grid.GeneralGrid);
         }
 
         #region Init Methods
@@ -204,6 +205,7 @@ namespace _3880_80_FlashStation.Visual
             {
                 if (_plcCommunication != null)
                 {
+                    if (_grid != null) _grid.Update();
                     ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);

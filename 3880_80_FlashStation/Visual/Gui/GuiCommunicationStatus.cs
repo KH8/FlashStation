@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.PLC;
 
@@ -8,8 +10,33 @@ namespace _3880_80_FlashStation.Visual.Gui
 {
     class GuiCommunicationStatus : Gui
     {
-        public Grid GeneralGrid;
-        private PlcCommunicator _plcCommunication;
+        private Grid _generalGrid;
+
+        private readonly PlcCommunicator _plcCommunication;
+        private readonly PlcStartUpConnection _plcStartUpConnection;
+
+        private Label _actIpAddressLabel = new Label();
+        private Label _actPortLabel = new Label();
+        private Label _actRackLabel = new Label();
+        private Label _actSlotLabel = new Label();
+        private Label _actReadDbNumberLabel = new Label();
+        private Label _actReadStartAddressLabel = new Label();
+        private Label _actReadLengthLabel = new Label();
+        private Label _actWriteDbNumberLabel = new Label();
+        private Label _actWriteStartAddressLabel = new Label();
+        private Label _actWriteLengthLabel = new Label();
+
+        public Grid GeneralGrid
+        {
+            get { return _generalGrid; }
+            set { _generalGrid = value; }
+        }
+
+        public GuiCommunicationStatus(PlcCommunicator plcCommunication, PlcStartUpConnection plcStartUpConnection)
+        {
+            _plcCommunication = plcCommunication;
+            _plcStartUpConnection = plcStartUpConnection;
+        }
 
         public override void Initialize(uint id, int xPosition, int yPosition)
         {
@@ -37,16 +64,16 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiGrid.Children.Add(GuiFactory.CreateLabel("Write Start Address:", 9, 140, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
             guiGrid.Children.Add(GuiFactory.CreateLabel("Write Data Length:", 9, 158, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
 
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActIpAddressLabel", "192.168.100.100", 195, -2, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActPortLabel", "102", 195, 16, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActRackLabel", "0", 195, 33, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActSlotLabel", "0", 195, 50, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActReadDbNumberLabel", "1000", 211, 68, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActReadStartAddressLabel", "0", 211, 86, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActReadLengthLabel", "512", 211, 104, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteDbNumberLabel", "1000", 211, 122, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteStartAddressLabel", "512", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("ActWriteLengthLabel", "512", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actIpAddressLabel = GuiFactory.CreateLabel("ActIpAddressLabel", "", 195, -2, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actPortLabel = GuiFactory.CreateLabel("ActPortLabel", "", 195, 16, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actRackLabel = GuiFactory.CreateLabel("ActRackLabel", "", 195, 33, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actSlotLabel = GuiFactory.CreateLabel("ActSlotLabel", "", 195, 50, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actReadDbNumberLabel = GuiFactory.CreateLabel("ActReadDbNumberLabel", "", 211, 68, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actReadStartAddressLabel = GuiFactory.CreateLabel("ActReadStartAddressLabel", "", 211, 86, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actReadLengthLabel = GuiFactory.CreateLabel("ActReadLengthLabel", "", 211, 104, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actWriteDbNumberLabel = GuiFactory.CreateLabel("ActWriteDbNumberLabel", "", 211, 122, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actWriteStartAddressLabel = GuiFactory.CreateLabel("ActWriteStartAddressLabel", "", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actWriteLengthLabel = GuiFactory.CreateLabel("ActWriteLengthLabel", "", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
 
             GeneralGrid.Children.Add(GuiFactory.CreateButton("StartUpConnectionControlBox", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
             GeneralGrid.Children.Add(GuiFactory.CreateCheckBox("ConnectButton", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
@@ -62,7 +89,21 @@ namespace _3880_80_FlashStation.Visual.Gui
             GeneralGrid.Visibility = Visibility.Hidden;
         }
 
-        private static void ConnectionButtonClick(object sender, RoutedEventArgs e)
+        public void Update()
+        {
+            GuiFactory.UpdateLabel(_actIpAddressLabel, _plcCommunication.PlcConfiguration.PlcIpAddress);
+            GuiFactory.UpdateLabel(_actPortLabel, _plcCommunication.PlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actRackLabel, _plcCommunication.PlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actSlotLabel, _plcCommunication.PlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actReadDbNumberLabel, _plcCommunication.PlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actReadStartAddressLabel, _plcCommunication.PlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actReadLengthLabel, _plcCommunication.PlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actWriteDbNumberLabel, _plcCommunication.PlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actWriteStartAddressLabel, _plcCommunication.PlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture));
+            GuiFactory.UpdateLabel(_actWriteLengthLabel, _plcCommunication.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private void ConnectionButtonClick(object sender, RoutedEventArgs e)
         {
             var connectButton = (Button) sender;
 
@@ -90,10 +131,14 @@ namespace _3880_80_FlashStation.Visual.Gui
             }
         }
 
-        private static void ConnectionAtStartUpChecked(object sender, RoutedEventArgs e)
+        private void ConnectionAtStartUpChecked(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var startUpConnectionControlBox = (CheckBox) sender;
+            if (startUpConnectionControlBox.IsChecked != null)
+            {
+                _plcStartUpConnection.ConnectAtStartUp = (bool)startUpConnectionControlBox.IsChecked;
+                _plcStartUpConnection.Save();
+            } 
         }
-
     }
 }

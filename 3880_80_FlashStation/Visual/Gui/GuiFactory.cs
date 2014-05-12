@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace _3880_80_FlashStation.Visual.Gui
@@ -103,6 +104,11 @@ namespace _3880_80_FlashStation.Visual.Gui
                 Width = width,
                 Margin = new Thickness(xPosition, yPosition, 0, 0)
             };
+        }
+
+        public static void UpdateLabel(Label label, string content)
+        {
+            label.Dispatcher.BeginInvoke((new Action(delegate { label.Content = content; })));
         }
 
         #endregion

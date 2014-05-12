@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="Configuration\PlcStartUpConnection.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
