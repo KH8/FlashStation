@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using _3880_80_FlashStation.Log;
+using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Visual.Gui
 {
     class GuiCommunicationStatus : Gui
     {
         public Grid GeneralGrid;
+        private PlcCommunicator _plcCommunication;
 
         public override void Initialize(uint id, int xPosition, int yPosition)
         {
@@ -61,7 +64,30 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         private static void ConnectionButtonClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var connectButton = (Button) sender;
+
+            if (_plcCommunication == null) return;
+            try
+            {
+                if (_plcCommunication.ConnectionStatus != 1)
+                {
+                    _plcCommunication.OpenConnection();
+                    connectButton.Dispatcher.BeginInvoke((new Action(delegate { connectButton.Content = "Disconnect"; })));
+                    Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
+                }
+                else
+                {
+                    _plcCommunication.CloseConnection();
+                    connectButton.Dispatcher.BeginInvoke((new Action(delegate { connectButton.Content = "Connect"; })));
+                    Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Connection Failed");
+                if (_plcCommunication != null)
+                    Logger.Log("Connection trial with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " failed");
+            }
         }
 
         private static void ConnectionAtStartUpChecked(object sender, RoutedEventArgs e)
