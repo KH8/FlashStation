@@ -23,7 +23,7 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class MainWindow
     {
-        private GuiCommunicationStatus _grid;
+        private GuiCommunicationStatus _guiCommunicationStatus;
         private readonly Thread _statusThread;
         private readonly Thread _communicationThread;
 
@@ -56,10 +56,6 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            /*var grid2 = new GuiPlcConfiguration();
-            grid2.Initialize(1, 0, 250);
-            ConfigurationGrid.Children.Add(grid2.GeneralGrid);*/
-
             try
             {
                 InitializeInterface();
@@ -91,6 +87,10 @@ namespace _3880_80_FlashStation.Visual
                 Environment.Exit(0);
             }
 
+            _guiCommunicationStatus = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
+            _guiCommunicationStatus.Initialize(1, 0, 0);
+            ConnectionStatusGrid.Children.Add(_guiCommunicationStatus.GeneralGrid);
+
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
@@ -100,10 +100,6 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
-
-            _grid = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
-            _grid.Initialize(1, 0, 250);
-            ConnectionStatusGrid.Children.Add(_grid.GeneralGrid);
         }
 
         #region Init Methods
@@ -205,7 +201,7 @@ namespace _3880_80_FlashStation.Visual
             {
                 if (_plcCommunication != null)
                 {
-                    if (_grid != null) _grid.Update();
+                    _guiCommunicationStatus.Update();
                     ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);

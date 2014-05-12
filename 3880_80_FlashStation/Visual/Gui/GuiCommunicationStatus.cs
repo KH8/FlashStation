@@ -26,6 +26,9 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Label _actWriteStartAddressLabel = new Label();
         private Label _actWriteLengthLabel = new Label();
 
+        private Button _connectButton = new Button();
+        private CheckBox _startUpConnectionControlBox = new CheckBox();
+
         public Grid GeneralGrid
         {
             get { return _generalGrid; }
@@ -75,8 +78,9 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiGrid.Children.Add(_actWriteStartAddressLabel = GuiFactory.CreateLabel("ActWriteStartAddressLabel", "", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
             guiGrid.Children.Add(_actWriteLengthLabel = GuiFactory.CreateLabel("ActWriteLengthLabel", "", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
 
-            GeneralGrid.Children.Add(GuiFactory.CreateButton("StartUpConnectionControlBox", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
-            GeneralGrid.Children.Add(GuiFactory.CreateCheckBox("ConnectButton", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
+            GeneralGrid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
+            GeneralGrid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
+            _startUpConnectionControlBox.IsChecked = _plcStartUpConnection.ConnectAtStartUp;
         }
 
         public override void MakeVisible(uint id)
