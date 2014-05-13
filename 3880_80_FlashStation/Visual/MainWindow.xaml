@@ -77,7 +77,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Online Communication">
-                <Grid>
+                <Grid Name="OnlineCommunicationGrid">
                     <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,1" VerticalAlignment="Top" Width="335" ItemsSource="{Binding ReadInterfaceCollection}" Foreground="Black">
                         <ListView.View>
                             <GridView>

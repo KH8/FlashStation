@@ -23,9 +23,6 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class MainWindow
     {
-        private readonly GuiCommunicationStatus _gridGuiCommunicationStatus;
-        private readonly GuiPlcConfiguration _gridGuiPlcConfiguration;
-
         private readonly Thread _statusThread;
         private readonly Thread _communicationThread;
 
@@ -89,13 +86,13 @@ namespace _3880_80_FlashStation.Visual
                 Environment.Exit(0);
             }
 
-            _gridGuiCommunicationStatus = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
-            _gridGuiCommunicationStatus.Initialize(1, 0, 0);
-            ConnectionStatusGrid.Children.Add(_gridGuiCommunicationStatus.GeneralGrid);
+            var gridGuiCommunicationStatus = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
+            gridGuiCommunicationStatus.Initialize(1, 0, 0);
+            ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
-            _gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
-            _gridGuiPlcConfiguration.Initialize(1, 0, 0);
-            ConfigurationGrid.Children.Add(_gridGuiPlcConfiguration.GeneralGrid);
+            var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
+            gridGuiPlcConfiguration.Initialize(1, 0, 0);
+            ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -108,7 +105,7 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.Start();
 
             if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
-            _gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
+            gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
             Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");
         }
 
@@ -209,7 +206,6 @@ namespace _3880_80_FlashStation.Visual
             {
                 if (_plcCommunication != null)
                 {
-                    _gridGuiCommunicationStatus.Update();
                     //ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);

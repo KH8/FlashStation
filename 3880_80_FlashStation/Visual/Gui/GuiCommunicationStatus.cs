@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using _3880_80_FlashStation.Configuration;
@@ -28,6 +29,8 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         private CheckBox _startUpConnectionControlBox = new CheckBox();
 
+        private readonly Thread _updateThread;
+
         public Grid GeneralGrid
         {
             get { return _generalGrid; }
@@ -38,6 +41,11 @@ namespace _3880_80_FlashStation.Visual.Gui
         {
             _plcCommunication = plcCommunication;
             _plcStartUpConnection = plcStartUpConnection;
+
+            _updateThread = new Thread(Update);
+            _updateThread.SetApartmentState(ApartmentState.STA);
+            _updateThread.IsBackground = true;
+            _updateThread.Start();
         }
 
         public override void Initialize(uint id, int xPosition, int yPosition)
@@ -94,16 +102,29 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         public void Update()
         {
-            GuiFactory.UpdateLabel(_actIpAddressLabel, _plcCommunication.PlcConfiguration.PlcIpAddress);
-            GuiFactory.UpdateLabel(_actPortLabel, _plcCommunication.PlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actRackLabel, _plcCommunication.PlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actSlotLabel, _plcCommunication.PlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actReadDbNumberLabel, _plcCommunication.PlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actReadStartAddressLabel, _plcCommunication.PlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actReadLengthLabel, _plcCommunication.PlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actWriteDbNumberLabel, _plcCommunication.PlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actWriteStartAddressLabel, _plcCommunication.PlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture));
-            GuiFactory.UpdateLabel(_actWriteLengthLabel, _plcCommunication.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture));
+            while (_updateThread.IsAlive)
+            {
+                GuiFactory.UpdateLabel(_actIpAddressLabel, _plcCommunication.PlcConfiguration.PlcIpAddress);
+                GuiFactory.UpdateLabel(_actPortLabel,
+                    _plcCommunication.PlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actRackLabel,
+                    _plcCommunication.PlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actSlotLabel,
+                    _plcCommunication.PlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actReadDbNumberLabel,
+                    _plcCommunication.PlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actReadStartAddressLabel,
+                    _plcCommunication.PlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actReadLengthLabel,
+                    _plcCommunication.PlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actWriteDbNumberLabel,
+                    _plcCommunication.PlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actWriteStartAddressLabel,
+                    _plcCommunication.PlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture));
+                GuiFactory.UpdateLabel(_actWriteLengthLabel,
+                    _plcCommunication.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture));
+                Thread.Sleep(21);
+            }
         }
 
         public void ConnectionButtonClick(object sender, RoutedEventArgs e)
