@@ -23,7 +23,9 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class MainWindow
     {
-        private GuiCommunicationStatus _guiCommunicationStatus;
+        private readonly GuiCommunicationStatus _gridGuiCommunicationStatus;
+        private readonly GuiPlcConfiguration _gridGuiPlcConfiguration;
+
         private readonly Thread _statusThread;
         private readonly Thread _communicationThread;
 
@@ -33,7 +35,7 @@ namespace _3880_80_FlashStation.Visual
         private VFlashHandler _vFlash;
         private int _vFlashButtonEnables = 101;
 
-        private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
+        //private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private CommunicationInterfaceHandler _communicationHandler;
 
         private FaultReport _windowReport;
@@ -87,9 +89,13 @@ namespace _3880_80_FlashStation.Visual
                 Environment.Exit(0);
             }
 
-            _guiCommunicationStatus = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
-            _guiCommunicationStatus.Initialize(1, 0, 0);
-            ConnectionStatusGrid.Children.Add(_guiCommunicationStatus.GeneralGrid);
+            _gridGuiCommunicationStatus = new GuiCommunicationStatus(_plcCommunication, PlcStartUpConnection.Default);
+            _gridGuiCommunicationStatus.Initialize(1, 0, 0);
+            ConnectionStatusGrid.Children.Add(_gridGuiCommunicationStatus.GeneralGrid);
+
+            _gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
+            _gridGuiPlcConfiguration.Initialize(1, 0, 0);
+            ConfigurationGrid.Children.Add(_gridGuiPlcConfiguration.GeneralGrid);
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -100,6 +106,10 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
+
+            if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
+            _gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
+            Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");
         }
 
         #region Init Methods
@@ -111,8 +121,8 @@ namespace _3880_80_FlashStation.Visual
             _communicationHandler = new CommunicationInterfaceHandler();
             if (CommunicationInterfacePath.Default.ConfigurationStatus == 1)
             {
-                string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
-                InterfacePathBox.Text = words[words.Length - 1];
+                //string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
+                //InterfacePathBox.Text = words[words.Length - 1];
                 try {_communicationHandler.Initialize(); }
                 catch (Exception)
                 {
@@ -129,7 +139,7 @@ namespace _3880_80_FlashStation.Visual
                 CommunicationInterfacePath.Default.ConfigurationStatus = 1;
                 CommunicationInterfacePath.Default.Save();
                 var words = CommunicationInterfacePath.Default.Path.Split('\\');
-                InterfacePathBox.Text = words[words.Length - 1];
+                //InterfacePathBox.Text = words[words.Length - 1];
                 try { _communicationHandler.Initialize(); }
                 catch (Exception)
                 {
@@ -150,17 +160,15 @@ namespace _3880_80_FlashStation.Visual
 
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
-
-            _guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
-            UpdateSettings();
-
-            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
             Logger.Log("PLC communication initialized");
 
-            StartUpConnectionControlBox.IsChecked = PlcStartUpConnection.Default.ConnectAtStartUp;
-            if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
-            ConnectDisconnect(null, new RoutedEventArgs());
-            Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");
+            //_guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
+            //UpdateSettings();
+
+            /*if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { _gridGuiPlcConfiguration.StoreSettings(); }
+            Logger.Log("PLC communication initialized");*/
+
+            //StartUpConnectionControlBox.IsChecked = PlcStartUpConnection.Default.ConnectAtStartUp;
         }
 
         internal void InitializeVFlash()
@@ -201,8 +209,8 @@ namespace _3880_80_FlashStation.Visual
             {
                 if (_plcCommunication != null)
                 {
-                    _guiCommunicationStatus.Update();
-                    ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
+                    _gridGuiCommunicationStatus.Update();
+                    //ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
                     VFlashDisplayHandler(_vFlash);
@@ -234,13 +242,13 @@ namespace _3880_80_FlashStation.Visual
             Environment.Exit(0);
         }
 
-        private void StoreSettings(object sender, RoutedEventArgs e)
+        /*private void StoreSettings(object sender, RoutedEventArgs e)
         {
             Logger.Log("Communication configuration has been changed");
             StoreSettings();
-        }
+        }*/
 
-        private void ConnectDisconnect(object sender, RoutedEventArgs e)
+        /*private void ConnectDisconnect(object sender, RoutedEventArgs e)
         {
             if (_plcCommunication == null) return;
             try
@@ -264,16 +272,16 @@ namespace _3880_80_FlashStation.Visual
                 if (_plcCommunication != null)
                     Logger.Log("Connection trial with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " failed");
             }
-        }
+        }*/
 
-        private void StoreSettings()
+        /*private void StoreSettings()
         {
             _guiPlcConfiguration.PlcConfigurationStatus = 1;
             PlcConfigurationFile.Default.Configuration = _guiPlcConfiguration;
             PlcConfigurationFile.Default.Save();
             _plcConfiguration.UpdateConfiguration(PlcConfigurationFile.Default.Configuration);
             _plcCommunication.SetupConnection(_plcConfiguration);
-        }
+        }*/
 
         private void LoadVFlashProject(object sender, RoutedEventArgs e)
         {
@@ -424,7 +432,7 @@ namespace _3880_80_FlashStation.Visual
                 outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
         }
 
-        private void LoadSettingFile(object sender, RoutedEventArgs e)
+        /*private void LoadSettingFile(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
             var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".csv", Filter = "CSV (MS-DOS) (.csv)|*.csv" };
@@ -451,13 +459,13 @@ namespace _3880_80_FlashStation.Visual
 
                 Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
             }
-        }
+        }*/
 
         #endregion
 
         #region GUI Parameters Handleing
 
-        private void IpAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
+        /*private void IpAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
             var box = (TextBox) sender;
             try { _guiPlcConfiguration.PlcIpAddress = box.Text; }
@@ -525,7 +533,7 @@ namespace _3880_80_FlashStation.Visual
             var box = (TextBox)sender;
             try { _guiPlcConfiguration.PlcWriteLength = Convert.ToInt32(box.Text); }
             catch (Exception) { _guiPlcConfiguration.PlcWriteLength = 0; }
-        }
+        }*/
 
         private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
         {
@@ -547,18 +555,18 @@ namespace _3880_80_FlashStation.Visual
             if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
         }
 
-        private void StartUpConnectionControlBoxChanged(object sender, RoutedEventArgs e)
+        /*private void StartUpConnectionControlBoxChanged(object sender, RoutedEventArgs e)
         {
             if (StartUpConnectionControlBox.IsChecked != null)
                 PlcStartUpConnection.Default.ConnectAtStartUp = (bool)StartUpConnectionControlBox.IsChecked;
             PlcStartUpConnection.Default.Save();
-        }
+        }*/
 
         #endregion
 
         #region Auxiliaries
 
-        private void ActualConfigurationHandler(PlcCommunicatorBase.PlcConfig configuration)
+        /*private void ActualConfigurationHandler(PlcCommunicatorBase.PlcConfig configuration)
         {
             ActIpAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActIpAddressLabel.Content = configuration.PlcIpAddress; })));
             ActPortLabel.Dispatcher.BeginInvoke((new Action(delegate { ActPortLabel.Content = configuration.PlcPortNumber; })));
@@ -570,7 +578,7 @@ namespace _3880_80_FlashStation.Visual
             ActWriteDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteDbNumberLabel.Content = configuration.PlcWriteDbNumber; })));
             ActWriteStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteStartAddressLabel.Content = configuration.PlcWriteStartAddress; })));
             ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = configuration.PlcWriteLength; })));
-        }
+        }*/
 
         private void StatusBarHandler(PlcCommunicator communication)
         {
@@ -590,13 +598,13 @@ namespace _3880_80_FlashStation.Visual
             {
                 statusBar = "Connected to IP address " +_plcCommunication.PlcConfiguration.PlcIpAddress;
                 brush = Brushes.Green;
-                ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
+                //ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
             }
             if (communication.ConnectionStatus == -2)
             {
                 statusBar = "A connection with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " was interrupted.";
                 brush = Brushes.Red;
-                ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
+                //ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
             }
             PlcStatusLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
@@ -723,7 +731,7 @@ namespace _3880_80_FlashStation.Visual
             }
         }
 
-        private void UpdateSettings()
+        /*private void UpdateSettings()
         {
             IpAddressBox.Text = _guiPlcConfiguration.PlcIpAddress;
             PortBox.Text = _guiPlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture);
@@ -735,7 +743,7 @@ namespace _3880_80_FlashStation.Visual
             WriteDbAddressBox.Text = _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture);
             WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
             WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
-        }
+        }*/
 
         #endregion
     }
