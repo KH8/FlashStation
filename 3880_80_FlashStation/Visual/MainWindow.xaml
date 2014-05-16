@@ -4,7 +4,7 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="ST80 FlashStation" Height="648" Width="708"
         Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" ResizeMode="NoResize" Background="#FFF9F9F9">
-    <Grid Margin="0,0,0,2">
+    <Grid Margin="0,0,0,2" Name="MainGrid">
         <TabControl HorizontalAlignment="Center" Height="554" VerticalAlignment="Top" Width="682" Margin="0,10,0,0" SelectionChanged="UpdateLog">
             <TabItem Header="Connection Status">
                 <Grid Name="ConnectionStatusGrid">
@@ -165,7 +165,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Name="PlcStatusLabel" Content="Wrong Configuration!" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="8,564,8,0" VerticalAlignment="Top" Width="682"  FontSize="10" Foreground="Red"/>
         <Label Name="VFlashChannel1StatusLabel" Content="vFlash Channel 1 Initialized" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="8,580,8,0" VerticalAlignment="Top" Width="682"  FontSize="10" Foreground="Black"/>   
     </Grid>
 </Window>

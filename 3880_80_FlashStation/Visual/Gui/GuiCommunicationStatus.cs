@@ -28,6 +28,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Label _actWriteLengthLabel = new Label();
 
         private CheckBox _startUpConnectionControlBox = new CheckBox();
+        private Button _connectButton = new Button();
 
         private readonly Thread _updateThread;
 
@@ -85,7 +86,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiGrid.Children.Add(_actWriteStartAddressLabel = GuiFactory.CreateLabel("ActWriteStartAddressLabel", "", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
             guiGrid.Children.Add(_actWriteLengthLabel = GuiFactory.CreateLabel("ActWriteLengthLabel", "", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
 
-            GeneralGrid.Children.Add(GuiFactory.CreateButton("ConnectButton", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
+            GeneralGrid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
             GeneralGrid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
             _startUpConnectionControlBox.IsChecked = _plcStartUpConnection.ConnectAtStartUp;
         }
@@ -123,6 +124,10 @@ namespace _3880_80_FlashStation.Visual.Gui
                     _plcCommunication.PlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture));
                 GuiFactory.UpdateLabel(_actWriteLengthLabel,
                     _plcCommunication.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture));
+                _connectButton.Dispatcher.BeginInvoke((new Action(delegate{
+                    _connectButton.Content = "Connect";
+                    if (_plcCommunication.ConfigurationStatus == 1) { _connectButton.Content = "Disconnect"; }
+                })));
                 Thread.Sleep(21);
             }
         }

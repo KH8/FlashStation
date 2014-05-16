@@ -90,6 +90,10 @@ namespace _3880_80_FlashStation.Visual
             gridGuiCommunicationStatus.Initialize(1, 0, 0);
             ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
+            var gridGuiCommunicationStatusBar = new GuiCommunicationStatusBar(_plcCommunication);
+            gridGuiCommunicationStatusBar.Initialize(1, 0, 568);
+            MainGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
+
             var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
             gridGuiPlcConfiguration.Initialize(1, 0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
@@ -208,7 +212,7 @@ namespace _3880_80_FlashStation.Visual
                 if (_plcCommunication != null)
                 {
                     //ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
-                    StatusBarHandler(_plcCommunication);
+                    //StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
                     VFlashDisplayHandler(_vFlash);
                 }
@@ -578,7 +582,7 @@ namespace _3880_80_FlashStation.Visual
             ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = configuration.PlcWriteLength; })));
         }*/
 
-        private void StatusBarHandler(PlcCommunicator communication)
+        /*private void StatusBarHandler(PlcCommunicator communication)
         {
             string statusBar = "0";
             Brush brush = Brushes.Red;
@@ -609,7 +613,7 @@ namespace _3880_80_FlashStation.Visual
                 PlcStatusLabel.Content = statusBar;
                 PlcStatusLabel.Foreground = brush;
             })));
-        }
+        }*/
 
         private void OnlineDataDisplayHandler(PlcCommunicator communication)
         {
