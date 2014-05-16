@@ -5,7 +5,7 @@ namespace _3880_80_FlashStation.DataAquisition
 {
     static public class CommunicationInterfaceFactory
     {
-        public static CommunicationInterfaceVariable CreateVariable(string name, int pos, int posBit, CommunicationInterfaceComponent.VariableType type)
+        public static CommunicationInterfaceVariable CreateVariable(string name, int pos, int posBit, CommunicationInterfaceComponent.VariableType type, int length)
         {
             switch (type)
             {
@@ -22,7 +22,7 @@ namespace _3880_80_FlashStation.DataAquisition
                 case CommunicationInterfaceComponent.VariableType.Real:
                     return new CiReal(name, pos, type, 0.0f);
                 case CommunicationInterfaceComponent.VariableType.String:
-                    return new CiString(name, pos, type, "", 0);
+                    return new CiString(name, pos, type, "", length);
                 default:
                     throw new FactoryException("Cannot create a variable");
             }
