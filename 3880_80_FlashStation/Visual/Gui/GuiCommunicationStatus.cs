@@ -126,7 +126,7 @@ namespace _3880_80_FlashStation.Visual.Gui
                     _plcCommunication.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture));
                 _connectButton.Dispatcher.BeginInvoke((new Action(delegate{
                     _connectButton.Content = "Connect";
-                    if (_plcCommunication.ConfigurationStatus == 1) { _connectButton.Content = "Disconnect"; }
+                    if (_plcCommunication.ConnectionStatus == 1) { _connectButton.Content = "Disconnect"; }
                 })));
                 Thread.Sleep(21);
             }

@@ -91,7 +91,7 @@ namespace _3880_80_FlashStation.Visual
             ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
             var gridGuiCommunicationStatusBar = new GuiCommunicationStatusBar(_plcCommunication);
-            gridGuiCommunicationStatusBar.Initialize(1, 0, 568);
+            gridGuiCommunicationStatusBar.Initialize(1, 0, 290);
             MainGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
             var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
