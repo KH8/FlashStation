@@ -190,6 +190,7 @@ namespace _3880_80_FlashStation.Visual
                 _vFlashProjectCollection.Add(new VFlashDisplayProjectData
                 {
                     Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                    Version = type.Version,
                     Path = type.Path
                 });
             }
@@ -385,7 +386,7 @@ namespace _3880_80_FlashStation.Visual
             // Get the selected file name and display in a TextBox
             if (result == true)
             {
-                _vFlash.VFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), dlg.FileName));
+                _vFlash.VFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
 
                 VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlash.VFlashTypeBank.Children);
                 VFlashTypeBankFile.Default.Save();
@@ -397,6 +398,7 @@ namespace _3880_80_FlashStation.Visual
                     _vFlashProjectCollection.Add(new VFlashDisplayProjectData
                     {
                         Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                        Version = type.Version,
                         Path = type.Path
                     });
                 }

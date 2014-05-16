@@ -128,13 +128,16 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="60" Header="Type" DisplayMemberBinding="{Binding Type}" />
-                                <GridViewColumn Width="600" Header="Path File" DisplayMemberBinding="{Binding Path}" />
+                                <GridViewColumn Width="60" Header="Version" DisplayMemberBinding="{Binding Version}" />
+                                <GridViewColumn Width="540" Header="Path File" DisplayMemberBinding="{Binding Path}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
                     <Button Content="Create Type" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="TypeCreation"/>
-                    <Label Content="Type Number:" HorizontalAlignment="Left" Height="31" Margin="430,213,0,-1" VerticalAlignment="Top" Width="94"/>
-                    <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="524,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
+                    <Label Content="Type Number:" HorizontalAlignment="Left" Height="31" Margin="303,213,0,0" VerticalAlignment="Top" Width="94"/>
+                    <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="394,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
+                    <Label Content="Version:" HorizontalAlignment="Left" Height="31" Margin="445,213,0,0" VerticalAlignment="Top" Width="55"/>
+                    <TextBox Name="TypeVersionBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="500,213,0,0" TextWrapping="Wrap" Text="V1.0" VerticalAlignment="Top" Width="66"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Output">

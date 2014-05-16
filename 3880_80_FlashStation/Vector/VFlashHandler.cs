@@ -237,7 +237,9 @@ namespace _3880_80_FlashStation.Vector
 
                 if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", antwort);
                 
-                    Int16 statusInt = 0;
+                Int16 statusInt = 0;
+                string version = "N/L";
+
                 if (channelFound != null)
                     switch (channelFound.Status)
                     {
@@ -250,6 +252,7 @@ namespace _3880_80_FlashStation.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Loaded:
                             statusInt = 200;
+                            version = VFlashTypeBank.ReturnVersion(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
                             _pcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:
@@ -257,6 +260,7 @@ namespace _3880_80_FlashStation.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloaded:
                             statusInt = 300;
+                            version = "N/L";
                             _pcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Flashing:
@@ -280,9 +284,10 @@ namespace _3880_80_FlashStation.Vector
                     }
                 if (_outputComposite != null)
                 {
-                    _outputComposite.ModifyValue("STATUS", statusInt);
                     _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
+                    _outputComposite.ModifyValue("STATUS", statusInt);
+                    _outputComposite.ModifyValue("VERSION", version);
                 }
                 Thread.Sleep(200);
             }

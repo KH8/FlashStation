@@ -121,10 +121,11 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             foreach (var communicationInterfaceComponent in _children)
             {
-                var component = (CiWord) communicationInterfaceComponent;
+                CommunicationInterfaceComponent component = communicationInterfaceComponent;
                 if (component.Name == name)
                 {
-                    component.Value = bitArrayValue;
+                    var componentWord = (CiWord)communicationInterfaceComponent;
+                    componentWord.Value = bitArrayValue;
                     return;
                 }
             }
@@ -135,10 +136,11 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             foreach (var communicationInterfaceComponent in _children)
             {
-                var component = (CiInteger) communicationInterfaceComponent;
+                CommunicationInterfaceComponent component = communicationInterfaceComponent;
                 if (component.Name == name)
                 {
-                    component.Value = integerValue;
+                    var componentInteger = (CiInteger)communicationInterfaceComponent;
+                    componentInteger.Value = integerValue;
                     return;
                 }
             }
@@ -149,10 +151,11 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             foreach (var communicationInterfaceComponent in _children)
             {
-                var component = (CiDoubleInteger) communicationInterfaceComponent;
+                CommunicationInterfaceComponent component = communicationInterfaceComponent;
                 if (component.Name == name)
                 {
-                    component.Value = doubleIntegerValue;
+                    var componentDoubleInteger = (CiDoubleInteger)communicationInterfaceComponent;
+                    componentDoubleInteger.Value = doubleIntegerValue;
                     return;
                 }
             }
@@ -163,10 +166,11 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             foreach (var communicationInterfaceComponent in _children)
             {
-                var component = (CiReal) communicationInterfaceComponent;
+                CommunicationInterfaceComponent component = communicationInterfaceComponent;
                 if (component.Name == name)
                 {
-                    component.Value = realValue;
+                    var componentReal = (CiReal)communicationInterfaceComponent;
+                    componentReal.Value = realValue;
                     return;
                 }
             }
@@ -177,10 +181,11 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             foreach (var communicationInterfaceComponent in _children)
             {
-                var component = (CiString) communicationInterfaceComponent;
+                CommunicationInterfaceComponent component = communicationInterfaceComponent;
                 if (component.Name == name)
                 {
-                    component.Value = stringValue;
+                    var componentString = (CiString) communicationInterfaceComponent;
+                    componentString.Value = stringValue;
                     return;
                 }
             }

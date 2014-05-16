@@ -60,7 +60,7 @@ namespace _3880_80_FlashStation.DataAquisition
 
         internal static CommunicationInterfaceComponent.VariableType StringToVariableType(string typeString)
         {
-            var variableType = CommunicationInterfaceComponent.VariableType.Integer;
+            var variableType = new CommunicationInterfaceComponent.VariableType();
             switch (typeString)
             {
                 case "BOOL":
