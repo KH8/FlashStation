@@ -91,12 +91,16 @@ namespace _3880_80_FlashStation.Visual
             ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
             var gridGuiCommunicationStatusBar = new GuiCommunicationStatusBar(_plcCommunication);
-            gridGuiCommunicationStatusBar.Initialize(1, 0, 290);
+            gridGuiCommunicationStatusBar.Initialize(1, 0, 310);
             MainGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
             var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
             gridGuiPlcConfiguration.Initialize(1, 0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
+
+            var gridVFlash = new GuiVFlash();
+            gridVFlash.Initialize(1, 0, 120);
+            VFlashGrid.Children.Add(gridVFlash.GeneralGrid);
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
