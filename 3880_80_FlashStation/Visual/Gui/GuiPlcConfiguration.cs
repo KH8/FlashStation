@@ -46,9 +46,9 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 300, 800);
+            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 240, 800);
 
-            var guiCommunicationGroupBox = GuiFactory.CreateGroupBox("PLC Communication Setup", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 150, 335);
+            var guiCommunicationGroupBox = GuiFactory.CreateGroupBox("PLC Communication Setup", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 150, 398);
             _generalGrid.Children.Add(guiCommunicationGroupBox);
 
             var guiCommunicationGrid = GuiFactory.CreateGrid();
@@ -58,24 +58,24 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiCommunicationGrid.Children.Add(GuiFactory.CreateLabel("Port:", 68, 37, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
             guiCommunicationGrid.Children.Add(GuiFactory.CreateLabel("Rack:", 68, 64, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
             guiCommunicationGrid.Children.Add(GuiFactory.CreateLabel("Slot:", 68, 91, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
-            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("IpAddressBox", _guiPlcConfiguration.PlcIpAddress, 148, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, IpAddressBoxChanged));
-            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("PortBox", _guiPlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture), 148, 37, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, PortBoxChanged));
-            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("RackBox", _guiPlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture), 148, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, RackBoxChanged));
-            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("SlotBox", _guiPlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture), 148, 91, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, SlotBoxChanged));
+            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("IpAddressBox", _guiPlcConfiguration.PlcIpAddress, 180, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, IpAddressBoxChanged));
+            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("PortBox", _guiPlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture), 180, 37, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, PortBoxChanged));
+            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("RackBox", _guiPlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture), 180, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, RackBoxChanged));
+            guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("SlotBox", _guiPlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture), 180, 91, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, SlotBoxChanged));
 
-            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 148, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 335);
+            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 148, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 398);
             _generalGrid.Children.Add(guiInterfaceGroupBox);
 
             var guiInterfaceGrid = GuiFactory.CreateGrid();
             guiInterfaceGroupBox.Content = guiInterfaceGrid;
 
             guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
-            guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 148, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
+            guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 180, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
 
             string[] words = _communicationInterfacePath.Path.Split('\\');
             _interfacePathBox.Text = words[words.Length - 1];
 
-            var guiDataGroupBox = GuiFactory.CreateGroupBox("PLC Data Setup", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, 206, 335);
+            var guiDataGroupBox = GuiFactory.CreateGroupBox("PLC Data Setup", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, 206, 398);
             _generalGrid.Children.Add(guiDataGroupBox);
 
             var guiDataGrid = GuiFactory.CreateGrid();
@@ -87,15 +87,15 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiDataGrid.Children.Add(GuiFactory.CreateLabel("Write DB Number:", 63, 92, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
             guiDataGrid.Children.Add(GuiFactory.CreateLabel("WriteDbStartAddressBox", 63, 119, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
             guiDataGrid.Children.Add(GuiFactory.CreateLabel("Write Data Length:", 63, 149, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbAddressBox", _guiPlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture), 178, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadDbNumberBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbStartAddressBox", _guiPlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture), 178, 37, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadStartAddressBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbLengthBox", _guiPlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture), 178, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadLengthBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbAddressBox", _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture), 178, 92, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteDbNumberBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbStartAddressBox", _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture), 178, 119, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteStartAddressBoxChanged));
-            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture), 178, 146, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbAddressBox", _guiPlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture), 200, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadDbNumberBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbStartAddressBox", _guiPlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture), 200, 37, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadStartAddressBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("ReadDbLengthBox", _guiPlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture), 200, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, ReadLengthBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbAddressBox", _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture), 200, 92, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteDbNumberBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbStartAddressBox", _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture), 200, 119, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteStartAddressBoxChanged));
+            guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture), 200, 146, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
 
             _generalGrid.Children.Add(GuiFactory.CreateButton("UseSettingsButton", "Use Settings", 0, 211, HorizontalAlignment.Right, VerticalAlignment.Top, 25, 100, StoreSettingsButton));
-            _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 235, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
+            _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 298, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
         }
 
         private void StoreSettingsButton(object sender, RoutedEventArgs e)

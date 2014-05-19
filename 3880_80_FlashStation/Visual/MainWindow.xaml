@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="ST80 FlashStation" Height="400" Width="835"
-        Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" ResizeMode="NoResize" Background="#FFF9F9F9">
+        Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9">
     <Grid Margin="0,0,0,0" Name="MainGrid">
-        <TabControl HorizontalAlignment="Center" Height="300" VerticalAlignment="Top" Width="810" Margin="0,10,0,0" SelectionChanged="UpdateLog">
+        <TabControl HorizontalAlignment="Center" Height="274" VerticalAlignment="Top" Width="810" Margin="0,10,0,0" SelectionChanged="UpdateLog">
             <TabItem Header="Connection Status">
                 <Grid Name="ConnectionStatusGrid">
                     <!--GroupBox Header="PLC Configuration" HorizontalAlignment="Center" Height="206" VerticalAlignment="Top" Width="314" Margin="180,0,179,0">
@@ -78,23 +78,23 @@
             </TabItem>
             <TabItem Header="Online Communication">
                 <Grid Name="OnlineCommunicationGrid">
-                    <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,1" VerticalAlignment="Top" Width="335" ItemsSource="{Binding ReadInterfaceCollection}" Foreground="Black">
+                    <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,0" VerticalAlignment="Top" Width="398" ItemsSource="{Binding ReadInterfaceCollection}" Foreground="Black">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="65" Header="Addr." DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Width="160" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="40" Header="Type" DisplayMemberBinding="{Binding Type}" />
-                                <GridViewColumn Width="60" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                                <GridViewColumn Width="70" Header="Addr." DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Width="185" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="50" Header="Type" DisplayMemberBinding="{Binding Type}" />
+                                <GridViewColumn Width="80" Header="Value" DisplayMemberBinding="{Binding Value}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,1" VerticalAlignment="Top" Width="335" ItemsSource="{Binding WriteInterfaceCollection}" Foreground="Black">
+                    <ListView Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,0" VerticalAlignment="Top" Width="398" ItemsSource="{Binding WriteInterfaceCollection}" Foreground="Black">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="65" Header="Addr." DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Width="160" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="40" Header="Type" DisplayMemberBinding="{Binding Type}" />
-                                <GridViewColumn Width="60" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                                <GridViewColumn Width="70" Header="Addr." DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Width="185" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="50" Header="Type" DisplayMemberBinding="{Binding Type}" />
+                                <GridViewColumn Width="80" Header="Value" DisplayMemberBinding="{Binding Value}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -102,26 +102,26 @@
             </TabItem>
             <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">
                 <Grid Name="VFlashGrid">
-                    <GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673">
+                    <GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="800">
                         <Grid>
-                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="598" Foreground="{x:Null}" UseLayoutRounding="False"/>
-                            <Label Content="Actual Path Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112"/>
-                            <Label Name="VFlash1ProjectPathLabel" Content="Channel is not activated" HorizontalAlignment="Left" VerticalAlignment="Top" Width="548" Height="22" Margin="112,2,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
-                            <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
-                            <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="562" Margin="0,43,0,0" FontSize="10" Foreground="Red" Height="25"/>
-                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,80,5,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
+                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,37,0,0" VerticalAlignment="Top" Width="721" Foreground="{x:Null}" UseLayoutRounding="False"/>
+                            <Label Content="Actual Path Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112" Margin="0,5,0,0"/>
+                            <Label Name="VFlash1ProjectPathLabel" Content="Channel is not activated" HorizontalAlignment="Left" VerticalAlignment="Top" Width="671" Height="22" Margin="112,7,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
+                            <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,31,0,0"/>
+                            <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="562" Margin="0,51,3,0" FontSize="10" Foreground="Red" Height="25"/>
+                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,77,5,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
                             <Button Name="VFlash1LoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject" ClickMode="Release"/>
                             <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject" ClickMode="Release"/>
                             <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"  ClickMode="Release" FontWeight="Bold"/>
                             <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
-                            <Label x:Name="VFlash1TimeLabel" Content="Remaining time: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,26,4,0" FontSize="10" Foreground="Black" Height="25"/>
+                            <Label x:Name="VFlash1TimeLabel" Content="Remaining time: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,33,4,0" FontSize="10" Foreground="Black" Height="25"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Name="VFlashProjectsTab" Header="VFlash Paths" IsEnabled="False">
                 <Grid>
-                    <ListView Name="VFlashBankListBox" HorizontalAlignment="Center" Height="206" Margin="0,0,0,37" VerticalAlignment="Top" Width="670" ItemsSource="{Binding VFlashProjectCollection}" Foreground="Black" SelectionChanged="VFlashProjectbankListViewSelection">
+                    <ListView Name="VFlashBankListBox" HorizontalAlignment="Center" Height="205" Margin="0,0,0,0" VerticalAlignment="Top" Width="800" ItemsSource="{Binding VFlashProjectCollection}" Foreground="Black" SelectionChanged="VFlashProjectbankListViewSelection">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="60" Header="Type" DisplayMemberBinding="{Binding Type}" />
@@ -131,14 +131,14 @@
                         </ListView.View>
                     </ListView>
                     <Button Content="Create Type" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="TypeCreation"/>
-                    <Label Content="Type Number:" HorizontalAlignment="Left" Height="31" Margin="303,213,0,0" VerticalAlignment="Top" Width="94"/>
-                    <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="394,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
-                    <Label Content="Version:" HorizontalAlignment="Left" Height="31" Margin="445,213,0,0" VerticalAlignment="Top" Width="55"/>
-                    <TextBox Name="TypeVersionBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="500,213,0,0" TextWrapping="Wrap" Text="V1.0" VerticalAlignment="Top" Width="66"/>
+                    <Label Content="Type Number:" HorizontalAlignment="Left" Height="31" Margin="431,213,0,0" VerticalAlignment="Top" Width="94"/>
+                    <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="522,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
+                    <Label Content="Version:" HorizontalAlignment="Left" Height="31" Margin="573,213,0,0" VerticalAlignment="Top" Width="55"/>
+                    <TextBox Name="TypeVersionBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="628,213,0,0" TextWrapping="Wrap" Text="V1.0" VerticalAlignment="Top" Width="66"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Output">
-                <GroupBox Header="Output Creation" HorizontalAlignment="Center" Height="100" VerticalAlignment="Top" Width="248" Margin="0,0,425,0">
+                <GroupBox Header="Output Creation" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="248">
                     <Grid>
                         <Label Content="Output File Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="105" Margin="5,10,0,0"/>
                         <ComboBox Name="OutputTypeComboBox" Text="Select" HorizontalAlignment="Left" Margin="110,13,0,0" VerticalAlignment="Top" Width="120">
@@ -152,7 +152,7 @@
             </TabItem>
             <TabItem Header="Log">
                 <Grid>
-                    <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="241" Margin="0,2,0,0" VerticalAlignment="Top" Width="670"/>
+                    <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="240" Margin="0,0,0,0" VerticalAlignment="Top" Width="800"/>
                 </Grid>
             </TabItem>
             <TabItem Header="About">
