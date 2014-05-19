@@ -8,72 +8,10 @@
         <TabControl HorizontalAlignment="Center" Height="274" VerticalAlignment="Top" Width="810" Margin="0,10,0,0" SelectionChanged="UpdateLog">
             <TabItem Header="Connection Status">
                 <Grid Name="ConnectionStatusGrid">
-                    <!--GroupBox Header="PLC Configuration" HorizontalAlignment="Center" Height="206" VerticalAlignment="Top" Width="314" Margin="180,0,179,0">
-                        <Grid>
-                            <Label Content="IP Address:" HorizontalAlignment="Left" Height="25" Margin="9,-2,0,0" VerticalAlignment="Top" Width="80"/>
-                            <Label Name="ActIpAddressLabel" Content="192.168.100.100" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="195,-2,0,0" VerticalAlignment="Top" Width="100"/>
-                            <Label Content="Port:" HorizontalAlignment="Left" Height="25" Margin="9,16,0,0" VerticalAlignment="Top" Width="80"/>
-                            <Label Name="ActPortLabel" Content="102" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="195,16,0,0" VerticalAlignment="Top" Width="100"/>
-                            <Label Content="Rack:" HorizontalAlignment="Left" Height="25" Margin="9,33,0,0" VerticalAlignment="Top" Width="80"/>
-                            <Label Name="ActRackLabel" Content="0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="195,33,0,0" VerticalAlignment="Top" Width="100"/>
-                            <Label Content="Slot:" HorizontalAlignment="Left" Height="25" Margin="9,50,0,0" VerticalAlignment="Top" Width="80"/>
-                            <Label Name="ActSlotLabel" Content="0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="195,50,0,0" VerticalAlignment="Top" Width="100"/>
-                            <Label Content="Read DB Number:" HorizontalAlignment="Left" Height="25" Margin="9,68,0,0" VerticalAlignment="Top" Width="115"/>
-                            <Label Name="ActReadDbNumberLabel" Content="1000" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,68,0,0" VerticalAlignment="Top" Width="85"/>
-                            <Label Content="Read Start Address:" HorizontalAlignment="Left" Height="25" Margin="9,86,0,0" VerticalAlignment="Top" Width="115"/>
-                            <Label Name="ActReadStartAddressLabel" Content="0" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,86,0,0" VerticalAlignment="Top" Width="85"/>
-                            <Label Content="Read Data Length:" HorizontalAlignment="Left" Height="25" Margin="9,104,0,0" VerticalAlignment="Top" Width="115"/>
-                            <Label Name="ActReadLengthLabel" Content="512" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,104,0,0" VerticalAlignment="Top" Width="85"/>
-                            <Label Content="Write DB Number:" HorizontalAlignment="Left" Height="25" Margin="9,122,0,0" VerticalAlignment="Top" Width="115"/>
-                            <Label Name="ActWriteDbNumberLabel" Content="1000" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,122,0,0" VerticalAlignment="Top" Width="85"/>
-                            <Label Content="Write Start Address:" HorizontalAlignment="Left" Height="25" Margin="9,140,0,0" VerticalAlignment="Top" Width="115"/>
-                            <Label Name="ActWriteStartAddressLabel" Content="512" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,140,0,0" VerticalAlignment="Top" Width="85"/>
-                            <Label Content="Write Data Length:" HorizontalAlignment="Left" Height="25" Margin="9,158,0,0" VerticalAlignment="Top" Width="115"/>
-                            <Label Name="ActWriteLengthLabel" Content="512" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="211,158,0,0" VerticalAlignment="Top" Width="85"/>
-                        </Grid>
-                    </GroupBox>
-                    <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Center" Height="25" Margin="0,212,0,0" VerticalAlignment="Top" Width="100" Click="ConnectDisconnect" ClickMode="Release"/>
-                    <CheckBox x:Name="StartUpConnectionControlBox" Content="Connect at Start Up" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,223,0,0" Width="134" FlowDirection="RightToLeft" Checked="StartUpConnectionControlBoxChanged" Unchecked="StartUpConnectionControlBoxChanged"/-->
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration">
                 <Grid Name="ConfigurationGrid">
-                    <!--GroupBox Header="PLC Communication Setup" HorizontalAlignment="Center" Height="148" VerticalAlignment="Top" Width="334" Margin="0,0,339,0">
-                        <Grid>
-                            <Label Content="IP Address:" HorizontalAlignment="Left" Height="25" Margin="68,10,0,0" VerticalAlignment="Top" Width="80"/>
-                            <TextBox Name="IpAddressBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,10,0,0" TextWrapping="Wrap" Text="192.168.10.80" VerticalAlignment="Top" Width="100" TextChanged="IpAddressBoxChanged"/>
-                            <Label Content="Port:" HorizontalAlignment="Left" Height="25" Margin="68,37,0,0" VerticalAlignment="Top" Width="80"/>
-                            <TextBox Name="PortBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,37,0,0" TextWrapping="Wrap" Text="102" VerticalAlignment="Top" Width="100" TextChanged="PortBoxChanged"/>
-                            <Label Content="Rack:" HorizontalAlignment="Left" Height="25" Margin="68,64,0,0" VerticalAlignment="Top" Width="80"/>
-                            <TextBox Name="RackBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,64,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="RackBoxChanged"/>
-                            <Label Content="Slot:" HorizontalAlignment="Left" Height="25" Margin="68,91,0,0" VerticalAlignment="Top" Width="80"/>
-                            <TextBox Name="SlotBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,91,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="SlotBoxChanged"/>
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox Header="PLC Data Setup" HorizontalAlignment="Right" Height="206" Margin="0,0,0,0" VerticalAlignment="Top" Width="335">
-                        <Grid>
-                            <Label Content="Read DB Number:" HorizontalAlignment="Left" Height="25" Margin="63,10,0,0" VerticalAlignment="Top" Width="115"/>
-                            <TextBox Name="ReadDbAddressBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="178,10,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="85" TextChanged="ReadDbNumberBoxChanged"/>
-                            <Label Content="Read Start Address:" HorizontalAlignment="Left" Height="25" Margin="63,37,0,0" VerticalAlignment="Top" Width="115"/>
-                            <TextBox Name="ReadDbStartAddressBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="178,37,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="85" TextChanged="ReadStartAddressBoxChanged"/>
-                            <Label Content="Read Data Length:" HorizontalAlignment="Left" Height="25" Margin="63,64,0,0" VerticalAlignment="Top" Width="115"/>
-                            <TextBox Name="ReadDbLengthBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="178,64,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="85" TextChanged="ReadLengthBoxChanged"/>
-                            <Label Content="Write DB Number:" HorizontalAlignment="Left" Height="25" Margin="63,92,0,0" VerticalAlignment="Top" Width="115"/>
-                            <TextBox x:Name="WriteDbAddressBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="178,92,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="85" TextChanged="WriteDbNumberBoxChanged"/>
-                            <Label Content="Write Start Address:" HorizontalAlignment="Left" Height="25" Margin="63,119,0,0" VerticalAlignment="Top" Width="115"/>
-                            <TextBox x:Name="WriteDbStartAddressBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="178,119,0,0" TextWrapping="Wrap" Text="512" VerticalAlignment="Top" Width="85" TextChanged="WriteStartAddressBoxChanged"/>
-                            <Label Content="Write Data Length:" HorizontalAlignment="Left" Height="25" Margin="63,146,0,0" VerticalAlignment="Top" Width="115"/>
-                            <TextBox x:Name="WriteDbLengthBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="178,146,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="85" TextChanged="WriteLengthBoxChanged"/>
-                        </Grid>
-                    </GroupBox>
-                    <Button Content="Use Settings" HorizontalAlignment="Right" Height="25" Margin="0,211,0,0" VerticalAlignment="Top" Width="100" Click="StoreSettings"/>
-                    <Button IsEnabled="True" Content="Load File" HorizontalAlignment="Right" Height="25" Margin="0,211,339,0" VerticalAlignment="Top" Width="100" Click="LoadSettingFile"/>
-                    <GroupBox Header="Interface Configuration" HorizontalAlignment="Center" Height="58" VerticalAlignment="Top" Width="334" Margin="0,148,339,0">
-                        <Grid>
-                            <Label Content="Configuration File:" HorizontalAlignment="Left" Height="25" Margin="31,5,0,0" VerticalAlignment="Top" Width="112"/>
-                            <TextBox x:Name="InterfacePathBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="25" Margin="148,5,0,0" TextWrapping="Wrap" Text="File not loaded" VerticalAlignment="Top" Width="164"/>
-                        </Grid>
-                    </GroupBox-->
                 </Grid>
             </TabItem>
             <TabItem Header="Online Communication">
@@ -82,9 +20,9 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="70" Header="Addr." DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Width="185" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="215" Header="Name" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Width="50" Header="Type" DisplayMemberBinding="{Binding Type}" />
-                                <GridViewColumn Width="80" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                                <GridViewColumn Width="50" Header="Value" DisplayMemberBinding="{Binding Value}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -92,9 +30,9 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="70" Header="Addr." DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Width="185" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="215" Header="Name" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Width="50" Header="Type" DisplayMemberBinding="{Binding Type}" />
-                                <GridViewColumn Width="80" Header="Value" DisplayMemberBinding="{Binding Value}" />
+                                <GridViewColumn Width="50" Header="Value" DisplayMemberBinding="{Binding Value}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -102,21 +40,6 @@
             </TabItem>
             <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">
                 <Grid Name="VFlashGrid">
-                    <!--GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="800">
-                        <Grid>
-                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,37,0,0" VerticalAlignment="Top" Width="721" Foreground="{x:Null}" UseLayoutRounding="False"/>
-                            <Label Content="Actual Path Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112" Margin="0,5,0,0"/>
-                            <Label Name="VFlash1ProjectPathLabel" Content="Channel is not activated" HorizontalAlignment="Left" VerticalAlignment="Top" Width="671" Height="22" Margin="112,7,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
-                            <Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,31,0,0"/>
-                            <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="562" Margin="0,51,3,0" FontSize="10" Foreground="Red" Height="25"/>
-                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,77,5,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
-                            <Button Name="VFlash1LoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject" ClickMode="Release"/>
-                            <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject" ClickMode="Release"/>
-                            <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"  ClickMode="Release" FontWeight="Bold"/>
-                            <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
-                            <Label x:Name="VFlash1TimeLabel" Content="Remaining time: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,33,4,0" FontSize="10" Foreground="Black" Height="25"/>
-                        </Grid>
-                    </GroupBox-->
                 </Grid>
             </TabItem>
             <TabItem Name="VFlashProjectsTab" Header="VFlash Paths" IsEnabled="False">
@@ -162,6 +85,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <!--Label Name="VFlashChannel1StatusLabel" Content="vFlash Channel 1 Initialized" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="0,322,0,0" VerticalAlignment="Top" Width="810"  FontSize="10" Foreground="Black"/-->   
     </Grid>
 </Window>

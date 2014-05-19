@@ -27,15 +27,9 @@ namespace _3880_80_FlashStation.Visual
 
         private PlcCommunicator _plcCommunication;
         private PlcConfigurator _plcConfiguration;
-
-        private VFlashHandler _vFlash;
-        //private int _vFlashButtonEnables = 101;
-
-        //private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private CommunicationInterfaceHandler _communicationHandler;
-
-        //private FaultReport _windowReport;
-
+        private VFlashHandler _vFlash;
+        
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashDisplayProjectData>();
@@ -129,8 +123,6 @@ namespace _3880_80_FlashStation.Visual
             _communicationHandler = new CommunicationInterfaceHandler();
             if (CommunicationInterfacePath.Default.ConfigurationStatus == 1)
             {
-                //string[] words = CommunicationInterfacePath.Default.Path.Split('\\');
-                //InterfacePathBox.Text = words[words.Length - 1];
                 try {_communicationHandler.Initialize(); }
                 catch (Exception)
                 {
@@ -146,8 +138,7 @@ namespace _3880_80_FlashStation.Visual
                 CommunicationInterfacePath.Default.Path = "DataAquisition\\DB1000.csv";
                 CommunicationInterfacePath.Default.ConfigurationStatus = 1;
                 CommunicationInterfacePath.Default.Save();
-                var words = CommunicationInterfacePath.Default.Path.Split('\\');
-                //InterfacePathBox.Text = words[words.Length - 1];
+                
                 try { _communicationHandler.Initialize(); }
                 catch (Exception)
                 {
@@ -157,7 +148,7 @@ namespace _3880_80_FlashStation.Visual
                     Logger.Log("PLC Communication interface initialization failed");
                     Environment.Exit(0);
                 }
-                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
+                Logger.Log("PLC Communication interface initialized with file: " + CommunicationInterfacePath.Default.Path);
             }
             Logger.Log("Interface Initialized");
         }
@@ -165,18 +156,9 @@ namespace _3880_80_FlashStation.Visual
         internal void InitializePlcCommunication()
         {
             Logger.Log("Initialization of PLC communication");
-
             _plcCommunication = new PlcCommunicator();
             _plcConfiguration = new PlcConfigurator();
             Logger.Log("PLC communication initialized");
-
-            //_guiPlcConfiguration = PlcConfigurationFile.Default.Configuration;
-            //UpdateSettings();
-
-            /*if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { _gridGuiPlcConfiguration.StoreSettings(); }
-            Logger.Log("PLC communication initialized");*/
-
-            //StartUpConnectionControlBox.IsChecked = PlcStartUpConnection.Default.ConnectAtStartUp;
         }
 
         internal void InitializeVFlash()
@@ -185,8 +167,6 @@ namespace _3880_80_FlashStation.Visual
 
             VFlashTab.IsEnabled = true;
             VFlashProjectsTab.IsEnabled = true;
-            //VFlash1UnloadButton.IsEnabled = false;
-            //VFlash1FlashButton.IsEnabled = false;
             
             try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, 1); }
             catch (Exception)
@@ -218,10 +198,7 @@ namespace _3880_80_FlashStation.Visual
             {
                 if (_plcCommunication != null)
                 {
-                    //ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
-                    //StatusBarHandler(_plcCommunication);
-                    OnlineDataDisplayHandler(_plcCommunication);
-                    //VFlashDisplayHandler(_vFlash);
+                    DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationHandler);
                 }
                 Thread.Sleep(21);
             }
@@ -249,143 +226,6 @@ namespace _3880_80_FlashStation.Visual
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
-
-        /*private void StoreSettings(object sender, RoutedEventArgs e)
-        {
-            Logger.Log("Communication configuration has been changed");
-            StoreSettings();
-        }*/
-
-        /*private void ConnectDisconnect(object sender, RoutedEventArgs e)
-        {
-            if (_plcCommunication == null) return;
-            try
-            {
-                if (_plcCommunication.ConnectionStatus != 1)
-                {
-                    _plcCommunication.OpenConnection();
-                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
-                    Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
-                }
-                else
-                {
-                    _plcCommunication.CloseConnection();
-                    ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
-                    Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Connection Failed");
-                if (_plcCommunication != null)
-                    Logger.Log("Connection trial with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " failed");
-            }
-        }*/
-
-        /*private void StoreSettings()
-        {
-            _guiPlcConfiguration.PlcConfigurationStatus = 1;
-            PlcConfigurationFile.Default.Configuration = _guiPlcConfiguration;
-            PlcConfigurationFile.Default.Save();
-            _plcConfiguration.UpdateConfiguration(PlcConfigurationFile.Default.Configuration);
-            _plcCommunication.SetupConnection(_plcConfiguration);
-        }*/
-
-        /*private void LoadVFlashProject(object sender, RoutedEventArgs e)
-        {
-            var loadButton = (Button) sender;
-            // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
-            // Set filter for file extension and default file extension
-            // Display OpenFileDialog by calling ShowDialog method
-            bool? result = dlg.ShowDialog();
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                switch (loadButton.Name)
-                {
-                    case "VFlash1LoadButton":
-                        try
-                        {
-                            _vFlash.SetProjectPath(1, dlg.FileName);
-                            _vFlash.LoadProject(1);
-                            Logger.Log("Path load requested by the operator");
-                        }
-                        catch (Exception exception) { MessageBox.Show(exception.Message, "Path Loading Failed"); }
-                        break;
-                        //todo: implement for the others
-                }
-            }
-        }
-
-        private void UnloadVFlashProject(object sender, RoutedEventArgs e)
-        {
-            var unloadButton = (Button)sender;
-            switch (unloadButton.Name)
-            {
-                case "VFlash1UnloadButton":
-                    try
-                    {
-                        _vFlash.UnloadProject(1);
-                        Logger.Log("Path unload requested by the operator");
-                    }
-                    catch (Exception exception) { MessageBox.Show(exception.Message, "Path Unloading Failed"); }
-                    break;
-                //todo: implement for the others
-            }
-        }
-
-        private void FlashVFlashProject(object sender, RoutedEventArgs e)
-        {
-            var flashButton = (Button)sender;
-            switch (flashButton.Name)
-            {
-                case "VFlash1FlashButton":
-                    var channel = _vFlash.ReturnChannelSetup(1);
-                    if (channel.Status == VFlashStationComponent.VFlashStatus.Flashing)
-                    {
-                        try
-                        {
-                            _vFlash.AbortFlashing(1);
-                            Logger.Log("Flash abort requested by the operator");
-                        }
-                        catch (Exception exception)
-                        {
-                            MessageBox.Show(exception.Message, "Flash Abort Failed");
-                        }
-                    }
-                    if (channel.Status != VFlashStationComponent.VFlashStatus.Flashing)
-                    {
-                        try
-                        {
-                            _vFlash.StartFlashing(1);
-                            Logger.Log("Path start requested by the operator");
-                        }
-                        catch (Exception exception)
-                        {
-                            MessageBox.Show(exception.Message, "Path Flashing Failed");
-                        }
-                    }
-                    break;
-                    //todo implement for the others
-            }
-        }
-
-        private void VFlashShowFaults(object sender, RoutedEventArgs e)
-        {
-            _windowReport = new FaultReport(ClearFaults);
-            _windowReport.Show();
-            _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
-            _vFlash.ErrorCollector.CreateReport();
-        }
-
-        private void ClearFaults()
-        {
-            _vFlash.ErrorCollector.Clear();
-            _windowReport.FaultListBox.Items.Clear();
-            _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
-            Logger.Log("VFlash: Fault list ereased");
-        }*/
 
         private void TypeCreation(object sender, RoutedEventArgs e)
         {
@@ -441,116 +281,9 @@ namespace _3880_80_FlashStation.Visual
                 outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
         }
 
-        /*private void LoadSettingFile(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".csv", Filter = "CSV (MS-DOS) (.csv)|*.csv" };
-            // Set filter for file extension and default file extension
-            // Display OpenFileDialog by calling ShowDialog method
-            bool? result = dlg.ShowDialog();
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                CommunicationInterfacePath.Default.Path = dlg.FileName;
-
-                try { _communicationHandler.Initialize(); }
-                catch (Exception)
-                {
-                    MessageBox.Show("Input file cannot be used", "Error");
-                    return;
-                }
-
-                CommunicationInterfacePath.Default.ConfigurationStatus = 1;
-                CommunicationInterfacePath.Default.Save();
-
-                string[] words = dlg.FileName.Split('\\');
-                InterfacePathBox.Text = words[words.Length - 1];
-
-                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
-            }
-        }*/
-
         #endregion
 
         #region GUI Parameters Handleing
-
-        /*private void IpAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox) sender;
-            try { _guiPlcConfiguration.PlcIpAddress = box.Text; }
-            catch (Exception) { _guiPlcConfiguration.PlcIpAddress = "0"; }
-        }
-
-        private void PortBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcPortNumber = Convert.ToInt32(box.Text);}
-            catch (Exception) { _guiPlcConfiguration.PlcPortNumber = 0; }
-        }
-
-        private void RackBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcRackNumber = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcRackNumber = 0; }
-        }
-
-        private void SlotBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcSlotNumber = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcSlotNumber = 0; }
-        }
-
-        private void ReadDbNumberBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcReadDbNumber = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcReadDbNumber = 0; }
-        }
-
-        private void ReadStartAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcReadStartAddress = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcReadStartAddress = 0; }
-        }
-
-        private void ReadLengthBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcReadLength = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcReadLength = 0; }
-        }
-
-        private void WriteDbNumberBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcWriteDbNumber = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcWriteDbNumber = 0; }
-        }
-
-        private void WriteStartAddressBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcWriteStartAddress = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcWriteStartAddress = 0; }
-        }
-
-        private void WriteLengthBoxChanged(object sender, TextChangedEventArgs textChangedEventArgs)
-        {
-            var box = (TextBox)sender;
-            try { _guiPlcConfiguration.PlcWriteLength = Convert.ToInt32(box.Text); }
-            catch (Exception) { _guiPlcConfiguration.PlcWriteLength = 0; }
-        }*/
-
-        /*private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
-        {
-            var box = (CheckBox)sender;
-            _vFlash.PcControlMode = !_vFlash.PcControlMode;
-            box.IsChecked = _vFlash.PcControlMode;
-            Logger.Log("VFlash: PC Control mode changed to " + _vFlash.PcControlMode);
-        }*/
 
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
@@ -564,196 +297,7 @@ namespace _3880_80_FlashStation.Visual
             if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
         }
 
-        /*private void StartUpConnectionControlBoxChanged(object sender, RoutedEventArgs e)
-        {
-            if (StartUpConnectionControlBox.IsChecked != null)
-                PlcStartUpConnection.Default.ConnectAtStartUp = (bool)StartUpConnectionControlBox.IsChecked;
-            PlcStartUpConnection.Default.Save();
-        }*/
-
         #endregion
 
-        #region Auxiliaries
-
-        /*private void ActualConfigurationHandler(PlcCommunicatorBase.PlcConfig configuration)
-        {
-            ActIpAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActIpAddressLabel.Content = configuration.PlcIpAddress; })));
-            ActPortLabel.Dispatcher.BeginInvoke((new Action(delegate { ActPortLabel.Content = configuration.PlcPortNumber; })));
-            ActRackLabel.Dispatcher.BeginInvoke((new Action(delegate { ActRackLabel.Content = configuration.PlcRackNumber; })));
-            ActSlotLabel.Dispatcher.BeginInvoke((new Action(delegate { ActSlotLabel.Content = configuration.PlcSlotNumber; })));
-            ActReadDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadDbNumberLabel.Content = configuration.PlcReadDbNumber; })));
-            ActReadStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadStartAddressLabel.Content = configuration.PlcReadStartAddress; })));
-            ActReadLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActReadLengthLabel.Content = configuration.PlcReadLength; })));
-            ActWriteDbNumberLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteDbNumberLabel.Content = configuration.PlcWriteDbNumber; })));
-            ActWriteStartAddressLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteStartAddressLabel.Content = configuration.PlcWriteStartAddress; })));
-            ActWriteLengthLabel.Dispatcher.BeginInvoke((new Action(delegate { ActWriteLengthLabel.Content = configuration.PlcWriteLength; })));
-        }*/
-
-        /*private void StatusBarHandler(PlcCommunicator communication)
-        {
-            string statusBar = "0";
-            Brush brush = Brushes.Red;
-            if (communication.ConfigurationStatus != 1)
-            {
-                statusBar = "Wrong Configuration";
-                brush = Brushes.Red;
-            }
-            if (communication.ConfigurationStatus == 1)
-            {
-                statusBar = "Configuration verified, ready to connect."; 
-                brush = Brushes.Black;
-            }
-            if (communication.ConnectionStatus == 1)
-            {
-                statusBar = "Connected to IP address " +_plcCommunication.PlcConfiguration.PlcIpAddress;
-                brush = Brushes.Green;
-                //ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
-            }
-            if (communication.ConnectionStatus == -2)
-            {
-                statusBar = "A connection with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " was interrupted.";
-                brush = Brushes.Red;
-                //ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
-            }
-            PlcStatusLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                PlcStatusLabel.Content = statusBar;
-                PlcStatusLabel.Foreground = brush;
-            })));
-        }*/
-
-        private void OnlineDataDisplayHandler(PlcCommunicator communication)
-        {
-            DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, communication, _communicationHandler);
-        }
-
-        /*private void VFlashDisplayHandler(VFlashHandler vector)
-        {
-            string path = "File path is not specified";
-            string status;
-            Brush colourBrush;
-
-            var channel = vector.ReturnChannelSetup(1);
-            if (channel == null) { return; }
-            switch (channel.Status)
-            {
-                case VFlashStationComponent.VFlashStatus.Created:
-                    status = "Channel created";
-                    colourBrush = Brushes.Black;
-                    _vFlashButtonEnables = 101;
-                    break;
-                case VFlashStationComponent.VFlashStatus.Loading:
-                    status = "Loading ...";
-                    colourBrush = Brushes.Black;
-                    break;
-                case VFlashStationComponent.VFlashStatus.Loaded:
-                    status = "Path was loaded succesfully";
-                    colourBrush = Brushes.Green;
-                    _vFlashButtonEnables = 11;
-                    break;
-                case VFlashStationComponent.VFlashStatus.Unloading:
-                    status = "Unloading ...";
-                    colourBrush = Brushes.Black;
-                    break;
-                case VFlashStationComponent.VFlashStatus.Unloaded:
-                    status = "Path was unloaded succesfully";
-                    colourBrush = Brushes.Green;
-                    _vFlashButtonEnables = 101;
-                    break;
-                case VFlashStationComponent.VFlashStatus.Flashing:
-                    status = "Flashing ...";
-                    colourBrush = Brushes.Black;
-                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
-                    break;
-                case VFlashStationComponent.VFlashStatus.Aborting:
-                    status = "Flash Aborting ...";
-                    colourBrush = Brushes.Red;
-                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Abort"; })));
-                    break;
-                case VFlashStationComponent.VFlashStatus.Flashed:
-                    status = "Flashing succeed";
-                    colourBrush = Brushes.Green;
-                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
-                    _vFlashButtonEnables = 11;
-                    break;
-                default:
-                    status = channel.Status.ToString();
-                    colourBrush = Brushes.Red;
-                    VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.Content = "Flash"; })));
-                    break;
-            }
-
-            if (_vFlashButtonEnables == 11)
-            {
-                VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
-                VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = true; })));
-                VFlash1FlashButton.Dispatcher.BeginInvoke( (new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
-            }
-            if (_vFlashButtonEnables == 101)
-            {
-                VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = true; })));
-                VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
-                VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = true; })));
-            }
-            if (!vector.PcControlMode)
-            {
-                VFlash1LoadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1LoadButton.IsEnabled = false; })));
-                VFlash1UnloadButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1UnloadButton.IsEnabled = false; })));
-                VFlash1FlashButton.Dispatcher.BeginInvoke((new Action(delegate { VFlash1FlashButton.IsEnabled = false; })));
-            }
-
-            if (channel.FlashProjectPath != "")
-            {
-                string[] words = channel.FlashProjectPath.Split('\\');
-                path = words[words.GetLength(0) - 1];
-            }
-            VFlash1ProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1ProjectPathLabel.Content = path; })));
-            VFlash1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                VFlash1StatusLabel.Content = status;
-                VFlash1StatusLabel.Foreground = colourBrush;
-            })));
-
-            VFlashStatusHandler(1, colourBrush);
-        }*/
-
-        /*private void VFlashStatusHandler(uint chanId, Brush colourBrush)
-        {
-            var channel = _vFlash.ReturnChannelSetup(chanId);
-            
-            switch (chanId)
-            {
-                case 1:
-                    VFlashChannel1StatusLabel.Dispatcher.BeginInvoke((new Action(delegate
-                    {
-                        VFlashChannel1StatusLabel.Content = "vFlash channel " + channel.ChannelId + ": " + channel.Status;
-                        VFlashChannel1StatusLabel.Foreground = colourBrush;
-                    })));
-                    var remainingTimeInMinutes = new TimeSpan(0, 0, 0, (int)channel.RemainingTimeInSecs);
-                    VFlash1TimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlash1TimeLabel.Content = "Remaining time: " + remainingTimeInMinutes; })));
-                    VFlash1ProgressBar.Dispatcher.BeginInvoke((new Action(delegate
-                    {
-                        VFlash1ProgressBar.Foreground = Brushes.MidnightBlue;
-                        VFlash1ProgressBar.Value = channel.ProgressPercentage;
-                    })));
-                    break;
-            }
-        }*/
-
-        /*private void UpdateSettings()
-        {
-            IpAddressBox.Text = _guiPlcConfiguration.PlcIpAddress;
-            PortBox.Text = _guiPlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture);
-            SlotBox.Text = _guiPlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture);
-            RackBox.Text = _guiPlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture);
-            ReadDbAddressBox.Text = _guiPlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture);
-            ReadDbStartAddressBox.Text = _guiPlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture);
-            ReadDbLengthBox.Text = _guiPlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture);
-            WriteDbAddressBox.Text = _guiPlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture);
-            WriteDbStartAddressBox.Text = _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
-            WriteDbLengthBox.Text = _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
-        }*/
-
-        #endregion
     }
 }
