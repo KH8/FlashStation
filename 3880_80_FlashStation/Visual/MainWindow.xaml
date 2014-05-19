@@ -156,9 +156,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="About">
-                <Grid Background="#FF05467C" Margin="0,189,0,0">
+                <Grid Background="#FF05467C" Margin="0,178,0,0">
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-177,0,0" Height="167"><LineBreak/><Run Text="FlashStation v 1.0"/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><LineBreak/><Run Text="teamtechnik Production Technology Sp. z o.o."/><LineBreak/><Run Text="ul. Za Gora 23, 32-050 Skawina, Poland"/><LineBreak/><LineBreak/></TextBlock>
                     <Image HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="211" Source="/3880_80_FlashStation;component/logoTT.jpg"/>
-                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" Margin="11,-190,1,0" Height="185"><LineBreak/><Run Text="FlashStation v 1.0"/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><LineBreak/><Run Text="teamtechnik Production Technology Sp. z o.o."/><LineBreak/><Run Text="ul. Za Gora 23, 32-050 Skawina, Poland"/><LineBreak/><LineBreak/></TextBlock>
                 </Grid>
             </TabItem>
         </TabControl>

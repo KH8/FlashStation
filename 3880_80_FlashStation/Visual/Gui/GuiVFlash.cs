@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
@@ -13,7 +14,15 @@ namespace _3880_80_FlashStation.Visual.Gui
     {
         private Grid _generalGrid;
 
-        //
+        private ProgressBar _vFlashProgressBar = new ProgressBar();
+        private Label _vFlashProjectPathLabel = new Label();
+        private Label _vFlashStatusLabel = new Label();
+        private Label _vFlashTimeLabel = new Label();
+        private Button _vFlashLoadButton = new Button();
+        private Button _vFlashUnloadButton = new Button();
+        private Button _vFlashFlashButton = new Button();
+        private Button _vFlashFaultsButton = new Button();
+        private CheckBox _vFlashControlBox = new CheckBox();
 
         public Grid GeneralGrid
         {
@@ -32,36 +41,66 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 150, 800);
+            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 120, 800);
 
-            var guiVFlashGroupBox = GuiFactory.CreateGroupBox("Channel " + Id, 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 150, 795);
+            var guiVFlashGroupBox = GuiFactory.CreateGroupBox("Channel " + Id, 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 120, 795);
             _generalGrid.Children.Add(guiVFlashGroupBox);
 
             var guiVFlashGrid = GuiFactory.CreateGrid();
             guiVFlashGroupBox.Content = guiVFlashGrid;
 
-            guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Actual Path Path: ", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
-            guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Progress: ", 0, 26, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 61));
+            guiVFlashGrid.Children.Add(_vFlashProgressBar = GuiFactory.CreateProgressBar("VFlash1ProgressBar", 62, 37, HorizontalAlignment.Left, VerticalAlignment.Top, 16, 721));
 
-            //guiCommunicationGrid.Children.Add(GuiFactory.CreateLabel("IP Address:", 68, 10, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
-            //guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture), 178, 146, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
-            //_generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 235, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
+            guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Actual Path Path: ", 0, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
+            guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Progress: ", 0, 31, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 61));
 
-            /*<GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="673">
-                        <Grid>
-                            <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,0,0,51" VerticalAlignment="Bottom" Width="598" Foreground="{x:Null}" UseLayoutRounding="False"/>
-/////<Label Content="Actual Path Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112"/>
-                            <Label Name="VFlash1ProjectPathLabel" Content="Channel is not activated" HorizontalAlignment="Left" VerticalAlignment="Top" Width="548" Height="22" Margin="112,2,0,0" BorderBrush="#FFCFCFCF" Background="White" BorderThickness="1" Padding="5,1,2,2"/>
-/////<Label Content="Progress: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="61" Margin="0,26,0,0"/>
-                            <Label Name="VFlash1StatusLabel" Content="No project loaded." HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="562" Margin="0,43,0,0" FontSize="10" Foreground="Red" Height="25"/>
-                            <CheckBox Name="VFlash1ControlBox" Content="PC Control" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,80,5,0" Width="75" FlowDirection="RightToLeft" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
-                            <Button Name="VFlash1LoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="LoadVFlashProject" ClickMode="Release"/>
-                            <Button Name="VFlash1UnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.5,0.5" Click="UnloadVFlashProject" ClickMode="Release"/>
-                            <Button Name="VFlash1FlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="FlashVFlashProject"  ClickMode="Release" FontWeight="Bold"/>
-                            <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
-                            <Label x:Name="VFlash1TimeLabel" Content="Remaining time: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,26,4,0" FontSize="10" Foreground="Black" Height="25"/>
-                        </Grid>
-                    </GroupBox>*/
+            guiVFlashGrid.Children.Add(_vFlashProjectPathLabel = GuiFactory.CreateLabel("VFlash1ProjectPathLabel", "Channel is not activated", 112, 7, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Left, 22, 671));
+            var converter = new BrushConverter();
+            _vFlashProjectPathLabel.BorderBrush = (Brush)converter.ConvertFromString("#FFCFCFCF");
+            _vFlashProjectPathLabel.BorderThickness = new Thickness(1);
+            _vFlashProjectPathLabel.Padding = new Thickness(5, 1, 2, 2);
+            _vFlashProjectPathLabel.Background = Brushes.White;
+            
+            guiVFlashGrid.Children.Add(_vFlashStatusLabel = GuiFactory.CreateLabel("VFlash1StatusLabel", "No project loaded.", 4, 51, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 562));
+            _vFlashStatusLabel.Foreground = Brushes.Red;
+            _vFlashStatusLabel.FontSize = 10;
+
+            guiVFlashGrid.Children.Add(_vFlashTimeLabel = GuiFactory.CreateLabel("VFlash1TimeLabel", "Remaining time: 00:00:00", 4, 33, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 483));
+            _vFlashTimeLabel.Foreground = Brushes.Black;
+            _vFlashTimeLabel.FontSize = 10;
+
+            guiVFlashGrid.Children.Add(_vFlashLoadButton = GuiFactory.CreateButton("VFlash1LoadButton", "Load Path", 5, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, LoadVFlashProject));
+            guiVFlashGrid.Children.Add(_vFlashUnloadButton = GuiFactory.CreateButton("VFlash1UnloadButton", "Unload Path", 100, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, UnloadVFlashProject));
+            guiVFlashGrid.Children.Add(_vFlashFlashButton = GuiFactory.CreateButton("VFlash1FlashButton", "Flash", 195, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, FlashVFlashProject));
+            _vFlashFlashButton.FontWeight = FontWeights.Bold;
+            guiVFlashGrid.Children.Add(_vFlashFaultsButton = GuiFactory.CreateButton("VFlash1FaultsButton", "Faults", 290, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, VFlashShowFaults));
+
+            guiVFlashGrid.Children.Add(_vFlashControlBox = GuiFactory.CreateCheckBox("VFlash1ControlBox", "PC Control", 5, 10, HorizontalAlignment.Right, VerticalAlignment.Bottom, 77, VFlashControlModeChanged));
+        }
+
+        private void VFlashControlModeChanged(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadVFlashProject(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UnloadVFlashProject(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FlashVFlashProject(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void VFlashShowFaults(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public override void MakeVisible(uint id)

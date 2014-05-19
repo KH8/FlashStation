@@ -211,5 +211,27 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         #endregion
 
+        #region ProgressBar
+
+        public static ProgressBar CreateProgressBar(string name, int xPosition, int yPosition,
+            HorizontalAlignment horizontalAlignment,
+            VerticalAlignment verticalAlignment,
+            int height, int width)
+        {
+            return new ProgressBar
+            {
+                Name = name,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAlignment,
+                Height = height,
+                Width = width,
+                Margin = new Thickness(xPosition, yPosition, 0, 0),
+                UseLayoutRounding = false,
+                Foreground = null
+            };
+        }
+
+        #endregion
+
     }
 }
