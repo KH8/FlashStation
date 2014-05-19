@@ -2,8 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="ST80 FlashStation" Height="400" Width="835"
-        Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9">
+        Title="ST80 FlashStation" Height="365" Width="835"
+        Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9" ResizeMode="NoResize">
     <Grid Margin="0,0,0,0" Name="MainGrid">
         <TabControl HorizontalAlignment="Center" Height="274" VerticalAlignment="Top" Width="810" Margin="0,10,0,0" SelectionChanged="UpdateLog">
             <TabItem Header="Connection Status">
