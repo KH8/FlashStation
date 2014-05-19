@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using _3880_80_FlashStation.Configuration;
-using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
-using _3880_80_FlashStation.PLC;
+using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual.Gui
 {
     class GuiVFlash : Gui
     {
         private Grid _generalGrid;
+
+        private readonly VFlashHandler _vFlash;
+        private int _vFlashButtonEnables = 100;
 
         private ProgressBar _vFlashProgressBar = new ProgressBar();
         private Label _vFlashProjectPathLabel = new Label();
@@ -21,8 +22,10 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Button _vFlashLoadButton = new Button();
         private Button _vFlashUnloadButton = new Button();
         private Button _vFlashFlashButton = new Button();
-        private Button _vFlashFaultsButton = new Button();
-        private CheckBox _vFlashControlBox = new CheckBox();
+
+        private FaultReport _windowReport;
+
+        private readonly Thread _updateThread;
 
         public Grid GeneralGrid
         {
@@ -30,9 +33,14 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiVFlash()
+        public GuiVFlash(VFlashHandler vFlash)
         {
-            
+            _vFlash = vFlash;
+
+            _updateThread = new Thread(Update);
+            _updateThread.SetApartmentState(ApartmentState.STA);
+            _updateThread.IsBackground = true;
+            _updateThread.Start();
         }
 
         public override void Initialize(uint id, int xPosition, int yPosition)
@@ -49,58 +57,116 @@ namespace _3880_80_FlashStation.Visual.Gui
             var guiVFlashGrid = GuiFactory.CreateGrid();
             guiVFlashGroupBox.Content = guiVFlashGrid;
 
-            guiVFlashGrid.Children.Add(_vFlashProgressBar = GuiFactory.CreateProgressBar("VFlash1ProgressBar", 62, 37, HorizontalAlignment.Left, VerticalAlignment.Top, 16, 721));
+            guiVFlashGrid.Children.Add(_vFlashProgressBar = GuiFactory.CreateProgressBar("VFlashProgressBar", 62, 37, HorizontalAlignment.Left, VerticalAlignment.Top, 16, 721));
 
             guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Actual Path Path: ", 0, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
             guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Progress: ", 0, 31, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 61));
 
-            guiVFlashGrid.Children.Add(_vFlashProjectPathLabel = GuiFactory.CreateLabel("VFlash1ProjectPathLabel", "Channel is not activated", 112, 7, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Left, 22, 671));
+            guiVFlashGrid.Children.Add(_vFlashProjectPathLabel = GuiFactory.CreateLabel("VFlashProjectPathLabel", "Channel is not activated", 112, 7, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Left, 22, 671));
             var converter = new BrushConverter();
             _vFlashProjectPathLabel.BorderBrush = (Brush)converter.ConvertFromString("#FFCFCFCF");
             _vFlashProjectPathLabel.BorderThickness = new Thickness(1);
             _vFlashProjectPathLabel.Padding = new Thickness(5, 1, 2, 2);
             _vFlashProjectPathLabel.Background = Brushes.White;
             
-            guiVFlashGrid.Children.Add(_vFlashStatusLabel = GuiFactory.CreateLabel("VFlash1StatusLabel", "No project loaded.", 4, 51, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 562));
+            guiVFlashGrid.Children.Add(_vFlashStatusLabel = GuiFactory.CreateLabel("VFlashStatusLabel", "No project loaded.", 4, 51, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 562));
             _vFlashStatusLabel.Foreground = Brushes.Red;
             _vFlashStatusLabel.FontSize = 10;
 
-            guiVFlashGrid.Children.Add(_vFlashTimeLabel = GuiFactory.CreateLabel("VFlash1TimeLabel", "Remaining time: 00:00:00", 4, 33, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 483));
+            guiVFlashGrid.Children.Add(_vFlashTimeLabel = GuiFactory.CreateLabel("VFlashTimeLabel", "Remaining time: 00:00:00", 4, 33, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 483));
             _vFlashTimeLabel.Foreground = Brushes.Black;
             _vFlashTimeLabel.FontSize = 10;
 
-            guiVFlashGrid.Children.Add(_vFlashLoadButton = GuiFactory.CreateButton("VFlash1LoadButton", "Load Path", 5, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, LoadVFlashProject));
-            guiVFlashGrid.Children.Add(_vFlashUnloadButton = GuiFactory.CreateButton("VFlash1UnloadButton", "Unload Path", 100, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, UnloadVFlashProject));
-            guiVFlashGrid.Children.Add(_vFlashFlashButton = GuiFactory.CreateButton("VFlash1FlashButton", "Flash", 195, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, FlashVFlashProject));
+            guiVFlashGrid.Children.Add(_vFlashLoadButton = GuiFactory.CreateButton("VFlashLoadButton", "Load Path", 5, 65, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 90, LoadVFlashProject));
+            guiVFlashGrid.Children.Add(_vFlashUnloadButton = GuiFactory.CreateButton("VFlashUnloadButton", "Unload Path", 100, 65, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 90, UnloadVFlashProject));
+            guiVFlashGrid.Children.Add(_vFlashFlashButton = GuiFactory.CreateButton("VFlashFlashButton", "Flash", 195, 65, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 90, FlashVFlashProject));
             _vFlashFlashButton.FontWeight = FontWeights.Bold;
-            guiVFlashGrid.Children.Add(_vFlashFaultsButton = GuiFactory.CreateButton("VFlash1FaultsButton", "Faults", 290, 10, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90, VFlashShowFaults));
+            guiVFlashGrid.Children.Add(GuiFactory.CreateButton("VFlashFaultsButton", "Faults", 290, 65, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 90, VFlashShowFaults));
 
-            guiVFlashGrid.Children.Add(_vFlashControlBox = GuiFactory.CreateCheckBox("VFlash1ControlBox", "PC Control", 5, 10, HorizontalAlignment.Right, VerticalAlignment.Bottom, 77, VFlashControlModeChanged));
+            guiVFlashGrid.Children.Add(GuiFactory.CreateCheckBox("VFlashControlBox", "PC Control", 5, 80, HorizontalAlignment.Right, VerticalAlignment.Top, 77, VFlashControlModeChanged));
         }
 
         private void VFlashControlModeChanged(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var box = (CheckBox)sender;
+            _vFlash.PcControlMode = !_vFlash.PcControlMode;
+            box.IsChecked = _vFlash.PcControlMode;
+            Logger.Log("VFlash: PC Control mode changed to " + _vFlash.PcControlMode);
         }
 
         private void LoadVFlashProject(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            // Create OpenFileDialog
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
+            // Set filter for file extension and default file extension
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                try
+                {
+                    _vFlash.SetProjectPath(Id, dlg.FileName);
+                    _vFlash.LoadProject(Id);
+                    Logger.Log("Path load requested by the operator");
+                }
+                catch (Exception exception) { MessageBox.Show(exception.Message, "Path Loading Failed"); }
+            }
         }
 
         private void UnloadVFlashProject(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _vFlash.UnloadProject(Id);
+                Logger.Log("Path unload requested by the operator");
+            }
+            catch (Exception exception) { MessageBox.Show(exception.Message, "Path Unloading Failed"); }
         }
 
         private void FlashVFlashProject(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var channel = _vFlash.ReturnChannelSetup(Id);
+            if (channel.Status == VFlashStationComponent.VFlashStatus.Flashing)
+            {
+                try
+                {
+                    _vFlash.AbortFlashing(Id);
+                    Logger.Log("Flash abort requested by the operator");
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, "Flash Abort Failed");
+                }
+            }
+            if (channel.Status != VFlashStationComponent.VFlashStatus.Flashing)
+            {
+                try
+                {
+                    _vFlash.StartFlashing(Id);
+                    Logger.Log("Path start requested by the operator");
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, "Path Flashing Failed");
+                }
+            }
         }
 
         private void VFlashShowFaults(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _windowReport = new FaultReport(ClearFaults);
+            _windowReport.Show();
+            _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
+            _vFlash.ErrorCollector.CreateReport();
+        }
+
+        private void ClearFaults()
+        {
+            _vFlash.ErrorCollector.Clear();
+            _windowReport.FaultListBox.Items.Clear();
+            _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
+            Logger.Log("VFlash: Fault list ereased");
         }
 
         public override void MakeVisible(uint id)
@@ -111,6 +177,113 @@ namespace _3880_80_FlashStation.Visual.Gui
         public override void MakeInvisible(uint id)
         {
             _generalGrid.Visibility = Visibility.Hidden;
+        }
+
+        public void Update()
+        {
+            while (_updateThread.IsAlive)
+            {
+                string path = "File path is not specified";
+                string status;
+                Brush colourBrush;
+
+                var channel = _vFlash.ReturnChannelSetup(Id);
+                if (channel == null) { return; }
+                switch (channel.Status)
+                {
+                    case VFlashStationComponent.VFlashStatus.Created:
+                        status = "Channel created";
+                        colourBrush = Brushes.Black;
+                        _vFlashButtonEnables = 100;
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Loading:
+                        status = "Loading ...";
+                        colourBrush = Brushes.Black;
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Loaded:
+                        status = "Path was loaded succesfully";
+                        colourBrush = Brushes.Green;
+                        _vFlashButtonEnables = 11;
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Unloading:
+                        status = "Unloading ...";
+                        colourBrush = Brushes.Black;
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Unloaded:
+                        status = "Path was unloaded succesfully";
+                        colourBrush = Brushes.Green;
+                        _vFlashButtonEnables = 100;
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Flashing:
+                        status = "Flashing ...";
+                        colourBrush = Brushes.Black;
+                        _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.Content = "Abort"; })));
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Aborting:
+                        status = "Flash Aborting ...";
+                        colourBrush = Brushes.Red;
+                        _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.Content = "Abort"; })));
+                        break;
+                    case VFlashStationComponent.VFlashStatus.Flashed:
+                        status = "Flashing succeed";
+                        colourBrush = Brushes.Green;
+                        _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.Content = "Flash"; })));
+                        _vFlashButtonEnables = 11;
+                        break;
+                    default:
+                        status = channel.Status.ToString();
+                        colourBrush = Brushes.Red;
+                        _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.Content = "Flash"; })));
+                        break;
+                }
+
+                if (_vFlashButtonEnables == 11)
+                {
+                    _vFlashLoadButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashLoadButton.IsEnabled = false; })));
+                    _vFlashUnloadButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashUnloadButton.IsEnabled = true; })));
+                    _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.IsEnabled = true; })));
+                }
+                if (_vFlashButtonEnables == 100)
+                {
+                    _vFlashLoadButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashLoadButton.IsEnabled = true; })));
+                    _vFlashUnloadButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashUnloadButton.IsEnabled = false; })));
+                    _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.IsEnabled = false; })));
+                }
+                if (!_vFlash.PcControlMode)
+                {
+                    _vFlashLoadButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashLoadButton.IsEnabled = false; })));
+                    _vFlashUnloadButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashUnloadButton.IsEnabled = false; })));
+                    _vFlashFlashButton.Dispatcher.BeginInvoke((new Action(delegate { _vFlashFlashButton.IsEnabled = false; })));
+                }
+
+                if (channel.FlashProjectPath != "")
+                {
+                    string[] words = channel.FlashProjectPath.Split('\\');
+                    path = words[words.GetLength(0) - 1];
+                }
+                _vFlashProjectPathLabel.Dispatcher.BeginInvoke((new Action(delegate { _vFlashProjectPathLabel.Content = path; })));
+                _vFlashStatusLabel.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    _vFlashStatusLabel.Content = status;
+                    _vFlashStatusLabel.Foreground = colourBrush;
+                })));
+
+                VFlashStatusHandler(Id);
+                Thread.Sleep(21);
+            }
+        }
+
+        private void VFlashStatusHandler(uint chanId)
+        {
+            var channel = _vFlash.ReturnChannelSetup(chanId);
+
+            var remainingTimeInMinutes = new TimeSpan(0, 0, 0, (int)channel.RemainingTimeInSecs);
+            _vFlashTimeLabel.Dispatcher.BeginInvoke((new Action(delegate { _vFlashTimeLabel.Content = "Remaining time: " + remainingTimeInMinutes; })));
+            _vFlashProgressBar.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                _vFlashProgressBar.Foreground = Brushes.MidnightBlue;
+                _vFlashProgressBar.Value = channel.ProgressPercentage;
+            })));
         }
     }
 }

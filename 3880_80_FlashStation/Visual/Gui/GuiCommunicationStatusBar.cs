@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using _3880_80_FlashStation.Configuration;
-using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Visual.Gui

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
@@ -30,12 +29,12 @@ namespace _3880_80_FlashStation.Visual
         private PlcConfigurator _plcConfiguration;
 
         private VFlashHandler _vFlash;
-        private int _vFlashButtonEnables = 101;
+        //private int _vFlashButtonEnables = 101;
 
         //private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private CommunicationInterfaceHandler _communicationHandler;
 
-        private FaultReport _windowReport;
+        //private FaultReport _windowReport;
 
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
@@ -98,9 +97,13 @@ namespace _3880_80_FlashStation.Visual
             gridGuiPlcConfiguration.Initialize(1, 0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
 
-            var gridVFlash = new GuiVFlash();
-            gridVFlash.Initialize(1, 0, 120);
+            var gridVFlash = new GuiVFlash(_vFlash);
+            gridVFlash.Initialize(1, 0, 0);
             VFlashGrid.Children.Add(gridVFlash.GeneralGrid);
+
+            var gridGuiVFlashStatusBar = new GuiVFlashStatusBar(_vFlash);
+            gridGuiVFlashStatusBar.Initialize(1, 0, 330);
+            MainGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
 
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
@@ -182,8 +185,8 @@ namespace _3880_80_FlashStation.Visual
 
             VFlashTab.IsEnabled = true;
             VFlashProjectsTab.IsEnabled = true;
-            VFlash1UnloadButton.IsEnabled = false;
-            VFlash1FlashButton.IsEnabled = false;
+            //VFlash1UnloadButton.IsEnabled = false;
+            //VFlash1FlashButton.IsEnabled = false;
             
             try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, 1); }
             catch (Exception)
@@ -218,7 +221,7 @@ namespace _3880_80_FlashStation.Visual
                     //ActualConfigurationHandler(_plcCommunication.PlcConfiguration);
                     //StatusBarHandler(_plcCommunication);
                     OnlineDataDisplayHandler(_plcCommunication);
-                    VFlashDisplayHandler(_vFlash);
+                    //VFlashDisplayHandler(_vFlash);
                 }
                 Thread.Sleep(21);
             }
@@ -288,7 +291,7 @@ namespace _3880_80_FlashStation.Visual
             _plcCommunication.SetupConnection(_plcConfiguration);
         }*/
 
-        private void LoadVFlashProject(object sender, RoutedEventArgs e)
+        /*private void LoadVFlashProject(object sender, RoutedEventArgs e)
         {
             var loadButton = (Button) sender;
             // Create OpenFileDialog
@@ -382,7 +385,7 @@ namespace _3880_80_FlashStation.Visual
             _windowReport.FaultListBox.Items.Clear();
             _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
             Logger.Log("VFlash: Fault list ereased");
-        }
+        }*/
 
         private void TypeCreation(object sender, RoutedEventArgs e)
         {
@@ -541,13 +544,13 @@ namespace _3880_80_FlashStation.Visual
             catch (Exception) { _guiPlcConfiguration.PlcWriteLength = 0; }
         }*/
 
-        private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
+        /*private void VFlashControlModeChanged(object sender, RoutedEventArgs routedEventArgs)
         {
             var box = (CheckBox)sender;
             _vFlash.PcControlMode = !_vFlash.PcControlMode;
             box.IsChecked = _vFlash.PcControlMode;
             Logger.Log("VFlash: PC Control mode changed to " + _vFlash.PcControlMode);
-        }
+        }*/
 
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
@@ -624,7 +627,7 @@ namespace _3880_80_FlashStation.Visual
             DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, communication, _communicationHandler);
         }
 
-        private void VFlashDisplayHandler(VFlashHandler vector)
+        /*private void VFlashDisplayHandler(VFlashHandler vector)
         {
             string path = "File path is not specified";
             string status;
@@ -712,9 +715,9 @@ namespace _3880_80_FlashStation.Visual
             })));
 
             VFlashStatusHandler(1, colourBrush);
-        }
+        }*/
 
-        private void VFlashStatusHandler(uint chanId, Brush colourBrush)
+        /*private void VFlashStatusHandler(uint chanId, Brush colourBrush)
         {
             var channel = _vFlash.ReturnChannelSetup(chanId);
             
@@ -735,7 +738,7 @@ namespace _3880_80_FlashStation.Visual
                     })));
                     break;
             }
-        }
+        }*/
 
         /*private void UpdateSettings()
         {

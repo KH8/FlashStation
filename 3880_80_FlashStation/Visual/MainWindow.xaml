@@ -102,7 +102,7 @@
             </TabItem>
             <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">
                 <Grid Name="VFlashGrid">
-                    <GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="800">
+                    <!--GroupBox Header="Channel 1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Top" Width="800">
                         <Grid>
                             <ProgressBar Name="VFlash1ProgressBar" HorizontalAlignment="Left" Height="16" Margin="62,37,0,0" VerticalAlignment="Top" Width="721" Foreground="{x:Null}" UseLayoutRounding="False"/>
                             <Label Content="Actual Path Path: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="112" Margin="0,5,0,0"/>
@@ -116,7 +116,7 @@
                             <Button Name="VFlash1FaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,0,0,5" VerticalAlignment="Bottom" Width="90" Height="25" RenderTransformOrigin="0.444,1.12" Click="VFlashShowFaults"/>
                             <Label x:Name="VFlash1TimeLabel" Content="Remaining time: 0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Width="483" Margin="0,33,4,0" FontSize="10" Foreground="Black" Height="25"/>
                         </Grid>
-                    </GroupBox>
+                    </GroupBox-->
                 </Grid>
             </TabItem>
             <TabItem Name="VFlashProjectsTab" Header="VFlash Paths" IsEnabled="False">
@@ -162,6 +162,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Name="VFlashChannel1StatusLabel" Content="vFlash Channel 1 Initialized" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="0,322,0,0" VerticalAlignment="Top" Width="810"  FontSize="10" Foreground="Black"/>   
+        <!--Label Name="VFlashChannel1StatusLabel" Content="vFlash Channel 1 Initialized" HorizontalContentAlignment="Right" HorizontalAlignment="Center" Height="25" Margin="0,322,0,0" VerticalAlignment="Top" Width="810"  FontSize="10" Foreground="Black"/-->   
     </Grid>
 </Window>
