@@ -22,7 +22,6 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class MainWindow
     {
-        private readonly Thread _statusThread;
         private readonly Thread _communicationThread;
 
         private PlcCommunicator _plcCommunication;
@@ -99,14 +98,9 @@ namespace _3880_80_FlashStation.Visual
             gridGuiVFlashStatusBar.Initialize(1, 0, 300);
             MainGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
 
-            var gridGuiOutputCreator = new GuiOutputCreator(_communicationHandler);
-            gridGuiOutputCreator.Initialize(1, 0, 100);
+            var gridGuiOutputCreator = new GuiOutputCreator(_communicationHandler, OutputCreatorFile.Default);
+            gridGuiOutputCreator.Initialize(1, 0, 0);
             OutputCreatorGrid.Children.Add(gridGuiOutputCreator.GeneralGrid);
-
-            _statusThread = new Thread(StatusHandler);
-            _statusThread.SetApartmentState(ApartmentState.STA);
-            _statusThread.IsBackground = true;
-            _statusThread.Start();
 
             _communicationThread = new Thread(CommunicationHandler);
             _communicationThread.SetApartmentState(ApartmentState.STA);
@@ -196,18 +190,6 @@ namespace _3880_80_FlashStation.Visual
 
         #region Thread Methods
 
-        private void StatusHandler()
-        {
-            while (_statusThread.IsAlive)
-            {
-                if (_plcCommunication != null)
-                {
-                    DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationHandler);
-                }
-                Thread.Sleep(21);
-            }
-        }
-
         private void CommunicationHandler()
         {
             while (_communicationThread.IsAlive)
@@ -215,6 +197,10 @@ namespace _3880_80_FlashStation.Visual
                 if (_plcCommunication != null && _plcCommunication.ConnectionStatus == 1)
                 {
                     _communicationHandler.MaintainConnection(_plcCommunication);
+                }
+                if (_plcCommunication != null)
+                {
+                    DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationHandler);
                 }
                 Thread.Sleep(11);
             }
@@ -258,31 +244,6 @@ namespace _3880_80_FlashStation.Visual
                     });
                 }
             }
-        }
-
-        private void CreateOutput(object sender, RoutedEventArgs e)
-        {
-            OutputWriter outputWriter = null;
-            var selection = OutputTypeComboBox.SelectedValue;
-            if (selection == null) 
-            { 
-                MessageBox.Show("No file type selected!", "Error");
-                return;
-            }
-            switch (selection.ToString())
-            {
-                case "System.Windows.Controls.ComboBoxItem: *.xml":
-                    outputWriter = new OutputXmlWriter();
-                    break;
-                case "System.Windows.Controls.ComboBoxItem: *.csv":
-                    outputWriter = new OutputCsvWriter();
-                    break;
-                case "System.Windows.Controls.ComboBoxItem: *.xls":
-                    outputWriter = new OutputXlsWriter();
-                    break;
-            }
-            if (outputWriter != null)
-                outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
         }
 
         #endregion

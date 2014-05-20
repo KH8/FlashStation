@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Threading;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.Output;
-using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual.Gui
 {
@@ -14,7 +12,8 @@ namespace _3880_80_FlashStation.Visual.Gui
     {
         private Grid _generalGrid;
 
-        private CommunicationInterfaceHandler _communicationHandler;
+        private readonly CommunicationInterfaceHandler _communicationHandler;
+        private OutputCreatorFile _outputCreatorFile;
 
         private ComboBox _outputTypeComboBox = new ComboBox();
 
@@ -24,9 +23,10 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiOutputCreator(CommunicationInterfaceHandler communicationHandler)
+        public GuiOutputCreator(CommunicationInterfaceHandler communicationHandler, OutputCreatorFile outputCreatorFile)
         {
             _communicationHandler = communicationHandler;
+            _outputCreatorFile = outputCreatorFile;
         }
 
         public override void Initialize(uint id, int xPosition, int yPosition)
@@ -35,21 +35,42 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 100, 250);
+            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 250);
 
-            var guiOutputCreatorGroupBox = GuiFactory.CreateGroupBox("Output Creation", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 100, 250);
+            var guiOutputCreatorGroupBox = GuiFactory.CreateGroupBox("Output Creation", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 250);
             _generalGrid.Children.Add(guiOutputCreatorGroupBox);
 
             var guiOutputCreatorGrid = GuiFactory.CreateGrid();
             guiOutputCreatorGroupBox.Content = guiOutputCreatorGrid;
 
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Output File Type:", 5, 10, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 105));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateButton("CreateOutputButton", "CreateOutput", 130, 40, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, CreateOutput));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 43, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputCreatorFile.StartAddress.ToString(CultureInfo.InvariantCulture), 130, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputCreatorFile.EndAddress.ToString(CultureInfo.InvariantCulture), 130, 38, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
 
-            guiOutputCreatorGrid.Children.Add(_outputTypeComboBox = GuiFactory.CreateComboBox("OutputTypeComboBox", "Select", 110, 13, HorizontalAlignment.Left, VerticalAlignment.Top, 22, 120));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Output File Type:", 5, 71, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 105));
+            guiOutputCreatorGrid.Children.Add(_outputTypeComboBox = GuiFactory.CreateComboBox("OutputTypeComboBox", "Select", 130, 71, HorizontalAlignment.Left, VerticalAlignment.Top, 22, 100));
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
+
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateButton("CreateOutputButton", "CreateOutput", 130, 99, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, CreateOutput));
+        }
+
+        private void StartPositionChanged(object sender, TextChangedEventArgs e)
+        {
+            var box = (TextBox)sender;
+            try { _outputCreatorFile.StartAddress = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputCreatorFile.StartAddress = 0; }
+            _outputCreatorFile.Save();
+        }
+
+        private void EndPositionBoxChanged(object sender, TextChangedEventArgs e)
+        {
+            var box = (TextBox)sender;
+            try { _outputCreatorFile.EndAddress = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputCreatorFile.EndAddress = 0; }
+            _outputCreatorFile.Save();
         }
 
         private void CreateOutput(object sender, RoutedEventArgs e)
@@ -76,7 +97,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             if (outputWriter != null)
                 try
                 {
-                    outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, 0, 10));
+                    outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.WriteInterfaceComposite, _outputCreatorFile.StartAddress, _outputCreatorFile.EndAddress));
                 }
                 catch (Exception)
                 {

@@ -59,6 +59,8 @@ namespace _3880_80_FlashStation.Visual.Gui
             while (_updateThread.IsAlive)
             {
                 var channel = _vFlash.ReturnChannelSetup(Id);
+                if (channel == null) return;
+
                 Brush colourBrush;
                 switch (channel.Status)
                 {
