@@ -46,5 +46,17 @@ namespace _3880_80_FlashStation.Output {
                 this["EndAddress"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedIndex {
+            get {
+                return ((int)(this["SelectedIndex"]));
+            }
+            set {
+                this["SelectedIndex"] = value;
+            }
+        }
     }
 }

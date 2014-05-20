@@ -13,7 +13,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Grid _generalGrid;
 
         private readonly CommunicationInterfaceHandler _communicationHandler;
-        private OutputCreatorFile _outputCreatorFile;
+        private readonly OutputCreatorFile _outputCreatorFile;
 
         private ComboBox _outputTypeComboBox = new ComboBox();
 
@@ -53,8 +53,17 @@ namespace _3880_80_FlashStation.Visual.Gui
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
+            _outputTypeComboBox.SelectedIndex = _outputCreatorFile.SelectedIndex;
+            _outputTypeComboBox.SelectionChanged += ComboBoxOnSelectionChanged;
 
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateButton("CreateOutputButton", "CreateOutput", 130, 99, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, CreateOutput));
+        }
+
+        private void ComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            var outputTypeComboBox = (ComboBox) sender;
+            _outputCreatorFile.SelectedIndex = outputTypeComboBox.SelectedIndex;
+            _outputCreatorFile.Save();
         }
 
         private void StartPositionChanged(object sender, TextChangedEventArgs e)

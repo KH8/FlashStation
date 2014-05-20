@@ -54,7 +54,7 @@
                     <Label Content="Type Number:" HorizontalAlignment="Left" Height="31" Margin="431,213,0,0" VerticalAlignment="Top" Width="94"/>
                     <TextBox Name="TypeNumberBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="522,213,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
                     <Label Content="Version:" HorizontalAlignment="Left" Height="31" Margin="573,213,0,0" VerticalAlignment="Top" Width="55"/>
-                    <TextBox Name="TypeVersionBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="628,213,0,0" TextWrapping="Wrap" Text="V1.0" VerticalAlignment="Top" Width="66"/>
+                    <TextBox Name="TypeVersionBox" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Height="23" Margin="628,213,0,0" TextWrapping="Wrap" Text="-001" VerticalAlignment="Top" Width="66"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Output">
