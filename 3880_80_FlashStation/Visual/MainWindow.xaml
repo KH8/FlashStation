@@ -61,17 +61,19 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Output">
-                <GroupBox Header="Output Creation" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="248">
-                    <Grid>
-                        <Label Content="Output File Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="105" Margin="5,10,0,0"/>
-                        <ComboBox Name="OutputTypeComboBox" Text="Select" HorizontalAlignment="Left" Margin="110,13,0,0" VerticalAlignment="Top" Width="120">
-                            <ComboBoxItem Name="Xml">*.xml</ComboBoxItem>
-                            <ComboBoxItem Name="Csv">*.csv</ComboBoxItem>
-                            <ComboBoxItem Name="Xls">*.xls</ComboBoxItem>
-                        </ComboBox>
-                        <Button Content="CreateOutput" HorizontalAlignment="Right" Height="25" Margin="0,40,6,0" VerticalAlignment="Top" Width="100" Click="CreateOutput" ClickMode="Release"/>
-                    </Grid>
-                </GroupBox>
+                <Grid Name="OutputCreatorGrid">
+                    <GroupBox Header="Output Creation" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="248">
+                        <Grid>
+                            <Label Content="Output File Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="105" Margin="5,10,0,0"/>
+                            <ComboBox Name="OutputTypeComboBox" Text="Select" HorizontalAlignment="Left" Margin="110,13,0,0" VerticalAlignment="Top" Width="120">
+                                <ComboBoxItem Name="Xml">*.xml</ComboBoxItem>
+                                <ComboBoxItem Name="Csv">*.csv</ComboBoxItem>
+                                <ComboBoxItem Name="Xls">*.xls</ComboBoxItem>
+                            </ComboBox>
+                            <Button Content="CreateOutput" HorizontalAlignment="Right" Height="25" Margin="0,40,6,0" VerticalAlignment="Top" Width="100" Click="CreateOutput" ClickMode="Release"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Log">
                 <Grid>

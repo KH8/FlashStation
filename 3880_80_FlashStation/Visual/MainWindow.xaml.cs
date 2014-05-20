@@ -99,6 +99,10 @@ namespace _3880_80_FlashStation.Visual
             gridGuiVFlashStatusBar.Initialize(1, 0, 300);
             MainGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
 
+            var gridGuiOutputCreator = new GuiOutputCreator(_communicationHandler);
+            gridGuiOutputCreator.Initialize(1, 0, 100);
+            OutputCreatorGrid.Children.Add(gridGuiOutputCreator.GeneralGrid);
+
             _statusThread = new Thread(StatusHandler);
             _statusThread.SetApartmentState(ApartmentState.STA);
             _statusThread.IsBackground = true;
