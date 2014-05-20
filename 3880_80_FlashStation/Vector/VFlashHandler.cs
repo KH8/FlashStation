@@ -129,14 +129,16 @@ namespace _3880_80_FlashStation.Vector
         {
             Int16 counter = 0;
             Int16 antwort = 0;
-            Int16 caseAuxiliary = 0; //for commands working on the rising edge only
+            Int16 caseAuxiliary = 0; 
+            string version = "N/L";
 
             while (_vFlashThread.IsAlive)
             {
                 var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
 
                 var inputCompositeCommand = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
-                var inputCompositeProgrammTyp = (CiInteger)_inputComposite.ReturnVariable("PROGRAMMTYP");
+                var inputCompositeProgrammTyp = (CiInteger) _inputComposite.ReturnVariable("PROGRAMMTYP");
+                var outputCompositeActiveProgramType = (CiInteger)_outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
 
                 _pcControlModeChangeAllowed = false;
 
@@ -238,21 +240,21 @@ namespace _3880_80_FlashStation.Vector
                 if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", antwort);
                 
                 Int16 statusInt = 0;
-                string version = "N/L";
-
+                
                 if (channelFound != null)
                     switch (channelFound.Status)
                     {
                         case VFlashStationComponent.VFlashStatus.Created:
                             statusInt = 100;
                             _pcControlModeChangeAllowed = true;
+                            version = "N/L";
                             break;
                         case VFlashStationComponent.VFlashStatus.Loading:
                             statusInt = 299;
                             break;
                         case VFlashStationComponent.VFlashStatus.Loaded:
                             statusInt = 200;
-                            version = VFlashTypeBank.ReturnVersion(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
+                            version = VFlashTypeBank.ReturnVersion((uint)outputCompositeActiveProgramType.Value) ?? "N/L";
                             _pcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:

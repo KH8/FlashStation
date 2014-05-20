@@ -202,7 +202,7 @@ namespace _3880_80_FlashStation.Visual
                 {
                     DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationHandler);
                 }
-                Thread.Sleep(11);
+                Thread.Sleep(21);
             }
         }
 

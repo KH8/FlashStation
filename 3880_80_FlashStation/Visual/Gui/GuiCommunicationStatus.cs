@@ -134,21 +134,17 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         public void ConnectionButtonClick(object sender, RoutedEventArgs e)
         {
-            var connectButton = (Button) sender;
-
             if (_plcCommunication == null) return;
             try
             {
                 if (_plcCommunication.ConnectionStatus != 1)
                 {
                     _plcCommunication.OpenConnection();
-                    connectButton.Dispatcher.BeginInvoke((new Action(delegate { connectButton.Content = "Disconnect"; })));
                     Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                 }
                 else
                 {
                     _plcCommunication.CloseConnection();
-                    connectButton.Dispatcher.BeginInvoke((new Action(delegate { connectButton.Content = "Connect"; })));
                     Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                 }
             }
