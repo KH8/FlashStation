@@ -39,7 +39,7 @@
         </Menu>
         <Border Margin="0,26,0,50" BorderThickness="1" BorderBrush="#FF8C8E94">
             <Grid Background="#FFF0F0F0">
-                <TabControl HorizontalAlignment="Center" Height="274" VerticalAlignment="Top" Width="810" Margin="0,2,0,0" SelectionChanged="UpdateLog">
+                <TabControl HorizontalAlignment="Left" Height="274" VerticalAlignment="Top" Width="810" Margin="4,2,0,0" SelectionChanged="UpdateLog">
                     <TabItem Header="Connection Status">
                         <Grid Name="ConnectionStatusGrid"></Grid>
                     </TabItem>
@@ -48,7 +48,7 @@
                     </TabItem>
                     <TabItem Header="Online Communication">
                         <Grid Name="OnlineCommunicationGrid">
-                            <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,2,0,0" VerticalAlignment="Top" Width="398" ItemsSource="{Binding ReadInterfaceCollection}" Foreground="Black">
+                            <ListView Name="OnlineReadDataListBox" HorizontalAlignment="Left" Height="240" Margin="0,0,0,0" VerticalAlignment="Top" Width="398" ItemsSource="{Binding ReadInterfaceCollection}" Foreground="Black">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Width="70" Header="Addr." DisplayMemberBinding="{Binding Address}" />
@@ -58,7 +58,7 @@
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                            <ListView Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,2,0,0" VerticalAlignment="Top" Width="398" ItemsSource="{Binding WriteInterfaceCollection}" Foreground="Black">
+                            <ListView Name="OnlineWriteDataListBox" HorizontalAlignment="Right" Height="240" Margin="0,0,0,0" VerticalAlignment="Top" Width="398" ItemsSource="{Binding WriteInterfaceCollection}" Foreground="Black">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Width="70" Header="Addr." DisplayMemberBinding="{Binding Address}" />
