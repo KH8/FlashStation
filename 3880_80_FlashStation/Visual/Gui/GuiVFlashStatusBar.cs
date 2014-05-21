@@ -39,7 +39,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 810);
+            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Right, VerticalAlignment.Top, 25, 810);
             GeneralGrid.Children.Add(_vFlashLabel = GuiFactory.CreateLabel("VFlashChannelStatusLabel", "vFlash Channel 1 Initialized", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Bottom, HorizontalAlignment.Right, 25, 810));
             _vFlashLabel.FontSize = 10; 
         }

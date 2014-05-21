@@ -83,8 +83,8 @@ namespace _3880_80_FlashStation.Visual
             ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
             var gridGuiCommunicationStatusBar = new GuiCommunicationStatusBar(_plcCommunication);
-            gridGuiCommunicationStatusBar.Initialize(1, 0, 285);
-            MainGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
+            gridGuiCommunicationStatusBar.Initialize(1, 0, 5);
+            FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
             var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
             gridGuiPlcConfiguration.Initialize(1, 0, 0);
@@ -95,8 +95,8 @@ namespace _3880_80_FlashStation.Visual
             VFlashGrid.Children.Add(gridVFlash.GeneralGrid);
 
             var gridGuiVFlashStatusBar = new GuiVFlashStatusBar(_vFlash);
-            gridGuiVFlashStatusBar.Initialize(1, 0, 300);
-            MainGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
+            gridGuiVFlashStatusBar.Initialize(1, 0, 20);
+            FooterGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
 
             var gridGuiOutputCreator = new GuiOutputCreator(_communicationHandler, OutputCreatorFile.Default);
             gridGuiOutputCreator.Initialize(1, 0, 0);
