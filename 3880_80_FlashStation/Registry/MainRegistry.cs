@@ -40,7 +40,7 @@ namespace _3880_80_FlashStation.Registry
     {
         public override void AddPlcCommunicator()
         {
-            PlcCommunicators.Add(1, new PlcCommunicator());
+            PlcCommunicators.Add(PlcCommunicators.Count + 1, new PlcCommunicator());
         }
 
         public override void AddCommunicationInterface()
