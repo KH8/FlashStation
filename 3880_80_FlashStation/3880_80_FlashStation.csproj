@@ -88,6 +88,12 @@
       <DependentUpon>OutputCreatorFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Registry\MainRegistry.cs" />
+    <Compile Include="Registry\MainRegistry.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MainRegistry.settings</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiOutputCreator.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiVFlash.cs" />
@@ -107,6 +113,10 @@
     <None Include="Output\OutputCreatorFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>OutputCreatorFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Registry\MainRegistry.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MainRegistry.Designer.cs</LastGenOutput>
     </None>
     <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
     <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />
