@@ -118,7 +118,8 @@ namespace _3880_80_FlashStation.Visual
         {
             Logger.Log("Initialization of the interface");
 
-            _communicationHandler = new CommunicationInterfaceHandler();
+            _communicationHandler = new CommunicationInterfaceHandler(CommunicationInterfacePath.Default);
+
             if (CommunicationInterfacePath.Default.ConfigurationStatus == 1)
             {
                 try {_communicationHandler.Initialize(); }

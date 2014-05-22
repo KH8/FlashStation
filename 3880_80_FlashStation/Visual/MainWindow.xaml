@@ -23,8 +23,8 @@
                 <MenuItem Header="_Exit"></MenuItem>
             </MenuItem>
             <MenuItem Header="_EDIT">
-                <MenuItem Header="_Add Interface"></MenuItem>
                 <MenuItem Header="_Add Connection"></MenuItem>
+                <MenuItem Header="_Add Interface"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Add Output File Handler"></MenuItem>
                 <MenuItem Header="_Add SQL connection"></MenuItem>

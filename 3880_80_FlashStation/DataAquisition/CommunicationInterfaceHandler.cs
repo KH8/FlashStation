@@ -5,8 +5,14 @@ namespace _3880_80_FlashStation.DataAquisition
 {
     public class CommunicationInterfaceHandler
     {
+        private readonly CommunicationInterfacePath _pathFile;
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;
+
+        public CommunicationInterfaceHandler(CommunicationInterfacePath pathFile)
+        {
+            _pathFile = pathFile;
+        }
 
         public CommunicationInterfaceComposite ReadInterfaceComposite
         {
@@ -21,8 +27,8 @@ namespace _3880_80_FlashStation.DataAquisition
 
         public void Initialize()
         {
-            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.ReadInterface);
-            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.WriteInterface);
+            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile);
+            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
         }
 
         public void MaintainConnection(PlcCommunicator communication)

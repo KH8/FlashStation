@@ -13,7 +13,7 @@ namespace _3880_80_FlashStation.DataAquisition {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class CommunicationInterfacePath : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class CommunicationInterfacePath : global::System.Configuration.ApplicationSettingsBase {
         
         private static CommunicationInterfacePath defaultInstance = ((CommunicationInterfacePath)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new CommunicationInterfacePath())));
         

@@ -5,7 +5,7 @@ namespace _3880_80_FlashStation.DataAquisition
 {
     static class CommunicationInterfaceBuilder
     {
-        public static CommunicationInterfaceComposite InitializeInterface(CommunicationInterfaceComponent.InterfaceType type)
+        public static CommunicationInterfaceComposite InitializeInterface(CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
         {
             bool readAreaFound = false;
             bool writeAreaFound = false;
@@ -14,7 +14,7 @@ namespace _3880_80_FlashStation.DataAquisition
             int writeStartAddress = -1;
 
             var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
-            var reader = new StreamReader(CommunicationInterfacePath.Default.Path);
+            var reader = new StreamReader(pathFile.Path);
 
             string line;
             string[] words;
