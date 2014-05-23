@@ -8,22 +8,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Linq.Expressions;
+using System.Windows.Media.Imaging;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Configuration {
-    
-    
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
     internal sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static PlcConfigurationFile defaultInstance = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
+
+        private static PlcConfigurationFile[] configurations = createConfigurationFileArray(8);
         
-        public static PlcConfigurationFile Default {
-            get {
-                return defaultInstance;
-            }
-        }
+        public static PlcConfigurationFile Default { get { return defaultInstance; }}
+        public static PlcConfigurationFile[] Configurations { get { return configurations; }}
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -36,6 +36,18 @@ namespace _3880_80_FlashStation.Configuration {
             set {
                 this["Configuration"] = value;
             }
+        }
+
+        private static PlcConfigurationFile[] createConfigurationFileArray(int size)
+        {
+            var array = new PlcConfigurationFile[size + 1];
+            array[0] = null;
+
+            for (int i = 0; i < size; i++)
+            {
+                array[i + 1] = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
+            }
+            return array;
         }
     }
 }

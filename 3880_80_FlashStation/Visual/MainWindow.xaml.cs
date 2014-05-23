@@ -47,6 +47,9 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
+            var registry = new Registry.Registry();
+            registry.AddPlcCommunicator();
+
             try
             {
                 InitializeInterface();
@@ -213,7 +216,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
         {
-            _vFlash.Deinitialize();
+            if(_vFlash != null) _vFlash.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
