@@ -50,7 +50,7 @@ namespace _3880_80_FlashStation.Visual
             var registry = new Registry.Registry();
             registry.AddPlcCommunicator();
 
-            try
+           /* try
             {
                 InitializeInterface();
             }
@@ -112,7 +112,7 @@ namespace _3880_80_FlashStation.Visual
 
             if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
             gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
-            Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");
+            Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");//*/
         }
 
         #region Init Methods

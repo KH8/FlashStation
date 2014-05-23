@@ -19,7 +19,6 @@ namespace _3880_80_FlashStation.Configuration {
     internal sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static PlcConfigurationFile defaultInstance = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
-
         private static PlcConfigurationFile[] configurations = createConfigurationFileArray(8);
         
         public static PlcConfigurationFile Default { get { return defaultInstance; }}
@@ -35,6 +34,18 @@ namespace _3880_80_FlashStation.Configuration {
             }
             set {
                 this["Configuration"] = value;
+            }
+        }
+
+        public PlcCommunicatorBase.PlcConfig[] Configurationss
+        {
+            get
+            {
+                return ((PlcCommunicatorBase.PlcConfig[])(this["Configurationss"]));
+            }
+            set
+            {
+                this["Configurationss"] = value;
             }
         }
 
