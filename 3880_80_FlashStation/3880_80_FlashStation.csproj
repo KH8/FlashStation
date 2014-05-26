@@ -182,7 +182,6 @@
   <ItemGroup>
     <Compile Include="PLC\PlcCommunicator.cs" />
     <Compile Include="PLC\PlcCommunicatorBase.cs" />
-    <Compile Include="PLC\PlcConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

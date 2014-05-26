@@ -25,7 +25,6 @@ namespace _3880_80_FlashStation.Visual
         private readonly Thread _communicationThread;
 
         private PlcCommunicator _plcCommunication;
-        private PlcConfigurator _plcConfiguration;
         private CommunicationInterfaceHandler _communicationHandler;
         private VFlashHandler _vFlash;
         
@@ -50,7 +49,7 @@ namespace _3880_80_FlashStation.Visual
             var registry = new Registry.Registry();
             registry.AddPlcCommunicator();
 
-           /* try
+            try
             {
                 InitializeInterface();
             }
@@ -89,7 +88,7 @@ namespace _3880_80_FlashStation.Visual
             gridGuiCommunicationStatusBar.Initialize(1, 0, 5);
             FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
-            var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _plcConfiguration, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
+            var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
             gridGuiPlcConfiguration.Initialize(1, 0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
 
@@ -159,7 +158,6 @@ namespace _3880_80_FlashStation.Visual
         {
             Logger.Log("Initialization of PLC communication");
             _plcCommunication = new PlcCommunicator();
-            _plcConfiguration = new PlcConfigurator();
             Logger.Log("PLC communication initialized");
         }
 

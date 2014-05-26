@@ -10,21 +10,14 @@ namespace _3880_80_FlashStation.Registry
 {
     abstract class RegistryBase
     {
-        public Dictionary<int, PlcCommunicator> PlcCommunicators;
-        public Dictionary<int, PlcConfigurator> PlcConfigurators;
-        public Dictionary<int, PlcConfigurationFile> PlcConfigurationFiles;
-        public Dictionary<int, PlcStartUpConnection> PlcStartUpConnections;
+        public Dictionary<int, PlcCommunicator> PlcCommunicators = new Dictionary<int, PlcCommunicator>();
+        public Dictionary<int, CommunicationInterfaceHandler> CommunicationInterfaceHandlers = new Dictionary<int, CommunicationInterfaceHandler>();
 
-        public Dictionary<int, CommunicationInterfaceHandler> CommunicationInterfaceHandlers;
-        public Dictionary<int, CommunicationInterfacePath> CommunicationInterfacePaths;
-
-        public Dictionary<int, VFlashHandler> VFlashHandlers;
-        public Dictionary<int, VFlashTypeBank> VFlashTypeBanks;
-        public Dictionary<int, VFlashTypeBankFile> VFlashTypeBankFiles;
-
-        public Dictionary<int, OutputWriter> OutputWriters;
-        public Dictionary<int, OutputCreatorFile> OutputCreatorFiles;
-
+        public Dictionary<int, VFlashHandler> VFlashHandlers = new Dictionary<int, VFlashHandler>();
+        public Dictionary<int, VFlashTypeBank> VFlashTypeBanks = new Dictionary<int, VFlashTypeBank>();
+        
+        public Dictionary<int, OutputWriter> OutputWriters = new Dictionary<int, OutputWriter>();
+        
         public abstract void AddPlcCommunicator();
         public abstract void AddCommunicationInterface();
         public abstract void AddOutputWriter();
@@ -40,28 +33,7 @@ namespace _3880_80_FlashStation.Registry
     {
         public override void AddPlcCommunicator()
         {
-            //PlcCommunicators.Add(PlcCommunicators.Count + 1, new PlcCommunicator());
-            PlcConfigurationFile.Configurations[4].Configuration = new PlcCommunicatorBase.PlcConfig
-            {
-                PlcIpAddress = "2312",
-                PlcConfigurationStatus = 4,
-                PlcRackNumber = 123
-            };
-            PlcConfigurationFile.Configurations[4].Save();
-            PlcConfigurationFile.Configurations[1].Configuration = new PlcCommunicatorBase.PlcConfig
-            {
-                PlcIpAddress = "2312111",
-                PlcConfigurationStatus = 1,
-                PlcRackNumber = 111
-            };
-            PlcConfigurationFile.Configurations[1].Save();
-            PlcConfigurationFile.Configurations[8].Configuration = new PlcCommunicatorBase.PlcConfig
-            {
-                PlcIpAddress = "8",
-                PlcConfigurationStatus = 8,
-                PlcRackNumber = 188
-            };
-            PlcConfigurationFile.Configurations[8].Save();
+            PlcCommunicators.Add(PlcCommunicators.Count + 1, new PlcCommunicator());
         }
 
         public override void AddCommunicationInterface()

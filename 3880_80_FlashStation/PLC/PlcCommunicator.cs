@@ -115,15 +115,15 @@ namespace _3880_80_FlashStation.PLC
 
         #region Methods
 
-        public void SetupConnection(PlcConfigurator configurator)
+        public void SetupConnection(PlcConfigurationFile configurationFile)
         {
-            if (configurator.PlcConfiguration.PlcConfigurationStatus != 1)
+            if (configurationFile.Configuration.PlcConfigurationStatus != 1)
             {
                 _configurationStatus = -1;
             }
             else
             {
-                _plcConfiguration = configurator.PlcConfiguration;
+                _plcConfiguration = configurationFile.Configuration;
                 _readBytes = new byte[_plcConfiguration.PlcReadLength];
                 _writeBytes = new byte[_plcConfiguration.PlcWriteLength];
                 _configurationStatus = 1;

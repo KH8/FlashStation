@@ -14,7 +14,6 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Grid _generalGrid;
 
         private readonly PlcCommunicator _plcCommunication;
-        private readonly PlcConfigurator _plcConfiguration;
         private readonly CommunicationInterfaceHandler _communicationHandler;
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private readonly PlcConfigurationFile _plcConfigurationFile;
@@ -28,10 +27,9 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiPlcConfiguration(PlcCommunicator plcCommunication, PlcConfigurator plcConfiguration, CommunicationInterfaceHandler communicationHandler, PlcConfigurationFile plcConfigurationFile, CommunicationInterfacePath communicationInterfacePath)
+        public GuiPlcConfiguration(PlcCommunicator plcCommunication, CommunicationInterfaceHandler communicationHandler, PlcConfigurationFile plcConfigurationFile, CommunicationInterfacePath communicationInterfacePath)
         {
             _plcCommunication = plcCommunication;
-            _plcConfiguration = plcConfiguration;
             _communicationHandler = communicationHandler;
             _plcConfigurationFile = plcConfigurationFile;
             _guiPlcConfiguration = _plcConfigurationFile.Configuration;
@@ -109,8 +107,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             _guiPlcConfiguration.PlcConfigurationStatus = 1;
             _plcConfigurationFile.Configuration = _guiPlcConfiguration;
             _plcConfigurationFile.Save();
-            _plcConfiguration.UpdateConfiguration(PlcConfigurationFile.Default.Configuration);
-            _plcCommunication.SetupConnection(_plcConfiguration);
+            _plcCommunication.SetupConnection(_plcConfigurationFile);
         }
 
         private void LoadSettingFile(object sender, RoutedEventArgs e)
