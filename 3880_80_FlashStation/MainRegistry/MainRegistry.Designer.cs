@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _3880_80_FlashStation.Registry {
+namespace _3880_80_FlashStation.MainRegistry {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

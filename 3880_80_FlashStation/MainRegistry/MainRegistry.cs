@@ -7,7 +7,7 @@ using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
 using _3880_80_FlashStation.Visual.Gui;
 
-namespace _3880_80_FlashStation.Registry
+namespace _3880_80_FlashStation.MainRegistry
 {
     abstract class RegistryBase
     {

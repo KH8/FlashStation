@@ -11,22 +11,26 @@
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Configuration {
-
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    public sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class PlcConfigurationFileTest : global::System.Configuration.ApplicationSettingsBase {
         
-        private static PlcConfigurationFile defaultInstance = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
+        private static PlcConfigurationFileTest defaultInstance = ((PlcConfigurationFileTest)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFileTest())));
         
-        public static PlcConfigurationFile Default { get { return defaultInstance; }}
+        public static PlcConfigurationFileTest Default {
+            get {
+                return defaultInstance;
+            }
+        }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public PlcCommunicatorBase.PlcConfig Configuration
-        {
+        public PlcCommunicatorBase.PlcConfig[] Configuration {
             get {
-                return ((PlcCommunicatorBase.PlcConfig)(this["Configuration"]));
+                return ((PlcCommunicatorBase.PlcConfig[])(this["Configuration"]));
             }
             set {
                 this["Configuration"] = value;

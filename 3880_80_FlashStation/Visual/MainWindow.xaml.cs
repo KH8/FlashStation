@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
+using _3880_80_FlashStation.MainRegistry;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
@@ -23,7 +24,7 @@ namespace _3880_80_FlashStation.Visual
     public partial class MainWindow
     {
         private readonly Thread _communicationThread;
-        private Registry.Registry _registry;
+        private readonly Registry _registry;
 
         private PlcCommunicator _plcCommunication;
         private CommunicationInterfaceHandler _communicationHandler;
@@ -47,9 +48,9 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            _registry = new Registry.Registry();
+            _registry = new Registry();
 
-            //*
+            /*
             try
             {
                 InitializeInterface();
