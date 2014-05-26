@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Output;
@@ -43,7 +42,7 @@ namespace _3880_80_FlashStation.Registry
             PlcCommunicators.Add(id, new PlcCommunicator());
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(PlcCommunicators[id], PlcStartUpConnection.Default)); //todo
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(PlcCommunicators[id]));
-            PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(PlcCommunicators[id], new CommunicationInterfaceHandler(CommunicationInterfacePath.Default), PlcConfigurationFile.Default, CommunicationInterfacePath.Default )); //todo
+            PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(PlcCommunicators[id],  PlcConfigurationFile.Default)); //todo
             return id;
         }
 

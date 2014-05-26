@@ -14,10 +14,8 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Grid _generalGrid;
 
         private readonly PlcCommunicator _plcCommunication;
-        private readonly CommunicationInterfaceHandler _communicationHandler;
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private readonly PlcConfigurationFile _plcConfigurationFile;
-        private readonly CommunicationInterfacePath _communicationInterfacePath;
 
         private TextBox _interfacePathBox = new TextBox();
 
@@ -27,13 +25,11 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiPlcConfiguration(PlcCommunicator plcCommunication, CommunicationInterfaceHandler communicationHandler, PlcConfigurationFile plcConfigurationFile, CommunicationInterfacePath communicationInterfacePath)
+        public GuiPlcConfiguration(PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile)
         {
             _plcCommunication = plcCommunication;
-            _communicationHandler = communicationHandler;
             _plcConfigurationFile = plcConfigurationFile;
             _guiPlcConfiguration = _plcConfigurationFile.Configuration;
-            _communicationInterfacePath = communicationInterfacePath;
 
             if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
         }
@@ -61,18 +57,6 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("RackBox", _guiPlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture), 180, 64, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, RackBoxChanged));
             guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("SlotBox", _guiPlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture), 180, 91, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, SlotBoxChanged));
 
-            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 148, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 398);
-            _generalGrid.Children.Add(guiInterfaceGroupBox);
-
-            var guiInterfaceGrid = GuiFactory.CreateGrid();
-            guiInterfaceGroupBox.Content = guiInterfaceGrid;
-
-            guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
-            guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 180, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
-
-            string[] words = _communicationInterfacePath.Path.Split('\\');
-            _interfacePathBox.Text = words[words.Length - 1];
-
             var guiDataGroupBox = GuiFactory.CreateGroupBox("PLC Data Setup", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, 206, 398);
             _generalGrid.Children.Add(guiDataGroupBox);
 
@@ -93,7 +77,6 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture), 200, 146, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
 
             _generalGrid.Children.Add(GuiFactory.CreateButton("UseSettingsButton", "Use Settings", 0, 211, HorizontalAlignment.Right, VerticalAlignment.Top, 25, 100, StoreSettingsButton));
-            _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 298, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
         }
 
         private void StoreSettingsButton(object sender, RoutedEventArgs e)
@@ -108,34 +91,6 @@ namespace _3880_80_FlashStation.Visual.Gui
             _plcConfigurationFile.Configuration = _guiPlcConfiguration;
             _plcConfigurationFile.Save();
             _plcCommunication.SetupConnection(_plcConfigurationFile);
-        }
-
-        private void LoadSettingFile(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".csv", Filter = "CSV (MS-DOS) (.csv)|*.csv" };
-            // Set filter for file extension and default file extension
-            // Display OpenFileDialog by calling ShowDialog method
-            bool? result = dlg.ShowDialog();
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                _communicationInterfacePath.Path = dlg.FileName;
-
-                try { _communicationHandler.Initialize(); }
-                catch (Exception)
-                {
-                    MessageBox.Show("Input file cannot be used", "Error");
-                    return;
-                }
-
-                _communicationInterfacePath.ConfigurationStatus = 1;
-                _communicationInterfacePath.Save();
-
-                string[] words = dlg.FileName.Split('\\');
-                _interfacePathBox.Text = words[words.Length - 1];
-                Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
-            }
         }
 
         public override void MakeVisible(uint id)

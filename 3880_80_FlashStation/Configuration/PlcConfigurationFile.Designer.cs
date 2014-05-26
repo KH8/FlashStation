@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Linq.Expressions;
-using System.Windows.Media.Imaging;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Configuration {

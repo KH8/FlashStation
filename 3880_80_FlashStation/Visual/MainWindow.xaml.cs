@@ -49,7 +49,8 @@ namespace _3880_80_FlashStation.Visual
 
             _registry = new Registry.Registry();
 
-            /*try
+            //*
+            try
             {
                 InitializeInterface();
             }
@@ -88,9 +89,13 @@ namespace _3880_80_FlashStation.Visual
             gridGuiCommunicationStatusBar.Initialize(1, 0, 5);
             FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
-            var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, _communicationHandler, PlcConfigurationFile.Default, CommunicationInterfacePath.Default);
+            var gridGuiPlcConfiguration = new GuiPlcConfiguration(_plcCommunication, PlcConfigurationFile.Default);
             gridGuiPlcConfiguration.Initialize(1, 0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
+
+            var gridGuiCommunicationInterfaceConfiguration = new GuiComInterfacemunicationConfiguration(_communicationHandler, CommunicationInterfacePath.Default);
+            gridGuiCommunicationInterfaceConfiguration.Initialize(1, 0, 0);
+            ConfigurationGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
 
             var gridVFlash = new GuiVFlash(_vFlash);
             gridVFlash.Initialize(1, 0, 0);
@@ -109,7 +114,7 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
 
-            /*if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
+            if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
             gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
             Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");//*/
         }
