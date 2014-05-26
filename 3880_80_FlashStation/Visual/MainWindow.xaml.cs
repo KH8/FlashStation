@@ -23,6 +23,7 @@ namespace _3880_80_FlashStation.Visual
     public partial class MainWindow
     {
         private readonly Thread _communicationThread;
+        private Registry.Registry _registry;
 
         private PlcCommunicator _plcCommunication;
         private CommunicationInterfaceHandler _communicationHandler;
@@ -46,10 +47,9 @@ namespace _3880_80_FlashStation.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
-            var registry = new Registry.Registry();
-            registry.AddPlcCommunicator();
+            _registry = new Registry.Registry();
 
-            try
+            /*try
             {
                 InitializeInterface();
             }
@@ -109,7 +109,7 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
 
-            if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
+            /*if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
             gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
             Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");//*/
         }
@@ -266,5 +266,21 @@ namespace _3880_80_FlashStation.Visual
 
         #endregion
 
+        private void AddConnection(object sender, RoutedEventArgs e)
+        {
+            var newId = _registry.AddPlcCommunicator();
+
+            var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[newId];
+            gridGuiCommunicationStatus.Initialize(1, 0, 0);
+            ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
+
+            var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[newId];
+            gridGuiCommunicationStatusBar.Initialize(1, 0, 5);
+            FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
+
+            var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
+            gridGuiPlcConfiguration.Initialize(1, 0, 0);
+            ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
+        }
     }
 }
