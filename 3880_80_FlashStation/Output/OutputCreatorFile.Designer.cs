@@ -26,9 +26,9 @@ namespace _3880_80_FlashStation.Output {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int StartAddress {
+        public int[] StartAddress {
             get {
-                return ((int)(this["StartAddress"]));
+                return ((int[])(this["StartAddress"]));
             }
             set {
                 this["StartAddress"] = value;
@@ -38,9 +38,9 @@ namespace _3880_80_FlashStation.Output {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int EndAddress {
+        public int[] EndAddress {
             get {
-                return ((int)(this["EndAddress"]));
+                return ((int[])(this["EndAddress"]));
             }
             set {
                 this["EndAddress"] = value;
@@ -50,9 +50,9 @@ namespace _3880_80_FlashStation.Output {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SelectedIndex {
+        public int[] SelectedIndex {
             get {
-                return ((int)(this["SelectedIndex"]));
+                return ((int[])(this["SelectedIndex"]));
             }
             set {
                 this["SelectedIndex"] = value;

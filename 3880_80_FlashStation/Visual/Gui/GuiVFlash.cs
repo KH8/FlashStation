@@ -33,8 +33,10 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiVFlash(VFlashHandler vFlash)
+        public GuiVFlash(uint id, VFlashHandler vFlash)
         {
+            Id = id;
+            
             _vFlash = vFlash;
 
             _updateThread = new Thread(Update);
@@ -43,9 +45,8 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.Start();
         }
 
-        public override void Initialize(uint id, int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition)
         {
-            Id = id;
             XPosition = xPosition;
             YPosition = yPosition;
 
@@ -169,12 +170,12 @@ namespace _3880_80_FlashStation.Visual.Gui
             Logger.Log("VFlash: Fault list ereased");
         }
 
-        public override void MakeVisible(uint id)
+        public override void MakeVisible()
         {
             _generalGrid.Visibility = Visibility.Visible;
         }
 
-        public override void MakeInvisible(uint id)
+        public override void MakeInvisible()
         {
             _generalGrid.Visibility = Visibility.Hidden;
         }

@@ -21,15 +21,16 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiComInterfacemunicationConfiguration(CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath)
+        public GuiComInterfacemunicationConfiguration(uint id, CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath)
         {
+            Id = id;
+
             _communicationHandler = communicationHandler;
             _communicationInterfacePath = communicationInterfacePath;
         }
 
-        public override void Initialize(uint id, int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition)
         {
-            Id = id;
             XPosition = xPosition;
             YPosition = yPosition;
 
@@ -44,7 +45,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
             guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 180, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
 
-            string[] words = _communicationInterfacePath.Path.Split('\\');
+            string[] words = _communicationInterfacePath.Path[Id].Split('\\');
             _interfacePathBox.Text = words[words.Length - 1];
 
             _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 298, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
@@ -60,16 +61,16 @@ namespace _3880_80_FlashStation.Visual.Gui
             // Get the selected file name and display in a TextBox
             if (result == true)
             {
-                _communicationInterfacePath.Path = dlg.FileName;
+                _communicationInterfacePath.Path[Id] = dlg.FileName;
 
-                try { _communicationHandler.Initialize(); }
+                try { _communicationHandler.Initialize(Id); }
                 catch (Exception)
                 {
                     MessageBox.Show("Input file cannot be used", "Error");
                     return;
                 }
 
-                _communicationInterfacePath.ConfigurationStatus = 1;
+                _communicationInterfacePath.ConfigurationStatus[Id] = 1;
                 _communicationInterfacePath.Save();
 
                 string[] words = dlg.FileName.Split('\\');
@@ -78,12 +79,12 @@ namespace _3880_80_FlashStation.Visual.Gui
             }
         }
 
-        public override void MakeVisible(uint id)
+        public override void MakeVisible()
         {
             _generalGrid.Visibility = Visibility.Visible;
         }
 
-        public override void MakeInvisible(uint id)
+        public override void MakeInvisible()
         {
             _generalGrid.Visibility = Visibility.Hidden;
         }

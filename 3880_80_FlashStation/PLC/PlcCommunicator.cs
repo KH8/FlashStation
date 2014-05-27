@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.PLC
@@ -115,15 +114,15 @@ namespace _3880_80_FlashStation.PLC
 
         #region Methods
 
-        public void SetupConnection(PlcConfigurationFile configurationFile)
+        public void SetupConnection(PlcConfig configuration)
         {
-            if (configurationFile.Configuration.PlcConfigurationStatus != 1)
+            if (configuration.PlcConfigurationStatus != 1)
             {
                 _configurationStatus = -1;
             }
             else
             {
-                _plcConfiguration = configurationFile.Configuration;
+                _plcConfiguration = configuration;
                 _readBytes = new byte[_plcConfiguration.PlcReadLength];
                 _writeBytes = new byte[_plcConfiguration.PlcWriteLength];
                 _configurationStatus = 1;
@@ -153,7 +152,7 @@ namespace _3880_80_FlashStation.PLC
                     {
                         _connectionStatus = 1;
                         Logger.Log("Communication with PLC IP Address : " +
-                                   PlcConfigurationFile.Default.Configuration.PlcIpAddress + " established");
+                                   _plcConfiguration.PlcIpAddress + " established");
                     }
                     else
                         _connectionStatus = -1;
@@ -175,7 +174,7 @@ namespace _3880_80_FlashStation.PLC
                 libnodave.closeSocket(_daveOSserialType.rfd);
             }
             _connectionStatus = -1;
-            Logger.Log("Communication with PLC IP Address : " + PlcConfigurationFile.Default.Configuration.PlcIpAddress + " was closed");
+            Logger.Log("Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was closed");
         }
 
         private void DataAquisition()
@@ -204,7 +203,7 @@ namespace _3880_80_FlashStation.PLC
                 {
                     CloseConnection();
                     _connectionStatus = -2;
-                    Logger.Log("Communication with PLC IP Address : " + PlcConfigurationFile.Default.Configuration.PlcIpAddress + " was broken");
+                    Logger.Log("Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 // Writeing...
                 if (_errorWriteByteNoDave != 0)
@@ -212,7 +211,7 @@ namespace _3880_80_FlashStation.PLC
                     CloseConnection();
                     _connectionStatus = -2;
                     //throw new PlcException("Error: Can not write data to PLC.");
-                    Logger.Log("Communication with PLC IP Address : " + PlcConfigurationFile.Default.Configuration.PlcIpAddress + " was broken");
+                    Logger.Log("Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 if (_connectionStatus == -2)
                 {

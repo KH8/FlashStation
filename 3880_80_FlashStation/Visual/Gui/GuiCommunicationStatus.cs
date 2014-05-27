@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.PLC;
 
@@ -14,7 +13,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Grid _generalGrid;
 
         private readonly PlcCommunicator _plcCommunication;
-        private readonly PlcStartUpConnection _plcStartUpConnection;
+        private readonly PlcConfigurationFile _plcConfigurationFile;
 
         private Label _actIpAddressLabel = new Label();
         private Label _actPortLabel = new Label();
@@ -38,10 +37,12 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationStatus(PlcCommunicator plcCommunication, PlcStartUpConnection plcStartUpConnection)
+        public GuiCommunicationStatus(uint id, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile)
         {
+            Id = id;
+
             _plcCommunication = plcCommunication;
-            _plcStartUpConnection = plcStartUpConnection;
+            _plcConfigurationFile = plcConfigurationFile;
 
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
@@ -49,9 +50,8 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.Start();
         }
 
-        public override void Initialize(uint id, int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition)
         {
-            Id = id;
             XPosition = xPosition;
             YPosition = yPosition;
 
@@ -88,15 +88,15 @@ namespace _3880_80_FlashStation.Visual.Gui
 
             GeneralGrid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
             GeneralGrid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
-            _startUpConnectionControlBox.IsChecked = _plcStartUpConnection.ConnectAtStartUp;
+            _startUpConnectionControlBox.IsChecked = _plcConfigurationFile.ConnectAtStartUp[Id];
         }
 
-        public override void MakeVisible(uint id)
+        public override void MakeVisible()
         {
             GeneralGrid.Visibility = Visibility.Visible;
         }
 
-        public override void MakeInvisible(uint id)
+        public override void MakeInvisible()
         {
             GeneralGrid.Visibility = Visibility.Hidden;
         }
@@ -161,8 +161,8 @@ namespace _3880_80_FlashStation.Visual.Gui
             var startUpConnectionControlBox = (CheckBox) sender;
             if (startUpConnectionControlBox.IsChecked != null)
             {
-                _plcStartUpConnection.ConnectAtStartUp = (bool)startUpConnectionControlBox.IsChecked;
-                _plcStartUpConnection.Save();
+                _plcConfigurationFile.ConnectAtStartUp[Id] = (bool)startUpConnectionControlBox.IsChecked;
+                _plcConfigurationFile.Save();
             } 
         }
     }

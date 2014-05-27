@@ -23,8 +23,10 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationStatusBar(PlcCommunicator plcCommunication)
+        public GuiCommunicationStatusBar(uint id, PlcCommunicator plcCommunication)
         {
+            Id = id;
+
             _plcCommunication = plcCommunication;
 
             _updateThread = new Thread(Update);
@@ -33,9 +35,8 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.Start();
         }
 
-        public override void Initialize(uint id, int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition)
         {
-            Id = id;
             XPosition = xPosition;
             YPosition = yPosition;
 
@@ -44,12 +45,12 @@ namespace _3880_80_FlashStation.Visual.Gui
             _plcStatusLabel.FontSize = 10;
         }
 
-        public override void MakeVisible(uint id)
+        public override void MakeVisible()
         {
             GeneralGrid.Visibility = Visibility.Visible;
         }
 
-        public override void MakeInvisible(uint id)
+        public override void MakeInvisible()
         {
             GeneralGrid.Visibility = Visibility.Hidden;
         }

@@ -6,14 +6,11 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using _3880_80_FlashStation.Configuration;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
-using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
-using _3880_80_FlashStation.Visual.Gui;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
@@ -122,18 +119,23 @@ namespace _3880_80_FlashStation.Visual
 
         #region Init Methods
 
+        internal void InitializeSettingsFiles()
+        {
+            
+        }
+
         internal void InitializeInterface()
         {
             Logger.Log("Initialization of the interface");
 
             _communicationHandler = new CommunicationInterfaceHandler(CommunicationInterfacePath.Default);
 
-            if (CommunicationInterfacePath.Default.ConfigurationStatus == 1)
+            if (CommunicationInterfacePath.Default.ConfigurationStatus[1] == 1)
             {
-                try {_communicationHandler.Initialize(); }
+                try {_communicationHandler.Initialize(1); }
                 catch (Exception)
                 {
-                    CommunicationInterfacePath.Default.ConfigurationStatus = 0;
+                    CommunicationInterfacePath.Default.ConfigurationStatus[1] = 0;
                     CommunicationInterfacePath.Default.Save();
                     MessageBox.Show("Interface initialization failed,\nRestart application", "Initialization Failed");
                     Logger.Log("PLC Communication interface initialization failed");
@@ -142,14 +144,14 @@ namespace _3880_80_FlashStation.Visual
             }
             else
             {
-                CommunicationInterfacePath.Default.Path = "DataAquisition\\DB1000.csv";
-                CommunicationInterfacePath.Default.ConfigurationStatus = 1;
+                CommunicationInterfacePath.Default.Path[1] = "DataAquisition\\DB1000.csv";
+                CommunicationInterfacePath.Default.ConfigurationStatus[1] = 1;
                 CommunicationInterfacePath.Default.Save();
                 
-                try { _communicationHandler.Initialize(); }
+                try { _communicationHandler.Initialize(1); }
                 catch (Exception)
                 {
-                    CommunicationInterfacePath.Default.ConfigurationStatus = 0;
+                    CommunicationInterfacePath.Default.ConfigurationStatus[1] = 0;
                     CommunicationInterfacePath.Default.Save();
                     MessageBox.Show("Interface initialization failed,\nRestart application", "Initialization Failed");
                     Logger.Log("PLC Communication interface initialization failed");
@@ -277,15 +279,15 @@ namespace _3880_80_FlashStation.Visual
             var newId = _registry.AddPlcCommunicator();
 
             var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[newId];
-            gridGuiCommunicationStatus.Initialize(1, 0, 0);
+            gridGuiCommunicationStatus.Initialize(0, 0);
             ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
             var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[newId];
-            gridGuiCommunicationStatusBar.Initialize(1, 0, 5);
+            gridGuiCommunicationStatusBar.Initialize(0, 5);
             FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
             var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
-            gridGuiPlcConfiguration.Initialize(1, 0, 0);
+            gridGuiPlcConfiguration.Initialize(0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
         }
     }

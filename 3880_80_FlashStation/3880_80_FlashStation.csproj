@@ -82,11 +82,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Configuration\PlcConfigurationFileTest.Designer.cs">
-      <DependentUpon>PlcConfigurationFileTest.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="Output\OutputCreatorFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -105,14 +100,6 @@
     <Compile Include="Visual\Gui\GuiVFlash.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
-    <None Include="Configuration\PlcConfigurationFileTest.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>PlcConfigurationFileTest.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Configuration\PlcStartUpConnection.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>PlcStartUpConnection.Designer.cs</LastGenOutput>
-    </None>
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
@@ -146,15 +133,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\PlcConfigurationFile.Designer.cs">
+    <Compile Include="PLC\PlcConfigurationFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>PlcConfigurationFile.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Configuration\PlcStartUpConnection.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>PlcStartUpConnection.settings</DependentUpon>
     </Compile>
     <Compile Include="DataAquisition\CommunicationInterface.cs" />
     <Compile Include="DataAquisition\CommunicationInterfaceBuilder.cs" />
@@ -210,7 +192,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="3880_80_FlashStation.cd" />
-    <None Include="Configuration\PlcConfigurationFile.settings">
+    <None Include="PLC\PlcConfigurationFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PlcConfigurationFile.Designer.cs</LastGenOutput>
     </None>

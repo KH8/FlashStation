@@ -25,10 +25,10 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _writeInterfaceComposite = value; }
         }
 
-        public void Initialize()
+        public void Initialize(uint id)
         {
-            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile);
-            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
+            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile);
+            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
         }
 
         public void MaintainConnection(PlcCommunicator communication)

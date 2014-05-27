@@ -8,28 +8,47 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using _3880_80_FlashStation.PLC;
+using System;
 
-namespace _3880_80_FlashStation.Configuration {
-
+namespace _3880_80_FlashStation.PLC {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    public sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static PlcConfigurationFile defaultInstance = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
         
-        public static PlcConfigurationFile Default { get { return defaultInstance; }}
+        public static PlcConfigurationFile Default {
+            get {
+                return defaultInstance;
+            }
+        }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public PlcCommunicatorBase.PlcConfig Configuration
-        {
+        public PlcCommunicatorBase.PlcConfig[] Configuration {
             get {
-                return ((PlcCommunicatorBase.PlcConfig)(this["Configuration"]));
+                return ((PlcCommunicatorBase.PlcConfig[])(this["Configuration"]));
             }
             set {
                 this["Configuration"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public Boolean[] ConnectAtStartUp
+        {
+            get
+            {
+                return ((Boolean[])(this["ConnectAtStartUp"]));
+            }
+            set
+            {
+                this["ConnectAtStartUp"] = value;
             }
         }
     }

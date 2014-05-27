@@ -26,9 +26,9 @@
             set { _yPosition = value; }
         }
 
-        public abstract void Initialize(uint id, int xPosition, int yPosition);
-        public abstract void MakeVisible(uint id);
-        public abstract void MakeInvisible(uint id);
+        public abstract void Initialize(int xPosition, int yPosition);
+        public abstract void MakeVisible();
+        public abstract void MakeInvisible();
     }
 
     #endregion

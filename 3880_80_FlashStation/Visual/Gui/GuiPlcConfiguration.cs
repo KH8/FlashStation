@@ -2,8 +2,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using _3880_80_FlashStation.Configuration;
-using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.PLC;
 
@@ -25,18 +23,19 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiPlcConfiguration(PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile)
-        {
-            _plcCommunication = plcCommunication;
-            _plcConfigurationFile = plcConfigurationFile;
-            _guiPlcConfiguration = _plcConfigurationFile.Configuration;
-
-            if (PlcConfigurationFile.Default.Configuration.PlcConfigurationStatus == 1) { StoreSettings(); }
-        }
-
-        public override void Initialize(uint id, int xPosition, int yPosition)
+        public GuiPlcConfiguration(uint id, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile)
         {
             Id = id;
+
+            _plcCommunication = plcCommunication;
+            _plcConfigurationFile = plcConfigurationFile;
+            _guiPlcConfiguration = _plcConfigurationFile.Configuration[Id];
+
+            if (PlcConfigurationFile.Default.Configuration[Id].PlcConfigurationStatus == 1) { StoreSettings(); }
+        }
+
+        public override void Initialize(int xPosition, int yPosition)
+        {
             XPosition = xPosition;
             YPosition = yPosition;
 
@@ -88,17 +87,17 @@ namespace _3880_80_FlashStation.Visual.Gui
         public void StoreSettings()
         {
             _guiPlcConfiguration.PlcConfigurationStatus = 1;
-            _plcConfigurationFile.Configuration = _guiPlcConfiguration;
+            _plcConfigurationFile.Configuration[Id] = _guiPlcConfiguration;
             _plcConfigurationFile.Save();
-            _plcCommunication.SetupConnection(_plcConfigurationFile);
+            _plcCommunication.SetupConnection(_plcConfigurationFile.Configuration[Id]);
         }
 
-        public override void MakeVisible(uint id)
+        public override void MakeVisible()
         {
             _generalGrid.Visibility = Visibility.Visible;
         }
 
-        public override void MakeInvisible(uint id)
+        public override void MakeInvisible()
         {
             _generalGrid.Visibility = Visibility.Hidden;
         }
