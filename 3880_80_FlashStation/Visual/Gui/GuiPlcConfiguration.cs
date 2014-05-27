@@ -15,8 +15,6 @@ namespace _3880_80_FlashStation.Visual.Gui
         private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
         private readonly PlcConfigurationFile _plcConfigurationFile;
 
-        private TextBox _interfacePathBox = new TextBox();
-
         public Grid GeneralGrid
         {
             get { return _generalGrid; }

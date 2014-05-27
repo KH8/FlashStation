@@ -26,10 +26,10 @@
                 <MenuItem Header="_Add Connection" Click="AddConnection"></MenuItem>
                 <MenuItem Header="_Add Interface" Click="AddInterface"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="_Add Output File Handler"></MenuItem>
-                <MenuItem Header="_Add SQL connection"></MenuItem>
+                <MenuItem Header="_Add Output File Handler" Click="AddOutputFileHandlerChannel"></MenuItem>
+                <MenuItem Header="_Add SQL connection" IsEnabled="False"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="_Add VFlash Channel"></MenuItem>
+                <MenuItem Header="_Add VFlash Channel" Click="AddVFlashChannel"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Component Manager"></MenuItem>
             </MenuItem>

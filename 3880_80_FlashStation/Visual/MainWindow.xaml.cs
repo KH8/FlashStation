@@ -9,10 +9,8 @@ using System.Windows.Controls;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
-using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
-using _3880_80_FlashStation.Visual.Gui;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
@@ -253,24 +251,6 @@ namespace _3880_80_FlashStation.Visual
             }
         }
 
-        #endregion
-
-        #region GUI Parameters Handleing
-
-        private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
-        {
-            LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
-        }
-
-        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = (ListView)sender;
-            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
-            if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
-        }
-
-        #endregion
-
         private void AddConnection(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddPlcCommunicator();
@@ -296,5 +276,45 @@ namespace _3880_80_FlashStation.Visual
             gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0);
             ConfigurationGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
         }
+
+        private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
+        {
+            var newId = _registry.AddOutputWriter();
+
+            var gridGuiOutputCreator = _registry.GuiOutputCreators[newId];
+            gridGuiOutputCreator.Initialize(0, 0);
+            OutputCreatorGrid.Children.Add(gridGuiOutputCreator.GeneralGrid);
+        }
+
+        private void AddVFlashChannel(object sender, RoutedEventArgs e)
+        {
+            var newId = _registry.AddVFlashChannel();
+
+            var gridVFlash = _registry.GuiVFlashes[newId];
+            gridVFlash.Initialize(0, 0);
+            VFlashGrid.Children.Add(gridVFlash.GeneralGrid);
+
+            var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[newId];
+            gridGuiVFlashStatusBar.Initialize(0, 20);
+            FooterGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
+        }
+
+        #endregion
+
+        #region GUI Parameters Handleing
+
+        private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
+        }
+
+        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = (ListView)sender;
+            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
+            if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
+        }
+
+        #endregion
     }
 }
