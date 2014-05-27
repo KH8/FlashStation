@@ -27,7 +27,105 @@ namespace _3880_80_FlashStation.PLC {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+                                                                     <ArrayOfPlcConfig xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                        <PlcConfig>
+                                                                            <PlcPortNumber>0</PlcPortNumber>
+                                                                            <PlcRackNumber>0</PlcRackNumber>
+                                                                            <PlcSlotNumber>0</PlcSlotNumber>
+                                                                            <PlcReadDbNumber>0</PlcReadDbNumber>
+                                                                            <PlcReadStartAddress>0</PlcReadStartAddress>
+                                                                            <PlcReadLength>0</PlcReadLength>
+                                                                            <PlcWriteDbNumber>0</PlcWriteDbNumber>
+                                                                            <PlcWriteStartAddress>0</PlcWriteStartAddress>
+                                                                            <PlcWriteLength>0</PlcWriteLength>
+                                                                            <PlcConfigurationStatus>0</PlcConfigurationStatus>
+                                                                        </PlcConfig>
+                                                                    </ArrayOfPlcConfig>")]
         public PlcCommunicatorBase.PlcConfig[] Configuration {
             get {
                 return ((PlcCommunicatorBase.PlcConfig[])(this["Configuration"]));
@@ -39,7 +137,18 @@ namespace _3880_80_FlashStation.PLC {
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+                                                                     <ArrayOfBoolean xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
+                                                                        xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                    </ArrayOfBoolean>")]
         public Boolean[] ConnectAtStartUp
         {
             get

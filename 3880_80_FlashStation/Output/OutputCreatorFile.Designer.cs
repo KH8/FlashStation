@@ -25,7 +25,17 @@ namespace _3880_80_FlashStation.Output {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                    </ArrayOfInt>")]
         public int[] StartAddress {
             get {
                 return ((int[])(this["StartAddress"]));
@@ -37,7 +47,17 @@ namespace _3880_80_FlashStation.Output {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                    </ArrayOfInt>")]
         public int[] EndAddress {
             get {
                 return ((int[])(this["EndAddress"]));
@@ -49,7 +69,17 @@ namespace _3880_80_FlashStation.Output {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                    </ArrayOfInt>")]
         public int[] SelectedIndex {
             get {
                 return ((int[])(this["SelectedIndex"]));

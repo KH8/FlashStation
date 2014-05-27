@@ -25,7 +25,17 @@ namespace _3880_80_FlashStation.DataAquisition {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                        <string>""</string>
+                                                                    </ArrayOfString>")]
         public string[] Path {
             get {
                 return ((string[])(this["Path"]));
@@ -37,7 +47,17 @@ namespace _3880_80_FlashStation.DataAquisition {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                    </ArrayOfInt>")]
         public int[] ConfigurationStatus {
             get {
                 return ((int[])(this["ConfigurationStatus"]));

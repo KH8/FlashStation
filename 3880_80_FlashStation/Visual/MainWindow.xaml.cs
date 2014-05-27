@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
+using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
@@ -112,17 +113,12 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
 
-            if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
+            /*if (!PlcStartUpConnection.Default.ConnectAtStartUp || _plcCommunication.ConnectionStatus == 1) return;
             gridGuiCommunicationStatus.ConnectionButtonClick(null, new RoutedEventArgs());
             Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " at start up");//*/
         }
 
         #region Init Methods
-
-        internal void InitializeSettingsFiles()
-        {
-            
-        }
 
         internal void InitializeInterface()
         {
