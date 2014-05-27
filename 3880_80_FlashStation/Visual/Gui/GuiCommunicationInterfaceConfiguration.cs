@@ -63,7 +63,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             {
                 _communicationInterfacePath.Path[Id] = dlg.FileName;
 
-                try { _communicationHandler.Initialize(Id); }
+                try { _communicationHandler.Initialize(); }
                 catch (Exception)
                 {
                     MessageBox.Show("Input file cannot be used", "Error");

@@ -12,6 +12,7 @@ using _3880_80_FlashStation.MainRegistry;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
+using _3880_80_FlashStation.Visual.Gui;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
@@ -124,11 +125,11 @@ namespace _3880_80_FlashStation.Visual
         {
             Logger.Log("Initialization of the interface");
 
-            _communicationHandler = new CommunicationInterfaceHandler(CommunicationInterfacePath.Default);
+            _communicationHandler = new CommunicationInterfaceHandler(1, CommunicationInterfacePath.Default);
 
             if (CommunicationInterfacePath.Default.ConfigurationStatus[1] == 1)
             {
-                try {_communicationHandler.Initialize(1); }
+                try {_communicationHandler.Initialize(); }
                 catch (Exception)
                 {
                     CommunicationInterfacePath.Default.ConfigurationStatus[1] = 0;
@@ -144,7 +145,7 @@ namespace _3880_80_FlashStation.Visual
                 CommunicationInterfacePath.Default.ConfigurationStatus[1] = 1;
                 CommunicationInterfacePath.Default.Save();
                 
-                try { _communicationHandler.Initialize(1); }
+                try { _communicationHandler.Initialize(); }
                 catch (Exception)
                 {
                     CommunicationInterfacePath.Default.ConfigurationStatus[1] = 0;
@@ -285,6 +286,15 @@ namespace _3880_80_FlashStation.Visual
             var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
             gridGuiPlcConfiguration.Initialize(0, 0);
             ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
+        }
+
+        private void AddInterface(object sender, RoutedEventArgs e)
+        {
+            var newId = _registry.AddCommunicationInterface();
+
+            var gridGuiCommunicationInterfaceConfiguration = _registry.GuiComInterfacemunicationConfigurations[newId];
+            gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0);
+            ConfigurationGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
         }
     }
 }

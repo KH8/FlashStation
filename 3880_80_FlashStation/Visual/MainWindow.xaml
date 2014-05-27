@@ -24,7 +24,7 @@
             </MenuItem>
             <MenuItem Header="_EDIT">
                 <MenuItem Header="_Add Connection" Click="AddConnection"></MenuItem>
-                <MenuItem Header="_Add Interface"></MenuItem>
+                <MenuItem Header="_Add Interface" Click="AddInterface"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Add Output File Handler"></MenuItem>
                 <MenuItem Header="_Add SQL connection"></MenuItem>
@@ -70,10 +70,10 @@
                             </ListView>
                         </Grid>
                     </TabItem>
-                    <TabItem Name="VFlashTab" Header="VFlash" IsEnabled="False">
+                    <TabItem Name="VFlashTab" Header="VFlash">
                         <Grid Name="VFlashGrid"></Grid>
                     </TabItem>
-                    <TabItem Name="VFlashProjectsTab" Header="VFlash Paths" IsEnabled="False">
+                    <TabItem Name="VFlashProjectsTab" Header="VFlash Paths">
                         <Grid>
                             <ListView Name="VFlashBankListBox" HorizontalAlignment="Center" Height="205" Margin="0,0,0,0" VerticalAlignment="Top" Width="800" ItemsSource="{Binding VFlashProjectCollection}" Foreground="Black" SelectionChanged="VFlashProjectbankListViewSelection">
                                 <ListView.View>

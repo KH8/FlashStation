@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
@@ -16,6 +17,7 @@ namespace _3880_80_FlashStation.MainRegistry
         public Dictionary<uint, GuiPlcConfiguration> PlcGuiConfigurations = new Dictionary<uint, GuiPlcConfiguration>(); 
 
         public Dictionary<uint, CommunicationInterfaceHandler> CommunicationInterfaceHandlers = new Dictionary<uint, CommunicationInterfaceHandler>();
+        public Dictionary<uint, GuiComInterfacemunicationConfiguration> GuiComInterfacemunicationConfigurations = new Dictionary<uint, GuiComInterfacemunicationConfiguration>();
 
         public Dictionary<uint, VFlashHandler> VFlashHandlers = new Dictionary<uint, VFlashHandler>();
         public Dictionary<uint, VFlashTypeBank> VFlashTypeBanks = new Dictionary<uint, VFlashTypeBank>();
@@ -37,17 +39,20 @@ namespace _3880_80_FlashStation.MainRegistry
     {
         public override uint AddPlcCommunicator()
         {
-            var id = (uint)PlcCommunicators.Count + 1;
+            var id = (uint) PlcCommunicators.Count + 1;
             PlcCommunicators.Add(id, new PlcCommunicator());
-            PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default)); //todo
+            PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
-            PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default)); //todo
+            PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
             return id;
         }
 
         public override uint AddCommunicationInterface()
         {
-            throw new NotImplementedException();
+            var id = (uint)PlcCommunicators.Count + 1;
+            CommunicationInterfaceHandlers.Add(id, new CommunicationInterfaceHandler(id, CommunicationInterfacePath.Default));
+            GuiComInterfacemunicationConfigurations.Add(id, new GuiComInterfacemunicationConfiguration(id, CommunicationInterfaceHandlers[id], CommunicationInterfacePath.Default));
+            return id;
         }
 
         public override uint AddOutputWriter()
