@@ -6,10 +6,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
-using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 

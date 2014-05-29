@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -61,7 +59,7 @@ namespace _3880_80_FlashStation.Vector
             _vFlashStationController.Add(new VFlashChannel(ReportError, "", _id));
             
             try { _vFlashStationController.Initialize();}
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
                 Environment.Exit(0);
@@ -83,8 +81,13 @@ namespace _3880_80_FlashStation.Vector
         public void InitializeVFlash()
         {
             Logger.Log("ID: " + _id + " Initialization of the vFlash");
-            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
+            UpdateVFlashBank();
             Logger.Log("ID: " + _id + " vFlash Initialized");
+        }
+
+        public void UpdateVFlashBank()
+        {
+            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
         }
 
         public void LoadProject(uint chanId)
@@ -147,8 +150,10 @@ namespace _3880_80_FlashStation.Vector
         {
             Int16 counter = 0;
             Int16 antwort = 0;
-            Int16 caseAuxiliary = 0; 
-            string version = "N/L";
+            Int16 caseAuxiliary = 0;
+            Int16 programActive = 0;
+
+            var version = "N/L";
 
             while (_vFlashThread.IsAlive)
             {
@@ -156,8 +161,7 @@ namespace _3880_80_FlashStation.Vector
 
                 var inputCompositeCommand = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
                 var inputCompositeProgrammTyp = (CiInteger) _inputComposite.ReturnVariable("PROGRAMMTYP");
-                var outputCompositeActiveProgramType = (CiInteger) _outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
-
+                
                 _pcControlModeChangeAllowed = false;
 
                 if (channelFound != null && !_pcControlMode)
@@ -167,17 +171,17 @@ namespace _3880_80_FlashStation.Vector
                             if (caseAuxiliary != 100)
                             {
                                 Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
-                                var returnedPath = VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
+                                var returnedPath = _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
                                 if (returnedPath != null)
                                 {
-                                    SetProjectPath(1, VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
-                                    if (_outputComposite != null) _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", inputCompositeProgrammTyp.Value);
+                                    SetProjectPath(1, _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
+                                    programActive = inputCompositeProgrammTyp.Value;
                                     antwort = 100;
                                 }
                                 else
                                 {
                                     Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested failed");
-                                    if (_outputComposite != null) _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+                                    programActive = 0;
                                     antwort = 999;
                                 }
                             }
@@ -208,7 +212,7 @@ namespace _3880_80_FlashStation.Vector
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded)
                                 {
-                                    _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+                                    programActive = 0;
                                     antwort = 300;
                                 }
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -255,8 +259,6 @@ namespace _3880_80_FlashStation.Vector
                     _pcControlModeChangeAllowed = true;
                 }
 
-                if (_outputComposite != null) _outputComposite.ModifyValue("ANTWORT", antwort);
-                
                 Int16 statusInt = 0;
                 
                 if (channelFound != null)
@@ -272,7 +274,7 @@ namespace _3880_80_FlashStation.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Loaded:
                             statusInt = 200;
-                            version = VFlashTypeBank.ReturnVersion((uint)outputCompositeActiveProgramType.Value) ?? "N/L";
+                            version = VFlashTypeBank.ReturnVersion((uint)programActive) ?? "N/L";
                             _pcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:
@@ -306,7 +308,9 @@ namespace _3880_80_FlashStation.Vector
                 {
                     _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
+                    _outputComposite.ModifyValue("ANTWORT", antwort);
                     _outputComposite.ModifyValue("STATUS", statusInt);
+                    _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", programActive);
                     _outputComposite.ModifyValue("VERSION", version);
                 }
                 Thread.Sleep(200);
