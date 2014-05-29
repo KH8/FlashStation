@@ -26,15 +26,15 @@ namespace _3880_80_FlashStation.DataAquisition {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
-                                                                        <string>""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
+                                                                        <string>""DataAquisition\\DB1000.csv""</string>
                                                                     </ArrayOfString>")]
         public string[] Path {
             get {

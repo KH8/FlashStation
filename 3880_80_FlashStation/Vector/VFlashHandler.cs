@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 
@@ -10,6 +13,7 @@ namespace _3880_80_FlashStation.Vector
     {
         #region Variables
 
+        private readonly uint _id;
         private Boolean _pcControlMode;
         private Boolean _pcControlModeChangeAllowed;
 
@@ -46,15 +50,22 @@ namespace _3880_80_FlashStation.Vector
 
         #region Constructor
 
-        public VFlashHandler(uint channelNumber, CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
+        public VFlashHandler(uint id, CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
         {
+            _id = id;
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
 
             _vFlashErrorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, 0);
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", channelNumber));
-            _vFlashStationController.Initialize();
+            _vFlashStationController.Add(new VFlashChannel(ReportError, "", _id));
+            
+            try { _vFlashStationController.Initialize();}
+            catch (Exception e)
+            {
+                MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
+                Environment.Exit(0);
+            }
 
             _vFlashTypeBank = new VFlashTypeBank();
             _vFlashErrorCollector = new VFlashErrorCollector();
@@ -68,6 +79,13 @@ namespace _3880_80_FlashStation.Vector
         #endregion
 
         #region Methods
+
+        public void InitializeVFlash()
+        {
+            Logger.Log("ID: " + _id + " Initialization of the vFlash");
+            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
+            Logger.Log("ID: " + _id + " vFlash Initialized");
+        }
 
         public void LoadProject(uint chanId)
         {
@@ -105,7 +123,7 @@ namespace _3880_80_FlashStation.Vector
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be aborted was not found");
             channelFound.FlashProjectPath = projectPath;
-            Logger.Log("VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
+            Logger.Log("ID: " + _id + " VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
 
             if (_outputComposite != null)
                 _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
@@ -148,7 +166,7 @@ namespace _3880_80_FlashStation.Vector
                         case 100:
                             if (caseAuxiliary != 100)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
                                 var returnedPath = VFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
                                 if (returnedPath != null)
                                 {
@@ -158,7 +176,7 @@ namespace _3880_80_FlashStation.Vector
                                 }
                                 else
                                 {
-                                    Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested failed");
+                                    Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested failed");
                                     if (_outputComposite != null) _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
                                     antwort = 999;
                                 }
@@ -168,7 +186,7 @@ namespace _3880_80_FlashStation.Vector
                         case 200:
                             if (caseAuxiliary != 200)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path load requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path load requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
                                 Thread.Sleep(200);
                             }
@@ -182,7 +200,7 @@ namespace _3880_80_FlashStation.Vector
                         case 300:
                             if (caseAuxiliary != 300)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Path unload requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path unload requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
                                 Thread.Sleep(200);
                             }
@@ -200,7 +218,7 @@ namespace _3880_80_FlashStation.Vector
                         case 400:
                             if (caseAuxiliary != 400)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Start);
                                 Thread.Sleep(200);
                             }
@@ -214,7 +232,7 @@ namespace _3880_80_FlashStation.Vector
                         case 500:
                             if (caseAuxiliary != 500)
                             {
-                                Logger.Log("VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing abort requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing abort requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Abort);
                                 Thread.Sleep(200);
                             }
@@ -307,7 +325,7 @@ namespace _3880_80_FlashStation.Vector
         internal void ReportError(uint channelId, long handle, string errorMessage)
         {
             ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
-            Logger.Log("VFlash: Fault on Channel nr. " + channelId + " : " + errorMessage);
+            Logger.Log("ID: " + _id + " VFlash: Fault on Channel nr. " + channelId + " : " + errorMessage);
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == channelId);
             if (channelFound != null)
             {

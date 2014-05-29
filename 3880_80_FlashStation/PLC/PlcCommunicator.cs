@@ -10,12 +10,13 @@ namespace _3880_80_FlashStation.PLC
         
         //Private
         //Status
-        private uint _id;
+        private readonly uint _id;
         private int _connectionStatus;
         private int _configurationStatus;
 
         //Configuration
         private PlcConfig _plcConfiguration;
+        private readonly PlcConfigurationFile _plcConfigurationFile;
 
         //Data buffers
         private byte[] _readBytes;
@@ -66,7 +67,8 @@ namespace _3880_80_FlashStation.PLC
                 {
                     return _readBytes;
                 }
-                throw new PlcException("Error: Plc communication is not configured.");
+                Logger.Log("ID: " + _id + " Connection failed: Plc communication is not configured.");
+                throw new PlcException("ID: " + _id + " Error: Plc communication is not configured.");
             }
         }
 
@@ -78,8 +80,8 @@ namespace _3880_80_FlashStation.PLC
                 {
                     return _writeBytes;
                 }
-                Logger.Log("Connection failed: Plc communication is not configured.");
-                throw new PlcException("Error: Plc communication is not configured.");
+                Logger.Log("ID: " + _id + " Connection failed: Plc communication is not configured.");
+                throw new PlcException("ID: " + _id + " Error: Plc communication is not configured.");
             }
             set { _writeBytes = value; }
         }
@@ -96,6 +98,7 @@ namespace _3880_80_FlashStation.PLC
             _writeBytes = null;
 
             //Init Properties
+            _plcConfigurationFile = plcConfigurationFile;
             _plcConfiguration = plcConfigurationFile.Configuration[_id];
             _connectionStatus = -1;
             _configurationStatus = -1;
@@ -117,6 +120,14 @@ namespace _3880_80_FlashStation.PLC
 
         #region Methods
 
+        public void InitializeConnection()
+        {
+            Logger.Log("ID: " + _id + " Initialization of PLC communication");
+            if (!_plcConfigurationFile.ConnectAtStartUp[_id] || _connectionStatus == 1) return;
+            Logger.Log("ID: " + _id + " Connected with IP address " + _plcConfiguration.PlcIpAddress + " at start up");//*/
+            Logger.Log("ID: " + _id + " PLC communication initialized");
+        }
+
         public void SetupConnection(PlcConfig configuration)
         {
             if (configuration.PlcConfigurationStatus != 1)
@@ -137,8 +148,8 @@ namespace _3880_80_FlashStation.PLC
             // Check if configuration is done
             if (_configurationStatus != 1)
             {
-                Logger.Log("Connection failed: Plc communication is not configured.");
-                throw new PlcException("Error: Plc communication is not configured.");
+                Logger.Log("ID: " + _id + " Connection failed: Plc communication is not configured.");
+                throw new PlcException("ID: " + _id + " Error: Plc communication is not configured.");
             }
             // Open connection only if was closed
             if (_connectionStatus != 1)
@@ -154,7 +165,7 @@ namespace _3880_80_FlashStation.PLC
                     if (_daveConnection.connectPLC() == 0)
                     {
                         _connectionStatus = 1;
-                        Logger.Log("Communication with PLC IP Address : " +
+                        Logger.Log("ID: " + _id + " Communication with PLC IP Address : " +
                                    _plcConfiguration.PlcIpAddress + " established");
                     }
                     else
@@ -162,8 +173,8 @@ namespace _3880_80_FlashStation.PLC
                 }
                 else
                 {
-                    Logger.Log("Connection failed: Can not open connection to PLC.");
-                    throw new PlcException("Error: Can not open connection to PLC.");
+                    Logger.Log("ID: " + _id + " Connection failed: Can not open connection to PLC.");
+                    throw new PlcException("ID: " + _id + " Error: Can not open connection to PLC.");
                 }
             }
         }
@@ -177,7 +188,7 @@ namespace _3880_80_FlashStation.PLC
                 libnodave.closeSocket(_daveOSserialType.rfd);
             }
             _connectionStatus = -1;
-            Logger.Log("Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was closed");
+            Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was closed");
         }
 
         private void DataAquisition()
@@ -206,7 +217,7 @@ namespace _3880_80_FlashStation.PLC
                 {
                     CloseConnection();
                     _connectionStatus = -2;
-                    Logger.Log("Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
+                    Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 // Writeing...
                 if (_errorWriteByteNoDave != 0)
@@ -214,7 +225,7 @@ namespace _3880_80_FlashStation.PLC
                     CloseConnection();
                     _connectionStatus = -2;
                     //throw new PlcException("Error: Can not write data to PLC.");
-                    Logger.Log("Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
+                    Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 if (_connectionStatus == -2)
                 {

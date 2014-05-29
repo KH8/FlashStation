@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.DataAquisition
@@ -27,10 +29,47 @@ namespace _3880_80_FlashStation.DataAquisition
             set { _writeInterfaceComposite = value; }
         }
 
-        public void Initialize()
+        public void InitializeInterface()
+        {
+            Logger.Log("ID: " + _id + " Initialization of the interface");
+
+            if (_pathFile.ConfigurationStatus[_id] == 1)
+            {
+                try { Initialize(); }
+                catch (Exception)
+                {
+                    CommunicationInterfacePath.Default.ConfigurationStatus[_id] = 0;
+                    CommunicationInterfacePath.Default.Save();
+                    MessageBox.Show("ID: " + _id + " Interface initialization failed\nRestart application", "Initialization Failed");
+                    Logger.Log("ID: " + _id + " PLC Communication interface initialization failed");
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                _pathFile.Path[_id] = "DataAquisition\\DB1000.csv";
+                _pathFile.ConfigurationStatus[_id] = 1;
+                _pathFile.Save();
+
+                try { Initialize(); }
+                catch (Exception)
+                {
+                    _pathFile.ConfigurationStatus[_id] = 0;
+                    _pathFile.Save();
+                    MessageBox.Show("ID: " + _id + " Interface initialization failed\nRestart application", "Initialization Failed");
+                    Logger.Log("ID: " + _id + " PLC Communication interface initialization failed");
+                    Environment.Exit(0);
+                }
+                Logger.Log("ID: " + _id + " PLC Communication interface initialized with file: " + CommunicationInterfacePath.Default.Path);
+            }
+            Logger.Log("ID: " + _id + " Interface Initialized");
+        }
+
+        internal void Initialize()
         {
             _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile);
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
+
         }
 
         public void MaintainConnection(PlcCommunicator communication)
@@ -41,7 +80,7 @@ namespace _3880_80_FlashStation.DataAquisition
                 _readInterfaceComposite.ReadValue(communication.ReadBytes);
                 _writeInterfaceComposite.WriteValue(communication.WriteBytes);
             }
-            else { throw new InitializerException("Error: Connection can not be maintained."); }
+            else { throw new InitializerException("Error: ID: " + _id + " Connection can not be maintained."); }
         }
 
         #region Auxiliaries
