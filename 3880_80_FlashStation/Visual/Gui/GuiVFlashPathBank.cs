@@ -51,19 +51,19 @@ namespace _3880_80_FlashStation.Visual.Gui
 
             list.ItemsSource = _vFlashProjectCollection;
             list.View = gridView;
-            gridView.Columns.Add(new GridViewColumn()
+            gridView.Columns.Add(new GridViewColumn
             {
                 Width = 60,
                 Header = "Type",
                 DisplayMemberBinding = new Binding("Type")
             });
-            gridView.Columns.Add(new GridViewColumn()
+            gridView.Columns.Add(new GridViewColumn
             {
                 Width = 60,
                 Header = "Version",
                 DisplayMemberBinding = new Binding("Version")
             });
-            gridView.Columns.Add(new GridViewColumn()
+            gridView.Columns.Add(new GridViewColumn
             {
                 Width = 540,
                 Header = "Path",
