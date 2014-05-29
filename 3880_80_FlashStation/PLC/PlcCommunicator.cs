@@ -10,6 +10,7 @@ namespace _3880_80_FlashStation.PLC
         
         //Private
         //Status
+        private uint _id;
         private int _connectionStatus;
         private int _configurationStatus;
 
@@ -87,13 +88,15 @@ namespace _3880_80_FlashStation.PLC
 
         #region Constructor
 
-        public PlcCommunicator()
+        public PlcCommunicator(uint id, PlcConfigurationFile plcConfigurationFile)
         {
+            _id = id;
+
             _readBytes = null;
             _writeBytes = null;
 
             //Init Properties
-            _plcConfiguration = new PlcConfig();
+            _plcConfiguration = plcConfigurationFile.Configuration[_id];
             _connectionStatus = -1;
             _configurationStatus = -1;
 

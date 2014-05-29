@@ -41,7 +41,7 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddPlcCommunicator()
         {
             var id = (uint)PlcCommunicators.Count + 1;
-            PlcCommunicators.Add(id, new PlcCommunicator());
+            PlcCommunicators.Add(id, new PlcCommunicator(id, PlcConfigurationFile.Default));
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
             PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
@@ -67,7 +67,7 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddVFlashChannel()
         {
             var id = (uint)VFlashHandlers.Count + 1;
-            VFlashHandlers.Add(id, new VFlashHandler(CommunicationInterfaceHandlers[id].ReadInterfaceComposite, CommunicationInterfaceHandlers[id].WriteInterfaceComposite, id)); //todo connection with interface
+            VFlashHandlers.Add(id, new VFlashHandler(id, CommunicationInterfaceHandlers[id].ReadInterfaceComposite, CommunicationInterfaceHandlers[id].WriteInterfaceComposite)); //todo connection with interface
             GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
             GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));
             return id;

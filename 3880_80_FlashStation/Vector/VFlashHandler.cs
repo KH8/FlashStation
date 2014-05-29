@@ -46,7 +46,7 @@ namespace _3880_80_FlashStation.Vector
 
         #region Constructor
 
-        public VFlashHandler(CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite, uint channelNumber)
+        public VFlashHandler(uint channelNumber, CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
         {
             _inputComposite = inputComposite;
             _outputComposite = outputComposite;
@@ -138,7 +138,7 @@ namespace _3880_80_FlashStation.Vector
 
                 var inputCompositeCommand = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
                 var inputCompositeProgrammTyp = (CiInteger) _inputComposite.ReturnVariable("PROGRAMMTYP");
-                var outputCompositeActiveProgramType = (CiInteger)_outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
+                var outputCompositeActiveProgramType = (CiInteger) _outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
 
                 _pcControlModeChangeAllowed = false;
 

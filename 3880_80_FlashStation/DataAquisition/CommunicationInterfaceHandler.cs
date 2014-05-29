@@ -5,7 +5,7 @@ namespace _3880_80_FlashStation.DataAquisition
 {
     public class CommunicationInterfaceHandler
     {
-        private uint _id;
+        private readonly uint _id;
         private readonly CommunicationInterfacePath _pathFile;
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;

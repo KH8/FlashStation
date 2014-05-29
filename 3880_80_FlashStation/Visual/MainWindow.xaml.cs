@@ -160,7 +160,7 @@ namespace _3880_80_FlashStation.Visual
         internal void InitializePlcCommunication()
         {
             Logger.Log("Initialization of PLC communication");
-            _plcCommunication = new PlcCommunicator();
+            _plcCommunication = new PlcCommunicator(1, PlcConfigurationFile.Default);
             Logger.Log("PLC communication initialized");
         }
 
@@ -171,7 +171,7 @@ namespace _3880_80_FlashStation.Visual
             VFlashTab.IsEnabled = true;
             VFlashProjectsTab.IsEnabled = true;
             
-            try { _vFlash = new VFlashHandler(_communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite, 1); }
+            try { _vFlash = new VFlashHandler(1, _communicationHandler.ReadInterfaceComposite, _communicationHandler.WriteInterfaceComposite); }
             catch (Exception)
             {
                 MessageBox.Show("VFlash initialization failed", "VFlash Failed");
@@ -215,9 +215,16 @@ namespace _3880_80_FlashStation.Visual
 
         #region Buttons
 
-        private void CloseApp(object sender, CancelEventArgs cancelEventArgs)
+        private void CloseApp(object sender, RoutedEventArgs routedEventArgs)
         {
             if(_vFlash != null) _vFlash.Deinitialize();
+            Logger.Log("Program Closed");
+            Environment.Exit(0);
+        }
+
+        private void CloseApp(object sender, CancelEventArgs e)
+        {
+            if (_vFlash != null) _vFlash.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }

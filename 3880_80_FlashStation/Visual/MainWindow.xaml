@@ -20,7 +20,7 @@
                 <MenuItem Header="_Load Configuration"></MenuItem>
                 <MenuItem Header="_Save Configuration"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="_Exit"></MenuItem>
+                <MenuItem Header="_Exit" Click="CloseApp"></MenuItem>
             </MenuItem>
             <MenuItem Header="_EDIT">
                 <MenuItem Header="_Add Connection" Click="AddConnection"></MenuItem>

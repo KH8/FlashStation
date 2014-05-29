@@ -15,7 +15,7 @@ namespace _3880_80_FlashStation.PLC {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static PlcConfigurationFile defaultInstance = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
         
