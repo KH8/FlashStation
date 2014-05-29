@@ -30,10 +30,10 @@ namespace _3880_80_FlashStation.MainRegistry
         public abstract uint AddOutputWriter();
         public abstract uint AddVFlashChannel();
 
-        public abstract void RemovePlcCommunicator(int id);
-        public abstract void RemoveCommunicationInterface(int id);
-        public abstract void RemoveOutputWriter(int id);
-        public abstract void RemoveVFlashChannel(int id);
+        public abstract void RemovePlcCommunicator(uint id);
+        public abstract void RemoveCommunicationInterface(uint id);
+        public abstract void RemoveOutputWriter(uint id);
+        public abstract void RemoveVFlashChannel(uint id);
     }
 
     class Registry : RegistryBase
@@ -73,22 +73,22 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
-        public override void RemovePlcCommunicator(int id)
+        public override void RemovePlcCommunicator(uint id)
         {
             throw new NotImplementedException();
         }
 
-        public override void RemoveCommunicationInterface(int id)
+        public override void RemoveCommunicationInterface(uint id)
         {
             throw new NotImplementedException();
         }
 
-        public override void RemoveOutputWriter(int id)
+        public override void RemoveOutputWriter(uint id)
         {
             throw new NotImplementedException();
         }
 
-        public override void RemoveVFlashChannel(int id)
+        public override void RemoveVFlashChannel(uint id)
         {
             throw new NotImplementedException();
         }

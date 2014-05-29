@@ -2,13 +2,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
 using _3880_80_FlashStation.Vector;
+using _3880_80_FlashStation.Visual.Gui;
 using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
@@ -20,6 +20,8 @@ namespace _3880_80_FlashStation.Visual
     {
         private readonly Thread _communicationThread;
         private readonly Registry _registry;
+
+        private readonly VFlashTypeBank _vFlashTypeBank;
         
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
@@ -40,6 +42,13 @@ namespace _3880_80_FlashStation.Visual
             Logger.Log("Program Started");
 
             _registry = new Registry();
+            _vFlashTypeBank = new VFlashTypeBank();
+            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
+            UpdateVFlashProjectCollection();
+
+            var gui = new GuiVFlashPathBank(1);
+            gui.Initialize(0,0);
+            ConnectionStatusGrid.Children.Add(gui.GeneralGrid);
 
             _communicationThread = new Thread(CommunicationHandler);
             _communicationThread.SetApartmentState(ApartmentState.STA);
@@ -93,22 +102,26 @@ namespace _3880_80_FlashStation.Visual
             // Get the selected file name and display in a TextBox
             if (result == true)
             {
-                _registry.VFlashHandlers[1].VFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
+                _vFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
+                UpdateVFlashProjectCollection();
+            }
+        }
 
-                VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_registry.VFlashHandlers[1].VFlashTypeBank.Children);
-                VFlashTypeBankFile.Default.Save();
+        private void UpdateVFlashProjectCollection()
+        {
+            VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
+            VFlashTypeBankFile.Default.Save();
 
-                _vFlashProjectCollection.Clear();
-                foreach (var vFlashType in _registry.VFlashHandlers[1].VFlashTypeBank.Children)
+            _vFlashProjectCollection.Clear();
+            foreach (var vFlashType in _vFlashTypeBank.Children)
+            {
+                var type = (VFlashTypeComponent)vFlashType;
+                _vFlashProjectCollection.Add(new VFlashDisplayProjectData
                 {
-                    var type = (VFlashTypeComponent) vFlashType;
-                    _vFlashProjectCollection.Add(new VFlashDisplayProjectData
-                    {
-                        Type = type.Type.ToString(CultureInfo.InvariantCulture),
-                        Version = type.Version,
-                        Path = type.Path
-                    });
-                }
+                    Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                    Version = type.Version,
+                    Path = type.Path
+                });
             }
         }
 
@@ -153,6 +166,7 @@ namespace _3880_80_FlashStation.Visual
         {
             var newId = _registry.AddVFlashChannel();
             _registry.VFlashHandlers[newId].InitializeVFlash();
+            _registry.VFlashHandlers[newId].VFlashTypeBank = _vFlashTypeBank;
 
             var gridVFlash = _registry.GuiVFlashes[newId];
             gridVFlash.Initialize(0, 0);
@@ -161,16 +175,6 @@ namespace _3880_80_FlashStation.Visual
             var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[newId];
             gridGuiVFlashStatusBar.Initialize(0, 20);
             FooterGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
-
-            foreach (var type in _registry.VFlashHandlers[newId].VFlashTypeBank.Children.Cast<VFlashTypeComponent>())
-            {
-                _vFlashProjectCollection.Add(new VFlashDisplayProjectData
-                {
-                    Type = type.Type.ToString(CultureInfo.InvariantCulture),
-                    Version = type.Version,
-                    Path = type.Path
-                });
-            }
         }
 
         #endregion

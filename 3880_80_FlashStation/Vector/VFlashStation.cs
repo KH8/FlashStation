@@ -95,11 +95,11 @@ namespace _3880_80_FlashStation.Vector
         {
             //--- Initialize vFlash Station ---
             var resInit = VFlashStationAPI.Initialize();
-            Logger.Log("VFlash: Initialization");
+            Logger.Log("ID: " + ChannelId + " vFlash: Initialization");
             if (resInit != VFlashStationResult.Success)
             {
                 string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
-                _reportErrorDelegate(0, -1, String.Format("Initialization of vFlash Station failed ({0}).", errMsg));
+                _reportErrorDelegate(0, -1, String.Format("ID: " + ChannelId + " Initialization of vFlash Station failed ({0}).", errMsg));
                 return false;
             }
             return true;
@@ -109,11 +109,11 @@ namespace _3880_80_FlashStation.Vector
         {
             //--- Deinitialize vFlash Station ---
             var resDeinit = VFlashStationAPI.Deinitialize();
-            Logger.Log("VFlash: Deinitialization");
+            Logger.Log("ID: " + ChannelId + " vFlash: Deinitialization");
             if (resDeinit != VFlashStationResult.Success)
             {
                 string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
-                _reportErrorDelegate(0, -1, String.Format("Deinitialization of vFlash Station during rewinding failed ({0}).", errMsg));
+                _reportErrorDelegate(0, -1, String.Format("ID: " + ChannelId + " Deinitialization of vFlash Station during rewinding failed ({0}).", errMsg));
             }
             return true;
         }

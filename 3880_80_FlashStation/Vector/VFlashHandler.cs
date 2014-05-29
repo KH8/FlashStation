@@ -17,7 +17,7 @@ namespace _3880_80_FlashStation.Vector
 
         private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _vFlashErrorCollector;
-        private readonly VFlashTypeBank _vFlashTypeBank;
+        private VFlashTypeBank _vFlashTypeBank;
 
         private readonly CommunicationInterfaceComposite _inputComposite;
         private readonly CommunicationInterfaceComposite _outputComposite;
@@ -42,6 +42,7 @@ namespace _3880_80_FlashStation.Vector
         public VFlashTypeBank VFlashTypeBank
         {
             get { return _vFlashTypeBank; }
+            set { _vFlashTypeBank = value; }
         }
 
         #endregion
@@ -58,13 +59,6 @@ namespace _3880_80_FlashStation.Vector
             _vFlashStationController = new VFlashStationController(ReportError, 0);
             _vFlashStationController.Add(new VFlashChannel(ReportError, "", _id));
             
-            try { _vFlashStationController.Initialize();}
-            catch (Exception)
-            {
-                MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
-                Environment.Exit(0);
-            }
-
             _vFlashTypeBank = new VFlashTypeBank();
             _vFlashErrorCollector = new VFlashErrorCollector();
 
@@ -80,14 +74,13 @@ namespace _3880_80_FlashStation.Vector
 
         public void InitializeVFlash()
         {
-            Logger.Log("ID: " + _id + " Initialization of the vFlash");
-            UpdateVFlashBank();
+            try { _vFlashStationController.Initialize(); }
+            catch (Exception)
+            {
+                MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
+                Environment.Exit(0);
+            }
             Logger.Log("ID: " + _id + " vFlash Initialized");
-        }
-
-        public void UpdateVFlashBank()
-        {
-            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
         }
 
         public void LoadProject(uint chanId)

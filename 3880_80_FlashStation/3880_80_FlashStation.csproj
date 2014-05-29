@@ -64,6 +64,7 @@
       <HintPath>Resources\libnodave.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
@@ -94,6 +95,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainRegistry.settings</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
     <Compile Include="Visual\Gui\GuiOutputCreator.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
