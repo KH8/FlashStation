@@ -186,6 +186,21 @@ namespace _3880_80_FlashStation.Visual
             UpdateTreeView();
         }
 
+        private void ShowAbout(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedItem = AbouTabItem;
+        }
+
+        private void ShowComponentManager(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedItem = ComponentManagerTabItem;
+        }
+
+        private void ShowLog(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedItem = LogTabItem;
+        }
+
         #endregion
 
         #region GUI Parameters Handleing
@@ -254,6 +269,5 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
-
     }
 }

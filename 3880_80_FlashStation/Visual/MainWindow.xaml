@@ -33,22 +33,24 @@
                 <MenuItem Header="_Add VFlash Bank" Click="AddVFlashBank"></MenuItem>
                 <MenuItem Header="_Add VFlash Channel" Click="AddVFlashChannel"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="_Component Manager"></MenuItem>
+                <MenuItem Header="_Component Manager" Click="ShowComponentManager"></MenuItem>
             </MenuItem>
             <MenuItem Header="_HELP">
-                <MenuItem Header="_About ttAgent"></MenuItem>
+                <MenuItem Header="_Log File" Click="ShowLog"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="_About ttAgent" Click="ShowAbout"></MenuItem>
             </MenuItem>
         </Menu>
         <!--TABS-->
         <Border Margin="0,26,0,50" BorderThickness="1" BorderBrush="#FF8C8E94">
             <Grid Background="#FFF0F0F0">
                 <TabControl Name="MainTabControl" HorizontalAlignment="Left" Height="292" VerticalAlignment="Top" Width="792" Margin="2,2,0,0" SelectionChanged="UpdateLog">
-                    <TabItem Header="Component Manager">
+                    <TabItem Name="ComponentManagerTabItem" Header="Component Manager">
                         <Grid>
                             <TreeView Name="ComponentManagerTreeView" Width="772" Height="250" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="About">
+                    <TabItem Name="AbouTabItem" Header="About">
                         <Grid Name="AboutGrid" VerticalAlignment="Top" Height="505" Margin="0,0,0,0">
                             <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" Height="167"><LineBreak/><Run Text="FlashStation v 1.0"/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><LineBreak/><Run Text="teamtechnik Production Technology Sp. z o.o."/><LineBreak/><Run Text="ul. Za Gora 23, 32-050 Skawina, Poland"/><LineBreak/><LineBreak/></TextBlock>
                             <Grid Background="#FF05467C" VerticalAlignment="Bottom" Height="70" Margin="0,0,0,0">
@@ -56,7 +58,7 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Log">
+                    <TabItem Name="LogTabItem" Header="Log">
                         <Grid>
                             <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="502" Margin="0,0,0,0" VerticalAlignment="Top" Width="800"/>
                         </Grid>
