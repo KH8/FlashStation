@@ -45,25 +45,25 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.Start();
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 120, 800);
+            _generalGrid = generalGrid;
 
-            var guiVFlashGroupBox = GuiFactory.CreateGroupBox("Channel " + Id, 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 120, 795);
+            var guiVFlashGroupBox = GuiFactory.CreateGroupBox("Channel " + Id, 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 120, 775);
             _generalGrid.Children.Add(guiVFlashGroupBox);
 
             var guiVFlashGrid = GuiFactory.CreateGrid();
             guiVFlashGroupBox.Content = guiVFlashGrid;
 
-            guiVFlashGrid.Children.Add(_vFlashProgressBar = GuiFactory.CreateProgressBar("VFlashProgressBar", 62, 37, HorizontalAlignment.Left, VerticalAlignment.Top, 16, 721));
+            guiVFlashGrid.Children.Add(_vFlashProgressBar = GuiFactory.CreateProgressBar("VFlashProgressBar", 0, 37, HorizontalAlignment.Right, VerticalAlignment.Top, 16, 700));
 
             guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Actual Path Path: ", 0, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
             guiVFlashGrid.Children.Add(GuiFactory.CreateLabel("Progress: ", 0, 31, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 61));
 
-            guiVFlashGrid.Children.Add(_vFlashProjectPathLabel = GuiFactory.CreateLabel("VFlashProjectPathLabel", "Channel is not activated", 112, 7, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Left, 22, 671));
+            guiVFlashGrid.Children.Add(_vFlashProjectPathLabel = GuiFactory.CreateLabel("VFlashProjectPathLabel", "Channel is not activated", 0, 7, HorizontalAlignment.Right, VerticalAlignment.Top, HorizontalAlignment.Left, 22, 660));
             var converter = new BrushConverter();
             _vFlashProjectPathLabel.BorderBrush = (Brush)converter.ConvertFromString("#FFCFCFCF");
             _vFlashProjectPathLabel.BorderThickness = new Thickness(1);

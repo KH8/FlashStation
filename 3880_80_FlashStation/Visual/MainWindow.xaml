@@ -2,8 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="ST80 FlashStation" Height="654" Width="1177"
-        Closing="CloseApp" SizeChanged="WindowSizeChanged" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9">
+        Title="ST80 FlashStation" Height="654" Width="1158"
+        Closing="CloseApp" SizeChanged="WindowSizeChanged" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9" WindowState="Maximized" MinWidth="1158" MinHeight="654">
     <Grid Margin="0,0,0,0" Name="MainGrid">
         <!--MENU-->
         <Menu IsMainMenu="True" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="829" Background="{x:Null}" BorderBrush="#FF212121" RenderTransformOrigin="0.5,0.5">
@@ -42,24 +42,7 @@
         <!--TABS-->
         <Border Margin="0,26,0,50" BorderThickness="1" BorderBrush="#FF8C8E94">
             <Grid Background="#FFF0F0F0">
-                <TabControl Name="MainTabControl" HorizontalAlignment="Left" Height="534" VerticalAlignment="Top" Width="810" Margin="2,2,0,0" SelectionChanged="UpdateLog">
-                    <TabItem Header="Online Communication">
-                        <Grid Name="OnlineCommunicationGrid"></Grid>
-                    </TabItem>
-                    <TabItem Name="VFlashTab" Header="VFlash">
-                        <Grid Name="VFlashGrid"></Grid>
-                    </TabItem>
-                    <TabItem Name="VFlashProjectsTab" Header="VFlash Paths">
-                        <Grid Name="VFlashProjectsGrid"></Grid>
-                    </TabItem>
-                    <TabItem Header="Output">
-                        <Grid Name="OutputCreatorGrid"></Grid>
-                    </TabItem>
-                    <TabItem Header="Log">
-                        <Grid>
-                            <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="502" Margin="0,0,0,0" VerticalAlignment="Top" Width="800"/>
-                        </Grid>
-                    </TabItem>
+                <TabControl Name="MainTabControl" HorizontalAlignment="Left" Height="292" VerticalAlignment="Top" Width="792" Margin="2,2,0,0" SelectionChanged="UpdateLog">
                     <TabItem Header="About">
                         <Grid Name="AboutGrid" VerticalAlignment="Top" Height="505" Margin="0,0,0,0">
                             <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" Height="167"><LineBreak/><Run Text="FlashStation v 1.0"/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><LineBreak/><Run Text="teamtechnik Production Technology Sp. z o.o."/><LineBreak/><Run Text="ul. Za Gora 23, 32-050 Skawina, Poland"/><LineBreak/><LineBreak/></TextBlock>
@@ -68,8 +51,15 @@
                             </Grid>
                         </Grid>
                     </TabItem>
+                    <TabItem Header="Log">
+                        <Grid>
+                            <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="502" Margin="0,0,0,0" VerticalAlignment="Top" Width="800"/>
+                        </Grid>
+                    </TabItem>
                 </TabControl>
-                <TabControl Name="ConnectionTabControl" HorizontalAlignment="Right" Height="534" VerticalAlignment="Top" Width="350" Margin="0,2,2,0">
+                <TabControl Name="OutputTabControl" HorizontalAlignment="Left" Height="250" VerticalAlignment="Bottom" Width="792" Margin="2,0,0,2">
+                </TabControl>
+                <TabControl Name="ConnectionTabControl" HorizontalAlignment="Right" Height="542" VerticalAlignment="Top" Width="350" Margin="0,2,2,0">
                 </TabControl>
             </Grid>
         </Border>

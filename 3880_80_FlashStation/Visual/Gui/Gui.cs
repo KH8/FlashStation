@@ -1,4 +1,6 @@
-﻿namespace _3880_80_FlashStation.Visual.Gui
+﻿using System.Windows.Controls;
+
+namespace _3880_80_FlashStation.Visual.Gui
 {
     #region Abstract Class
 
@@ -26,7 +28,7 @@
             set { _yPosition = value; }
         }
 
-        public abstract void Initialize(int xPosition, int yPosition);
+        public abstract void Initialize(int xPosition, int yPosition, Grid generalGrid);
         public abstract void MakeVisible();
         public abstract void MakeInvisible();
     }

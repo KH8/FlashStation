@@ -45,17 +45,19 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.IsBackground = true;
             _updateThread.Start();
         }
-        
-        public override void Initialize(int xPosition, int yPosition)
+
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid.Children.Add(_communicationReadInterfaceListBox = GuiFactory.CreateListView("OnlineReadDataListBox", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, _generalGrid.ActualHeight, (_generalGrid.ActualWidth/2) - 2));
-            _generalGrid.Children.Add(_communicationWriteInterfaceListBox = GuiFactory.CreateListView("OnlineWriteDataListBox", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, _generalGrid.ActualHeight, (_generalGrid.ActualWidth/2) - 2));
+            _generalGrid = generalGrid;
 
-            _generalGrid.Height = _generalGrid.ActualHeight;
-            _generalGrid.Width = _generalGrid.ActualWidth;
+            if (_generalGrid.ActualHeight > 0) { _generalGrid.Height = _generalGrid.ActualHeight; }
+            if (_generalGrid.ActualWidth > 0) { _generalGrid.Width = _generalGrid.ActualWidth; }
+
+            _generalGrid.Children.Add(_communicationReadInterfaceListBox = GuiFactory.CreateListView("OnlineReadDataListBox", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, _generalGrid.Height, (_generalGrid.Width/2) - 2));
+            _generalGrid.Children.Add(_communicationWriteInterfaceListBox = GuiFactory.CreateListView("OnlineWriteDataListBox", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, _generalGrid.Height, (_generalGrid.Width/2) - 2));
 
             _communicationReadInterfaceListBox.ItemsSource = _readInterfaceCollection;
             _communicationReadInterfaceListBox.View = CreateGridView();

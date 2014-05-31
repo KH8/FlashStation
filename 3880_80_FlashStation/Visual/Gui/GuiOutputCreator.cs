@@ -34,14 +34,14 @@ namespace _3880_80_FlashStation.Visual.Gui
             _outputCreatorFile = outputCreatorFile;
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 250);
+            _generalGrid = generalGrid;
 
-            var guiOutputCreatorGroupBox = GuiFactory.CreateGroupBox("Output Creation", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 250);
+            var guiOutputCreatorGroupBox = GuiFactory.CreateGroupBox("Output Creation", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 215, 250);
             _generalGrid.Children.Add(guiOutputCreatorGroupBox);
 
             var guiOutputCreatorGrid = GuiFactory.CreateGrid();

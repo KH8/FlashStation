@@ -32,15 +32,18 @@ namespace _3880_80_FlashStation.Visual.Gui
             if (PlcConfigurationFile.Default.Configuration[Id].PlcConfigurationStatus == 1) { StoreSettings(); }
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 400, 320);
+            _generalGrid = generalGrid;
+
+            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
+            _generalGrid.Children.Add(grid);
 
             var guiCommunicationGroupBox = GuiFactory.CreateGroupBox("PLC Communication Setup", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 150, 320);
-            _generalGrid.Children.Add(guiCommunicationGroupBox);
+            grid.Children.Add(guiCommunicationGroupBox);
 
             var guiCommunicationGrid = GuiFactory.CreateGrid();
             guiCommunicationGroupBox.Content = guiCommunicationGrid;
@@ -55,7 +58,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiCommunicationGrid.Children.Add(GuiFactory.CreateTextBox("SlotBox", _guiPlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture), 170, 91, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, SlotBoxChanged));
 
             var guiDataGroupBox = GuiFactory.CreateGroupBox("PLC Data Setup", 0, 150, HorizontalAlignment.Left, VerticalAlignment.Top, 206, 320);
-            _generalGrid.Children.Add(guiDataGroupBox);
+            grid.Children.Add(guiDataGroupBox);
 
             var guiDataGrid = GuiFactory.CreateGrid();
             guiDataGroupBox.Content = guiDataGrid;
@@ -73,7 +76,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbStartAddressBox", _guiPlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture), 185, 119, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteStartAddressBoxChanged));
             guiDataGrid.Children.Add(GuiFactory.CreateTextBox("WriteDbLengthBox", _guiPlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture), 185, 146, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85, WriteLengthBoxChanged));
 
-            _generalGrid.Children.Add(GuiFactory.CreateButton("UseSettingsButton", "Use Settings", 0, 362, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, StoreSettingsButton));
+            grid.Children.Add(GuiFactory.CreateButton("UseSettingsButton", "Use Settings", 0, 362, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, StoreSettingsButton));
         }
 
         private void StoreSettingsButton(object sender, RoutedEventArgs e)

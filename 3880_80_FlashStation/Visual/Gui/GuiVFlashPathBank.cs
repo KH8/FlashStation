@@ -43,14 +43,42 @@ namespace _3880_80_FlashStation.Visual.Gui
             UpdateVFlashProjectCollection();
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 240, 800);
+            _generalGrid = generalGrid;
 
-            _generalGrid.Children.Add(_vFlashBankListBox = GuiFactory.CreateListView("VFlashBankListBox", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Top, 210, 800, VFlashProjectbankListViewSelection));
+            if (_generalGrid.ActualHeight > 0) { _generalGrid.Height = _generalGrid.ActualHeight; }
+            if (_generalGrid.ActualWidth > 0) { _generalGrid.Width = _generalGrid.ActualWidth; }
+
+            _generalGrid.Children.Add(_vFlashBankListBox = GuiFactory.CreateListView("VFlashBankListBox", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Top, _generalGrid.Height - 30, _generalGrid.Width, VFlashProjectbankListViewSelection));
+
+            _vFlashBankListBox.ItemsSource = _vFlashProjectCollection;
+            _vFlashBankListBox.View = CreateGridView();
+            _vFlashBankListBox.Foreground = Brushes.Black;
+
+            _generalGrid.Children.Add(GuiFactory.CreateButton("VFlashCreateTypeButton", "Create Type", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 100, TypeCreation));
+            _generalGrid.Children.Add(GuiFactory.CreateLabel("Type Number:", 110, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 90));
+            _generalGrid.Children.Add(GuiFactory.CreateLabel("Version:", 260, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 60));
+            _generalGrid.Children.Add(_typeNumberBox = GuiFactory.CreateTextBox("TypeNumberBox", "1", 200, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, HorizontalAlignment.Right, 23, 50));
+            _generalGrid.Children.Add(_typeVersionBox = GuiFactory.CreateTextBox("TypeVersionBox", "-001", 320, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, HorizontalAlignment.Right, 23, 70));
+        }
+
+        public void UpdateSizes(double height, double width)
+        {
+            _generalGrid.Height = height;
+            _generalGrid.Width = width;
+
+            _vFlashBankListBox.Height = height - 30;
+            _vFlashBankListBox.Width = width;
+
+            _vFlashBankListBox.View = CreateGridView();
+        }
+
+        public GridView CreateGridView()
+        {
             var gridView = new GridView();
 
             gridView.Columns.Add(new GridViewColumn
@@ -67,20 +95,12 @@ namespace _3880_80_FlashStation.Visual.Gui
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = 540,
+                Width = _generalGrid.Width - 130,
                 Header = "Path",
                 DisplayMemberBinding = new Binding("Path")
             });
 
-            _vFlashBankListBox.ItemsSource = _vFlashProjectCollection;
-            _vFlashBankListBox.View = gridView;
-            _vFlashBankListBox.Foreground = Brushes.Black;
-
-            _generalGrid.Children.Add(GuiFactory.CreateButton("VFlashCreateTypeButton", "Create Type", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Bottom, 25, 100, TypeCreation));
-            _generalGrid.Children.Add(GuiFactory.CreateLabel("Type Number:" ,431 , 0,HorizontalAlignment.Left ,VerticalAlignment.Bottom, 25, 94));
-            _generalGrid.Children.Add(GuiFactory.CreateLabel("Version:", 573, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 55));
-            _generalGrid.Children.Add(_typeNumberBox = GuiFactory.CreateTextBox("TypeNumberBox", "1", 522, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, HorizontalAlignment.Right, 23, 42));
-            _generalGrid.Children.Add(_typeVersionBox = GuiFactory.CreateTextBox("TypeVersionBox", "-001", 628, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, HorizontalAlignment.Right, 23, 66));
+            return gridView;
         }
 
         private void TypeCreation(object sender, RoutedEventArgs e)

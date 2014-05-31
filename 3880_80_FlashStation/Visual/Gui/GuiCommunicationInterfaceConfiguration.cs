@@ -29,12 +29,12 @@ namespace _3880_80_FlashStation.Visual.Gui
             _communicationInterfacePath = communicationInterfacePath;
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 320);
+            _generalGrid = generalGrid;
 
             var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 320);
             _generalGrid.Children.Add(guiInterfaceGroupBox);

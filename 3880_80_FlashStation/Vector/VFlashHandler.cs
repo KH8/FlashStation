@@ -58,7 +58,7 @@ namespace _3880_80_FlashStation.Vector
             _vFlashErrorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, 0);
             _vFlashStationController.Add(new VFlashChannel(ReportError, "", _id));
-            
+
             _vFlashTypeBank = new VFlashTypeBank();
             _vFlashErrorCollector = new VFlashErrorCollector();
 

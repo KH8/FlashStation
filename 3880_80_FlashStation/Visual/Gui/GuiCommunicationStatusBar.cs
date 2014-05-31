@@ -35,24 +35,27 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.Start();
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Right, VerticalAlignment.Top, 25, 810);
-            GeneralGrid.Children.Add(_plcStatusLabel = GuiFactory.CreateLabel("PlcStatusLabel", "Wrong Configuration!", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Bottom, HorizontalAlignment.Right, 25, 810));
+            _generalGrid = generalGrid;
+            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Right, VerticalAlignment.Top);
+            _generalGrid.Children.Add(grid);
+
+            grid.Children.Add(_plcStatusLabel = GuiFactory.CreateLabel("PlcStatusLabel", "Wrong Configuration!", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 810));
             _plcStatusLabel.FontSize = 10;
         }
 
         public override void MakeVisible()
         {
-            GeneralGrid.Visibility = Visibility.Visible;
+            _generalGrid.Visibility = Visibility.Visible;
         }
 
         public override void MakeInvisible()
         {
-            GeneralGrid.Visibility = Visibility.Hidden;
+            _generalGrid.Visibility = Visibility.Hidden;
         }
 
         public void Update()

@@ -80,16 +80,13 @@ namespace _3880_80_FlashStation.Visual
             newScrollViewer.Content = newGrid;
 
             var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[newId];
-            gridGuiCommunicationStatus.Initialize(0, 0);
-            newGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
+            gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
             var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[newId];
-            gridGuiCommunicationStatusBar.Initialize(0, 5);
-            FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
+            gridGuiCommunicationStatusBar.Initialize(0, 5, FooterGrid);
 
             var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
-            gridGuiPlcConfiguration.Initialize(0, 260);
-            newGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
+            gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
         }
 
         private void AddInterface(object sender, RoutedEventArgs e)
@@ -108,30 +105,53 @@ namespace _3880_80_FlashStation.Visual
             newScrollViewer.Content = newGrid;
 
             var gridGuiCommunicationInterfaceConfiguration = _registry.GuiComInterfacemunicationConfigurations[newId];
-            gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0);
-            newGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
+            gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
+
+            newtabItem = new TabItem { Header = "INT__" + newId + " Online" };
+            MainTabControl.Items.Add(newtabItem);
+            MainTabControl.SelectedItem = newtabItem;
+
+            newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            newGrid.Height = MainTabControl.Height - 32;
+            newGrid.Width = MainTabControl.Width - 10;
 
             var gridGuiCommunicationInterfaceOnline = _registry.GuiCommunicationInterfaceOnlines[newId];
-            gridGuiCommunicationInterfaceOnline.GeneralGrid = OnlineCommunicationGrid;
-            gridGuiCommunicationInterfaceOnline.Initialize(0, 0);
+            gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
         }
 
         private void AddVFlashBank(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddVFlashBank();
 
+            var newtabItem = new TabItem { Header = "VFLASH__BANK__" + newId };
+            OutputTabControl.Items.Add(newtabItem);
+            OutputTabControl.SelectedItem = newtabItem;
+
+            var newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            newGrid.Height = OutputTabControl.Height - 32;
+            newGrid.Width = OutputTabControl.Width - 10;
+
             var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[newId];
-            gridGuiVFlashPathBank.Initialize(0, 0);
-            VFlashProjectsGrid.Children.Add(gridGuiVFlashPathBank.GeneralGrid);
+            gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
         }
 
         private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddOutputWriter();
 
+            var newtabItem = new TabItem { Header = "OUTPUT__" + newId };
+            OutputTabControl.Items.Add(newtabItem);
+            OutputTabControl.SelectedItem = newtabItem;
+
+            var newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
             var gridGuiOutputCreator = _registry.GuiOutputCreators[newId];
-            gridGuiOutputCreator.Initialize(0, 0);
-            OutputCreatorGrid.Children.Add(gridGuiOutputCreator.GeneralGrid);
+            gridGuiOutputCreator.Initialize(0, 0, newGrid);
         }
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
@@ -140,13 +160,18 @@ namespace _3880_80_FlashStation.Visual
             _registry.VFlashHandlers[newId].InitializeVFlash();
             _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[newId];
 
+            var newtabItem = new TabItem { Header = "VFLASH__" + newId };
+            OutputTabControl.Items.Add(newtabItem);
+            OutputTabControl.SelectedItem = newtabItem;
+
+            var newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
             var gridVFlash = _registry.GuiVFlashes[newId];
-            gridVFlash.Initialize(0, 0);
-            VFlashGrid.Children.Add(gridVFlash.GeneralGrid);
+            gridVFlash.Initialize(0, 0, newGrid);
 
             var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[newId];
-            gridGuiVFlashStatusBar.Initialize(0, 20);
-            FooterGrid.Children.Add(gridGuiVFlashStatusBar.GeneralGrid);
+            gridGuiVFlashStatusBar.Initialize(0, 20, FooterGrid);
         }
 
         #endregion
@@ -162,9 +187,14 @@ namespace _3880_80_FlashStation.Visual
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            MainTabControl.Height = ActualHeight - 372;
             MainTabControl.Width = ActualWidth - 374;
-            MainTabControl.Height = ActualHeight - 120;
+
             ConnectionTabControl.Height = ActualHeight - 120;
+            ConnectionTabControl.Width = 350;
+
+            OutputTabControl.Height = 250;
+            OutputTabControl.Width = ActualWidth - 374;
 
             LogListBox.Height = MainTabControl.Height - 32;
             LogListBox.Width = MainTabControl.Width - 10;
@@ -172,10 +202,8 @@ namespace _3880_80_FlashStation.Visual
             AboutGrid.Height = MainTabControl.Height - 32;
             AboutGrid.Width = MainTabControl.Width - 10;
 
-            foreach (var gui in _registry.GuiCommunicationInterfaceOnlines)
-            {
-                gui.Value.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10);
-            }
+            foreach (var gui in _registry.GuiCommunicationInterfaceOnlines) { gui.Value.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
+            foreach (var gui in _registry.GuiVFlashPathBanks) { gui.Value.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }
 
     }

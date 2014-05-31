@@ -259,7 +259,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         public static ListView CreateListView(string name, int xPosition, int yPosition,
             HorizontalAlignment horizontalAlignment,
             VerticalAlignment verticalAlignment,
-            int height, int width, SelectionChangedEventHandler selectionChanged)
+            double height, double width, SelectionChangedEventHandler selectionChanged)
         {
             var listView = new ListView
             {

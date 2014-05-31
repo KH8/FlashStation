@@ -50,16 +50,18 @@ namespace _3880_80_FlashStation.Visual.Gui
             _updateThread.Start();
         }
 
-        public override void Initialize(int xPosition, int yPosition)
+        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
             XPosition = xPosition;
             YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 260, 320);
+            _generalGrid = generalGrid;
+            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
+            _generalGrid.Children.Add(grid);
 
             var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 0, 0, HorizontalAlignment.Left,
                 VerticalAlignment.Top, 226, 320);
-            GeneralGrid.Children.Add(guiGroupBox);
+            grid.Children.Add(guiGroupBox);
 
             var guiGrid = GuiFactory.CreateGrid(0, 10, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 320);
             guiGroupBox.Content = guiGrid;
@@ -86,19 +88,19 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiGrid.Children.Add(_actWriteStartAddressLabel = GuiFactory.CreateLabel("ActWriteStartAddressLabel", "", 185, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
             guiGrid.Children.Add(_actWriteLengthLabel = GuiFactory.CreateLabel("ActWriteLengthLabel", "", 185, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
 
-            GeneralGrid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 232, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
-            GeneralGrid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 184, 243, HorizontalAlignment.Left, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
+            grid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 232, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
+            grid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 184, 243, HorizontalAlignment.Left, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
             _startUpConnectionControlBox.IsChecked = _plcConfigurationFile.ConnectAtStartUp[Id];
         }
 
         public override void MakeVisible()
         {
-            GeneralGrid.Visibility = Visibility.Visible;
+            _generalGrid.Visibility = Visibility.Visible;
         }
 
         public override void MakeInvisible()
         {
-            GeneralGrid.Visibility = Visibility.Hidden;
+            _generalGrid.Visibility = Visibility.Hidden;
         }
 
         public void Update()
