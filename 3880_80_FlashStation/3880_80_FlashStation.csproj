@@ -95,6 +95,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainRegistry.settings</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.cs" />
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
     <Compile Include="Visual\Gui\GuiOutputCreator.cs" />

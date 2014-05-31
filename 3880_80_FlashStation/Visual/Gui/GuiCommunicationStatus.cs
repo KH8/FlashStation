@@ -55,39 +55,39 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 240, 800);
+            GeneralGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 260, 320);
 
-            var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 0, 0, HorizontalAlignment.Center,
-                VerticalAlignment.Top, 206, 314);
+            var guiGroupBox = GuiFactory.CreateGroupBox("PLC Configuration", 0, 0, HorizontalAlignment.Left,
+                VerticalAlignment.Top, 226, 320);
             GeneralGrid.Children.Add(guiGroupBox);
 
-            var guiGrid = GuiFactory.CreateGrid();
+            var guiGrid = GuiFactory.CreateGrid(0, 10, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 320);
             guiGroupBox.Content = guiGrid;
 
-            guiGrid.Children.Add(GuiFactory.CreateLabel("IP Address:", 9, -2, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Port:", 9, 16, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Rack:", 9, 33, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Slot:", 9, 50, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Read DB Number:", 9, 68, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Read Start Address:", 9, 86, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Read Data Length:", 9, 104, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Write DB Number:", 9, 122, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Write Start Address:", 9, 140, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
-            guiGrid.Children.Add(GuiFactory.CreateLabel("Write Data Length:", 9, 158, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("IP Address:", 38, -2, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Port:", 38, 16, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Rack:", 38, 33, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Slot:", 38, 50, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 80));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Read DB Number:", 38, 68, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Read Start Address:", 38, 86, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Read Data Length:", 38, 104, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Write DB Number:", 38, 122, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Write Start Address:", 38, 140, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
+            guiGrid.Children.Add(GuiFactory.CreateLabel("Write Data Length:", 38, 158, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 115));
 
-            guiGrid.Children.Add(_actIpAddressLabel = GuiFactory.CreateLabel("ActIpAddressLabel", "", 195, -2, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(_actPortLabel = GuiFactory.CreateLabel("ActPortLabel", "", 195, 16, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(_actRackLabel = GuiFactory.CreateLabel("ActRackLabel", "", 195, 33, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(_actSlotLabel = GuiFactory.CreateLabel("ActSlotLabel", "", 195, 50, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
-            guiGrid.Children.Add(_actReadDbNumberLabel = GuiFactory.CreateLabel("ActReadDbNumberLabel", "", 211, 68, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(_actReadStartAddressLabel = GuiFactory.CreateLabel("ActReadStartAddressLabel", "", 211, 86, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(_actReadLengthLabel = GuiFactory.CreateLabel("ActReadLengthLabel", "", 211, 104, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(_actWriteDbNumberLabel = GuiFactory.CreateLabel("ActWriteDbNumberLabel", "", 211, 122, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(_actWriteStartAddressLabel = GuiFactory.CreateLabel("ActWriteStartAddressLabel", "", 211, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
-            guiGrid.Children.Add(_actWriteLengthLabel = GuiFactory.CreateLabel("ActWriteLengthLabel", "", 211, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actIpAddressLabel = GuiFactory.CreateLabel("ActIpAddressLabel", "", 170, -2, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actPortLabel = GuiFactory.CreateLabel("ActPortLabel", "", 170, 16, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actRackLabel = GuiFactory.CreateLabel("ActRackLabel", "", 170, 33, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actSlotLabel = GuiFactory.CreateLabel("ActSlotLabel", "", 170, 50, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100));
+            guiGrid.Children.Add(_actReadDbNumberLabel = GuiFactory.CreateLabel("ActReadDbNumberLabel", "", 185, 68, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actReadStartAddressLabel = GuiFactory.CreateLabel("ActReadStartAddressLabel", "", 185, 86, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actReadLengthLabel = GuiFactory.CreateLabel("ActReadLengthLabel", "", 185, 104, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actWriteDbNumberLabel = GuiFactory.CreateLabel("ActWriteDbNumberLabel", "", 185, 122, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actWriteStartAddressLabel = GuiFactory.CreateLabel("ActWriteStartAddressLabel", "", 185, 140, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
+            guiGrid.Children.Add(_actWriteLengthLabel = GuiFactory.CreateLabel("ActWriteLengthLabel", "", 185, 158, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 85));
 
-            GeneralGrid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 212, HorizontalAlignment.Center, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
-            GeneralGrid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 0, 223, HorizontalAlignment.Right, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
+            GeneralGrid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 232, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
+            GeneralGrid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 184, 243, HorizontalAlignment.Left, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
             _startUpConnectionControlBox.IsChecked = _plcConfigurationFile.ConnectAtStartUp[Id];
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -16,15 +15,6 @@ namespace _3880_80_FlashStation.Visual
     {
         private readonly Thread _communicationThread;
         private readonly Registry _registry;
-
-        private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-        private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-
-        public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection
-        { get { return _readInterfaceCollection; } }
-
-        public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection
-        { get { return _writeInterfaceCollection; } }
 
         public MainWindow()
         {
@@ -50,7 +40,6 @@ namespace _3880_80_FlashStation.Visual
                     if (_registry.CommunicationInterfaceHandlers.ContainsKey(plcCommunicator.Key))
                     {
                         if (plcCommunicator.Value.ConnectionStatus == 1) _registry.CommunicationInterfaceHandlers[plcCommunicator.Key].MaintainConnection(plcCommunicator.Value);
-                        DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, plcCommunicator.Value, _registry.CommunicationInterfaceHandlers[plcCommunicator.Key]);
                     }
                 }
                 Thread.Sleep(21);
@@ -80,17 +69,27 @@ namespace _3880_80_FlashStation.Visual
             var newId = _registry.AddPlcCommunicator();
             _registry.PlcCommunicators[newId].InitializeConnection();
 
+            var newtabItem = new TabItem {Header = "PLC__" + newId};
+            ConnectionTabControl.Items.Add(newtabItem);
+            ConnectionTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer();
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
             var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[newId];
             gridGuiCommunicationStatus.Initialize(0, 0);
-            ConnectionStatusGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
+            newGrid.Children.Add(gridGuiCommunicationStatus.GeneralGrid);
 
             var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[newId];
             gridGuiCommunicationStatusBar.Initialize(0, 5);
             FooterGrid.Children.Add(gridGuiCommunicationStatusBar.GeneralGrid);
 
             var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
-            gridGuiPlcConfiguration.Initialize(0, 0);
-            ConfigurationGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
+            gridGuiPlcConfiguration.Initialize(0, 260);
+            newGrid.Children.Add(gridGuiPlcConfiguration.GeneralGrid);
         }
 
         private void AddInterface(object sender, RoutedEventArgs e)
@@ -98,9 +97,23 @@ namespace _3880_80_FlashStation.Visual
             var newId = _registry.AddCommunicationInterface();
             _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
 
+            var newtabItem = new TabItem { Header = "INT__" + newId };
+            ConnectionTabControl.Items.Add(newtabItem);
+            ConnectionTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer();
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
             var gridGuiCommunicationInterfaceConfiguration = _registry.GuiComInterfacemunicationConfigurations[newId];
             gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0);
-            ConfigurationGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
+            newGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
+
+            var gridGuiCommunicationInterfaceOnline = _registry.GuiCommunicationInterfaceOnlines[newId];
+            gridGuiCommunicationInterfaceOnline.GeneralGrid = OnlineCommunicationGrid;
+            gridGuiCommunicationInterfaceOnline.Initialize(0, 0);
         }
 
         private void AddVFlashBank(object sender, RoutedEventArgs e)
@@ -146,6 +159,24 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
+
+        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            MainTabControl.Width = ActualWidth - 374;
+            MainTabControl.Height = ActualHeight - 120;
+            ConnectionTabControl.Height = ActualHeight - 120;
+
+            LogListBox.Height = MainTabControl.Height - 32;
+            LogListBox.Width = MainTabControl.Width - 10;
+
+            AboutGrid.Height = MainTabControl.Height - 32;
+            AboutGrid.Width = MainTabControl.Width - 10;
+
+            foreach (var gui in _registry.GuiCommunicationInterfaceOnlines)
+            {
+                gui.Value.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10);
+            }
+        }
 
     }
 }

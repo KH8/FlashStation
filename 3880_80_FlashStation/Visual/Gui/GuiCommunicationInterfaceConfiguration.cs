@@ -34,21 +34,21 @@ namespace _3880_80_FlashStation.Visual.Gui
             XPosition = xPosition;
             YPosition = yPosition;
 
-            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 240, 800);
+            _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top, 240, 320);
 
-            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 148, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 398);
+            var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 320);
             _generalGrid.Children.Add(guiInterfaceGroupBox);
 
             var guiInterfaceGrid = GuiFactory.CreateGrid();
             guiInterfaceGroupBox.Content = guiInterfaceGrid;
 
             guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
-            guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 180, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 165));
+            guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 150, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 120));
 
             string[] words = _communicationInterfacePath.Path[Id].Split('\\');
             _interfacePathBox.Text = words[words.Length - 1];
 
-            _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 298, 211, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
+            _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 0, 62, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
         }
 
         private void LoadSettingFile(object sender, RoutedEventArgs e)

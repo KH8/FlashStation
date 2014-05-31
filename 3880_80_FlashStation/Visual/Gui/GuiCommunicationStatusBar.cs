@@ -75,13 +75,11 @@ namespace _3880_80_FlashStation.Visual.Gui
                 {
                     statusBar = "Connected to IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress;
                     brush = Brushes.Green;
-                    //ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Disconnect"; })));
                 }
                 if (_plcCommunication.ConnectionStatus == -2)
                 {
                     statusBar = "A connection with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " was interrupted.";
                     brush = Brushes.Red;
-                    //ConnectButton.Dispatcher.BeginInvoke((new Action(delegate { ConnectButton.Content = "Connect"; })));
                 }
                 _plcStatusLabel.Dispatcher.BeginInvoke((new Action(delegate
                 {

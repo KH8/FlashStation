@@ -276,6 +276,22 @@ namespace _3880_80_FlashStation.Visual.Gui
             return listView;
         }
 
+        public static ListView CreateListView(string name, int xPosition, int yPosition,
+            HorizontalAlignment horizontalAlignment,
+            VerticalAlignment verticalAlignment,
+            double height, double width)
+        {
+            return new ListView
+            {
+                Name = name,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAlignment,
+                Height = height,
+                Width = width,
+                Margin = new Thickness(xPosition, yPosition, 0, 0)
+            };
+        }
+
         #endregion
     }
 }

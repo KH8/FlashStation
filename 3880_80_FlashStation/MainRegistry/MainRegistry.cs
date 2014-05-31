@@ -17,6 +17,7 @@ namespace _3880_80_FlashStation.MainRegistry
 
         public Dictionary<uint, CommunicationInterfaceHandler> CommunicationInterfaceHandlers = new Dictionary<uint, CommunicationInterfaceHandler>();
         public Dictionary<uint, GuiComInterfacemunicationConfiguration> GuiComInterfacemunicationConfigurations = new Dictionary<uint, GuiComInterfacemunicationConfiguration>();
+        public Dictionary<uint, GuiCommunicationInterfaceOnline> GuiCommunicationInterfaceOnlines = new Dictionary<uint, GuiCommunicationInterfaceOnline>(); 
 
         public Dictionary<uint, OutputWriter> OutputWriters = new Dictionary<uint, OutputWriter>();
         public Dictionary<uint, GuiOutputCreator> GuiOutputCreators = new Dictionary<uint, GuiOutputCreator>();
@@ -58,6 +59,7 @@ namespace _3880_80_FlashStation.MainRegistry
             var id = (uint)CommunicationInterfaceHandlers.Count + 1;
             CommunicationInterfaceHandlers.Add(id, new CommunicationInterfaceHandler(id, CommunicationInterfacePath.Default));
             GuiComInterfacemunicationConfigurations.Add(id, new GuiComInterfacemunicationConfiguration(id, CommunicationInterfaceHandlers[id], CommunicationInterfacePath.Default));
+            GuiCommunicationInterfaceOnlines.Add(id, new GuiCommunicationInterfaceOnline(id, PlcCommunicators[id], CommunicationInterfaceHandlers[id]));
             return id;
         }
 
