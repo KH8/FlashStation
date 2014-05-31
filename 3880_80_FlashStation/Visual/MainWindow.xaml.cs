@@ -9,7 +9,6 @@ using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
 using _3880_80_FlashStation.Vector;
 using _3880_80_FlashStation.Visual.Gui;
-using VFlashTypeBankFile = _3880_80_FlashStation.Vector.VFlashTypeBankFile;
 
 namespace _3880_80_FlashStation.Visual
 {
@@ -21,7 +20,7 @@ namespace _3880_80_FlashStation.Visual
         private readonly Thread _communicationThread;
         private readonly Registry _registry;
 
-        private readonly VFlashTypeBank _vFlashTypeBank;
+        
         
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
@@ -42,9 +41,6 @@ namespace _3880_80_FlashStation.Visual
             Logger.Log("Program Started");
 
             _registry = new Registry();
-            _vFlashTypeBank = new VFlashTypeBank();
-            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
-            UpdateVFlashProjectCollection();
 
             var gui = new GuiVFlashPathBank(1);
             gui.Initialize(0,0);
@@ -92,39 +88,6 @@ namespace _3880_80_FlashStation.Visual
             Environment.Exit(0);
         }
 
-        private void TypeCreation(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
-            // Set filter for file extension and default file extension
-            // Display OpenFileDialog by calling ShowDialog method
-            bool? result = dlg.ShowDialog();
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                _vFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
-                UpdateVFlashProjectCollection();
-            }
-        }
-
-        private void UpdateVFlashProjectCollection()
-        {
-            VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
-            VFlashTypeBankFile.Default.Save();
-
-            _vFlashProjectCollection.Clear();
-            foreach (var vFlashType in _vFlashTypeBank.Children)
-            {
-                var type = (VFlashTypeComponent)vFlashType;
-                _vFlashProjectCollection.Add(new VFlashDisplayProjectData
-                {
-                    Type = type.Type.ToString(CultureInfo.InvariantCulture),
-                    Version = type.Version,
-                    Path = type.Path
-                });
-            }
-        }
-
         private void AddConnection(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddPlcCommunicator();
@@ -166,7 +129,7 @@ namespace _3880_80_FlashStation.Visual
         {
             var newId = _registry.AddVFlashChannel();
             _registry.VFlashHandlers[newId].InitializeVFlash();
-            _registry.VFlashHandlers[newId].VFlashTypeBank = _vFlashTypeBank;
+            //_registry.VFlashHandlers[newId].VFlashTypeBank = _vFlashTypeBank;
 
             var gridVFlash = _registry.GuiVFlashes[newId];
             gridVFlash.Initialize(0, 0);
@@ -184,13 +147,6 @@ namespace _3880_80_FlashStation.Visual
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
-        }
-
-        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = (ListView)sender;
-            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
-            if (projectdata != null) TypeNumberBox.Text = projectdata.Type;
         }
 
         #endregion

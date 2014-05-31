@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace _3880_80_FlashStation.Visual.Gui
 {
@@ -254,5 +255,28 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         #endregion
 
+        #region ListView
+
+        public static ListView CreateListView(string name, int xPosition, int yPosition,
+            HorizontalAlignment horizontalAlignment,
+            VerticalAlignment verticalAlignment,
+            int height, int width, SelectionChangedEventHandler selectionChanged)
+        {
+            var listView = new ListView
+            {
+                Name = name,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAlignment,
+                Height = height,
+                Width = width,
+                Margin = new Thickness(xPosition, yPosition, 0, 0)
+            };
+
+            listView.SelectionChanged += selectionChanged;
+
+            return listView;
+        }
+
+        #endregion
     }
 }

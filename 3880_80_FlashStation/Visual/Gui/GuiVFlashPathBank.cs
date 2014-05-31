@@ -1,12 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.Reflection;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Threading;
-using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using _3880_80_FlashStation.Vector;
 using GridView = System.Windows.Controls.GridView;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace _3880_80_FlashStation.Visual.Gui
 {
@@ -14,12 +16,16 @@ namespace _3880_80_FlashStation.Visual.Gui
     {
         private Grid _generalGrid;
 
+        private ListView _vFlashBankListBox;
+        private TextBox _typeNumberBox;
+        private TextBox _typeVersionBox;
+
+        private readonly VFlashTypeBank _vFlashTypeBank;
+
         private readonly ObservableCollection<VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashDisplayProjectData>();
 
         public ObservableCollection<VFlashDisplayProjectData> VFlashProjectCollection
         { get { return _vFlashProjectCollection; } }
-
-        private readonly Thread _updateThread;
 
         public Grid GeneralGrid
         {
@@ -31,10 +37,9 @@ namespace _3880_80_FlashStation.Visual.Gui
         {
             Id = id;
 
-            _updateThread = new Thread(Update);
-            _updateThread.SetApartmentState(ApartmentState.STA);
-            _updateThread.IsBackground = true;
-            _updateThread.Start();
+            _vFlashTypeBank = new VFlashTypeBank();
+            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
+            UpdateVFlashProjectCollection();
         }
 
         public override void Initialize(int xPosition, int yPosition)
@@ -44,13 +49,9 @@ namespace _3880_80_FlashStation.Visual.Gui
 
             _generalGrid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Center, VerticalAlignment.Top, 240, 800);
 
-            var list = new ListView();
+            _generalGrid.Children.Add(_vFlashBankListBox = GuiFactory.CreateListView("VFlashBankListBox", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Top, 210, 800, VFlashProjectbankListViewSelection));
             var gridView = new GridView();
 
-            _generalGrid.Children.Add(list);
-
-            list.ItemsSource = _vFlashProjectCollection;
-            list.View = gridView;
             gridView.Columns.Add(new GridViewColumn
             {
                 Width = 60,
@@ -70,18 +71,56 @@ namespace _3880_80_FlashStation.Visual.Gui
                 DisplayMemberBinding = new Binding("Path")
             });
 
-            _vFlashProjectCollection.Add(new VFlashDisplayProjectData()
+            _vFlashBankListBox.ItemsSource = _vFlashProjectCollection;
+            _vFlashBankListBox.View = gridView;
+            _vFlashBankListBox.Foreground = Brushes.Black;
+
+            _generalGrid.Children.Add(GuiFactory.CreateButton("VFlashCreateTypeButton", "Create Type", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Bottom, 25, 100, TypeCreation));
+            _generalGrid.Children.Add(GuiFactory.CreateLabel("Type Number:" ,431 , 0,HorizontalAlignment.Left ,VerticalAlignment.Bottom, 25, 94));
+            _generalGrid.Children.Add(GuiFactory.CreateLabel("Version:", 573, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, 25, 55));
+            _generalGrid.Children.Add(_typeNumberBox = GuiFactory.CreateTextBox("TypeNumberBox", "1", 522, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, HorizontalAlignment.Right, 23, 42));
+            _generalGrid.Children.Add(_typeVersionBox = GuiFactory.CreateTextBox("TypeVersionBox", "-001", 628, 0, HorizontalAlignment.Left, VerticalAlignment.Bottom, HorizontalAlignment.Right, 23, 66));
+        }
+
+        private void TypeCreation(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
+            // Set filter for file extension and default file extension
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+            // Get the selected file name and display in a TextBox
+            if (result == true)
             {
-                Path = "asdasd",
-                Type = "asdasdasdasdds",
-                Version = "123"
-            });
-            _vFlashProjectCollection.Add(new VFlashDisplayProjectData()
+                _vFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(_typeNumberBox.Text), _typeVersionBox.Text, dlg.FileName));
+                UpdateVFlashProjectCollection();
+            }
+        }
+
+        private void UpdateVFlashProjectCollection()
+        {
+            VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
+            VFlashTypeBankFile.Default.Save();
+
+            _vFlashProjectCollection.Clear();
+            foreach (var vFlashType in _vFlashTypeBank.Children)
             {
-                Path = "asdasd2",
-                Type = "asdasdasdasdds2",
-                Version = "1233"
-            });
+                var type = (VFlashTypeComponent)vFlashType;
+                _vFlashProjectCollection.Add(new VFlashDisplayProjectData
+                {
+                    Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                    Version = type.Version,
+                    Path = type.Path
+                });
+            }
+        }
+
+        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = (ListView)sender;
+            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
+            if (projectdata != null) _typeNumberBox.Text = projectdata.Type;
+            if (projectdata != null) _typeVersionBox.Text = projectdata.Version;
         }
 
         public override void MakeVisible()
@@ -92,14 +131,6 @@ namespace _3880_80_FlashStation.Visual.Gui
         public override void MakeInvisible()
         {
             _generalGrid.Visibility = Visibility.Hidden;
-        }
-
-        public void Update()
-        {
-            while (_updateThread.IsAlive)
-            {
-               Thread.Sleep(21);
-            }
         }
     }
 }
