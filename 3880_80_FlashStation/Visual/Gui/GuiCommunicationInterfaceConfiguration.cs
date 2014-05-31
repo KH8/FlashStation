@@ -35,9 +35,11 @@ namespace _3880_80_FlashStation.Visual.Gui
             YPosition = yPosition;
 
             _generalGrid = generalGrid;
+            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
+            _generalGrid.Children.Add(grid);
 
             var guiInterfaceGroupBox = GuiFactory.CreateGroupBox("Interface Configuration", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, 58, 320);
-            _generalGrid.Children.Add(guiInterfaceGroupBox);
+            grid.Children.Add(guiInterfaceGroupBox);
 
             var guiInterfaceGrid = GuiFactory.CreateGrid();
             guiInterfaceGroupBox.Content = guiInterfaceGrid;
@@ -48,7 +50,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             string[] words = _communicationInterfacePath.Path[Id].Split('\\');
             _interfacePathBox.Text = words[words.Length - 1];
 
-            _generalGrid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 0, 62, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
+            grid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 0, 62, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
         }
 
         private void LoadSettingFile(object sender, RoutedEventArgs e)
