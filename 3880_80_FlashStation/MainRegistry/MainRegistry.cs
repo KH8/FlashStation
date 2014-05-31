@@ -19,7 +19,10 @@ namespace _3880_80_FlashStation.MainRegistry
         public Dictionary<uint, GuiComInterfacemunicationConfiguration> GuiComInterfacemunicationConfigurations = new Dictionary<uint, GuiComInterfacemunicationConfiguration>();
 
         public Dictionary<uint, OutputWriter> OutputWriters = new Dictionary<uint, OutputWriter>();
-        public Dictionary<uint, GuiOutputCreator> GuiOutputCreators = new Dictionary<uint, GuiOutputCreator>(); 
+        public Dictionary<uint, GuiOutputCreator> GuiOutputCreators = new Dictionary<uint, GuiOutputCreator>();
+
+        public Dictionary<uint, VFlashTypeBank> VFlashTypeBanks = new Dictionary<uint, VFlashTypeBank>();
+        public Dictionary<uint, GuiVFlashPathBank> GuiVFlashPathBanks = new Dictionary<uint, GuiVFlashPathBank>();
 
         public Dictionary<uint, VFlashHandler> VFlashHandlers = new Dictionary<uint, VFlashHandler>();
         public Dictionary<uint, GuiVFlash> GuiVFlashes = new Dictionary<uint, GuiVFlash>();
@@ -28,11 +31,13 @@ namespace _3880_80_FlashStation.MainRegistry
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface();
         public abstract uint AddOutputWriter();
+        public abstract uint AddVFlashBank();
         public abstract uint AddVFlashChannel();
 
         public abstract void RemovePlcCommunicator(uint id);
         public abstract void RemoveCommunicationInterface(uint id);
         public abstract void RemoveOutputWriter(uint id);
+        public abstract void RemoveVFlashBank(uint id);
         public abstract void RemoveVFlashChannel(uint id);
     }
 
@@ -64,6 +69,14 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
+        public override uint AddVFlashBank()
+        {
+            var id = (uint)VFlashTypeBanks.Count + 1;
+            VFlashTypeBanks.Add(id, new VFlashTypeBank());
+            GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
+            return id;
+        }
+
         public override uint AddVFlashChannel()
         {
             var id = (uint)VFlashHandlers.Count + 1;
@@ -84,6 +97,11 @@ namespace _3880_80_FlashStation.MainRegistry
         }
 
         public override void RemoveOutputWriter(uint id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveVFlashBank(uint id)
         {
             throw new NotImplementedException();
         }

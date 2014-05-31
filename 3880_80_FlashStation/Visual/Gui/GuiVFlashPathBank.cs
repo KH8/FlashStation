@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,6 +20,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private TextBox _typeVersionBox;
 
         private readonly VFlashTypeBank _vFlashTypeBank;
+        private readonly VFlashTypeBankFile _vFlashTypeBankFile;
 
         private readonly ObservableCollection<VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashDisplayProjectData>();
 
@@ -33,12 +33,13 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiVFlashPathBank(uint id)
+        public GuiVFlashPathBank(uint id, VFlashTypeBankFile vFlashTypeBankFile, VFlashTypeBank vFlashTypeBank)
         {
+            _vFlashTypeBankFile = vFlashTypeBankFile;
+            _vFlashTypeBank = vFlashTypeBank;
             Id = id;
 
-            _vFlashTypeBank = new VFlashTypeBank();
-            VFlashTypeConverter.StringsToVFlashChannels(VFlashTypeBankFile.Default.TypeBank, _vFlashTypeBank);
+            VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[Id], _vFlashTypeBank);
             UpdateVFlashProjectCollection();
         }
 
@@ -99,8 +100,8 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         private void UpdateVFlashProjectCollection()
         {
-            VFlashTypeBankFile.Default.TypeBank = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
-            VFlashTypeBankFile.Default.Save();
+            _vFlashTypeBankFile.TypeBank[Id] = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
+            _vFlashTypeBankFile.Save();
 
             _vFlashProjectCollection.Clear();
             foreach (var vFlashType in _vFlashTypeBank.Children)

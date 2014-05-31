@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
-using _3880_80_FlashStation.Vector;
-using _3880_80_FlashStation.Visual.Gui;
 
 namespace _3880_80_FlashStation.Visual
 {
@@ -20,11 +17,8 @@ namespace _3880_80_FlashStation.Visual
         private readonly Thread _communicationThread;
         private readonly Registry _registry;
 
-        
-        
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-        private readonly ObservableCollection<VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashDisplayProjectData>();
 
         public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection
         { get { return _readInterfaceCollection; } }
@@ -32,19 +26,12 @@ namespace _3880_80_FlashStation.Visual
         public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection
         { get { return _writeInterfaceCollection; } }
 
-        public ObservableCollection<VFlashDisplayProjectData> VFlashProjectCollection
-        { get { return _vFlashProjectCollection; } }
-
         public MainWindow()
         {
             InitializeComponent();
             Logger.Log("Program Started");
 
             _registry = new Registry();
-
-            var gui = new GuiVFlashPathBank(1);
-            gui.Initialize(0,0);
-            ConnectionStatusGrid.Children.Add(gui.GeneralGrid);
 
             _communicationThread = new Thread(CommunicationHandler);
             _communicationThread.SetApartmentState(ApartmentState.STA);
@@ -116,6 +103,15 @@ namespace _3880_80_FlashStation.Visual
             ConfigurationGrid.Children.Add(gridGuiCommunicationInterfaceConfiguration.GeneralGrid);
         }
 
+        private void AddVFlashBank(object sender, RoutedEventArgs e)
+        {
+            var newId = _registry.AddVFlashBank();
+
+            var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[newId];
+            gridGuiVFlashPathBank.Initialize(0, 0);
+            VFlashProjectsGrid.Children.Add(gridGuiVFlashPathBank.GeneralGrid);
+        }
+
         private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddOutputWriter();
@@ -129,7 +125,7 @@ namespace _3880_80_FlashStation.Visual
         {
             var newId = _registry.AddVFlashChannel();
             _registry.VFlashHandlers[newId].InitializeVFlash();
-            //_registry.VFlashHandlers[newId].VFlashTypeBank = _vFlashTypeBank;
+            _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[newId];
 
             var gridVFlash = _registry.GuiVFlashes[newId];
             gridVFlash.Initialize(0, 0);
@@ -150,5 +146,6 @@ namespace _3880_80_FlashStation.Visual
         }
 
         #endregion
+
     }
 }

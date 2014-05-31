@@ -25,10 +25,19 @@ namespace _3880_80_FlashStation.Vector {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string[] TypeBank {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfString>
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
+                                                                    </ArrayOfArrayOfString>")]
+        public string[][] TypeBank {
             get {
-                return ((string[])(this["TypeBank"]));
+                return ((string[][])(this["TypeBank"]));
             }
             set {
                 this["TypeBank"] = value;

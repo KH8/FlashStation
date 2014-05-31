@@ -5,6 +5,7 @@
         Title="ST80 FlashStation" Height="394" Width="835"
         Closing="CloseApp" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9">
     <Grid Margin="0,0,0,0" Name="MainGrid">
+        <!--MENU-->
         <Menu IsMainMenu="True" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="829" Background="{x:Null}" BorderBrush="#FF212121" RenderTransformOrigin="0.5,0.5">
             <Menu.RenderTransform>
                 <TransformGroup>
@@ -29,6 +30,7 @@
                 <MenuItem Header="_Add Output File Handler" Click="AddOutputFileHandlerChannel"></MenuItem>
                 <MenuItem Header="_Add SQL connection" IsEnabled="False"></MenuItem>
                 <Separator></Separator>
+                <MenuItem Header="_Add VFlash Bank" Click="AddVFlashBank"></MenuItem>
                 <MenuItem Header="_Add VFlash Channel" Click="AddVFlashChannel"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Component Manager"></MenuItem>
@@ -37,6 +39,7 @@
                 <MenuItem Header="_About ttAgent"></MenuItem>
             </MenuItem>
         </Menu>
+        <!--TABS-->
         <Border Margin="0,26,0,50" BorderThickness="1" BorderBrush="#FF8C8E94">
             <Grid Background="#FFF0F0F0">
                 <TabControl HorizontalAlignment="Left" Height="274" VerticalAlignment="Top" Width="810" Margin="4,2,0,0" SelectionChanged="UpdateLog">
@@ -93,6 +96,7 @@
                 </TabControl>
             </Grid>
         </Border>
+        <!--FOOTER-->
         <Grid Name="FooterGrid" VerticalAlignment="Bottom" Height="50"></Grid>
     </Grid>
 </Window>
