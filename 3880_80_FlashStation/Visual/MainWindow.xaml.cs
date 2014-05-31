@@ -27,6 +27,8 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
+
+            UpdateTreeView();
         }
 
         #region Thread Methods
@@ -87,6 +89,8 @@ namespace _3880_80_FlashStation.Visual
 
             var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
             gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
+
+            UpdateTreeView();
         }
 
         private void AddInterface(object sender, RoutedEventArgs e)
@@ -119,6 +123,25 @@ namespace _3880_80_FlashStation.Visual
 
             var gridGuiCommunicationInterfaceOnline = _registry.GuiCommunicationInterfaceOnlines[newId];
             gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
+
+            UpdateTreeView();
+        }
+
+        private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
+        {
+            var newId = _registry.AddOutputWriter();
+
+            var newtabItem = new TabItem { Header = "OUTPUT__" + newId };
+            OutputTabControl.Items.Add(newtabItem);
+            OutputTabControl.SelectedItem = newtabItem;
+
+            var newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            var gridGuiOutputCreator = _registry.GuiOutputCreators[newId];
+            gridGuiOutputCreator.Initialize(0, 0, newGrid);
+
+            UpdateTreeView();
         }
 
         private void AddVFlashBank(object sender, RoutedEventArgs e)
@@ -137,21 +160,8 @@ namespace _3880_80_FlashStation.Visual
 
             var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[newId];
             gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
-        }
 
-        private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
-        {
-            var newId = _registry.AddOutputWriter();
-
-            var newtabItem = new TabItem { Header = "OUTPUT__" + newId };
-            OutputTabControl.Items.Add(newtabItem);
-            OutputTabControl.SelectedItem = newtabItem;
-
-            var newGrid = new Grid();
-            newtabItem.Content = newGrid;
-
-            var gridGuiOutputCreator = _registry.GuiOutputCreators[newId];
-            gridGuiOutputCreator.Initialize(0, 0, newGrid);
+            UpdateTreeView();
         }
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
@@ -172,6 +182,8 @@ namespace _3880_80_FlashStation.Visual
 
             var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[newId];
             gridGuiVFlashStatusBar.Initialize(0, 20, FooterGrid);
+
+            UpdateTreeView();
         }
 
         #endregion
@@ -182,8 +194,6 @@ namespace _3880_80_FlashStation.Visual
         {
             LogListBox.Dispatcher.BeginInvoke((new Action(() => Logger.DumpLog(LogListBox))));
         }
-
-        #endregion
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -202,9 +212,48 @@ namespace _3880_80_FlashStation.Visual
             AboutGrid.Height = MainTabControl.Height - 32;
             AboutGrid.Width = MainTabControl.Width - 10;
 
+            ComponentManagerTreeView.Height = MainTabControl.Height - 32;
+            ComponentManagerTreeView.Width = MainTabControl.Width - 10;
+
             foreach (var gui in _registry.GuiCommunicationInterfaceOnlines) { gui.Value.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
             foreach (var gui in _registry.GuiVFlashPathBanks) { gui.Value.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }
+
+        private void UpdateTreeView()
+        {
+            ComponentManagerTreeView.Items.Clear();
+
+            var mainHeader = new TreeViewItem { Header = "Components" };
+            ComponentManagerTreeView.Items.Add(mainHeader);
+
+            var newHeader= new TreeViewItem {Header = "PLC Connections"};
+            foreach (var record in _registry.PlcCommunicators)
+            { newHeader.Items.Add(new TreeViewItem { Header = "PLC_" + record.Key }); }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+
+            newHeader = new TreeViewItem { Header = "Communication Interfaces" };
+            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            { newHeader.Items.Add(new TreeViewItem { Header = "INT_" + record.Key }); }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+
+            newHeader = new TreeViewItem { Header = "Output Handlers" };
+            foreach (var record in _registry.OutputWriters)
+            { newHeader.Items.Add(new TreeViewItem { Header = "OUT_" + record.Key }); }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+
+            newHeader = new TreeViewItem { Header = "vFlashBank" };
+            foreach (var record in _registry.VFlashTypeBanks)
+            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_BANK_" + record.Key }); }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+
+            newHeader = new TreeViewItem { Header = "vFlash Channels" };
+            foreach (var record in _registry.GuiVFlashes)
+            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key }); }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+            
+        }
+
+        #endregion
 
     }
 }
