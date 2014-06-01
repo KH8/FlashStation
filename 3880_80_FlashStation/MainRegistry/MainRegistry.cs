@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
+using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
@@ -28,7 +31,11 @@ namespace _3880_80_FlashStation.MainRegistry
         public Dictionary<uint, VFlashHandler> VFlashHandlers = new Dictionary<uint, VFlashHandler>();
         public Dictionary<uint, GuiVFlash> GuiVFlashes = new Dictionary<uint, GuiVFlash>();
         public Dictionary<uint, GuiVFlashStatusBar> GuiVFlashStatusBars = new Dictionary<uint, GuiVFlashStatusBar>(); 
-        
+
+        public Dictionary<uint, Tuple<uint, uint>> CommunicationInterfaceHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
+        public Dictionary<uint, Tuple<uint, uint>> OutputWritersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
+        public Dictionary<uint, Tuple<uint, uint>> VFlashHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
+
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface();
         public abstract uint AddOutputWriter();
@@ -51,23 +58,53 @@ namespace _3880_80_FlashStation.MainRegistry
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
             PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
+            Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;
         }
 
         public override uint AddCommunicationInterface()
         {
             var id = (uint)CommunicationInterfaceHandlers.Count + 1;
-            CommunicationInterfaceHandlers.Add(id, new CommunicationInterfaceHandler(id, CommunicationInterfacePath.Default));
-            GuiComInterfacemunicationConfigurations.Add(id, new GuiComInterfacemunicationConfiguration(id, CommunicationInterfaceHandlers[id], CommunicationInterfacePath.Default));
-            GuiCommunicationInterfaceOnlines.Add(id, new GuiCommunicationInterfaceOnline(id, PlcCommunicators[id], CommunicationInterfaceHandlers[id]));
+            try
+            {
+                CommunicationInterfaceHandlers.Add(id,
+                    new CommunicationInterfaceHandler(id, CommunicationInterfacePath.Default));
+                GuiComInterfacemunicationConfigurations.Add(id,
+                    new GuiComInterfacemunicationConfiguration(id, CommunicationInterfaceHandlers[id],
+                        CommunicationInterfacePath.Default));
+                GuiCommunicationInterfaceOnlines.Add(id,
+                    new GuiCommunicationInterfaceOnline(id,
+                        PlcCommunicators[CommunicationInterfaceHandlersAssignemenTuples[id].Item1],
+                        CommunicationInterfaceHandlers[id]));
+            }
+            catch (Exception)
+            {
+                if (CommunicationInterfaceHandlers[id] != null) CommunicationInterfaceHandlers.Remove(id);
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new Communication Interface failed");
+                return 0;
+            }
+            Logger.Log("ID: " + id + " new Communication Interface have been created");
             return id;
         }
 
         public override uint AddOutputWriter()
         {
             var id = (uint)OutputWriters.Count + 1;
-            OutputWriters.Add(id, null);
-            GuiOutputCreators.Add(id, new GuiOutputCreator(CommunicationInterfaceHandlers[id], OutputCreatorFile.Default)); //todo connection with interface
+            try
+            {
+                OutputWriters.Add(id, null);
+                GuiOutputCreators.Add(id,
+                    new GuiOutputCreator(CommunicationInterfaceHandlers[OutputWritersAssignemenTuples[id].Item2], OutputCreatorFile.Default));
+            }
+            catch (Exception)
+            {
+                if (OutputWriters[id] != null) OutputWriters.Remove(id);
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new Output Handler failed");
+                return 0;
+            }
+            Logger.Log("ID: " + id + " new Output Handler have been created");
             return id;
         }
 
@@ -76,15 +113,29 @@ namespace _3880_80_FlashStation.MainRegistry
             var id = (uint)VFlashTypeBanks.Count + 1;
             VFlashTypeBanks.Add(id, new VFlashTypeBank());
             GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
+            Logger.Log("ID: " + id + " new vFlash Bank have been created");
             return id;
         }
 
         public override uint AddVFlashChannel()
         {
             var id = (uint)VFlashHandlers.Count + 1;
-            VFlashHandlers.Add(id, new VFlashHandler(id, CommunicationInterfaceHandlers[id].ReadInterfaceComposite, CommunicationInterfaceHandlers[id].WriteInterfaceComposite)); //todo connection with interface
-            GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
-            GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));
+            try
+            {
+                VFlashHandlers.Add(id,
+                    new VFlashHandler(id, CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite,
+                        CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
+                GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
+                GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));
+            }
+            catch (Exception)
+            {
+                if (VFlashHandlers[id] != null) VFlashHandlers.Remove(id);
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new vFlash Channel failed");
+                return 0;
+            }
+            Logger.Log("ID: " + id + " new vFlash Channel have been created");
             return id;
         }
 

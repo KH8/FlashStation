@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
 
@@ -69,120 +71,52 @@ namespace _3880_80_FlashStation.Visual
         private void AddConnection(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddPlcCommunicator();
+            if (newId == 0) return;
+
             _registry.PlcCommunicators[newId].InitializeConnection();
 
-            var newtabItem = new TabItem {Header = "PLC__" + newId};
-            ConnectionTabControl.Items.Add(newtabItem);
-            ConnectionTabControl.SelectedItem = newtabItem;
-
-            var newScrollViewer = new ScrollViewer();
-            newtabItem.Content = newScrollViewer;
-
-            var newGrid = new Grid();
-            newScrollViewer.Content = newGrid;
-
-            var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[newId];
-            gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
-
-            var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[newId];
-            gridGuiCommunicationStatusBar.Initialize(0, 5, FooterGrid);
-
-            var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[newId];
-            gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
-
+            UpdateGui();
             UpdateTreeView();
         }
 
         private void AddInterface(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddCommunicationInterface();
+            if (newId == 0) return;
+
             _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
 
-            var newtabItem = new TabItem { Header = "INT__" + newId };
-            ConnectionTabControl.Items.Add(newtabItem);
-            ConnectionTabControl.SelectedItem = newtabItem;
-
-            var newScrollViewer = new ScrollViewer();
-            newtabItem.Content = newScrollViewer;
-
-            var newGrid = new Grid();
-            newScrollViewer.Content = newGrid;
-
-            var gridGuiCommunicationInterfaceConfiguration = _registry.GuiComInterfacemunicationConfigurations[newId];
-            gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
-
-            newtabItem = new TabItem { Header = "INT__" + newId + " Online" };
-            MainTabControl.Items.Add(newtabItem);
-            MainTabControl.SelectedItem = newtabItem;
-
-            newGrid = new Grid();
-            newtabItem.Content = newGrid;
-
-            newGrid.Height = MainTabControl.Height - 32;
-            newGrid.Width = MainTabControl.Width - 10;
-
-            var gridGuiCommunicationInterfaceOnline = _registry.GuiCommunicationInterfaceOnlines[newId];
-            gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
-
+            UpdateGui();
             UpdateTreeView();
         }
 
         private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddOutputWriter();
+            if (newId == 0) return;
 
-            var newtabItem = new TabItem { Header = "OUTPUT__" + newId };
-            OutputTabControl.Items.Add(newtabItem);
-            OutputTabControl.SelectedItem = newtabItem;
-
-            var newGrid = new Grid();
-            newtabItem.Content = newGrid;
-
-            var gridGuiOutputCreator = _registry.GuiOutputCreators[newId];
-            gridGuiOutputCreator.Initialize(0, 0, newGrid);
-
+            UpdateGui();
             UpdateTreeView();
         }
 
         private void AddVFlashBank(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddVFlashBank();
+            if (newId == 0) return;
 
-            var newtabItem = new TabItem { Header = "VFLASH__BANK__" + newId };
-            OutputTabControl.Items.Add(newtabItem);
-            OutputTabControl.SelectedItem = newtabItem;
-
-            var newGrid = new Grid();
-            newtabItem.Content = newGrid;
-
-            newGrid.Height = OutputTabControl.Height - 32;
-            newGrid.Width = OutputTabControl.Width - 10;
-
-            var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[newId];
-            gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
-
+            UpdateGui();
             UpdateTreeView();
         }
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
             var newId = _registry.AddVFlashChannel();
+            if (newId == 0) return;
+
             _registry.VFlashHandlers[newId].InitializeVFlash();
             _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[newId];
 
-            var newtabItem = new TabItem { Header = "VFLASH__" + newId };
-            OutputTabControl.Items.Add(newtabItem);
-            OutputTabControl.SelectedItem = newtabItem;
-
-            var newGrid = new Grid();
-            newtabItem.Content = newGrid;
-
-            var gridVFlash = _registry.GuiVFlashes[newId];
-            gridVFlash.Initialize(0, 0, newGrid);
-
-            var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[newId];
-            gridGuiVFlashStatusBar.Initialize(0, 20, FooterGrid);
-
+            UpdateGui();
             UpdateTreeView();
         }
 
@@ -234,13 +168,127 @@ namespace _3880_80_FlashStation.Visual
             foreach (var gui in _registry.GuiVFlashPathBanks) { gui.Value.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }
 
+        private void UpdateGui()
+        {
+            MainTabControl.Items.Clear();
+            OutputTabControl.Items.Clear();
+            ConnectionTabControl.Items.Clear();
+            FooterGrid.Children.Clear();
+
+            foreach (var record in _registry.PlcGuiCommunicationStatuses)
+            {
+                var newtabItem = new TabItem { Header = "PLC__" + record.Key };
+                ConnectionTabControl.Items.Add(newtabItem);
+                ConnectionTabControl.SelectedItem = newtabItem;
+
+                var newScrollViewer = new ScrollViewer();
+                newtabItem.Content = newScrollViewer;
+
+                var newGrid = new Grid();
+                newScrollViewer.Content = newGrid;
+
+                var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[record.Key];
+                gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
+
+                var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[record.Key];
+                gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
+            }
+
+            foreach (var record in _registry.PlcGuiCommunicationStatusBars)
+            {
+                var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[record.Key];
+                gridGuiCommunicationStatusBar.Initialize(0, 5, FooterGrid);
+            }
+
+            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            {
+                var newtabItem = new TabItem { Header = "INT__" + record.Key };
+                ConnectionTabControl.Items.Add(newtabItem);
+                ConnectionTabControl.SelectedItem = newtabItem;
+
+                var newScrollViewer = new ScrollViewer();
+                newtabItem.Content = newScrollViewer;
+
+                var newGrid = new Grid();
+                newScrollViewer.Content = newGrid;
+
+                var gridGuiCommunicationInterfaceConfiguration = _registry.GuiComInterfacemunicationConfigurations[record.Key];
+                gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
+
+                newtabItem = new TabItem { Header = "INT__" + record.Key + " Online" };
+                MainTabControl.Items.Add(newtabItem);
+                MainTabControl.SelectedItem = newtabItem;
+
+                newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                newGrid.Height = MainTabControl.Height - 32;
+                newGrid.Width = MainTabControl.Width - 10;
+
+                var gridGuiCommunicationInterfaceOnline = _registry.GuiCommunicationInterfaceOnlines[record.Key];
+                gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
+            }
+
+            foreach (var registry in _registry.OutputWriters)
+            {
+                var newtabItem = new TabItem { Header = "OUTPUT__" + registry.Key };
+                OutputTabControl.Items.Add(newtabItem);
+                OutputTabControl.SelectedItem = newtabItem;
+
+                var newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                var gridGuiOutputCreator = _registry.GuiOutputCreators[registry.Key];
+                gridGuiOutputCreator.Initialize(0, 0, newGrid);
+            }
+
+            foreach (var registry in _registry.VFlashTypeBanks)
+            {
+                var newtabItem = new TabItem { Header = "VFLASH__BANK__" + registry.Key };
+                OutputTabControl.Items.Add(newtabItem);
+                OutputTabControl.SelectedItem = newtabItem;
+
+                var newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                newGrid.Height = OutputTabControl.Height - 32;
+                newGrid.Width = OutputTabControl.Width - 10;
+
+                var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[registry.Key];
+                gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
+            }
+
+            foreach (var registry in _registry.VFlashHandlers)
+            {
+                
+                var newtabItem = new TabItem { Header = "VFLASH__" + registry.Key };
+                OutputTabControl.Items.Add(newtabItem);
+                OutputTabControl.SelectedItem = newtabItem;
+
+                var newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                var gridVFlash = _registry.GuiVFlashes[registry.Key];
+                gridVFlash.Initialize(0, 0, newGrid);
+
+                var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[registry.Key];
+                gridGuiVFlashStatusBar.Initialize(0, 20, FooterGrid);
+            }
+
+            MainTabControl.Items.Add(ComponentManagerTabItem);
+            MainTabControl.SelectedItem = ComponentManagerTabItem;
+            MainTabControl.Items.Add(AbouTabItem);
+            MainTabControl.Items.Add(LogTabItem);
+
+        }
+
         private void UpdateTreeView()
         {
             ComponentManagerTreeView.Items.Clear();
 
             var mainHeader = new TreeViewItem { Header = "Components" };
             ComponentManagerTreeView.Items.Add(mainHeader);
-
+            
             var newHeader= new TreeViewItem {Header = "PLC Connections"};
             foreach (var record in _registry.PlcCommunicators)
             { newHeader.Items.Add(new TreeViewItem { Header = "PLC_" + record.Key }); }
