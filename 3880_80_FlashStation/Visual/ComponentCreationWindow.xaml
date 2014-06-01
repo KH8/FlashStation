@@ -4,7 +4,8 @@
         Title="New Component Creator" Height="209" Width="450" Icon="/3880_80_FlashStation;component/teamtechnik.ico" ResizeMode="NoResize" SnapsToDevicePixels="True">
     <Grid Background="#FFF9F9F9">
         <Label Name="Prompt" Content="Select a PLC connection to be assigned with a new Communication Interface"></Label>
-        <TreeView Name="ComponentManagerTreeView" Width="430" Height="98" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"/>
+        <TreeView Name="ComponentManagerTreeView1" Width="211" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,30,0,0"/>
+        <TreeView Name="ComponentManagerTreeView2" Width="211" Height="98" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,4,0"/>
         <Button Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="CancelSelection" RenderTransformOrigin="0.37,0.601"/>
         <Button Content="OK" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10" Click="Done" RenderTransformOrigin="0.37,0.601"/>
     </Grid>

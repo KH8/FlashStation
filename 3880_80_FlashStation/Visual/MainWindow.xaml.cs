@@ -141,17 +141,27 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
-            var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
+            var newHeader1 = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (var record in _registry.CommunicationInterfaceHandlers)
             {
-                newHeader.Items.Add(new TreeViewItem
+                newHeader1.Items.Add(new TreeViewItem
                 {
                     Header = "INT_" + record.Key,
                     AlternationCount = (int)record.Key
                 });
             }
 
-            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeader, AddVFlashChannelAssignment);
+            var newHeader2 = new TreeViewItem { Header = "vFlash Banks" };
+            foreach (var record in _registry.VFlashTypeBanks)
+            {
+                newHeader2.Items.Add(new TreeViewItem
+                {
+                    Header = "VFLASH_BANK_" + record.Key,
+                    AlternationCount = (int)record.Key
+                });
+            }
+
+            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeader1, newHeader2, AddVFlashChannelAssignment);
             window.Show();
         }
 
@@ -325,7 +335,7 @@ namespace _3880_80_FlashStation.Visual
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);
-            MainTabControl.SelectedItem = ComponentManagerTabItem;
+            if (MainTabControl.SelectedItem == null) MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AbouTabItem);
             MainTabControl.Items.Add(LogTabItem);
 
@@ -345,22 +355,22 @@ namespace _3880_80_FlashStation.Visual
 
             newHeader = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (var record in _registry.CommunicationInterfaceHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = "INT_" + record.Key }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = "INT_" + record.Key + " ; assigned: " + "PLC_" + _registry.CommunicationInterfaceHandlersAssignemenTuples[record.Key].Item1}); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Handlers" };
             foreach (var record in _registry.OutputWriters)
-            { newHeader.Items.Add(new TreeViewItem { Header = "OUT_" + record.Key }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = "OUT_" + record.Key + " ; assigned: " + "INT_" + _registry.OutputWritersAssignemenTuples[record.Key].Item2 }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
-            newHeader = new TreeViewItem { Header = "vFlashBank" };
+            newHeader = new TreeViewItem { Header = "vFlash Banks" };
             foreach (var record in _registry.VFlashTypeBanks)
             { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_BANK_" + record.Key }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
             foreach (var record in _registry.GuiVFlashes)
-            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key + " ; assigned: " + "INT_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item2 + " ; " + "VFLASH_BANK_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item3 }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
         }
