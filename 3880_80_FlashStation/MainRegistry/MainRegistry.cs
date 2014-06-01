@@ -34,13 +34,13 @@ namespace _3880_80_FlashStation.MainRegistry
 
         public Dictionary<uint, Tuple<uint, uint>> CommunicationInterfaceHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
         public Dictionary<uint, Tuple<uint, uint>> OutputWritersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
-        public Dictionary<uint, Tuple<uint, uint>> VFlashHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
+        public Dictionary<uint, Tuple<uint, uint, uint>> VFlashHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint, uint>>();
 
         public abstract uint AddPlcCommunicator();
-        public abstract uint AddCommunicationInterface();
-        public abstract uint AddOutputWriter();
+        public abstract uint AddCommunicationInterface(uint plcConnectionId);
+        public abstract uint AddOutputWriter(uint communicationInterfaceId);
         public abstract uint AddVFlashBank();
-        public abstract uint AddVFlashChannel();
+        public abstract uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId);
 
         public abstract void RemovePlcCommunicator(uint id);
         public abstract void RemoveCommunicationInterface(uint id);
@@ -62,9 +62,11 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
-        public override uint AddCommunicationInterface()
+        public override uint AddCommunicationInterface(uint plcConnectionId)
         {
             var id = (uint)CommunicationInterfaceHandlers.Count + 1;
+            CommunicationInterfaceHandlersAssignemenTuples[id] = new Tuple<uint, uint>(plcConnectionId, 0);
+
             try
             {
                 CommunicationInterfaceHandlers.Add(id,
@@ -88,9 +90,10 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
-        public override uint AddOutputWriter()
+        public override uint AddOutputWriter(uint communicationInterfaceId)
         {
             var id = (uint)OutputWriters.Count + 1;
+            OutputWritersAssignemenTuples[id] = new Tuple<uint, uint>(0, communicationInterfaceId);
             try
             {
                 OutputWriters.Add(id, null);
@@ -117,9 +120,10 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
-        public override uint AddVFlashChannel()
+        public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var id = (uint)VFlashHandlers.Count + 1;
+            VFlashHandlersAssignemenTuples[id] = new Tuple<uint, uint, uint>(0, communicationInterfaceId, vFlashBankId);
             try
             {
                 VFlashHandlers.Add(id,

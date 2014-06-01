@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,7 +82,21 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddInterface(object sender, RoutedEventArgs e)
         {
-            var newId = _registry.AddCommunicationInterface();
+            var newHeader = new TreeViewItem { Header = "PLC Connections" };
+            foreach (var record in _registry.PlcCommunicators)
+            { newHeader.Items.Add(new TreeViewItem
+            {
+                Header = "PLC_" + record.Key,
+                AlternationCount = (int)record.Key
+            }); }
+
+            var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AddInterfaceAssignment);
+            window.Show();
+        }
+
+        private void AddInterfaceAssignment(uint plcConnectionId)
+        {
+            var newId = _registry.AddCommunicationInterface(plcConnectionId);
             if (newId == 0) return;
 
             _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
@@ -92,7 +107,23 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
         {
-            var newId = _registry.AddOutputWriter();
+            var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
+            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            {
+                newHeader.Items.Add(new TreeViewItem
+                {
+                    Header = "INT_" + record.Key,
+                    AlternationCount = (int)record.Key
+                });
+            }
+
+            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Output Handler", newHeader, AddOutputFileHandlerChannelAssignment);
+            window.Show();
+        }
+
+        private void AddOutputFileHandlerChannelAssignment(uint communicationInterfaceId)
+        {
+            var newId = _registry.AddOutputWriter(communicationInterfaceId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -110,15 +141,33 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
-            var newId = _registry.AddVFlashChannel();
+            var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
+            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            {
+                newHeader.Items.Add(new TreeViewItem
+                {
+                    Header = "INT_" + record.Key,
+                    AlternationCount = (int)record.Key
+                });
+            }
+
+            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeader, AddVFlashChannelAssignment);
+            window.Show();
+        }
+
+        private void AddVFlashChannelAssignment(uint communicationInterfaceId, uint vFlashBankId)
+        {
+            var newId = _registry.AddVFlashChannel(communicationInterfaceId, vFlashBankId);
             if (newId == 0) return;
 
             _registry.VFlashHandlers[newId].InitializeVFlash();
-            _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[newId];
+            _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[vFlashBankId];
 
             UpdateGui();
             UpdateTreeView();
         }
+
+
 
         private void ShowAbout(object sender, RoutedEventArgs e)
         {

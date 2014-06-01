@@ -23,7 +23,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Button _vFlashUnloadButton = new Button();
         private Button _vFlashFlashButton = new Button();
 
-        private FaultReport _windowReport;
+        private FaultReportWindow _windowReport;
 
         private readonly Thread _updateThread;
 
@@ -156,7 +156,7 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         private void VFlashShowFaults(object sender, RoutedEventArgs e)
         {
-            _windowReport = new FaultReport(ClearFaults);
+            _windowReport = new FaultReportWindow(ClearFaults);
             _windowReport.Show();
             _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
             _vFlash.ErrorCollector.CreateReport();

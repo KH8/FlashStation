@@ -95,6 +95,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainRegistry.settings</DependentUpon>
     </Compile>
+    <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
+      <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.cs" />
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
@@ -124,7 +127,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>VFlashTypeBankFile.Designer.cs</LastGenOutput>
     </None>
-    <Page Include="Visual\FaultReport.xaml">
+    <Page Include="Visual\ComponentCreationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\FaultReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,8 +172,8 @@
     <Compile Include="Visual\Gui\GuiCommunicationStatus.cs" />
     <Compile Include="Visual\Gui\Gui.cs" />
     <Compile Include="Visual\DataDisplayer.cs" />
-    <Compile Include="Visual\FaultReport.xaml.cs">
-      <DependentUpon>FaultReport.xaml</DependentUpon>
+    <Compile Include="Visual\FaultReportWindow.xaml.cs">
+      <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiFactory.cs" />
     <Compile Include="Visual\MainWindow.xaml.cs">
