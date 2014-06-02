@@ -171,6 +171,7 @@ namespace _3880_80_FlashStation.Visual
 
             UpdateGui();
             UpdateTreeView();
+            Logger.Log("New configuration");
         }
 
         private void LoadConfiguration(object sender, RoutedEventArgs e)
@@ -184,6 +185,7 @@ namespace _3880_80_FlashStation.Visual
             var result = dlg.ShowDialog();
             if (result == true)
             {
+                Logger.Log("Loading configuration from file: " + dlg.FileName);
                 IFormatter formatter = new BinaryFormatter();
                 Stream stream = new FileStream(dlg.FileName,
                                           FileMode.Open,
@@ -223,6 +225,7 @@ namespace _3880_80_FlashStation.Visual
                 UpdateGui();
                 UpdateTreeView();
             }
+            Logger.Log("Configuration loaded");
         }
 
         private void SaveConfiguration(object sender, RoutedEventArgs e)
@@ -237,6 +240,7 @@ namespace _3880_80_FlashStation.Visual
             var result = dlg.ShowDialog();
             if (result == true)
             {
+                Logger.Log("Saveing configuration to file: " + dlg.FileName);
                 var projectData = new ProjectFileStruture.ProjectSavedData
                 {
                     PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
@@ -265,6 +269,7 @@ namespace _3880_80_FlashStation.Visual
                 formatter.Serialize(stream, projectData);
                 stream.Close();
             }
+            Logger.Log("Configuration saved");
         }
 
         #endregion
@@ -337,7 +342,7 @@ namespace _3880_80_FlashStation.Visual
             foreach (var record in _registry.PlcGuiCommunicationStatusBars)
             {
                 var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[record.Key];
-                gridGuiCommunicationStatusBar.Initialize(0, 5, FooterGrid);
+                gridGuiCommunicationStatusBar.Initialize(95 * ( (int)record.Key - 1 ), -1, FooterGrid);
             }
 
             foreach (var record in _registry.CommunicationInterfaceHandlers)
@@ -369,22 +374,22 @@ namespace _3880_80_FlashStation.Visual
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
             }
 
-            foreach (var registry in _registry.OutputWriters)
+            foreach (var record in _registry.OutputWriters)
             {
-                var newtabItem = new TabItem { Header = "OUTPUT__" + registry.Key };
+                var newtabItem = new TabItem { Header = "OUTPUT__" + record.Key };
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridGuiOutputCreator = _registry.GuiOutputCreators[registry.Key];
+                var gridGuiOutputCreator = _registry.GuiOutputCreators[record.Key];
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
             }
 
-            foreach (var registry in _registry.VFlashTypeBanks)
+            foreach (var record in _registry.VFlashTypeBanks)
             {
-                var newtabItem = new TabItem { Header = "VFLASH__BANK__" + registry.Key };
+                var newtabItem = new TabItem { Header = "VFLASH__BANK__" + record.Key };
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
@@ -394,25 +399,25 @@ namespace _3880_80_FlashStation.Visual
                 newGrid.Height = OutputTabControl.Height - 32;
                 newGrid.Width = OutputTabControl.Width - 10;
 
-                var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[registry.Key];
+                var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[record.Key];
                 gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
             }
 
-            foreach (var registry in _registry.VFlashHandlers)
+            foreach (var record in _registry.VFlashHandlers)
             {
-                
-                var newtabItem = new TabItem { Header = "VFLASH__" + registry.Key };
+
+                var newtabItem = new TabItem { Header = "VFLASH__" + record.Key };
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridVFlash = _registry.GuiVFlashes[registry.Key];
+                var gridVFlash = _registry.GuiVFlashes[record.Key];
                 gridVFlash.Initialize(0, 0, newGrid);
 
-                var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[registry.Key];
-                gridGuiVFlashStatusBar.Initialize(0, 20, FooterGrid);
+                var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[record.Key];
+                gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Key - 1), 20, FooterGrid);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);

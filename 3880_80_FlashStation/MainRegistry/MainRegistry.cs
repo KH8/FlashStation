@@ -85,6 +85,7 @@ namespace _3880_80_FlashStation.MainRegistry
             }
 
             UpdateMainRegistryFile();
+            Logger.Log("Registry content initialized");
         }
 
         public override uint AddPlcCommunicator(uint save)
@@ -255,6 +256,8 @@ namespace _3880_80_FlashStation.MainRegistry
 
         public override void RemoveAll()
         {
+            foreach (var vFlashHandler in VFlashHandlers) vFlashHandler.Value.Deinitialize();
+
             PlcCommunicators.Clear();
             PlcGuiCommunicationStatuses.Clear();
             PlcGuiCommunicationStatusBars.Clear();
@@ -279,6 +282,7 @@ namespace _3880_80_FlashStation.MainRegistry
             VFlashHandlersAssignemenTuples.Clear();
 
             UpdateMainRegistryFile();
+            Logger.Log("Registry content removed");
         }
 
         private void UpdateMainRegistryFile()

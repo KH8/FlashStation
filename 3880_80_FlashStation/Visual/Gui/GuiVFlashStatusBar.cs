@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual.Gui
@@ -14,6 +15,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private readonly VFlashHandler _vFlash;
 
         private Label _vFlashLabel = new Label();
+        private Rectangle _statusRectangle = new Rectangle();
 
         private readonly Thread _updateThread;
 
@@ -41,11 +43,23 @@ namespace _3880_80_FlashStation.Visual.Gui
             YPosition = yPosition;
 
             _generalGrid = generalGrid;
-            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Right, VerticalAlignment.Top);
+            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
             _generalGrid.Children.Add(grid);
 
-            grid.Children.Add(_vFlashLabel = GuiFactory.CreateLabel("VFlashChannelStatusLabel", "vFlash Channel 1 Initialized", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 810));
-            _vFlashLabel.FontSize = 10; 
+            grid.Children.Add(_vFlashLabel = GuiFactory.CreateLabel("VFlashChannelStatusLabel", "VFLASH__" + Id + ":", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Center, HorizontalAlignment.Left, 25, 810));
+            grid.Children.Add(_statusRectangle = new Rectangle
+            {
+                Width = 15,
+                Height = 15,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Stroke = Brushes.DarkGray,
+                Fill = Brushes.DarkGray,
+                Margin = new Thickness(70, 3, 0, 0),
+                ToolTip = "",
+                RadiusX = 15,
+                RadiusY = 15,
+            });
         }
 
         public override void MakeVisible()
@@ -69,28 +83,28 @@ namespace _3880_80_FlashStation.Visual.Gui
                 switch (channel.Status)
                 {
                     case VFlashStationComponent.VFlashStatus.Created:
-                        colourBrush = Brushes.Black;
+                        colourBrush = Brushes.DarkGray;
                         break;
                     case VFlashStationComponent.VFlashStatus.Loading:
-                        colourBrush = Brushes.Black;
+                        colourBrush = Brushes.DarkGray;
                         break;
                     case VFlashStationComponent.VFlashStatus.Loaded:
-                        colourBrush = Brushes.Green;
+                        colourBrush = Brushes.GreenYellow;
                         break;
                     case VFlashStationComponent.VFlashStatus.Unloading:
-                        colourBrush = Brushes.Black;
+                        colourBrush = Brushes.DarkGray;
                         break;
                     case VFlashStationComponent.VFlashStatus.Unloaded:
-                        colourBrush = Brushes.Green;
+                        colourBrush = Brushes.GreenYellow;
                         break;
                     case VFlashStationComponent.VFlashStatus.Flashing:
-                        colourBrush = Brushes.Black;
+                        colourBrush = Brushes.DarkGray;
                         break;
                     case VFlashStationComponent.VFlashStatus.Aborting:
                         colourBrush = Brushes.Red;
                         break;
                     case VFlashStationComponent.VFlashStatus.Flashed:
-                        colourBrush = Brushes.Green;
+                        colourBrush = Brushes.GreenYellow;
                         break;
                     default:
                         colourBrush = Brushes.Red;
@@ -98,8 +112,8 @@ namespace _3880_80_FlashStation.Visual.Gui
                 }
                 _vFlashLabel.Dispatcher.BeginInvoke((new Action(delegate
                     {
-                        _vFlashLabel.Content = "vFlash channel " + channel.ChannelId + ": " + channel.Status;
-                        _vFlashLabel.Foreground = colourBrush;
+                        _statusRectangle.ToolTip = "vFlash channel: " + channel.Status;
+                        _statusRectangle.Fill = colourBrush;
                     })));
                 Thread.Sleep(21);
             }

@@ -240,7 +240,7 @@
     <Content Include="Vector\Vector.vFlash.Automation.vFlashStation.dll" />
     <Resource Include="logoTT.jpg" />
     <None Include="Log\Log.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Resources\CsvHelper.dll" />
     <None Include="libnodave.dll">

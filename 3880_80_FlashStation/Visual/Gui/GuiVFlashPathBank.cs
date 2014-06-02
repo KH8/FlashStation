@@ -105,12 +105,13 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         private void TypeCreation(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".vflashpack", Filter = "Flash Path (.vflashpack)|*.vflashpack" };
-            // Set filter for file extension and default file extension
-            // Display OpenFileDialog by calling ShowDialog method
-            bool? result = dlg.ShowDialog();
-            // Get the selected file name and display in a TextBox
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".vflashpack", 
+                Filter = "Flash Path (.vflashpack)|*.vflashpack"
+            };
+            
+            var result = dlg.ShowDialog();
             if (result == true)
             {
                 _vFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(_typeNumberBox.Text), _typeVersionBox.Text, dlg.FileName));

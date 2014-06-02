@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Visual.Gui
@@ -14,6 +15,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private readonly PlcCommunicator _plcCommunication;
 
         private Label _plcStatusLabel = new Label();
+        private Rectangle _statusRectangle = new Rectangle();
 
         private readonly Thread _updateThread;
 
@@ -41,11 +43,23 @@ namespace _3880_80_FlashStation.Visual.Gui
             YPosition = yPosition;
 
             _generalGrid = generalGrid;
-            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Right, VerticalAlignment.Top);
+            var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
             _generalGrid.Children.Add(grid);
 
-            grid.Children.Add(_plcStatusLabel = GuiFactory.CreateLabel("PlcStatusLabel", "Wrong Configuration!", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 810));
-            _plcStatusLabel.FontSize = 10;
+            grid.Children.Add(_plcStatusLabel = GuiFactory.CreateLabel("PlcStatusLabel", "PLC__" + Id + ":", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Center, HorizontalAlignment.Left, 25, 810));
+            grid.Children.Add(_statusRectangle = new Rectangle
+            {
+                Width = 15,
+                Height = 15,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Stroke = Brushes.DarkGray,
+                Fill = Brushes.DarkGray,
+                Margin = new Thickness(70, 3, 0, 0),
+                ToolTip = "",
+                RadiusX = 15,
+                RadiusY = 15,
+            });
         }
 
         public override void MakeVisible()
@@ -72,12 +86,12 @@ namespace _3880_80_FlashStation.Visual.Gui
                 if (_plcCommunication.ConfigurationStatus == 1)
                 {
                     statusBar = "Configuration verified, ready to connect.";
-                    brush = Brushes.Black;
+                    brush = Brushes.DarkGray;
                 }
                 if (_plcCommunication.ConnectionStatus == 1)
                 {
                     statusBar = "Connected to IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress;
-                    brush = Brushes.Green;
+                    brush = Brushes.GreenYellow;
                 }
                 if (_plcCommunication.ConnectionStatus == -2)
                 {
@@ -86,8 +100,8 @@ namespace _3880_80_FlashStation.Visual.Gui
                 }
                 _plcStatusLabel.Dispatcher.BeginInvoke((new Action(delegate
                 {
-                    _plcStatusLabel.Content = statusBar;
-                    _plcStatusLabel.Foreground = brush;
+                    _statusRectangle.ToolTip = statusBar;
+                    _statusRectangle.Fill = brush;
                 })));
                 Thread.Sleep(21);
             }
