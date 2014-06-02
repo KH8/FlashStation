@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows;
 using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.PLC
@@ -128,7 +129,7 @@ namespace _3880_80_FlashStation.PLC
                 Logger.Log("ID: " + _id + " PLC communication initialized");
                 return;
             }
-            OpenConnection();
+            _connectionStatus = -2;
             Logger.Log("ID: " + _id + " Connected with IP address " + _plcConfiguration.PlcIpAddress + " at start up");//*/
             Logger.Log("ID: " + _id + " PLC communication initialized");
         }
