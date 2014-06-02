@@ -25,17 +25,7 @@ namespace _3880_80_FlashStation.MainRegistry {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfUnsignedInt>
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                    </ArrayOfArrayOfUnsignedInt>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] PlcCommunicators {
             get {
                 return ((uint[][])(this["PlcCommunicators"]));
@@ -47,17 +37,7 @@ namespace _3880_80_FlashStation.MainRegistry {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfUnsignedInt>
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                    </ArrayOfArrayOfUnsignedInt>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] CommunicationInterfaceHandlers {
             get {
                 return ((uint[][])(this["CommunicationInterfaceHandlers"]));
@@ -69,17 +49,7 @@ namespace _3880_80_FlashStation.MainRegistry {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfUnsignedInt>
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                    </ArrayOfArrayOfUnsignedInt>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] OutputWriters {
             get {
                 return ((uint[][])(this["OutputWriters"]));
@@ -91,17 +61,7 @@ namespace _3880_80_FlashStation.MainRegistry {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfUnsignedInt>
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                    </ArrayOfArrayOfUnsignedInt>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] VFlashTypeBanks {
             get {
                 return ((uint[][])(this["VFlashTypeBanks"]));
@@ -113,17 +73,7 @@ namespace _3880_80_FlashStation.MainRegistry {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfUnsignedInt>
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                        <ArrayOfUnsignedInt />
-                                                                    </ArrayOfArrayOfUnsignedInt>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] VFlashHandlers {
             get {
                 return ((uint[][])(this["VFlashHandlers"]));

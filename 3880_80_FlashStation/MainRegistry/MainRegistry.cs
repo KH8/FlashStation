@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
@@ -42,6 +43,12 @@ namespace _3880_80_FlashStation.MainRegistry
         public abstract uint AddVFlashBank();
         public abstract uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId);
 
+        public abstract uint AddPlcCommunicator(uint save);
+        public abstract uint AddCommunicationInterface(uint save, uint plcConnectionId);
+        public abstract uint AddOutputWriter(uint save, uint communicationInterfaceId);
+        public abstract uint AddVFlashBank(uint save);
+        public abstract uint AddVFlashChannel(uint save, uint communicationInterfaceId, uint vFlashBankId);
+
         public abstract void RemovePlcCommunicator(uint id);
         public abstract void RemoveCommunicationInterface(uint id);
         public abstract void RemoveOutputWriter(uint id);
@@ -53,18 +60,68 @@ namespace _3880_80_FlashStation.MainRegistry
     {
         public void Initialize()
         {
+            if (MainRegistryFile.Default.PlcCommunicators == null) return;
+            if (MainRegistryFile.Default.CommunicationInterfaceHandlers == null) return;
+            if (MainRegistryFile.Default.OutputWriters == null) return;
+            if (MainRegistryFile.Default.VFlashTypeBanks == null) return;
+            if (MainRegistryFile.Default.VFlashHandlers == null) return;
+
             foreach (var plcCommunicator in MainRegistryFile.Default.PlcCommunicators)
-            { if (plcCommunicator[0] != 0) { AddPlcCommunicator(); }}
+            { if (plcCommunicator != null) { AddPlcCommunicator(); }}
+            foreach (var plcCommunicator in PlcCommunicators) plcCommunicator.Value.InitializeConnection();
             foreach (var communicationInterfaceHandler in MainRegistryFile.Default.CommunicationInterfaceHandlers)
-            { if (communicationInterfaceHandler[0] != 0) { AddCommunicationInterface(communicationInterfaceHandler[1]); } }
+            { if (communicationInterfaceHandler != null) { AddCommunicationInterface(communicationInterfaceHandler[1]); } }
+            foreach (var communicationInterfaceHandler in CommunicationInterfaceHandlers) communicationInterfaceHandler.Value.InitializeInterface();
             foreach (var outputWriter in MainRegistryFile.Default.OutputWriters)
-            { if (outputWriter[0] != 0) { AddOutputWriter(outputWriter[2]); } }
+            { if (outputWriter != null) { AddOutputWriter(outputWriter[2]); } }
             foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks)
-            { if (vFlashTypeBank[0] != 0) { AddVFlashBank(); } }
+            { if (vFlashTypeBank != null) { AddVFlashBank(); } }
             foreach (var vFlashTypeHandler in MainRegistryFile.Default.VFlashHandlers)
-            { if (vFlashTypeHandler[0] != 0) { AddVFlashChannel(vFlashTypeHandler[2], vFlashTypeHandler[3]); } }
+            { if (vFlashTypeHandler != null) { AddVFlashChannel(vFlashTypeHandler[2], vFlashTypeHandler[3]); } }
+            foreach (var vFlashHandler in VFlashHandlers)
+            {
+                vFlashHandler.Value.InitializeVFlash();
+                vFlashHandler.Value.VFlashTypeBank = VFlashTypeBanks[VFlashHandlersAssignemenTuples[vFlashHandler.Key].Item3];
+            }
+
+            UpdateMainRegistryFile();
         }
-        
+
+        public override uint AddPlcCommunicator(uint save)
+        {
+            var id =  AddPlcCommunicator();
+            if (save == 1) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddCommunicationInterface(uint save, uint plcConnectionId)
+        {
+            var id = AddCommunicationInterface(plcConnectionId);
+            if (save == 1) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddOutputWriter(uint save, uint communicationInterfaceId)
+        {
+            var id = AddOutputWriter(communicationInterfaceId);
+            if (save == 1) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddVFlashBank(uint save)
+        {
+            var id = AddVFlashBank();
+            if (save == 1) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddVFlashChannel(uint save, uint communicationInterfaceId, uint vFlashBankId)
+        {
+            var id = AddVFlashChannel(communicationInterfaceId, vFlashBankId);
+            if (save == 1) UpdateMainRegistryFile();
+            return id;
+        }
+
         public override uint AddPlcCommunicator()
         {
             var id = (uint)PlcCommunicators.Count + 1;
@@ -75,7 +132,6 @@ namespace _3880_80_FlashStation.MainRegistry
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
             PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
 
-            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;
         }
@@ -106,7 +162,6 @@ namespace _3880_80_FlashStation.MainRegistry
                 return 0;
             }
 
-            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new Communication Interface have been created");
             return id;
         }
@@ -131,7 +186,6 @@ namespace _3880_80_FlashStation.MainRegistry
                 return 0;
             }
 
-            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new Output Handler have been created");
             return id;
         }
@@ -144,7 +198,6 @@ namespace _3880_80_FlashStation.MainRegistry
             VFlashTypeBanks.Add(id, new VFlashTypeBank());
             GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
 
-            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new vFlash Bank have been created");
             return id;
         }
@@ -171,7 +224,6 @@ namespace _3880_80_FlashStation.MainRegistry
                 return 0;
             }
 
-            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
             return id;
         }

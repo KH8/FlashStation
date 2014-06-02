@@ -33,6 +33,7 @@ namespace _3880_80_FlashStation.Visual
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
 
+            UpdateGui();
             UpdateTreeView();
         }
 
@@ -73,7 +74,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddConnection(object sender, RoutedEventArgs e)
         {
-            var newId = _registry.AddPlcCommunicator();
+            var newId = _registry.AddPlcCommunicator(1);
             if (newId == 0) return;
 
             _registry.PlcCommunicators[newId].InitializeConnection();
@@ -98,7 +99,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void AssignInterface(uint plcConnectionId)
         {
-            var newId = _registry.AddCommunicationInterface(plcConnectionId);
+            var newId = _registry.AddCommunicationInterface(1, plcConnectionId);
             if (newId == 0) return;
 
             _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
@@ -125,7 +126,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void AssignOutputFileHandler(uint communicationInterfaceId)
         {
-            var newId = _registry.AddOutputWriter(communicationInterfaceId);
+            var newId = _registry.AddOutputWriter(1, communicationInterfaceId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -139,7 +140,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void AssignVFlashBank()
         {
-            var newId = _registry.AddVFlashBank();
+            var newId = _registry.AddVFlashBank(1);
             if (newId == 0) return;
 
             UpdateGui();
@@ -174,7 +175,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
-            var newId = _registry.AddVFlashChannel(communicationInterfaceId, vFlashBankId);
+            var newId = _registry.AddVFlashChannel(1, communicationInterfaceId, vFlashBankId);
             if (newId == 0) return;
 
             _registry.VFlashHandlers[newId].InitializeVFlash();
