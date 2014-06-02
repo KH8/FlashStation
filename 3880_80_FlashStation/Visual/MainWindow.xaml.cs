@@ -6,8 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml;
-using System.Xml.Serialization;
+using Microsoft.Win32;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
@@ -15,6 +14,7 @@ using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Project;
 using _3880_80_FlashStation.Vector;
+using Registry = _3880_80_FlashStation.MainRegistry.Registry;
 
 namespace _3880_80_FlashStation.Visual
 {
@@ -175,75 +175,96 @@ namespace _3880_80_FlashStation.Visual
 
         private void LoadConfiguration(object sender, RoutedEventArgs e)
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("MyFile.bin",
-                                      FileMode.Open,
-                                      FileAccess.Read,
-                                      FileShare.Read);
-            var projectData = (ProjectFileStruture.ProjectSavedData)formatter.Deserialize(stream);
-            stream.Close();
+            var dlg = new OpenFileDialog 
+            { 
+                DefaultExt = ".ttac", 
+                Filter = "ttAgent Configuration (.ttac)|*.ttac" 
+            };
 
-            _registry.RemoveAll();
+            var result = dlg.ShowDialog();
+            if (result == true)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(dlg.FileName,
+                                          FileMode.Open,
+                                          FileAccess.Read,
+                                          FileShare.Read);
+                var projectData = (ProjectFileStruture.ProjectSavedData)formatter.Deserialize(stream);
+                stream.Close();
 
-            MainRegistryFile.Default.Reset();
-            PlcConfigurationFile.Default.Reset();
-            CommunicationInterfacePath.Default.Reset();
-            OutputCreatorFile.Default.Reset();
-            VFlashTypeBankFile.Default.Reset();
+                _registry.RemoveAll();
 
-            MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
-            MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
-            MainRegistryFile.Default.OutputWriters = projectData.OutputWriters;
-            MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
-            MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
+                MainRegistryFile.Default.Reset();
+                PlcConfigurationFile.Default.Reset();
+                CommunicationInterfacePath.Default.Reset();
+                OutputCreatorFile.Default.Reset();
+                VFlashTypeBankFile.Default.Reset();
 
-            PlcConfigurationFile.Default.Configuration = projectData.Configuration;
-            PlcConfigurationFile.Default.ConnectAtStartUp = projectData.ConnectAtStartUp;
+                MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
+                MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
+                MainRegistryFile.Default.OutputWriters = projectData.OutputWriters;
+                MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
+                MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
 
-           CommunicationInterfacePath.Default.Path = projectData.Path;
-            CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
+                PlcConfigurationFile.Default.Configuration = projectData.Configuration;
+                PlcConfigurationFile.Default.ConnectAtStartUp = projectData.ConnectAtStartUp;
 
-            OutputCreatorFile.Default.StartAddress = projectData.StartAddress;
-            OutputCreatorFile.Default.EndAddress = projectData.EndAddress;
-            OutputCreatorFile.Default.SelectedIndex = projectData.SelectedIndex;
+                CommunicationInterfacePath.Default.Path = projectData.Path;
+                CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
 
-            VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
+                OutputCreatorFile.Default.StartAddress = projectData.StartAddress;
+                OutputCreatorFile.Default.EndAddress = projectData.EndAddress;
+                OutputCreatorFile.Default.SelectedIndex = projectData.SelectedIndex;
 
-            _registry.Initialize();
+                VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
 
-            UpdateGui();
-            UpdateTreeView();
+                _registry.Initialize();
+
+                UpdateGui();
+                UpdateTreeView();
+            }
         }
 
         private void SaveConfiguration(object sender, RoutedEventArgs e)
         {
-            var projectData = new ProjectFileStruture.ProjectSavedData
+            var dlg = new SaveFileDialog
             {
-                PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
-                CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
-                OutputWriters = MainRegistryFile.Default.OutputWriters,
-                VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
-                VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
-
-                Configuration = PlcConfigurationFile.Default.Configuration,
-                ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
-
-                Path = CommunicationInterfacePath.Default.Path,
-                ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
-
-                StartAddress = OutputCreatorFile.Default.StartAddress,
-                EndAddress = OutputCreatorFile.Default.EndAddress,
-                SelectedIndex = OutputCreatorFile.Default.SelectedIndex,
-
-                TypeBank = VFlashTypeBankFile.Default.TypeBank,
+                FileName = "configuration",
+                DefaultExt = ".ttac",
+                Filter = "ttAgent Configuration (.ttac)|*.ttac"
             };
 
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("MyFile.bin", 
-                                     FileMode.Create, 
-                                     FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, projectData);
-            stream.Close();
+            var result = dlg.ShowDialog();
+            if (result == true)
+            {
+                var projectData = new ProjectFileStruture.ProjectSavedData
+                {
+                    PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
+                    CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
+                    OutputWriters = MainRegistryFile.Default.OutputWriters,
+                    VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
+                    VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
+
+                    Configuration = PlcConfigurationFile.Default.Configuration,
+                    ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
+
+                    Path = CommunicationInterfacePath.Default.Path,
+                    ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
+
+                    StartAddress = OutputCreatorFile.Default.StartAddress,
+                    EndAddress = OutputCreatorFile.Default.EndAddress,
+                    SelectedIndex = OutputCreatorFile.Default.SelectedIndex,
+
+                    TypeBank = VFlashTypeBankFile.Default.TypeBank,
+                };
+
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(dlg.FileName,
+                                         FileMode.Create,
+                                         FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, projectData);
+                stream.Close();
+            }
         }
 
         #endregion

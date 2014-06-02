@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Win32;
-using _3880_80_FlashStation.MainRegistry;
 using _3880_80_FlashStation.PLC;
 
 namespace _3880_80_FlashStation.Project
