@@ -54,6 +54,8 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddPlcCommunicator()
         {
             var id = (uint)PlcCommunicators.Count + 1;
+            if (id > 8) { MessageBox.Show("Maximum number of Plc Communicator \ncomponents exceeded", "Component Creation Failed"); return 0; }
+
             PlcCommunicators.Add(id, new PlcCommunicator(id, PlcConfigurationFile.Default));
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
@@ -65,8 +67,9 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddCommunicationInterface(uint plcConnectionId)
         {
             var id = (uint)CommunicationInterfaceHandlers.Count + 1;
-            CommunicationInterfaceHandlersAssignemenTuples[id] = new Tuple<uint, uint>(plcConnectionId, 0);
+            if (id > 8) { MessageBox.Show("Maximum number of Communication Interface \ncomponents exceeded", "Component Creation Failed"); return 0; }
 
+            CommunicationInterfaceHandlersAssignemenTuples[id] = new Tuple<uint, uint>(plcConnectionId, 0);
             try
             {
                 CommunicationInterfaceHandlers.Add(id,
@@ -93,6 +96,8 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddOutputWriter(uint communicationInterfaceId)
         {
             var id = (uint)OutputWriters.Count + 1;
+            if (id > 8) { MessageBox.Show("Maximum number of Output Writer \ncomponents exceeded", "Component Creation Failed"); return 0; }
+
             OutputWritersAssignemenTuples[id] = new Tuple<uint, uint>(0, communicationInterfaceId);
             try
             {
@@ -114,6 +119,8 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddVFlashBank()
         {
             var id = (uint)VFlashTypeBanks.Count + 1;
+            if (id > 8) { MessageBox.Show("Maximum number of vFlash Bank \ncomponents exceeded", "Component Creation Failed"); return 0; }
+
             VFlashTypeBanks.Add(id, new VFlashTypeBank());
             GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
             Logger.Log("ID: " + id + " new vFlash Bank have been created");
@@ -123,6 +130,8 @@ namespace _3880_80_FlashStation.MainRegistry
         public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var id = (uint)VFlashHandlers.Count + 1;
+            if (id > 8) { MessageBox.Show("Maximum number of vFlash Channel \ncomponents exceeded", "Component Creation Failed"); return 0; }
+
             VFlashHandlersAssignemenTuples[id] = new Tuple<uint, uint, uint>(0, communicationInterfaceId, vFlashBankId);
             try
             {

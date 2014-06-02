@@ -34,6 +34,7 @@ namespace _3880_80_FlashStation.Vector {
                                                                         <ArrayOfString xsi:nil=""true"" />
                                                                         <ArrayOfString xsi:nil=""true"" />
                                                                         <ArrayOfString xsi:nil=""true"" />
+                                                                        <ArrayOfString xsi:nil=""true"" />
                                                                     </ArrayOfArrayOfString>")]
         public string[][] TypeBank {
             get {

@@ -9,38 +9,38 @@ namespace _3880_80_FlashStation.Visual
     /// </summary>
     public partial class ComponentCreationWindow
     {
-        public delegate void AssignDelegate1(uint id1);
-        public delegate void AssignDelegate2(uint id1, uint id2);
+        public delegate void AssignmentDelegate(uint id);
+        public delegate void AssignmentDelegateExtended(uint id, uint idExtension);
 
-        private readonly AssignDelegate1 _assignDelegate1;
-        private readonly AssignDelegate2 _assignDelegate2;
+        private readonly AssignmentDelegate _assignmentDelegate;
+        private readonly AssignmentDelegateExtended _assignmentDelegateExtended;
 
-        public ComponentCreationWindow(string prompt, TreeViewItem items, AssignDelegate1 assignDelegate1)
+        public ComponentCreationWindow(string prompt, TreeViewItem items, AssignmentDelegate assignmentDelegate)
         {
             InitializeComponent();
-            _assignDelegate1 = assignDelegate1;
+            _assignmentDelegate = assignmentDelegate;
 
             Prompt.Content = prompt;
 
-            ComponentManagerTreeView1.Visibility = Visibility.Visible;
-            ComponentManagerTreeView2.Visibility = Visibility.Hidden;
+            ComponentManagerTreeView.Visibility = Visibility.Visible;
+            ComponentManagerTreeViewExtension.Visibility = Visibility.Hidden;
 
-            ComponentManagerTreeView1.Width = 426;
-            ComponentManagerTreeView1.Items.Add(items);
+            ComponentManagerTreeView.Width = 428;
+            ComponentManagerTreeView.Items.Add(items);
         }
 
-        public ComponentCreationWindow(string prompt, TreeViewItem items1, TreeViewItem items2, AssignDelegate2 assignDelegate2)
+        public ComponentCreationWindow(string prompt, TreeViewItem items, TreeViewItem itemsExtension, AssignmentDelegateExtended assignmentDelegate)
         {
             InitializeComponent();
-            _assignDelegate2 = assignDelegate2;
+            _assignmentDelegateExtended = assignmentDelegate;
 
             Prompt.Content = prompt;
 
-            ComponentManagerTreeView1.Visibility = Visibility.Visible;
-            ComponentManagerTreeView2.Visibility = Visibility.Visible;
+            ComponentManagerTreeView.Visibility = Visibility.Visible;
+            ComponentManagerTreeViewExtension.Visibility = Visibility.Visible;
 
-            ComponentManagerTreeView1.Items.Add(items1);
-            ComponentManagerTreeView2.Items.Add(items2);
+            ComponentManagerTreeView.Items.Add(items);
+            ComponentManagerTreeViewExtension.Items.Add(itemsExtension);
         }
 
         private void CancelSelection(object sender, RoutedEventArgs e)
@@ -50,22 +50,22 @@ namespace _3880_80_FlashStation.Visual
 
         private void Done(object sender, RoutedEventArgs e)
         {
-            var item1 = (TreeViewItem)ComponentManagerTreeView1.SelectedItem;
-            if (item1 == null) { return; }
-            var result1 = (uint) item1.AlternationCount;
+            var selectedItem = (TreeViewItem)ComponentManagerTreeView.SelectedItem;
+            if (selectedItem == null) { return; }
+            var result = (uint)selectedItem.AlternationCount;
 
-            if (_assignDelegate1 != null)
+            if (_assignmentDelegate != null)
             {
-                _assignDelegate1(result1);
+                _assignmentDelegate(result);
                 Close();
                 return;
             }
 
-            var item2 = (TreeViewItem)ComponentManagerTreeView2.SelectedItem;
-            if (item2 == null) { return; }
-            var result2 = (uint)item2.AlternationCount;
+            selectedItem = (TreeViewItem)ComponentManagerTreeViewExtension.SelectedItem;
+            if (selectedItem == null) { return; }
+            var resultExtension = (uint)selectedItem.AlternationCount;
 
-            _assignDelegate2(result1, result2);
+            _assignmentDelegateExtended(result, resultExtension);
             Close();
         }
     }

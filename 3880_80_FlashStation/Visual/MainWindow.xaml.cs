@@ -90,11 +90,11 @@ namespace _3880_80_FlashStation.Visual
                 AlternationCount = (int)record.Key
             }); }
 
-            var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AddInterfaceAssignment);
+            var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AssignInterface);
             window.Show();
         }
 
-        private void AddInterfaceAssignment(uint plcConnectionId)
+        private void AssignInterface(uint plcConnectionId)
         {
             var newId = _registry.AddCommunicationInterface(plcConnectionId);
             if (newId == 0) return;
@@ -105,7 +105,7 @@ namespace _3880_80_FlashStation.Visual
             UpdateTreeView();
         }
 
-        private void AddOutputFileHandlerChannel(object sender, RoutedEventArgs e)
+        private void AddOutputFileHandler(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (var record in _registry.CommunicationInterfaceHandlers)
@@ -117,11 +117,11 @@ namespace _3880_80_FlashStation.Visual
                 });
             }
 
-            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Output Handler", newHeader, AddOutputFileHandlerChannelAssignment);
+            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Output Handler", newHeader, AssignOutputFileHandler);
             window.Show();
         }
 
-        private void AddOutputFileHandlerChannelAssignment(uint communicationInterfaceId)
+        private void AssignOutputFileHandler(uint communicationInterfaceId)
         {
             var newId = _registry.AddOutputWriter(communicationInterfaceId);
             if (newId == 0) return;
@@ -132,6 +132,11 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddVFlashBank(object sender, RoutedEventArgs e)
         {
+            AssignVFlashBank();
+        }
+
+        private void AssignVFlashBank()
+        {
             var newId = _registry.AddVFlashBank();
             if (newId == 0) return;
 
@@ -141,31 +146,31 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
-            var newHeader1 = new TreeViewItem { Header = "Communication Interfaces" };
+            var newHeaderCommunicationInterface = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (var record in _registry.CommunicationInterfaceHandlers)
             {
-                newHeader1.Items.Add(new TreeViewItem
+                newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
                     Header = "INT_" + record.Key,
                     AlternationCount = (int)record.Key
                 });
             }
 
-            var newHeader2 = new TreeViewItem { Header = "vFlash Banks" };
+            var newHeaderVFlashBank = new TreeViewItem { Header = "vFlash Banks" };
             foreach (var record in _registry.VFlashTypeBanks)
             {
-                newHeader2.Items.Add(new TreeViewItem
+                newHeaderVFlashBank.Items.Add(new TreeViewItem
                 {
                     Header = "VFLASH_BANK_" + record.Key,
                     AlternationCount = (int)record.Key
                 });
             }
 
-            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeader1, newHeader2, AddVFlashChannelAssignment);
+            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeaderCommunicationInterface, newHeaderVFlashBank, AssignVFlashChannel);
             window.Show();
         }
 
-        private void AddVFlashChannelAssignment(uint communicationInterfaceId, uint vFlashBankId)
+        private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var newId = _registry.AddVFlashChannel(communicationInterfaceId, vFlashBankId);
             if (newId == 0) return;
@@ -233,6 +238,14 @@ namespace _3880_80_FlashStation.Visual
             OutputTabControl.Items.Clear();
             ConnectionTabControl.Items.Clear();
             FooterGrid.Children.Clear();
+
+            var labelConnectionTabControl = new Label { Content = "Use EDIT menu to create new connections and interfaces." };
+            ConnectionTabControl.Items.Add(labelConnectionTabControl);
+            ConnectionTabControl.SelectedItem = labelConnectionTabControl;
+
+            var labelOutputTabControl = new Label { Content = "Use EDIT menu to create new output handlers." };
+            OutputTabControl.Items.Add(labelOutputTabControl);
+            OutputTabControl.SelectedItem = labelOutputTabControl;
 
             foreach (var record in _registry.PlcGuiCommunicationStatuses)
             {
@@ -355,12 +368,12 @@ namespace _3880_80_FlashStation.Visual
 
             newHeader = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (var record in _registry.CommunicationInterfaceHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = "INT_" + record.Key + " ; assigned: " + "PLC_" + _registry.CommunicationInterfaceHandlersAssignemenTuples[record.Key].Item1}); }
+            { newHeader.Items.Add(new TreeViewItem { Header = "INT_" + record.Key + " ; assigned components: " + "PLC_" + _registry.CommunicationInterfaceHandlersAssignemenTuples[record.Key].Item1}); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Handlers" };
             foreach (var record in _registry.OutputWriters)
-            { newHeader.Items.Add(new TreeViewItem { Header = "OUT_" + record.Key + " ; assigned: " + "INT_" + _registry.OutputWritersAssignemenTuples[record.Key].Item2 }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = "OUT_" + record.Key + " ; assigned components: " + "INT_" + _registry.OutputWritersAssignemenTuples[record.Key].Item2 }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Banks" };
@@ -370,7 +383,7 @@ namespace _3880_80_FlashStation.Visual
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
             foreach (var record in _registry.GuiVFlashes)
-            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key + " ; assigned: " + "INT_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item2 + " ; " + "VFLASH_BANK_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item3 }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key + " ; assigned components: " + "INT_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item2 + " ; " + "VFLASH_BANK_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item3 }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
         }
