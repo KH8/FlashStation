@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
+using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
+using _3880_80_FlashStation.Output;
+using _3880_80_FlashStation.PLC;
 using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual
@@ -74,13 +75,7 @@ namespace _3880_80_FlashStation.Visual
 
         private void AddConnection(object sender, RoutedEventArgs e)
         {
-            var newId = _registry.AddPlcCommunicator(1);
-            if (newId == 0) return;
-
-            _registry.PlcCommunicators[newId].InitializeConnection();
-
-            UpdateGui();
-            UpdateTreeView();
+            AssignConnection();
         }
 
         private void AddInterface(object sender, RoutedEventArgs e)
@@ -95,17 +90,6 @@ namespace _3880_80_FlashStation.Visual
 
             var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AssignInterface);
             window.Show();
-        }
-
-        private void AssignInterface(uint plcConnectionId)
-        {
-            var newId = _registry.AddCommunicationInterface(1, plcConnectionId);
-            if (newId == 0) return;
-
-            _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
@@ -124,27 +108,9 @@ namespace _3880_80_FlashStation.Visual
             window.Show();
         }
 
-        private void AssignOutputFileHandler(uint communicationInterfaceId)
-        {
-            var newId = _registry.AddOutputWriter(1, communicationInterfaceId);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
-        }
-
         private void AddVFlashBank(object sender, RoutedEventArgs e)
         {
             AssignVFlashBank();
-        }
-
-        private void AssignVFlashBank()
-        {
-            var newId = _registry.AddVFlashBank(1);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
@@ -173,20 +139,6 @@ namespace _3880_80_FlashStation.Visual
             window.Show();
         }
 
-        private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
-        {
-            var newId = _registry.AddVFlashChannel(1, communicationInterfaceId, vFlashBankId);
-            if (newId == 0) return;
-
-            _registry.VFlashHandlers[newId].InitializeVFlash();
-            _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[vFlashBankId];
-
-            UpdateGui();
-            UpdateTreeView();
-        }
-
-
-
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedItem = AbouTabItem;
@@ -200,6 +152,30 @@ namespace _3880_80_FlashStation.Visual
         private void ShowLog(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedItem = LogTabItem;
+        }
+
+        private void NewConfiguration(object sender, RoutedEventArgs e)
+        {
+            _registry.RemoveAll();
+
+            PlcConfigurationFile.Default.Reset();
+            CommunicationInterfacePath.Default.Reset();
+            MainRegistryFile.Default.Reset();
+            OutputCreatorFile.Default.Reset();
+            VFlashTypeBankFile.Default.Reset();
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void LoadConfiguration(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveConfiguration(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         #endregion
@@ -250,7 +226,7 @@ namespace _3880_80_FlashStation.Visual
             OutputTabControl.Items.Add(labelOutputTabControl);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
-            foreach (var record in _registry.PlcGuiCommunicationStatuses)
+            foreach (var record in _registry.PlcCommunicators)
             {
                 var newtabItem = new TabItem { Header = "PLC__" + record.Key };
                 ConnectionTabControl.Items.Add(newtabItem);
@@ -385,12 +361,69 @@ namespace _3880_80_FlashStation.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
-            foreach (var record in _registry.GuiVFlashes)
+            foreach (var record in _registry.VFlashHandlers)
             { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key + " ; assigned components: " + "INT_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item2 + " ; " + "VFLASH_BANK_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item3 }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
         }
 
         #endregion
+
+        #region Assignment Methods
+
+        private void AssignConnection()
+        {
+            var newId = _registry.AddPlcCommunicator(1);
+            if (newId == 0) return;
+
+            _registry.PlcCommunicators[newId].InitializeConnection();
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void AssignInterface(uint plcConnectionId)
+        {
+            var newId = _registry.AddCommunicationInterface(1, plcConnectionId);
+            if (newId == 0) return;
+
+            _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void AssignOutputFileHandler(uint communicationInterfaceId)
+        {
+            var newId = _registry.AddOutputWriter(1, communicationInterfaceId);
+            if (newId == 0) return;
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void AssignVFlashBank()
+        {
+            var newId = _registry.AddVFlashBank(1);
+            if (newId == 0) return;
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
+        {
+            var newId = _registry.AddVFlashChannel(1, communicationInterfaceId, vFlashBankId);
+            if (newId == 0) return;
+
+            _registry.VFlashHandlers[newId].InitializeVFlash();
+            _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[vFlashBankId];
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        #endregion
+
     }
 }

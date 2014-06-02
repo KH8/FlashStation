@@ -16,10 +16,10 @@
                 </TransformGroup>
             </Menu.RenderTransform>
             <MenuItem Header="_STATION">
-                <MenuItem Header="_New Configuration"></MenuItem>
+                <MenuItem Header="_New Configuration" Click="NewConfiguration"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="_Load Configuration"></MenuItem>
-                <MenuItem Header="_Save Configuration"></MenuItem>
+                <MenuItem Header="_Load Configuration" Click="LoadConfiguration"></MenuItem>
+                <MenuItem Header="_Save Configuration" Click="SaveConfiguration"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Exit" Click="CloseApp"></MenuItem>
             </MenuItem>

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
@@ -54,6 +52,8 @@ namespace _3880_80_FlashStation.MainRegistry
         public abstract void RemoveOutputWriter(uint id);
         public abstract void RemoveVFlashBank(uint id);
         public abstract void RemoveVFlashChannel(uint id);
+
+        public abstract void RemoveAll();
     }
 
     class Registry : RegistryBase
@@ -251,6 +251,34 @@ namespace _3880_80_FlashStation.MainRegistry
         public override void RemoveVFlashChannel(uint id)
         {
             throw new NotImplementedException();
+        }
+
+        public override void RemoveAll()
+        {
+            PlcCommunicators.Clear();
+            PlcGuiCommunicationStatuses.Clear();
+            PlcGuiCommunicationStatusBars.Clear();
+            PlcGuiConfigurations.Clear();
+
+            CommunicationInterfaceHandlers.Clear();
+            GuiComInterfacemunicationConfigurations.Clear();
+            GuiCommunicationInterfaceOnlines.Clear();
+
+            OutputWriters.Clear();
+            GuiOutputCreators.Clear();
+
+            VFlashTypeBanks.Clear();
+            GuiVFlashPathBanks.Clear();
+
+            VFlashHandlers.Clear();
+            GuiVFlashes.Clear();
+            GuiVFlashStatusBars.Clear();
+
+            CommunicationInterfaceHandlersAssignemenTuples.Clear();
+            OutputWritersAssignemenTuples.Clear();
+            VFlashHandlersAssignemenTuples.Clear();
+
+            UpdateMainRegistryFile();
         }
 
         private void UpdateMainRegistryFile()

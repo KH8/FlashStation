@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Windows;
 using _3880_80_FlashStation.Log;
 
 namespace _3880_80_FlashStation.PLC
@@ -22,6 +21,8 @@ namespace _3880_80_FlashStation.PLC
         //Data buffers
         private byte[] _readBytes;
         private byte[] _writeBytes;
+        private byte[] _readBytesBuffer;
+        private byte[] _writeBytesBuffer;
 
         // Error for read and write
         private int _errorReadByteNoDave;
@@ -97,6 +98,8 @@ namespace _3880_80_FlashStation.PLC
 
             _readBytes = null;
             _writeBytes = null;
+            _readBytesBuffer = null;
+            _writeBytesBuffer = null;
 
             //Init Properties
             _plcConfigurationFile = plcConfigurationFile;
@@ -204,11 +207,11 @@ namespace _3880_80_FlashStation.PLC
                 if (_connectionStatus == 1)
                 {
                     // Reading...
-                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytes);   
-                    //todo buffer
+                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytesBuffer);
+                    _readBytes = _readBytesBuffer;
                     // Writeing...
-                    _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytes);
-                    //todo buffer
+                    _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytesBuffer);
+                    _writeBytes = _writeBytesBuffer;
                 }
                 Thread.Sleep(100);
             }

@@ -83,7 +83,6 @@ namespace _3880_80_FlashStation.DataAquisition
                     break;
                 case "STRING":
                     variableType = CommunicationInterfaceComponent.VariableType.String;
-                    //todo:
                     break;
             }
             return variableType;
