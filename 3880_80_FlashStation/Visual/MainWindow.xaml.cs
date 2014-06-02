@@ -1,14 +1,19 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
+using System.Xml.Serialization;
 using _3880_80_FlashStation.DataAquisition;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
 using _3880_80_FlashStation.Output;
 using _3880_80_FlashStation.PLC;
+using _3880_80_FlashStation.Project;
 using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual
@@ -158,9 +163,9 @@ namespace _3880_80_FlashStation.Visual
         {
             _registry.RemoveAll();
 
+            MainRegistryFile.Default.Reset();
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
-            MainRegistryFile.Default.Reset();
             OutputCreatorFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
 
@@ -170,12 +175,75 @@ namespace _3880_80_FlashStation.Visual
 
         private void LoadConfiguration(object sender, RoutedEventArgs e)
         {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("MyFile.bin",
+                                      FileMode.Open,
+                                      FileAccess.Read,
+                                      FileShare.Read);
+            var projectData = (ProjectFileStruture.ProjectSavedData)formatter.Deserialize(stream);
+            stream.Close();
 
+            _registry.RemoveAll();
+
+            MainRegistryFile.Default.Reset();
+            PlcConfigurationFile.Default.Reset();
+            CommunicationInterfacePath.Default.Reset();
+            OutputCreatorFile.Default.Reset();
+            VFlashTypeBankFile.Default.Reset();
+
+            MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
+            MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
+            MainRegistryFile.Default.OutputWriters = projectData.OutputWriters;
+            MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
+            MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
+
+            PlcConfigurationFile.Default.Configuration = projectData.Configuration;
+            PlcConfigurationFile.Default.ConnectAtStartUp = projectData.ConnectAtStartUp;
+
+           CommunicationInterfacePath.Default.Path = projectData.Path;
+            CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
+
+            OutputCreatorFile.Default.StartAddress = projectData.StartAddress;
+            OutputCreatorFile.Default.EndAddress = projectData.EndAddress;
+            OutputCreatorFile.Default.SelectedIndex = projectData.SelectedIndex;
+
+            VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
+
+            _registry.Initialize();
+
+            UpdateGui();
+            UpdateTreeView();
         }
 
         private void SaveConfiguration(object sender, RoutedEventArgs e)
         {
-            
+            var projectData = new ProjectFileStruture.ProjectSavedData
+            {
+                PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
+                CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
+                OutputWriters = MainRegistryFile.Default.OutputWriters,
+                VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
+                VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
+
+                Configuration = PlcConfigurationFile.Default.Configuration,
+                ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
+
+                Path = CommunicationInterfacePath.Default.Path,
+                ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
+
+                StartAddress = OutputCreatorFile.Default.StartAddress,
+                EndAddress = OutputCreatorFile.Default.EndAddress,
+                SelectedIndex = OutputCreatorFile.Default.SelectedIndex,
+
+                TypeBank = VFlashTypeBankFile.Default.TypeBank,
+            };
+
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("MyFile.bin", 
+                                     FileMode.Create, 
+                                     FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, projectData);
+            stream.Close();
         }
 
         #endregion

@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FlashStation")]
-[assembly: AssemblyDescription("Getrag Station 80: FlashStation")]
+[assembly: AssemblyTitle("ttAgent")]
+[assembly: AssemblyDescription("The software supporting automation systems")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("teamtechnik")]
-[assembly: AssemblyProduct("Flash Station")]
+[assembly: AssemblyProduct("ttAgent")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

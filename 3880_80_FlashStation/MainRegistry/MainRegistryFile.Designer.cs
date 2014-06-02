@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+
 namespace _3880_80_FlashStation.MainRegistry {
     
     

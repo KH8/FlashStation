@@ -1,7 +1,10 @@
+using System;
+
 namespace _3880_80_FlashStation.PLC
 {
     public abstract class PlcCommunicatorBase
     {
+        [Serializable]
         public struct PlcConfig
         {
             public string PlcIpAddress;
