@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.MainRegistry;
+using _3880_80_FlashStation.Vector;
 
 namespace _3880_80_FlashStation.Visual
 {
@@ -25,6 +26,7 @@ namespace _3880_80_FlashStation.Visual
             Logger.Log("Program Started");
 
             _registry = new Registry();
+            _registry.Initialize();
 
             _communicationThread = new Thread(CommunicationHandler);
             _communicationThread.SetApartmentState(ApartmentState.STA);

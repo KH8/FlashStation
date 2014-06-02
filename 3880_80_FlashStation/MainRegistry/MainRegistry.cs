@@ -51,6 +51,20 @@ namespace _3880_80_FlashStation.MainRegistry
 
     class Registry : RegistryBase
     {
+        public void Initialize()
+        {
+            foreach (var plcCommunicator in MainRegistryFile.Default.PlcCommunicators)
+            { if (plcCommunicator[0] != 0) { AddPlcCommunicator(); }}
+            foreach (var communicationInterfaceHandler in MainRegistryFile.Default.CommunicationInterfaceHandlers)
+            { if (communicationInterfaceHandler[0] != 0) { AddCommunicationInterface(communicationInterfaceHandler[1]); } }
+            foreach (var outputWriter in MainRegistryFile.Default.OutputWriters)
+            { if (outputWriter[0] != 0) { AddOutputWriter(outputWriter[2]); } }
+            foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks)
+            { if (vFlashTypeBank[0] != 0) { AddVFlashBank(); } }
+            foreach (var vFlashTypeHandler in MainRegistryFile.Default.VFlashHandlers)
+            { if (vFlashTypeHandler[0] != 0) { AddVFlashChannel(vFlashTypeHandler[2], vFlashTypeHandler[3]); } }
+        }
+        
         public override uint AddPlcCommunicator()
         {
             var id = (uint)PlcCommunicators.Count + 1;
@@ -60,6 +74,8 @@ namespace _3880_80_FlashStation.MainRegistry
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
             PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
+
+            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;
         }
@@ -89,6 +105,8 @@ namespace _3880_80_FlashStation.MainRegistry
                 Logger.Log("Creation of a new Communication Interface failed");
                 return 0;
             }
+
+            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new Communication Interface have been created");
             return id;
         }
@@ -112,6 +130,8 @@ namespace _3880_80_FlashStation.MainRegistry
                 Logger.Log("Creation of a new Output Handler failed");
                 return 0;
             }
+
+            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new Output Handler have been created");
             return id;
         }
@@ -123,6 +143,8 @@ namespace _3880_80_FlashStation.MainRegistry
 
             VFlashTypeBanks.Add(id, new VFlashTypeBank());
             GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
+
+            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new vFlash Bank have been created");
             return id;
         }
@@ -148,6 +170,8 @@ namespace _3880_80_FlashStation.MainRegistry
                 Logger.Log("Creation of a new vFlash Channel failed");
                 return 0;
             }
+
+            UpdateMainRegistryFile();
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
             return id;
         }
@@ -175,6 +199,60 @@ namespace _3880_80_FlashStation.MainRegistry
         public override void RemoveVFlashChannel(uint id)
         {
             throw new NotImplementedException();
+        }
+
+        private void UpdateMainRegistryFile()
+        {
+            MainRegistryFile.Default.PlcCommunicators = new uint[9][];
+            foreach (var plcCommunicator in PlcCommunicators)
+            {
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Key] = new uint[4];
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Key][0] = plcCommunicator.Key;
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Key][1] = 0;
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Key][2] = 0;
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Key][3] = 0;
+            }
+
+            MainRegistryFile.Default.CommunicationInterfaceHandlers = new uint[9][];
+            foreach (var communicationInterfaceHandler in CommunicationInterfaceHandlers)
+            {
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Key] = new uint[4];
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Key][0] = communicationInterfaceHandler.Key;
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Key][1] = CommunicationInterfaceHandlersAssignemenTuples[communicationInterfaceHandler.Key].Item1;
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Key][2] = 0;
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Key][3] = 0;
+            }
+
+            MainRegistryFile.Default.OutputWriters = new uint[9][];
+            foreach (var outputWriter in OutputWriters)
+            {
+                MainRegistryFile.Default.OutputWriters[outputWriter.Key] = new uint[4];
+                MainRegistryFile.Default.OutputWriters[outputWriter.Key][0] = outputWriter.Key;
+                MainRegistryFile.Default.OutputWriters[outputWriter.Key][1] = 0;
+                MainRegistryFile.Default.OutputWriters[outputWriter.Key][2] = OutputWritersAssignemenTuples[outputWriter.Key].Item2;
+                MainRegistryFile.Default.OutputWriters[outputWriter.Key][3] = 0;
+            }
+
+            MainRegistryFile.Default.VFlashTypeBanks = new uint[9][];
+            foreach (var vFlashTypeBank in VFlashTypeBanks)
+            {
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Key] = new uint[4];
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Key][0] = vFlashTypeBank.Key;
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Key][1] = 0;
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Key][2] = 0;
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Key][3] = 0;
+            }
+
+            MainRegistryFile.Default.VFlashHandlers = new uint[9][];
+            foreach (var vFlashHandler in VFlashHandlers)
+            {
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Key] = new uint[4];
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Key][0] = vFlashHandler.Key;
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Key][1] = 0;
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Key][2] = VFlashHandlersAssignemenTuples[vFlashHandler.Key].Item2;
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Key][3] = VFlashHandlersAssignemenTuples[vFlashHandler.Key].Item3;
+            }
+            MainRegistryFile.Default.Save();
         }
     }
 }

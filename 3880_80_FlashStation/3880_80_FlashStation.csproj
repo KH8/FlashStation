@@ -90,10 +90,10 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="MainRegistry\MainRegistry.cs" />
-    <Compile Include="MainRegistry\MainRegistry.Designer.cs">
+    <Compile Include="MainRegistry\MainRegistryFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>MainRegistry.settings</DependentUpon>
+      <DependentUpon>MainRegistryFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
@@ -117,9 +117,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>OutputCreatorFile.Designer.cs</LastGenOutput>
     </None>
-    <None Include="MainRegistry\MainRegistry.settings">
+    <None Include="MainRegistry\MainRegistryFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>MainRegistry.Designer.cs</LastGenOutput>
+      <LastGenOutput>MainRegistryFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
     <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />

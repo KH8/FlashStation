@@ -123,7 +123,12 @@ namespace _3880_80_FlashStation.PLC
         public void InitializeConnection()
         {
             Logger.Log("ID: " + _id + " Initialization of PLC communication");
-            if (!_plcConfigurationFile.ConnectAtStartUp[_id] || _connectionStatus == 1) return;
+            if (!_plcConfigurationFile.ConnectAtStartUp[_id] || _connectionStatus == 1)
+            {
+                Logger.Log("ID: " + _id + " PLC communication initialized");
+                return;
+            }
+            OpenConnection();
             Logger.Log("ID: " + _id + " Connected with IP address " + _plcConfiguration.PlcIpAddress + " at start up");//*/
             Logger.Log("ID: " + _id + " PLC communication initialized");
         }

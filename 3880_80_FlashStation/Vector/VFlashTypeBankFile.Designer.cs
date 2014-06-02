@@ -26,16 +26,16 @@ namespace _3880_80_FlashStation.Vector {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfString>
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                        <ArrayOfString xsi:nil=""true"" />
-                                                                    </ArrayOfArrayOfString>")]
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                        </ArrayOfArrayOfString>")]
         public string[][] TypeBank {
             get {
                 return ((string[][])(this["TypeBank"]));

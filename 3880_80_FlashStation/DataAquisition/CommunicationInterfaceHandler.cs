@@ -60,7 +60,7 @@ namespace _3880_80_FlashStation.DataAquisition
                     Logger.Log("ID: " + _id + " PLC Communication interface initialization failed");
                     Environment.Exit(0);
                 }
-                Logger.Log("ID: " + _id + " PLC Communication interface initialized with file: " + CommunicationInterfacePath.Default.Path);
+                Logger.Log("ID: " + _id + " PLC Communication interface initialized with file: " + _pathFile.Path[_id]);
             }
             Logger.Log("ID: " + _id + " Interface Initialized");
         }
