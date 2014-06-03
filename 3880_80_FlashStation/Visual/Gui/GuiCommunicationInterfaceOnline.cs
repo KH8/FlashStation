@@ -94,7 +94,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = (_generalGrid.Width / 2 ) - 185,
+                Width = (_generalGrid.Width / 2 ) - 210,
                 Header = "Name",
                 DisplayMemberBinding = new Binding("Name")
             });
@@ -128,7 +128,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
+                if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
                 Thread.Sleep(21);
             }
         }

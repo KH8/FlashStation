@@ -47,7 +47,7 @@ namespace _3880_80_FlashStation.DataAquisition
             }
             else
             {
-                _pathFile.Path[_id] = "DataAquisition\\DB1000.csv";
+                _pathFile.Path[_id] = "DataAquisition\\DB1000_NEW.csv";
                 _pathFile.ConfigurationStatus[_id] = 1;
                 _pathFile.Save();
 
