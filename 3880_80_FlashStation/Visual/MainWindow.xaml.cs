@@ -471,8 +471,6 @@ namespace _3880_80_FlashStation.Visual
             var newId = _registry.AddPlcCommunicator(1);
             if (newId == 0) return;
 
-            _registry.PlcCommunicators[newId].InitializeConnection();
-
             UpdateGui();
             UpdateTreeView();
         }
@@ -481,8 +479,6 @@ namespace _3880_80_FlashStation.Visual
         {
             var newId = _registry.AddCommunicationInterface(1, plcConnectionId);
             if (newId == 0) return;
-
-            _registry.CommunicationInterfaceHandlers[newId].InitializeInterface();
 
             UpdateGui();
             UpdateTreeView();
@@ -510,9 +506,6 @@ namespace _3880_80_FlashStation.Visual
         {
             var newId = _registry.AddVFlashChannel(1, communicationInterfaceId, vFlashBankId);
             if (newId == 0) return;
-
-            _registry.VFlashHandlers[newId].InitializeVFlash();
-            _registry.VFlashHandlers[newId].VFlashTypeBank = _registry.VFlashTypeBanks[vFlashBankId];
 
             UpdateGui();
             UpdateTreeView();

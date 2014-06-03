@@ -68,10 +68,8 @@ namespace _3880_80_FlashStation.MainRegistry
 
             foreach (var plcCommunicator in MainRegistryFile.Default.PlcCommunicators)
             { if (plcCommunicator != null) { AddPlcCommunicator(); }}
-            foreach (var plcCommunicator in PlcCommunicators) plcCommunicator.Value.InitializeConnection();
             foreach (var communicationInterfaceHandler in MainRegistryFile.Default.CommunicationInterfaceHandlers)
             { if (communicationInterfaceHandler != null) { AddCommunicationInterface(communicationInterfaceHandler[1]); } }
-            foreach (var communicationInterfaceHandler in CommunicationInterfaceHandlers) communicationInterfaceHandler.Value.InitializeInterface();
             foreach (var outputWriter in MainRegistryFile.Default.OutputWriters)
             { if (outputWriter != null) { AddOutputWriter(outputWriter[2]); } }
             foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks)
@@ -79,10 +77,6 @@ namespace _3880_80_FlashStation.MainRegistry
             foreach (var vFlashTypeHandler in MainRegistryFile.Default.VFlashHandlers)
             { if (vFlashTypeHandler != null) { AddVFlashChannel(vFlashTypeHandler[2], vFlashTypeHandler[3]); } }
             foreach (var vFlashHandler in VFlashHandlers)
-            {
-                vFlashHandler.Value.InitializeVFlash();
-                vFlashHandler.Value.VFlashTypeBank = VFlashTypeBanks[VFlashHandlersAssignemenTuples[vFlashHandler.Key].Item3];
-            }
 
             UpdateMainRegistryFile();
             Logger.Log("Registry content initialized");
@@ -132,7 +126,8 @@ namespace _3880_80_FlashStation.MainRegistry
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
             PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
-
+            PlcCommunicators[id].InitializeConnection();
+            
             Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;
         }
@@ -154,6 +149,7 @@ namespace _3880_80_FlashStation.MainRegistry
                     new GuiCommunicationInterfaceOnline(id,
                         PlcCommunicators[CommunicationInterfaceHandlersAssignemenTuples[id].Item1],
                         CommunicationInterfaceHandlers[id]));
+                CommunicationInterfaceHandlers[id].InitializeInterface();
             }
             catch (Exception)
             {
@@ -216,6 +212,8 @@ namespace _3880_80_FlashStation.MainRegistry
                         CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
                 GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
                 GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));
+                VFlashHandlers[id].InitializeVFlash();
+                VFlashHandlers[id].VFlashTypeBank = VFlashTypeBanks[vFlashBankId];
             }
             catch (Exception)
             {
