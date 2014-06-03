@@ -78,6 +78,7 @@ namespace _3880_80_FlashStation.Vector
             catch (Exception)
             {
                 MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
+                throw new FlashHandlerException("VFlash initialization failed");
             }
             Logger.Log("ID: " + _id + " vFlash Initialized");
         }
