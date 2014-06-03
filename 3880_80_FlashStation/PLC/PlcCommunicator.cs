@@ -146,6 +146,8 @@ namespace _3880_80_FlashStation.PLC
             else
             {
                 _plcConfiguration = configuration;
+                _readBytesBuffer = new byte[_plcConfiguration.PlcReadLength];
+                _writeBytesBuffer = new byte[_plcConfiguration.PlcWriteLength];
                 _readBytes = new byte[_plcConfiguration.PlcReadLength];
                 _writeBytes = new byte[_plcConfiguration.PlcWriteLength];
                 _configurationStatus = 1;
@@ -190,13 +192,12 @@ namespace _3880_80_FlashStation.PLC
 
         public void CloseConnection()
         {
-            // Close connection only if was open
+            _connectionStatus = -1;
             if (_daveConnection != null)
             {
                 _daveConnection.disconnectPLC();
                 libnodave.closeSocket(_daveOSserialType.rfd);
             }
-            _connectionStatus = -1;
             Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was closed");
         }
 
@@ -222,14 +223,14 @@ namespace _3880_80_FlashStation.PLC
             while (_communicationWatchDogThread.IsAlive)
             {
                 // Reading...
-                if (_errorReadByteNoDave != 0)
+                if (_errorReadByteNoDave != 0 && _connectionStatus != -1)
                 {
                     CloseConnection();
                     _connectionStatus = -2;
                     Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 // Writeing...
-                if (_errorWriteByteNoDave != 0)
+                if (_errorWriteByteNoDave != 0 && _connectionStatus != -1)
                 {
                     CloseConnection();
                     _connectionStatus = -2;

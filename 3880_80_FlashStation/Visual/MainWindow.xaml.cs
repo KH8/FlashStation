@@ -49,12 +49,13 @@ namespace _3880_80_FlashStation.Visual
         {
             while (_communicationThread.IsAlive)
             {
-                foreach (var plcCommunicator in _registry.PlcCommunicators)
+                foreach (var communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers)
                 {
-                    if (_registry.CommunicationInterfaceHandlers.ContainsKey(plcCommunicator.Key))
-                    {
-                        if (plcCommunicator.Value.ConnectionStatus == 1) _registry.CommunicationInterfaceHandlers[plcCommunicator.Key].MaintainConnection(plcCommunicator.Value);
-                    }
+                    var plcConnection =
+                        _registry.PlcCommunicators[
+                            _registry.CommunicationInterfaceHandlersAssignemenTuples[communicationInterfaceHandler.Key]
+                                .Item1];
+                    if (plcConnection.ConnectionStatus == 1) communicationInterfaceHandler.Value.MaintainConnection(plcConnection);
                 }
                 Thread.Sleep(21);
             }

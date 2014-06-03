@@ -69,16 +69,14 @@ namespace _3880_80_FlashStation.DataAquisition
         {
             _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile);
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
-
         }
 
         public void MaintainConnection(PlcCommunicator communication)
         {
-            if (_readInterfaceComposite != null && _writeInterfaceComposite != null &&
-                communication.ConnectionStatus == 1)
+            if (communication.ConnectionStatus == 1)
             {
-                _readInterfaceComposite.ReadValue(communication.ReadBytes);
-                _writeInterfaceComposite.WriteValue(communication.WriteBytes);
+                if(_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(communication.ReadBytes);
+                if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(communication.WriteBytes);
             }
             else { throw new InitializerException("Error: ID: " + _id + " Connection can not be maintained."); }
         }
