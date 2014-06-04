@@ -255,6 +255,7 @@ namespace _3880_80_FlashStation.MainRegistry
         public override void RemoveAll()
         {
             foreach (var vFlashHandler in VFlashHandlers) vFlashHandler.Value.Deinitialize();
+            foreach (var plcCommunicator in PlcCommunicators) plcCommunicator.Value.CloseConnection();
 
             PlcCommunicators.Clear();
             PlcGuiCommunicationStatuses.Clear();
