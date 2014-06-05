@@ -65,7 +65,6 @@ namespace _3880_80_FlashStation.Vector
             _vFlashThread = new Thread(VFlashPlcCommunicationThread);
             _vFlashThread.SetApartmentState(ApartmentState.STA);
             _vFlashThread.IsBackground = true;
-            _vFlashThread.Start();
         }
 
         #endregion
@@ -74,12 +73,35 @@ namespace _3880_80_FlashStation.Vector
 
         public void InitializeVFlash()
         {
-            try { _vFlashStationController.Initialize(); }
+            try
+            {
+                CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+                component = _inputComposite.ReturnVariable("PROGRAMMTYP");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+
+                component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+                component = _outputComposite.ReturnVariable("ANTWORT");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+                component = _outputComposite.ReturnVariable("STATUS");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+                component = _outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+                component = _outputComposite.ReturnVariable("VERSION");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.String) throw new FlashHandlerException("The assigned interface does not contain a required component");
+                component = _outputComposite.ReturnVariable("FEHLERCODE");
+                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
+
+                _vFlashStationController.Initialize();
+            }
             catch (Exception)
             {
                 MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
                 throw new FlashHandlerException("VFlash initialization failed");
             }
+
+            _vFlashThread.Start();
             Logger.Log("ID: " + _id + " vFlash Initialized");
         }
 

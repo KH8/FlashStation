@@ -112,7 +112,7 @@ namespace _3880_80_FlashStation.DataAquisition
                     return (CommunicationInterfaceVariable) component;
                 }
             }
-            throw new CompositeException("Error: Variable not found");
+            return null;
         }
 
         #region ModifyValue Methods

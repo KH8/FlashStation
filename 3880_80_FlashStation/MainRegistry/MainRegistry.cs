@@ -74,9 +74,8 @@ namespace _3880_80_FlashStation.MainRegistry
             { if (outputWriter != null) { AddOutputWriter(outputWriter[2]); } }
             foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks)
             { if (vFlashTypeBank != null) { AddVFlashBank(); } }
-            foreach (var vFlashTypeHandler in MainRegistryFile.Default.VFlashHandlers)
-            { if (vFlashTypeHandler != null) { AddVFlashChannel(vFlashTypeHandler[2], vFlashTypeHandler[3]); } }
-            foreach (var vFlashHandler in VFlashHandlers)
+            foreach (var vFlashHandler in MainRegistryFile.Default.VFlashHandlers)
+            { if (vFlashHandler != null) { AddVFlashChannel(vFlashHandler[2], vFlashHandler[3]); } }
 
             UpdateMainRegistryFile();
             Logger.Log("Registry content initialized");
@@ -123,10 +122,11 @@ namespace _3880_80_FlashStation.MainRegistry
             if (id > 8) { MessageBox.Show("Maximum number of Plc Communicator \ncomponents exceeded", "Component Creation Failed"); return 0; }
 
             PlcCommunicators.Add(id, new PlcCommunicator(id, PlcConfigurationFile.Default));
+            PlcCommunicators[id].InitializeConnection();
+
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
             PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, PlcCommunicators[id],  PlcConfigurationFile.Default));
-            PlcCommunicators[id].InitializeConnection();
             
             Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;
@@ -142,14 +142,15 @@ namespace _3880_80_FlashStation.MainRegistry
             {
                 CommunicationInterfaceHandlers.Add(id,
                     new CommunicationInterfaceHandler(id, CommunicationInterfacePath.Default));
+                CommunicationInterfaceHandlers[id].InitializeInterface();
+
                 GuiComInterfacemunicationConfigurations.Add(id,
                     new GuiComInterfacemunicationConfiguration(id, CommunicationInterfaceHandlers[id],
                         CommunicationInterfacePath.Default));
                 GuiCommunicationInterfaceOnlines.Add(id,
                     new GuiCommunicationInterfaceOnline(id,
                         PlcCommunicators[CommunicationInterfaceHandlersAssignemenTuples[id].Item1],
-                        CommunicationInterfaceHandlers[id]));
-                CommunicationInterfaceHandlers[id].InitializeInterface();
+                        CommunicationInterfaceHandlers[id]));               
             }
             catch (Exception)
             {
@@ -210,12 +211,13 @@ namespace _3880_80_FlashStation.MainRegistry
                 VFlashHandlers.Add(id,
                     new VFlashHandler(id, CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite,
                         CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
-                GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
-                GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));
                 VFlashHandlers[id].InitializeVFlash();
                 VFlashHandlers[id].VFlashTypeBank = VFlashTypeBanks[vFlashBankId];
+
+                GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
+                GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));             
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 if (VFlashHandlers[id] != null) VFlashHandlers.Remove(id);
                 MessageBox.Show("Component could not be created", "Component Creation Failed");

@@ -113,11 +113,9 @@ namespace _3880_80_FlashStation.PLC
 
             _communicationWatchDogThread.SetApartmentState(ApartmentState.STA);
             _communicationWatchDogThread.IsBackground = true;
-            _communicationWatchDogThread.Start();
 
             _dataAquisitionThread.SetApartmentState(ApartmentState.STA);
             _dataAquisitionThread.IsBackground = true;
-            _dataAquisitionThread.Start();
         }
 
         #endregion
@@ -127,6 +125,10 @@ namespace _3880_80_FlashStation.PLC
         public void InitializeConnection()
         {
             Logger.Log("ID: " + _id + " Initialization of PLC communication");
+
+            _communicationWatchDogThread.Start();
+            _dataAquisitionThread.Start();
+
             if (!_plcConfigurationFile.ConnectAtStartUp[_id] || _connectionStatus == 1)
             {
                 Logger.Log("ID: " + _id + " PLC communication initialized");
