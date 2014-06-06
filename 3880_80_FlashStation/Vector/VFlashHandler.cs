@@ -162,27 +162,28 @@ namespace _3880_80_FlashStation.Vector
                 
                 _pcControlModeChangeAllowed = false;
 
-                if (channelFound != null && !_pcControlMode)
-
-                    //try { CheckInterface(); }
-                    //catch (Exception) { break; }
-
+                if (channelFound != null && !_pcControlMode && CheckInterface())
+                {
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
                             if (caseAuxiliary != 100)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested from PLC");
-                                var returnedPath = _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                           " : Path change requested from PLC");
+                                var returnedPath =
+                                    _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
                                 if (returnedPath != null)
                                 {
-                                    SetProjectPath(1, _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
+                                    SetProjectPath(1,
+                                        _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
                                     programActive = inputCompositeProgrammTyp.Value;
                                     antwort = 100;
                                 }
                                 else
                                 {
-                                    Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path change requested failed");
+                                    Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                               " : Path change requested failed");
                                     programActive = 0;
                                     antwort = 999;
                                 }
@@ -192,21 +193,23 @@ namespace _3880_80_FlashStation.Vector
                         case 200:
                             if (caseAuxiliary != 200)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path load requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                           " : Path load requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
                                 Thread.Sleep(200);
                             }
                             if (_outputComposite != null)
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Loaded) antwort = 200;
-                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;   
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
                             }
                             caseAuxiliary = 200;
                             break;
                         case 300:
                             if (caseAuxiliary != 300)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Path unload requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                           " : Path unload requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
                                 Thread.Sleep(200);
                             }
@@ -224,7 +227,8 @@ namespace _3880_80_FlashStation.Vector
                         case 400:
                             if (caseAuxiliary != 400)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                           " : Flashing requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Start);
                                 Thread.Sleep(200);
                             }
@@ -238,7 +242,8 @@ namespace _3880_80_FlashStation.Vector
                         case 500:
                             if (caseAuxiliary != 500)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId + " : Flashing abort requested from PLC");
+                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                           " : Flashing abort requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Abort);
                                 Thread.Sleep(200);
                             }
@@ -254,8 +259,8 @@ namespace _3880_80_FlashStation.Vector
                             caseAuxiliary = 0;
                             break;
                     }
-
-                if (_pcControlMode)
+                }
+                else
                 {
                     antwort = 999;
                     _pcControlModeChangeAllowed = true;
@@ -340,7 +345,7 @@ namespace _3880_80_FlashStation.Vector
             }
         }
 
-        private void CheckInterface()
+        private Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
             if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
@@ -367,6 +372,8 @@ namespace _3880_80_FlashStation.Vector
             component = _outputComposite.ReturnVariable("FEHLERCODE");
             if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 throw new FlashHandlerException("The assigned interface does not contain a required component");
+
+            return true;
         }
 
         #endregion

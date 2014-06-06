@@ -50,18 +50,7 @@ namespace _3880_80_FlashStation.Output
 
         public void InitializeVFlash()
         {
-            try
-            {
-                CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new OutputHandlerException("The assigned interface does not contain a required component");
-
-                component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new OutputHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("ANTWORT");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new OutputHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("FEHLERCODE");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new OutputHandlerException("The assigned interface does not contain a required component");
-            }
+            try { CheckInterface(); }
             catch (Exception)
             {
                 MessageBox.Show("ID: " + _id + " Output Handler initialization failed", "Output Handler Failed");
@@ -79,7 +68,7 @@ namespace _3880_80_FlashStation.Output
         private void OutputCommunicationThread()
         {
             Int16 counter = 0;
-            Int16 antwort = 0;
+            Int16 antwort;
             Int16 caseAuxiliary = 0;
 
             while (_outputThread.IsAlive)
@@ -88,7 +77,7 @@ namespace _3880_80_FlashStation.Output
                 
                 _pcControlModeChangeAllowed = false;
 
-                if (!_pcControlMode)
+                if (!_pcControlMode && CheckInterface())
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
@@ -101,8 +90,7 @@ namespace _3880_80_FlashStation.Output
                             caseAuxiliary = 0;
                             break;
                     }
-
-                if (_pcControlMode)
+                else
                 {
                     antwort = 999;
                     _pcControlModeChangeAllowed = true;
@@ -125,6 +113,25 @@ namespace _3880_80_FlashStation.Output
         public class OutputHandlerException : ApplicationException
         {
             public OutputHandlerException(string info) : base(info) { }
+        }
+
+        private Boolean CheckInterface()
+        {
+            CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new OutputHandlerException("The assigned interface does not contain a required component");
+
+            component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new OutputHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("ANTWORT");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new OutputHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("FEHLERCODE");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new OutputHandlerException("The assigned interface does not contain a required component");
+
+            return true;
         }
 
         #endregion
