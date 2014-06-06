@@ -110,7 +110,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             if (outputWriter != null)
                 try
                 {
-                    outputWriter.CreateOutput("out", outputWriter.InterfaceToStrings(_communicationHandler.ReadInterfaceComposite, _outputCreatorFile.StartAddress[Id], _outputCreatorFile.EndAddress[Id]));
+                    outputWriter.CreateOutput(_communicationHandler.ReadInterfaceComposite.Name, outputWriter.InterfaceToStrings(_communicationHandler.ReadInterfaceComposite, _outputCreatorFile.StartAddress[Id], _outputCreatorFile.EndAddress[Id]));
                 }
                 catch (Exception)
                 {
