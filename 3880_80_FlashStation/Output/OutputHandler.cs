@@ -68,7 +68,6 @@ namespace _3880_80_FlashStation.Output
         private void OutputCommunicationThread()
         {
             Int16 counter = 0;
-            Int16 antwort;
             Int16 caseAuxiliary = 0;
 
             while (_outputThread.IsAlive)
@@ -77,6 +76,7 @@ namespace _3880_80_FlashStation.Output
                 
                 _pcControlModeChangeAllowed = false;
 
+                Int16 antwort;
                 if (!_pcControlMode && CheckInterface())
                     switch (inputCompositeCommand.Value)
                     {

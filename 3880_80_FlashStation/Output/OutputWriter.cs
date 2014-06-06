@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -18,10 +19,22 @@ namespace _3880_80_FlashStation.Output
         internal static string FileNameCreator(string fixedName, string extension)
         {
             const string directoryPath = "Output";
+
             if (!Directory.Exists(directoryPath)) { Directory.CreateDirectory(directoryPath); }
-            return directoryPath + "\\" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + "_" 
-                + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second 
+            return directoryPath + "\\" 
+                + DateTime.Now.Year 
+                + FillTheStringUp(DateTime.Now.Month.ToString(CultureInfo.InvariantCulture))
+                + FillTheStringUp(DateTime.Now.Day.ToString(CultureInfo.InvariantCulture)) + "_"
+                + FillTheStringUp(DateTime.Now.Hour.ToString(CultureInfo.InvariantCulture))
+                + FillTheStringUp(DateTime.Now.Minute.ToString(CultureInfo.InvariantCulture))
+                + FillTheStringUp(DateTime.Now.Second.ToString(CultureInfo.InvariantCulture))  
                 + "_" + fixedName + "." + extension;
+        }
+
+        internal static string FillTheStringUp(string dateString)
+        {
+            if (dateString.Length < 2) return "0" + dateString;
+            return dateString;
         }
 
         public List<string> InterfaceToStrings(CommunicationInterfaceComposite inputComposite, int startPos, int stopPos)
