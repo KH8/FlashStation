@@ -75,24 +75,7 @@ namespace _3880_80_FlashStation.Vector
         {
             try
             {
-                CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-                component = _inputComposite.ReturnVariable("PROGRAMMTYP");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-
-                component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("ANTWORT");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("STATUS");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("VERSION");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.String) throw new FlashHandlerException("The assigned interface does not contain a required component");
-                component = _outputComposite.ReturnVariable("FEHLERCODE");
-                if (component.Type != CommunicationInterfaceComponent.VariableType.Integer) throw new FlashHandlerException("The assigned interface does not contain a required component");
-
+                CheckInterface();
                 _vFlashStationController.Initialize();
             }
             catch (Exception)
@@ -180,6 +163,10 @@ namespace _3880_80_FlashStation.Vector
                 _pcControlModeChangeAllowed = false;
 
                 if (channelFound != null && !_pcControlMode)
+
+                    //try { CheckInterface(); }
+                    //catch (Exception) { break; }
+
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
@@ -351,6 +338,35 @@ namespace _3880_80_FlashStation.Vector
                 channelFound.Command = VFlashStationComponent.VFlashCommand.NoCommand;
                 channelFound.Status = VFlashStationComponent.VFlashStatus.Fault;
             }
+        }
+
+        private void CheckInterface()
+        {
+            CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+            component = _inputComposite.ReturnVariable("PROGRAMMTYP");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+
+            component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("ANTWORT");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("STATUS");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("VERSION");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.String)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
+            component = _outputComposite.ReturnVariable("FEHLERCODE");
+            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                throw new FlashHandlerException("The assigned interface does not contain a required component");
         }
 
         #endregion
