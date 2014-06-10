@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using ttAgent.Output;
+using _ttAgent.Output;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     class GuiOutputCreator : Gui
     {

@@ -8,21 +8,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ttAgent.DataAquisition {
-    
-    
+namespace _ttAgent.DataAquisition
+{
+
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    public sealed partial class CommunicationInterfacePath : global::System.Configuration.ApplicationSettingsBase {
-        
+    public sealed partial class CommunicationInterfacePath : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static CommunicationInterfacePath defaultInstance = ((CommunicationInterfacePath)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new CommunicationInterfacePath())));
-        
-        public static CommunicationInterfacePath Default {
-            get {
+
+        public static CommunicationInterfacePath Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
@@ -36,15 +40,18 @@ namespace ttAgent.DataAquisition {
                                                                         <string>""DataAquisition\\DB1000_NEW.csv""</string>
                                                                         <string>""DataAquisition\\DB1000_NEW.csv""</string>
                                                                     </ArrayOfString>")]
-        public string[] Path {
-            get {
+        public string[] Path
+        {
+            get
+            {
                 return ((string[])(this["Path"]));
             }
-            set {
+            set
+            {
                 this["Path"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
@@ -58,11 +65,14 @@ namespace ttAgent.DataAquisition {
                                                                         <int>0</int>
                                                                         <int>0</int>
                                                                     </ArrayOfInt>")]
-        public int[] ConfigurationStatus {
-            get {
+        public int[] ConfigurationStatus
+        {
+            get
+            {
                 return ((int[])(this["ConfigurationStatus"]));
             }
-            set {
+            set
+            {
                 this["ConfigurationStatus"] = value;
             }
         }

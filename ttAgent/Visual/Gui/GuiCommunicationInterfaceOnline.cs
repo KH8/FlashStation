@@ -4,11 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using ttAgent.DataAquisition;
-using ttAgent.PLC;
-using GridView = System.Windows.Controls.GridView;
+using _ttAgent.DataAquisition;
+using _ttAgent.PLC;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     class GuiCommunicationInterfaceOnline : Gui
     {

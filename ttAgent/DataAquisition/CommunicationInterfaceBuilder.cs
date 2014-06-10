@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ttAgent.DataAquisition
+namespace _ttAgent.DataAquisition
 {
     static class CommunicationInterfaceBuilder
     {

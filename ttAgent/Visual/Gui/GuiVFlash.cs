@@ -3,10 +3,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ttAgent.Log;
-using ttAgent.Vector;
+using _ttAgent.Log;
+using _ttAgent.Vector;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     class GuiVFlash : Gui
     {

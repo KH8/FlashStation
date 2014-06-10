@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_3880_80_FlashStation.DataAquisition" GeneratedClassName="CommunicationInterfacePath">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_ttAgent.DataAquisition" GeneratedClassName="CommunicationInterfacePath">
   <Profiles />
   <Settings>
     <Setting Name="Path" Type="System.String" Scope="User">

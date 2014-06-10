@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace ttAgent.DataAquisition
+namespace _ttAgent.DataAquisition
 {
     #region Component
 
@@ -105,14 +106,7 @@ namespace ttAgent.DataAquisition
 
         public CommunicationInterfaceVariable ReturnVariable(string name)
         {
-            foreach (CommunicationInterfaceComponent component in _children)
-            {
-                if (component.Name == name)
-                {
-                    return (CommunicationInterfaceVariable) component;
-                }
-            }
-            return null;
+            return _children.Where(component => component.Name == name).Cast<CommunicationInterfaceVariable>().FirstOrDefault();
         }
 
         #region ModifyValue Methods

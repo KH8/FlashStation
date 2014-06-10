@@ -5,11 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using ttAgent.Vector;
-using GridView = System.Windows.Controls.GridView;
-using TextBox = System.Windows.Controls.TextBox;
+using _ttAgent.Vector;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     class GuiVFlashPathBank : Gui
     {

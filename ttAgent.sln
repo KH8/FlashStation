@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ttAgent", "3880_80_FlashStation\ttAgent.csproj", "{389A4A50-7347-443B-ACA7-8A2F07D86245}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ttAgent", "ttAgent\ttAgent.csproj", "{389A4A50-7347-443B-ACA7-8A2F07D86245}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

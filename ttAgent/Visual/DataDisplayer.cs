@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
-using ttAgent.DataAquisition;
-using ttAgent.PLC;
+using _ttAgent.DataAquisition;
+using _ttAgent.PLC;
 
-namespace ttAgent.Visual
+namespace _ttAgent.Visual
 {
     public class DataDisplayer
     {

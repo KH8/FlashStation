@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Controls;
 
-namespace ttAgent.Log
+namespace _ttAgent.Log
 {
     static class Logger
     {

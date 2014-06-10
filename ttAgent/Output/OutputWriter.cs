@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using CsvHelper;
-using ttAgent.DataAquisition;
-using ttAgent.Log;
+using _ttAgent.DataAquisition;
+using _ttAgent.Log;
 
-namespace ttAgent.Output
+namespace _ttAgent.Output
 {
     abstract class OutputWriter
     {

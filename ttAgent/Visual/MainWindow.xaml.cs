@@ -7,15 +7,16 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using ttAgent.DataAquisition;
-using ttAgent.Log;
-using ttAgent.MainRegistry;
-using ttAgent.Output;
-using ttAgent.PLC;
-using ttAgent.Project;
-using ttAgent.Vector;
+using _ttAgent.DataAquisition;
+using _ttAgent.Log;
+using _ttAgent.MainRegistry;
+using _ttAgent.Output;
+using _ttAgent.PLC;
+using _ttAgent.Project;
+using _ttAgent.Vector;
+using Registry = _ttAgent.MainRegistry.Registry;
 
-namespace ttAgent.Visual
+namespace _ttAgent.Visual
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,14 +24,14 @@ namespace ttAgent.Visual
     public partial class MainWindow
     {
         private readonly Thread _communicationThread;
-        private readonly MainRegistry.Registry _registry;
+        private readonly Registry _registry;
 
         public MainWindow()
         {
             InitializeComponent();
             Logger.Log("Program Started");
 
-            _registry = new MainRegistry.Registry();
+            _registry = new Registry();
             _registry.Initialize();
 
             _communicationThread = new Thread(CommunicationHandler);

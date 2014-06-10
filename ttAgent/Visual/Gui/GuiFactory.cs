@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     static class GuiFactory
     {

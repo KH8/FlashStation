@@ -7,8 +7,8 @@
     <ProjectGuid>{389A4A50-7347-443B-ACA7-8A2F07D86245}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_3880_80_FlashStation</RootNamespace>
-    <AssemblyName>3880_80_FlashStation</AssemblyName>
+    <RootNamespace>_ttAgent</RootNamespace>
+    <AssemblyName>ttAgent</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -204,7 +204,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="3880_80_FlashStation.cd" />
+    <None Include="ttAgent.cd" />
     <None Include="PLC\PlcConfigurationFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PlcConfigurationFile.Designer.cs</LastGenOutput>

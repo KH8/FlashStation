@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_3880_80_FlashStation.Output" GeneratedClassName="OutputHandlerFile">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="_ttAgent.Output" GeneratedClassName="OutputHandlerFile">
   <Profiles />
   <Settings>
     <Setting Name="StartAddress" Type="System.Int32" Scope="User">
@@ -10,6 +10,9 @@
     </Setting>
     <Setting Name="SelectedIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="FileNameSuffix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

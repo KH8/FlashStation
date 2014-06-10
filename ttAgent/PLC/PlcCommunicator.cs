@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using ttAgent.Log;
+using _ttAgent.Log;
 
-namespace ttAgent.PLC
+namespace _ttAgent.PLC
 {
     public class PlcCommunicator : PlcCommunicatorBase
     {

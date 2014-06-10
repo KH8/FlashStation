@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ttAgent.Vector
+namespace _ttAgent.Vector
 {
   /// <summary>
   /// ErrorCollector

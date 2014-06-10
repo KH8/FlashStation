@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ttAgent.Output
+namespace _ttAgent.Output
 {
     class OutputWriterFactory
     {

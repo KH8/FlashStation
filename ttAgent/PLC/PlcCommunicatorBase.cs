@@ -1,6 +1,6 @@
 using System;
 
-namespace ttAgent.PLC
+namespace _ttAgent.PLC
 {
     public abstract class PlcCommunicatorBase
     {

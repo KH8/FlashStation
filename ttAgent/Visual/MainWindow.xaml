@@ -1,9 +1,9 @@
-﻿<Window x:Name="St80FlashStation" x:Class="ttAgent.Visual.MainWindow"
+﻿<Window x:Name="St80FlashStation" x:Class="_ttAgent.Visual.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="ttAgent 1.0" Height="654" Width="1158"
-        Closing="CloseApp" SizeChanged="WindowSizeChanged" Icon="/3880_80_FlashStation;component/teamtechnik.ico" Background="#FFF9F9F9" WindowState="Maximized" MinWidth="1158" MinHeight="654">
+        Closing="CloseApp" SizeChanged="WindowSizeChanged" Icon="/ttAgent;component/teamtechnik.ico" Background="#FFF9F9F9" WindowState="Maximized" MinWidth="1158" MinHeight="654">
     <Grid Margin="0,0,0,0" Name="MainGrid">
         <!--MENU-->
         <Menu IsMainMenu="True" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="829" Background="{x:Null}" BorderBrush="#FF212121" RenderTransformOrigin="0.5,0.5">
@@ -54,7 +54,7 @@
                         <Grid Name="AboutGrid" VerticalAlignment="Top" Height="505" Margin="0,0,0,0">
                             <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" Height="167"><LineBreak/><Run Text="ttAgent v 1.0"/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><LineBreak/><Run Text="teamtechnik Production Technology Sp. z o.o."/><LineBreak/><Run Text="ul. Za Gora 23, 32-050 Skawina, Poland"/><LineBreak/><LineBreak/></TextBlock>
                             <Grid Background="#FF05467C" VerticalAlignment="Bottom" Height="70" Margin="0,0,0,0">
-                                <Image HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="211" Source="/3880_80_FlashStation;component/logoTT.jpg"/>
+                                <Image HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="211" Source="/ttAgent;component/logoTT.jpg"/>
                             </Grid>
                         </Grid>
                     </TabItem>

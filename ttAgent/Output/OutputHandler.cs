@@ -1,11 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Windows;
-using ttAgent.DataAquisition;
-using ttAgent.Log;
+using _ttAgent.DataAquisition;
+using _ttAgent.Log;
 
-namespace ttAgent.Output
+namespace _ttAgent.Output
 {
     class OutputHandler
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     #region Abstract Class
 

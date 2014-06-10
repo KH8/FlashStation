@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ttAgent.Visual
+namespace _ttAgent.Visual
 {
     /// <summary>
     /// Interaction logic for FaultReport.xaml

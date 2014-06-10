@@ -10,20 +10,24 @@
 
 using System;
 
-namespace ttAgent.PLC {
-    
+namespace _ttAgent.PLC
+{
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    public sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase {
-        
+    public sealed partial class PlcConfigurationFile : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static PlcConfigurationFile defaultInstance = ((PlcConfigurationFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PlcConfigurationFile())));
-        
-        public static PlcConfigurationFile Default {
-            get {
+
+        public static PlcConfigurationFile Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
@@ -137,11 +141,14 @@ namespace ttAgent.PLC {
                                                                             <PlcConfigurationStatus>0</PlcConfigurationStatus>
                                                                         </PlcConfig>
                                                                     </ArrayOfPlcConfig>")]
-        public PlcCommunicatorBase.PlcConfig[] Configuration {
-            get {
+        public PlcCommunicatorBase.PlcConfig[] Configuration
+        {
+            get
+            {
                 return ((PlcCommunicatorBase.PlcConfig[])(this["Configuration"]));
             }
-            set {
+            set
+            {
                 this["Configuration"] = value;
             }
         }

@@ -8,21 +8,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ttAgent.Vector {
-    
-    
+namespace _ttAgent.Vector
+{
+
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class VFlashTypeBankFile : global::System.Configuration.ApplicationSettingsBase {
-        
+    internal sealed partial class VFlashTypeBankFile : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static VFlashTypeBankFile defaultInstance = ((VFlashTypeBankFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new VFlashTypeBankFile())));
-        
-        public static VFlashTypeBankFile Default {
-            get {
+
+        public static VFlashTypeBankFile Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfString>
@@ -36,11 +40,14 @@ namespace ttAgent.Vector {
                                                                             <ArrayOfString />
                                                                             <ArrayOfString />
                                                                         </ArrayOfArrayOfString>")]
-        public string[][] TypeBank {
-            get {
+        public string[][] TypeBank
+        {
+            get
+            {
                 return ((string[][])(this["TypeBank"]));
             }
-            set {
+            set
+            {
                 this["TypeBank"] = value;
             }
         }

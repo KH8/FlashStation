@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using ttAgent.DataAquisition;
-using ttAgent.Log;
+using _ttAgent.DataAquisition;
+using _ttAgent.Log;
 
-namespace ttAgent.Visual.Gui
+namespace _ttAgent.Visual.Gui
 {
     class GuiComInterfacemunicationConfiguration : Gui
     {

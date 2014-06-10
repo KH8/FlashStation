@@ -8,46 +8,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ttAgent.Output {
-    
-    
+namespace _ttAgent.Output
+{
+
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class OutputHandlerFile : global::System.Configuration.ApplicationSettingsBase {
-        
+    internal sealed partial class OutputHandlerFile : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static OutputHandlerFile defaultInstance = ((OutputHandlerFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new OutputHandlerFile())));
-        
-        public static OutputHandlerFile Default {
-            get {
+
+        public static OutputHandlerFile Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
 
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                        <string>""noName""</string>
-                                                                    </ArrayOfString>")]
-        public string[] FileNameSuffix
-        {
-            get
-            {
-                return ((string[])(this["FileNameSuffix"]));
-            }
-            set
-            {
-                this["FileNameSuffix"] = value;
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
@@ -63,14 +42,16 @@ namespace ttAgent.Output {
                                                                     </ArrayOfInt>")]
         public int[] StartAddress
         {
-            get {
+            get
+            {
                 return ((int[])(this["StartAddress"]));
             }
-            set {
+            set
+            {
                 this["StartAddress"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
@@ -86,14 +67,16 @@ namespace ttAgent.Output {
                                                                     </ArrayOfInt>")]
         public int[] EndAddress
         {
-            get {
+            get
+            {
                 return ((int[])(this["EndAddress"]));
             }
-            set {
+            set
+            {
                 this["EndAddress"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
@@ -107,12 +90,40 @@ namespace ttAgent.Output {
                                                                         <int>0</int>
                                                                         <int>0</int>
                                                                     </ArrayOfInt>")]
-        public int[] SelectedIndex {
-            get {
+        public int[] SelectedIndex
+        {
+            get
+            {
                 return ((int[])(this["SelectedIndex"]));
             }
-            set {
+            set
+            {
                 this["SelectedIndex"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                    </ArrayOfString>")]
+        public string[] FileNameSuffix
+        {
+            get
+            {
+                return ((string[])(this["FileNameSuffix"]));
+            }
+            set
+            {
+                this["FileNameSuffix"] = value;
             }
         }
     }
