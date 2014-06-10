@@ -215,6 +215,7 @@ namespace _ttAgent.Visual
                 CommunicationInterfacePath.Default.Path = projectData.Path;
                 CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
 
+                OutputHandlerFile.Default.FileNameSuffixes = projectData.FileNameSuffixes;
                 OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
                 OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
                 OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
@@ -256,6 +257,7 @@ namespace _ttAgent.Visual
                     Path = CommunicationInterfacePath.Default.Path,
                     ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
 
+                    FileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
                     StartAddress = OutputHandlerFile.Default.StartAddress,
                     EndAddress = OutputHandlerFile.Default.EndAddress,
                     SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
@@ -299,11 +301,18 @@ namespace _ttAgent.Visual
             AboutGrid.Height = MainTabControl.Height - 32;
             AboutGrid.Width = MainTabControl.Width - 10;
 
-            ComponentManagerTreeView.Height = MainTabControl.Height - 32;
+            ComponentManagerTreeView.Height = MainTabControl.Height - 62;
             ComponentManagerTreeView.Width = MainTabControl.Width - 10;
 
             foreach (var gui in _registry.GuiCommunicationInterfaceOnlines) { gui.Value.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
             foreach (var gui in _registry.GuiVFlashPathBanks) { gui.Value.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
+        }
+
+        private void ComponentManagerSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var treeView = (TreeView) sender;
+            var selection = (TreeViewItem)treeView.SelectedItem;
+            if (selection != null) ComponentManagerSelectionLabel.Content = selection.Header;
         }
 
         private void UpdateGui()

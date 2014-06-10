@@ -71,7 +71,7 @@ namespace _ttAgent.Output
 
         public void CreateOutput()
         {
-            string fileName = OutputHandlerFile.Default.FileNameSuffix[_id];
+            string fileName = OutputHandlerFile.Default.FileNameSuffixes[_id];
             var interfaceVariable = fileName.Split('%');
             var interfaceComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
             if (interfaceComponent != null)

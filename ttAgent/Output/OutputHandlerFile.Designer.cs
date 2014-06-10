@@ -115,15 +115,15 @@ namespace _ttAgent.Output
                                                                         <string>noName</string>
                                                                         <string>noName</string>
                                                                     </ArrayOfString>")]
-        public string[] FileNameSuffix
+        public string[] FileNameSuffixes
         {
             get
             {
-                return ((string[])(this["FileNameSuffix"]));
+                return ((string[])(this["FileNameSuffixes"]));
             }
             set
             {
-                this["FileNameSuffix"] = value;
+                this["FileNameSuffixes"] = value;
             }
         }
     }

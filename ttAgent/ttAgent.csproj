@@ -104,7 +104,7 @@
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.cs" />
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
-    <Compile Include="Visual\Gui\GuiOutputCreator.cs" />
+    <Compile Include="Visual\Gui\GuiOutputHandler.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiVFlash.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />

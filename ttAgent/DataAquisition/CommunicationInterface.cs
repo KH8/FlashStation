@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 
 namespace _ttAgent.DataAquisition
 {
@@ -271,6 +273,33 @@ namespace _ttAgent.DataAquisition
         public override void WriteValue(byte[] valByte)
         {
             DataMapper.Write8Bits(valByte, Pos, _value);
+        }
+    }
+
+    public class CiChar : CommunicationInterfaceVariable
+    {
+        private String _value;
+
+        public String Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public CiChar(string name, int pos, VariableType type, String value)
+            : base(name, pos, type)
+        {
+            _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.Read8Bits(valByte, Pos).ToString(CultureInfo.InvariantCulture);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.Write8Bits(valByte, Pos, new byte()); //todo
         }
     }
 

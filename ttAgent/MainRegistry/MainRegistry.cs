@@ -22,7 +22,7 @@ namespace _ttAgent.MainRegistry
         public Dictionary<uint, GuiCommunicationInterfaceOnline> GuiCommunicationInterfaceOnlines = new Dictionary<uint, GuiCommunicationInterfaceOnline>();
 
         public Dictionary<uint, OutputHandler> OutputHandlers = new Dictionary<uint, OutputHandler>();
-        public Dictionary<uint, GuiOutputCreator> GuiOutputCreators = new Dictionary<uint, GuiOutputCreator>();
+        public Dictionary<uint, GuiOutputHandler> GuiOutputCreators = new Dictionary<uint, GuiOutputHandler>();
 
         public Dictionary<uint, VFlashTypeBank> VFlashTypeBanks = new Dictionary<uint, VFlashTypeBank>();
         public Dictionary<uint, GuiVFlashPathBank> GuiVFlashPathBanks = new Dictionary<uint, GuiVFlashPathBank>();
@@ -174,7 +174,7 @@ namespace _ttAgent.MainRegistry
             {
                 OutputHandlers.Add(id, new OutputHandler(id, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
                 GuiOutputCreators.Add(id,
-                    new GuiOutputCreator(id, OutputHandlers[id], OutputHandlerFile.Default));
+                    new GuiOutputHandler(id, OutputHandlers[id], OutputHandlerFile.Default));
                 OutputHandlers[id].InitializeOutputHandler();
             }
             catch (Exception)

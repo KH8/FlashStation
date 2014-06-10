@@ -1,33 +1,126 @@
 ﻿
-Log Entry : 5:48:14 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:03:59 PM Tuesday, June 10, 2014 : 
 Program Started
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:03:59 PM Tuesday, June 10, 2014 : 
 ID: 1 Initialization of PLC communication
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:03:59 PM Tuesday, June 10, 2014 : 
 ID: 1 PLC communication initialized
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:03:59 PM Tuesday, June 10, 2014 : 
 ID: 1 new PLC Connection have been created
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:03:59 PM Tuesday, June 10, 2014 : 
 ID: 1 Initialization of the interface
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:04:00 PM Tuesday, June 10, 2014 : 
+ID: 1 PLC Communication interface initialized with file: DataAquisition\DB1000_NEW.csv
+
+Log Entry : 9:04:00 PM Tuesday, June 10, 2014 : 
 ID: 1 Interface Initialized
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:04:00 PM Tuesday, June 10, 2014 : 
 ID: 1 new Communication Interface have been created
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:04:00 PM Tuesday, June 10, 2014 : 
 ID: 1 Output Handler Initialized
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:04:00 PM Tuesday, June 10, 2014 : 
 ID: 1 new Output Handler have been created
 
-Log Entry : 5:48:15 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:04:00 PM Tuesday, June 10, 2014 : 
 Registry content initialized
 
-Log Entry : 5:48:17 PM Tuesday, June 10, 2014 : 
+Log Entry : 9:04:04 PM Tuesday, June 10, 2014 : 
+Saveing configuration to file: C:\Users\rkk\Desktop\configuration.ttac
+
+Log Entry : 9:04:04 PM Tuesday, June 10, 2014 : 
+Configuration saved
+
+Log Entry : 9:04:13 PM Tuesday, June 10, 2014 : 
+Saveing configuration to file: C:\Users\rkk\Desktop\configuration.ttac
+
+Log Entry : 9:04:13 PM Tuesday, June 10, 2014 : 
+Configuration saved
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+Loading configuration from file: C:\Users\rkk\Desktop\configuration.ttac
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 Communication with PLC IP Address :  was closed
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+Registry content removed
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 Initialization of PLC communication
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 PLC communication initialized
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 new PLC Connection have been created
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 Initialization of the interface
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 Interface Initialized
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 new Communication Interface have been created
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 Output Handler Initialized
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+ID: 1 new Output Handler have been created
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+Registry content initialized
+
+Log Entry : 9:04:15 PM Tuesday, June 10, 2014 : 
+Configuration loaded
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+Loading configuration from file: C:\Users\rkk\Desktop\configuration.ttac
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 Communication with PLC IP Address :  was closed
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+Registry content removed
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 Initialization of PLC communication
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 PLC communication initialized
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 new PLC Connection have been created
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 Initialization of the interface
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 Interface Initialized
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 new Communication Interface have been created
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 Output Handler Initialized
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+ID: 1 new Output Handler have been created
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+Registry content initialized
+
+Log Entry : 9:04:22 PM Tuesday, June 10, 2014 : 
+Configuration loaded
+
+Log Entry : 9:04:23 PM Tuesday, June 10, 2014 : 
 Program Closed

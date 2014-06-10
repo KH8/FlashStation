@@ -6,7 +6,7 @@ using _ttAgent.Output;
 
 namespace _ttAgent.Visual.Gui
 {
-    class GuiOutputCreator : Gui
+    class GuiOutputHandler : Gui
     {
         private Grid _generalGrid;
 
@@ -21,7 +21,7 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiOutputCreator(uint id, OutputHandler outputHandler, OutputHandlerFile outputHandlerFile)
+        public GuiOutputHandler(uint id, OutputHandler outputHandler, OutputHandlerFile outputHandlerFile)
         {
             Id = id;
             _outputHandler = outputHandler;
@@ -44,7 +44,7 @@ namespace _ttAgent.Visual.Gui
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("File Name Suffix:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 45, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 75, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", _outputHandlerFile.FileNameSuffix[Id], 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", _outputHandlerFile.FileNameSuffixes[Id], 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 43, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 73, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
 
@@ -63,8 +63,8 @@ namespace _ttAgent.Visual.Gui
         private void FileNameSuffixChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox)sender;
-            try { _outputHandlerFile.FileNameSuffix[Id] = box.Text; }
-            catch (Exception) { _outputHandlerFile.FileNameSuffix[Id] = "noName"; }
+            try { _outputHandlerFile.FileNameSuffixes[Id] = box.Text; }
+            catch (Exception) { _outputHandlerFile.FileNameSuffixes[Id] = "noName"; }
             _outputHandlerFile.Save();
         }
 

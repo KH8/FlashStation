@@ -20,6 +20,7 @@ namespace _ttAgent.Project
             public string[] Path;
             public int[] ConfigurationStatus;
 
+            public string[] FileNameSuffixes;
             public int[] StartAddress;
             public int[] EndAddress;
             public int[] SelectedIndex;
