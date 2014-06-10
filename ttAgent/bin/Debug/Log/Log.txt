@@ -1,0 +1,33 @@
+﻿
+Log Entry : 5:04:37 PM Tuesday, June 10, 2014 : 
+Program Started
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 Initialization of PLC communication
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 PLC communication initialized
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 new PLC Connection have been created
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 Initialization of the interface
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 Interface Initialized
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 new Communication Interface have been created
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 Output Handler Initialized
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+ID: 1 new Output Handler have been created
+
+Log Entry : 5:04:38 PM Tuesday, June 10, 2014 : 
+Registry content initialized
+
+Log Entry : 5:04:46 PM Tuesday, June 10, 2014 : 
+Program Closed
