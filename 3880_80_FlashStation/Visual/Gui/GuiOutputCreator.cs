@@ -21,13 +21,9 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiOutputCreator(uint id)
+        public GuiOutputCreator(uint id, OutputHandler outputHandler, OutputCreatorFile outputCreatorFile)
         {
             Id = id;
-        }
-
-        public GuiOutputCreator(OutputHandler outputHandler, OutputCreatorFile outputCreatorFile)
-        {
             _outputHandler = outputHandler;
             _outputCreatorFile = outputCreatorFile;
         }

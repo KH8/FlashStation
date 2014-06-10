@@ -17,7 +17,7 @@ namespace _3880_80_FlashStation.DataAquisition
             var valByte1 = new byte[2];
             valByte1[0] = valByte[pos + 0];
             valByte1[1] = valByte[pos + 1];
-            return new BitArray(new int[] { BitConverter.ToUInt16(valByte1, pos) });
+            return new BitArray(new int[] { BitConverter.ToUInt16(valByte1,0) });
         }
 
         public static Boolean ReadSingleBit(byte[] valByte, int pos, int bitpos)

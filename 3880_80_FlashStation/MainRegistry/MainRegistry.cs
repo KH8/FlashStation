@@ -174,7 +174,7 @@ namespace _3880_80_FlashStation.MainRegistry
             {
                 OutputHandlers.Add(id, new OutputHandler(id, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
                 GuiOutputCreators.Add(id,
-                    new GuiOutputCreator(OutputHandlers[id], OutputCreatorFile.Default));
+                    new GuiOutputCreator(id, OutputHandlers[id], OutputCreatorFile.Default));
                 OutputHandlers[id].InitializeOutputHandler();
             }
             catch (Exception)
