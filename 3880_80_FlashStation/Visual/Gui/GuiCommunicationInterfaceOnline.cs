@@ -129,7 +129,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             while (_updateThread.IsAlive)
             {
                 if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
-                Thread.Sleep(21);
+                Thread.Sleep(100);
             }
         }
     }

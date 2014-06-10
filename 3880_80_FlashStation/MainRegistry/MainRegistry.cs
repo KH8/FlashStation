@@ -19,9 +19,9 @@ namespace _3880_80_FlashStation.MainRegistry
 
         public Dictionary<uint, CommunicationInterfaceHandler> CommunicationInterfaceHandlers = new Dictionary<uint, CommunicationInterfaceHandler>();
         public Dictionary<uint, GuiComInterfacemunicationConfiguration> GuiComInterfacemunicationConfigurations = new Dictionary<uint, GuiComInterfacemunicationConfiguration>();
-        public Dictionary<uint, GuiCommunicationInterfaceOnline> GuiCommunicationInterfaceOnlines = new Dictionary<uint, GuiCommunicationInterfaceOnline>(); 
+        public Dictionary<uint, GuiCommunicationInterfaceOnline> GuiCommunicationInterfaceOnlines = new Dictionary<uint, GuiCommunicationInterfaceOnline>();
 
-        public Dictionary<uint, OutputWriter> OutputWriters = new Dictionary<uint, OutputWriter>();
+        public Dictionary<uint, OutputHandler> OutputHandlers = new Dictionary<uint, OutputHandler>();
         public Dictionary<uint, GuiOutputCreator> GuiOutputCreators = new Dictionary<uint, GuiOutputCreator>();
 
         public Dictionary<uint, VFlashTypeBank> VFlashTypeBanks = new Dictionary<uint, VFlashTypeBank>();
@@ -32,24 +32,24 @@ namespace _3880_80_FlashStation.MainRegistry
         public Dictionary<uint, GuiVFlashStatusBar> GuiVFlashStatusBars = new Dictionary<uint, GuiVFlashStatusBar>(); 
 
         public Dictionary<uint, Tuple<uint, uint>> CommunicationInterfaceHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
-        public Dictionary<uint, Tuple<uint, uint>> OutputWritersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
+        public Dictionary<uint, Tuple<uint, uint>> OutputHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
         public Dictionary<uint, Tuple<uint, uint, uint>> VFlashHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint, uint>>();
 
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface(uint plcConnectionId);
-        public abstract uint AddOutputWriter(uint communicationInterfaceId);
+        public abstract uint AddOutputHandler(uint communicationInterfaceId);
         public abstract uint AddVFlashBank();
         public abstract uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId);
 
         public abstract uint AddPlcCommunicator(uint save);
         public abstract uint AddCommunicationInterface(uint save, uint plcConnectionId);
-        public abstract uint AddOutputWriter(uint save, uint communicationInterfaceId);
+        public abstract uint AddOutputHandler(uint save, uint communicationInterfaceId);
         public abstract uint AddVFlashBank(uint save);
         public abstract uint AddVFlashChannel(uint save, uint communicationInterfaceId, uint vFlashBankId);
 
         public abstract void RemovePlcCommunicator(uint id);
         public abstract void RemoveCommunicationInterface(uint id);
-        public abstract void RemoveOutputWriter(uint id);
+        public abstract void RemoveOutputHandler(uint id);
         public abstract void RemoveVFlashBank(uint id);
         public abstract void RemoveVFlashChannel(uint id);
 
@@ -62,7 +62,7 @@ namespace _3880_80_FlashStation.MainRegistry
         {
             if (MainRegistryFile.Default.PlcCommunicators == null) return;
             if (MainRegistryFile.Default.CommunicationInterfaceHandlers == null) return;
-            if (MainRegistryFile.Default.OutputWriters == null) return;
+            if (MainRegistryFile.Default.OutputHandlers == null) return;
             if (MainRegistryFile.Default.VFlashTypeBanks == null) return;
             if (MainRegistryFile.Default.VFlashHandlers == null) return;
 
@@ -70,8 +70,8 @@ namespace _3880_80_FlashStation.MainRegistry
             { if (plcCommunicator != null) { AddPlcCommunicator(); }}
             foreach (var communicationInterfaceHandler in MainRegistryFile.Default.CommunicationInterfaceHandlers)
             { if (communicationInterfaceHandler != null) { AddCommunicationInterface(communicationInterfaceHandler[1]); } }
-            foreach (var outputWriter in MainRegistryFile.Default.OutputWriters)
-            { if (outputWriter != null) { AddOutputWriter(outputWriter[2]); } }
+            foreach (var outputHandler in MainRegistryFile.Default.OutputHandlers)
+            { if (outputHandler != null) { AddOutputHandler(outputHandler[2]); } }
             foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks)
             { if (vFlashTypeBank != null) { AddVFlashBank(); } }
             foreach (var vFlashHandler in MainRegistryFile.Default.VFlashHandlers)
@@ -95,9 +95,9 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
-        public override uint AddOutputWriter(uint save, uint communicationInterfaceId)
+        public override uint AddOutputHandler(uint save, uint communicationInterfaceId)
         {
-            var id = AddOutputWriter(communicationInterfaceId);
+            var id = AddOutputHandler(communicationInterfaceId);
             if (save == 1) UpdateMainRegistryFile();
             return id;
         }
@@ -164,21 +164,22 @@ namespace _3880_80_FlashStation.MainRegistry
             return id;
         }
 
-        public override uint AddOutputWriter(uint communicationInterfaceId)
+        public override uint AddOutputHandler(uint communicationInterfaceId)
         {
-            var id = (uint)OutputWriters.Count + 1;
-            if (id > 8) { MessageBox.Show("Maximum number of Output Writer \ncomponents exceeded", "Component Creation Failed"); return 0; }
+            var id = (uint)OutputHandlers.Count + 1;
+            if (id > 8) { MessageBox.Show("Maximum number of Output Handler \ncomponents exceeded", "Component Creation Failed"); return 0; }
 
-            OutputWritersAssignemenTuples[id] = new Tuple<uint, uint>(0, communicationInterfaceId);
+            OutputHandlersAssignemenTuples[id] = new Tuple<uint, uint>(0, communicationInterfaceId);
             try
             {
-                OutputWriters.Add(id, null);
+                OutputHandlers.Add(id, new OutputHandler(id, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
                 GuiOutputCreators.Add(id,
-                    new GuiOutputCreator(CommunicationInterfaceHandlers[OutputWritersAssignemenTuples[id].Item2], OutputCreatorFile.Default));
+                    new GuiOutputCreator(OutputHandlers[id], OutputCreatorFile.Default));
+                OutputHandlers[id].InitializeOutputHandler();
             }
             catch (Exception)
             {
-                if (OutputWriters[id] != null) OutputWriters.Remove(id);
+                if (OutputHandlers[id] != null) OutputHandlers.Remove(id);
                 MessageBox.Show("Component could not be created", "Component Creation Failed");
                 Logger.Log("Creation of a new Output Handler failed");
                 return 0;
@@ -217,7 +218,7 @@ namespace _3880_80_FlashStation.MainRegistry
                 GuiVFlashes.Add(id, new GuiVFlash(id, VFlashHandlers[id]));
                 GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, VFlashHandlers[id]));             
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (VFlashHandlers[id] != null) VFlashHandlers.Remove(id);
                 MessageBox.Show("Component could not be created", "Component Creation Failed");
@@ -239,7 +240,7 @@ namespace _3880_80_FlashStation.MainRegistry
             throw new NotImplementedException();
         }
 
-        public override void RemoveOutputWriter(uint id)
+        public override void RemoveOutputHandler(uint id)
         {
             throw new NotImplementedException();
         }
@@ -268,7 +269,7 @@ namespace _3880_80_FlashStation.MainRegistry
             GuiComInterfacemunicationConfigurations.Clear();
             GuiCommunicationInterfaceOnlines.Clear();
 
-            OutputWriters.Clear();
+            OutputHandlers.Clear();
             GuiOutputCreators.Clear();
 
             VFlashTypeBanks.Clear();
@@ -279,7 +280,7 @@ namespace _3880_80_FlashStation.MainRegistry
             GuiVFlashStatusBars.Clear();
 
             CommunicationInterfaceHandlersAssignemenTuples.Clear();
-            OutputWritersAssignemenTuples.Clear();
+            OutputHandlersAssignemenTuples.Clear();
             VFlashHandlersAssignemenTuples.Clear();
 
             UpdateMainRegistryFile();
@@ -308,14 +309,14 @@ namespace _3880_80_FlashStation.MainRegistry
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Key][3] = 0;
             }
 
-            MainRegistryFile.Default.OutputWriters = new uint[9][];
-            foreach (var outputWriter in OutputWriters)
+            MainRegistryFile.Default.OutputHandlers = new uint[9][];
+            foreach (var outputHandler in OutputHandlers)
             {
-                MainRegistryFile.Default.OutputWriters[outputWriter.Key] = new uint[4];
-                MainRegistryFile.Default.OutputWriters[outputWriter.Key][0] = outputWriter.Key;
-                MainRegistryFile.Default.OutputWriters[outputWriter.Key][1] = 0;
-                MainRegistryFile.Default.OutputWriters[outputWriter.Key][2] = OutputWritersAssignemenTuples[outputWriter.Key].Item2;
-                MainRegistryFile.Default.OutputWriters[outputWriter.Key][3] = 0;
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Key] = new uint[4];
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Key][0] = outputHandler.Key;
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Key][1] = 0;
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Key][2] = OutputHandlersAssignemenTuples[outputHandler.Key].Item2;
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Key][3] = 0;
             }
 
             MainRegistryFile.Default.VFlashTypeBanks = new uint[9][];

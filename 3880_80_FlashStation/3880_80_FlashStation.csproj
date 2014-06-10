@@ -89,6 +89,7 @@
       <DependentUpon>OutputCreatorFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Output\OutputHandler.cs" />
+    <Compile Include="Output\OutputWriterFactory.cs" />
     <Compile Include="Project\ProjectFileStruture.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="MainRegistry\MainRegistry.cs" />

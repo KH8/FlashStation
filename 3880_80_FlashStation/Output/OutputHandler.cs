@@ -14,6 +14,8 @@ namespace _3880_80_FlashStation.Output
         private Boolean _pcControlMode;
         private Boolean _pcControlModeChangeAllowed;
 
+        private OutputWriter _outputWriter;
+
         private readonly CommunicationInterfaceComposite _inputComposite;
         private readonly CommunicationInterfaceComposite _outputComposite;
 
@@ -27,6 +29,12 @@ namespace _3880_80_FlashStation.Output
         {
             get { return _pcControlMode; }
             set { if (_pcControlModeChangeAllowed) { _pcControlMode = value;}}
+        }
+
+        public OutputWriter OutputWriter
+        {
+            get { return _outputWriter; }
+            set { _outputWriter = value; }
         }
 
         #endregion
@@ -48,7 +56,7 @@ namespace _3880_80_FlashStation.Output
 
         #region Methods
 
-        public void InitializeVFlash()
+        public void InitializeOutputHandler()
         {
             try { CheckInterface(); }
             catch (Exception)
@@ -59,6 +67,25 @@ namespace _3880_80_FlashStation.Output
 
             _outputThread.Start();
             Logger.Log("ID: " + _id + " Output Handler Initialized");
+        }
+
+        public void CreateOutput()
+        {
+            if (_outputWriter != null)
+            {
+                try
+                {
+                    _outputWriter.CreateOutput(_inputComposite.Name,
+                        _outputWriter.InterfaceToStrings(_inputComposite,
+                            OutputCreatorFile.Default.StartAddress[_id],
+                            OutputCreatorFile.Default.EndAddress[_id]));
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("ID: " + _id + " : Output creation Failed!", "Error");
+                    Logger.Log("ID: " + _id + " : Output creation Failed");
+                }
+            }
         }
 
         #endregion
@@ -77,22 +104,30 @@ namespace _3880_80_FlashStation.Output
                 _pcControlModeChangeAllowed = false;
 
                 Int16 antwort;
+                Int16 status;
                 if (!_pcControlMode && CheckInterface())
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
-                            if (caseAuxiliary != 100) Logger.Log("ID: " + _id + " VFlash: Channel nr. " + _id + " : Output file creation requested from PLC"); 
+                            if (caseAuxiliary != 100)
+                            {
+                                Logger.Log("ID: " + _id + " : Output file creation requested from PLC");
+                                CreateOutput();
+                            }
                             caseAuxiliary = 100;
                             antwort = 100;
+                            status = 100;
                             break;
                         default:
-                            antwort = 0;
                             caseAuxiliary = 0;
+                            antwort = 0;
+                            status = 0;
                             break;
                     }
                 else
                 {
                     antwort = 999;
+                    status = 999;
                     _pcControlModeChangeAllowed = true;
                 }
 
@@ -101,6 +136,7 @@ namespace _3880_80_FlashStation.Output
                     _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
                     _outputComposite.ModifyValue("ANTWORT", antwort);
+                    _outputComposite.ModifyValue("STATUS", status);
                 }
                 Thread.Sleep(200);
             }
@@ -127,7 +163,7 @@ namespace _3880_80_FlashStation.Output
             component = _outputComposite.ReturnVariable("ANTWORT");
             if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 throw new OutputHandlerException("The assigned interface does not contain a required component");
-            component = _outputComposite.ReturnVariable("FEHLERCODE");
+            component = _outputComposite.ReturnVariable("STATUS");
             if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 throw new OutputHandlerException("The assigned interface does not contain a required component");
 

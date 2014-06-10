@@ -8,7 +8,7 @@
     <Setting Name="CommunicationInterfaceHandlers" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="OutputWriters" Type="System.UInt32" Scope="User">
+    <Setting Name="OutputHandlers" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="VFlashTypeBanks" Type="System.UInt32" Scope="User">

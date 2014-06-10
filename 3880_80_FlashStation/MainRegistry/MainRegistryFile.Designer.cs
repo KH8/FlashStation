@@ -50,12 +50,12 @@ namespace _3880_80_FlashStation.MainRegistry {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public uint[][] OutputWriters {
+        public uint[][] OutputHandlers {
             get {
-                return ((uint[][])(this["OutputWriters"]));
+                return ((uint[][])(this["OutputHandlers"]));
             }
             set {
-                this["OutputWriters"] = value;
+                this["OutputHandlers"] = value;
             }
         }
         

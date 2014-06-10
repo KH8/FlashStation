@@ -2,8 +2,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using _3880_80_FlashStation.DataAquisition;
-using _3880_80_FlashStation.Log;
 using _3880_80_FlashStation.Output;
 
 namespace _3880_80_FlashStation.Visual.Gui
@@ -12,7 +10,7 @@ namespace _3880_80_FlashStation.Visual.Gui
     {
         private Grid _generalGrid;
 
-        private readonly CommunicationInterfaceHandler _communicationHandler;
+        private readonly OutputHandler _outputHandler;
         private readonly OutputCreatorFile _outputCreatorFile;
 
         private ComboBox _outputTypeComboBox = new ComboBox();
@@ -28,9 +26,9 @@ namespace _3880_80_FlashStation.Visual.Gui
             Id = id;
         }
 
-        public GuiOutputCreator(CommunicationInterfaceHandler communicationHandler, OutputCreatorFile outputCreatorFile)
+        public GuiOutputCreator(OutputHandler outputHandler, OutputCreatorFile outputCreatorFile)
         {
-            _communicationHandler = communicationHandler;
+            _outputHandler = outputHandler;
             _outputCreatorFile = outputCreatorFile;
         }
 
@@ -58,6 +56,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
             _outputTypeComboBox.SelectedIndex = _outputCreatorFile.SelectedIndex[Id];
+            _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
             _outputTypeComboBox.SelectionChanged += ComboBoxOnSelectionChanged;
 
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateButton("CreateOutputButton", "CreateOutput", 130, 99, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, CreateOutput));
@@ -67,6 +66,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         {
             var outputTypeComboBox = (ComboBox) sender;
             _outputCreatorFile.SelectedIndex[Id] = outputTypeComboBox.SelectedIndex;
+            _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
             _outputCreatorFile.Save();
         }
 
@@ -88,35 +88,7 @@ namespace _3880_80_FlashStation.Visual.Gui
 
         private void CreateOutput(object sender, RoutedEventArgs e)
         {
-            OutputWriter outputWriter = null;
-            var selection = _outputTypeComboBox.SelectedValue;
-            if (selection == null)
-            {
-                MessageBox.Show("No file type selected!", "Error");
-                return;
-            }
-            switch (selection.ToString())
-            {
-                case "System.Windows.Controls.ComboBoxItem: *.xml":
-                    outputWriter = new OutputXmlWriter();
-                    break;
-                case "System.Windows.Controls.ComboBoxItem: *.csv":
-                    outputWriter = new OutputCsvWriter();
-                    break;
-                case "System.Windows.Controls.ComboBoxItem: *.xls":
-                    outputWriter = new OutputXlsWriter();
-                    break;
-            }
-            if (outputWriter != null)
-                try
-                {
-                    outputWriter.CreateOutput(_communicationHandler.ReadInterfaceComposite.Name, outputWriter.InterfaceToStrings(_communicationHandler.ReadInterfaceComposite, _outputCreatorFile.StartAddress[Id], _outputCreatorFile.EndAddress[Id]));
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Output creation Failed!", "Error");
-                    Logger.Log("Output creation Failed");
-                }
+            _outputHandler.CreateOutput();
         }
 
         public override void MakeVisible()

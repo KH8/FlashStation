@@ -10,7 +10,7 @@ namespace _3880_80_FlashStation.Project
         {
             public uint[][] PlcCommunicators;
             public uint[][] CommunicationInterfaceHandlers;
-            public uint[][] OutputWriters;
+            public uint[][] OutputHandlers;
             public uint[][] VFlashTypeBanks;
             public uint[][] VFlashHandlers;
 
