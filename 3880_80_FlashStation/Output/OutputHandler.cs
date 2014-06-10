@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using _3880_80_FlashStation.DataAquisition;
@@ -71,11 +72,23 @@ namespace _3880_80_FlashStation.Output
 
         public void CreateOutput()
         {
+            string fileName = OutputHandlerFile.Default.FileNameSuffix[_id];
+            var interfaceVariable = fileName.Split('%');
+            var interfaceComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
+            if (interfaceComponent != null)
+            {
+                if (interfaceComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                {
+                    var ciString = (CiString) interfaceComponent;
+                    fileName = ciString.Value;
+                }
+            }
+
             if (_outputWriter != null)
             {
                 try
                 {
-                    _outputWriter.CreateOutput(_inputComposite.Name,
+                    _outputWriter.CreateOutput(fileName,
                         _outputWriter.InterfaceToStrings(_inputComposite,
                             OutputHandlerFile.Default.StartAddress[_id],
                             OutputHandlerFile.Default.EndAddress[_id]));

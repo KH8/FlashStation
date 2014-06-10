@@ -44,7 +44,7 @@ namespace _3880_80_FlashStation.Visual.Gui
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("File Name Suffix:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 45, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 75, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", "noName", 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", _outputHandlerFile.FileNameSuffix[Id], 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 43, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 73, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
 
