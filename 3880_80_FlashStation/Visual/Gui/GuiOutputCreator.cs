@@ -11,7 +11,7 @@ namespace _3880_80_FlashStation.Visual.Gui
         private Grid _generalGrid;
 
         private readonly OutputHandler _outputHandler;
-        private readonly OutputCreatorFile _outputCreatorFile;
+        private readonly OutputHandlerFile _outputHandlerFile;
 
         private ComboBox _outputTypeComboBox = new ComboBox();
 
@@ -21,11 +21,11 @@ namespace _3880_80_FlashStation.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiOutputCreator(uint id, OutputHandler outputHandler, OutputCreatorFile outputCreatorFile)
+        public GuiOutputCreator(uint id, OutputHandler outputHandler, OutputHandlerFile outputHandlerFile)
         {
             Id = id;
             _outputHandler = outputHandler;
-            _outputCreatorFile = outputCreatorFile;
+            _outputHandlerFile = outputHandlerFile;
         }
 
         public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
@@ -43,15 +43,15 @@ namespace _3880_80_FlashStation.Visual.Gui
 
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 43, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputCreatorFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputCreatorFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 38, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 38, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
 
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Output File Type:", 5, 71, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 105));
             guiOutputCreatorGrid.Children.Add(_outputTypeComboBox = GuiFactory.CreateComboBox("OutputTypeComboBox", "Select", 130, 71, HorizontalAlignment.Left, VerticalAlignment.Top, 22, 100));
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
-            _outputTypeComboBox.SelectedIndex = _outputCreatorFile.SelectedIndex[Id];
+            _outputTypeComboBox.SelectedIndex = _outputHandlerFile.SelectedIndex[Id];
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
             _outputTypeComboBox.SelectionChanged += ComboBoxOnSelectionChanged;
 
@@ -61,25 +61,25 @@ namespace _3880_80_FlashStation.Visual.Gui
         private void ComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             var outputTypeComboBox = (ComboBox) sender;
-            _outputCreatorFile.SelectedIndex[Id] = outputTypeComboBox.SelectedIndex;
+            _outputHandlerFile.SelectedIndex[Id] = outputTypeComboBox.SelectedIndex;
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
-            _outputCreatorFile.Save();
+            _outputHandlerFile.Save();
         }
 
         private void StartPositionChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox)sender;
-            try { _outputCreatorFile.StartAddress[Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputCreatorFile.StartAddress[Id] = 0; }
-            _outputCreatorFile.Save();
+            try { _outputHandlerFile.StartAddress[Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputHandlerFile.StartAddress[Id] = 0; }
+            _outputHandlerFile.Save();
         }
 
         private void EndPositionBoxChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox)sender;
-            try { _outputCreatorFile.EndAddress[Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputCreatorFile.EndAddress[Id] = 0; }
-            _outputCreatorFile.Save();
+            try { _outputHandlerFile.EndAddress[Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputHandlerFile.EndAddress[Id] = 0; }
+            _outputHandlerFile.Save();
         }
 
         private void CreateOutput(object sender, RoutedEventArgs e)

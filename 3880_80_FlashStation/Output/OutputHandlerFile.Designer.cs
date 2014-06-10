@@ -13,11 +13,11 @@ namespace _3880_80_FlashStation.Output {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class OutputCreatorFile : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class OutputHandlerFile : global::System.Configuration.ApplicationSettingsBase {
         
-        private static OutputCreatorFile defaultInstance = ((OutputCreatorFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new OutputCreatorFile())));
+        private static OutputHandlerFile defaultInstance = ((OutputHandlerFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new OutputHandlerFile())));
         
-        public static OutputCreatorFile Default {
+        public static OutputHandlerFile Default {
             get {
                 return defaultInstance;
             }
@@ -36,7 +36,8 @@ namespace _3880_80_FlashStation.Output {
                                                                         <int>0</int>
                                                                         <int>0</int>
                                                                     </ArrayOfInt>")]
-        public int[] StartAddress {
+        public int[] StartAddress
+        {
             get {
                 return ((int[])(this["StartAddress"]));
             }
@@ -58,7 +59,8 @@ namespace _3880_80_FlashStation.Output {
                                                                         <int>0</int>
                                                                         <int>0</int>
                                                                     </ArrayOfInt>")]
-        public int[] EndAddress {
+        public int[] EndAddress
+        {
             get {
                 return ((int[])(this["EndAddress"]));
             }

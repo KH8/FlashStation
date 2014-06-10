@@ -167,7 +167,7 @@ namespace _3880_80_FlashStation.Visual
             MainRegistryFile.Default.Reset();
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
-            OutputCreatorFile.Default.Reset();
+            OutputHandlerFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
 
             UpdateGui();
@@ -200,7 +200,7 @@ namespace _3880_80_FlashStation.Visual
                 MainRegistryFile.Default.Reset();
                 PlcConfigurationFile.Default.Reset();
                 CommunicationInterfacePath.Default.Reset();
-                OutputCreatorFile.Default.Reset();
+                OutputHandlerFile.Default.Reset();
                 VFlashTypeBankFile.Default.Reset();
 
                 MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
@@ -215,9 +215,9 @@ namespace _3880_80_FlashStation.Visual
                 CommunicationInterfacePath.Default.Path = projectData.Path;
                 CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
 
-                OutputCreatorFile.Default.StartAddress = projectData.StartAddress;
-                OutputCreatorFile.Default.EndAddress = projectData.EndAddress;
-                OutputCreatorFile.Default.SelectedIndex = projectData.SelectedIndex;
+                OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
+                OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
+                OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
 
                 VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
 
@@ -256,9 +256,9 @@ namespace _3880_80_FlashStation.Visual
                     Path = CommunicationInterfacePath.Default.Path,
                     ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
 
-                    StartAddress = OutputCreatorFile.Default.StartAddress,
-                    EndAddress = OutputCreatorFile.Default.EndAddress,
-                    SelectedIndex = OutputCreatorFile.Default.SelectedIndex,
+                    StartAddress = OutputHandlerFile.Default.StartAddress,
+                    EndAddress = OutputHandlerFile.Default.EndAddress,
+                    SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
 
                     TypeBank = VFlashTypeBankFile.Default.TypeBank,
                 };

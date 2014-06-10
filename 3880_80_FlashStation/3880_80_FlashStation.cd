@@ -145,7 +145,7 @@
       <HashCode>AAAIAAAAAAAAAAAAAAABIAAAAAABAABAAAAAAAAAJAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="_3880_80_FlashStation.Output.OutputCreatorFile" Collapsed="true">
+  <Class Name="_3880_80_FlashStation.Output.OutputHandlerFile" Collapsed="true">
     <Position X="34.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAABAADAAAAAIAAAAAAAAA=</HashCode>

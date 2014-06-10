@@ -77,8 +77,8 @@ namespace _3880_80_FlashStation.Output
                 {
                     _outputWriter.CreateOutput(_inputComposite.Name,
                         _outputWriter.InterfaceToStrings(_inputComposite,
-                            OutputCreatorFile.Default.StartAddress[_id],
-                            OutputCreatorFile.Default.EndAddress[_id]));
+                            OutputHandlerFile.Default.StartAddress[_id],
+                            OutputHandlerFile.Default.EndAddress[_id]));
                 }
                 catch (Exception)
                 {

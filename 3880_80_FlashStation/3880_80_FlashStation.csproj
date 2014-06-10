@@ -83,10 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Output\OutputCreatorFile.Designer.cs">
+    <Compile Include="Output\OutputHandlerFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>OutputCreatorFile.settings</DependentUpon>
+      <DependentUpon>OutputHandlerFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Output\OutputHandler.cs" />
     <Compile Include="Output\OutputWriterFactory.cs" />
@@ -116,9 +116,9 @@
     <None Include="DataAquisition\DB1000_NEW.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Output\OutputCreatorFile.settings">
+    <None Include="Output\OutputHandlerFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>OutputCreatorFile.Designer.cs</LastGenOutput>
+      <LastGenOutput>OutputHandlerFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="MainRegistry\MainRegistryFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
