@@ -22,6 +22,31 @@ namespace _3880_80_FlashStation.Output {
                 return defaultInstance;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                        <string>""noName""</string>
+                                                                    </ArrayOfString>")]
+        public string[] FileNameSuffix
+        {
+            get
+            {
+                return ((string[])(this["FileNameSuffix"]));
+            }
+            set
+            {
+                this["FileNameSuffix"] = value;
+            }
+        }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -41,13 +41,15 @@ namespace _3880_80_FlashStation.Visual.Gui
             var guiOutputCreatorGrid = GuiFactory.CreateGrid();
             guiOutputCreatorGroupBox.Content = guiOutputCreatorGrid;
 
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 43, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 10, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 38, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("File Name Suffix:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 45, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 75, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", "noName", 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 43, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 73, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
 
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Output File Type:", 5, 71, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 105));
-            guiOutputCreatorGrid.Children.Add(_outputTypeComboBox = GuiFactory.CreateComboBox("OutputTypeComboBox", "Select", 130, 71, HorizontalAlignment.Left, VerticalAlignment.Top, 22, 100));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Output File Type:", 5, 106, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 105));
+            guiOutputCreatorGrid.Children.Add(_outputTypeComboBox = GuiFactory.CreateComboBox("OutputTypeComboBox", "Select", 130, 106, HorizontalAlignment.Left, VerticalAlignment.Top, 22, 100));
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
@@ -55,7 +57,15 @@ namespace _3880_80_FlashStation.Visual.Gui
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
             _outputTypeComboBox.SelectionChanged += ComboBoxOnSelectionChanged;
 
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateButton("CreateOutputButton", "CreateOutput", 130, 99, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, CreateOutput));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateButton("CreateOutputButton", "CreateOutput", 130, 136, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, CreateOutput));
+        }
+
+        private void FileNameSuffixChanged(object sender, TextChangedEventArgs e)
+        {
+            var box = (TextBox)sender;
+            try { _outputHandlerFile.FileNameSuffix[Id] = box.Text; }
+            catch (Exception) { _outputHandlerFile.FileNameSuffix[Id] = "noName"; }
+            _outputHandlerFile.Save();
         }
 
         private void ComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
