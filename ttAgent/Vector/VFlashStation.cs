@@ -95,13 +95,14 @@ namespace _ttAgent.Vector
         {
             //--- Initialize vFlash Station ---
             var resInit = VFlashStationAPI.Initialize();
-            Logger.Log("ID: " + ChannelId + " vFlash: Initialization");
+            
             if (resInit != VFlashStationResult.Success)
             {
                 string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
                 _reportErrorDelegate(0, -1, String.Format("ID: " + ChannelId + " Initialization of vFlash Station failed ({0}).", errMsg));
                 return false;
             }
+            Logger.Log("ID: " + ChannelId + " vFlash Station: Initialized");
             return true;
         }
 
@@ -109,12 +110,13 @@ namespace _ttAgent.Vector
         {
             //--- Deinitialize vFlash Station ---
             var resDeinit = VFlashStationAPI.Deinitialize();
-            Logger.Log("ID: " + ChannelId + " vFlash: Deinitialization");
+
             if (resDeinit != VFlashStationResult.Success)
             {
                 string errMsg = VFlashStationAPI.GetLastErrorMessage(-1);
                 _reportErrorDelegate(0, -1, String.Format("ID: " + ChannelId + " Deinitialization of vFlash Station during rewinding failed ({0}).", errMsg));
             }
+            Logger.Log("ID: " + ChannelId + " vFlash Station: Deinitialized");
             return true;
         }
 

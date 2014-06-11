@@ -94,8 +94,8 @@ namespace _ttAgent.Output
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("ID: " + _id + " : Output creation Failed!", "Error");
-                    Logger.Log("ID: " + _id + " : Output creation Failed");
+                    MessageBox.Show("ID: " + _id + " : Output File creation Failed!", "Error");
+                    Logger.Log("ID: " + _id + " : Output File creation Failed");
                 }
             }
         }

@@ -31,6 +31,7 @@ namespace _ttAgent.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
+            Logger.Log("Registry initialization");
             _registry = new Registry();
             _registry.Initialize();
 
@@ -222,6 +223,7 @@ namespace _ttAgent.Visual
 
                 VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
 
+                Logger.Log("Registry initialization");
                 _registry.Initialize();
 
                 UpdateGui();

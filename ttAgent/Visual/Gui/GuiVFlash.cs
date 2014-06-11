@@ -109,7 +109,7 @@ namespace _ttAgent.Visual.Gui
                 {
                     _vFlash.SetProjectPath(Id, dlg.FileName);
                     _vFlash.LoadProject(Id);
-                    Logger.Log("Path load requested by the operator");
+                    Logger.Log("Path load requested by the user");
                 }
                 catch (Exception exception) { MessageBox.Show(exception.Message, "Path Loading Failed"); }
             }
@@ -120,7 +120,7 @@ namespace _ttAgent.Visual.Gui
             try
             {
                 _vFlash.UnloadProject(Id);
-                Logger.Log("Path unload requested by the operator");
+                Logger.Log("Path unload requested by the user");
             }
             catch (Exception exception) { MessageBox.Show(exception.Message, "Path Unloading Failed"); }
         }
@@ -133,7 +133,7 @@ namespace _ttAgent.Visual.Gui
                 try
                 {
                     _vFlash.AbortFlashing(Id);
-                    Logger.Log("Flash abort requested by the operator");
+                    Logger.Log("Flash abort requested by the user");
                 }
                 catch (Exception exception)
                 {
@@ -145,7 +145,7 @@ namespace _ttAgent.Visual.Gui
                 try
                 {
                     _vFlash.StartFlashing(Id);
-                    Logger.Log("Path start requested by the operator");
+                    Logger.Log("Path start requested by the user");
                 }
                 catch (Exception exception)
                 {
@@ -167,7 +167,7 @@ namespace _ttAgent.Visual.Gui
             _vFlash.ErrorCollector.Clear();
             _windowReport.FaultListBox.Items.Clear();
             _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
-            Logger.Log("VFlash: Fault list ereased");
+            Logger.Log("VFlash: Fault list ereased by te user");
         }
 
         public override void MakeVisible()

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using _ttAgent.Log;
 using _ttAgent.Output;
 
 namespace _ttAgent.Visual.Gui
@@ -94,6 +95,7 @@ namespace _ttAgent.Visual.Gui
 
         private void CreateOutput(object sender, RoutedEventArgs e)
         {
+            Logger.Log("ID: " + Id + " : Output file creation requested by the user");
             _outputHandler.CreateOutput();
         }
 

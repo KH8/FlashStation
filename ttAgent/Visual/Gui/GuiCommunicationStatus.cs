@@ -141,20 +141,18 @@ namespace _ttAgent.Visual.Gui
             {
                 if (_plcCommunication.ConnectionStatus != 1)
                 {
+                    Logger.Log("ID: " + Id + " : Connection requested by the user");
                     _plcCommunication.OpenConnection();
-                    Logger.Log("Connected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                 }
                 else
                 {
+                    Logger.Log("ID: " + Id + " : Disconnection requested by the user");
                     _plcCommunication.CloseConnection();
-                    Logger.Log("Disconnected with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress);
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Connection Failed");
-                if (_plcCommunication != null)
-                    Logger.Log("Connection trial with IP address " + _plcCommunication.PlcConfiguration.PlcIpAddress + " failed");
             }
         }
 

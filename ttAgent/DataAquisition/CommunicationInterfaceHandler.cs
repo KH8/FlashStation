@@ -16,6 +16,7 @@ namespace _ttAgent.DataAquisition
         {
             _id = id;
             _pathFile = pathFile;
+            Logger.Log("ID: " + _id + " Communication interface component created");
         }
 
         public CommunicationInterfaceComposite ReadInterfaceComposite
@@ -31,8 +32,6 @@ namespace _ttAgent.DataAquisition
 
         public void InitializeInterface()
         {
-            Logger.Log("ID: " + _id + " Initialization of the interface");
-
             if (_pathFile.ConfigurationStatus[_id] == 1)
             {
                 try { Initialize(); }
@@ -41,7 +40,7 @@ namespace _ttAgent.DataAquisition
                     CommunicationInterfacePath.Default.ConfigurationStatus[_id] = 0;
                     CommunicationInterfacePath.Default.Save();
                     MessageBox.Show("ID: " + _id + " Interface initialization failed\nRestart application", "Initialization Failed");
-                    Logger.Log("ID: " + _id + " PLC Communication interface initialization failed");
+                    Logger.Log("ID: " + _id + " Communication interface initialization failed");
                     Environment.Exit(0);
                 }
             }
@@ -57,12 +56,11 @@ namespace _ttAgent.DataAquisition
                     _pathFile.ConfigurationStatus[_id] = 0;
                     _pathFile.Save();
                     MessageBox.Show("ID: " + _id + " Interface initialization failed\nRestart application", "Initialization Failed");
-                    Logger.Log("ID: " + _id + " PLC Communication interface initialization failed");
+                    Logger.Log("ID: " + _id + " Communication interface initialization failed");
                     Environment.Exit(0);
                 }
-                Logger.Log("ID: " + _id + " PLC Communication interface initialized with file: " + _pathFile.Path[_id]);
+                Logger.Log("ID: " + _id + " Communication interface initialized with file: " + _pathFile.Path[_id]);
             }
-            Logger.Log("ID: " + _id + " Interface Initialized");
         }
 
         internal void Initialize()

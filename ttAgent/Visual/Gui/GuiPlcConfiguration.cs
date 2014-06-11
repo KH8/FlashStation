@@ -81,7 +81,7 @@ namespace _ttAgent.Visual.Gui
 
         private void StoreSettingsButton(object sender, RoutedEventArgs e)
         {
-            Logger.Log("Communication configuration has been changed");
+            Logger.Log("Communication configuration has been changed by the user");
             StoreSettings();
         }
 

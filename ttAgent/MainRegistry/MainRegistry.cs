@@ -121,8 +121,20 @@ namespace _ttAgent.MainRegistry
             var id = (uint)PlcCommunicators.Count + 1;
             if (id > 8) { MessageBox.Show("Maximum number of Plc Communicator \ncomponents exceeded", "Component Creation Failed"); return 0; }
 
-            PlcCommunicators.Add(id, new PlcCommunicator(id, PlcConfigurationFile.Default));
-            PlcCommunicators[id].InitializeConnection();
+            try
+            {
+                Logger.Log("ID: " + id + " Creation of the PLC Connection Component");
+                PlcCommunicators.Add(id, new PlcCommunicator(id, PlcConfigurationFile.Default));
+                Logger.Log("ID: " + id + " Initialization of the PLC Connection");
+                PlcCommunicators[id].InitializeConnection();
+            }
+            catch (Exception)
+            {
+                if (PlcCommunicators[id] != null) PlcCommunicators.Remove(id);
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new PLC Connection failed");
+                return 0;
+            }
 
             PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, PlcCommunicators[id], PlcConfigurationFile.Default));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, PlcCommunicators[id]));
@@ -140,8 +152,10 @@ namespace _ttAgent.MainRegistry
             CommunicationInterfaceHandlersAssignemenTuples[id] = new Tuple<uint, uint>(plcConnectionId, 0);
             try
             {
+                Logger.Log("ID: " + id + " Creation of the Communication Interface Component");
                 CommunicationInterfaceHandlers.Add(id,
                     new CommunicationInterfaceHandler(id, CommunicationInterfacePath.Default));
+                Logger.Log("ID: " + id + " Initialization of the Communication Interface");
                 CommunicationInterfaceHandlers[id].InitializeInterface();
 
                 GuiComInterfacemunicationConfigurations.Add(id,
@@ -172,9 +186,11 @@ namespace _ttAgent.MainRegistry
             OutputHandlersAssignemenTuples[id] = new Tuple<uint, uint>(0, communicationInterfaceId);
             try
             {
+                Logger.Log("ID: " + id + " Creation of the Output Handler Component");
                 OutputHandlers.Add(id, new OutputHandler(id, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
                 GuiOutputCreators.Add(id,
                     new GuiOutputHandler(id, OutputHandlers[id], OutputHandlerFile.Default));
+                Logger.Log("ID: " + id + " Initialization of the Output Handler");
                 OutputHandlers[id].InitializeOutputHandler();
             }
             catch (Exception)
@@ -194,6 +210,7 @@ namespace _ttAgent.MainRegistry
             var id = (uint)VFlashTypeBanks.Count + 1;
             if (id > 8) { MessageBox.Show("Maximum number of vFlash Bank \ncomponents exceeded", "Component Creation Failed"); return 0; }
 
+            Logger.Log("ID: " + id + " Creation of the vFlash Bank Component");
             VFlashTypeBanks.Add(id, new VFlashTypeBank());
             GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
 
@@ -209,9 +226,11 @@ namespace _ttAgent.MainRegistry
             VFlashHandlersAssignemenTuples[id] = new Tuple<uint, uint, uint>(0, communicationInterfaceId, vFlashBankId);
             try
             {
+                Logger.Log("ID: " + id + " Creation of the vFlash Channel Component");
                 VFlashHandlers.Add(id,
                     new VFlashHandler(id, CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].ReadInterfaceComposite,
                         CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2].WriteInterfaceComposite));
+                Logger.Log("ID: " + id + " Initialization of the vFlash Channel");
                 VFlashHandlers[id].InitializeVFlash();
                 VFlashHandlers[id].VFlashTypeBank = VFlashTypeBanks[vFlashBankId];
 

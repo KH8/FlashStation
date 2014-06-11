@@ -124,8 +124,6 @@ namespace _ttAgent.PLC
 
         public void InitializeConnection()
         {
-            Logger.Log("ID: " + _id + " Initialization of PLC communication");
-
             _communicationWatchDogThread.Start();
             _dataAquisitionThread.Start();
 
@@ -228,16 +226,15 @@ namespace _ttAgent.PLC
                 if (_errorReadByteNoDave != 0 && _connectionStatus != -1)
                 {
                     CloseConnection();
+                    if (_connectionStatus != -2) Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                     _connectionStatus = -2;
-                    Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 // Writeing...
                 if (_errorWriteByteNoDave != 0 && _connectionStatus != -1)
                 {
                     CloseConnection();
+                    if (_connectionStatus != -2) Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                     _connectionStatus = -2;
-                    //throw new PlcException("Error: Can not write data to PLC.");
-                    Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                 }
                 if (_connectionStatus == -2)
                 {
