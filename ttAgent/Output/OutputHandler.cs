@@ -73,19 +73,26 @@ namespace _ttAgent.Output
         {
             string fileName = OutputHandlerFile.Default.FileNameSuffixes[_id];
             var interfaceVariable = fileName.Split('%');
-            var interfaceComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
-            if (interfaceComponent != null)
+            if (interfaceVariable.Length > 1)
             {
-                if (interfaceComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                var interfaceComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
+                if (interfaceComponent != null)
                 {
-                    var ciString = (CiString) interfaceComponent;
-                    fileName = ciString.Value;
+                    if (interfaceComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                    {
+                        var ciString = (CiString) interfaceComponent;
+                        fileName = ciString.Value;
+                    }
                 }
             }
 
             if (_outputWriter != null)
             {
-                try
+                _outputWriter.CreateOutput(fileName,
+                        _outputWriter.InterfaceToStrings(_inputComposite,
+                            OutputHandlerFile.Default.StartAddress[_id],
+                            OutputHandlerFile.Default.EndAddress[_id]));
+                /*try
                 {
                     _outputWriter.CreateOutput(fileName,
                         _outputWriter.InterfaceToStrings(_inputComposite,
@@ -96,7 +103,7 @@ namespace _ttAgent.Output
                 {
                     MessageBox.Show("ID: " + _id + " : Output File creation Failed!", "Error");
                     Logger.Log("ID: " + _id + " : Output File creation Failed");
-                }
+                }*/
             }
         }
 

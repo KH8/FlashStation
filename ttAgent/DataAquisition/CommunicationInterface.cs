@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using CsvHelper.TypeConversion;
 
 namespace _ttAgent.DataAquisition
 {
@@ -26,7 +27,9 @@ namespace _ttAgent.DataAquisition
         {
             Bit,
             Byte,
+            Char,
             Word,
+            DoubleWord,
             Integer,
             DoubleInteger,
             Real,
@@ -278,15 +281,15 @@ namespace _ttAgent.DataAquisition
 
     public class CiChar : CommunicationInterfaceVariable
     {
-        private String _value;
+        private Char _value;
 
-        public String Value
+        public Char Value
         {
             get { return _value; }
             set { _value = value; }
         }
 
-        public CiChar(string name, int pos, VariableType type, String value)
+        public CiChar(string name, int pos, VariableType type, Char value)
             : base(name, pos, type)
         {
             _value = value;
@@ -294,12 +297,13 @@ namespace _ttAgent.DataAquisition
 
         public override void ReadValue(byte[] valByte)
         {
-            _value = DataMapper.Read8Bits(valByte, Pos).ToString(CultureInfo.InvariantCulture);
+            var data = DataMapper.Read8Bits(valByte, Pos);
+            _value = Convert.ToChar(data);
         }
 
         public override void WriteValue(byte[] valByte)
         {
-            DataMapper.Write8Bits(valByte, Pos, new byte()); //todo
+            DataMapper.Write8Bits(valByte, Pos, Convert.ToByte(_value));
         }
     }
 
@@ -327,6 +331,33 @@ namespace _ttAgent.DataAquisition
         public override void WriteValue(byte[] valByte)
         {
             DataMapper.Write16Bits(valByte, Pos, _value);
+        }
+    }
+
+    public class CiDoubleWord : CommunicationInterfaceVariable
+    {
+        private BitArray _value;
+
+        public BitArray Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public CiDoubleWord(string name, int pos, VariableType type, BitArray value)
+            : base(name, pos, type)
+        {
+            _value = value;
+        }
+
+        public override void ReadValue(byte[] valByte)
+        {
+            _value = DataMapper.Read32Bits(valByte, Pos);
+        }
+
+        public override void WriteValue(byte[] valByte)
+        {
+            DataMapper.Write32Bits(valByte, Pos, _value);
         }
     }
 

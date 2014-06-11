@@ -42,41 +42,76 @@ namespace _ttAgent.Output
             var list = new List<string>();
             foreach (CommunicationInterfaceComponent variable in inputComposite.Children.Where(variable => variable.Pos >= startPos && variable.Pos < stopPos))
             {
+                byte[] data;
+                string hex;
+                string value;
                 switch (variable.Type)
                 {
                     case CommunicationInterfaceComponent.VariableType.Bit:
                         var variableCastedBit = (CiBit) variable;
-                        list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + ";" + variableCastedBit.Name + ";" + variableCastedBit.Type + ";" +
+                        list.Add(variableCastedBit.Pos + "$" + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
                                  variableCastedBit.Value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.Byte:
                         var variableCastedByte = (CiByte) variable;
-                        list.Add(variableCastedByte.Pos + ";" + variableCastedByte.Name + ";" + variableCastedByte.Type + ";" +
+                        list.Add(variableCastedByte.Pos + "$" + variableCastedByte.Name + "$" + variableCastedByte.Type + "$" +
                                  variableCastedByte.Value);
+                        break;
+                    case CommunicationInterfaceComponent.VariableType.Char:
+                        var variableCastedChar = (CiChar)variable;
+                        value = " ";
+                        if (variableCastedChar.Value != '\0')
+                        {
+                            value = variableCastedChar.Value.ToString(CultureInfo.InvariantCulture);
+                        }
+                        list.Add(variableCastedChar.Pos + "$" + variableCastedChar.Name + "$" + variableCastedChar.Type + "$" +
+                                 value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.Word:
                         var variableCastedWord = (CiWord) variable;
-                        list.Add(variableCastedWord.Pos + ";" + variableCastedWord.Name + ";" + variableCastedWord.Type + ";" +
-                                 variableCastedWord.Value);
+
+                        data = new byte[4];
+                        variableCastedWord.Value.CopyTo(data, 0);
+                        var dataShort = new byte[2];
+
+                        dataShort[0] = data[0];
+                        dataShort[1] = data[1];
+
+                        hex = BitConverter.ToString(dataShort);
+                        value = hex.Replace("-", "");
+
+                        list.Add(variableCastedWord.Pos + "$" + variableCastedWord.Name + "$" + variableCastedWord.Type + "$" +
+                                 value);
+                        break;
+                    case CommunicationInterfaceComponent.VariableType.DoubleWord:
+                        var variableCastedDoubleWord = (CiDoubleWord)variable;
+
+                        data = new byte[4];
+                        variableCastedDoubleWord.Value.CopyTo(data, 0);
+                        hex = BitConverter.ToString(data);
+                        value = hex.Replace("-", "");
+
+                        list.Add(variableCastedDoubleWord.Pos + "$" + variableCastedDoubleWord.Name + "$" + variableCastedDoubleWord.Type + "$" +
+                                 value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.Integer:
                         var variableCastedInteger = (CiInteger) variable;
-                        list.Add(variableCastedInteger.Pos + ";" + variableCastedInteger.Name + ";" + variableCastedInteger.Type + ";" +
+                        list.Add(variableCastedInteger.Pos + "$" + variableCastedInteger.Name + "$" + variableCastedInteger.Type + "$" +
                                  variableCastedInteger.Value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.DoubleInteger:
                         var variableCastedDoubleInteger = (CiDoubleInteger) variable;
-                        list.Add(variableCastedDoubleInteger.Pos + ";" + variableCastedDoubleInteger.Name + ";" + variableCastedDoubleInteger.Type + ";" +
+                        list.Add(variableCastedDoubleInteger.Pos + "$" + variableCastedDoubleInteger.Name + "$" + variableCastedDoubleInteger.Type + "$" +
                                  variableCastedDoubleInteger.Value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.Real:
                         var variableCastedReal = (CiReal) variable;
-                        list.Add(variableCastedReal.Pos + ";" + variableCastedReal.Name + ";" + variableCastedReal.Type + ";" +
+                        list.Add(variableCastedReal.Pos + "$" + variableCastedReal.Name + "$" + variableCastedReal.Type + "$" +
                                  variableCastedReal.Value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.String:
                         var variableCastedString = (CiString) variable;
-                        list.Add(variableCastedString.Pos + ";" + variableCastedString.Name + ";" + variableCastedString.Type + ";" +
+                        list.Add(variableCastedString.Pos + "$" + variableCastedString.Name + "$" + variableCastedString.Type + "$" +
                                  variableCastedString.Value);
                         break;
                 }
@@ -99,7 +134,7 @@ namespace _ttAgent.Output
 
                 foreach (string line in elementsList)
                 {
-                    string[] linecomponents = line.Split(';');
+                    string[] linecomponents = line.Split('$');
 
                     writer.WriteStartElement("Variable");
                     writer.WriteElementString("Position", linecomponents[0]);
@@ -124,7 +159,7 @@ namespace _ttAgent.Output
             using (StreamWriter streamWriter = File.AppendText(fileName))
             {
                 var writer = new CsvWriter(streamWriter);
-                writer.Configuration.Delimiter = ";";
+                writer.Configuration.Delimiter = "$";
                 foreach (string line in elementsList)
                 {
                     string[] linecomponents = line.Split(';');

@@ -13,8 +13,12 @@ namespace _ttAgent.DataAquisition
                     return new CiBit(name, pos, posBit, type, false);
                 case CommunicationInterfaceComponent.VariableType.Byte:
                     return new CiByte(name, pos, type, 0);
+                case CommunicationInterfaceComponent.VariableType.Char:
+                    return new CiChar(name, pos, type, ' ');
                 case CommunicationInterfaceComponent.VariableType.Word:
                     return new CiWord(name, pos, type, new BitArray(2));
+                case CommunicationInterfaceComponent.VariableType.DoubleWord:
+                    return new CiDoubleWord(name, pos, type, new BitArray(4));
                 case CommunicationInterfaceComponent.VariableType.Integer:
                     return new CiInteger(name, pos, type, 0);
                 case CommunicationInterfaceComponent.VariableType.DoubleInteger:

@@ -123,10 +123,13 @@ namespace _ttAgent.DataAquisition
                     variableType = CommunicationInterfaceComponent.VariableType.Byte;
                     break;
                 case "CHAR":
-                    variableType = CommunicationInterfaceComponent.VariableType.Byte;
+                    variableType = CommunicationInterfaceComponent.VariableType.Char;
                     break;
                 case "WORD":
                     variableType = CommunicationInterfaceComponent.VariableType.Word;
+                    break;
+                case "DWORD":
+                    variableType = CommunicationInterfaceComponent.VariableType.DoubleWord;
                     break;
                 case "INT":
                     variableType = CommunicationInterfaceComponent.VariableType.Integer;
@@ -135,10 +138,7 @@ namespace _ttAgent.DataAquisition
                     variableType = CommunicationInterfaceComponent.VariableType.Integer;
                     break;
                 case "DINT":
-                    variableType = CommunicationInterfaceComponent.VariableType.Real;
-                    break;
-                case "DWORD":
-                    variableType = CommunicationInterfaceComponent.VariableType.Real;
+                    variableType = CommunicationInterfaceComponent.VariableType.DoubleInteger;
                     break;
                 case "REAL":
                     variableType = CommunicationInterfaceComponent.VariableType.Real;
@@ -174,6 +174,10 @@ namespace _ttAgent.DataAquisition
                     newAddress.ByteAddress = oldAddress.ByteAddress + 2;
                     newAddress.BitAddress = 0;
                     break;
+                case "DWORD":
+                    newAddress.ByteAddress = oldAddress.ByteAddress + 4;
+                    newAddress.BitAddress = 0;
+                    break;
                 case "INT":
                     newAddress.ByteAddress = oldAddress.ByteAddress + 2;
                     newAddress.BitAddress = 0;
@@ -183,10 +187,6 @@ namespace _ttAgent.DataAquisition
                     newAddress.BitAddress = 0;
                     break;
                 case "DINT":
-                    newAddress.ByteAddress = oldAddress.ByteAddress + 4;
-                    newAddress.BitAddress = 0;
-                    break;
-                case "DWORD":
                     newAddress.ByteAddress = oldAddress.ByteAddress + 4;
                     newAddress.BitAddress = 0;
                     break;

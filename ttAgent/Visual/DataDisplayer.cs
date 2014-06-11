@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
@@ -32,8 +34,14 @@ namespace _ttAgent.Visual
                         case CommunicationInterfaceComponent.VariableType.Byte: 
                             onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiByte, communication.PlcConfiguration.PlcReadStartAddress));
                             break;
+                        case CommunicationInterfaceComponent.VariableType.Char:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiChar, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
                         case CommunicationInterfaceComponent.VariableType.Word:
                             onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiWord, communication.PlcConfiguration.PlcReadStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.DoubleWord:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleWord, communication.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Integer:
                             onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress));
@@ -61,8 +69,14 @@ namespace _ttAgent.Visual
                         case CommunicationInterfaceComponent.VariableType.Byte:
                             onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiByte, communication.PlcConfiguration.PlcWriteStartAddress));
                             break;
+                        case CommunicationInterfaceComponent.VariableType.Char:
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiChar, communication.PlcConfiguration.PlcWriteStartAddress));
+                            break;
                         case CommunicationInterfaceComponent.VariableType.Word:
                             onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiWord, communication.PlcConfiguration.PlcWriteStartAddress));
+                            break;
+                        case CommunicationInterfaceComponent.VariableType.DoubleWord:
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiDoubleWord, communication.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Integer:
                             onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communication.PlcConfiguration.PlcWriteStartAddress));
@@ -98,6 +112,25 @@ namespace _ttAgent.Visual
         {
             if (component == null) return null;
             int address = plcStartAddress + component.Pos;
+
+            var data = new byte[1];
+            data[0] = component.Value;
+            string hex = BitConverter.ToString(data);
+            string value = hex.Replace("-", "");
+
+            return new DisplayData
+            {
+                Address = "DBW " + address,
+                Name = component.Name,
+                Type = component.Type.ToString(),
+                Value = value
+            };
+        }
+
+        private static DisplayData DisplayComponent(CiChar component, int plcStartAddress)
+        {
+            if (component == null) return null;
+            int address = plcStartAddress + component.Pos;
             return new DisplayData
             {
                 Address = "DBW " + address,
@@ -111,12 +144,42 @@ namespace _ttAgent.Visual
         {
             if (component == null) return null;
             int address = plcStartAddress + component.Pos;
+
+            var data = new byte[4];
+            component.Value.CopyTo(data, 0);
+            var dataShort = new byte[2];
+
+            dataShort[0] = data[0];
+            dataShort[1] = data[1];
+
+            string hex = BitConverter.ToString(dataShort);
+            string value = hex.Replace("-", "");
+
             return new DisplayData
             {
                 Address = "DBW " + address,
                 Name = component.Name,
                 Type = component.Type.ToString(),
-                Value = component.Value.ToString()
+                Value = value
+            };
+        }
+
+        private static DisplayData DisplayComponent(CiDoubleWord component, int plcStartAddress)
+        {
+            if (component == null) return null;
+            int address = plcStartAddress + component.Pos;
+
+            var data = new byte[4];
+            component.Value.CopyTo(data, 0);
+            string hex = BitConverter.ToString(data);
+            string value = hex.Replace("-", "");
+
+            return new DisplayData
+            {
+                Address = "DBW " + address,
+                Name = component.Name,
+                Type = component.Type.ToString(),
+                Value = value
             };
         }
 
@@ -170,6 +233,22 @@ namespace _ttAgent.Visual
                 Type = component.Type.ToString(),
                 Value = component.Value.ToString(CultureInfo.InvariantCulture)
             };
+        }
+
+        static readonly char[] Hex = "0123456789ABCDEF".ToCharArray();
+
+        static string ByteToHexString(byte[] array)
+        {
+            if (array == null || array.Length < 1)
+                return String.Empty;
+            var c = new char[array.Length << 1];
+            for (int i = 0; i < array.Length; ++i)
+            {
+                byte b = array[i];
+                c[i << 1] = Hex[b >> 4];
+                c[(i << 1) | 0x01] = Hex[(b & 0x0F)];
+            }
+            return new string(c);
         }
     }
 }

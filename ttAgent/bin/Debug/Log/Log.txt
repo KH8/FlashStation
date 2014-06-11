@@ -1,48 +1,60 @@
 ﻿
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 Program Started
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 Registry initialization
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Creation of the PLC Connection Component
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Initialization of the PLC Connection
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
+ID: 1 Connected with IP address 192.168.250.1 at start up
+
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 PLC communication initialized
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 new PLC Connection have been created
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Creation of the Communication Interface Component
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Communication interface component created
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Initialization of the Communication Interface
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 new Communication Interface have been created
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Creation of the Output Handler Component
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Initialization of the Output Handler
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 Output Handler Initialized
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 ID: 1 new Output Handler have been created
 
-Log Entry : 8:47:31 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:14:58 PM Wednesday, June 11, 2014 : 
 Registry content initialized
 
-Log Entry : 8:48:01 AM Wednesday, June 11, 2014 : 
+Log Entry : 3:15:00 PM Wednesday, June 11, 2014 : 
+ID: 1 Communication with PLC IP Address : 192.168.250.1 established
+
+Log Entry : 3:15:02 PM Wednesday, June 11, 2014 : 
+ID: 1 : Output file creation requested by the user
+
+Log Entry : 3:15:02 PM Wednesday, June 11, 2014 : 
+Output\20140611_151502_IO.xml output file created
+
+Log Entry : 3:16:01 PM Wednesday, June 11, 2014 : 
 Program Closed

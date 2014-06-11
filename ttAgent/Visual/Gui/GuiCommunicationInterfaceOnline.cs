@@ -87,25 +87,25 @@ namespace _ttAgent.Visual.Gui
 
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = 70,
+                Width = 80,
                 Header = "Addr.",
                 DisplayMemberBinding = new Binding("Address")
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = (_generalGrid.Width / 2 ) - 210,
+                Width = (_generalGrid.Width / 2 ) - 280,
                 Header = "Name",
                 DisplayMemberBinding = new Binding("Name")
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = 50,
+                Width = 80,
                 Header = "Type",
                 DisplayMemberBinding = new Binding("Type")
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = 50,
+                Width = 80,
                 Header = "Value",
                 DisplayMemberBinding = new Binding("Value")
             });
@@ -128,7 +128,7 @@ namespace _ttAgent.Visual.Gui
             while (_updateThread.IsAlive)
             {
                 if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
-                Thread.Sleep(100);
+                Thread.Sleep(500);
             }
         }
     }
