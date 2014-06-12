@@ -59,13 +59,8 @@ namespace _ttAgent.Output
                         break;
                     case CommunicationInterfaceComponent.VariableType.Char:
                         var variableCastedChar = (CiChar)variable;
-                        value = " ";
-                        if (variableCastedChar.Value != '\0')
-                        {
-                            value = variableCastedChar.Value.ToString(CultureInfo.InvariantCulture);
-                        }
                         list.Add(variableCastedChar.Pos + "$" + variableCastedChar.Name + "$" + variableCastedChar.Type + "$" +
-                                 value);
+                                 variableCastedChar.Value.ToString(CultureInfo.InvariantCulture));
                         break;
                     case CommunicationInterfaceComponent.VariableType.Word:
                         var variableCastedWord = (CiWord) variable;
@@ -159,10 +154,10 @@ namespace _ttAgent.Output
             using (StreamWriter streamWriter = File.AppendText(fileName))
             {
                 var writer = new CsvWriter(streamWriter);
-                writer.Configuration.Delimiter = "$";
+                writer.Configuration.Delimiter = ";";
                 foreach (string line in elementsList)
                 {
-                    string[] linecomponents = line.Split(';');
+                    string[] linecomponents = line.Split('$');
 
                     writer.WriteField("Position"); writer.WriteField(linecomponents[0]);
                     writer.WriteField("Name"); writer.WriteField(linecomponents[1]);

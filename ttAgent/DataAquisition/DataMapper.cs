@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace _ttAgent.DataAquisition
 {
@@ -68,7 +69,10 @@ namespace _ttAgent.DataAquisition
         {
             var valChar = new char[stringLength];
             for (int i = 0; i < stringLength; i++)
+            {
                 valChar[i] = Convert.ToChar(valByte[pos + i]);
+                if (valByte[pos + i] == 0x00) valChar[i] = ' ';
+            }
             return new string(valChar);
         }
 

@@ -61,7 +61,7 @@ namespace _ttAgent.DataAquisition
                                     readByteOverloaded = true;
                                 }
                             }
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]), 0));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]), GetLength(words[1])));
                             readAddress = CreateNewAddress(readAddress, words[1]);
                             previousReadType = words[1];
                         }
@@ -97,7 +97,7 @@ namespace _ttAgent.DataAquisition
                                     writeByteOverloaded = true;
                                 }
                             }
-                        interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]), 0));
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]), GetLength(words[1])));
                             writeAddress = CreateNewAddress(writeAddress, words[1]);
                             previousWriteType = words[1];
                         }
@@ -201,6 +201,20 @@ namespace _ttAgent.DataAquisition
                     break;
             }
             return newAddress;
+        }
+
+        internal static int GetLength(string typeString)
+        {
+            var type = typeString.Split('[');
+            var length = 0;
+            switch (type[0])
+            {
+                case "STRING ":
+                    var typeExtension = type[1].Split(']');
+                    length = Convert.ToInt32(typeExtension[0]);
+                    break;
+            }
+            return length;
         }
     }
 }
