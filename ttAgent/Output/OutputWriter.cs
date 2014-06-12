@@ -81,9 +81,18 @@ namespace _ttAgent.Output
                     case CommunicationInterfaceComponent.VariableType.DoubleWord:
                         var variableCastedDoubleWord = (CiDoubleWord)variable;
 
-                        data = new byte[4];
-                        variableCastedDoubleWord.Value.CopyTo(data, 0);
-                        hex = BitConverter.ToString(data);
+                        data = new byte[8];
+                        variableCastedDoubleWord.Value[0].CopyTo(data, 0);
+                        variableCastedDoubleWord.Value[1].CopyTo(data, 2);
+
+                        dataShort = new byte[4];
+
+                        dataShort[0] = data[0];
+                        dataShort[1] = data[1];
+                        dataShort[2] = data[2];
+                        dataShort[3] = data[3];
+
+                        hex = BitConverter.ToString(dataShort);
                         value = hex.Replace("-", "");
 
                         list.Add(variableCastedDoubleWord.Pos + "$" + variableCastedDoubleWord.Name + "$" + variableCastedDoubleWord.Type + "$" +

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
@@ -168,9 +169,18 @@ namespace _ttAgent.Visual
             if (component == null) return null;
             int address = plcStartAddress + component.Pos;
 
-            var data = new byte[4];
-            component.Value.CopyTo(data, 0);
-            string hex = BitConverter.ToString(data);
+            var data = new byte[8];
+            component.Value[0].CopyTo(data, 0);
+            component.Value[1].CopyTo(data, 2);
+
+            var dataShort = new byte[4];
+
+            dataShort[0] = data[0];
+            dataShort[1] = data[1];
+            dataShort[2] = data[2];
+            dataShort[3] = data[3];
+
+            string hex = BitConverter.ToString(dataShort);
             string value = hex.Replace("-", "");
 
             return new DisplayData

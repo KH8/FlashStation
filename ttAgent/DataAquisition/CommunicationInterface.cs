@@ -334,15 +334,15 @@ namespace _ttAgent.DataAquisition
 
     public class CiDoubleWord : CommunicationInterfaceVariable
     {
-        private BitArray _value;
+        private BitArray[] _value;
 
-        public BitArray Value
+        public BitArray[] Value
         {
             get { return _value; }
             set { _value = value; }
         }
 
-        public CiDoubleWord(string name, int pos, VariableType type, BitArray value)
+        public CiDoubleWord(string name, int pos, VariableType type, BitArray[] value)
             : base(name, pos, type)
         {
             _value = value;

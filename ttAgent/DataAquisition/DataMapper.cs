@@ -20,14 +20,19 @@ namespace _ttAgent.DataAquisition
             return new BitArray(new int[] { BitConverter.ToUInt16(valByte1, 0) });
         }
 
-        public static BitArray Read32Bits(byte[] valByte, int pos)
+        public static BitArray[] Read32Bits(byte[] valByte, int pos)
         {
             var valByte1 = new byte[4];
             valByte1[0] = valByte[pos + 0];
             valByte1[1] = valByte[pos + 1];
             valByte1[2] = valByte[pos + 2];
             valByte1[3] = valByte[pos + 3];
-            return new BitArray(new int[] { BitConverter.ToUInt16(valByte1, 0) });
+
+            var bitArray = new BitArray[2];
+            bitArray[0] = new BitArray(new int[] { BitConverter.ToUInt16(valByte1, 0) });
+            bitArray[1] = new BitArray(new int[] { BitConverter.ToUInt16(valByte1, 2) });
+
+            return bitArray;
         }
 
         public static Boolean ReadSingleBit(byte[] valByte, int pos, int bitpos)
@@ -88,7 +93,7 @@ namespace _ttAgent.DataAquisition
             valByte[pos + 1] = valByte1[1];
         }
 
-        public static void Write32Bits(byte[] valByte, int pos, BitArray valBitArray)
+        public static void Write32Bits(byte[] valByte, int pos, BitArray[] valBitArray)
         {
             var valByte1 = new byte[4];
             valBitArray.CopyTo(valByte1, 0);

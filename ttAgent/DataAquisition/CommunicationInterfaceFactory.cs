@@ -18,7 +18,10 @@ namespace _ttAgent.DataAquisition
                 case CommunicationInterfaceComponent.VariableType.Word:
                     return new CiWord(name, pos, type, new BitArray(2));
                 case CommunicationInterfaceComponent.VariableType.DoubleWord:
-                    return new CiDoubleWord(name, pos, type, new BitArray(4));
+                    var bitArrays = new BitArray[2];
+                    bitArrays[0] = new BitArray(2);
+                    bitArrays[1] = new BitArray(2);
+                    return new CiDoubleWord(name, pos, type, bitArrays);
                 case CommunicationInterfaceComponent.VariableType.Integer:
                     return new CiInteger(name, pos, type, 0);
                 case CommunicationInterfaceComponent.VariableType.DoubleInteger:
