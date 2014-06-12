@@ -88,12 +88,7 @@ namespace _ttAgent.Output
 
             if (_outputWriter != null)
             {
-                _outputWriter.CreateOutput(fileName,
-                        _outputWriter.InterfaceToStrings(_inputComposite,
-                            OutputHandlerFile.Default.StartAddress[_id],
-                            OutputHandlerFile.Default.EndAddress[_id]));
-                /*try
-                {
+                try{
                     _outputWriter.CreateOutput(fileName,
                         _outputWriter.InterfaceToStrings(_inputComposite,
                             OutputHandlerFile.Default.StartAddress[_id],
@@ -103,7 +98,7 @@ namespace _ttAgent.Output
                 {
                     MessageBox.Show("ID: " + _id + " : Output File creation Failed!", "Error");
                     Logger.Log("ID: " + _id + " : Output File creation Failed");
-                }*/
+                }
             }
         }
 

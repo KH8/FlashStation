@@ -49,13 +49,19 @@ namespace _ttAgent.Output
                 {
                     case CommunicationInterfaceComponent.VariableType.Bit:
                         var variableCastedBit = (CiBit) variable;
-                        list.Add(variableCastedBit.Pos + "$" + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
+                        list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
                                  variableCastedBit.Value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.Byte:
                         var variableCastedByte = (CiByte) variable;
+
+                        data = new byte[1];
+                        data[0] = variableCastedByte.Value;
+                        hex = BitConverter.ToString(data);
+                        value = hex.Replace("-", "");
+
                         list.Add(variableCastedByte.Pos + "$" + variableCastedByte.Name + "$" + variableCastedByte.Type + "$" +
-                                 variableCastedByte.Value);
+                                 value);
                         break;
                     case CommunicationInterfaceComponent.VariableType.Char:
                         var variableCastedChar = (CiChar)variable;
