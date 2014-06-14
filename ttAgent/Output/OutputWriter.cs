@@ -151,6 +151,7 @@ namespace _ttAgent.Output
                     writer.WriteElementString("Name", linecomponents[1]);
                     writer.WriteElementString("Type", linecomponents[2]);
                     writer.WriteElementString("Value", linecomponents[3]);
+
                     writer.WriteEndElement();
                 }
 

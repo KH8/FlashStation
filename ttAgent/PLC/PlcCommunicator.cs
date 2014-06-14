@@ -214,7 +214,7 @@ namespace _ttAgent.PLC
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytesBuffer);
                     _writeBytes = _writeBytesBuffer;
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         }
 
@@ -222,6 +222,12 @@ namespace _ttAgent.PLC
         {
             while (_communicationWatchDogThread.IsAlive)
             {
+
+                if (_connectionStatus == -2)
+                {
+                    try { OpenConnection(); }
+                    catch (Exception e) { Console.WriteLine(e); }
+                }
                 // Reading...
                 if (_errorReadByteNoDave != 0 && _connectionStatus != -1)
                 {
@@ -236,12 +242,7 @@ namespace _ttAgent.PLC
                     if (_connectionStatus != -2) Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                     _connectionStatus = -2;
                 }
-                if (_connectionStatus == -2)
-                {
-                    try { OpenConnection();}
-                    catch (Exception e) { Console.WriteLine(e);}
-                }
-                Thread.Sleep(2000);
+                Thread.Sleep(200);
             }
         }
 
