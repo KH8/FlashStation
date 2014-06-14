@@ -18,6 +18,7 @@ namespace _ttAgent.DataAquisition
             valByte1[0] = valByte[pos + 0];
             valByte1[1] = valByte[pos + 1];
             return new BitArray(new int[] { BitConverter.ToUInt16(valByte1, 0) });
+
         }
 
         public static BitArray[] Read32Bits(byte[] valByte, int pos)

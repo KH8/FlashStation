@@ -42,25 +42,8 @@ namespace _ttAgent.DataAquisition
                         if (readAreaFound && words[0] == "#END") break;
                         if (readAreaFound)
                         {
-                            if (previousReadType == "BOOL")
-                            {
-                                if (words[1] != "BOOL")
-                                {
-                                    if (readByteOverloaded)
-                                    {
-                                        readAddress.ByteAddress += 1;
-                                        readByteOverloaded = false;
-                                    }
-                                    else readAddress.ByteAddress += 2;
-                                    readAddress.BitAddress = 0;
-                                }
-                                if (words[1] == "BOOL" && readAddress.BitAddress == 8)
-                                {
-                                    readAddress.ByteAddress += 1;
-                                    readAddress.BitAddress = 0;
-                                    readByteOverloaded = true;
-                                }
-                            }
+                            var readByteOverloadedAux = readByteOverloaded;
+                            readAddress = CheckRules(previousReadType, words[1], readByteOverloadedAux, readAddress, out readByteOverloaded);
                             interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]), GetLength(words[1])));
                             readAddress = CreateNewAddress(readAddress, words[1]);
                             previousReadType = words[1];
@@ -78,25 +61,8 @@ namespace _ttAgent.DataAquisition
                         if (writeAreaFound && words[0] == "#END") break;
                         if (writeAreaFound)
                         {
-                            if (previousWriteType == "BOOL")
-                            {
-                                if (words[1] != "BOOL")
-                                {
-                                    if (writeByteOverloaded)
-                                    {
-                                        writeAddress.ByteAddress += 1;
-                                        writeByteOverloaded = false;
-                                    }
-                                    else writeAddress.ByteAddress += 2;
-                                    writeAddress.BitAddress = 0;
-                                }
-                                if (words[1] == "BOOL" && writeAddress.BitAddress == 8)
-                                {
-                                    writeAddress.ByteAddress += 1;
-                                    writeAddress.BitAddress = 0;
-                                    writeByteOverloaded = true;
-                                }
-                            }
+                            var writeByteOverloadedAux = writeByteOverloaded;
+                            writeAddress = CheckRules(previousWriteType, words[1], writeByteOverloadedAux, writeAddress, out writeByteOverloaded);
                             interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]), GetLength(words[1])));
                             writeAddress = CreateNewAddress(writeAddress, words[1]);
                             previousWriteType = words[1];
@@ -215,6 +181,42 @@ namespace _ttAgent.DataAquisition
                     break;
             }
             return length;
+        }
+
+        internal static Address CheckRules(string previousType, string actualType, Boolean overloadIn, Address address, out Boolean overloadOut)
+        {
+            var newAddress = address;
+            overloadOut = overloadIn;
+
+            if (previousType == "BOOL")
+            {
+                if (actualType != "BOOL")
+                {
+                    if (overloadIn)
+                    {
+                        newAddress.ByteAddress = address.ByteAddress + 1;
+                        overloadOut = false;
+                    }
+                    else newAddress.ByteAddress = address.ByteAddress + 2;
+                    address.BitAddress = 0;
+                }
+                if (actualType == "BOOL" && address.BitAddress == 8)
+                {
+                    newAddress.ByteAddress = address.ByteAddress + 1;
+                    newAddress.BitAddress = 0;
+                    overloadOut = true;
+                }
+            }
+            if (previousType == "BYTE" || previousType == "CHAR")
+            {
+                var moduloAddress = address.ByteAddress % 2;
+                if (actualType != "BYTE" && actualType != "CHAR" && moduloAddress != 0)
+                {
+                    newAddress.ByteAddress = address.ByteAddress + 1;
+                }
+            }
+
+            return newAddress;
         }
     }
 }

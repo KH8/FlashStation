@@ -75,12 +75,21 @@ namespace _ttAgent.Output
             var interfaceVariable = fileName.Split('%');
             if (interfaceVariable.Length > 1)
             {
-                var interfaceComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
-                if (interfaceComponent != null)
+                var interfaceInputComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
+                if (interfaceInputComponent != null)
                 {
-                    if (interfaceComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                    if (interfaceInputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
                     {
-                        var ciString = (CiString) interfaceComponent;
+                        var ciString = (CiString)interfaceInputComponent;
+                        fileName = ciString.Value;
+                    }
+                }
+                var interfaceOutputComponent = _outputComposite.ReturnVariable(interfaceVariable[1]);
+                if (interfaceOutputComponent != null)
+                {
+                    if (interfaceOutputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                    {
+                        var ciString = (CiString)interfaceOutputComponent;
                         fileName = ciString.Value;
                     }
                 }
