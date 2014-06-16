@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
@@ -242,22 +241,6 @@ namespace _ttAgent.Visual
                 Type = component.Type.ToString(),
                 Value = component.Value.ToString(CultureInfo.InvariantCulture)
             };
-        }
-
-        static readonly char[] Hex = "0123456789ABCDEF".ToCharArray();
-
-        static string ByteToHexString(byte[] array)
-        {
-            if (array == null || array.Length < 1)
-                return String.Empty;
-            var c = new char[array.Length << 1];
-            for (int i = 0; i < array.Length; ++i)
-            {
-                byte b = array[i];
-                c[i << 1] = Hex[b >> 4];
-                c[(i << 1) | 0x01] = Hex[(b & 0x0F)];
-            }
-            return new string(c);
         }
     }
 }

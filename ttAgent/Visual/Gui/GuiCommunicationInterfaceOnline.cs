@@ -128,7 +128,7 @@ namespace _ttAgent.Visual.Gui
             while (_updateThread.IsAlive)
             {
                 if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
-                Thread.Sleep(500);
+                Thread.Sleep(50);
             }
         }
     }
