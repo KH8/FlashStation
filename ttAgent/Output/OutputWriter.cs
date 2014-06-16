@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 using CsvHelper;
 using _ttAgent.DataAquisition;
@@ -28,7 +29,7 @@ namespace _ttAgent.Output
                 + FillTheStringUp(DateTime.Now.Hour.ToString(CultureInfo.InvariantCulture))
                 + FillTheStringUp(DateTime.Now.Minute.ToString(CultureInfo.InvariantCulture))
                 + FillTheStringUp(DateTime.Now.Second.ToString(CultureInfo.InvariantCulture))  
-                + "_" + fixedName + "." + extension;
+                + "_" + fixedName.Trim() + "." + extension;
         }
 
         internal static string FillTheStringUp(string dateString)
@@ -150,7 +151,8 @@ namespace _ttAgent.Output
                     writer.WriteElementString("Position", linecomponents[0]);
                     writer.WriteElementString("Name", linecomponents[1]);
                     writer.WriteElementString("Type", linecomponents[2]);
-                    writer.WriteElementString("Value", linecomponents[3]);
+                    linecomponents[3] = CleanInvalidXmlChars(linecomponents[3]);
+                    writer.WriteElementString("Value", linecomponents[3].Trim());
 
                     writer.WriteEndElement();
                 }
@@ -159,6 +161,12 @@ namespace _ttAgent.Output
                 writer.WriteEndDocument();
             }
             Logger.Log(fileName + " output file created");
+        }
+
+        internal static string CleanInvalidXmlChars(string text)
+        {
+            const string re = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
+            return Regex.Replace(text, re, "");
         }
     }
 
@@ -178,7 +186,7 @@ namespace _ttAgent.Output
                     writer.WriteField("Position"); writer.WriteField(linecomponents[0]);
                     writer.WriteField("Name"); writer.WriteField(linecomponents[1]);
                     writer.WriteField("Type"); writer.WriteField(linecomponents[2]);
-                    writer.WriteField("Value"); writer.WriteField(linecomponents[3]);
+                    writer.WriteField("Value"); writer.WriteField(linecomponents[3].Trim());
                     writer.NextRecord();
                 }
                 streamWriter.Close();

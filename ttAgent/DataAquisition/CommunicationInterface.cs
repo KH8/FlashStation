@@ -296,7 +296,6 @@ namespace _ttAgent.DataAquisition
         {
             var data = DataMapper.Read8Bits(valByte, Pos);
             _value = Convert.ToChar(data);
-            if (_value == '\0') _value = ' ';
         }
 
         public override void WriteValue(byte[] valByte)
