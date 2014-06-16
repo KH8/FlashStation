@@ -159,7 +159,9 @@ namespace _ttAgent.MainRegistry
                 CommunicationInterfaceHandlers[id].InitializeInterface();
 
                 GuiComInterfacemunicationConfigurations.Add(id,
-                    new GuiComInterfacemunicationConfiguration(id, CommunicationInterfaceHandlers[id],
+                    new GuiComInterfacemunicationConfiguration(id, 
+                        PlcCommunicators[CommunicationInterfaceHandlersAssignemenTuples[id].Item1],
+                        CommunicationInterfaceHandlers[id],
                         CommunicationInterfacePath.Default));
                 GuiCommunicationInterfaceOnlines.Add(id,
                     new GuiCommunicationInterfaceOnline(id,

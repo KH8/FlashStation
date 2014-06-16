@@ -197,6 +197,8 @@ namespace _ttAgent.PLC
             {
                 _daveConnection.disconnectPLC();
                 libnodave.closeSocket(_daveOSserialType.rfd);
+                _errorReadByteNoDave = 0;
+                _errorWriteByteNoDave = 0;
             }
             Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was closed");
         }
@@ -222,7 +224,6 @@ namespace _ttAgent.PLC
         {
             while (_communicationWatchDogThread.IsAlive)
             {
-
                 if (_connectionStatus == -2)
                 {
                     try { OpenConnection(); }

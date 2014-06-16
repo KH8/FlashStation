@@ -67,11 +67,12 @@ namespace _ttAgent.DataAquisition
 
     public class CommunicationInterfaceComposite : CommunicationInterfaceComponent
     {
-        private readonly List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
+        private List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
 
         public List<CommunicationInterfaceComponent> Children
         {
             get { return _children; }
+            set { _children = value; }
         }
 
         // Constructor

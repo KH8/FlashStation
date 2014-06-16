@@ -58,8 +58,7 @@ namespace _ttAgent.Output
 
         public void InitializeOutputHandler()
         {
-            try { CheckInterface(); }
-            catch (Exception)
+            if( !CheckInterface())
             {
                 MessageBox.Show("ID: " + _id + " Output Handler initialization failed", "Output Handler Failed");
                 throw new OutputHandlerException("Output Handler initialization failed");
@@ -126,13 +125,15 @@ namespace _ttAgent.Output
 
             while (_outputThread.IsAlive)
             {
-                var inputCompositeCommand = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
-                
                 _pcControlModeChangeAllowed = false;
 
                 Int16 antwort;
                 Int16 status;
+
                 if (!_pcControlMode && CheckInterface())
+                {
+                    var inputCompositeCommand = (CiInteger) _inputComposite.ReturnVariable("BEFEHL");
+
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
@@ -151,6 +152,7 @@ namespace _ttAgent.Output
                             status = 0;
                             break;
                     }
+                }
                 else
                 {
                     antwort = 999;
@@ -158,7 +160,7 @@ namespace _ttAgent.Output
                     _pcControlModeChangeAllowed = true;
                 }
 
-                if (_outputComposite != null)
+                if (_outputComposite != null && CheckInterface())
                 {
                     _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
@@ -181,19 +183,13 @@ namespace _ttAgent.Output
         private Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
-            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
-                throw new OutputHandlerException("The assigned interface does not contain a required component");
-
+            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
             component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
-            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
-                throw new OutputHandlerException("The assigned interface does not contain a required component");
+            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
             component = _outputComposite.ReturnVariable("ANTWORT");
-            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
-                throw new OutputHandlerException("The assigned interface does not contain a required component");
+            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
             component = _outputComposite.ReturnVariable("STATUS");
-            if (component.Type != CommunicationInterfaceComponent.VariableType.Integer)
-                throw new OutputHandlerException("The assigned interface does not contain a required component");
-
+            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
             return true;
         }
 

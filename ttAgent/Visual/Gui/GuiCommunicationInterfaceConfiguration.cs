@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using _ttAgent.DataAquisition;
 using _ttAgent.Log;
+using _ttAgent.PLC;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -10,10 +13,14 @@ namespace _ttAgent.Visual.Gui
     {
         private Grid _generalGrid;
 
+        private readonly PlcCommunicator _plcCommunicator;
         private readonly CommunicationInterfaceHandler _communicationHandler;
         private readonly CommunicationInterfacePath _communicationInterfacePath;
 
+        private Button _loadFileButton = new Button();
         private TextBox _interfacePathBox = new TextBox();
+
+        private readonly Thread _updateThread;
 
         public Grid GeneralGrid
         {
@@ -21,12 +28,18 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiComInterfacemunicationConfiguration(uint id, CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath)
+        public GuiComInterfacemunicationConfiguration(uint id, PlcCommunicator plcCommunicator, CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath)
         {
             Id = id;
 
+            _plcCommunicator = plcCommunicator;
             _communicationHandler = communicationHandler;
             _communicationInterfacePath = communicationInterfacePath;
+
+            _updateThread = new Thread(Update);
+            _updateThread.SetApartmentState(ApartmentState.STA);
+            _updateThread.IsBackground = true;
+            _updateThread.Start();
         }
 
         public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
@@ -50,7 +63,7 @@ namespace _ttAgent.Visual.Gui
             string[] words = _communicationInterfacePath.Path[Id].Split('\\');
             _interfacePathBox.Text = words[words.Length - 1];
 
-            grid.Children.Add(GuiFactory.CreateButton("LoadFileButton", "Load File", 0, 62, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
+            grid.Children.Add(_loadFileButton = GuiFactory.CreateButton("LoadFileButton", "Load File", 0, 62, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
         }
 
         private void LoadSettingFile(object sender, RoutedEventArgs e)
@@ -65,12 +78,13 @@ namespace _ttAgent.Visual.Gui
             {
                 _communicationInterfacePath.Path[Id] = dlg.FileName;
 
-                try { _communicationHandler.Initialize(); }
+                _communicationHandler.Initialize();
+                /*try { _communicationHandler.Initialize(); }
                 catch (Exception)
                 {
                     MessageBox.Show("Input file cannot be used", "Error");
                     return;
-                }
+                }*/
 
                 _communicationInterfacePath.ConfigurationStatus[Id] = 1;
                 _communicationInterfacePath.Save();
@@ -89,6 +103,15 @@ namespace _ttAgent.Visual.Gui
         public override void MakeInvisible()
         {
             _generalGrid.Visibility = Visibility.Hidden;
+        }
+
+        public void Update()
+        {
+            while (_updateThread.IsAlive)
+            {
+                _loadFileButton.Dispatcher.BeginInvoke((new Action(delegate { _loadFileButton.IsEnabled = _plcCommunicator.ConnectionStatus != 1; })));
+                Thread.Sleep(21);
+            }
         }
     }
 }
