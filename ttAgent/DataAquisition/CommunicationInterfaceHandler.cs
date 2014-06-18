@@ -66,19 +66,9 @@ namespace _ttAgent.DataAquisition
         internal void Initialize()
         {
             var readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile);
-            if (_readInterfaceComposite != null)
-            {
-                _readInterfaceComposite.Children.Clear();
-                _readInterfaceComposite.Children = readInterfaceComposite.Children;
-            }
-            else _readInterfaceComposite = readInterfaceComposite;
+            _readInterfaceComposite = readInterfaceComposite; //todo
             var writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
-            if (_writeInterfaceComposite != null)
-            {
-                _writeInterfaceComposite.Children.Clear();
-                _writeInterfaceComposite.Children = writeInterfaceComposite.Children;
-            }
-            _writeInterfaceComposite = writeInterfaceComposite;
+            _writeInterfaceComposite = writeInterfaceComposite; //todo
         }
 
         public void MaintainConnection(PlcCommunicator communication)
