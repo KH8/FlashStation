@@ -29,9 +29,9 @@ namespace _ttAgent.PLC
         private int _errorWriteByteNoDave;
 
         // NoDave variables
-        private static libnodave.daveOSserialType _daveOSserialType;
-        private static libnodave.daveInterface _daveInterface;
-        private static libnodave.daveConnection _daveConnection;
+        private libnodave.daveOSserialType _daveOSserialType;
+        private libnodave.daveInterface _daveInterface;
+        private libnodave.daveConnection _daveConnection;
 
         //Threads
         private readonly Thread _communicationWatchDogThread;
