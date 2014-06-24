@@ -96,10 +96,6 @@ namespace _ttAgent.Output
 
             if (_outputWriter != null)
             {
-                _outputWriter.CreateOutput(fileName,
-                        _outputWriter.InterfaceToStrings(_inputComposite,
-                            OutputHandlerFile.Default.StartAddress[_id],
-                            OutputHandlerFile.Default.EndAddress[_id]));
                 try{
                     _outputWriter.CreateOutput(fileName,
                         _outputWriter.InterfaceToStrings(_inputComposite,

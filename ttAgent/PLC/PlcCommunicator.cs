@@ -29,9 +29,9 @@ namespace _ttAgent.PLC
         private int _errorWriteByteNoDave;
 
         // NoDave variables
-        private libnodave.daveOSserialType _daveOSserialType;
-        private libnodave.daveInterface _daveInterface;
-        private libnodave.daveConnection _daveConnection;
+        private static libnodave.daveOSserialType _daveOSserialType;
+        private static libnodave.daveInterface _daveInterface;
+        private static libnodave.daveConnection _daveConnection;
 
         //Threads
         private readonly Thread _communicationWatchDogThread;
@@ -211,10 +211,11 @@ namespace _ttAgent.PLC
                 {
                     // Reading...
                     _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytesBuffer);
-                    _readBytes = _readBytesBuffer;
+                    if (_errorReadByteNoDave == 0) _readBytes = _readBytesBuffer;
+                    Thread.Sleep(10);
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytesBuffer);
-                    _writeBytes = _writeBytesBuffer;
+                    if (_errorWriteByteNoDave == 0) _writeBytes = _writeBytesBuffer;
                 }
                 Thread.Sleep(10);
             }
@@ -243,7 +244,7 @@ namespace _ttAgent.PLC
                     if (_connectionStatus != -2) Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
                     _connectionStatus = -2;
                 }
-                Thread.Sleep(200);
+                Thread.Sleep(1000);
             }
         }
 
