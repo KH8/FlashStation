@@ -1,20 +1,17 @@
 ﻿using System.Windows.Controls;
+using Microsoft.Win32;
+using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Visual.Gui
 {
     #region Abstract Class
 
-    internal abstract class Gui
+    internal abstract class Gui : RegistryComponent
     {
-        private uint _id;
         private int _xPosition;
         private int _yPosition;
 
-        public uint Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        protected Gui(uint id, string name) : base(id, name){}
 
         public int XPosition
         {

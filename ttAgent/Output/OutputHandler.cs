@@ -3,21 +3,18 @@ using System.Threading;
 using System.Windows;
 using _ttAgent.DataAquisition;
 using _ttAgent.Log;
+using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Output
 {
-    class OutputHandler
+    class OutputHandler : RegistryComponent
     {
         #region Variables
 
-        private readonly uint _id;
         private Boolean _pcControlMode;
         private Boolean _pcControlModeChangeAllowed;
 
         private OutputWriter _outputWriter;
-
-        private readonly CommunicationInterfaceComposite _inputComposite;
-        private readonly CommunicationInterfaceComposite _outputComposite;
 
         private readonly Thread _outputThread;
 
@@ -37,15 +34,15 @@ namespace _ttAgent.Output
             set { _outputWriter = value; }
         }
 
+        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
+
         #endregion
 
         #region Constructor
 
-        public OutputHandler(uint id, CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
+        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
         {
-            _id = id;
-            _inputComposite = inputComposite;
-            _outputComposite = outputComposite;
+            CommunicationInterfaceHandler = communicationInterfaceHandler;
 
             _outputThread = new Thread(OutputCommunicationThread);
             _outputThread.SetApartmentState(ApartmentState.STA);
@@ -60,21 +57,21 @@ namespace _ttAgent.Output
         {
             if( !CheckInterface())
             {
-                MessageBox.Show("ID: " + _id + " Output Handler initialization failed", "Output Handler Failed");
+                MessageBox.Show("ID: " + Header.Id + " Output Handler initialization failed", "Output Handler Failed");
                 throw new OutputHandlerException("Output Handler initialization failed");
             }
 
             _outputThread.Start();
-            Logger.Log("ID: " + _id + " Output Handler Initialized");
+            Logger.Log("ID: " + Header.Id + " Output Handler Initialized");
         }
 
         public void CreateOutput()
         {
-            string fileName = OutputHandlerFile.Default.FileNameSuffixes[_id];
+            string fileName = OutputHandlerFile.Default.FileNameSuffixes[Header.Id];
             var interfaceVariable = fileName.Split('%');
             if (interfaceVariable.Length > 1)
             {
-                var interfaceInputComponent = _inputComposite.ReturnVariable(interfaceVariable[1]);
+                var interfaceInputComponent = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(interfaceVariable[1]);
                 if (interfaceInputComponent != null)
                 {
                     if (interfaceInputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
@@ -83,7 +80,7 @@ namespace _ttAgent.Output
                         fileName = ciString.Value;
                     }
                 }
-                var interfaceOutputComponent = _outputComposite.ReturnVariable(interfaceVariable[1]);
+                var interfaceOutputComponent = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(interfaceVariable[1]);
                 if (interfaceOutputComponent != null)
                 {
                     if (interfaceOutputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
@@ -98,14 +95,14 @@ namespace _ttAgent.Output
             {
                 try{
                     _outputWriter.CreateOutput(fileName,
-                        _outputWriter.InterfaceToStrings(_inputComposite,
-                            OutputHandlerFile.Default.StartAddress[_id],
-                            OutputHandlerFile.Default.EndAddress[_id]));
+                        _outputWriter.InterfaceToStrings(CommunicationInterfaceHandler.ReadInterfaceComposite,
+                            OutputHandlerFile.Default.StartAddress[Header.Id],
+                            OutputHandlerFile.Default.EndAddress[Header.Id]));
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("ID: " + _id + " : Output File creation Failed!", "Error");
-                    Logger.Log("ID: " + _id + " : Output File creation Failed");
+                    MessageBox.Show("ID: " + Header.Id + " : Output File creation Failed!", "Error");
+                    Logger.Log("ID: " + Header.Id + " : Output File creation Failed");
                 }
             }
         }
@@ -128,14 +125,14 @@ namespace _ttAgent.Output
 
                 if (!_pcControlMode && CheckInterface())
                 {
-                    var inputCompositeCommand = (CiInteger) _inputComposite.ReturnVariable("BEFEHL");
+                    var inputCompositeCommand = (CiInteger) CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
 
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
                             if (caseAuxiliary != 100)
                             {
-                                Logger.Log("ID: " + _id + " : Output file creation requested from PLC");
+                                Logger.Log("ID: " + Header.Id + " : Output file creation requested from PLC");
                                 CreateOutput();
                             }
                             caseAuxiliary = 100;
@@ -156,12 +153,12 @@ namespace _ttAgent.Output
                     _pcControlModeChangeAllowed = true;
                 }
 
-                if (_outputComposite != null && CheckInterface())
+                if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())
                 {
-                    _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
-                    _outputComposite.ModifyValue("ANTWORT", antwort);
-                    _outputComposite.ModifyValue("STATUS", status);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("ANTWORT", antwort);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("STATUS", status);
                 }
                 Thread.Sleep(200);
             }
@@ -178,13 +175,13 @@ namespace _ttAgent.Output
 
         private Boolean CheckInterface()
         {
-            CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
+            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
-            component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("LEBENSZAECHLER");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
-            component = _outputComposite.ReturnVariable("ANTWORT");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("ANTWORT");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
-            component = _outputComposite.ReturnVariable("STATUS");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("STATUS");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
             return true;
         }

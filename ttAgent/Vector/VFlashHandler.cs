@@ -4,23 +4,20 @@ using System.Threading;
 using System.Windows;
 using _ttAgent.DataAquisition;
 using _ttAgent.Log;
+using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Vector
 {
-    class VFlashHandler
+    class VFlashHandler : RegistryComponent
     {
         #region Variables
 
-        private readonly uint _id;
         private Boolean _pcControlMode;
         private Boolean _pcControlModeChangeAllowed;
 
         private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _vFlashErrorCollector;
         private VFlashTypeBank _vFlashTypeBank;
-
-        private readonly CommunicationInterfaceComposite _inputComposite;
-        private readonly CommunicationInterfaceComposite _outputComposite;
 
         private readonly Thread _vFlashThread;
 
@@ -45,21 +42,21 @@ namespace _ttAgent.Vector
             set { _vFlashTypeBank = value; }
         }
 
+        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
+
         #endregion
 
         #region Constructor
 
-        public VFlashHandler(uint id, CommunicationInterfaceComposite inputComposite, CommunicationInterfaceComposite outputComposite)
+        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
         {
-            _id = id;
-            _inputComposite = inputComposite;
-            _outputComposite = outputComposite;
+            CommunicationInterfaceHandler = communicationInterfaceHandler;
 
             _vFlashErrorCollector = new VFlashErrorCollector();
-            _vFlashStationController = new VFlashStationController(ReportError, _id);
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", _id));
+            _vFlashStationController = new VFlashStationController(ReportError, Header.Id);
+            _vFlashStationController.Add(new VFlashChannel(ReportError, "", Header.Id));
 
-            _vFlashTypeBank = new VFlashTypeBank();
+            _vFlashTypeBank = new VFlashTypeBank(id, "VFLASH_BANK__" + id);
             _vFlashErrorCollector = new VFlashErrorCollector();
 
             _vFlashThread = new Thread(VFlashPlcCommunicationThread);
@@ -80,12 +77,12 @@ namespace _ttAgent.Vector
             }
             catch (Exception)
             {
-                MessageBox.Show("ID: " + _id + " VFlash initialization failed", "VFlash Failed");
+                MessageBox.Show("ID: " + Header.Id + " VFlash initialization failed", "VFlash Failed");
                 throw new FlashHandlerException("VFlash initialization failed");
             }
 
             _vFlashThread.Start();
-            Logger.Log("ID: " + _id + " vFlash Initialized");
+            Logger.Log("ID: " + Header.Id + " vFlash Initialized");
         }
 
         public void LoadProject(uint chanId)
@@ -101,8 +98,8 @@ namespace _ttAgent.Vector
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be unloaded was not found");
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
 
-            if (_outputComposite != null)
-                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
         }
 
         public void StartFlashing(uint chanId)
@@ -124,10 +121,10 @@ namespace _ttAgent.Vector
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be aborted was not found");
             channelFound.FlashProjectPath = projectPath;
-            Logger.Log("ID: " + _id + " VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
+            Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
 
-            if (_outputComposite != null)
-                _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
         }
 
         public VFlashChannel ReturnChannelSetup(uint chanId)
@@ -160,15 +157,15 @@ namespace _ttAgent.Vector
 
                 if (channelFound != null && !_pcControlMode && CheckInterface())
                 {
-                    var inputCompositeCommand = (CiInteger)_inputComposite.ReturnVariable("BEFEHL");
-                    var inputCompositeProgrammTyp = (CiInteger)_inputComposite.ReturnVariable("PROGRAMMTYP");
+                    var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
+                    var inputCompositeProgrammTyp = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("PROGRAMMTYP");
 
                     switch (inputCompositeCommand.Value)
                     {
                         case 100:
                             if (caseAuxiliary != 100)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Path change requested from PLC");
                                 var returnedPath =
                                     _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
@@ -181,7 +178,7 @@ namespace _ttAgent.Vector
                                 }
                                 else
                                 {
-                                    Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                    Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                                " : Path change requested failed");
                                     programActive = 0;
                                     antwort = 999;
@@ -192,12 +189,12 @@ namespace _ttAgent.Vector
                         case 200:
                             if (caseAuxiliary != 200)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Path load requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
                                 Thread.Sleep(200);
                             }
-                            if (_outputComposite != null)
+                            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Loaded) antwort = 200;
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -207,12 +204,12 @@ namespace _ttAgent.Vector
                         case 300:
                             if (caseAuxiliary != 300)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Path unload requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
                                 Thread.Sleep(200);
                             }
-                            if (_outputComposite != null)
+                            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded)
                                 {
@@ -226,12 +223,12 @@ namespace _ttAgent.Vector
                         case 400:
                             if (caseAuxiliary != 400)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Flashing requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Start);
                                 Thread.Sleep(200);
                             }
-                            if (_outputComposite != null)
+                            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Flashed) antwort = 400;
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -241,12 +238,12 @@ namespace _ttAgent.Vector
                         case 500:
                             if (caseAuxiliary != 500)
                             {
-                                Logger.Log("ID: " + _id + " VFlash: Channel nr. " + channelFound.ChannelId +
+                                Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Flashing abort requested from PLC");
                                 channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Abort);
                                 Thread.Sleep(200);
                             }
-                            if (_outputComposite != null)
+                            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Aborted) antwort = 500;
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -310,14 +307,14 @@ namespace _ttAgent.Vector
                             _pcControlModeChangeAllowed = true;
                             break;
                     }
-                if (_outputComposite != null && CheckInterface())
+                if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())
                 {
-                    _outputComposite.ModifyValue("LEBENSZAECHLER", counter);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("LEBENSZAECHLER", counter);
                     counter++;
-                    _outputComposite.ModifyValue("ANTWORT", antwort);
-                    _outputComposite.ModifyValue("STATUS", statusInt);
-                    _outputComposite.ModifyValue("PROGRAMMTYPAKTIV", programActive);
-                    _outputComposite.ModifyValue("VERSION", version);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("ANTWORT", antwort);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("STATUS", statusInt);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("PROGRAMMTYPAKTIV", programActive);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("VERSION", version);
                 }
                 Thread.Sleep(200);
             }
@@ -335,7 +332,7 @@ namespace _ttAgent.Vector
         internal void ReportError(uint channelId, long handle, string errorMessage)
         {
             ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
-            Logger.Log("ID: " + _id + " VFlash: Fault on Channel nr. " + channelId + " : " + errorMessage);
+            Logger.Log("ID: " + Header.Id + " VFlash: Fault on Channel nr. " + channelId + " : " + errorMessage);
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == channelId);
             if (channelFound != null)
             {
@@ -346,28 +343,28 @@ namespace _ttAgent.Vector
 
         private Boolean CheckInterface()
         {
-            CommunicationInterfaceComponent component = _inputComposite.ReturnVariable("BEFEHL");
+            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = _inputComposite.ReturnVariable("PROGRAMMTYP");
+            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("PROGRAMMTYP");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = _outputComposite.ReturnVariable("LEBENSZAECHLER");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("LEBENSZAECHLER");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = _outputComposite.ReturnVariable("ANTWORT");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("ANTWORT");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = _outputComposite.ReturnVariable("STATUS");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("STATUS");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = _outputComposite.ReturnVariable("PROGRAMMTYPAKTIV");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("PROGRAMMTYPAKTIV");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = _outputComposite.ReturnVariable("VERSION");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("VERSION");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.String)
                 return false;
-            component = _outputComposite.ReturnVariable("FEHLERCODE");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("FEHLERCODE");
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
 

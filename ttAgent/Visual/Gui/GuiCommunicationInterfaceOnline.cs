@@ -33,9 +33,8 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationInterfaceOnline(uint id, PlcCommunicator plcCommunication, CommunicationInterfaceHandler communicationInterfaceHandler)
+        public GuiCommunicationInterfaceOnline(uint id, string name, PlcCommunicator plcCommunication, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
         {
-            Id = id;
             _plcCommunication = plcCommunication;
             _communicationInterfaceHandler = communicationInterfaceHandler;
             

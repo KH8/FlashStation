@@ -1,22 +1,36 @@
 ﻿using System;
 using System.Threading;
 using _ttAgent.Log;
+using _ttAgent.MainRegistry;
 
 namespace _ttAgent.PLC
 {
-    public class PlcCommunicator : PlcCommunicatorBase
+    public class PlcCommunicator : RegistryComponent
     {
+        [Serializable]
+        public struct PlcConfig
+        {
+            public string PlcIpAddress;
+            public int PlcPortNumber;
+            public int PlcRackNumber;
+            public int PlcSlotNumber;
+            public int PlcReadDbNumber;
+            public int PlcReadStartAddress;
+            public int PlcReadLength;
+            public int PlcWriteDbNumber;
+            public int PlcWriteStartAddress;
+            public int PlcWriteLength;
+            public int PlcConfigurationStatus;
+        }
+
         #region Variables
         
         //Private
         //Status
-        private readonly uint _id;
         private int _connectionStatus;
         private int _configurationStatus;
 
         //Configuration
-        private PlcConfig _plcConfiguration;
-        private readonly PlcConfigurationFile _plcConfigurationFile;
 
         //Data buffers
         private byte[] _readBytes;
@@ -55,12 +69,12 @@ namespace _ttAgent.PLC
             set { _configurationStatus = value; }
         }
 
-        public PlcConfig PlcConfiguration
-        {
-            get { return _plcConfiguration; }
-            set { _plcConfiguration = value; }
-        }
+        //Configuration
+        public PlcConfig PlcConfiguration { get; set; }
 
+        public PlcConfigurationFile PlcConfigurationFile { get; set; }
+        
+        //Methods
         public byte[] ReadBytes
         {
             get
@@ -69,8 +83,8 @@ namespace _ttAgent.PLC
                 {
                     return _readBytes;
                 }
-                Logger.Log("ID: " + _id + " Connection failed: Plc communication is not configured.");
-                throw new PlcException("ID: " + _id + " Error: Plc communication is not configured.");
+                Logger.Log("ID: " + Header.Id + " Connection failed: Plc communication is not configured.");
+                throw new PlcException("ID: " + Header.Id + " Error: Plc communication is not configured.");
             }
         }
 
@@ -82,8 +96,8 @@ namespace _ttAgent.PLC
                 {
                     return _writeBytes;
                 }
-                Logger.Log("ID: " + _id + " Connection failed: Plc communication is not configured.");
-                throw new PlcException("ID: " + _id + " Error: Plc communication is not configured.");
+                Logger.Log("ID: " + Header.Id + " Connection failed: Plc communication is not configured.");
+                throw new PlcException("ID: " + Header.Id + " Error: Plc communication is not configured.");
             }
             set { _writeBytes = value; }
         }
@@ -92,18 +106,16 @@ namespace _ttAgent.PLC
 
         #region Constructor
 
-        public PlcCommunicator(uint id, PlcConfigurationFile plcConfigurationFile)
+        public PlcCommunicator(uint id, string name, PlcConfigurationFile plcConfigurationFile) : base(id, name)
         {
-            _id = id;
-
             _readBytes = null;
             _writeBytes = null;
             _readBytesBuffer = null;
             _writeBytesBuffer = null;
 
             //Init Properties
-            _plcConfigurationFile = plcConfigurationFile;
-            _plcConfiguration = plcConfigurationFile.Configuration[_id];
+            PlcConfigurationFile = plcConfigurationFile;
+            PlcConfiguration = plcConfigurationFile.Configuration[Header.Id];
             _connectionStatus = -1;
             _configurationStatus = -1;
 
@@ -127,14 +139,14 @@ namespace _ttAgent.PLC
             _communicationWatchDogThread.Start();
             _dataAquisitionThread.Start();
 
-            if (!_plcConfigurationFile.ConnectAtStartUp[_id] || _connectionStatus == 1)
+            if (!PlcConfigurationFile.ConnectAtStartUp[Header.Id] || _connectionStatus == 1)
             {
-                Logger.Log("ID: " + _id + " PLC communication initialized");
+                Logger.Log("ID: " + Header.Id + " PLC communication initialized");
                 return;
             }
             _connectionStatus = -2;
-            Logger.Log("ID: " + _id + " Connected with IP address " + _plcConfiguration.PlcIpAddress + " at start up");//*/
-            Logger.Log("ID: " + _id + " PLC communication initialized");
+            Logger.Log("ID: " + Header.Id + " Connected with IP address " + PlcConfiguration.PlcIpAddress + " at start up");//*/
+            Logger.Log("ID: " + Header.Id + " PLC communication initialized");
         }
 
         public void SetupConnection(PlcConfig configuration)
@@ -145,11 +157,11 @@ namespace _ttAgent.PLC
             }
             else
             {
-                _plcConfiguration = configuration;
-                _readBytesBuffer = new byte[_plcConfiguration.PlcReadLength];
-                _writeBytesBuffer = new byte[_plcConfiguration.PlcWriteLength];
-                _readBytes = new byte[_plcConfiguration.PlcReadLength];
-                _writeBytes = new byte[_plcConfiguration.PlcWriteLength];
+                PlcConfiguration = configuration;
+                _readBytesBuffer = new byte[PlcConfiguration.PlcReadLength];
+                _writeBytesBuffer = new byte[PlcConfiguration.PlcWriteLength];
+                _readBytes = new byte[PlcConfiguration.PlcReadLength];
+                _writeBytes = new byte[PlcConfiguration.PlcWriteLength];
                 _configurationStatus = 1;
             }
         }
@@ -159,33 +171,33 @@ namespace _ttAgent.PLC
             // Check if configuration is done
             if (_configurationStatus != 1)
             {
-                Logger.Log("ID: " + _id + " Connection failed: Plc communication is not configured.");
-                throw new PlcException("ID: " + _id + " Error: Plc communication is not configured.");
+                Logger.Log("ID: " + Header.Id + " Connection failed: Plc communication is not configured.");
+                throw new PlcException("ID: " + Header.Id + " Error: Plc communication is not configured.");
             }
             // Open connection only if was closed
             if (_connectionStatus != 1)
             {
-                _daveOSserialType.rfd = libnodave.openSocket(_plcConfiguration.PlcPortNumber, _plcConfiguration.PlcIpAddress);
+                _daveOSserialType.rfd = libnodave.openSocket(PlcConfiguration.PlcPortNumber, PlcConfiguration.PlcIpAddress);
                 _daveOSserialType.wfd = _daveOSserialType.rfd;
                 if (_daveOSserialType.rfd > 0)
                 {
                     _daveInterface = new libnodave.daveInterface(_daveOSserialType, "IF1", 0, libnodave.daveProtoISOTCP, libnodave.daveSpeed187k);
                     _daveInterface.setTimeout(10000); // orginal was:1000000
-                    _daveConnection = new libnodave.daveConnection(_daveInterface, 0, _plcConfiguration.PlcRackNumber, _plcConfiguration.PlcSlotNumber);
+                    _daveConnection = new libnodave.daveConnection(_daveInterface, 0, PlcConfiguration.PlcRackNumber, PlcConfiguration.PlcSlotNumber);
 
                     if (_daveConnection.connectPLC() == 0)
                     {
                         _connectionStatus = 1;
-                        Logger.Log("ID: " + _id + " Communication with PLC IP Address : " +
-                                   _plcConfiguration.PlcIpAddress + " established");
+                        Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " +
+                                   PlcConfiguration.PlcIpAddress + " established");
                     }
                     else
                         _connectionStatus = -1;
                 }
                 else
                 {
-                    Logger.Log("ID: " + _id + " Connection failed: Can not open connection to PLC.");
-                    throw new PlcException("ID: " + _id + " Error: Can not open connection to PLC.");
+                    Logger.Log("ID: " + Header.Id + " Connection failed: Can not open connection to PLC.");
+                    throw new PlcException("ID: " + Header.Id + " Error: Can not open connection to PLC.");
                 }
             }
         }
@@ -200,7 +212,7 @@ namespace _ttAgent.PLC
                 _errorReadByteNoDave = 0;
                 _errorWriteByteNoDave = 0;
             }
-            Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was closed");
+            Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was closed");
         }
 
         private void DataAquisition()
@@ -210,11 +222,11 @@ namespace _ttAgent.PLC
                 if (_connectionStatus == 1)
                 {
                     // Reading...
-                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, _plcConfiguration.PlcReadDbNumber, _plcConfiguration.PlcReadStartAddress, _plcConfiguration.PlcReadLength, _readBytesBuffer);
+                    _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, PlcConfiguration.PlcReadDbNumber, PlcConfiguration.PlcReadStartAddress, PlcConfiguration.PlcReadLength, _readBytesBuffer);
                     if (_errorReadByteNoDave == 0) _readBytes = _readBytesBuffer;
                     Thread.Sleep(10);
                     // Writeing...
-                    _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, _plcConfiguration.PlcWriteDbNumber, _plcConfiguration.PlcWriteStartAddress, _plcConfiguration.PlcWriteLength, _writeBytesBuffer);
+                    _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, PlcConfiguration.PlcWriteDbNumber, PlcConfiguration.PlcWriteStartAddress, PlcConfiguration.PlcWriteLength, _writeBytesBuffer);
                     if (_errorWriteByteNoDave == 0) _writeBytes = _writeBytesBuffer;
                 }
                 Thread.Sleep(10);
@@ -234,14 +246,14 @@ namespace _ttAgent.PLC
                 if (_errorReadByteNoDave != 0 && _connectionStatus != -1)
                 {
                     CloseConnection();
-                    if (_connectionStatus != -2) Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
+                    if (_connectionStatus != -2) Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was broken");
                     _connectionStatus = -2;
                 }
                 // Writeing...
                 if (_errorWriteByteNoDave != 0 && _connectionStatus != -1)
                 {
                     CloseConnection();
-                    if (_connectionStatus != -2) Logger.Log("ID: " + _id + " Communication with PLC IP Address : " + _plcConfiguration.PlcIpAddress + " was broken");
+                    if (_connectionStatus != -2) Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was broken");
                     _connectionStatus = -2;
                 }
                 Thread.Sleep(1000);

@@ -22,9 +22,8 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiOutputHandler(uint id, OutputHandler outputHandler, OutputHandlerFile outputHandlerFile)
+        public GuiOutputHandler(uint id, string name, OutputHandler outputHandler, OutputHandlerFile outputHandlerFile) : base(id, name)
         {
-            Id = id;
             _outputHandler = outputHandler;
             _outputHandlerFile = outputHandlerFile;
         }
@@ -45,16 +44,16 @@ namespace _ttAgent.Visual.Gui
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("File Name Suffix:", 5, 15, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Start Position:", 5, 45, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("End Position:", 5, 75, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", _outputHandlerFile.FileNameSuffixes[Id], 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 43, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
-            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Id].ToString(CultureInfo.InvariantCulture), 130, 73, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("FileNameSuffixBox", _outputHandlerFile.FileNameSuffixes[Header.Id], 130, 13, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, FileNameSuffixChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("StartPositionBox", _outputHandlerFile.StartAddress[Header.Id].ToString(CultureInfo.InvariantCulture), 130, 43, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, StartPositionChanged));
+            guiOutputCreatorGrid.Children.Add(GuiFactory.CreateTextBox("EndPositionBox", _outputHandlerFile.EndAddress[Header.Id].ToString(CultureInfo.InvariantCulture), 130, 73, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 100, EndPositionBoxChanged));
 
             guiOutputCreatorGrid.Children.Add(GuiFactory.CreateLabel("Output File Type:", 5, 106, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 105));
             guiOutputCreatorGrid.Children.Add(_outputTypeComboBox = GuiFactory.CreateComboBox("OutputTypeComboBox", "Select", 130, 106, HorizontalAlignment.Left, VerticalAlignment.Top, 22, 100));
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             _outputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
-            _outputTypeComboBox.SelectedIndex = _outputHandlerFile.SelectedIndex[Id];
+            _outputTypeComboBox.SelectedIndex = _outputHandlerFile.SelectedIndex[Header.Id];
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
             _outputTypeComboBox.SelectionChanged += ComboBoxOnSelectionChanged;
 
@@ -64,15 +63,15 @@ namespace _ttAgent.Visual.Gui
         private void FileNameSuffixChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox)sender;
-            try { _outputHandlerFile.FileNameSuffixes[Id] = box.Text; }
-            catch (Exception) { _outputHandlerFile.FileNameSuffixes[Id] = "noName"; }
+            try { _outputHandlerFile.FileNameSuffixes[Header.Id] = box.Text; }
+            catch (Exception) { _outputHandlerFile.FileNameSuffixes[Header.Id] = "noName"; }
             _outputHandlerFile.Save();
         }
 
         private void ComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             var outputTypeComboBox = (ComboBox) sender;
-            _outputHandlerFile.SelectedIndex[Id] = outputTypeComboBox.SelectedIndex;
+            _outputHandlerFile.SelectedIndex[Header.Id] = outputTypeComboBox.SelectedIndex;
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(_outputTypeComboBox.SelectedItem.ToString());
             _outputHandlerFile.Save();
         }
@@ -80,22 +79,22 @@ namespace _ttAgent.Visual.Gui
         private void StartPositionChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox)sender;
-            try { _outputHandlerFile.StartAddress[Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputHandlerFile.StartAddress[Id] = 0; }
+            try { _outputHandlerFile.StartAddress[Header.Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputHandlerFile.StartAddress[Header.Id] = 0; }
             _outputHandlerFile.Save();
         }
 
         private void EndPositionBoxChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox)sender;
-            try { _outputHandlerFile.EndAddress[Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputHandlerFile.EndAddress[Id] = 0; }
+            try { _outputHandlerFile.EndAddress[Header.Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputHandlerFile.EndAddress[Header.Id] = 0; }
             _outputHandlerFile.Save();
         }
 
         private void CreateOutput(object sender, RoutedEventArgs e)
         {
-            Logger.Log("ID: " + Id + " : Output file creation requested by the user");
+            Logger.Log("ID: " + Header.Id + " : Output file creation requested by the user");
             _outputHandler.CreateOutput();
         }
 

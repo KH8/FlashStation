@@ -25,10 +25,8 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiVFlashStatusBar(uint id, VFlashHandler vFlash)
+        public GuiVFlashStatusBar(uint id, string name, VFlashHandler vFlash) : base(id, name)
         {
-            Id = id;
-            
             _vFlash = vFlash;
 
             _updateThread = new Thread(Update);
@@ -46,7 +44,7 @@ namespace _ttAgent.Visual.Gui
             var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
             _generalGrid.Children.Add(grid);
 
-            grid.Children.Add(_vFlashLabel = GuiFactory.CreateLabel("VFlashChannelStatusLabel", "VFLASH__" + Id + ":", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Center, HorizontalAlignment.Left, 25, 810));
+            grid.Children.Add(_vFlashLabel = GuiFactory.CreateLabel("VFlashChannelStatusLabel", "VFLASH__" + Header.Id + ":", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Center, HorizontalAlignment.Left, 25, 810));
             grid.Children.Add(_statusRectangle = new Rectangle
             {
                 Width = 15,
@@ -76,7 +74,7 @@ namespace _ttAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                var channel = _vFlash.ReturnChannelSetup(Id);
+                var channel = _vFlash.ReturnChannelSetup(Header.Id);
                 if (channel == null) return;
 
                 Brush colourBrush;

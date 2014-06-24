@@ -141,11 +141,11 @@ namespace _ttAgent.PLC
                                                                             <PlcConfigurationStatus>0</PlcConfigurationStatus>
                                                                         </PlcConfig>
                                                                     </ArrayOfPlcConfig>")]
-        public PlcCommunicatorBase.PlcConfig[] Configuration
+        public PlcCommunicator.PlcConfig[] Configuration
         {
             get
             {
-                return ((PlcCommunicatorBase.PlcConfig[])(this["Configuration"]));
+                return ((PlcCommunicator.PlcConfig[])(this["Configuration"]));
             }
             set
             {

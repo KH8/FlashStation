@@ -12,7 +12,7 @@ namespace _ttAgent.Visual.Gui
         private Grid _generalGrid;
 
         private readonly PlcCommunicator _plcCommunication;
-        private PlcCommunicatorBase.PlcConfig _guiPlcConfiguration;
+        private PlcCommunicator.PlcConfig _guiPlcConfiguration;
         private readonly PlcConfigurationFile _plcConfigurationFile;
 
         public Grid GeneralGrid
@@ -21,15 +21,13 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiPlcConfiguration(uint id, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile)
+        public GuiPlcConfiguration(uint id, string name, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile) : base(id, name)
         {
-            Id = id;
-
             _plcCommunication = plcCommunication;
             _plcConfigurationFile = plcConfigurationFile;
-            _guiPlcConfiguration = _plcConfigurationFile.Configuration[Id];
+            _guiPlcConfiguration = _plcConfigurationFile.Configuration[Header.Id];
 
-            if (PlcConfigurationFile.Default.Configuration[Id].PlcConfigurationStatus == 1) { StoreSettings(); }
+            if (PlcConfigurationFile.Default.Configuration[Header.Id].PlcConfigurationStatus == 1) { StoreSettings(); }
         }
 
         public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
@@ -88,9 +86,9 @@ namespace _ttAgent.Visual.Gui
         public void StoreSettings()
         {
             _guiPlcConfiguration.PlcConfigurationStatus = 1;
-            _plcConfigurationFile.Configuration[Id] = _guiPlcConfiguration;
+            _plcConfigurationFile.Configuration[Header.Id] = _guiPlcConfiguration;
             _plcConfigurationFile.Save();
-            _plcCommunication.SetupConnection(_plcConfigurationFile.Configuration[Id]);
+            _plcCommunication.SetupConnection(_plcConfigurationFile.Configuration[Header.Id]);
         }
 
         public override void MakeVisible()

@@ -2,52 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using _ttAgent.Log;
+using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Vector
 {
     public class VFlashDisplayProjectData
     {
-        public string Type { get; set; }
+        public uint Type { get; set; }
         public string Version { get; set; }
         public string Path { get; set; }
     }
 
-    public abstract class VFlashType
+    class VFlashTypeBank : RegistryComponent
     {
-        private uint _type;
-        private string _version;
-        private string _path;
+        private List<VFlashDisplayProjectData> _children = new List<VFlashDisplayProjectData>();
 
-        public uint Type
-        {
-            get { return _type; }
-            set { _type = value; }
-        }
+        public VFlashTypeBank(uint id, string name) : base(id, name){}
 
-        public string Version
-        {
-            get { return _version; }
-            set { _version = value; }
-        }
-
-        public string Path
-        {
-            get { return _path; }
-            set { _path = value; }
-        }
-    }
-    
-    class VFlashTypeBank : VFlashType
-    {
-        private List<VFlashType> _children = new List<VFlashType>();
-
-        public List<VFlashType> Children
+        public List<VFlashDisplayProjectData> Children
         {
             get { return _children; }
             set { _children = value; }
         }
 
-        public void Add(VFlashType c)
+        public void Add(VFlashDisplayProjectData c)
         {
             var child = _children.FirstOrDefault(typeFound => typeFound.Type == c.Type);
             if (child == null) _children.Add(c);
@@ -58,7 +36,7 @@ namespace _ttAgent.Vector
             }
         }
 
-        public void Remove(VFlashType c)
+        public void Remove(VFlashDisplayProjectData c)
         {
             _children.Remove(c);
         }
@@ -76,7 +54,7 @@ namespace _ttAgent.Vector
         }
     }
 
-    class VFlashTypeComponent : VFlashType
+    class VFlashTypeComponent : VFlashDisplayProjectData
     {
         public VFlashTypeComponent(uint type, string version, string path)
         {
@@ -88,7 +66,7 @@ namespace _ttAgent.Vector
 
     static class VFlashTypeConverter
     {
-        public static string[] VFlashTypesToStrings(List<VFlashType> list)
+        public static string[] VFlashTypesToStrings(List<VFlashDisplayProjectData> list)
         {
             var output = new string[list.Count];
                 uint i = 0;

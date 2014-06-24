@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Windows;
 using _ttAgent.Log;
+using _ttAgent.MainRegistry;
 using _ttAgent.PLC;
 
 namespace _ttAgent.DataAquisition
 {
-    public class CommunicationInterfaceHandler
+    public class CommunicationInterfaceHandler : RegistryComponent
     {
-        private readonly uint _id;
-        private readonly CommunicationInterfacePath _pathFile;
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;
 
-        public CommunicationInterfaceHandler(uint id, CommunicationInterfacePath pathFile)
+        public CommunicationInterfaceHandler(uint id, string name, CommunicationInterfacePath pathFile) : base(id, name)
         {
-            _id = id;
-            _pathFile = pathFile;
-            Logger.Log("ID: " + _id + " Communication interface component created");
+            PathFile = pathFile;
+            Logger.Log("ID: " + Header.Id + " Communication interface component created");
         }
 
         public CommunicationInterfaceComposite ReadInterfaceComposite
@@ -27,46 +25,47 @@ namespace _ttAgent.DataAquisition
         public CommunicationInterfaceComposite WriteInterfaceComposite
         {
             get { return _writeInterfaceComposite; }
-            set { _writeInterfaceComposite = value; }
         }
+
+        public CommunicationInterfacePath PathFile { get; set; }
 
         public void InitializeInterface()
         {
-            if (_pathFile.ConfigurationStatus[_id] == 1)
+            if (PathFile.ConfigurationStatus[Header.Id] == 1)
             {
                 try { Initialize(); }
                 catch (Exception)
                 {
-                    CommunicationInterfacePath.Default.ConfigurationStatus[_id] = 0;
-                    CommunicationInterfacePath.Default.Save();
-                    MessageBox.Show("ID: " + _id + " Interface initialization failed\nRestart application", "Initialization Failed");
-                    Logger.Log("ID: " + _id + " Communication interface initialization failed");
+                    PathFile.ConfigurationStatus[Header.Id] = 0;
+                    PathFile.Save();
+                    MessageBox.Show("ID: " + Header.Id + " Interface initialization failed\nRestart application", "Initialization Failed");
+                    Logger.Log("ID: " + Header.Id + " Communication interface initialization failed");
                     Environment.Exit(0);
                 }
             }
             else
             {
-                _pathFile.Path[_id] = "DataAquisition\\DB1000_NEW.csv";
-                _pathFile.ConfigurationStatus[_id] = 1;
-                _pathFile.Save();
+                PathFile.Path[Header.Id] = "DataAquisition\\DB1000_NEW.csv";
+                PathFile.ConfigurationStatus[Header.Id] = 1;
+                PathFile.Save();
 
                 try { Initialize(); }
                 catch (Exception)
                 {
-                    _pathFile.ConfigurationStatus[_id] = 0;
-                    _pathFile.Save();
-                    MessageBox.Show("ID: " + _id + " Interface initialization failed\nRestart application", "Initialization Failed");
-                    Logger.Log("ID: " + _id + " Communication interface initialization failed");
+                    PathFile.ConfigurationStatus[Header.Id] = 0;
+                    PathFile.Save();
+                    MessageBox.Show("ID: " + Header.Id + " Interface initialization failed\nRestart application", "Initialization Failed");
+                    Logger.Log("ID: " + Header.Id + " Communication interface initialization failed");
                     Environment.Exit(0);
                 }
-                Logger.Log("ID: " + _id + " Communication interface initialized with file: " + _pathFile.Path[_id]);
+                Logger.Log("ID: " + Header.Id + " Communication interface initialized with file: " + PathFile.Path[Header.Id]);
             }
         }
 
         internal void Initialize()
         {
-            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, _pathFile); 
-            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(_id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, _pathFile);
+            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
+            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
         }
 
         public void MaintainConnection(PlcCommunicator communication)
@@ -76,7 +75,7 @@ namespace _ttAgent.DataAquisition
                 if(_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(communication.ReadBytes);
                 if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(communication.WriteBytes);
             }
-            else { throw new InitializerException("Error: ID: " + _id + " Connection can not be maintained."); }
+            else { throw new InitializerException("Error: ID: " + Header.Id + " Connection can not be maintained."); }
         }
 
         #region Auxiliaries

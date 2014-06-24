@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,10 +27,8 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiComInterfacemunicationConfiguration(uint id, PlcCommunicator plcCommunicator, CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath)
+        public GuiComInterfacemunicationConfiguration(uint id, string name, PlcCommunicator plcCommunicator, CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath) : base(id, name)
         {
-            Id = id;
-
             _plcCommunicator = plcCommunicator;
             _communicationHandler = communicationHandler;
             _communicationInterfacePath = communicationInterfacePath;
@@ -60,7 +57,7 @@ namespace _ttAgent.Visual.Gui
             guiInterfaceGrid.Children.Add(GuiFactory.CreateLabel("Configuration File:", 31, 5, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 112));
             guiInterfaceGrid.Children.Add(_interfacePathBox = GuiFactory.CreateTextBox("InterfacePathBox", "File not loaded", 150, 5, HorizontalAlignment.Left, VerticalAlignment.Top, HorizontalAlignment.Right, 25, 120));
 
-            string[] words = _communicationInterfacePath.Path[Id].Split('\\');
+            string[] words = _communicationInterfacePath.Path[Header.Id].Split('\\');
             _interfacePathBox.Text = words[words.Length - 1];
 
             grid.Children.Add(_loadFileButton = GuiFactory.CreateButton("LoadFileButton", "Load File", 0, 62, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, LoadSettingFile));
@@ -76,7 +73,7 @@ namespace _ttAgent.Visual.Gui
             // Get the selected file name and display in a TextBox
             if (result == true)
             {
-                _communicationInterfacePath.Path[Id] = dlg.FileName;
+                _communicationInterfacePath.Path[Header.Id] = dlg.FileName;
 
                 _communicationHandler.Initialize();
                 /*try { _communicationHandler.Initialize(); }
@@ -86,7 +83,7 @@ namespace _ttAgent.Visual.Gui
                     return;
                 }*/
 
-                _communicationInterfacePath.ConfigurationStatus[Id] = 1;
+                _communicationInterfacePath.ConfigurationStatus[Header.Id] = 1;
                 _communicationInterfacePath.Save();
 
                 string[] words = dlg.FileName.Split('\\');

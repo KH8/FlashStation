@@ -37,10 +37,8 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationStatus(uint id, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile)
+        public GuiCommunicationStatus(uint id, string name, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile) : base(id, name)
         {
-            Id = id;
-
             _plcCommunication = plcCommunication;
             _plcConfigurationFile = plcConfigurationFile;
 
@@ -90,7 +88,7 @@ namespace _ttAgent.Visual.Gui
 
             grid.Children.Add(_connectButton = GuiFactory.CreateButton("ConnectButton", "Connect", 0, 232, HorizontalAlignment.Left, VerticalAlignment.Top, 25, 100, ConnectionButtonClick));
             grid.Children.Add(_startUpConnectionControlBox = GuiFactory.CreateCheckBox("StartUpConnectionControlBox", "Connect at Start Up", 184, 243, HorizontalAlignment.Left, VerticalAlignment.Top, 134, ConnectionAtStartUpChecked));
-            _startUpConnectionControlBox.IsChecked = _plcConfigurationFile.ConnectAtStartUp[Id];
+            _startUpConnectionControlBox.IsChecked = _plcConfigurationFile.ConnectAtStartUp[Header.Id];
         }
 
         public override void MakeVisible()
@@ -141,12 +139,12 @@ namespace _ttAgent.Visual.Gui
             {
                 if (_plcCommunication.ConnectionStatus != 1)
                 {
-                    Logger.Log("ID: " + Id + " : Connection requested by the user");
+                    Logger.Log("ID: " + Header.Id + " : Connection requested by the user");
                     _plcCommunication.OpenConnection();
                 }
                 else
                 {
-                    Logger.Log("ID: " + Id + " : Disconnection requested by the user");
+                    Logger.Log("ID: " + Header.Id + " : Disconnection requested by the user");
                     _plcCommunication.CloseConnection();
                 }
             }
@@ -161,7 +159,7 @@ namespace _ttAgent.Visual.Gui
             var startUpConnectionControlBox = (CheckBox) sender;
             if (startUpConnectionControlBox.IsChecked != null)
             {
-                _plcConfigurationFile.ConnectAtStartUp[Id] = (bool)startUpConnectionControlBox.IsChecked;
+                _plcConfigurationFile.ConnectAtStartUp[Header.Id] = (bool)startUpConnectionControlBox.IsChecked;
                 _plcConfigurationFile.Save();
             } 
         }

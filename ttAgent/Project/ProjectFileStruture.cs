@@ -14,7 +14,7 @@ namespace _ttAgent.Project
             public uint[][] VFlashTypeBanks;
             public uint[][] VFlashHandlers;
 
-            public PlcCommunicatorBase.PlcConfig[] Configuration;
+            public PlcCommunicator.PlcConfig[] Configuration;
             public Boolean[] ConnectAtStartUp;
 
             public string[] Path;

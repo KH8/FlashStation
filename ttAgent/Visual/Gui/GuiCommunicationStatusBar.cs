@@ -25,10 +25,8 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationStatusBar(uint id, PlcCommunicator plcCommunication)
+        public GuiCommunicationStatusBar(uint id, string name, PlcCommunicator plcCommunication) : base(id, name)
         {
-            Id = id;
-
             _plcCommunication = plcCommunication;
 
             _updateThread = new Thread(Update);
@@ -46,7 +44,7 @@ namespace _ttAgent.Visual.Gui
             var grid = GuiFactory.CreateGrid(XPosition, YPosition, HorizontalAlignment.Left, VerticalAlignment.Top);
             _generalGrid.Children.Add(grid);
 
-            grid.Children.Add(_plcStatusLabel = GuiFactory.CreateLabel("PlcStatusLabel", "PLC__" + Id + ":", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Center, HorizontalAlignment.Left, 25, 810));
+            grid.Children.Add(_plcStatusLabel = GuiFactory.CreateLabel("PlcStatusLabel", "PLC__" + Header.Id + ":", 0, 0, HorizontalAlignment.Center, VerticalAlignment.Center, HorizontalAlignment.Left, 25, 810));
             grid.Children.Add(_statusRectangle = new Rectangle
             {
                 Width = 15,

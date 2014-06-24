@@ -31,13 +31,12 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiVFlashPathBank(uint id, VFlashTypeBankFile vFlashTypeBankFile, VFlashTypeBank vFlashTypeBank)
+        public GuiVFlashPathBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile, VFlashTypeBank vFlashTypeBank) : base(id, name)
         {
             _vFlashTypeBankFile = vFlashTypeBankFile;
             _vFlashTypeBank = vFlashTypeBank;
-            Id = id;
 
-            VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[Id], _vFlashTypeBank);
+            VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[Header.Id], _vFlashTypeBank);
             UpdateVFlashProjectCollection();
         }
 
@@ -119,7 +118,7 @@ namespace _ttAgent.Visual.Gui
 
         private void UpdateVFlashProjectCollection()
         {
-            _vFlashTypeBankFile.TypeBank[Id] = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
+            _vFlashTypeBankFile.TypeBank[Header.Id] = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
             _vFlashTypeBankFile.Save();
 
             _vFlashProjectCollection.Clear();
@@ -128,7 +127,7 @@ namespace _ttAgent.Visual.Gui
                 var type = (VFlashTypeComponent)vFlashType;
                 _vFlashProjectCollection.Add(new VFlashDisplayProjectData
                 {
-                    Type = type.Type.ToString(CultureInfo.InvariantCulture),
+                    Type = type.Type,
                     Version = type.Version,
                     Path = type.Path
                 });
@@ -139,7 +138,7 @@ namespace _ttAgent.Visual.Gui
         {
             var listView = (ListView)sender;
             var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
-            if (projectdata != null) _typeNumberBox.Text = projectdata.Type;
+            if (projectdata != null) _typeNumberBox.Text = projectdata.Type.ToString(CultureInfo.InvariantCulture);
             if (projectdata != null) _typeVersionBox.Text = projectdata.Version;
         }
 

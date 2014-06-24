@@ -221,11 +221,11 @@
       <FileName>PLC\PlcCommunicator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_ttAgent.PLC.PlcCommunicatorBase" Collapsed="true">
+  <Class Name="_ttAgent.PLC.PlcCommunicator" Collapsed="true">
     <Position X="25.5" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>PLC\PlcCommunicatorBase.cs</FileName>
+      <FileName>PLC\PlcCommunicator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_ttAgent.PLC.PlcConfigurationFile" Collapsed="true">
