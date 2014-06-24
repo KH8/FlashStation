@@ -18,6 +18,10 @@ using Registry = _ttAgent.MainRegistry.Registry;
 
 namespace _ttAgent.Visual
 {
+    //1. odświeżanie tylko jak tab jest aktywny
+    //2. save plikow po zaladowaniu konfiguracji
+    //3. podmiana interface'u
+    //4. tworzenie nowych polaczen i modulow
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
