@@ -31,10 +31,10 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiVFlashPathBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile, VFlashTypeBank vFlashTypeBank) : base(id, name)
+        public GuiVFlashPathBank(uint id, string name, VFlashTypeBank vFlashTypeBank) : base(id, name)
         {
-            _vFlashTypeBankFile = vFlashTypeBankFile;
             _vFlashTypeBank = vFlashTypeBank;
+            _vFlashTypeBankFile = _vFlashTypeBank.VFlashTypeBankFile;
 
             VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[Header.Id], _vFlashTypeBank);
             UpdateVFlashProjectCollection();

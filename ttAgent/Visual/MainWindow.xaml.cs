@@ -56,11 +56,7 @@ namespace _ttAgent.Visual
             {
                 foreach (var communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers)
                 {
-                    var plcConnection =
-                        _registry.PlcCommunicators[
-                            _registry.CommunicationInterfaceHandlersAssignemenTuples[communicationInterfaceHandler.Key]
-                                .Item1];
-                    if (plcConnection.ConnectionStatus == 1) communicationInterfaceHandler.Value.MaintainConnection(plcConnection);
+                    communicationInterfaceHandler.Value.MaintainConnection();
                 }
                 Thread.Sleep(21);
             }

@@ -21,10 +21,10 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiPlcConfiguration(uint id, string name, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile) : base(id, name)
+        public GuiPlcConfiguration(uint id, string name, PlcCommunicator plcCommunication) : base(id, name)
         {
             _plcCommunication = plcCommunication;
-            _plcConfigurationFile = plcConfigurationFile;
+            _plcConfigurationFile = _plcCommunication.PlcConfigurationFile;
             _guiPlcConfiguration = _plcConfigurationFile.Configuration[Header.Id];
 
             if (PlcConfigurationFile.Default.Configuration[Header.Id].PlcConfigurationStatus == 1) { StoreSettings(); }

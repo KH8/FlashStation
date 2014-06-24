@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using _ttAgent.DataAquisition;
 using _ttAgent.Log;
@@ -10,73 +9,7 @@ using _ttAgent.Visual.Gui;
 
 namespace _ttAgent.MainRegistry
 {
-    abstract class RegistryBase
-    {
-        public Dictionary<uint, PlcCommunicator> PlcCommunicators = new Dictionary<uint, PlcCommunicator>();
-        public Dictionary<uint, GuiCommunicationStatus> PlcGuiCommunicationStatuses = new Dictionary<uint, GuiCommunicationStatus>();
-        public Dictionary<uint, GuiCommunicationStatusBar> PlcGuiCommunicationStatusBars = new Dictionary<uint, GuiCommunicationStatusBar>();
-        public Dictionary<uint, GuiPlcConfiguration> PlcGuiConfigurations = new Dictionary<uint, GuiPlcConfiguration>(); 
-
-        public Dictionary<uint, CommunicationInterfaceHandler> CommunicationInterfaceHandlers = new Dictionary<uint, CommunicationInterfaceHandler>();
-        public Dictionary<uint, GuiComInterfacemunicationConfiguration> GuiComInterfacemunicationConfigurations = new Dictionary<uint, GuiComInterfacemunicationConfiguration>();
-        public Dictionary<uint, GuiCommunicationInterfaceOnline> GuiCommunicationInterfaceOnlines = new Dictionary<uint, GuiCommunicationInterfaceOnline>();
-
-        public Dictionary<uint, OutputHandler> OutputHandlers = new Dictionary<uint, OutputHandler>();
-        public Dictionary<uint, GuiOutputHandler> GuiOutputCreators = new Dictionary<uint, GuiOutputHandler>();
-
-        public Dictionary<uint, VFlashTypeBank> VFlashTypeBanks = new Dictionary<uint, VFlashTypeBank>();
-        public Dictionary<uint, GuiVFlashPathBank> GuiVFlashPathBanks = new Dictionary<uint, GuiVFlashPathBank>();
-
-        public Dictionary<uint, VFlashHandler> VFlashHandlers = new Dictionary<uint, VFlashHandler>();
-        public Dictionary<uint, GuiVFlash> GuiVFlashes = new Dictionary<uint, GuiVFlash>();
-        public Dictionary<uint, GuiVFlashStatusBar> GuiVFlashStatusBars = new Dictionary<uint, GuiVFlashStatusBar>(); 
-
-        public Dictionary<uint, Tuple<uint, uint>> CommunicationInterfaceHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
-        public Dictionary<uint, Tuple<uint, uint>> OutputHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
-        public Dictionary<uint, Tuple<uint, uint, uint>> VFlashHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint, uint>>();
-
-        public abstract uint AddPlcCommunicator();
-        public abstract uint AddCommunicationInterface(uint plcConnectionId);
-        public abstract uint AddOutputHandler(uint communicationInterfaceId);
-        public abstract uint AddVFlashBank();
-        public abstract uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId);
-
-        public abstract uint AddPlcCommunicator(uint save);
-        public abstract uint AddCommunicationInterface(uint save, uint plcConnectionId);
-        public abstract uint AddOutputHandler(uint save, uint communicationInterfaceId);
-        public abstract uint AddVFlashBank(uint save);
-        public abstract uint AddVFlashChannel(uint save, uint communicationInterfaceId, uint vFlashBankId);
-
-        public abstract void RemovePlcCommunicator(uint id);
-        public abstract void RemoveCommunicationInterface(uint id);
-        public abstract void RemoveOutputHandler(uint id);
-        public abstract void RemoveVFlashBank(uint id);
-        public abstract void RemoveVFlashChannel(uint id);
-
-        public abstract void RemoveAll();
-    }
-
-    public abstract class RegistryComponent
-    {
-        public struct RegistryComponentHeader
-        {
-            public uint Id;
-            public string Name;
-        }
-
-        public RegistryComponentHeader Header;
-
-        protected RegistryComponent(uint id, string name)
-        {
-            Header = new RegistryComponentHeader
-            {
-                Id = id,
-                Name = name
-            };
-        }
-    }
-
-    class Registry : RegistryBase
+    class Registry : RegistryAbstract
     {
         public void Initialize()
         {
@@ -101,45 +34,26 @@ namespace _ttAgent.MainRegistry
             Logger.Log("Registry content initialized");
         }
 
-        public override uint AddPlcCommunicator(uint save)
+        public override uint AddPlcCommunicator(Boolean save)
         {
             var id =  AddPlcCommunicator();
-            if (save == 1) UpdateMainRegistryFile();
-            return id;
-        }
-
-        public override uint AddCommunicationInterface(uint save, uint plcConnectionId)
-        {
-            var id = AddCommunicationInterface(plcConnectionId);
-            if (save == 1) UpdateMainRegistryFile();
-            return id;
-        }
-
-        public override uint AddOutputHandler(uint save, uint communicationInterfaceId)
-        {
-            var id = AddOutputHandler(communicationInterfaceId);
-            if (save == 1) UpdateMainRegistryFile();
-            return id;
-        }
-
-        public override uint AddVFlashBank(uint save)
-        {
-            var id = AddVFlashBank();
-            if (save == 1) UpdateMainRegistryFile();
-            return id;
-        }
-
-        public override uint AddVFlashChannel(uint save, uint communicationInterfaceId, uint vFlashBankId)
-        {
-            var id = AddVFlashChannel(communicationInterfaceId, vFlashBankId);
-            if (save == 1) UpdateMainRegistryFile();
+            if (save) UpdateMainRegistryFile();
             return id;
         }
 
         public override uint AddPlcCommunicator()
         {
             var id = (uint)PlcCommunicators.Count + 1;
-            if (id > 8) { MessageBox.Show("Maximum number of Plc Communicator \ncomponents exceeded", "Component Creation Failed"); return 0; }
+            return AddPlcCommunicator(id);
+        }
+
+        public override uint AddPlcCommunicator(uint id)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Plc Communicator \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
 
             try
             {
@@ -156,37 +70,49 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            PlcGuiCommunicationStatuses.Add(id, new GuiCommunicationStatus(id, "", PlcCommunicators[id], PlcConfigurationFile.Default));
+            PlcGuiCommunicationStatuses.Add(id,
+                new GuiCommunicationStatus(id, "", PlcCommunicators[id]));
             PlcGuiCommunicationStatusBars.Add(id, new GuiCommunicationStatusBar(id, "", PlcCommunicators[id]));
-            PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, "", PlcCommunicators[id], PlcConfigurationFile.Default));
-            
+            PlcGuiConfigurations.Add(id, new GuiPlcConfiguration(id, "", PlcCommunicators[id]));
+
             Logger.Log("ID: " + id + " new PLC Connection have been created");
+            return id;
+        }
+
+        public override uint AddCommunicationInterface(Boolean save, uint plcConnectionId)
+        {
+            var id = AddCommunicationInterface(plcConnectionId);
+            if (save) UpdateMainRegistryFile();
             return id;
         }
 
         public override uint AddCommunicationInterface(uint plcConnectionId)
         {
             var id = (uint)CommunicationInterfaceHandlers.Count + 1;
-            if (id > 8) { MessageBox.Show("Maximum number of Communication Interface \ncomponents exceeded", "Component Creation Failed"); return 0; }
+            return AddCommunicationInterface(plcConnectionId, id);
+        }
+
+        public override uint AddCommunicationInterface(uint plcConnectionId, uint id)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Communication Interface \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
 
             CommunicationInterfaceHandlersAssignemenTuples[id] = new Tuple<uint, uint>(plcConnectionId, 0);
             try
             {
                 Logger.Log("ID: " + id + " Creation of the Communication Interface Component");
                 CommunicationInterfaceHandlers.Add(id,
-                    new CommunicationInterfaceHandler(id, "INT__" + id, CommunicationInterfacePath.Default));
+                    new CommunicationInterfaceHandler(id, "INT__" + id, PlcCommunicators[plcConnectionId], CommunicationInterfacePath.Default));
                 Logger.Log("ID: " + id + " Initialization of the Communication Interface");
                 CommunicationInterfaceHandlers[id].InitializeInterface();
 
                 GuiComInterfacemunicationConfigurations.Add(id,
-                    new GuiComInterfacemunicationConfiguration(id, "",  
-                        PlcCommunicators[CommunicationInterfaceHandlersAssignemenTuples[id].Item1],
-                        CommunicationInterfaceHandlers[id],
-                        CommunicationInterfacePath.Default));
+                    new GuiComInterfacemunicationConfiguration(id, "", CommunicationInterfaceHandlers[id]));
                 GuiCommunicationInterfaceOnlines.Add(id,
-                    new GuiCommunicationInterfaceOnline(id, "", 
-                        PlcCommunicators[CommunicationInterfaceHandlersAssignemenTuples[id].Item1],
-                        CommunicationInterfaceHandlers[id]));               
+                    new GuiCommunicationInterfaceOnline(id, "", CommunicationInterfaceHandlers[id]));
             }
             catch (Exception)
             {
@@ -200,18 +126,35 @@ namespace _ttAgent.MainRegistry
             return id;
         }
 
+        public override uint AddOutputHandler(Boolean save, uint communicationInterfaceId)
+        {
+            var id = AddOutputHandler(communicationInterfaceId);
+            if (save) UpdateMainRegistryFile();
+            return id;
+        }
+
         public override uint AddOutputHandler(uint communicationInterfaceId)
         {
             var id = (uint)OutputHandlers.Count + 1;
-            if (id > 8) { MessageBox.Show("Maximum number of Output Handler \ncomponents exceeded", "Component Creation Failed"); return 0; }
+            return AddOutputHandler(communicationInterfaceId, id);
+        }
+
+        public override uint AddOutputHandler(uint communicationInterfaceId, uint id)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Output Handler \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
 
             OutputHandlersAssignemenTuples[id] = new Tuple<uint, uint>(0, communicationInterfaceId);
             try
             {
                 Logger.Log("ID: " + id + " Creation of the Output Handler Component");
-                OutputHandlers.Add(id, new OutputHandler(id, "OUT__" + id, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2]));
+                OutputHandlers.Add(id,
+                    new OutputHandler(id, "OUT__" + id, CommunicationInterfaceHandlers[OutputHandlersAssignemenTuples[id].Item2], OutputHandlerFile.Default));
                 GuiOutputCreators.Add(id,
-                    new GuiOutputHandler(id, "", OutputHandlers[id], OutputHandlerFile.Default));
+                    new GuiOutputHandler(id, "", OutputHandlers[id]));
                 Logger.Log("ID: " + id + " Initialization of the Output Handler");
                 OutputHandlers[id].InitializeOutputHandler();
             }
@@ -227,36 +170,69 @@ namespace _ttAgent.MainRegistry
             return id;
         }
 
+        public override uint AddVFlashBank(Boolean save)
+        {
+            var id = AddVFlashBank();
+            if (save) UpdateMainRegistryFile();
+            return id;
+        }
+
         public override uint AddVFlashBank()
         {
             var id = (uint)VFlashTypeBanks.Count + 1;
-            if (id > 8) { MessageBox.Show("Maximum number of vFlash Bank \ncomponents exceeded", "Component Creation Failed"); return 0; }
+            return AddVFlashBank(id);
+        }
+
+        public override uint AddVFlashBank(uint id)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of vFlash Bank \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
 
             Logger.Log("ID: " + id + " Creation of the vFlash Bank Component");
-            VFlashTypeBanks.Add(id, new VFlashTypeBank(id, "VFLASH_BANK__" + id));
-            GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, "", VFlashTypeBankFile.Default, VFlashTypeBanks[id]));
+            VFlashTypeBanks.Add(id, new VFlashTypeBank(id, "VFLASH_BANK__" + id, VFlashTypeBankFile.Default));
+            GuiVFlashPathBanks.Add(id, new GuiVFlashPathBank(id, "", VFlashTypeBanks[id]));
 
             Logger.Log("ID: " + id + " new vFlash Bank have been created");
+            return id;
+        }
+
+        public override uint AddVFlashChannel(Boolean save, uint communicationInterfaceId, uint vFlashBankId)
+        {
+            var id = AddVFlashChannel(communicationInterfaceId, vFlashBankId);
+            if (save) UpdateMainRegistryFile();
             return id;
         }
 
         public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var id = (uint)VFlashHandlers.Count + 1;
-            if (id > 8) { MessageBox.Show("Maximum number of vFlash Channel \ncomponents exceeded", "Component Creation Failed"); return 0; }
+            return AddVFlashChannel(communicationInterfaceId, vFlashBankId, id);
+        }
+
+        public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId, uint id)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of vFlash Channel \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
 
             VFlashHandlersAssignemenTuples[id] = new Tuple<uint, uint, uint>(0, communicationInterfaceId, vFlashBankId);
             try
             {
                 Logger.Log("ID: " + id + " Creation of the vFlash Channel Component");
                 VFlashHandlers.Add(id,
-                    new VFlashHandler(id, "VFLASH__" + id, CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2]));
+                    new VFlashHandler(id, "VFLASH__" + id,
+                        CommunicationInterfaceHandlers[VFlashHandlersAssignemenTuples[id].Item2]));
                 Logger.Log("ID: " + id + " Initialization of the vFlash Channel");
                 VFlashHandlers[id].InitializeVFlash();
                 VFlashHandlers[id].VFlashTypeBank = VFlashTypeBanks[vFlashBankId];
 
                 GuiVFlashes.Add(id, new GuiVFlash(id, "", VFlashHandlers[id]));
-                GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, "", VFlashHandlers[id]));             
+                GuiVFlashStatusBars.Add(id, new GuiVFlashStatusBar(id, "", VFlashHandlers[id]));
             }
             catch (Exception)
             {

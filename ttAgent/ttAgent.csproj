@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainRegistry\RegistryAbstract.cs" />
+    <Compile Include="MainRegistry\RegistryComponent.cs" />
+    <Compile Include="MainRegistry\RegistryComposite.cs" />
     <Compile Include="Output\OutputHandlerFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

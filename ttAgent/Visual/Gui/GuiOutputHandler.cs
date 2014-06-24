@@ -22,10 +22,10 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiOutputHandler(uint id, string name, OutputHandler outputHandler, OutputHandlerFile outputHandlerFile) : base(id, name)
+        public GuiOutputHandler(uint id, string name, OutputHandler outputHandler) : base(id, name)
         {
             _outputHandler = outputHandler;
-            _outputHandlerFile = outputHandlerFile;
+            _outputHandlerFile = _outputHandler.OutputHandlerFile;
         }
 
         public override void Initialize(int xPosition, int yPosition, Grid generalGrid)

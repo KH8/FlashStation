@@ -27,11 +27,11 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiComInterfacemunicationConfiguration(uint id, string name, PlcCommunicator plcCommunicator, CommunicationInterfaceHandler communicationHandler, CommunicationInterfacePath communicationInterfacePath) : base(id, name)
+        public GuiComInterfacemunicationConfiguration(uint id, string name, CommunicationInterfaceHandler communicationHandler) : base(id, name)
         {
-            _plcCommunicator = plcCommunicator;
             _communicationHandler = communicationHandler;
-            _communicationInterfacePath = communicationInterfacePath;
+            _plcCommunicator = _communicationHandler.PlcCommunicator;
+            _communicationInterfacePath = _communicationHandler.PathFile;
 
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);

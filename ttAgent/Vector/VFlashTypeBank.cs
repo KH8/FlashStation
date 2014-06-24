@@ -17,7 +17,12 @@ namespace _ttAgent.Vector
     {
         private List<VFlashDisplayProjectData> _children = new List<VFlashDisplayProjectData>();
 
-        public VFlashTypeBank(uint id, string name) : base(id, name){}
+        public VFlashTypeBankFile VFlashTypeBankFile;
+
+        public VFlashTypeBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile) : base(id, name)
+        {
+            VFlashTypeBankFile = vFlashTypeBankFile;
+        }
 
         public List<VFlashDisplayProjectData> Children
         {

@@ -11,8 +11,9 @@ namespace _ttAgent.DataAquisition
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;
 
-        public CommunicationInterfaceHandler(uint id, string name, CommunicationInterfacePath pathFile) : base(id, name)
+        public CommunicationInterfaceHandler(uint id, string name, PlcCommunicator plcCommunicator, CommunicationInterfacePath pathFile) : base(id, name)
         {
+            PlcCommunicator = plcCommunicator;
             PathFile = pathFile;
             Logger.Log("ID: " + Header.Id + " Communication interface component created");
         }
@@ -28,6 +29,8 @@ namespace _ttAgent.DataAquisition
         }
 
         public CommunicationInterfacePath PathFile { get; set; }
+
+        public PlcCommunicator PlcCommunicator { get; set; }
 
         public void InitializeInterface()
         {
@@ -68,14 +71,13 @@ namespace _ttAgent.DataAquisition
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
         }
 
-        public void MaintainConnection(PlcCommunicator communication)
+        public void MaintainConnection()
         {
-            if (communication.ConnectionStatus == 1)
+            if (PlcCommunicator.ConnectionStatus == 1)
             {
-                if(_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(communication.ReadBytes);
-                if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(communication.WriteBytes);
+                if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
+                if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
             }
-            else { throw new InitializerException("Error: ID: " + Header.Id + " Connection can not be maintained."); }
         }
 
         #region Auxiliaries

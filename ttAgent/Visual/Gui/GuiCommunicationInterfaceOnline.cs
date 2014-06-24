@@ -33,10 +33,10 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationInterfaceOnline(uint id, string name, PlcCommunicator plcCommunication, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
+        public GuiCommunicationInterfaceOnline(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
         {
-            _plcCommunication = plcCommunication;
             _communicationInterfaceHandler = communicationInterfaceHandler;
+            _plcCommunication = _communicationInterfaceHandler.PlcCommunicator;
             
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);

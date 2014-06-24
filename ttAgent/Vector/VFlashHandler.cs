@@ -56,7 +56,7 @@ namespace _ttAgent.Vector
             _vFlashStationController = new VFlashStationController(ReportError, Header.Id);
             _vFlashStationController.Add(new VFlashChannel(ReportError, "", Header.Id));
 
-            _vFlashTypeBank = new VFlashTypeBank(id, "VFLASH_BANK__" + id);
+            _vFlashTypeBank = new VFlashTypeBank(id, "VFLASH_BANK__" + id, VFlashTypeBankFile.Default);
             _vFlashErrorCollector = new VFlashErrorCollector();
 
             _vFlashThread = new Thread(VFlashPlcCommunicationThread);

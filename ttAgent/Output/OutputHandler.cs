@@ -35,14 +35,16 @@ namespace _ttAgent.Output
         }
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
+        public OutputHandlerFile OutputHandlerFile { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
+        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputHandlerFile outputHandlerFile) : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
+            OutputHandlerFile = outputHandlerFile;
 
             _outputThread = new Thread(OutputCommunicationThread);
             _outputThread.SetApartmentState(ApartmentState.STA);

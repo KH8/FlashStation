@@ -37,10 +37,10 @@ namespace _ttAgent.Visual.Gui
             set { _generalGrid = value; }
         }
 
-        public GuiCommunicationStatus(uint id, string name, PlcCommunicator plcCommunication, PlcConfigurationFile plcConfigurationFile) : base(id, name)
+        public GuiCommunicationStatus(uint id, string name, PlcCommunicator plcCommunication) : base(id, name)
         {
             _plcCommunication = plcCommunication;
-            _plcConfigurationFile = plcConfigurationFile;
+            _plcConfigurationFile = _plcCommunication.PlcConfigurationFile;
 
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
