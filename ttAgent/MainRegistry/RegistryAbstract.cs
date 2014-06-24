@@ -1,37 +1,27 @@
 using System;
-using System.Collections.Generic;
-using _ttAgent.DataAquisition;
-using _ttAgent.Output;
-using _ttAgent.PLC;
-using _ttAgent.Vector;
-using _ttAgent.Visual.Gui;
 
 namespace _ttAgent.MainRegistry
 {
     abstract class RegistryAbstract
     {
-        public Dictionary<uint, PlcCommunicator> PlcCommunicators = new Dictionary<uint, PlcCommunicator>();
-        public Dictionary<uint, GuiCommunicationStatus> PlcGuiCommunicationStatuses = new Dictionary<uint, GuiCommunicationStatus>();
-        public Dictionary<uint, GuiCommunicationStatusBar> PlcGuiCommunicationStatusBars = new Dictionary<uint, GuiCommunicationStatusBar>();
-        public Dictionary<uint, GuiPlcConfiguration> PlcGuiConfigurations = new Dictionary<uint, GuiPlcConfiguration>(); 
+        public RegistryComposite PlcCommunicators = new RegistryComposite(0, "");
+        public RegistryComposite PlcGuiCommunicationStatuses = new RegistryComposite(0, "");
+        public RegistryComposite PlcGuiCommunicationStatusBars = new RegistryComposite(0, "");
+        public RegistryComposite PlcGuiConfigurations = new RegistryComposite(0, "");
 
-        public Dictionary<uint, CommunicationInterfaceHandler> CommunicationInterfaceHandlers = new Dictionary<uint, CommunicationInterfaceHandler>();
-        public Dictionary<uint, GuiComInterfacemunicationConfiguration> GuiComInterfacemunicationConfigurations = new Dictionary<uint, GuiComInterfacemunicationConfiguration>();
-        public Dictionary<uint, GuiCommunicationInterfaceOnline> GuiCommunicationInterfaceOnlines = new Dictionary<uint, GuiCommunicationInterfaceOnline>();
+        public RegistryComposite CommunicationInterfaceHandlers = new RegistryComposite(0, "");
+        public RegistryComposite GuiComInterfacemunicationConfigurations = new RegistryComposite(0, "");
+        public RegistryComposite GuiCommunicationInterfaceOnlines = new RegistryComposite(0, "");
 
-        public Dictionary<uint, OutputHandler> OutputHandlers = new Dictionary<uint, OutputHandler>();
-        public Dictionary<uint, GuiOutputHandler> GuiOutputCreators = new Dictionary<uint, GuiOutputHandler>();
+        public RegistryComposite OutputHandlers = new RegistryComposite(0, "");
+        public RegistryComposite GuiOutputCreators = new RegistryComposite(0, "");
 
-        public Dictionary<uint, VFlashTypeBank> VFlashTypeBanks = new Dictionary<uint, VFlashTypeBank>();
-        public Dictionary<uint, GuiVFlashPathBank> GuiVFlashPathBanks = new Dictionary<uint, GuiVFlashPathBank>();
+        public RegistryComposite VFlashTypeBanks = new RegistryComposite(0, "");
+        public RegistryComposite GuiVFlashPathBanks = new RegistryComposite(0, "");
 
-        public Dictionary<uint, VFlashHandler> VFlashHandlers = new Dictionary<uint, VFlashHandler>();
-        public Dictionary<uint, GuiVFlash> GuiVFlashes = new Dictionary<uint, GuiVFlash>();
-        public Dictionary<uint, GuiVFlashStatusBar> GuiVFlashStatusBars = new Dictionary<uint, GuiVFlashStatusBar>(); 
-
-        public Dictionary<uint, Tuple<uint, uint>> CommunicationInterfaceHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
-        public Dictionary<uint, Tuple<uint, uint>> OutputHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint>>();
-        public Dictionary<uint, Tuple<uint, uint, uint>> VFlashHandlersAssignemenTuples = new Dictionary<uint, Tuple<uint, uint, uint>>();
+        public RegistryComposite VFlashHandlers = new RegistryComposite(0, "");
+        public RegistryComposite GuiVFlashes = new RegistryComposite(0, "");
+        public RegistryComposite GuiVFlashStatusBars = new RegistryComposite(0, "");
 
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface(uint plcConnectionId);

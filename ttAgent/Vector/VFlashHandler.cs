@@ -48,7 +48,7 @@ namespace _ttAgent.Vector
 
         #region Constructor
 
-        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
+        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank) : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
 
@@ -56,7 +56,7 @@ namespace _ttAgent.Vector
             _vFlashStationController = new VFlashStationController(ReportError, Header.Id);
             _vFlashStationController.Add(new VFlashChannel(ReportError, "", Header.Id));
 
-            _vFlashTypeBank = new VFlashTypeBank(id, "VFLASH_BANK__" + id, VFlashTypeBankFile.Default);
+            _vFlashTypeBank = vFlashTypeBank;
             _vFlashErrorCollector = new VFlashErrorCollector();
 
             _vFlashThread = new Thread(VFlashPlcCommunicationThread);

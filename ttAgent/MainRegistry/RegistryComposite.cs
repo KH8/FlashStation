@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace _ttAgent.MainRegistry
 {
-    class RegistryComposite : RegistryComponent
+    class RegistryComposite : RegistryComponent, IEnumerable
     {
         private List<RegistryComponent> _children = new List<RegistryComponent>();
 
@@ -26,6 +28,21 @@ namespace _ttAgent.MainRegistry
         public void Remove(RegistryComponent component)
         {
             _children.Remove(component);
+        }
+
+        public void Clear()
+        {
+            _children.Clear();
+        }
+
+        public RegistryComponent ReturnComponent(uint id)
+        {
+            return Children.FirstOrDefault(component => component.Header.Id == id);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

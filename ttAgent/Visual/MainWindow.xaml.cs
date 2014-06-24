@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -14,6 +15,7 @@ using _ttAgent.Output;
 using _ttAgent.PLC;
 using _ttAgent.Project;
 using _ttAgent.Vector;
+using _ttAgent.Visual.Gui;
 using Registry = _ttAgent.MainRegistry.Registry;
 
 namespace _ttAgent.Visual
@@ -54,9 +56,9 @@ namespace _ttAgent.Visual
         {
             while (_communicationThread.IsAlive)
             {
-                foreach (var communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers)
+                foreach (var communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
                 {
-                    communicationInterfaceHandler.Value.MaintainConnection();
+                    communicationInterfaceHandler.MaintainConnection();
                 }
                 Thread.Sleep(21);
             }
@@ -68,14 +70,14 @@ namespace _ttAgent.Visual
 
         private void CloseApp(object sender, RoutedEventArgs routedEventArgs)
         {
-            foreach (var vFlashHandler in _registry.VFlashHandlers) { vFlashHandler.Value.Deinitialize(); }
+            foreach (var vFlashHandler in _registry.VFlashHandlers.Cast<VFlashHandler>()) { vFlashHandler.Deinitialize(); }
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
 
         private void CloseApp(object sender, CancelEventArgs e)
         {
-            foreach (var vFlashHandler in _registry.VFlashHandlers) { vFlashHandler.Value.Deinitialize(); }
+            foreach (var vFlashHandler in _registry.VFlashHandlers.Cast<VFlashHandler>()) { vFlashHandler.Deinitialize(); }
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
@@ -88,12 +90,14 @@ namespace _ttAgent.Visual
         private void AddInterface(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem { Header = "PLC Connections" };
-            foreach (var record in _registry.PlcCommunicators)
-            { newHeader.Items.Add(new TreeViewItem
-            {
-                Header = "PLC_" + record.Key,
-                AlternationCount = (int)record.Key
-            }); }
+            foreach (var record in _registry.PlcCommunicators.Cast<PlcCommunicator>())
+            { 
+                newHeader.Items.Add(new TreeViewItem
+                {
+                    Header = record.Header.Name,
+                    AlternationCount = (int)record.Header.Id
+                }); 
+            }
 
             var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AssignInterface);
             window.Show();
@@ -102,12 +106,12 @@ namespace _ttAgent.Visual
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
-            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
-                    Header = "INT_" + record.Key,
-                    AlternationCount = (int)record.Key
+                    Header = record.Header.Name,
+                    AlternationCount = (int)record.Header.Id
                 });
             }
 
@@ -123,22 +127,22 @@ namespace _ttAgent.Visual
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
             var newHeaderCommunicationInterface = new TreeViewItem { Header = "Communication Interfaces" };
-            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
-                    Header = "INT_" + record.Key,
-                    AlternationCount = (int)record.Key
+                    Header = record.Header.Name,
+                    AlternationCount = (int)record.Header.Id
                 });
             }
 
             var newHeaderVFlashBank = new TreeViewItem { Header = "vFlash Banks" };
-            foreach (var record in _registry.VFlashTypeBanks)
+            foreach (var record in _registry.VFlashTypeBanks.Cast<VFlashTypeBank>())
             {
                 newHeaderVFlashBank.Items.Add(new TreeViewItem
                 {
-                    Header = "VFLASH_BANK_" + record.Key,
-                    AlternationCount = (int)record.Key
+                    Header = record.Header.Name,
+                    AlternationCount = (int)record.Header.Id
                 });
             }
 
@@ -306,8 +310,8 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Height = MainTabControl.Height - 62;
             ComponentManagerTreeView.Width = MainTabControl.Width - 10;
 
-            foreach (var gui in _registry.GuiCommunicationInterfaceOnlines) { gui.Value.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
-            foreach (var gui in _registry.GuiVFlashPathBanks) { gui.Value.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
+            foreach (var gui in _registry.GuiCommunicationInterfaceOnlines.Cast<GuiCommunicationInterfaceOnline>()) { gui.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
+            foreach (var gui in _registry.GuiVFlashPathBanks.Cast<GuiVFlashPathBank>()) { gui.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }
 
         private void ComponentManagerSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -332,9 +336,9 @@ namespace _ttAgent.Visual
             OutputTabControl.Items.Add(labelOutputTabControl);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
-            foreach (var record in _registry.PlcCommunicators)
+            foreach (var record in _registry.PlcCommunicators.Cast<PlcCommunicator>())
             {
-                var newtabItem = new TabItem { Header = "PLC__" + record.Key };
+                var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
                 ConnectionTabControl.SelectedItem = newtabItem;
 
@@ -344,22 +348,21 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationStatus = _registry.PlcGuiCommunicationStatuses[record.Key];
+                var gridGuiCommunicationStatus = (GuiCommunicationStatus)_registry.PlcGuiCommunicationStatuses.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
-                var gridGuiPlcConfiguration = _registry.PlcGuiConfigurations[record.Key];
+                var gridGuiPlcConfiguration = (GuiPlcConfiguration)_registry.PlcGuiConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
             }
 
-            foreach (var record in _registry.PlcGuiCommunicationStatusBars)
+            foreach (var record in _registry.PlcGuiCommunicationStatusBars.Cast<GuiCommunicationStatusBar>())
             {
-                var gridGuiCommunicationStatusBar = _registry.PlcGuiCommunicationStatusBars[record.Key];
-                gridGuiCommunicationStatusBar.Initialize(95 * ( (int)record.Key - 1 ), -1, FooterGrid);
+                record.Initialize(95 * ( (int)record.Header.Id - 1 ), -1, FooterGrid);
             }
 
-            foreach (var record in _registry.CommunicationInterfaceHandlers)
+            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
             {
-                var newtabItem = new TabItem { Header = "INT__" + record.Key };
+                var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
                 ConnectionTabControl.SelectedItem = newtabItem;
 
@@ -369,10 +372,10 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationInterfaceConfiguration = _registry.GuiComInterfacemunicationConfigurations[record.Key];
+                var gridGuiCommunicationInterfaceConfiguration = (GuiComInterfacemunicationConfiguration)_registry.GuiComInterfacemunicationConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
 
-                newtabItem = new TabItem { Header = "INT__" + record.Key + " Online" };
+                newtabItem = new TabItem { Header = record.Header.Name + " Online" };
                 MainTabControl.Items.Add(newtabItem);
                 MainTabControl.SelectedItem = newtabItem;
 
@@ -382,26 +385,26 @@ namespace _ttAgent.Visual
                 newGrid.Height = MainTabControl.Height - 32;
                 newGrid.Width = MainTabControl.Width - 10;
 
-                var gridGuiCommunicationInterfaceOnline = _registry.GuiCommunicationInterfaceOnlines[record.Key];
+                var gridGuiCommunicationInterfaceOnline = (GuiCommunicationInterfaceOnline)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
             }
 
-            foreach (var record in _registry.OutputHandlers)
+            foreach (var record in _registry.OutputHandlers.Cast<OutputHandler>())
             {
-                var newtabItem = new TabItem { Header = "OUTPUT__" + record.Key };
+                var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridGuiOutputCreator = _registry.GuiOutputCreators[record.Key];
+                var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
             }
 
-            foreach (var record in _registry.VFlashTypeBanks)
+            foreach (var record in _registry.VFlashTypeBanks.Cast<VFlashTypeBank>())
             {
-                var newtabItem = new TabItem { Header = "VFLASH__BANK__" + record.Key };
+                var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
@@ -411,25 +414,25 @@ namespace _ttAgent.Visual
                 newGrid.Height = OutputTabControl.Height - 32;
                 newGrid.Width = OutputTabControl.Width - 10;
 
-                var gridGuiVFlashPathBank = _registry.GuiVFlashPathBanks[record.Key];
+                var gridGuiVFlashPathBank = (GuiVFlashPathBank)_registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);
                 gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
             }
 
-            foreach (var record in _registry.VFlashHandlers)
+            foreach (var record in _registry.VFlashHandlers.Cast<VFlashHandler>())
             {
 
-                var newtabItem = new TabItem { Header = "VFLASH__" + record.Key };
+                var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridVFlash = _registry.GuiVFlashes[record.Key];
+                var gridVFlash = (GuiVFlash)_registry.GuiVFlashes.ReturnComponent(record.Header.Id);
                 gridVFlash.Initialize(0, 0, newGrid);
 
-                var gridGuiVFlashStatusBar = _registry.GuiVFlashStatusBars[record.Key];
-                gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Key - 1), 20, FooterGrid);
+                var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
+                gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 20, FooterGrid);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);
@@ -447,28 +450,28 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Items.Add(mainHeader);
             
             var newHeader= new TreeViewItem {Header = "PLC Connections"};
-            foreach (var record in _registry.PlcCommunicators)
-            { newHeader.Items.Add(new TreeViewItem { Header = "PLC_" + record.Key }); }
+            foreach (var record in _registry.PlcCommunicators.Cast<PlcCommunicator>())
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Communication Interfaces" };
-            foreach (var record in _registry.CommunicationInterfaceHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = "INT_" + record.Key + " ; assigned components: " + "PLC_" + _registry.CommunicationInterfaceHandlersAssignemenTuples[record.Key].Item1}); }
+            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + "PLC_" + record.PlcCommunicator.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Handlers" };
-            foreach (var record in _registry.OutputHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = "OUT_" + record.Key + " ; assigned components: " + "INT_" + _registry.OutputHandlersAssignemenTuples[record.Key].Item2 }); }
+            foreach (var record in _registry.OutputHandlers.Cast<OutputHandler>())
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + "INT_" + record.CommunicationInterfaceHandler.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Banks" };
-            foreach (var record in _registry.VFlashTypeBanks)
-            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_BANK_" + record.Key }); }
+            foreach (var record in _registry.VFlashTypeBanks.Cast<VFlashTypeBank>())
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
-            foreach (var record in _registry.VFlashHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = "VFLASH_" + record.Key + " ; assigned components: " + "INT_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item2 + " ; " + "VFLASH_BANK_" + _registry.VFlashHandlersAssignemenTuples[record.Key].Item3 }); }
+            foreach (var record in _registry.VFlashHandlers.Cast<VFlashHandler>())
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + "INT_" + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
         }
