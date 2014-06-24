@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace _ttAgent.MainRegistry
 {
     class RegistryComposite : RegistryComponent, IEnumerable
@@ -35,14 +34,21 @@ namespace _ttAgent.MainRegistry
             _children.Clear();
         }
 
+        public uint GetFirstNotUsed()
+        {
+            uint i = 1;
+            while (ReturnComponent(i) != null) i++;
+            return i;
+        }
+
         public RegistryComponent ReturnComponent(uint id)
         {
-            return Children.FirstOrDefault(component => component.Header.Id == id);
+            return _children.FirstOrDefault(component => component.Header.Id == id);
         }
 
         public IEnumerator GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            return _children.GetEnumerator();
         }
     }
 }

@@ -20,10 +20,6 @@ using Registry = _ttAgent.MainRegistry.Registry;
 
 namespace _ttAgent.Visual
 {
-    //1. odświeżanie tylko jak tab jest aktywny
-    //2. save plikow po zaladowaniu konfiguracji
-    //3. podmiana interface'u
-    //4. tworzenie nowych polaczen i modulow
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -110,7 +106,7 @@ namespace _ttAgent.Visual
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name,
+                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -131,7 +127,7 @@ namespace _ttAgent.Visual
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name,
+                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -213,19 +209,24 @@ namespace _ttAgent.Visual
                 MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
                 MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
                 MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
+                MainRegistryFile.Default.Save();
 
                 PlcConfigurationFile.Default.Configuration = projectData.Configuration;
                 PlcConfigurationFile.Default.ConnectAtStartUp = projectData.ConnectAtStartUp;
+                PlcConfigurationFile.Default.Save();
 
                 CommunicationInterfacePath.Default.Path = projectData.Path;
                 CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
+                CommunicationInterfacePath.Default.Save();
 
                 OutputHandlerFile.Default.FileNameSuffixes = projectData.FileNameSuffixes;
                 OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
                 OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
                 OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
+                OutputHandlerFile.Default.Save();
 
                 VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
+                VFlashTypeBankFile.Default.Save();
 
                 Logger.Log("Registry initialization");
                 _registry.Initialize();
@@ -456,12 +457,12 @@ namespace _ttAgent.Visual
 
             newHeader = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + "PLC_" + record.PlcCommunicator.Header.Name }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Handlers" };
             foreach (var record in _registry.OutputHandlers.Cast<OutputHandler>())
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + "INT_" + record.CommunicationInterfaceHandler.Header.Name }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Banks" };
@@ -471,7 +472,7 @@ namespace _ttAgent.Visual
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
             foreach (var record in _registry.VFlashHandlers.Cast<VFlashHandler>())
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + "INT_" + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name }); }
+            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
         }
@@ -482,7 +483,7 @@ namespace _ttAgent.Visual
 
         private void AssignConnection()
         {
-            var newId = _registry.AddPlcCommunicator(1);
+            var newId = _registry.AddPlcCommunicator(true);
             if (newId == 0) return;
 
             UpdateGui();
@@ -491,7 +492,7 @@ namespace _ttAgent.Visual
 
         private void AssignInterface(uint plcConnectionId)
         {
-            var newId = _registry.AddCommunicationInterface(1, plcConnectionId);
+            var newId = _registry.AddCommunicationInterface(true, plcConnectionId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -500,7 +501,7 @@ namespace _ttAgent.Visual
 
         private void AssignOutputFileHandler(uint communicationInterfaceId)
         {
-            var newId = _registry.AddOutputHandler(1, communicationInterfaceId);
+            var newId = _registry.AddOutputHandler(true, communicationInterfaceId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -509,7 +510,7 @@ namespace _ttAgent.Visual
 
         private void AssignVFlashBank()
         {
-            var newId = _registry.AddVFlashBank(1);
+            var newId = _registry.AddVFlashBank(true);
             if (newId == 0) return;
 
             UpdateGui();
@@ -518,7 +519,7 @@ namespace _ttAgent.Visual
 
         private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
-            var newId = _registry.AddVFlashChannel(1, communicationInterfaceId, vFlashBankId);
+            var newId = _registry.AddVFlashChannel(true, communicationInterfaceId, vFlashBankId);
             if (newId == 0) return;
 
             UpdateGui();

@@ -20,16 +20,26 @@ namespace _ttAgent.MainRegistry
             if (MainRegistryFile.Default.VFlashTypeBanks == null) return;
             if (MainRegistryFile.Default.VFlashHandlers == null) return;
 
-            foreach (var plcCommunicator in MainRegistryFile.Default.PlcCommunicators)
-            { if (plcCommunicator != null) { AddPlcCommunicator(); }}
-            foreach (var communicationInterfaceHandler in MainRegistryFile.Default.CommunicationInterfaceHandlers)
-            { if (communicationInterfaceHandler != null) { AddCommunicationInterface(communicationInterfaceHandler[1]); } }
-            foreach (var outputHandler in MainRegistryFile.Default.OutputHandlers)
-            { if (outputHandler != null) { AddOutputHandler(outputHandler[2]); } }
-            foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks)
-            { if (vFlashTypeBank != null) { AddVFlashBank(); } }
-            foreach (var vFlashHandler in MainRegistryFile.Default.VFlashHandlers)
-            { if (vFlashHandler != null) { AddVFlashChannel(vFlashHandler[2], vFlashHandler[3]); } }
+            foreach (var plcCommunicator in MainRegistryFile.Default.PlcCommunicators.Where(plcCommunicator => plcCommunicator != null))
+            {
+                AddPlcCommunicator(plcCommunicator[0]);
+            }
+            foreach (var communicationInterfaceHandler in MainRegistryFile.Default.CommunicationInterfaceHandlers.Where(communicationInterfaceHandler => communicationInterfaceHandler != null))
+            {
+                AddCommunicationInterface(communicationInterfaceHandler[0], communicationInterfaceHandler[1]);
+            }
+            foreach (var outputHandler in MainRegistryFile.Default.OutputHandlers.Where(outputHandler => outputHandler != null))
+            {
+                AddOutputHandler(outputHandler[0], outputHandler[2]);
+            }
+            foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks.Where(vFlashTypeBank => vFlashTypeBank != null))
+            {
+                AddVFlashBank(vFlashTypeBank[0]);
+            }
+            foreach (var vFlashHandler in MainRegistryFile.Default.VFlashHandlers.Where(vFlashHandler => vFlashHandler != null))
+            {
+                AddVFlashChannel(vFlashHandler[0], vFlashHandler[2], vFlashHandler[3]);
+            }
 
             UpdateMainRegistryFile();
             Logger.Log("Registry content initialized");
@@ -44,7 +54,7 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddPlcCommunicator()
         {
-            var id = (uint)PlcCommunicators.Children.Count + 1;
+            var id = PlcCommunicators.GetFirstNotUsed();
             return AddPlcCommunicator(id);
         }
 
@@ -86,7 +96,7 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddCommunicationInterface(uint plcConnectionId)
         {
-            var id = (uint)CommunicationInterfaceHandlers.Children.Count + 1;
+            var id = CommunicationInterfaceHandlers.GetFirstNotUsed();
             return AddCommunicationInterface(plcConnectionId, id);
         }
 
@@ -128,7 +138,7 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddOutputHandler(uint communicationInterfaceId)
         {
-            var id = (uint)OutputHandlers.Children.Count + 1;
+            var id = OutputHandlers.GetFirstNotUsed();
             return AddOutputHandler(communicationInterfaceId, id);
         }
 
@@ -143,7 +153,7 @@ namespace _ttAgent.MainRegistry
                         (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), 
                         OutputHandlerFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Output Handler");
-                component = (OutputHandler)CommunicationInterfaceHandlers.ReturnComponent(id);
+                component = (OutputHandler)OutputHandlers.ReturnComponent(id);
                 component.InitializeOutputHandler();
             }
             catch (Exception)
@@ -169,7 +179,7 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddVFlashBank()
         {
-            var id = (uint)VFlashTypeBanks.Children.Count + 1;
+            var id = VFlashTypeBanks.GetFirstNotUsed();
             return AddVFlashBank(id);
         }
 
@@ -194,7 +204,7 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
-            var id = (uint)VFlashHandlers.Children.Count + 1;
+            var id = VFlashHandlers.GetFirstNotUsed();
             return AddVFlashChannel(communicationInterfaceId, vFlashBankId, id);
         }
 
