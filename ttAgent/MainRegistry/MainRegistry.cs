@@ -278,20 +278,24 @@ namespace _ttAgent.MainRegistry
                     PlcGuiCommunicationStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
                     break;
                 }
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
                 PlcCommunicators.Children.Remove(component);
             }
             if (CommunicationInterfaceHandlers.Cast<object>().Any(communicationInterfaceHandler => component == communicationInterfaceHandler))
             {
                 CheckAssignment(component, 2);
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
                 CommunicationInterfaceHandlers.Children.Remove(component);
             }
             if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
             {
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
                 OutputHandlers.Children.Remove(component);
             }
             if (VFlashTypeBanks.Cast<object>().Any(vFlashTypeBank => component == vFlashTypeBank))
             {
                 CheckAssignment(component, 3);
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
                 VFlashTypeBanks.Children.Remove(component);
             }
             if (VFlashHandlers.Cast<object>().Any(vFlashHandler => component == vFlashHandler))
@@ -301,6 +305,7 @@ namespace _ttAgent.MainRegistry
                     GuiVFlashStatusBars.Children.Remove(guiVFlashStatusBar);
                     break;
                 }
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
                 VFlashHandlers.Children.Remove(component);
             }
             UpdateMainRegistryFile();
@@ -480,23 +485,23 @@ namespace _ttAgent.MainRegistry
 
             if (MainRegistryFile.Default.PlcCommunicators.Any(plcCommunicator => plcCommunicator != null && plcCommunicator[index] == component.Header.Id))
             {
-                throw new Exception("Component is still assigned to another one");
+                throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.CommunicationInterfaceHandlers.Any(communicationInterfaceHandler => communicationInterfaceHandler != null && communicationInterfaceHandler[index] == component.Header.Id))
             {
-                throw new Exception("Component is still assigned to another one");
+                throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.OutputHandlers.Any(outputHandler => outputHandler != null && outputHandler[index] == component.Header.Id))
             {
-                throw new Exception("Component is still assigned to another one");
+                throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.VFlashTypeBanks.Any(vFlashTypeBank => vFlashTypeBank != null && vFlashTypeBank[index] == component.Header.Id))
             {
-                throw new Exception("Component is still assigned to another one");
+                throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.VFlashHandlers.Any(vFlashHandler => vFlashHandler != null && vFlashHandler[index] == component.Header.Id))
             {
-                throw new Exception("Component is still assigned to another one");
+                throw new Exception("The component is still assigned to another one");
             }
         }
     }
