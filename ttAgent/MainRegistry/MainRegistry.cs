@@ -299,7 +299,7 @@ namespace _ttAgent.MainRegistry
         private void UpdateMainRegistryFile()
         {
             MainRegistryFile.Default.PlcCommunicators = new uint[9][];
-            foreach (var plcCommunicator in PlcCommunicators.Cast<PlcCommunicator>())
+            foreach (PlcCommunicator plcCommunicator in PlcCommunicators)
             {
                 MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id] = new uint[4];
                 MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][0] = 
@@ -310,7 +310,7 @@ namespace _ttAgent.MainRegistry
             }
 
             MainRegistryFile.Default.CommunicationInterfaceHandlers = new uint[9][];
-            foreach (var communicationInterfaceHandler in CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+            foreach (CommunicationInterfaceHandler communicationInterfaceHandler in CommunicationInterfaceHandlers)
             {
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id] = new uint[4];
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][0] = 
@@ -322,7 +322,7 @@ namespace _ttAgent.MainRegistry
             }
 
             MainRegistryFile.Default.OutputHandlers = new uint[9][];
-            foreach (var outputHandler in OutputHandlers.Cast<OutputHandler>())
+            foreach (OutputHandler outputHandler in OutputHandlers)
             {
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id] = new uint[4];
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][0] = 
@@ -334,7 +334,7 @@ namespace _ttAgent.MainRegistry
             }
 
             MainRegistryFile.Default.VFlashTypeBanks = new uint[9][];
-            foreach (var vFlashTypeBank in VFlashTypeBanks.Cast<VFlashTypeBank>())
+            foreach (VFlashTypeBank vFlashTypeBank in VFlashTypeBanks)
             {
                 MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id] = new uint[4];
                 MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][0] = 
@@ -345,7 +345,7 @@ namespace _ttAgent.MainRegistry
             }
 
             MainRegistryFile.Default.VFlashHandlers = new uint[9][];
-            foreach (var vFlashHandler in VFlashHandlers.Cast<VFlashHandler>())
+            foreach (VFlashHandler vFlashHandler in VFlashHandlers)
             {
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id] = new uint[4];
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][0] = vFlashHandler.Header.Id;
