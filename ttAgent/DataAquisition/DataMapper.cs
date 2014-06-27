@@ -6,7 +6,7 @@ namespace _ttAgent.DataAquisition
     static class DataMapper
     {
         #region Methods
-
+        //todo antypattern! zastapic wstrzykiwaniem
         public static Byte Read8Bits(byte[] valByte, int pos)
         {
             return valByte[pos + 0];

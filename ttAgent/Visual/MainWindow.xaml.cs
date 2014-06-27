@@ -178,6 +178,7 @@ namespace _ttAgent.Visual
 
         private void LoadConfiguration(object sender, RoutedEventArgs e)
         {
+            //todo won do rejestru!
             var dlg = new OpenFileDialog 
             { 
                 DefaultExt = ".ttac", 
@@ -311,6 +312,7 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Height = MainTabControl.Height - 62;
             ComponentManagerTreeView.Width = MainTabControl.Width - 10;
 
+            //todo pomysl o castach!
             foreach (var gui in _registry.GuiCommunicationInterfaceOnlines.Cast<GuiCommunicationInterfaceOnline>()) { gui.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
             foreach (var gui in _registry.GuiVFlashPathBanks.Cast<GuiVFlashPathBank>()) { gui.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }

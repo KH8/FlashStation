@@ -100,7 +100,7 @@ namespace _ttAgent.MainRegistry
             return AddCommunicationInterface(plcConnectionId, id);
         }
 
-        public override uint AddCommunicationInterface(uint plcConnectionId, uint id)
+        public override uint AddCommunicationInterface(uint id, uint plcConnectionId)
         {
             CommunicationInterfaceHandler component;
             try
@@ -142,7 +142,7 @@ namespace _ttAgent.MainRegistry
             return AddOutputHandler(communicationInterfaceId, id);
         }
 
-        public override uint AddOutputHandler(uint communicationInterfaceId, uint id)
+        public override uint AddOutputHandler(uint id, uint communicationInterfaceId)
         {
             OutputHandler component;
             try
@@ -208,7 +208,7 @@ namespace _ttAgent.MainRegistry
             return AddVFlashChannel(communicationInterfaceId, vFlashBankId, id);
         }
 
-        public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId, uint id)
+        public override uint AddVFlashChannel(uint id, uint communicationInterfaceId, uint vFlashBankId)
         {
             VFlashHandler component;
             try

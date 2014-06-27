@@ -13,14 +13,14 @@ namespace _ttAgent.DataAquisition
 
         public static CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
         {
-            bool readAreaFound = false;
-            bool writeAreaFound = false;
+            var readAreaFound = false;
+            var writeAreaFound = false;
 
             var readAddress = new Address { ByteAddress = 0, BitAddress = 0, };
             var writeAddress = new Address { ByteAddress = 0, BitAddress = 0, };
 
-            Boolean readByteOverloaded = false;
-            Boolean writeByteOverloaded = false;
+            var readByteOverloaded = false;
+            var writeByteOverloaded = false;
 
             var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
             var reader = new StreamReader(pathFile.Path[id]);
@@ -36,6 +36,7 @@ namespace _ttAgent.DataAquisition
                 case CommunicationInterfaceComponent.InterfaceType.ReadInterface:
                     while (true)
                     {
+                        //todo gotowiec?
                         line = reader.ReadLine();
                         if (line == null) break;
                         words = line.Split(';');

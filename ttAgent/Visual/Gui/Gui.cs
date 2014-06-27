@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using Microsoft.Win32;
 using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Visual.Gui
@@ -8,6 +7,8 @@ namespace _ttAgent.Visual.Gui
 
     internal abstract class Gui : RegistryComponent
     {
+        //todo parse xaml
+        //todo xaml bez okna
         private int _xPosition;
         private int _yPosition;
 
