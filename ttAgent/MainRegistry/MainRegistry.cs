@@ -5,6 +5,7 @@ using _ttAgent.DataAquisition;
 using _ttAgent.Log;
 using _ttAgent.Output;
 using _ttAgent.PLC;
+using _ttAgent.Project;
 using _ttAgent.Vector;
 using _ttAgent.Visual.Gui;
 
@@ -60,6 +61,12 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddPlcCommunicator(uint id)
         {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Plc Communication \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
             PlcCommunicator component;
             try
             {
@@ -102,6 +109,12 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddCommunicationInterface(uint id, uint plcConnectionId)
         {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Communicator Interface \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
             CommunicationInterfaceHandler component;
             try
             {
@@ -144,6 +157,12 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddOutputHandler(uint id, uint communicationInterfaceId)
         {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Output Handler \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
             OutputHandler component;
             try
             {
@@ -185,6 +204,12 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddVFlashBank(uint id)
         {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of vFlash Bank \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
             Logger.Log("ID: " + id + " Creation of the vFlash Bank Component");
             VFlashTypeBanks.Add(new VFlashTypeBank(id, "VFLASH_BANK__" + id, VFlashTypeBankFile.Default));
             var component = (VFlashTypeBank)VFlashTypeBanks.ReturnComponent(id);
@@ -210,6 +235,12 @@ namespace _ttAgent.MainRegistry
 
         public override uint AddVFlashChannel(uint id, uint communicationInterfaceId, uint vFlashBankId)
         {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of vFlash Handler \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
             VFlashHandler component;
             try
             {
@@ -264,11 +295,11 @@ namespace _ttAgent.MainRegistry
 
         public override void RemoveAll()
         {
-            foreach (var vFlashHandler in VFlashHandlers.Cast<VFlashHandler>())
+            foreach (VFlashHandler vFlashHandler in VFlashHandlers)
             {
                 vFlashHandler.Deinitialize();
             }
-            foreach (var plcCommunicator in PlcCommunicators.Cast<PlcCommunicator>())
+            foreach (PlcCommunicator plcCommunicator in PlcCommunicators)
             {
                 plcCommunicator.CloseConnection();
             }
@@ -356,6 +387,77 @@ namespace _ttAgent.MainRegistry
                     vFlashHandler.VFlashTypeBank.Header.Id;
             }
             MainRegistryFile.Default.Save();
+        }
+
+        public void MakeNewConfiguration()
+        {
+            RemoveAll();
+
+            MainRegistryFile.Default.Reset();
+            PlcConfigurationFile.Default.Reset();
+            CommunicationInterfacePath.Default.Reset();
+            OutputHandlerFile.Default.Reset();
+            VFlashTypeBankFile.Default.Reset();
+        }
+
+        public void LoadConfiguration(ProjectFileStruture.ProjectSavedData projectData)
+        {
+            RemoveAll();
+
+            MainRegistryFile.Default.Reset();
+            PlcConfigurationFile.Default.Reset();
+            CommunicationInterfacePath.Default.Reset();
+            OutputHandlerFile.Default.Reset();
+            VFlashTypeBankFile.Default.Reset();
+
+            MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
+            MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
+            MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
+            MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
+            MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
+            MainRegistryFile.Default.Save();
+
+            PlcConfigurationFile.Default.Configuration = projectData.Configuration;
+            PlcConfigurationFile.Default.ConnectAtStartUp = projectData.ConnectAtStartUp;
+            PlcConfigurationFile.Default.Save();
+
+            CommunicationInterfacePath.Default.Path = projectData.Path;
+            CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
+            CommunicationInterfacePath.Default.Save();
+
+            OutputHandlerFile.Default.FileNameSuffixes = projectData.FileNameSuffixes;
+            OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
+            OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
+            OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
+            OutputHandlerFile.Default.Save();
+
+            VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
+            VFlashTypeBankFile.Default.Save();
+
+            Logger.Log("Registry initialization");
+            Initialize();
+        }
+
+        public ProjectFileStruture.ProjectSavedData SaveConfiguration()
+        {
+            var projectData = new ProjectFileStruture.ProjectSavedData
+            {
+                PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
+                CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
+                OutputHandlers = MainRegistryFile.Default.OutputHandlers,
+                VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
+                VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
+                Configuration = PlcConfigurationFile.Default.Configuration,
+                ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
+                Path = CommunicationInterfacePath.Default.Path,
+                ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
+                FileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
+                StartAddress = OutputHandlerFile.Default.StartAddress,
+                EndAddress = OutputHandlerFile.Default.EndAddress,
+                SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
+                TypeBank = VFlashTypeBankFile.Default.TypeBank,
+            };
+            return projectData;
         }
     }
 }

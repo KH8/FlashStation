@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -52,7 +51,7 @@ namespace _ttAgent.Visual
         {
             while (_communicationThread.IsAlive)
             {
-                foreach (var communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+                foreach (CommunicationInterfaceHandler communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers)
                 {
                     communicationInterfaceHandler.MaintainConnection();
                 }
@@ -66,14 +65,14 @@ namespace _ttAgent.Visual
 
         private void CloseApp(object sender, RoutedEventArgs routedEventArgs)
         {
-            foreach (var vFlashHandler in _registry.VFlashHandlers.Cast<VFlashHandler>()) { vFlashHandler.Deinitialize(); }
+            foreach (VFlashHandler vFlashHandler in _registry.VFlashHandlers) { vFlashHandler.Deinitialize(); }
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
 
         private void CloseApp(object sender, CancelEventArgs e)
         {
-            foreach (var vFlashHandler in _registry.VFlashHandlers.Cast<VFlashHandler>()) { vFlashHandler.Deinitialize(); }
+            foreach (VFlashHandler vFlashHandler in _registry.VFlashHandlers) { vFlashHandler.Deinitialize(); }
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
@@ -86,7 +85,7 @@ namespace _ttAgent.Visual
         private void AddInterface(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem { Header = "PLC Connections" };
-            foreach (var record in _registry.PlcCommunicators.Cast<PlcCommunicator>())
+            foreach (PlcCommunicator record in _registry.PlcCommunicators)
             { 
                 newHeader.Items.Add(new TreeViewItem
                 {
@@ -102,7 +101,7 @@ namespace _ttAgent.Visual
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
-            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
@@ -123,7 +122,7 @@ namespace _ttAgent.Visual
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
             var newHeaderCommunicationInterface = new TreeViewItem { Header = "Communication Interfaces" };
-            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
@@ -133,7 +132,7 @@ namespace _ttAgent.Visual
             }
 
             var newHeaderVFlashBank = new TreeViewItem { Header = "vFlash Banks" };
-            foreach (var record in _registry.VFlashTypeBanks.Cast<VFlashTypeBank>())
+            foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
             {
                 newHeaderVFlashBank.Items.Add(new TreeViewItem
                 {
@@ -163,22 +162,17 @@ namespace _ttAgent.Visual
 
         private void NewConfiguration(object sender, RoutedEventArgs e)
         {
-            _registry.RemoveAll();
-
-            MainRegistryFile.Default.Reset();
-            PlcConfigurationFile.Default.Reset();
-            CommunicationInterfacePath.Default.Reset();
-            OutputHandlerFile.Default.Reset();
-            VFlashTypeBankFile.Default.Reset();
+            _registry.MakeNewConfiguration();
 
             UpdateGui();
             UpdateTreeView();
             Logger.Log("New configuration");
         }
 
+        
+
         private void LoadConfiguration(object sender, RoutedEventArgs e)
         {
-            //todo won do rejestru!
             var dlg = new OpenFileDialog 
             { 
                 DefaultExt = ".ttac", 
@@ -197,40 +191,7 @@ namespace _ttAgent.Visual
                 var projectData = (ProjectFileStruture.ProjectSavedData)formatter.Deserialize(stream);
                 stream.Close();
 
-                _registry.RemoveAll();
-
-                MainRegistryFile.Default.Reset();
-                PlcConfigurationFile.Default.Reset();
-                CommunicationInterfacePath.Default.Reset();
-                OutputHandlerFile.Default.Reset();
-                VFlashTypeBankFile.Default.Reset();
-
-                MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
-                MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
-                MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
-                MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
-                MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
-                MainRegistryFile.Default.Save();
-
-                PlcConfigurationFile.Default.Configuration = projectData.Configuration;
-                PlcConfigurationFile.Default.ConnectAtStartUp = projectData.ConnectAtStartUp;
-                PlcConfigurationFile.Default.Save();
-
-                CommunicationInterfacePath.Default.Path = projectData.Path;
-                CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
-                CommunicationInterfacePath.Default.Save();
-
-                OutputHandlerFile.Default.FileNameSuffixes = projectData.FileNameSuffixes;
-                OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
-                OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
-                OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
-                OutputHandlerFile.Default.Save();
-
-                VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
-                VFlashTypeBankFile.Default.Save();
-
-                Logger.Log("Registry initialization");
-                _registry.Initialize();
+                _registry.LoadConfiguration(projectData);
 
                 UpdateGui();
                 UpdateTreeView();
@@ -251,27 +212,7 @@ namespace _ttAgent.Visual
             if (result == true)
             {
                 Logger.Log("Saveing configuration to file: " + dlg.FileName);
-                var projectData = new ProjectFileStruture.ProjectSavedData
-                {
-                    PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
-                    CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
-                    OutputHandlers = MainRegistryFile.Default.OutputHandlers,
-                    VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
-                    VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
-
-                    Configuration = PlcConfigurationFile.Default.Configuration,
-                    ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
-
-                    Path = CommunicationInterfacePath.Default.Path,
-                    ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
-
-                    FileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
-                    StartAddress = OutputHandlerFile.Default.StartAddress,
-                    EndAddress = OutputHandlerFile.Default.EndAddress,
-                    SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
-
-                    TypeBank = VFlashTypeBankFile.Default.TypeBank,
-                };
+                var projectData = _registry.SaveConfiguration();
 
                 IFormatter formatter = new BinaryFormatter();
                 Stream stream = new FileStream(dlg.FileName,
@@ -312,9 +253,8 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Height = MainTabControl.Height - 62;
             ComponentManagerTreeView.Width = MainTabControl.Width - 10;
 
-            //todo pomysl o castach!
-            foreach (var gui in _registry.GuiCommunicationInterfaceOnlines.Cast<GuiCommunicationInterfaceOnline>()) { gui.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
-            foreach (var gui in _registry.GuiVFlashPathBanks.Cast<GuiVFlashPathBank>()) { gui.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
+            foreach (GuiCommunicationInterfaceOnline gui in _registry.GuiCommunicationInterfaceOnlines) { gui.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
+            foreach (GuiVFlashPathBank gui in _registry.GuiVFlashPathBanks) { gui.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }
 
         private void ComponentManagerSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -339,7 +279,7 @@ namespace _ttAgent.Visual
             OutputTabControl.Items.Add(labelOutputTabControl);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
-            foreach (var record in _registry.PlcCommunicators.Cast<PlcCommunicator>())
+            foreach (PlcCommunicator record in _registry.PlcCommunicators)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
@@ -358,12 +298,12 @@ namespace _ttAgent.Visual
                 gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
             }
 
-            foreach (var record in _registry.PlcGuiCommunicationStatusBars.Cast<GuiCommunicationStatusBar>())
+            foreach (GuiCommunicationStatusBar record in _registry.PlcGuiCommunicationStatusBars)
             {
                 record.Initialize(95 * ( (int)record.Header.Id - 1 ), -1, FooterGrid);
             }
 
-            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
@@ -392,7 +332,7 @@ namespace _ttAgent.Visual
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
             }
 
-            foreach (var record in _registry.OutputHandlers.Cast<OutputHandler>())
+            foreach (OutputHandler record in _registry.OutputHandlers)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
@@ -405,7 +345,7 @@ namespace _ttAgent.Visual
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
             }
 
-            foreach (var record in _registry.VFlashTypeBanks.Cast<VFlashTypeBank>())
+            foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
@@ -421,7 +361,7 @@ namespace _ttAgent.Visual
                 gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
             }
 
-            foreach (var record in _registry.VFlashHandlers.Cast<VFlashHandler>())
+            foreach (VFlashHandler record in _registry.VFlashHandlers)
             {
 
                 var newtabItem = new TabItem { Header = record.Header.Name };
@@ -453,27 +393,27 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Items.Add(mainHeader);
             
             var newHeader= new TreeViewItem {Header = "PLC Connections"};
-            foreach (var record in _registry.PlcCommunicators.Cast<PlcCommunicator>())
+            foreach (PlcCommunicator record in _registry.PlcCommunicators)
             { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Communication Interfaces" };
-            foreach (var record in _registry.CommunicationInterfaceHandlers.Cast<CommunicationInterfaceHandler>())
+            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Handlers" };
-            foreach (var record in _registry.OutputHandlers.Cast<OutputHandler>())
+            foreach (OutputHandler record in _registry.OutputHandlers)
             { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Banks" };
-            foreach (var record in _registry.VFlashTypeBanks.Cast<VFlashTypeBank>())
+            foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
             { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
-            foreach (var record in _registry.VFlashHandlers.Cast<VFlashHandler>())
+            foreach (VFlashHandler record in _registry.VFlashHandlers)
             { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name }); }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
@@ -529,6 +469,5 @@ namespace _ttAgent.Visual
         }
 
         #endregion
-
     }
 }
