@@ -41,11 +41,7 @@ namespace _ttAgent.MainRegistry
         public abstract uint AddVFlashBank(uint id);
         public abstract uint AddVFlashChannel(uint id, uint communicationInterfaceId, uint vFlashBankId);
 
-        public abstract void RemovePlcCommunicator(uint id);
-        public abstract void RemoveCommunicationInterface(uint id);
-        public abstract void RemoveOutputHandler(uint id);
-        public abstract void RemoveVFlashBank(uint id);
-        public abstract void RemoveVFlashChannel(uint id);
+        public abstract void RemoveComponent(RegistryComponent component);
 
         public abstract void RemoveAll();
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
@@ -26,6 +27,7 @@ namespace _ttAgent.Visual
     {
         private readonly Thread _communicationThread;
         private readonly Registry _registry;
+        private Dictionary<TreeViewItem, RegistryComponent> _registryComponents;
 
         public MainWindow()
         {
@@ -169,8 +171,6 @@ namespace _ttAgent.Visual
             Logger.Log("New configuration");
         }
 
-        
-
         private void LoadConfiguration(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog 
@@ -222,6 +222,22 @@ namespace _ttAgent.Visual
                 stream.Close();
             }
             Logger.Log("Configuration saved");
+        }
+
+        private void RemoveComponent(object sender, RoutedEventArgs e)
+        {
+            var selection = (TreeViewItem)ComponentManagerTreeView.SelectedItem;
+            try
+            {
+                _registry.RemoveComponent(_registryComponents[selection]);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Component cannot be removed");
+            }
+            
+            UpdateGui();
+            UpdateTreeView();
         }
 
         #endregion
@@ -388,33 +404,70 @@ namespace _ttAgent.Visual
         private void UpdateTreeView()
         {
             ComponentManagerTreeView.Items.Clear();
+            _registryComponents = new Dictionary<TreeViewItem, RegistryComponent>();
 
             var mainHeader = new TreeViewItem { Header = "Components" };
             ComponentManagerTreeView.Items.Add(mainHeader);
             
             var newHeader= new TreeViewItem {Header = "PLC Connections"};
             foreach (PlcCommunicator record in _registry.PlcCommunicators)
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name }); }
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem); 
+                
+            }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Communication Interfaces" };
             foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name }); }
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Handlers" };
             foreach (OutputHandler record in _registry.OutputHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name }); }
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Banks" };
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name }); }
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "vFlash Channels" };
             foreach (VFlashHandler record in _registry.VFlashHandlers)
-            { newHeader.Items.Add(new TreeViewItem { Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name }); }
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
             
         }
@@ -469,5 +522,6 @@ namespace _ttAgent.Visual
         }
 
         #endregion
+
     }
 }

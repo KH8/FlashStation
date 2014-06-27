@@ -268,29 +268,42 @@ namespace _ttAgent.MainRegistry
             return id;
         }
 
-        public override void RemovePlcCommunicator(uint id)
+        public override void RemoveComponent(RegistryComponent component)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveCommunicationInterface(uint id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveOutputHandler(uint id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveVFlashBank(uint id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveVFlashChannel(uint id)
-        {
-            throw new NotImplementedException();
+            if (PlcCommunicators.Cast<object>().Any(plcCommunicator => component == plcCommunicator))
+            {
+                CheckAssignment(component, 1);
+                foreach (var plcGuiCommunicationStatusBar in PlcGuiCommunicationStatusBars.Cast<GuiCommunicationStatusBar>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
+                {
+                    PlcGuiCommunicationStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
+                    break;
+                }
+                PlcCommunicators.Children.Remove(component);
+            }
+            if (CommunicationInterfaceHandlers.Cast<object>().Any(communicationInterfaceHandler => component == communicationInterfaceHandler))
+            {
+                CheckAssignment(component, 2);
+                CommunicationInterfaceHandlers.Children.Remove(component);
+            }
+            if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
+            {
+                OutputHandlers.Children.Remove(component);
+            }
+            if (VFlashTypeBanks.Cast<object>().Any(vFlashTypeBank => component == vFlashTypeBank))
+            {
+                CheckAssignment(component, 3);
+                VFlashTypeBanks.Children.Remove(component);
+            }
+            if (VFlashHandlers.Cast<object>().Any(vFlashHandler => component == vFlashHandler))
+            {
+                foreach (var guiVFlashStatusBar in GuiVFlashStatusBars.Cast<GuiVFlashStatusBar>().Where(guiVFlashStatusBar => guiVFlashStatusBar.Header.Id == component.Header.Id))
+                {
+                    GuiVFlashStatusBars.Children.Remove(guiVFlashStatusBar);
+                    break;
+                }
+                VFlashHandlers.Children.Remove(component);
+            }
+            UpdateMainRegistryFile();
         }
 
         public override void RemoveAll()
@@ -458,6 +471,33 @@ namespace _ttAgent.MainRegistry
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
             };
             return projectData;
+        }
+
+        private void CheckAssignment(RegistryComponent component, int position)
+        {
+            if (component == null) return;
+            var index = position;
+
+            if (MainRegistryFile.Default.PlcCommunicators.Any(plcCommunicator => plcCommunicator != null && plcCommunicator[index] == component.Header.Id))
+            {
+                throw new Exception("Component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.CommunicationInterfaceHandlers.Any(communicationInterfaceHandler => communicationInterfaceHandler != null && communicationInterfaceHandler[index] == component.Header.Id))
+            {
+                throw new Exception("Component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.OutputHandlers.Any(outputHandler => outputHandler != null && outputHandler[index] == component.Header.Id))
+            {
+                throw new Exception("Component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.VFlashTypeBanks.Any(vFlashTypeBank => vFlashTypeBank != null && vFlashTypeBank[index] == component.Header.Id))
+            {
+                throw new Exception("Component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.VFlashHandlers.Any(vFlashHandler => vFlashHandler != null && vFlashHandler[index] == component.Header.Id))
+            {
+                throw new Exception("Component is still assigned to another one");
+            }
         }
     }
 }
