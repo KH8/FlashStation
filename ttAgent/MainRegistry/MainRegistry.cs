@@ -104,7 +104,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddCommunicationInterface(uint plcConnectionId)
         {
             var id = CommunicationInterfaceHandlers.GetFirstNotUsed();
-            return AddCommunicationInterface(plcConnectionId, id);
+            return AddCommunicationInterface(id, plcConnectionId);
         }
 
         public override uint AddCommunicationInterface(uint id, uint plcConnectionId)
@@ -152,7 +152,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddOutputHandler(uint communicationInterfaceId)
         {
             var id = OutputHandlers.GetFirstNotUsed();
-            return AddOutputHandler(communicationInterfaceId, id);
+            return AddOutputHandler(id, communicationInterfaceId);
         }
 
         public override uint AddOutputHandler(uint id, uint communicationInterfaceId)
@@ -230,7 +230,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var id = VFlashHandlers.GetFirstNotUsed();
-            return AddVFlashChannel(communicationInterfaceId, vFlashBankId, id);
+            return AddVFlashChannel(id, communicationInterfaceId, vFlashBankId);
         }
 
         public override uint AddVFlashChannel(uint id, uint communicationInterfaceId, uint vFlashBankId)
@@ -279,6 +279,10 @@ namespace _ttAgent.MainRegistry
                     break;
                 }
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var plcCommunicator = (PlcCommunicator) component;
+                plcCommunicator.CloseConnection();
+
                 PlcCommunicators.Children.Remove(component);
             }
             if (CommunicationInterfaceHandlers.Cast<object>().Any(communicationInterfaceHandler => component == communicationInterfaceHandler))
@@ -306,6 +310,10 @@ namespace _ttAgent.MainRegistry
                     break;
                 }
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var vFlashHandler = (VFlashHandler)component;
+                vFlashHandler.Deinitialize();
+
                 VFlashHandlers.Children.Remove(component);
             }
             UpdateMainRegistryFile();
