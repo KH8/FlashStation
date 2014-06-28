@@ -149,7 +149,7 @@ namespace _ttAgent.Visual
 
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
-            MainTabControl.SelectedItem = AbouTabItem;
+            MainTabControl.SelectedItem = AboutTabItem;
         }
 
         private void ShowComponentManager(object sender, RoutedEventArgs e)
@@ -395,8 +395,8 @@ namespace _ttAgent.Visual
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);
-            if (MainTabControl.SelectedItem == null) MainTabControl.SelectedItem = ComponentManagerTabItem;
-            MainTabControl.Items.Add(AbouTabItem);
+            MainTabControl.SelectedItem = ComponentManagerTabItem;
+            MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
 
         }
