@@ -49,7 +49,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddPlcCommunicator(Boolean save)
         {
             var id =  AddPlcCommunicator();
-            if (save) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateMainRegistryFile();
             return id;
         }
 
@@ -97,7 +97,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddCommunicationInterface(Boolean save, uint plcConnectionId)
         {
             var id = AddCommunicationInterface(plcConnectionId);
-            if (save) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateMainRegistryFile();
             return id;
         }
 
@@ -145,7 +145,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddOutputHandler(Boolean save, uint communicationInterfaceId)
         {
             var id = AddOutputHandler(communicationInterfaceId);
-            if (save) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateMainRegistryFile();
             return id;
         }
 
@@ -177,7 +177,7 @@ namespace _ttAgent.MainRegistry
             }
             catch (Exception)
             {
-                OutputHandlers.Remove(CommunicationInterfaceHandlers.ReturnComponent(id));
+                OutputHandlers.Remove(OutputHandlers.ReturnComponent(id));
                 MessageBox.Show("Component could not be created", "Component Creation Failed");
                 Logger.Log("Creation of a new Output Handler failed");
                 return 0;
@@ -192,7 +192,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddVFlashBank(Boolean save)
         {
             var id = AddVFlashBank();
-            if (save) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateMainRegistryFile();
             return id;
         }
 
@@ -223,7 +223,7 @@ namespace _ttAgent.MainRegistry
         public override uint AddVFlashChannel(Boolean save, uint communicationInterfaceId, uint vFlashBankId)
         {
             var id = AddVFlashChannel(communicationInterfaceId, vFlashBankId);
-            if (save) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateMainRegistryFile();
             return id;
         }
 
