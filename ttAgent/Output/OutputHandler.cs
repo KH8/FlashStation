@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using _ttAgent.DataAquisition;
+using _ttAgent.General;
 using _ttAgent.Log;
 using _ttAgent.MainRegistry;
 
@@ -36,6 +37,7 @@ namespace _ttAgent.Output
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public OutputHandlerFile OutputHandlerFile { get; set; }
+        public InterfaceAssignmentCollection InterfaceAssignmentCollection { get; set; }
 
         #endregion
 
@@ -49,6 +51,36 @@ namespace _ttAgent.Output
             _outputThread = new Thread(OutputCommunicationThread);
             _outputThread.SetApartmentState(ApartmentState.STA);
             _outputThread.IsBackground = true;
+
+            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.In,
+                Name = "Command",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = "0"
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Life Counter",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = "0"
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Reply",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = "0"
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Status",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = "0"
+            });
         }
 
         #endregion

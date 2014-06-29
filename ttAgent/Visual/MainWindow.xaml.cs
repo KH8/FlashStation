@@ -361,37 +361,7 @@ namespace _ttAgent.Visual
                 var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
 
-                var assignmentCollection = new InterfaceAssignmentCollection();
-                
-                assignmentCollection.Children.Add(new InterfaceAssignment
-                {
-                    VariableDirection = InterfaceAssignment.Direction.In,
-                    Name = "Command",
-                    Type = CommunicationInterfaceComponent.VariableType.Integer,
-                    Assignment = "0"
-                });
-                assignmentCollection.Children.Add(new InterfaceAssignment
-                {
-                    VariableDirection = InterfaceAssignment.Direction.In,
-                    Name = "Version",
-                    Type = CommunicationInterfaceComponent.VariableType.String,
-                    Assignment = "0"
-                });
-                assignmentCollection.Children.Add(new InterfaceAssignment
-                {
-                    VariableDirection = InterfaceAssignment.Direction.Out,
-                    Name = "Life Counter",
-                    Type = CommunicationInterfaceComponent.VariableType.Integer,
-                    Assignment = "0"
-                });
-                assignmentCollection.Children.Add(new InterfaceAssignment
-                {
-                    VariableDirection = InterfaceAssignment.Direction.Out,
-                    Name = "Reply",
-                    Type = CommunicationInterfaceComponent.VariableType.Integer,
-                    Assignment = "0"
-                });
-                newGrid.Children.Add(new GuiInterfaceAssignment(252, 0, assignmentCollection));
+                newGrid.Children.Add(new GuiInterfaceAssignment(252, 0, record.InterfaceAssignmentCollection));
             }
 
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)

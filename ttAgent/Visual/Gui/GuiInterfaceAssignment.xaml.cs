@@ -8,11 +8,14 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiInterfaceAssignment
     {
+        private InterfaceAssignmentCollection _interfaceAssignmentCollection;
+
         public GuiInterfaceAssignment(int xPosition, int yPosition, InterfaceAssignmentCollection interfaceAssignmentCollection)
         {
             InitializeComponent();
             GeneralGrid.Margin = new Thickness(xPosition,yPosition,0,0);
-            AssignmentDataGrid.ItemsSource = interfaceAssignmentCollection.Children;
+            _interfaceAssignmentCollection = interfaceAssignmentCollection;
+            AssignmentDataGrid.ItemsSource = _interfaceAssignmentCollection.Children;
         }
     }
 }
