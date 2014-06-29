@@ -359,6 +359,8 @@ namespace _ttAgent.Visual
 
                 var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
+
+                newGrid.Children.Add(new GuiInterfaceAssignment(252,0));
             }
 
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
