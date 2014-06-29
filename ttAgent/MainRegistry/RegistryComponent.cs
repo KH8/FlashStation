@@ -1,3 +1,5 @@
+using _ttAgent.General;
+
 namespace _ttAgent.MainRegistry
 {
     public abstract class RegistryComponent
@@ -7,6 +9,8 @@ namespace _ttAgent.MainRegistry
             public uint Id;
             public string Name;
         }
+
+        public InterfaceAssignmentCollection InterfaceAssignmentCollection { get; set; }
 
         public RegistryComponentHeader Header;
 
@@ -18,5 +22,7 @@ namespace _ttAgent.MainRegistry
                 Name = name
             };
         }
+
+        public abstract void UpdateAssignment();
     }
 }

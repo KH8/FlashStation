@@ -37,13 +37,13 @@ namespace _ttAgent.Output
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public OutputHandlerFile OutputHandlerFile { get; set; }
-        public InterfaceAssignmentCollection InterfaceAssignmentCollection { get; set; }
+        public OutputHandlerInterfaceAssignmentFile OutputHandlerInterfaceAssignmentFile { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputHandlerFile outputHandlerFile) : base(id, name)
+        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputHandlerFile outputHandlerFile, OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile) : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             OutputHandlerFile = outputHandlerFile;
@@ -52,35 +52,7 @@ namespace _ttAgent.Output
             _outputThread.SetApartmentState(ApartmentState.STA);
             _outputThread.IsBackground = true;
 
-            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.In,
-                Name = "Command",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = "0"
-            });
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.Out,
-                Name = "Life Counter",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = "0"
-            });
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.Out,
-                Name = "Reply",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = "0"
-            });
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.Out,
-                Name = "Status",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = "0"
-            });
+            CreateInterfaceAssignment(id, outputHandlerInterfaceAssignmentFile);
         }
 
         #endregion
@@ -89,12 +61,6 @@ namespace _ttAgent.Output
 
         public void InitializeOutputHandler()
         {
-            if( !CheckInterface())
-            {
-                MessageBox.Show("ID: " + Header.Id + " Output Handler initialization failed", "Output Handler Failed");
-                throw new OutputHandlerException("Output Handler initialization failed");
-            }
-
             _outputThread.Start();
             Logger.Log("ID: " + Header.Id + " Output Handler Initialized");
         }
@@ -159,7 +125,7 @@ namespace _ttAgent.Output
 
                 if (!_pcControlMode && CheckInterface())
                 {
-                    var inputCompositeCommand = (CiInteger) CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
+                    var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
 
                     switch (inputCompositeCommand.Value)
                     {
@@ -189,10 +155,10 @@ namespace _ttAgent.Output
 
                 if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())
                 {
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("LEBENSZAECHLER", counter);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Life Counter"), counter);
                     counter++;
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("ANTWORT", antwort);
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("STATUS", status);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Reply"), antwort);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Status"), status);
                 }
                 Thread.Sleep(200);
             }
@@ -209,15 +175,68 @@ namespace _ttAgent.Output
 
         private Boolean CheckInterface()
         {
-            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
+            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("LEBENSZAECHLER");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("ANTWORT");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Reply"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("STATUS");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Status"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
             return true;
+        }
+
+        private void CreateInterfaceAssignment(uint id,
+            OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
+        {
+            OutputHandlerInterfaceAssignmentFile = outputHandlerInterfaceAssignmentFile;
+            if (OutputHandlerInterfaceAssignmentFile.Assignment[id].Length == 0)
+            {
+                OutputHandlerInterfaceAssignmentFile.Assignment[id] = new string[4];
+            }
+
+            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.In,
+                Name = "Command",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][0]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Life Counter",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][1]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Reply",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][2]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Status",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][3]
+            });
+        }
+
+        public override void UpdateAssignment()
+        {
+            OutputHandlerInterfaceAssignmentFile.Assignment[Header.Id][0] =
+                InterfaceAssignmentCollection.GetAssignment("Command");
+            OutputHandlerInterfaceAssignmentFile.Assignment[Header.Id][1] =
+                InterfaceAssignmentCollection.GetAssignment("Life Counter");
+            OutputHandlerInterfaceAssignmentFile.Assignment[Header.Id][2] =
+                InterfaceAssignmentCollection.GetAssignment("Reply");
+            OutputHandlerInterfaceAssignmentFile.Assignment[Header.Id][3] =
+                InterfaceAssignmentCollection.GetAssignment("Status");
+            OutputHandlerInterfaceAssignmentFile.Save();
         }
 
         #endregion

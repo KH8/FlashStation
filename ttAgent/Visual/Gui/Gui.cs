@@ -5,7 +5,7 @@ namespace _ttAgent.Visual.Gui
 {
     #region Abstract Class
 
-    internal abstract class Gui : RegistryComponent
+    public abstract class Gui : RegistryComponent
     {
         //todo parse xaml
         //todo xaml bez okna

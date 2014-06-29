@@ -170,7 +170,8 @@ namespace _ttAgent.MainRegistry
                 OutputHandlers.Add(
                     new OutputHandler(id, "OUT__" + id,
                         (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), 
-                        OutputHandlerFile.Default));
+                        OutputHandlerFile.Default,
+                        OutputHandlerInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Output Handler");
                 component = (OutputHandler)OutputHandlers.ReturnComponent(id);
                 component.InitializeOutputHandler();

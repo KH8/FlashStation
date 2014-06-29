@@ -261,6 +261,11 @@ namespace _ttAgent.PLC
         }
 
         #endregion
+
+        public override void UpdateAssignment()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     #region Auxiliaries

@@ -130,5 +130,10 @@ namespace _ttAgent.Visual.Gui
                 Thread.Sleep(1000);
             }
         }
+
+        public override void UpdateAssignment()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

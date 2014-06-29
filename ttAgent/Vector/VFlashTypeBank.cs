@@ -57,6 +57,11 @@ namespace _ttAgent.Vector
             var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);
             return child != null ? child.Version : null;
         }
+
+        public override void UpdateAssignment()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class VFlashTypeComponent : VFlashDisplayProjectData

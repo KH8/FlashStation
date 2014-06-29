@@ -93,6 +93,11 @@
       <DependentUpon>OutputHandlerFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Output\OutputHandler.cs" />
+    <Compile Include="Output\OutputHandlerInterfaceAssignmentFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>OutputHandlerInterfaceAssignmentFile.settings</DependentUpon>
+    </Compile>
     <Compile Include="Output\OutputWriterFactory.cs" />
     <Compile Include="Project\ProjectFileStruture.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -130,6 +135,10 @@
     <None Include="MainRegistry\MainRegistryFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MainRegistryFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Output\OutputHandlerInterfaceAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
     <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />

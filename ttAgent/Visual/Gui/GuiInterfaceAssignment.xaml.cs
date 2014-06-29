@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using _ttAgent.General;
+using _ttAgent.MainRegistry;
+using _ttAgent.Output;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -8,14 +11,23 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiInterfaceAssignment
     {
-        private InterfaceAssignmentCollection _interfaceAssignmentCollection;
+        private readonly RegistryComponent _registryComponent;
 
-        public GuiInterfaceAssignment(int xPosition, int yPosition, InterfaceAssignmentCollection interfaceAssignmentCollection)
+        public ObservableCollection<InterfaceAssignment> InterfaceAssignmentCollection;public RegistryComponent.RegistryComponentHeader Header;
+
+        public GuiInterfaceAssignment(int xPosition, int yPosition, RegistryComponent registryComponent)
         {
             InitializeComponent();
             GeneralGrid.Margin = new Thickness(xPosition,yPosition,0,0);
-            _interfaceAssignmentCollection = interfaceAssignmentCollection;
-            AssignmentDataGrid.ItemsSource = _interfaceAssignmentCollection.Children;
+
+            _registryComponent = registryComponent;
+            InterfaceAssignmentCollection = registryComponent.InterfaceAssignmentCollection.Children;
+            AssignmentDataGrid.ItemsSource = InterfaceAssignmentCollection;
+        }
+
+        private void AssignmentChanged(object sender, System.EventArgs e)
+        {
+            _registryComponent.UpdateAssignment();
         }
     }
 }

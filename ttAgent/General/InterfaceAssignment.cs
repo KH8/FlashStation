@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using _ttAgent.DataAquisition;
 
 namespace _ttAgent.General
 {
-    public struct InterfaceAssignment
+    public class InterfaceAssignment
     {
         public enum Direction
         {
@@ -25,6 +25,11 @@ namespace _ttAgent.General
         public InterfaceAssignmentCollection()
         {
             Children = new ObservableCollection<InterfaceAssignment>();
+        }
+
+        public string GetAssignment(string name)
+        {
+            return Children.Where(assignment => assignment.Name == name).Select(assignment => assignment.Assignment).FirstOrDefault();
         }
     }
 }

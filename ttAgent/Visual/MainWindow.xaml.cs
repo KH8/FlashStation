@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using _ttAgent.DataAquisition;
-using _ttAgent.General;
 using _ttAgent.Log;
 using _ttAgent.MainRegistry;
 using _ttAgent.Output;
@@ -361,7 +360,7 @@ namespace _ttAgent.Visual
                 var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
 
-                newGrid.Children.Add(new GuiInterfaceAssignment(252, 0, record.InterfaceAssignmentCollection));
+                newGrid.Children.Add(new GuiInterfaceAssignment(252, 0, record));
             }
 
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)

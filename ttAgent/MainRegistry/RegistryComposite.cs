@@ -50,5 +50,10 @@ namespace _ttAgent.MainRegistry
         {
             return _children.GetEnumerator();
         }
+
+        public override void UpdateAssignment()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

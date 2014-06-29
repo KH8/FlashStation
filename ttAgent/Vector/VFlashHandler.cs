@@ -372,5 +372,10 @@ namespace _ttAgent.Vector
         }
 
         #endregion
+
+        public override void UpdateAssignment()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

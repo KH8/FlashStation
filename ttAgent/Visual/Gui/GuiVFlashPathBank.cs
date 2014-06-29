@@ -151,5 +151,10 @@ namespace _ttAgent.Visual.Gui
         {
             _generalGrid.Visibility = Visibility.Hidden;
         }
+
+        public override void UpdateAssignment()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
