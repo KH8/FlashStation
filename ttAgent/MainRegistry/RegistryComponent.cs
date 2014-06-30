@@ -10,8 +10,6 @@ namespace _ttAgent.MainRegistry
             public string Name;
         }
 
-        public InterfaceAssignmentCollection InterfaceAssignmentCollection { get; set; }
-
         public RegistryComponentHeader Header;
 
         protected RegistryComponent(uint id, string name)
@@ -21,8 +19,6 @@ namespace _ttAgent.MainRegistry
                 Id = id,
                 Name = name
             };
-        }
-
-        public abstract void UpdateAssignment();
+        }  
     }
 }

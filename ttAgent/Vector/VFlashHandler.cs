@@ -3,12 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using _ttAgent.DataAquisition;
+using _ttAgent.General;
 using _ttAgent.Log;
-using _ttAgent.MainRegistry;
+using _ttAgent.Output;
 
 namespace _ttAgent.Vector
 {
-    class VFlashHandler : RegistryComponent
+    class VFlashHandler : Module
     {
         #region Variables
 
@@ -372,6 +373,11 @@ namespace _ttAgent.Vector
         }
 
         #endregion
+
+        public override void CreateInterfaceAssignment(uint id, OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
+        {
+            throw new NotImplementedException();
+        }
 
         public override void UpdateAssignment()
         {

@@ -4,11 +4,10 @@ using System.Windows;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
 using _ttAgent.Log;
-using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Output
 {
-    class OutputHandler : RegistryComponent
+    class OutputHandler : Module
     {
         #region Variables
 
@@ -186,7 +185,7 @@ namespace _ttAgent.Output
             return true;
         }
 
-        private void CreateInterfaceAssignment(uint id,
+        public override sealed void CreateInterfaceAssignment(uint id,
             OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
         {
             OutputHandlerInterfaceAssignmentFile = outputHandlerInterfaceAssignmentFile;

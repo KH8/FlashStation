@@ -11,23 +11,23 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiInterfaceAssignment
     {
-        private readonly RegistryComponent _registryComponent;
+        private readonly Module _module;
 
         public ObservableCollection<InterfaceAssignment> InterfaceAssignmentCollection;public RegistryComponent.RegistryComponentHeader Header;
 
-        public GuiInterfaceAssignment(int xPosition, int yPosition, RegistryComponent registryComponent)
+        public GuiInterfaceAssignment(int xPosition, int yPosition, Module module)
         {
             InitializeComponent();
             GeneralGrid.Margin = new Thickness(xPosition,yPosition,0,0);
 
-            _registryComponent = registryComponent;
-            InterfaceAssignmentCollection = registryComponent.InterfaceAssignmentCollection.Children;
+            _module = module;
+            InterfaceAssignmentCollection = module.InterfaceAssignmentCollection.Children;
             AssignmentDataGrid.ItemsSource = InterfaceAssignmentCollection;
         }
 
         private void AssignmentChanged(object sender, System.EventArgs e)
         {
-            _registryComponent.UpdateAssignment();
+            _module.UpdateAssignment();
         }
     }
 }

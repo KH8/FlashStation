@@ -170,10 +170,5 @@ namespace _ttAgent.Visual.Gui
             try { _guiPlcConfiguration.PlcReadDbNumber = Convert.ToInt32(box.Text); }
             catch (Exception) { _guiPlcConfiguration.PlcReadDbNumber = 0; }
         }
-
-        public override void UpdateAssignment()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

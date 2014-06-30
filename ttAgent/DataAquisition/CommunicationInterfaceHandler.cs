@@ -86,10 +86,5 @@ namespace _ttAgent.DataAquisition
         { public InitializerException(string info) : base(info) { }}
 
         #endregion
-
-        public override void UpdateAssignment()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

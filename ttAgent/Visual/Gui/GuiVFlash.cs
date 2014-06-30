@@ -284,10 +284,5 @@ namespace _ttAgent.Visual.Gui
                 _vFlashProgressBar.Value = channel.ProgressPercentage;
             })));
         }
-
-        public override void UpdateAssignment()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

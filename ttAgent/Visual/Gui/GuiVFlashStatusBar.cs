@@ -116,10 +116,5 @@ namespace _ttAgent.Visual.Gui
                 Thread.Sleep(21);
             }
         }
-
-        public override void UpdateAssignment()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

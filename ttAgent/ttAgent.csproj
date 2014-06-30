@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="General\InterfaceAssignment.cs" />
+    <Compile Include="General\Module.cs" />
     <Compile Include="MainRegistry\RegistryAbstract.cs" />
     <Compile Include="MainRegistry\RegistryComponent.cs" />
     <Compile Include="MainRegistry\RegistryComposite.cs" />

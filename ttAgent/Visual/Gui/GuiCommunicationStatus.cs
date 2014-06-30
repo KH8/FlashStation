@@ -163,10 +163,5 @@ namespace _ttAgent.Visual.Gui
                 _plcConfigurationFile.Save();
             } 
         }
-
-        public override void UpdateAssignment()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
