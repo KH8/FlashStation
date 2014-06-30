@@ -116,6 +116,7 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiInterfaceAssignmentComponent.cs" />
     <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
@@ -127,7 +128,7 @@
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
     <Compile Include="Visual\Gui\GuiOutputHandler.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
-    <Compile Include="Visual\Gui\GuiVFlash.cs" />
+    <Compile Include="Visual\Gui\GuiVFlashComponent.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="DataAquisition\CommunicationInterfacePath.settings">

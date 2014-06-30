@@ -185,6 +185,7 @@ namespace _ttAgent.MainRegistry
             }
 
             GuiOutputCreators.Add(new GuiOutputHandler(id, "", component));
+            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiInterfaceAssignmentComponent(id, "", component));
 
             Logger.Log("ID: " + id + " new Output Handler have been created");
             return id;
@@ -263,8 +264,9 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiVFlashHandlers.Add(new GuiVFlashHandler(id, "", component));
+            GuiVFlashComponents.Add(new GuiVFlashComponent(id, "", component));
             GuiVFlashStatusBars.Add(new GuiVFlashStatusBar(id, "", component));
+            GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiInterfaceAssignmentComponent(id, "", component));
 
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
             return id;
@@ -343,13 +345,15 @@ namespace _ttAgent.MainRegistry
 
             OutputHandlers.Clear();
             GuiOutputCreators.Clear();
+            GuiOutputHandlerInterfaceAssignmentComponents.Clear();
 
             VFlashTypeBanks.Clear();
             GuiVFlashPathBanks.Clear();
 
             VFlashHandlers.Clear();
-            GuiVFlashHandlers.Clear();
+            GuiVFlashComponents.Clear();
             GuiVFlashStatusBars.Clear();
+            GuiVFlashHandlerInterfaceAssignmentComponents.Clear();
 
             UpdateMainRegistryFile();
             Logger.Log("Registry content removed");

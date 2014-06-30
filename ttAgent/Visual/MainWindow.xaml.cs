@@ -360,7 +360,7 @@ namespace _ttAgent.Visual
                 var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
 
-                var gridGuiInterfaceAssignment = (new GuiInterfaceAssignment(record.Header.Id, "", record));
+                var gridGuiInterfaceAssignment = (GuiInterfaceAssignmentComponent)_registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(251, 0, newGrid);
             }
 
@@ -390,16 +390,13 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                //var gridVFlash = (GuiVFlash)_registry.GuiVFlashes.ReturnComponent(record.Header.Id);
-                //gridVFlash.Initialize(0, 0, newGrid);
-
-                var gridVFlash = new GuiVFlashHandler(record.Header.Id, "", record);
-                gridVFlash.Initialize(0, 0, newGrid);
+                var gridVFlashComponent = (GuiVFlashComponent)_registry.GuiVFlashComponents.ReturnComponent(record.Header.Id);
+                gridVFlashComponent.Initialize(0, 0, newGrid);
 
                 var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 20, FooterGrid);
 
-                var gridGuiInterfaceAssignment = new GuiInterfaceAssignment(record.Header.Id, "", record);
+                var gridGuiInterfaceAssignment = (GuiInterfaceAssignmentComponent)_registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 

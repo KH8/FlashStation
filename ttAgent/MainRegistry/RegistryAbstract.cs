@@ -17,13 +17,15 @@ namespace _ttAgent.MainRegistry
 
         public RegistryComposite OutputHandlers = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputCreators = new RegistryComposite(0, "");
+        public RegistryComposite GuiOutputHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
         public RegistryComposite VFlashTypeBanks = new RegistryComposite(0, "");
         public RegistryComposite GuiVFlashPathBanks = new RegistryComposite(0, "");
 
         public RegistryComposite VFlashHandlers = new RegistryComposite(0, "");
-        public List<GuiVFlashHandler> GuiVFlashHandlers = new List<GuiVFlashHandler>();
+        public RegistryComposite GuiVFlashComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiVFlashStatusBars = new RegistryComposite(0, "");
+        public RegistryComposite GuiVFlashHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface(uint plcConnectionId);
