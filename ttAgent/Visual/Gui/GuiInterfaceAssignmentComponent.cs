@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using _ttAgent.General;
-using _ttAgent.Vector;
 
 namespace _ttAgent.Visual.Gui
 {

@@ -128,7 +128,7 @@
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
     <Compile Include="Visual\Gui\GuiOutputHandler.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
-    <Compile Include="Visual\Gui\GuiVFlashComponent.cs" />
+    <Compile Include="Visual\Gui\GuiVFlashHandlerComponent.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="DataAquisition\CommunicationInterfacePath.settings">

@@ -390,7 +390,7 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridVFlashComponent = (GuiVFlashComponent)_registry.GuiVFlashComponents.ReturnComponent(record.Header.Id);
+                var gridVFlashComponent = (GuiVFlashHandlerComponent)_registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
                 gridVFlashComponent.Initialize(0, 0, newGrid);
 
                 var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);

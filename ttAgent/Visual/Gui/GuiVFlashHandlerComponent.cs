@@ -4,11 +4,11 @@ using _ttAgent.Vector;
 
 namespace _ttAgent.Visual.Gui
 {
-    internal class GuiVFlashComponent : Gui
+    internal class GuiVFlashHandlerComponent : Gui
     {
         public GuiVFlashHandler GuiVFlashHandler;
 
-        public GuiVFlashComponent(uint id, string name, VFlashHandler vFlashHandler) : base(id, name)
+        public GuiVFlashHandlerComponent(uint id, string name, VFlashHandler vFlashHandler) : base(id, name)
         {
             GuiVFlashHandler = new GuiVFlashHandler(id, name, vFlashHandler);
         }

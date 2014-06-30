@@ -264,7 +264,7 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiVFlashComponents.Add(new GuiVFlashComponent(id, "", component));
+            GuiVFlashHandlerComponents.Add(new GuiVFlashHandlerComponent(id, "", component));
             GuiVFlashStatusBars.Add(new GuiVFlashStatusBar(id, "", component));
             GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiInterfaceAssignmentComponent(id, "", component));
 
@@ -351,7 +351,7 @@ namespace _ttAgent.MainRegistry
             GuiVFlashPathBanks.Clear();
 
             VFlashHandlers.Clear();
-            GuiVFlashComponents.Clear();
+            GuiVFlashHandlerComponents.Clear();
             GuiVFlashStatusBars.Clear();
             GuiVFlashHandlerInterfaceAssignmentComponents.Clear();
 
