@@ -425,7 +425,9 @@ namespace _ttAgent.MainRegistry
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
             OutputHandlerFile.Default.Reset();
+            OutputHandlerInterfaceAssignmentFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
+            VFlashHandlerInterfaceAssignmentFile.Default.Reset();
         }
 
         public void LoadConfiguration(ProjectFileStruture.ProjectSavedData projectData)
@@ -459,8 +461,14 @@ namespace _ttAgent.MainRegistry
             OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
             OutputHandlerFile.Default.Save();
 
+            OutputHandlerInterfaceAssignmentFile.Default.Assignment = projectData.OutputHandlerAssignment;
+            OutputHandlerInterfaceAssignmentFile.Default.Save();
+
             VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
             VFlashTypeBankFile.Default.Save();
+
+            VFlashHandlerInterfaceAssignmentFile.Default.Assignment = projectData.VFlashHandlerAssignment;
+            VFlashHandlerInterfaceAssignmentFile.Default.Save();
 
             Logger.Log("Registry initialization");
             Initialize();
@@ -483,7 +491,9 @@ namespace _ttAgent.MainRegistry
                 StartAddress = OutputHandlerFile.Default.StartAddress,
                 EndAddress = OutputHandlerFile.Default.EndAddress,
                 SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
+                OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
+                VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,
             };
             return projectData;
         }

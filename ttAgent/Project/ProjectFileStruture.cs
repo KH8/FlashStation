@@ -24,8 +24,10 @@ namespace _ttAgent.Project
             public int[] StartAddress;
             public int[] EndAddress;
             public int[] SelectedIndex;
+            public string[][] OutputHandlerAssignment;
 
             public string[][] TypeBank;
+            public string[][] VFlashHandlerAssignment;
         }
     }
 }
