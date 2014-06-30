@@ -13,7 +13,7 @@ namespace _ttAgent.Vector
         public string Path { get; set; }
     }
 
-    class VFlashTypeBank : RegistryComponent
+    public class VFlashTypeBank : RegistryComponent
     {
         private List<VFlashDisplayProjectData> _children = new List<VFlashDisplayProjectData>();
 

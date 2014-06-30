@@ -7,8 +7,6 @@ namespace _ttAgent.Visual.Gui
 
     public abstract class Gui : RegistryComponent
     {
-        //todo parse xaml
-        //todo xaml bez okna
         private int _xPosition;
         private int _yPosition;
 

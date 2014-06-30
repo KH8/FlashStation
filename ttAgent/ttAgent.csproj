@@ -100,7 +100,7 @@
       <DependentUpon>OutputHandlerInterfaceAssignmentFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Output\OutputWriterFactory.cs" />
-    <Compile Include="Project\ProjectFileStruture.cs" />
+    <Compile Include="General\ProjectFileStruture.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="MainRegistry\MainRegistry.cs" />
     <Compile Include="MainRegistry\MainRegistryFile.Designer.cs">
@@ -115,6 +115,9 @@
     </Compile>
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
+      <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.cs" />
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
@@ -163,6 +166,10 @@
     <Page Include="Visual\FaultReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiVFlashHandler.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\GuiInterfaceAssignment.xaml">
       <SubType>Designer</SubType>

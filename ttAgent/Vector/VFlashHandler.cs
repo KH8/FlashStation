@@ -8,7 +8,7 @@ using _ttAgent.Log;
 
 namespace _ttAgent.Vector
 {
-    class VFlashHandler : Module
+    public class VFlashHandler : Module
     {
         #region Variables
 

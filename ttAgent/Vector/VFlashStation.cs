@@ -180,7 +180,7 @@ namespace _ttAgent.Vector
 
     #region Channel
 
-    internal class VFlashChannel : VFlashStationComponent
+    public class VFlashChannel : VFlashStationComponent
     {
         private long _projectHandle;
         private string _flashProjectPath;

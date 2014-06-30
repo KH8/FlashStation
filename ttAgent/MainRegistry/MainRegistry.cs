@@ -263,7 +263,7 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiVFlashes.Add(new GuiVFlash(id, "", component));
+            GuiVFlashHandlers.Add(new GuiVFlashHandler(id, "", component));
             GuiVFlashStatusBars.Add(new GuiVFlashStatusBar(id, "", component));
 
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
@@ -348,7 +348,7 @@ namespace _ttAgent.MainRegistry
             GuiVFlashPathBanks.Clear();
 
             VFlashHandlers.Clear();
-            GuiVFlashes.Clear();
+            GuiVFlashHandlers.Clear();
             GuiVFlashStatusBars.Clear();
 
             UpdateMainRegistryFile();

@@ -360,7 +360,8 @@ namespace _ttAgent.Visual
                 var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
                 gridGuiOutputCreator.Initialize(0, 0, newGrid);
 
-                newGrid.Children.Add(new GuiInterfaceAssignment(252, 0, record));
+                var gridGuiInterfaceAssignment = (new GuiInterfaceAssignment(record.Header.Id, "", record));
+                gridGuiInterfaceAssignment.Initialize(251, 0, newGrid);
             }
 
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
@@ -389,13 +390,17 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridVFlash = (GuiVFlash)_registry.GuiVFlashes.ReturnComponent(record.Header.Id);
+                //var gridVFlash = (GuiVFlash)_registry.GuiVFlashes.ReturnComponent(record.Header.Id);
+                //gridVFlash.Initialize(0, 0, newGrid);
+
+                var gridVFlash = new GuiVFlashHandler(record.Header.Id, "", record);
                 gridVFlash.Initialize(0, 0, newGrid);
 
                 var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 20, FooterGrid);
 
-                newGrid.Children.Add(new GuiInterfaceAssignment(777, 0, record));
+                var gridGuiInterfaceAssignment = new GuiInterfaceAssignment(record.Header.Id, "", record);
+                gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using _ttAgent.Visual.Gui;
 
 namespace _ttAgent.MainRegistry
 {
@@ -20,7 +22,7 @@ namespace _ttAgent.MainRegistry
         public RegistryComposite GuiVFlashPathBanks = new RegistryComposite(0, "");
 
         public RegistryComposite VFlashHandlers = new RegistryComposite(0, "");
-        public RegistryComposite GuiVFlashes = new RegistryComposite(0, "");
+        public List<GuiVFlashHandler> GuiVFlashHandlers = new List<GuiVFlashHandler>();
         public RegistryComposite GuiVFlashStatusBars = new RegistryComposite(0, "");
 
         public abstract uint AddPlcCommunicator();

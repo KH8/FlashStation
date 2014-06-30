@@ -15,7 +15,7 @@ namespace _ttAgent.Vector
   /// <summary>
   /// ErrorCollector
   /// </summary>
-  internal class VFlashErrorCollector
+  public class VFlashErrorCollector
   {
     private readonly List<string> _messages = new List<string>();
 
