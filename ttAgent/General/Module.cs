@@ -9,8 +9,6 @@ namespace _ttAgent.General
 
         protected Module(uint id, string name) : base(id, name){}
 
-        public abstract void CreateInterfaceAssignment(uint id,
-            OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile);
         public abstract void UpdateAssignment();
     }
 }

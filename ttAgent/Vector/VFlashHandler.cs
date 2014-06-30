@@ -5,7 +5,6 @@ using System.Windows;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
 using _ttAgent.Log;
-using _ttAgent.Output;
 
 namespace _ttAgent.Vector
 {
@@ -44,12 +43,13 @@ namespace _ttAgent.Vector
         }
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
+        public VFlashHandlerInterfaceAssignmentFile VFlashHandlerInterfaceAssignmentFile { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank) : base(id, name)
+        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile) : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
 
@@ -63,6 +63,8 @@ namespace _ttAgent.Vector
             _vFlashThread = new Thread(VFlashPlcCommunicationThread);
             _vFlashThread.SetApartmentState(ApartmentState.STA);
             _vFlashThread.IsBackground = true;
+
+            CreateInterfaceAssignment(id, vFlashHandlerInterfaceAssignmentFile);
         }
 
         #endregion
@@ -73,7 +75,6 @@ namespace _ttAgent.Vector
         {
             try
             {
-                if (!CheckInterface()) throw new FlashHandlerException("Interface check failed");
                 _vFlashStationController.Initialize();
             }
             catch (Exception)
@@ -158,8 +159,8 @@ namespace _ttAgent.Vector
 
                 if (channelFound != null && !_pcControlMode && CheckInterface())
                 {
-                    var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
-                    var inputCompositeProgrammTyp = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("PROGRAMMTYP");
+                    var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
+                    var inputCompositeProgrammTyp = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type"));
 
                     switch (inputCompositeCommand.Value)
                     {
@@ -310,12 +311,12 @@ namespace _ttAgent.Vector
                     }
                 if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())
                 {
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("LEBENSZAECHLER", counter);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Life Counter"), counter);
                     counter++;
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("ANTWORT", antwort);
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("STATUS", statusInt);
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("PROGRAMMTYPAKTIV", programActive);
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("VERSION", version);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Reply"), antwort);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Status"), statusInt);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), programActive);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), version);
                 }
                 Thread.Sleep(200);
             }
@@ -344,28 +345,28 @@ namespace _ttAgent.Vector
 
         private Boolean CheckInterface()
         {
-            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("BEFEHL");
+            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable("PROGRAMMTYP");
+            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("LEBENSZAECHLER");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("ANTWORT");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Reply"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("STATUS");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Status"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("PROGRAMMTYPAKTIV");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type Active"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("VERSION");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Version"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.String)
                 return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable("FEHLERCODE");
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Fault Code"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
 
@@ -374,14 +375,103 @@ namespace _ttAgent.Vector
 
         #endregion
 
-        public override void CreateInterfaceAssignment(uint id, OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
+        public void CreateInterfaceAssignment(uint id, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile)
         {
-            throw new NotImplementedException();
+            VFlashHandlerInterfaceAssignmentFile = vFlashHandlerInterfaceAssignmentFile;
+            if (VFlashHandlerInterfaceAssignmentFile.Assignment[id].Length == 0)
+            {
+                VFlashHandlerInterfaceAssignmentFile.Assignment[id] = new string[10];
+            }
+
+            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.In,
+                Name = "Command",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][0]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.In,
+                Name = "Program Type",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][1]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.In,
+                Name = "Program Version",
+                Type = CommunicationInterfaceComponent.VariableType.String,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][2]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Life Counter",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][3]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Reply",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][4]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Status",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][5]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Program Type Active",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][6]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Version",
+                Type = CommunicationInterfaceComponent.VariableType.String,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][7]
+            });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Fault Code",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][8]
+            });
         }
 
         public override void UpdateAssignment()
         {
-            throw new NotImplementedException();
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][0] =
+                InterfaceAssignmentCollection.GetAssignment("Command");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][1] =
+                InterfaceAssignmentCollection.GetAssignment("Program Type");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][2] =
+                InterfaceAssignmentCollection.GetAssignment("Program Version");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][3] =
+                InterfaceAssignmentCollection.GetAssignment("Life Counter");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][4] =
+                InterfaceAssignmentCollection.GetAssignment("Reply");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][5] =
+                InterfaceAssignmentCollection.GetAssignment("Status");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][6] =
+                InterfaceAssignmentCollection.GetAssignment("Program Type Active");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][7] =
+                InterfaceAssignmentCollection.GetAssignment("Version");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][8] =
+                InterfaceAssignmentCollection.GetAssignment("Fault Code");
+            VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][9] =
+                InterfaceAssignmentCollection.GetAssignment("Status");
+            VFlashHandlerInterfaceAssignmentFile.Save();
         }
     }
 }

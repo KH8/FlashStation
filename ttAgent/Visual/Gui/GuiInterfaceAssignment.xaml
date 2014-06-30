@@ -12,7 +12,7 @@
                     <DataGridTextColumn Binding="{Binding VariableDirection}" Header="Interface" Width="60" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Variable Name" Width="130" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="60" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=Assignment}" Header="Assignment" Width="240" IsReadOnly="False"/>
+                    <DataGridTextColumn Binding="{Binding Path=Assignment}" Header="Assignment" Width="230" IsReadOnly="False"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

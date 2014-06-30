@@ -185,7 +185,7 @@ namespace _ttAgent.Output
             return true;
         }
 
-        public override sealed void CreateInterfaceAssignment(uint id,
+        public void CreateInterfaceAssignment(uint id,
             OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
         {
             OutputHandlerInterfaceAssignmentFile = outputHandlerInterfaceAssignmentFile;

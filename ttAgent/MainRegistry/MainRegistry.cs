@@ -249,7 +249,8 @@ namespace _ttAgent.MainRegistry
                 VFlashHandlers.Add(
                     new VFlashHandler(id, "VFLASH__" + id,
                         (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
-                        (VFlashTypeBank)VFlashTypeBanks.ReturnComponent(vFlashBankId)));
+                        (VFlashTypeBank)VFlashTypeBanks.ReturnComponent(vFlashBankId),
+                        VFlashHandlerInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the vFlash Channel");
                 component = (VFlashHandler)VFlashHandlers.ReturnComponent(id);
                 component.InitializeVFlash();

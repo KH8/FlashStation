@@ -108,6 +108,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainRegistryFile.settings</DependentUpon>
     </Compile>
+    <Compile Include="Vector\VFlashHandlerInterfaceAssignmentFile.Designer.cs">
+      <DependentUpon>VFlashHandlerInterfaceAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
@@ -140,6 +145,10 @@
     <None Include="Output\OutputHandlerInterfaceAssignmentFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>OutputHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\VFlashHandlerInterfaceAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>VFlashHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
     <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />

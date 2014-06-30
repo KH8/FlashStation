@@ -394,6 +394,8 @@ namespace _ttAgent.Visual
 
                 var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 20, FooterGrid);
+
+                newGrid.Children.Add(new GuiInterfaceAssignment(777, 0, record));
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);
