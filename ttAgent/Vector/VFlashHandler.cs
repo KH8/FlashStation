@@ -101,7 +101,10 @@ namespace _ttAgent.Vector
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+            {
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+            }
         }
 
         public void StartFlashing(uint chanId)
@@ -121,12 +124,15 @@ namespace _ttAgent.Vector
         public void SetProjectPath(uint chanId, string projectPath)
         {
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
-            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be aborted was not found");
+            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be set was not found");
             channelFound.FlashProjectPath = projectPath;
             Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue("PROGRAMMTYPAKTIV", (Int16)0);
+            {
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+            }  
         }
 
         public VFlashChannel ReturnChannelSetup(uint chanId)
@@ -150,7 +156,7 @@ namespace _ttAgent.Vector
             Int16 caseAuxiliary = 0;
             Int16 programActive = 0;
 
-            var version = "N/L";
+            var version = "N/L ";
 
             while (_vFlashThread.IsAlive)
             {
@@ -174,9 +180,10 @@ namespace _ttAgent.Vector
                                     _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion.Value);
                                 if (returnedPath != null)
                                 {
-                                    SetProjectPath(1,
+                                    SetProjectPath(Header.Id,
                                         _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion.Value));
                                     programActive = inputCompositeProgrammTyp.Value;
+                                    version = inputCompositeProgrammVersion.Value;
                                     antwort = 100;
                                 }
                                 else
@@ -184,6 +191,7 @@ namespace _ttAgent.Vector
                                     Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                                " : Path change requested failed");
                                     programActive = 0;
+                                    version = "N/L ";
                                     antwort = 999;
                                 }
                             }
@@ -217,6 +225,7 @@ namespace _ttAgent.Vector
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded)
                                 {
                                     programActive = 0;
+                                    version = "N/L ";
                                     antwort = 300;
                                 }
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -273,22 +282,20 @@ namespace _ttAgent.Vector
                         case VFlashStationComponent.VFlashStatus.Created:
                             statusInt = 100;
                             _pcControlModeChangeAllowed = true;
-                            version = "N/L";
                             break;
                         case VFlashStationComponent.VFlashStatus.Loading:
                             statusInt = 299;
                             break;
                         case VFlashStationComponent.VFlashStatus.Loaded:
                             statusInt = 200;
-                            version = VFlashTypeBank.ReturnVersion((uint)programActive) ?? "N/L";
                             _pcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:
                             statusInt = 399;
+                            version = "N/L ";
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloaded:
                             statusInt = 300;
-                            version = "N/L";
                             _pcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Flashing:
