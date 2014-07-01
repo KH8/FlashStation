@@ -126,5 +126,30 @@ namespace _ttAgent.Output
                 this["FileNameSuffixes"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                    </ArrayOfString>")]
+        public string[] DirectoryPaths
+        {
+            get
+            {
+                return ((string[])(this["DirectoryPaths"]));
+            }
+            set
+            {
+                this["DirectoryPaths"] = value;
+            }
+        }
     }
 }

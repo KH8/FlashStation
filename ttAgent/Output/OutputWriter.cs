@@ -15,12 +15,10 @@ namespace _ttAgent.Output
     {
         public string FilePath { get; set; }
 
-        public abstract void CreateOutput(string fixedName, List<string> elementsList);
+        public abstract void CreateOutput(string fixedName, string directoryName, List<string> elementsList);
 
-        internal static string FileNameCreator(string fixedName, string extension)
+        internal static string FileNameCreator(string fixedName, string directoryPath, string extension)
         {
-            const string directoryPath = "Output";
-
             if (!Directory.Exists(directoryPath)) { Directory.CreateDirectory(directoryPath); }
             return directoryPath + "\\" 
                 + DateTime.Now.Year 
@@ -133,9 +131,9 @@ namespace _ttAgent.Output
 
     class OutputXmlWriter : OutputWriter
     {
-        public override void CreateOutput(string fixedName, List<string> elementsList)
+        public override void CreateOutput(string fixedName, string directoryName, List<string> elementsList)
         {
-            var fileName = FileNameCreator(fixedName, "xml");
+            var fileName = FileNameCreator(fixedName, directoryName, "xml");
 
             var settings = new XmlWriterSettings {Indent = true, IndentChars = "\t"};
             using (XmlWriter writer = XmlWriter.Create(fileName, settings))
@@ -172,9 +170,9 @@ namespace _ttAgent.Output
 
     class OutputCsvWriter : OutputWriter
     {
-        public override void CreateOutput(string fixedName, List<string> elementsList)
+        public override void CreateOutput(string fixedName, string directoryName, List<string> elementsList)
         {
-            var fileName = FileNameCreator(fixedName, "csv");
+            var fileName = FileNameCreator(fixedName, directoryName, "csv");
             using (StreamWriter streamWriter = File.AppendText(fileName))
             {
                 var writer = new CsvWriter(streamWriter);
@@ -197,7 +195,7 @@ namespace _ttAgent.Output
 
     class OutputXlsWriter : OutputWriter
     {
-        public override void CreateOutput(string fixedName, List<string> elementsList)
+        public override void CreateOutput(string fixedName, string directoryName, List<string> elementsList)
         {
             Logger.Log("*.xls output file created");
         }

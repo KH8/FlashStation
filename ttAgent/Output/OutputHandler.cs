@@ -66,7 +66,9 @@ namespace _ttAgent.Output
 
         public void CreateOutput()
         {
-            string fileName = OutputHandlerFile.Default.FileNameSuffixes[Header.Id];
+            var fileName = OutputHandlerFile.Default.FileNameSuffixes[Header.Id];
+            var directoryName = OutputHandlerFile.Default.DirectoryPaths[Header.Id];
+
             var interfaceVariable = fileName.Split('%');
             if (interfaceVariable.Length > 1)
             {
@@ -93,7 +95,7 @@ namespace _ttAgent.Output
             if (_outputWriter != null)
             {
                 try{
-                    _outputWriter.CreateOutput(fileName,
+                    _outputWriter.CreateOutput(fileName, directoryName,
                         _outputWriter.InterfaceToStrings(CommunicationInterfaceHandler.ReadInterfaceComposite,
                             OutputHandlerFile.Default.StartAddress[Header.Id],
                             OutputHandlerFile.Default.EndAddress[Header.Id]));

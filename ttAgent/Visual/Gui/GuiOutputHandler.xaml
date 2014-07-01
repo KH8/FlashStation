@@ -14,14 +14,14 @@
                 <Label Content="End Position:" HorizontalAlignment="Left" Margin="5,96,0,0" VerticalAlignment="Top"/>
                 <Label Content="Output File Type:" HorizontalAlignment="Left" Margin="176,0,0,0" VerticalAlignment="Bottom"/>
                 
-                <TextBox HorizontalAlignment="Left" Height="25" Margin="130,15,15,0" TextWrapping="Wrap" Text="Output//" VerticalAlignment="Top" Width="150"/>
+                <TextBox Name="DirectoryPathBox" HorizontalAlignment="Left" Height="25" Margin="130,15,15,0" TextWrapping="Wrap" Text="Output\\" VerticalAlignment="Top" Width="150"/>
                 <TextBox Name="FileNameSuffixBox" HorizontalAlignment="Left" Height="25" Margin="130,42,15,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150" TextChanged="FileNameSuffixChanged"/>
                 <TextBox Name="StartPositionBox" HorizontalAlignment="Left" Height="25" Margin="130,69,65,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" TextChanged="StartPositionChanged"/>
                 <TextBox Name="EndPositionBox" HorizontalAlignment="Left" Height="25" Margin="130,96,65,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" TextChanged="EndPositionBoxChanged"/>
 
                 <ComboBox Name="OutputTypeComboBox" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="107" SelectionChanged="ComboBoxOnSelectionChanged" Height="25"/>
                 <Button Content="CreateOutput" HorizontalAlignment="Left" Margin="5,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="CreateOutput"/>
-
+                <Button Content="Browse" HorizontalAlignment="Left" Margin="285,0,0,152" VerticalAlignment="Bottom" Width="83" Height="25" Click="SetDirectoryPath"/>
             </Grid>
         </GroupBox>
     </Grid>

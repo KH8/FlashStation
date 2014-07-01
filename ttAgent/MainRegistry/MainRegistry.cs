@@ -463,6 +463,7 @@ namespace _ttAgent.MainRegistry
             OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
             OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
             OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
+            OutputHandlerFile.Default.DirectoryPaths = projectData.DirectoryPaths;
             OutputHandlerFile.Default.Save();
 
             OutputHandlerInterfaceAssignmentFile.Default.Assignment = projectData.OutputHandlerAssignment;
@@ -495,6 +496,7 @@ namespace _ttAgent.MainRegistry
                 StartAddress = OutputHandlerFile.Default.StartAddress,
                 EndAddress = OutputHandlerFile.Default.EndAddress,
                 SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
+                DirectoryPaths = OutputHandlerFile.Default.DirectoryPaths,
                 OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
                 VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,

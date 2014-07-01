@@ -24,6 +24,7 @@ namespace _ttAgent.General
             public int[] StartAddress;
             public int[] EndAddress;
             public int[] SelectedIndex;
+            public string[] DirectoryPaths;
             public string[][] OutputHandlerAssignment;
 
             public string[][] TypeBank;

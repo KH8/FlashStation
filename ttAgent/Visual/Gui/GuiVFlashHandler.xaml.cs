@@ -71,7 +71,7 @@ namespace _ttAgent.Visual.Gui
 
             HeaderGroupBox.Header = "Channel " + Header.Id;
 
-            _updateThread.Start();
+            if(!_updateThread.IsAlive) _updateThread.Start();
         }
 
         private void VFlashControlModeChanged(object sender, RoutedEventArgs e)

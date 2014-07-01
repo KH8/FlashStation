@@ -2,9 +2,12 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using _ttAgent.Log;
 using _ttAgent.MainRegistry;
 using _ttAgent.Output;
+using ComboBox = System.Windows.Controls.ComboBox;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -66,6 +69,7 @@ namespace _ttAgent.Visual.Gui
             FileNameSuffixBox.Text = _outputHandlerFile.FileNameSuffixes[Header.Id];
             StartPositionBox.Text = _outputHandlerFile.StartAddress[Header.Id].ToString(CultureInfo.InvariantCulture);
             EndPositionBox.Text = _outputHandlerFile.EndAddress[Header.Id].ToString(CultureInfo.InvariantCulture);
+            DirectoryPathBox.Text = _outputHandlerFile.DirectoryPaths[Header.Id];
 
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
@@ -117,6 +121,17 @@ namespace _ttAgent.Visual.Gui
         {
             Logger.Log("ID: " + Header.Id + " : Output file creation requested by the user");
             _outputHandler.CreateOutput();
+        }
+
+        private void SetDirectoryPath(object sender, RoutedEventArgs e)
+        {
+            var folderDialog = new FolderBrowserDialog {SelectedPath = @"C:\"};
+            var result = folderDialog.ShowDialog();
+            if (result.ToString() == "OK")
+                DirectoryPathBox.Text = folderDialog.SelectedPath;
+
+            _outputHandlerFile.DirectoryPaths[Header.Id] = DirectoryPathBox.Text;
+            _outputHandlerFile.Save();
         }
     }
 }
