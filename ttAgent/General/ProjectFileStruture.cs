@@ -1,7 +1,7 @@
 ﻿using System;
 using _ttAgent.PLC;
 
-namespace _ttAgent.Project
+namespace _ttAgent.General
 {
     public abstract class ProjectFileStruture
     {

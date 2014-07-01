@@ -1,8 +1,5 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using _ttAgent.Log;
 using _ttAgent.Output;
 
 namespace _ttAgent.Visual.Gui

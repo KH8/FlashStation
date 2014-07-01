@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Windows;
 using _ttAgent.DataAquisition;
+using _ttAgent.General;
 using _ttAgent.Log;
 using _ttAgent.Output;
 using _ttAgent.PLC;
-using _ttAgent.Project;
 using _ttAgent.Vector;
 using _ttAgent.Visual.Gui;
 
