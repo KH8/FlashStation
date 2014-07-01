@@ -11,7 +11,7 @@ using _ttAgent.Log;
 
 namespace _ttAgent.Output
 {
-    abstract class OutputWriter
+    public abstract class OutputWriter
     {
         public string FilePath { get; set; }
 

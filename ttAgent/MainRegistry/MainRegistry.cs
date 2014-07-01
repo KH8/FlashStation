@@ -184,7 +184,7 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiOutputCreators.Add(new GuiOutputHandler(id, "", component));
+            GuiOutputHandlerComponents.Add(new GuiOutputHandlerComponent(id, "", component));
             GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiInterfaceAssignmentComponent(id, "", component));
 
             Logger.Log("ID: " + id + " new Output Handler have been created");
@@ -344,7 +344,7 @@ namespace _ttAgent.MainRegistry
             GuiCommunicationInterfaceOnlines.Clear();
 
             OutputHandlers.Clear();
-            GuiOutputCreators.Clear();
+            GuiOutputHandlerComponents.Clear();
             GuiOutputHandlerInterfaceAssignmentComponents.Clear();
 
             VFlashTypeBanks.Clear();

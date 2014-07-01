@@ -16,6 +16,7 @@ namespace _ttAgent.Visual.Gui
     {
         private int _xPosition;
         private int _yPosition;
+        private Grid _generalGridMemory = new Grid();
 
         private FaultReportWindow _windowReport;
 
@@ -57,7 +58,16 @@ namespace _ttAgent.Visual.Gui
         {
             InitializeComponent();
             GeneralGrid.Margin = new Thickness(xPosition, yPosition, 0, 0);
+            try
+            {
+                if (_generalGridMemory != null) _generalGridMemory.Children.Remove(this);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            } 
             generalGrid.Children.Add(this);
+            _generalGridMemory = generalGrid;
 
             HeaderGroupBox.Header = "Channel " + Header.Id;
 

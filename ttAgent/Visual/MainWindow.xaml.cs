@@ -357,11 +357,11 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridGuiOutputCreator = (GuiOutputHandler)_registry.GuiOutputCreators.ReturnComponent(record.Header.Id);
-                gridGuiOutputCreator.Initialize(0, 0, newGrid);
+                var guiOutputHandlerComponent = (GuiOutputHandlerComponent)_registry.GuiOutputHandlerComponents.ReturnComponent(record.Header.Id);
+                guiOutputHandlerComponent.Initialize(0, 0, newGrid);
 
                 var gridGuiInterfaceAssignment = (GuiInterfaceAssignmentComponent)_registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
-                gridGuiInterfaceAssignment.Initialize(251, 0, newGrid);
+                gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)

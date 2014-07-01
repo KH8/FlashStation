@@ -7,7 +7,7 @@ using _ttAgent.Log;
 
 namespace _ttAgent.Output
 {
-    class OutputHandler : Module
+    public class OutputHandler : Module
     {
         #region Variables
 

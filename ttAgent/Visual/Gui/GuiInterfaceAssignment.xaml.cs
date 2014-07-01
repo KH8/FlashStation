@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using _ttAgent.General;
 using _ttAgent.MainRegistry;
-using _ttAgent.Output;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -14,6 +14,7 @@ namespace _ttAgent.Visual.Gui
     {
         private int _xPosition;
         private int _yPosition;
+        private Grid _generalGridMemory = new Grid();
 
         private readonly Module _module;
 
@@ -48,12 +49,21 @@ namespace _ttAgent.Visual.Gui
         {
             InitializeComponent();
             GeneralGrid.Margin = new Thickness(xPosition, yPosition, 0, 0);
+            try
+            {
+                if (_generalGridMemory != null) _generalGridMemory.Children.Remove(this);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             generalGrid.Children.Add(this);
+            _generalGridMemory = generalGrid;
 
             AssignmentDataGrid.ItemsSource = InterfaceAssignmentCollection;
         }
 
-        private void AssignmentChanged(object sender, System.EventArgs e)
+        private void AssignmentChanged(object sender, EventArgs e)
         {
             _module.UpdateAssignment();
         }

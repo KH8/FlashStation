@@ -116,6 +116,9 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiOutputHandler.xaml.cs">
+      <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiInterfaceAssignmentComponent.cs" />
     <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
@@ -126,7 +129,7 @@
     </Compile>
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
-    <Compile Include="Visual\Gui\GuiOutputHandler.cs" />
+    <Compile Include="Visual\Gui\GuiOutputHandlerComponent.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiVFlashHandlerComponent.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
@@ -167,6 +170,10 @@
     <Page Include="Visual\FaultReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiOutputHandler.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\GuiVFlashHandler.xaml">
       <Generator>MSBuild:Compile</Generator>

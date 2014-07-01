@@ -14,7 +14,7 @@ namespace _ttAgent.MainRegistry
         public RegistryComposite GuiCommunicationInterfaceOnlines = new RegistryComposite(0, "");
 
         public RegistryComposite OutputHandlers = new RegistryComposite(0, "");
-        public RegistryComposite GuiOutputCreators = new RegistryComposite(0, "");
+        public RegistryComposite GuiOutputHandlerComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
         public RegistryComposite VFlashTypeBanks = new RegistryComposite(0, "");
