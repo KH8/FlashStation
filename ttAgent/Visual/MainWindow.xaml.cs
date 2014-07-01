@@ -86,7 +86,7 @@ namespace _ttAgent.Visual
 
         private void AddInterface(object sender, RoutedEventArgs e)
         {
-            var newHeader = new TreeViewItem { Header = "PLC Connections" };
+            var newHeader = new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
             foreach (PlcCommunicator record in _registry.PlcCommunicators)
             { 
                 newHeader.Items.Add(new TreeViewItem
@@ -102,7 +102,7 @@ namespace _ttAgent.Visual
 
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
         {
-            var newHeader = new TreeViewItem { Header = "Communication Interfaces" };
+            var newHeader = new TreeViewItem {Header = "Communication Interfaces", IsExpanded = true};
             foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             {
                 newHeader.Items.Add(new TreeViewItem
@@ -123,7 +123,11 @@ namespace _ttAgent.Visual
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
         {
-            var newHeaderCommunicationInterface = new TreeViewItem { Header = "Communication Interfaces" };
+            var newHeaderCommunicationInterface = new TreeViewItem
+            {
+                Header = "Communication Interfaces",
+                IsExpanded = true
+            };
             foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
@@ -133,7 +137,7 @@ namespace _ttAgent.Visual
                 });
             }
 
-            var newHeaderVFlashBank = new TreeViewItem { Header = "vFlash Banks" };
+            var newHeaderVFlashBank = new TreeViewItem {Header = "vFlash Banks", IsExpanded = true};
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
             {
                 newHeaderVFlashBank.Items.Add(new TreeViewItem
@@ -412,10 +416,10 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Items.Clear();
             _registryComponents = new Dictionary<TreeViewItem, RegistryComponent>();
 
-            var mainHeader = new TreeViewItem { Header = "Components" };
+            var mainHeader = new TreeViewItem {Header = "Components", IsExpanded = true};
             ComponentManagerTreeView.Items.Add(mainHeader);
             
-            var newHeader= new TreeViewItem {Header = "PLC Connections"};
+            var newHeader= new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
             foreach (PlcCommunicator record in _registry.PlcCommunicators)
             {
                 var treeViewItem = new TreeViewItem
@@ -424,11 +428,10 @@ namespace _ttAgent.Visual
                 };
                 _registryComponents.Add(treeViewItem, record);
                 newHeader.Items.Add(treeViewItem); 
-                
             }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
-            newHeader = new TreeViewItem { Header = "Communication Interfaces" };
+            newHeader = new TreeViewItem {Header = "Communication Interfaces", IsExpanded = true};
             foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
             {
                 var treeViewItem = new TreeViewItem
@@ -440,7 +443,7 @@ namespace _ttAgent.Visual
             }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
-            newHeader = new TreeViewItem { Header = "Output Handlers" };
+            newHeader = new TreeViewItem {Header = "Output Handlers", IsExpanded = true};
             foreach (OutputHandler record in _registry.OutputHandlers)
             {
                 var treeViewItem = new TreeViewItem
@@ -452,7 +455,7 @@ namespace _ttAgent.Visual
             }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
-            newHeader = new TreeViewItem { Header = "vFlash Banks" };
+            newHeader = new TreeViewItem {Header = "vFlash Banks", IsExpanded = true};
             foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
             {
                 var treeViewItem = new TreeViewItem
@@ -464,7 +467,7 @@ namespace _ttAgent.Visual
             }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
-            newHeader = new TreeViewItem { Header = "vFlash Channels" };
+            newHeader = new TreeViewItem {Header = "vFlash Channels", IsExpanded = true};
             foreach (VFlashHandler record in _registry.VFlashHandlers)
             {
                 var treeViewItem = new TreeViewItem
@@ -474,8 +477,7 @@ namespace _ttAgent.Visual
                 _registryComponents.Add(treeViewItem, record);
                 newHeader.Items.Add(treeViewItem);
             }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
-            
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }     
         }
 
         #endregion
