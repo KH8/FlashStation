@@ -52,6 +52,12 @@ namespace _ttAgent.Vector
             return child != null ? child.Path : null;
         }
 
+        public string ReturnPath(string version)
+        {
+            var child = _children.FirstOrDefault(typeFound => typeFound.Version == version);
+            return child != null ? child.Path : null;
+        }
+
         public string ReturnVersion(uint type)
         {
             var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);

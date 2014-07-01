@@ -161,6 +161,7 @@ namespace _ttAgent.Vector
                 {
                     var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
                     var inputCompositeProgrammTyp = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type"));
+                    var inputCompositeProgrammVersion = (CiString)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Version"));
 
                     switch (inputCompositeCommand.Value)
                     {
@@ -170,11 +171,11 @@ namespace _ttAgent.Vector
                                 Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Path change requested from PLC");
                                 var returnedPath =
-                                    _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value));
+                                    _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion.Value);
                                 if (returnedPath != null)
                                 {
                                     SetProjectPath(1,
-                                        _vFlashTypeBank.ReturnPath(Convert.ToUInt16(inputCompositeProgrammTyp.Value)));
+                                        _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion.Value));
                                     programActive = inputCompositeProgrammTyp.Value;
                                     antwort = 100;
                                 }
@@ -350,6 +351,9 @@ namespace _ttAgent.Vector
                 return false;
             component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                return false;
+            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Version"));
+            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.String)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
