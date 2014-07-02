@@ -198,6 +198,7 @@ namespace _ttAgent.DataAquisition
                         newAddress.ByteAddress = address.ByteAddress + 1;
                         overloadOut = false;
                     }
+                    else if (actualType == "BYTE" || actualType == "CHAR") newAddress.ByteAddress = address.ByteAddress + 1;
                     else newAddress.ByteAddress = address.ByteAddress + 2;
                     address.BitAddress = 0;
                 }
