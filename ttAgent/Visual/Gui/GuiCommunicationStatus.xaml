@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="270" d:DesignWidth="320">
+             d:DesignHeight="272" d:DesignWidth="320">
     <Grid Name="GeneralGrid">
-        <GroupBox Header="PLC Configuration" Height="240" Width="320" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <GroupBox Header="PLC Configuration" Height="242" Width="320" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Grid>
                 <Label Content="IP Address:" HorizontalAlignment="Left" Margin="36,6,0,0" VerticalAlignment="Top"/>
                 <Label Content="Port:" HorizontalAlignment="Left" Margin="36,26,0,0" VerticalAlignment="Top"/>
@@ -18,19 +18,19 @@
                 <Label Content="Write DB Number:" HorizontalAlignment="Left" Margin="36,146,0,0" VerticalAlignment="Top"/>
                 <Label Content="Write Start Address:" HorizontalAlignment="Left" Margin="36,166,0,0" VerticalAlignment="Top"/>
                 <Label Content="Write Data Length:" HorizontalAlignment="Left" Margin="36,186,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActIpAddressLabel" Content="IP Address" HorizontalAlignment="Left" Margin="170,6,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActPortLabel" Content="Port" HorizontalAlignment="Left" Margin="170,26,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActRackLabel" Content="Rack" HorizontalAlignment="Left" Margin="170,46,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActSlotLabel" Content="Slot" HorizontalAlignment="Left" Margin="170,66,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActReadDbNumberLabel" Content="Read DB Number" HorizontalAlignment="Left" Margin="170,86,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActReadStartAddressLabel" Content="Read Start Address" HorizontalAlignment="Left" Margin="170,106,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActReadLengthLabel" Content="Read Data Length" HorizontalAlignment="Left" Margin="170,126,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActWriteDbNumberLabel" Content="Write DB Number" HorizontalAlignment="Left" Margin="170,146,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActWriteStartAddressLabel" Content="Write Start Address" HorizontalAlignment="Left" Margin="170,166,0,0" VerticalAlignment="Top"/>
-                <Label Name="ActWriteLengthLabel" Content="Write Data Length" HorizontalAlignment="Left" Margin="170,186,0,0" VerticalAlignment="Top"/>
+                <Label Name="ActIpAddressLabel" Content="IP Address" HorizontalAlignment="Left" Margin="160,6,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActPortLabel" Content="Port" HorizontalAlignment="Left" Margin="160,26,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActRackLabel" Content="Rack" HorizontalAlignment="Left" Margin="160,46,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActSlotLabel" Content="Slot" HorizontalAlignment="Left" Margin="160,66,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActReadDbNumberLabel" Content="Read DB Number" HorizontalAlignment="Left" Margin="160,86,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActReadStartAddressLabel" Content="Read Start Address" HorizontalAlignment="Left" Margin="160,106,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActReadLengthLabel" Content="Read Data Length" HorizontalAlignment="Left" Margin="160,126,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActWriteDbNumberLabel" Content="Write DB Number" HorizontalAlignment="Left" Margin="160,146,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActWriteStartAddressLabel" Content="Write Start Address" HorizontalAlignment="Left" Margin="160,166,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
+                <Label Name="ActWriteLengthLabel" Content="Write Data Length" HorizontalAlignment="Left" Margin="160,186,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
             </Grid>
         </GroupBox>
-        <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="0,245,0,0" VerticalAlignment="Top" Height="25" Width="100" Click="ConnectionButtonClick"/>
-        <CheckBox Name="StartUpConnectionControlBox" Content="Connect at Start Up" HorizontalAlignment="Left" Margin="179,249,0,0" VerticalAlignment="Top" FlowDirection="RightToLeft" Width="139" Checked="ConnectionAtStartUpChecked" Unchecked="ConnectionAtStartUpChecked"/>
+        <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top" Height="25" Width="100" Click="ConnectionButtonClick"/>
+        <CheckBox Name="StartUpConnectionControlBox" Content="Connect at Start Up" HorizontalAlignment="Left" Margin="181,251,0,0" VerticalAlignment="Top" FlowDirection="RightToLeft" Width="139" Checked="ConnectionAtStartUpChecked" Unchecked="ConnectionAtStartUpChecked"/>
     </Grid>
 </UserControl>

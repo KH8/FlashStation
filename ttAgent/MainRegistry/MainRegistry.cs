@@ -88,7 +88,7 @@ namespace _ttAgent.MainRegistry
 
             PlcGuiCommunicationStatuses.Add(new GuiComponent(id, "", new GuiCommunicationStatus(component)));
             PlcGuiCommunicationStatusBars.Add(new GuiComponent(id, "", new GuiCommunicationStatusBar(component)));
-            PlcGuiConfigurations.Add(new GuiPlcConfiguration(id, "", component));
+            PlcGuiConfigurations.Add(new GuiComponent(id, "", new GuiPlcConfiguration(component)));
 
             Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;

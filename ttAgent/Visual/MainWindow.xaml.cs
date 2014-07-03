@@ -314,8 +314,8 @@ namespace _ttAgent.Visual
                 var gridGuiCommunicationStatus = (GuiComponent)_registry.PlcGuiCommunicationStatuses.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
-                var gridGuiPlcConfiguration = (GuiPlcConfiguration)_registry.PlcGuiConfigurations.ReturnComponent(record.Header.Id);
-                gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
+                var gridGuiPlcConfiguration = (GuiComponent)_registry.PlcGuiConfigurations.ReturnComponent(record.Header.Id);
+                gridGuiPlcConfiguration.Initialize(0, 35, newGrid);
 
                 var gridGuiPlcConfigurationStatusBar = (GuiComponent)_registry.PlcGuiCommunicationStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfigurationStatusBar.Initialize(95 * ((int)record.Header.Id - 1), -25, FooterGrid);

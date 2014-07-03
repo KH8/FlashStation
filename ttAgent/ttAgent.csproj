@@ -133,6 +133,9 @@
       <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiComponent.cs" />
+    <Compile Include="Visual\Gui\GuiPlcConfiguration.xaml.cs">
+      <DependentUpon>GuiPlcConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
@@ -141,7 +144,6 @@
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
-    <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
@@ -194,6 +196,10 @@
     <Page Include="Visual\Gui\GuiOutputHandler.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\GuiPlcConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Visual\Gui\GuiVFlashHandler.xaml">
       <Generator>MSBuild:Compile</Generator>
