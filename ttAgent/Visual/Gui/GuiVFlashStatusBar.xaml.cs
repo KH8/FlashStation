@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
-using _ttAgent.PLC;
 using _ttAgent.Vector;
 
 namespace _ttAgent.Visual.Gui
@@ -10,7 +9,7 @@ namespace _ttAgent.Visual.Gui
     /// <summary>
     /// Interaction logic for GuiVFlashStatusBar_p.xaml
     /// </summary>
-    public partial class GuiVFlashStatusBar : UserControl
+    public partial class GuiVFlashStatusBar
     {
         private readonly VFlashHandler _vFlash;
         private readonly Thread _updateThread;

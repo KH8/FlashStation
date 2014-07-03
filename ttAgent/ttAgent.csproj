@@ -119,6 +119,9 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationStatus.xaml.cs">
+      <DependentUpon>GuiCommunicationStatus.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.xaml.cs">
       <DependentUpon>GuiCommunicationStatusBar.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\FaultReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,7 +241,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiCommunicationStatus.cs" />
     <Compile Include="Visual\DataDisplayer.cs" />
     <Compile Include="Visual\FaultReportWindow.xaml.cs">
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>

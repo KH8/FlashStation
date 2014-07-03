@@ -311,7 +311,7 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationStatus = (GuiCommunicationStatus)_registry.PlcGuiCommunicationStatuses.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationStatus = (GuiComponent)_registry.PlcGuiCommunicationStatuses.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
                 var gridGuiPlcConfiguration = (GuiPlcConfiguration)_registry.PlcGuiConfigurations.ReturnComponent(record.Header.Id);

@@ -86,7 +86,7 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            PlcGuiCommunicationStatuses.Add(new GuiCommunicationStatus(id, "", component));
+            PlcGuiCommunicationStatuses.Add(new GuiComponent(id, "", new GuiCommunicationStatus(component)));
             PlcGuiCommunicationStatusBars.Add(new GuiComponent(id, "", new GuiCommunicationStatusBar(component)));
             PlcGuiConfigurations.Add(new GuiPlcConfiguration(id, "", component));
 
