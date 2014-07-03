@@ -135,7 +135,7 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiComInterfacemunicationConfigurations.Add(new GuiComInterfacemunicationConfiguration(id, "", component));
+            GuiComInterfacemunicationConfigurations.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceConfiguration(component)));
             GuiCommunicationInterfaceOnlines.Add(new GuiCommunicationInterfaceOnline(id, "", component));
 
             Logger.Log("ID: " + id + " new Communication Interface have been created");

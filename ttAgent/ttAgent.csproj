@@ -64,6 +64,8 @@
       <HintPath>Resources\libnodave.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -118,6 +120,9 @@
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\Gui.cs" />
+    <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml.cs">
+      <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiOutputHandler.xaml.cs">
       <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
     </Compile>
@@ -130,7 +135,6 @@
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
-    <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
@@ -168,6 +172,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\FaultReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -335,7 +335,7 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationInterfaceConfiguration = (GuiComInterfacemunicationConfiguration)_registry.GuiComInterfacemunicationConfigurations.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationInterfaceConfiguration = (GuiComponent)_registry.GuiComInterfacemunicationConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
 
                 newtabItem = new TabItem { Header = record.Header.Name + " Online" };

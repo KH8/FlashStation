@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using _ttAgent.General;
 using _ttAgent.Log;
-using _ttAgent.MainRegistry;
 using _ttAgent.Vector;
 
 namespace _ttAgent.Visual.Gui

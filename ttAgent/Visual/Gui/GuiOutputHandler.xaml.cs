@@ -1,12 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using _ttAgent.General;
 using _ttAgent.Log;
-using _ttAgent.MainRegistry;
 using _ttAgent.Output;
 using ComboBox = System.Windows.Controls.ComboBox;
 using TextBox = System.Windows.Controls.TextBox;
