@@ -119,6 +119,9 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationStatusBar.xaml.cs">
+      <DependentUpon>GuiCommunicationStatusBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\Gui.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
@@ -135,8 +138,6 @@
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
-    <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
-    <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -175,6 +176,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Visual\Gui\GuiCommunicationStatusBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +193,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\GuiInterfaceAssignment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiVFlashStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +240,9 @@
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiFactory.cs" />
+    <Compile Include="Visual\Gui\GuiVFlashStatusBar.xaml.cs">
+      <DependentUpon>GuiVFlashStatusBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

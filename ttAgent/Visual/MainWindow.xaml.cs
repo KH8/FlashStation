@@ -316,11 +316,9 @@ namespace _ttAgent.Visual
 
                 var gridGuiPlcConfiguration = (GuiPlcConfiguration)_registry.PlcGuiConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfiguration.Initialize(0, 260, newGrid);
-            }
 
-            foreach (GuiCommunicationStatusBar record in _registry.PlcGuiCommunicationStatusBars)
-            {
-                record.Initialize(95 * ( (int)record.Header.Id - 1 ), -1, FooterGrid);
+                var gridGuiPlcConfigurationStatusBar = (GuiComponent)_registry.PlcGuiCommunicationStatusBars.ReturnComponent(record.Header.Id);
+                gridGuiPlcConfigurationStatusBar.Initialize(95 * ((int)record.Header.Id - 1), -22, FooterGrid);
             }
 
             foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
@@ -397,7 +395,7 @@ namespace _ttAgent.Visual
                 var gridVFlashComponent = (GuiComponent)_registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
                 gridVFlashComponent.Initialize(0, 0, newGrid);
 
-                var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
+                var gridGuiVFlashStatusBar = (GuiComponent)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 20, FooterGrid);
 
                 var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);

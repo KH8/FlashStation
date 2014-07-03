@@ -87,7 +87,7 @@ namespace _ttAgent.MainRegistry
             }
 
             PlcGuiCommunicationStatuses.Add(new GuiCommunicationStatus(id, "", component));
-            PlcGuiCommunicationStatusBars.Add(new GuiCommunicationStatusBar(id, "", component));
+            PlcGuiCommunicationStatusBars.Add(new GuiComponent(id, "", new GuiCommunicationStatusBar(component)));
             PlcGuiConfigurations.Add(new GuiPlcConfiguration(id, "", component));
 
             Logger.Log("ID: " + id + " new PLC Connection have been created");
@@ -265,7 +265,7 @@ namespace _ttAgent.MainRegistry
             }
 
             GuiVFlashHandlerComponents.Add(new GuiComponent(id, "", new GuiVFlashHandler(component)));
-            GuiVFlashStatusBars.Add(new GuiVFlashStatusBar(id, "", component));
+            GuiVFlashStatusBars.Add(new GuiComponent(id, "", new GuiVFlashStatusBar(component)));
             GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
 
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
@@ -277,7 +277,7 @@ namespace _ttAgent.MainRegistry
             if (PlcCommunicators.Cast<object>().Any(plcCommunicator => component == plcCommunicator))
             {
                 CheckAssignment(component, 1);
-                foreach (var plcGuiCommunicationStatusBar in PlcGuiCommunicationStatusBars.Cast<GuiCommunicationStatusBar>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
+                foreach (var plcGuiCommunicationStatusBar in PlcGuiCommunicationStatusBars.Cast<GuiComponent>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
                 {
                     PlcGuiCommunicationStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
                     break;
@@ -308,7 +308,7 @@ namespace _ttAgent.MainRegistry
             }
             if (VFlashHandlers.Cast<object>().Any(vFlashHandler => component == vFlashHandler))
             {
-                foreach (var guiVFlashStatusBar in GuiVFlashStatusBars.Cast<GuiVFlashStatusBar>().Where(guiVFlashStatusBar => guiVFlashStatusBar.Header.Id == component.Header.Id))
+                foreach (var guiVFlashStatusBar in GuiVFlashStatusBars.Cast<GuiComponent>().Where(guiVFlashStatusBar => guiVFlashStatusBar.Header.Id == component.Header.Id))
                 {
                     GuiVFlashStatusBars.Children.Remove(guiVFlashStatusBar);
                     break;
