@@ -16,8 +16,7 @@ namespace _ttAgent.MainRegistry
         // Constructor
         public RegistryComposite(uint id, string name)
             : base(id, name)
-        {
-        }
+        {}
 
         public void Add(RegistryComponent component)
         {

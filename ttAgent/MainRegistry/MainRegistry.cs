@@ -184,8 +184,8 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiOutputHandlerComponents.Add(new GuiOutputHandlerComponent(id, "", component));
-            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiInterfaceAssignmentComponent(id, "", component));
+            GuiOutputHandlerComponents.Add(new GuiComponent(id, "", new GuiOutputHandler(component)));
+            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
 
             Logger.Log("ID: " + id + " new Output Handler have been created");
             return id;
@@ -264,9 +264,9 @@ namespace _ttAgent.MainRegistry
                 return 0;
             }
 
-            GuiVFlashHandlerComponents.Add(new GuiVFlashHandlerComponent(id, "", component));
+            GuiVFlashHandlerComponents.Add(new GuiComponent(id, "", new GuiVFlashHandler(component)));
             GuiVFlashStatusBars.Add(new GuiVFlashStatusBar(id, "", component));
-            GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiInterfaceAssignmentComponent(id, "", component));
+            GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
 
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
             return id;

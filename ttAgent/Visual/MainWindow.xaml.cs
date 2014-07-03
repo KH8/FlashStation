@@ -361,10 +361,10 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var guiOutputHandlerComponent = (GuiOutputHandlerComponent)_registry.GuiOutputHandlerComponents.ReturnComponent(record.Header.Id);
+                var guiOutputHandlerComponent = (GuiComponent)_registry.GuiOutputHandlerComponents.ReturnComponent(record.Header.Id);
                 guiOutputHandlerComponent.Initialize(0, 0, newGrid);
 
-                var gridGuiInterfaceAssignment = (GuiInterfaceAssignmentComponent)_registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 
@@ -394,13 +394,13 @@ namespace _ttAgent.Visual
                 var newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                var gridVFlashComponent = (GuiVFlashHandlerComponent)_registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
+                var gridVFlashComponent = (GuiComponent)_registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
                 gridVFlashComponent.Initialize(0, 0, newGrid);
 
                 var gridGuiVFlashStatusBar = (GuiVFlashStatusBar)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 20, FooterGrid);
 
-                var gridGuiInterfaceAssignment = (GuiInterfaceAssignmentComponent)_registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 
@@ -408,7 +408,6 @@ namespace _ttAgent.Visual
             MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
-
         }
 
         private void UpdateTreeView()

@@ -117,10 +117,11 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\Gui.cs" />
     <Compile Include="Visual\Gui\GuiOutputHandler.xaml.cs">
       <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiInterfaceAssignmentComponent.cs" />
+    <Compile Include="Visual\Gui\GuiComponent.cs" />
     <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
@@ -130,9 +131,7 @@
     </Compile>
     <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.cs" />
-    <Compile Include="Visual\Gui\GuiOutputHandlerComponent.cs" />
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.cs" />
-    <Compile Include="Visual\Gui\GuiVFlashHandlerComponent.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.cs" />
     <Compile Include="Visual\Gui\GuiPlcConfiguration.cs" />
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
@@ -219,7 +218,6 @@
       <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationStatus.cs" />
-    <Compile Include="Visual\Gui\Gui.cs" />
     <Compile Include="Visual\DataDisplayer.cs" />
     <Compile Include="Visual\FaultReportWindow.xaml.cs">
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>

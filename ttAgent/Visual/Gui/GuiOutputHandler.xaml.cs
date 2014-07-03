@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using _ttAgent.General;
 using _ttAgent.Log;
 using _ttAgent.MainRegistry;
 using _ttAgent.Output;
@@ -16,68 +18,29 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiOutputHandler
     {
-        private int _xPosition;
-        private int _yPosition;
-        private Grid _generalGridMemory = new Grid();
-
-        private Boolean _save;
-
+        private readonly Boolean _save;
         private readonly OutputHandler _outputHandler;
         private readonly OutputHandlerFile _outputHandlerFile;
 
-        public int XPosition
+        public GuiOutputHandler(Module module)
         {
-            get { return _xPosition; }
-            set { _xPosition = value; }
-        }
-
-        public int YPosition
-        {
-            get { return _yPosition; }
-            set { _yPosition = value; }
-        }
-
-        public RegistryComponent.RegistryComponentHeader Header;
-
-        public GuiOutputHandler(uint id, string name, OutputHandler outputHandler)
-        {
-            Header = new RegistryComponent.RegistryComponentHeader
-            {
-                Id = id,
-                Name = name
-            };
-
-            _outputHandler = outputHandler;
+            _outputHandler = (OutputHandler)module;
             _outputHandlerFile = _outputHandler.OutputHandlerFile;
-        }
 
-        public void Initialize(int xPosition, int yPosition, Grid generalGrid)
-        {
             InitializeComponent();
-            GeneralGrid.Margin = new Thickness(xPosition, yPosition, 0, 0);
-            try
-            {
-                if (_generalGridMemory != null) _generalGridMemory.Children.Remove(this);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            generalGrid.Children.Add(this);
-            _generalGridMemory = generalGrid;
-
-            FileNameSuffixBox.Text = _outputHandlerFile.FileNameSuffixes[Header.Id];
-            StartPositionBox.Text = _outputHandlerFile.StartAddress[Header.Id].ToString(CultureInfo.InvariantCulture);
-            EndPositionBox.Text = _outputHandlerFile.EndAddress[Header.Id].ToString(CultureInfo.InvariantCulture);
-            DirectoryPathBox.Text = _outputHandlerFile.DirectoryPaths[Header.Id];
+            FileNameSuffixBox.Text = _outputHandlerFile.FileNameSuffixes[_outputHandler.Header.Id];
+            StartPositionBox.Text = _outputHandlerFile.StartAddress[_outputHandler.Header.Id].ToString(CultureInfo.InvariantCulture);
+            EndPositionBox.Text = _outputHandlerFile.EndAddress[_outputHandler.Header.Id].ToString(CultureInfo.InvariantCulture);
+            DirectoryPathBox.Text = _outputHandlerFile.DirectoryPaths[_outputHandler.Header.Id];
 
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
-            OutputTypeComboBox.SelectedIndex = _outputHandlerFile.SelectedIndex[Header.Id];
+            OutputTypeComboBox.SelectedIndex = _outputHandlerFile.SelectedIndex[_outputHandler.Header.Id];
+
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
 
-            HeaderGroupBox.Header = "Output Handler " + Header.Id;
+            HeaderGroupBox.Header = "Output Handler " + _outputHandler.Header.Id;
             _save = true;
         }
 
@@ -85,8 +48,8 @@ namespace _ttAgent.Visual.Gui
         {
             if (!_save) return; 
             var box = (TextBox)sender;
-            try { _outputHandlerFile.FileNameSuffixes[Header.Id] = box.Text; }
-            catch (Exception) { _outputHandlerFile.FileNameSuffixes[Header.Id] = "noName"; }
+            try { _outputHandlerFile.FileNameSuffixes[_outputHandler.Header.Id] = box.Text; }
+            catch (Exception) { _outputHandlerFile.FileNameSuffixes[_outputHandler.Header.Id] = "noName"; }
             _outputHandlerFile.Save();
         }
 
@@ -94,7 +57,7 @@ namespace _ttAgent.Visual.Gui
         {
             if (!_save) return; 
             var outputTypeComboBox = (ComboBox)sender;
-            _outputHandlerFile.SelectedIndex[Header.Id] = outputTypeComboBox.SelectedIndex;
+            _outputHandlerFile.SelectedIndex[_outputHandler.Header.Id] = outputTypeComboBox.SelectedIndex;
             _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
             _outputHandlerFile.Save();
         }
@@ -103,8 +66,8 @@ namespace _ttAgent.Visual.Gui
         {
             if (!_save) return; 
             var box = (TextBox)sender;
-            try { _outputHandlerFile.StartAddress[Header.Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputHandlerFile.StartAddress[Header.Id] = 0; }
+            try { _outputHandlerFile.StartAddress[_outputHandler.Header.Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputHandlerFile.StartAddress[_outputHandler.Header.Id] = 0; }
             _outputHandlerFile.Save();
         }
 
@@ -112,14 +75,14 @@ namespace _ttAgent.Visual.Gui
         {
             if (!_save) return; 
             var box = (TextBox)sender;
-            try { _outputHandlerFile.EndAddress[Header.Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputHandlerFile.EndAddress[Header.Id] = 0; }
+            try { _outputHandlerFile.EndAddress[_outputHandler.Header.Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { _outputHandlerFile.EndAddress[_outputHandler.Header.Id] = 0; }
             _outputHandlerFile.Save();
         }
 
         private void CreateOutput(object sender, RoutedEventArgs e)
         {
-            Logger.Log("ID: " + Header.Id + " : Output file creation requested by the user");
+            Logger.Log("ID: " + _outputHandler.Header.Id + " : Output file creation requested by the user");
             _outputHandler.CreateOutput();
         }
 
@@ -130,7 +93,7 @@ namespace _ttAgent.Visual.Gui
             if (result.ToString() == "OK")
                 DirectoryPathBox.Text = folderDialog.SelectedPath;
 
-            _outputHandlerFile.DirectoryPaths[Header.Id] = DirectoryPathBox.Text;
+            _outputHandlerFile.DirectoryPaths[_outputHandler.Header.Id] = DirectoryPathBox.Text;
             _outputHandlerFile.Save();
         }
     }

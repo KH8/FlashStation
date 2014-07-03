@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using _ttAgent.General;
 using _ttAgent.Log;
 using _ttAgent.MainRegistry;
 using _ttAgent.Vector;
@@ -14,64 +15,23 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiVFlashHandler
     {
-        private int _xPosition;
-        private int _yPosition;
-        private Grid _generalGridMemory = new Grid();
-
         private FaultReportWindow _windowReport;
-
-        public int XPosition
-        {
-            get { return _xPosition; }
-            set { _xPosition = value; }
-        }
-
-        public int YPosition
-        {
-            get { return _yPosition; }
-            set { _yPosition = value; }
-        }
-
-        public RegistryComponent.RegistryComponentHeader Header;
-
         private readonly VFlashHandler _vFlash;
         private int _vFlashButtonEnables = 100;
 
         private readonly Thread _updateThread;
 
-        public GuiVFlashHandler(uint id, string name, VFlashHandler vFlash)
+        public GuiVFlashHandler(Module module)
         {
-            Header = new RegistryComponent.RegistryComponentHeader
-            {
-                Id = id,
-                Name = name
-            };
-
-            _vFlash = vFlash;
+            InitializeComponent();
+            _vFlash = (VFlashHandler)module;
 
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
-        }
+            _updateThread.Start();
 
-        public void Initialize(int xPosition, int yPosition, Grid generalGrid)
-        {
-            InitializeComponent();
-            GeneralGrid.Margin = new Thickness(xPosition, yPosition, 0, 0);
-            try
-            {
-                if (_generalGridMemory != null) _generalGridMemory.Children.Remove(this);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            } 
-            generalGrid.Children.Add(this);
-            _generalGridMemory = generalGrid;
-
-            HeaderGroupBox.Header = "Channel " + Header.Id;
-
-            if(!_updateThread.IsAlive) _updateThread.Start();
+            HeaderGroupBox.Header = "Channel " + _vFlash.Header.Id;
         }
 
         private void VFlashControlModeChanged(object sender, RoutedEventArgs e)
@@ -94,8 +54,8 @@ namespace _ttAgent.Visual.Gui
             {
                 try
                 {
-                    _vFlash.SetProjectPath(Header.Id, dlg.FileName);
-                    _vFlash.LoadProject(Header.Id);
+                    _vFlash.SetProjectPath(_vFlash.Header.Id, dlg.FileName);
+                    _vFlash.LoadProject(_vFlash.Header.Id);
                     Logger.Log("Path load requested by the user");
                 }
                 catch (Exception exception) { MessageBox.Show(exception.Message, "Path Loading Failed"); }
@@ -106,7 +66,7 @@ namespace _ttAgent.Visual.Gui
         {
             try
             {
-                _vFlash.UnloadProject(Header.Id);
+                _vFlash.UnloadProject(_vFlash.Header.Id);
                 Logger.Log("Path unload requested by the user");
             }
             catch (Exception exception) { MessageBox.Show(exception.Message, "Path Unloading Failed"); }
@@ -114,12 +74,12 @@ namespace _ttAgent.Visual.Gui
 
         private void FlashVFlashProject(object sender, RoutedEventArgs e)
         {
-            var channel = _vFlash.ReturnChannelSetup(Header.Id);
+            var channel = _vFlash.ReturnChannelSetup(_vFlash.Header.Id);
             if (channel.Status == VFlashStationComponent.VFlashStatus.Flashing)
             {
                 try
                 {
-                    _vFlash.AbortFlashing(Header.Id);
+                    _vFlash.AbortFlashing(_vFlash.Header.Id);
                     Logger.Log("Flash abort requested by the user");
                 }
                 catch (Exception exception)
@@ -131,7 +91,7 @@ namespace _ttAgent.Visual.Gui
             {
                 try
                 {
-                    _vFlash.StartFlashing(Header.Id);
+                    _vFlash.StartFlashing(_vFlash.Header.Id);
                     Logger.Log("Path start requested by the user");
                 }
                 catch (Exception exception)
@@ -166,7 +126,7 @@ namespace _ttAgent.Visual.Gui
                 string status;
                 Brush colourBrush;
 
-                var channel = _vFlash.ReturnChannelSetup(Header.Id);
+                var channel = _vFlash.ReturnChannelSetup(_vFlash.Header.Id);
                 if (channel == null)
                 {
                     return;
@@ -264,7 +224,7 @@ namespace _ttAgent.Visual.Gui
                     VFlashStatusLabel.Foreground = colourBrush;
                 })));
 
-                VFlashStatusHandler(Header.Id);
+                VFlashStatusHandler(_vFlash.Header.Id);
                 Thread.Sleep(21);
             }
         }

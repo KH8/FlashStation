@@ -10,7 +10,7 @@ namespace _ttAgent.Visual.Gui
         private int _xPosition;
         private int _yPosition;
 
-        protected Gui(uint id, string name) : base(id, name){}
+        protected Gui(uint id, string name) : base(id, name) { }
 
         public int XPosition
         {
