@@ -36,9 +36,6 @@ namespace _ttAgent.Visual.Gui
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
-            if (ActualHeight > 0) { Height = ActualHeight; }
-            if (ActualWidth > 0) { Width = ActualWidth; }
-
             CommunicationReadInterfaceListBox.ItemsSource = _readInterfaceCollection;
             CommunicationReadInterfaceListBox.View = CreateGridView();
             CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
@@ -52,6 +49,9 @@ namespace _ttAgent.Visual.Gui
         {
             Height = height;
             Width = width;
+
+            GeneralGrid.Height = height;
+            GeneralGrid.Width = width;
 
             CommunicationReadInterfaceListBox.Height = height;
             CommunicationReadInterfaceListBox.Width = (width / 2) - 2;

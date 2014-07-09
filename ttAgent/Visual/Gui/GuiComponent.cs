@@ -8,22 +8,22 @@ namespace _ttAgent.Visual.Gui
     internal class GuiComponent : RegistryComponent
     {
         private Grid _generalGridMemory = new Grid();
-        private readonly UserControl _userControl;
+        public readonly UserControl UserControl;
 
         public GuiComponent(uint id, string name, UserControl userControl)
             : base(id, name)
-        { _userControl = userControl;}
+        { UserControl = userControl;}
 
         public void Initialize(int xPosition, int yPosition, Grid generalGrid)
         {
-            _userControl.Margin = new Thickness(xPosition, yPosition, 0, 0);
-            try { if (_generalGridMemory != null) _generalGridMemory.Children.Remove(_userControl);}
+            UserControl.Margin = new Thickness(xPosition, yPosition, 0, 0);
+            try { if (_generalGridMemory != null) _generalGridMemory.Children.Remove(UserControl);}
             catch (Exception e) { Console.WriteLine(e);}
-            generalGrid.Children.Add(_userControl);
+            generalGrid.Children.Add(UserControl);
             _generalGridMemory = generalGrid;
         }
 
-        public void MakeVisible() { _userControl.Visibility = Visibility.Visible; }
-        public void MakeInvisible() { _userControl.Visibility = Visibility.Hidden; }
+        public void MakeVisible() { UserControl.Visibility = Visibility.Visible; }
+        public void MakeInvisible() { UserControl.Visibility = Visibility.Hidden; }
     }
 }
