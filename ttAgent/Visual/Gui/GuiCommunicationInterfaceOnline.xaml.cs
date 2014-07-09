@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -9,13 +8,11 @@ using _ttAgent.PLC;
 
 namespace _ttAgent.Visual.Gui
 {
-    class GuiCommunicationInterfaceOnline : Gui
+    /// <summary>
+    /// Interaction logic for GuiCommunicationInterfaceOnline.xaml
+    /// </summary>
+    public partial class GuiCommunicationInterfaceOnline
     {
-        private Grid _generalGrid;
-
-        private ListView _communicationReadInterfaceListBox;
-        private ListView _communicationWriteInterfaceListBox;
-
         private readonly PlcCommunicator _plcCommunication;
         private readonly CommunicationInterfaceHandler _communicationInterfaceHandler;
 
@@ -27,57 +24,42 @@ namespace _ttAgent.Visual.Gui
 
         private readonly Thread _updateThread;
 
-        public Grid GeneralGrid
-        {
-            get { return _generalGrid; }
-            set { _generalGrid = value; }
-        }
-
-        public GuiCommunicationInterfaceOnline(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
+        public GuiCommunicationInterfaceOnline(CommunicationInterfaceHandler communicationInterfaceHandler)
         {
             _communicationInterfaceHandler = communicationInterfaceHandler;
             _plcCommunication = _communicationInterfaceHandler.PlcCommunicator;
-            
+
+            InitializeComponent();
+
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
             _updateThread.Start();
-        }
 
-        public override void Initialize(int xPosition, int yPosition, Grid generalGrid)
-        {
-            XPosition = xPosition;
-            YPosition = yPosition;
+            if (ActualHeight > 0) { Height = ActualHeight; }
+            if (ActualWidth > 0) { Width = ActualWidth; }
 
-            _generalGrid = generalGrid;
+            CommunicationReadInterfaceListBox.ItemsSource = _readInterfaceCollection;
+            CommunicationReadInterfaceListBox.View = CreateGridView();
+            CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
 
-            if (_generalGrid.ActualHeight > 0) { _generalGrid.Height = _generalGrid.ActualHeight; }
-            if (_generalGrid.ActualWidth > 0) { _generalGrid.Width = _generalGrid.ActualWidth; }
-
-            _generalGrid.Children.Add(_communicationReadInterfaceListBox = GuiFactory.CreateListView("OnlineReadDataListBox", 0, 0, HorizontalAlignment.Left, VerticalAlignment.Top, _generalGrid.Height, (_generalGrid.Width/2) - 2));
-            _generalGrid.Children.Add(_communicationWriteInterfaceListBox = GuiFactory.CreateListView("OnlineWriteDataListBox", 0, 0, HorizontalAlignment.Right, VerticalAlignment.Top, _generalGrid.Height, (_generalGrid.Width/2) - 2));
-
-            _communicationReadInterfaceListBox.ItemsSource = _readInterfaceCollection;
-            _communicationReadInterfaceListBox.View = CreateGridView();
-            _communicationReadInterfaceListBox.Foreground = Brushes.Black;
-
-            _communicationWriteInterfaceListBox.ItemsSource = _writeInterfaceCollection;
-            _communicationWriteInterfaceListBox.View = CreateGridView();
-            _communicationWriteInterfaceListBox.Foreground = Brushes.Black;
+            CommunicationWriteInterfaceListBox.ItemsSource = _writeInterfaceCollection;
+            CommunicationWriteInterfaceListBox.View = CreateGridView();
+            CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
         }
 
         public void UpdateSizes(double height, double width)
         {
-            _generalGrid.Height = height;
-            _generalGrid.Width = width;
+            Height = height;
+            Width = width;
 
-            _communicationReadInterfaceListBox.Height = height;
-            _communicationReadInterfaceListBox.Width = (width / 2) - 2;
-            _communicationWriteInterfaceListBox.Height = height;
-            _communicationWriteInterfaceListBox.Width = (width / 2) - 2;
+            CommunicationReadInterfaceListBox.Height = height;
+            CommunicationReadInterfaceListBox.Width = (width / 2) - 2;
+            CommunicationWriteInterfaceListBox.Height = height;
+            CommunicationWriteInterfaceListBox.Width = (width / 2) - 2;
 
-            _communicationReadInterfaceListBox.View = CreateGridView();
-            _communicationWriteInterfaceListBox.View = CreateGridView();
+            CommunicationReadInterfaceListBox.View = CreateGridView();
+            CommunicationWriteInterfaceListBox.View = CreateGridView();
         }
 
         private GridView CreateGridView()
@@ -92,7 +74,7 @@ namespace _ttAgent.Visual.Gui
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = (_generalGrid.Width / 2 ) - 280,
+                Width = (Width / 2) - 280,
                 Header = "Name",
                 DisplayMemberBinding = new Binding("Name")
             });
@@ -110,16 +92,6 @@ namespace _ttAgent.Visual.Gui
             });
 
             return gridView;
-        }
-
-        public override void MakeVisible()
-        {
-            _generalGrid.Visibility = Visibility.Visible;
-        }
-
-        public override void MakeInvisible()
-        {
-            _generalGrid.Visibility = Visibility.Hidden;
         }
 
         public void Update()

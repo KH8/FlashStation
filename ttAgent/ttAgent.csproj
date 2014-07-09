@@ -119,6 +119,9 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml.cs">
+      <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationStatus.xaml.cs">
       <DependentUpon>GuiCommunicationStatus.xaml</DependentUpon>
     </Compile>
@@ -139,7 +142,6 @@
     <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.cs" />
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
@@ -178,6 +180,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\FaultReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

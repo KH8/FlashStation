@@ -17,6 +17,6 @@ namespace _ttAgent.MainRegistry
                 Id = id,
                 Name = name
             };
-        }  
+        } 
     }
 }

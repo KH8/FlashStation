@@ -273,8 +273,8 @@ namespace _ttAgent.Visual
             ComponentManagerTreeView.Height = MainTabControl.Height - 62;
             ComponentManagerTreeView.Width = MainTabControl.Width - 10;
 
-            foreach (GuiCommunicationInterfaceOnline gui in _registry.GuiCommunicationInterfaceOnlines) { gui.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
-            foreach (GuiVFlashPathBank gui in _registry.GuiVFlashPathBanks) { gui.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
+            //foreach (GuiComponent gui in _registry.GuiCommunicationInterfaceOnlines) { gui.UpdateSizes(MainTabControl.Height - 32, MainTabControl.Width - 10); }
+            //foreach (GuiVFlashPathBank gui in _registry.GuiVFlashPathBanks) { gui.UpdateSizes(OutputTabControl.Height - 32, OutputTabControl.Width - 10); }
         }
 
         private void ComponentManagerSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -346,7 +346,7 @@ namespace _ttAgent.Visual
                 newGrid.Height = MainTabControl.Height - 32;
                 newGrid.Width = MainTabControl.Width - 10;
 
-                var gridGuiCommunicationInterfaceOnline = (GuiCommunicationInterfaceOnline)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationInterfaceOnline = (GuiComponent)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
             }
 
