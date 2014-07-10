@@ -216,7 +216,7 @@ namespace _ttAgent.MainRegistry
             VFlashTypeBanks.Add(new VFlashTypeBank(id, "VFLASH_BANK__" + id, VFlashTypeBankFile.Default));
             var component = (VFlashTypeBank)VFlashTypeBanks.ReturnComponent(id);
 
-            GuiVFlashPathBanks.Add(new GuiVFlashPathBank(id, "", component));
+            GuiVFlashPathBanks.Add(new GuiComponent(id, "", new GuiVFlashPathBank(component)));
 
             Logger.Log("ID: " + id + " new vFlash Bank have been created");
             return id;

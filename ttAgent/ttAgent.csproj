@@ -145,7 +145,6 @@
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiVFlashPathBank.cs" />
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
@@ -215,6 +214,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Visual\Gui\GuiVFlashPathBank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Visual\Gui\GuiVFlashStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,6 +261,9 @@
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiFactory.cs" />
+    <Compile Include="Visual\Gui\GuiVFlashPathBank.xaml.cs">
+      <DependentUpon>GuiVFlashPathBank.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiVFlashStatusBar.xaml.cs">
       <DependentUpon>GuiVFlashStatusBar.xaml</DependentUpon>
     </Compile>

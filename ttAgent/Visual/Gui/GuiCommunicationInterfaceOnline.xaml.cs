@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,8 +20,12 @@ namespace _ttAgent.Visual.Gui
         private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
         private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
 
+        private Boolean _isActive;
+
         public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection { get { return _readInterfaceCollection; } }
         public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection { get { return _writeInterfaceCollection; } }
+
+        public TabItem TabItem = new TabItem();
 
         private readonly Thread _updateThread;
 
@@ -98,9 +103,15 @@ namespace _ttAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
-                Thread.Sleep(1000);
+                if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
+                Thread.Sleep(100);
             }
+        }
+
+        public void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tab = (TabControl) sender;
+            _isActive = Equals(tab.SelectedItem, TabItem);
         }
     }
 }

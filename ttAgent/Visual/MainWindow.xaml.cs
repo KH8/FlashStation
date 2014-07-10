@@ -349,6 +349,9 @@ namespace _ttAgent.Visual
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
                 var guiComponent = (GuiCommunicationInterfaceOnline) gridGuiCommunicationInterfaceOnline.UserControl;
                 guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
+                guiComponent.TabItem = newtabItem;
+
+                MainTabControl.SelectionChanged += guiComponent.SelectionChanged;
             }
 
             foreach (OutputHandler record in _registry.OutputHandlers)
@@ -379,8 +382,10 @@ namespace _ttAgent.Visual
                 newGrid.Height = OutputTabControl.Height - 32;
                 newGrid.Width = OutputTabControl.Width - 10;
 
-                var gridGuiVFlashPathBank = (GuiVFlashPathBank)_registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);
+                var gridGuiVFlashPathBank = (GuiComponent)_registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);
                 gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
+                var guiComponent = (GuiVFlashPathBank)gridGuiVFlashPathBank.UserControl;
+                guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
             foreach (VFlashHandler record in _registry.VFlashHandlers)

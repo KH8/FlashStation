@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="_ttAgent.Visual.Gui.GuiVFlashPathBank"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" Width="854">
+    <UserControl.Resources>
+        <Style x:Key="AlternationStyle" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#FFF6F6F6"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Name="GeneralGrid">
+        <ListView Name="VFlashBankListBox" HorizontalAlignment="Left" Height="269" VerticalAlignment="Top" Width="854" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" SelectionChanged="VFlashProjectbankListViewSelection">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="25" Width="100" Click="TypeCreation"/>
+        <Label Content="Type Number:" HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Bottom"/>
+        <Label Content="Version:" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom"/>
+        <TextBox Name="TypeNumberBox" HorizontalAlignment="Left" Height="23" Margin="200,0,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Bottom" Width="50"/>
+        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="320,0,0,0" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
+    </Grid>
+</UserControl>
