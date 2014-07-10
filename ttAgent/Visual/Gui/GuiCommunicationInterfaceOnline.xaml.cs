@@ -103,7 +103,11 @@ namespace _ttAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (_communicationInterfaceHandler.ReadInterfaceComposite != null && _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive) DataDisplayer.Display(_readInterfaceCollection, _writeInterfaceCollection, _plcCommunication, _communicationInterfaceHandler);
+                if (_communicationInterfaceHandler.ReadInterfaceComposite != null &&
+                    _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
+                {
+                    DataDisplayer.Create(CommunicationReadInterfaceListBox, CommunicationWriteInterfaceListBox, _plcCommunication, _communicationInterfaceHandler);
+                }
                 Thread.Sleep(100);
             }
         }

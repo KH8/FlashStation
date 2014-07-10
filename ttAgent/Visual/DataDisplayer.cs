@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using _ttAgent.DataAquisition;
 using _ttAgent.PLC;
 
@@ -17,13 +18,16 @@ namespace _ttAgent.Visual
             public string Value { get; set; }
         }
 
-        public static void Display(ObservableCollection<DisplayData> onlineReadDataCollection, ObservableCollection<DisplayData> onlineWriteDataCollection, PlcCommunicator communication, CommunicationInterfaceHandler communicationHandler)
+        public static void Create(ListView onlineReadDataListView, ListView onlineWriteDataListView, PlcCommunicator communication, CommunicationInterfaceHandler communicationHandler)
         {
+            var onlineReadDataCollection = (ObservableCollection<DisplayData>)onlineReadDataListView.ItemsSource;
+            var onlineWriteDataCollection = (ObservableCollection<DisplayData>)onlineWriteDataListView.ItemsSource;
+
             Application.Current.Dispatcher.Invoke(delegate
             {
                 onlineReadDataCollection.Clear();
                 onlineReadDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcReadDbNumber, Name = "-", Type = "-", Value="-"});
-                foreach (CommunicationInterfaceComponent inputComponent in communicationHandler.ReadInterfaceComposite.Children)
+                foreach (var inputComponent in communicationHandler.ReadInterfaceComposite.Children)
                 {
                     switch (inputComponent.Type)
                     {
@@ -58,7 +62,7 @@ namespace _ttAgent.Visual
                 }
                 onlineWriteDataCollection.Clear();
                 onlineWriteDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcWriteDbNumber, Name = "-", Type = "-", Value = "-" });
-                foreach (CommunicationInterfaceComponent inputComponent in communicationHandler.WriteInterfaceComposite.Children)
+                foreach (var inputComponent in communicationHandler.WriteInterfaceComposite.Children)
                 {
                     switch (inputComponent.Type)
                     {
