@@ -128,7 +128,6 @@
     <Compile Include="Visual\Gui\GuiCommunicationStatusBar.xaml.cs">
       <DependentUpon>GuiCommunicationStatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\Gui.cs" />
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
     </Compile>
@@ -260,7 +259,6 @@
     <Compile Include="Visual\FaultReportWindow.xaml.cs">
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiFactory.cs" />
     <Compile Include="Visual\Gui\GuiVFlashPathBank.xaml.cs">
       <DependentUpon>GuiVFlashPathBank.xaml</DependentUpon>
     </Compile>

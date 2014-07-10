@@ -37,24 +37,24 @@ namespace _ttAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                GuiFactory.UpdateLabel(ActIpAddressLabel, _plcCommunicator.PlcConfiguration.PlcIpAddress);
-                GuiFactory.UpdateLabel(ActPortLabel,
+                UpdateLabel(ActIpAddressLabel, _plcCommunicator.PlcConfiguration.PlcIpAddress);
+                UpdateLabel(ActPortLabel,
                     _plcCommunicator.PlcConfiguration.PlcPortNumber.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActRackLabel,
+                UpdateLabel(ActRackLabel,
                     _plcCommunicator.PlcConfiguration.PlcRackNumber.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActSlotLabel,
+                UpdateLabel(ActSlotLabel,
                     _plcCommunicator.PlcConfiguration.PlcSlotNumber.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActReadDbNumberLabel,
+                UpdateLabel(ActReadDbNumberLabel,
                     _plcCommunicator.PlcConfiguration.PlcReadDbNumber.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActReadStartAddressLabel,
+                UpdateLabel(ActReadStartAddressLabel,
                     _plcCommunicator.PlcConfiguration.PlcReadStartAddress.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActReadLengthLabel,
+                UpdateLabel(ActReadLengthLabel,
                     _plcCommunicator.PlcConfiguration.PlcReadLength.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActWriteDbNumberLabel,
+                UpdateLabel(ActWriteDbNumberLabel,
                     _plcCommunicator.PlcConfiguration.PlcWriteDbNumber.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActWriteStartAddressLabel,
+                UpdateLabel(ActWriteStartAddressLabel,
                     _plcCommunicator.PlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture));
-                GuiFactory.UpdateLabel(ActWriteLengthLabel,
+                UpdateLabel(ActWriteLengthLabel,
                     _plcCommunicator.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture));
                 ConnectButton.Dispatcher.BeginInvoke((new Action(delegate
                 {
@@ -95,6 +95,14 @@ namespace _ttAgent.Visual.Gui
                 _plcConfigurationFile.ConnectAtStartUp[_plcCommunicator.Header.Id] = (bool)startUpConnectionControlBox.IsChecked;
                 _plcConfigurationFile.Save();
             }
+        }
+
+        private void UpdateLabel(Label label, string text)
+        {
+            label.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                label.Content = text;
+            })));
         }
     }
 }
