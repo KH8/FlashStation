@@ -39,89 +39,18 @@ namespace _ttAgent.Output
         public List<string> InterfaceToStrings(CommunicationInterfaceComposite inputComposite, int startPos, int stopPos)
         {
             var list = new List<string>();
-            foreach (CommunicationInterfaceComponent variable in inputComposite.Children.Where(variable => variable.Pos >= startPos && variable.Pos < stopPos))
+            foreach (var variable in inputComposite.Children.Where(variable => variable.Pos >= startPos && variable.Pos < stopPos))
             {
-                byte[] data;
-                string hex;
-                string value;
                 switch (variable.Type)
                 {
                     case CommunicationInterfaceComponent.VariableType.Bit:
                         var variableCastedBit = (CiBit) variable;
                         list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
-                                 variableCastedBit.Value);
+                                 variableCastedBit.StringValue());
                         break;
-                    case CommunicationInterfaceComponent.VariableType.Byte:
-                        var variableCastedByte = (CiByte) variable;
-
-                        data = new byte[1];
-                        data[0] = variableCastedByte.Value;
-                        hex = BitConverter.ToString(data);
-                        value = hex.Replace("-", "");
-
-                        list.Add(variableCastedByte.Pos + "$" + variableCastedByte.Name + "$" + variableCastedByte.Type + "$" +
-                                 value);
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Char:
-                        var variableCastedChar = (CiChar)variable;
-                        list.Add(variableCastedChar.Pos + "$" + variableCastedChar.Name + "$" + variableCastedChar.Type + "$" +
-                                 variableCastedChar.Value.ToString(CultureInfo.InvariantCulture));
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Word:
-                        var variableCastedWord = (CiWord) variable;
-
-                        data = new byte[4];
-                        variableCastedWord.Value.CopyTo(data, 0);
-                        var dataShort = new byte[2];
-
-                        dataShort[0] = data[0];
-                        dataShort[1] = data[1];
-
-                        hex = BitConverter.ToString(dataShort);
-                        value = hex.Replace("-", "");
-
-                        list.Add(variableCastedWord.Pos + "$" + variableCastedWord.Name + "$" + variableCastedWord.Type + "$" +
-                                 value);
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.DoubleWord:
-                        var variableCastedDoubleWord = (CiDoubleWord)variable;
-
-                        data = new byte[8];
-                        variableCastedDoubleWord.Value[0].CopyTo(data, 0);
-                        variableCastedDoubleWord.Value[1].CopyTo(data, 2);
-
-                        dataShort = new byte[4];
-
-                        dataShort[0] = data[0];
-                        dataShort[1] = data[1];
-                        dataShort[2] = data[2];
-                        dataShort[3] = data[3];
-
-                        hex = BitConverter.ToString(dataShort);
-                        value = hex.Replace("-", "");
-
-                        list.Add(variableCastedDoubleWord.Pos + "$" + variableCastedDoubleWord.Name + "$" + variableCastedDoubleWord.Type + "$" +
-                                 value);
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Integer:
-                        var variableCastedInteger = (CiInteger) variable;
-                        list.Add(variableCastedInteger.Pos + "$" + variableCastedInteger.Name + "$" + variableCastedInteger.Type + "$" +
-                                 variableCastedInteger.Value);
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.DoubleInteger:
-                        var variableCastedDoubleInteger = (CiDoubleInteger) variable;
-                        list.Add(variableCastedDoubleInteger.Pos + "$" + variableCastedDoubleInteger.Name + "$" + variableCastedDoubleInteger.Type + "$" +
-                                 variableCastedDoubleInteger.Value);
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.Real:
-                        var variableCastedReal = (CiReal) variable;
-                        list.Add(variableCastedReal.Pos + "$" + variableCastedReal.Name + "$" + variableCastedReal.Type + "$" +
-                                 variableCastedReal.Value);
-                        break;
-                    case CommunicationInterfaceComponent.VariableType.String:
-                        var variableCastedString = (CiString) variable;
-                        list.Add(variableCastedString.Pos + "$" + variableCastedString.Name + "$" + variableCastedString.Type + "$" +
-                                 variableCastedString.Value);
+                    default:
+                        list.Add(variable.Pos + "$" + variable.Name + "$" + variable.Type + "$" +
+                                 variable.StringValue());
                         break;
                 }
             }
@@ -136,7 +65,7 @@ namespace _ttAgent.Output
             var fileName = FileNameCreator(fixedName, directoryName, "xml");
 
             var settings = new XmlWriterSettings {Indent = true, IndentChars = "\t"};
-            using (XmlWriter writer = XmlWriter.Create(fileName, settings))
+            using (var writer = XmlWriter.Create(fileName, settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PLCVariables");

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using _ttAgent.DataAquisition;
-using _ttAgent.PLC;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -98,8 +96,9 @@ namespace _ttAgent.Visual.Gui
                 if (_communicationInterfaceHandler.ReadInterfaceComposite != null &&
                     _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
                 {
+                    
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         }
 

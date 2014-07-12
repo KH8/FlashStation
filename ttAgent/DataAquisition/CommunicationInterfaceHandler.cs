@@ -82,11 +82,12 @@ namespace _ttAgent.DataAquisition
 
         public void MaintainConnection()
         {
-            if (PlcCommunicator.ConnectionStatus == 1)
-            {
-                if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
-                if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
-            }
+            foreach (var displayDataComponent in ReadInterfaceCollection) { displayDataComponent.Update(); }
+            foreach (var displayDataComponent in WriteInterfaceCollection) { displayDataComponent.Update(); }
+
+            if (PlcCommunicator.ConnectionStatus != 1) return;
+            if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
+            if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
         }
 
         #region Auxiliaries

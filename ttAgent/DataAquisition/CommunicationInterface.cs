@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace _ttAgent.DataAquisition
@@ -55,6 +56,8 @@ namespace _ttAgent.DataAquisition
             get { return _type; }
         }
 
+        public abstract string StringValue();
+
         public abstract void Add(CommunicationInterfaceComponent c);
         public abstract void Remove(CommunicationInterfaceComponent c);
         public abstract void ReadValue(byte[] valByte);
@@ -81,6 +84,11 @@ namespace _ttAgent.DataAquisition
         {
         }
 
+        public override string StringValue()
+        {
+            return "";
+        }
+
         public override void Add(CommunicationInterfaceComponent component)
         {
             _children.Add(component);
@@ -93,7 +101,7 @@ namespace _ttAgent.DataAquisition
 
         public override void ReadValue(byte[] valByte)
         {
-            foreach (CommunicationInterfaceComponent component in _children)
+            foreach (var component in _children)
             {
                 component.ReadValue(valByte);
             }
@@ -101,7 +109,7 @@ namespace _ttAgent.DataAquisition
 
         public override void WriteValue(byte[] valByte)
         {
-            foreach (CommunicationInterfaceComponent component in _children)
+            foreach (var component in _children)
             {
                 component.WriteValue(valByte);
             }
@@ -116,75 +124,50 @@ namespace _ttAgent.DataAquisition
 
         public void ModifyValue(string name, BitArray bitArrayValue)
         {
-            foreach (var communicationInterfaceComponent in _children)
+            foreach (var componentWord in from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select (CiWord)communicationInterfaceComponent)
             {
-                CommunicationInterfaceComponent component = communicationInterfaceComponent;
-                if (component.Name == name)
-                {
-                    var componentWord = (CiWord)communicationInterfaceComponent;
-                    componentWord.Value = bitArrayValue;
-                    return;
-                }
+                componentWord.Value = bitArrayValue;
+                return;
             }
             throw new CompositeException("Error: Variable not found");
         }
 
         public void ModifyValue(string name, Int16 integerValue)
         {
-            foreach (var communicationInterfaceComponent in _children)
+            foreach (var componentInteger in (from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select communicationInterfaceComponent).Cast<CiInteger>())
             {
-                CommunicationInterfaceComponent component = communicationInterfaceComponent;
-                if (component.Name == name)
-                {
-                    var componentInteger = (CiInteger)communicationInterfaceComponent;
-                    componentInteger.Value = integerValue;
-                    return;
-                }
+                componentInteger.Value = integerValue;
+                return;
             }
             throw new CompositeException("Error: Variable not found");
         }
 
         public void ModifyValue(string name, Int32 doubleIntegerValue)
         {
-            foreach (var communicationInterfaceComponent in _children)
+            foreach (var componentDoubleInteger in (from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select communicationInterfaceComponent).Cast<CiDoubleInteger>())
             {
-                CommunicationInterfaceComponent component = communicationInterfaceComponent;
-                if (component.Name == name)
-                {
-                    var componentDoubleInteger = (CiDoubleInteger)communicationInterfaceComponent;
-                    componentDoubleInteger.Value = doubleIntegerValue;
-                    return;
-                }
+                componentDoubleInteger.Value = doubleIntegerValue;
+                return;
             }
             throw new CompositeException("Error: Variable not found");
         }
 
         public void ModifyValue(string name, float realValue)
         {
-            foreach (var communicationInterfaceComponent in _children)
+            foreach (var componentReal in from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select (CiReal)communicationInterfaceComponent)
             {
-                CommunicationInterfaceComponent component = communicationInterfaceComponent;
-                if (component.Name == name)
-                {
-                    var componentReal = (CiReal)communicationInterfaceComponent;
-                    componentReal.Value = realValue;
-                    return;
-                }
+                componentReal.Value = realValue;
+                return;
             }
             throw new CompositeException("Error: Variable not found");
         }
 
         public void ModifyValue(string name, string stringValue)
         {
-            foreach (var communicationInterfaceComponent in _children)
+            foreach (var componentString in (from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select communicationInterfaceComponent).Cast<CiString>())
             {
-                CommunicationInterfaceComponent component = communicationInterfaceComponent;
-                if (component.Name == name)
-                {
-                    var componentString = (CiString) communicationInterfaceComponent;
-                    componentString.Value = stringValue;
-                    return;
-                }
+                componentString.Value = stringValue;
+                return;
             }
             throw new CompositeException("Error: Variable not found");
         }
@@ -239,6 +222,11 @@ namespace _ttAgent.DataAquisition
             _bitPosition = bitPos;
         }
 
+        public override string StringValue()
+        {
+            return _value.ToString();
+        }
+
         public override void ReadValue(byte[] valByte)
         {
             _value = DataMapper.ReadSingleBit(valByte, Pos, _bitPosition);
@@ -266,6 +254,14 @@ namespace _ttAgent.DataAquisition
             _value = value;
         }
 
+        public override string StringValue()
+        {
+            var data = new byte[1];
+            data[0] = Value;
+            var hex = BitConverter.ToString(data);
+            return hex.Replace("-", "");
+        }
+
         public override void ReadValue(byte[] valByte)
         {
             _value = DataMapper.Read8Bits(valByte, Pos);
@@ -291,6 +287,11 @@ namespace _ttAgent.DataAquisition
             : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override string StringValue()
+        {
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
 
         public override void ReadValue(byte[] valByte)
@@ -321,6 +322,19 @@ namespace _ttAgent.DataAquisition
             _value = value;
         }
 
+        public override string StringValue()
+        {
+            var data = new byte[4];
+            Value.CopyTo(data, 0);
+            var dataShort = new byte[2];
+
+            dataShort[0] = data[0];
+            dataShort[1] = data[1];
+
+            var hex = BitConverter.ToString(dataShort);
+            return hex.Replace("-", "");
+        }
+
         public override void ReadValue(byte[] valByte)
         {
             _value = DataMapper.Read16Bits(valByte, Pos);
@@ -346,6 +360,23 @@ namespace _ttAgent.DataAquisition
             : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override string StringValue()
+        {
+            var data = new byte[8];
+            Value[0].CopyTo(data, 0);
+            Value[1].CopyTo(data, 2);
+
+            var dataShort = new byte[4];
+
+            dataShort[0] = data[0];
+            dataShort[1] = data[1];
+            dataShort[2] = data[2];
+            dataShort[3] = data[3];
+
+            var hex = BitConverter.ToString(dataShort);
+            return hex.Replace("-", "");
         }
 
         public override void ReadValue(byte[] valByte)
@@ -375,6 +406,11 @@ namespace _ttAgent.DataAquisition
             _value = value;
         }
 
+        public override string StringValue()
+        {
+            return _value.ToString(CultureInfo.InvariantCulture);
+        }
+
         public override void ReadValue(byte[] valByte)
         {
             _value = DataMapper.ReadInteger(valByte, Pos);
@@ -402,6 +438,11 @@ namespace _ttAgent.DataAquisition
             _value = value;
         }
 
+        public override string StringValue()
+        {
+            return _value.ToString(CultureInfo.InvariantCulture);
+        }
+
         public override void ReadValue(byte[] valByte)
         {
             _value = DataMapper.ReadDInteger(valByte, Pos);
@@ -427,6 +468,11 @@ namespace _ttAgent.DataAquisition
             : base(name, pos, type)
         {
             _value = value;
+        }
+
+        public override string StringValue()
+        {
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
 
         public override void ReadValue(byte[] valByte)
@@ -462,6 +508,11 @@ namespace _ttAgent.DataAquisition
         {
             _value = value;
             _length = length;
+        }
+
+        public override string StringValue()
+        {
+            return _value.ToString(CultureInfo.InvariantCulture);
         }
 
         public override void ReadValue(byte[] valByte)
