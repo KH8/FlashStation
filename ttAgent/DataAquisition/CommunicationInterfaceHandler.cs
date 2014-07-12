@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using _ttAgent.Log;
 using _ttAgent.MainRegistry;
 using _ttAgent.PLC;
+using _ttAgent.Visual;
 
 namespace _ttAgent.DataAquisition
 {
@@ -10,6 +12,12 @@ namespace _ttAgent.DataAquisition
     {
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;
+
+        private readonly ObservableCollection<DisplayDataBuilder.DisplayData> _readInterfaceCollection = new ObservableCollection<DisplayDataBuilder.DisplayData>();
+        private readonly ObservableCollection<DisplayDataBuilder.DisplayData> _writeInterfaceCollection = new ObservableCollection<DisplayDataBuilder.DisplayData>();
+
+        public ObservableCollection<DisplayDataBuilder.DisplayData> ReadInterfaceCollection { get { return _readInterfaceCollection; } }
+        public ObservableCollection<DisplayDataBuilder.DisplayData> WriteInterfaceCollection { get { return _writeInterfaceCollection; } }
 
         public CommunicationInterfaceHandler(uint id, string name, PlcCommunicator plcCommunicator, CommunicationInterfacePath pathFile) : base(id, name)
         {
@@ -69,6 +77,7 @@ namespace _ttAgent.DataAquisition
         {
             _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
+            DisplayDataBuilder.Build(_readInterfaceCollection, _writeInterfaceCollection, this);
         }
 
         public void MaintainConnection()

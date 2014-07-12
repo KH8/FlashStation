@@ -14,16 +14,9 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiCommunicationInterfaceOnline
     {
-        private readonly PlcCommunicator _plcCommunication;
         private readonly CommunicationInterfaceHandler _communicationInterfaceHandler;
 
-        private readonly ObservableCollection<DataDisplayer.DisplayData> _readInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-        private readonly ObservableCollection<DataDisplayer.DisplayData> _writeInterfaceCollection = new ObservableCollection<DataDisplayer.DisplayData>();
-
         private Boolean _isActive;
-
-        public ObservableCollection<DataDisplayer.DisplayData> ReadInterfaceCollection { get { return _readInterfaceCollection; } }
-        public ObservableCollection<DataDisplayer.DisplayData> WriteInterfaceCollection { get { return _writeInterfaceCollection; } }
 
         public TabItem TabItem = new TabItem();
 
@@ -32,7 +25,6 @@ namespace _ttAgent.Visual.Gui
         public GuiCommunicationInterfaceOnline(CommunicationInterfaceHandler communicationInterfaceHandler)
         {
             _communicationInterfaceHandler = communicationInterfaceHandler;
-            _plcCommunication = _communicationInterfaceHandler.PlcCommunicator;
 
             InitializeComponent();
 
@@ -41,11 +33,11 @@ namespace _ttAgent.Visual.Gui
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
-            CommunicationReadInterfaceListBox.ItemsSource = _readInterfaceCollection;
+            CommunicationReadInterfaceListBox.ItemsSource = communicationInterfaceHandler.ReadInterfaceCollection;
             CommunicationReadInterfaceListBox.View = CreateGridView();
             CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
 
-            CommunicationWriteInterfaceListBox.ItemsSource = _writeInterfaceCollection;
+            CommunicationWriteInterfaceListBox.ItemsSource = communicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.View = CreateGridView();
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
         }
@@ -106,7 +98,6 @@ namespace _ttAgent.Visual.Gui
                 if (_communicationInterfaceHandler.ReadInterfaceComposite != null &&
                     _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
                 {
-                    DataDisplayer.Create(CommunicationReadInterfaceListBox, CommunicationWriteInterfaceListBox, _plcCommunication, _communicationInterfaceHandler);
                 }
                 Thread.Sleep(100);
             }

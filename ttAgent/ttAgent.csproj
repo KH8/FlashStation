@@ -255,7 +255,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
     </Compile>
-    <Compile Include="Visual\DataDisplayer.cs" />
+    <Compile Include="Visual\DisplayDataBuilder.cs" />
     <Compile Include="Visual\FaultReportWindow.xaml.cs">
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>

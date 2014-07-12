@@ -8,7 +8,7 @@ using _ttAgent.PLC;
 
 namespace _ttAgent.Visual
 {
-    public class DataDisplayer
+    public class DisplayDataBuilder
     {
         public class DisplayData
         {
@@ -18,80 +18,77 @@ namespace _ttAgent.Visual
             public string Value { get; set; }
         }
 
-        public static void Create(ListView onlineReadDataListView, ListView onlineWriteDataListView, PlcCommunicator communication, CommunicationInterfaceHandler communicationHandler)
+        public static void Build(ObservableCollection<DisplayData> onlineReadDataCollection, ObservableCollection<DisplayData> onlineWriteDataCollection, CommunicationInterfaceHandler communicationHandler)
         {
-            var onlineReadDataCollection = (ObservableCollection<DisplayData>)onlineReadDataListView.ItemsSource;
-            var onlineWriteDataCollection = (ObservableCollection<DisplayData>)onlineWriteDataListView.ItemsSource;
-
             Application.Current.Dispatcher.Invoke(delegate
             {
                 onlineReadDataCollection.Clear();
-                onlineReadDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcReadDbNumber, Name = "-", Type = "-", Value="-"});
+                onlineReadDataCollection.Add(new DisplayData { Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadDbNumber, Name = "-", Type = "-", Value = "-" });
                 foreach (var inputComponent in communicationHandler.ReadInterfaceComposite.Children)
                 {
                     switch (inputComponent.Type)
                     {
-                        case CommunicationInterfaceComponent.VariableType.Bit: 
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiBit, communication.PlcConfiguration.PlcReadStartAddress));
+                        case CommunicationInterfaceComponent.VariableType.Bit:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiBit, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
-                        case CommunicationInterfaceComponent.VariableType.Byte: 
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiByte, communication.PlcConfiguration.PlcReadStartAddress));
+                        case CommunicationInterfaceComponent.VariableType.Byte:
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiByte, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Char:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiChar, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiChar, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Word:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiWord, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiWord, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.DoubleWord:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleWord, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleWord, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Integer:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.DoubleInteger:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiDoubleInteger, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Real:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiReal, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiReal, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.String:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiString, communication.PlcConfiguration.PlcReadStartAddress));
+                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiString, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                     }
                 }
                 onlineWriteDataCollection.Clear();
-                onlineWriteDataCollection.Add(new DisplayData { Address = "DB" + communication.PlcConfiguration.PlcWriteDbNumber, Name = "-", Type = "-", Value = "-" });
+                onlineWriteDataCollection.Add(new DisplayData { Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteDbNumber, Name = "-", Type = "-", Value = "-" });
                 foreach (var inputComponent in communicationHandler.WriteInterfaceComposite.Children)
                 {
                     switch (inputComponent.Type)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiBit, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiBit, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Byte:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiByte, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiByte, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Char:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiChar, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiChar, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Word:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiWord, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiWord, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.DoubleWord:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiDoubleWord, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiDoubleWord, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Integer:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiInteger, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.DoubleInteger:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiDoubleInteger, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiDoubleInteger, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.Real:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiReal, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiReal, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         case CommunicationInterfaceComponent.VariableType.String:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiString, communication.PlcConfiguration.PlcWriteStartAddress));
+                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiString, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                     }
                 }
