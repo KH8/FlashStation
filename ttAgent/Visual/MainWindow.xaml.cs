@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms.VisualStyles;
 using Microsoft.Win32;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
@@ -285,6 +287,8 @@ namespace _ttAgent.Visual
 
         private void UpdateGui()
         {
+            var mainTabControlSelectionMemory = (TabItem)MainTabControl.SelectedItem;
+
             MainTabControl.Items.Clear();
             OutputTabControl.Items.Clear();
             ConnectionTabControl.Items.Clear();
