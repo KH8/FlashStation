@@ -97,7 +97,7 @@ namespace _ttAgent.Visual.Gui
             }
         }
 
-        private void UpdateLabel(Label label, string text)
+        private static void UpdateLabel(ContentControl label, string text)
         {
             label.Dispatcher.BeginInvoke((new Action(delegate
             {

@@ -16,9 +16,9 @@ namespace _ttAgent.Visual.Gui
 
         private Boolean _isActive;
 
-        public TabItem TabItem = new TabItem();
-
         private readonly Thread _updateThread;
+
+        public TabItem TabItem = new TabItem();
 
         public GuiCommunicationInterfaceOnline(CommunicationInterfaceHandler communicationInterfaceHandler)
         {
@@ -31,12 +31,12 @@ namespace _ttAgent.Visual.Gui
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
-            CommunicationReadInterfaceListBox.ItemsSource = communicationInterfaceHandler.ReadInterfaceCollection;
             CommunicationReadInterfaceListBox.View = CreateGridView();
+            CommunicationReadInterfaceListBox.ItemsSource = _communicationInterfaceHandler.ReadInterfaceCollection;
             CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
 
-            CommunicationWriteInterfaceListBox.ItemsSource = communicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.View = CreateGridView();
+            CommunicationWriteInterfaceListBox.ItemsSource = _communicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
         }
 
@@ -96,7 +96,7 @@ namespace _ttAgent.Visual.Gui
                 if (_communicationInterfaceHandler.ReadInterfaceComposite != null &&
                     _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
                 {
-                    
+                    _communicationInterfaceHandler.UpdateObservableCollections();
                 }
                 Thread.Sleep(10);
             }

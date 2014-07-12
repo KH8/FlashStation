@@ -82,12 +82,15 @@ namespace _ttAgent.DataAquisition
 
         public void MaintainConnection()
         {
-            foreach (var displayDataComponent in ReadInterfaceCollection) { displayDataComponent.Update(); }
-            foreach (var displayDataComponent in WriteInterfaceCollection) { displayDataComponent.Update(); }
-
             if (PlcCommunicator.ConnectionStatus != 1) return;
             if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
             if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
+        }
+
+        public void UpdateObservableCollections()
+        {
+            foreach (var displayDataComponent in _readInterfaceCollection) { displayDataComponent.Update(); }
+            foreach (var displayDataComponent in _writeInterfaceCollection) { displayDataComponent.Update(); }
         }
 
         #region Auxiliaries
