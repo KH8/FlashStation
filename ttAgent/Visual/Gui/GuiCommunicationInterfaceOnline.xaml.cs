@@ -97,8 +97,12 @@ namespace _ttAgent.Visual.Gui
                     _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
                 {
                     _communicationInterfaceHandler.UpdateObservableCollections();
+                    CommunicationReadInterfaceListBox.Dispatcher.BeginInvoke((new Action(
+                        () => CommunicationReadInterfaceListBox.Items.Refresh())));
+                    CommunicationWriteInterfaceListBox.Dispatcher.BeginInvoke((new Action(
+                        () => CommunicationWriteInterfaceListBox.Items.Refresh())));
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(200);
             }
         }
 

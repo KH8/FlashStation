@@ -57,7 +57,7 @@ namespace _ttAgent.Visual
                 {
                     communicationInterfaceHandler.MaintainConnection();
                 }
-                Thread.Sleep(21);
+                Thread.Sleep(10);
             }
         }
 

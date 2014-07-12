@@ -90,11 +90,9 @@ namespace _ttAgent.Visual.Gui
         private void ConnectionAtStartUpChecked(object sender, RoutedEventArgs e)
         {
             var startUpConnectionControlBox = (CheckBox)sender;
-            if (startUpConnectionControlBox.IsChecked != null)
-            {
-                _plcConfigurationFile.ConnectAtStartUp[_plcCommunicator.Header.Id] = (bool)startUpConnectionControlBox.IsChecked;
-                _plcConfigurationFile.Save();
-            }
+            if (startUpConnectionControlBox.IsChecked == null) return;
+            _plcConfigurationFile.ConnectAtStartUp[_plcCommunicator.Header.Id] = (bool)startUpConnectionControlBox.IsChecked;
+            _plcConfigurationFile.Save();
         }
 
         private static void UpdateLabel(ContentControl label, string text)
