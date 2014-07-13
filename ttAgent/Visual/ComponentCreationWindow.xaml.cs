@@ -29,8 +29,8 @@ namespace _ttAgent.Visual
             _componentCreationWindowTreeView.Margin = new Thickness(0,30,0,0);
 
             GeneralGrid.Children.Add(_componentCreationWindowTreeView);
-            GeneralGrid.Height = 195;
-            Height = 230;
+            GeneralGrid.Height = 185;
+            Height = 225;
         }
 
         public ComponentCreationWindow(string prompt, TreeViewItem items, TreeViewItem itemsExtension, AssignmentDelegateExtended assignmentDelegate)
@@ -46,12 +46,12 @@ namespace _ttAgent.Visual
 
             _componentCreationWindowTreeViewExtended = new ComponentCreationWindowTreeView();
             _componentCreationWindowTreeViewExtended.ComponentManagerTreeView.Items.Add(itemsExtension);
-            _componentCreationWindowTreeViewExtended.Margin = new Thickness(0, 160, 0, 0);
+            _componentCreationWindowTreeViewExtended.Margin = new Thickness(0, 142, 0, 0);
 
             GeneralGrid.Children.Add(_componentCreationWindowTreeView);
             GeneralGrid.Children.Add(_componentCreationWindowTreeViewExtended);
-            GeneralGrid.Height = 325;
-            Height = 360;
+            GeneralGrid.Height = 297;
+            Height = 337;
         }
 
         private void CancelSelection(object sender, RoutedEventArgs e)
@@ -64,6 +64,7 @@ namespace _ttAgent.Visual
             var selectedItem = (TreeViewItem)_componentCreationWindowTreeView.ComponentManagerTreeView.SelectedItem;
             if (selectedItem == null) { return; }
             var result = (uint)selectedItem.AlternationCount;
+            if (result == 0) { return; }
 
             if (_assignmentDelegate != null)
             {
@@ -75,6 +76,7 @@ namespace _ttAgent.Visual
             selectedItem = (TreeViewItem)_componentCreationWindowTreeViewExtended.ComponentManagerTreeView.SelectedItem;
             if (selectedItem == null) { return; }
             var resultExtension = (uint)selectedItem.AlternationCount;
+            if (resultExtension == 0) { return; }
 
             _assignmentDelegateExtended(result, resultExtension);
             Close();

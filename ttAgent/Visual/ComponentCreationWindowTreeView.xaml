@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="480" Height="130"
+             mc:Ignorable="d" Width="480" Height="110"
              HorizontalAlignment="Center" VerticalAlignment="Top">
     <Grid>
         <TreeView x:Name="ComponentManagerTreeView" Width="480" Height="110" HorizontalAlignment="Center" VerticalAlignment="Top" SelectedItemChanged="ComponentManagerSelectionChanged"/>
-        <Label Name="ComponentManagerSelectionLabel" Content="no selection" Height="24" FontSize="10" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="480"/>
+        <Label Name="ComponentManagerSelectionLabel" Content="no selection" Height="24" FontSize="10" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="455" Margin="0,0,25,0"/>
     </Grid>
 </UserControl>
