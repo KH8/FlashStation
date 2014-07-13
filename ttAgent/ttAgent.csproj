@@ -119,6 +119,9 @@
     <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
       <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
+      <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
     <Page Include="Visual\ComponentCreationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\ComponentCreationWindowTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Visual\FaultReportWindow.xaml">
       <SubType>Designer</SubType>

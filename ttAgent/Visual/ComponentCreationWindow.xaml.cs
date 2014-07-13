@@ -14,6 +14,9 @@ namespace _ttAgent.Visual
         private readonly AssignmentDelegate _assignmentDelegate;
         private readonly AssignmentDelegateExtended _assignmentDelegateExtended;
 
+        private readonly ComponentCreationWindowTreeView _componentCreationWindowTreeView;
+        private readonly ComponentCreationWindowTreeView _componentCreationWindowTreeViewExtended;
+
         public ComponentCreationWindow(string prompt, TreeViewItem items, AssignmentDelegate assignmentDelegate)
         {
             InitializeComponent();
@@ -21,11 +24,13 @@ namespace _ttAgent.Visual
 
             Prompt.Content = prompt;
 
-            ComponentManagerTreeView.Visibility = Visibility.Visible;
-            ComponentManagerTreeViewExtension.Visibility = Visibility.Hidden;
+            _componentCreationWindowTreeView = new ComponentCreationWindowTreeView();
+            _componentCreationWindowTreeView.ComponentManagerTreeView.Items.Add(items);
+            _componentCreationWindowTreeView.Margin = new Thickness(0,30,0,0);
 
-            ComponentManagerTreeView.Width = 428;
-            ComponentManagerTreeView.Items.Add(items);
+            GeneralGrid.Children.Add(_componentCreationWindowTreeView);
+            GeneralGrid.Height = 195;
+            Height = 230;
         }
 
         public ComponentCreationWindow(string prompt, TreeViewItem items, TreeViewItem itemsExtension, AssignmentDelegateExtended assignmentDelegate)
@@ -35,11 +40,18 @@ namespace _ttAgent.Visual
 
             Prompt.Content = prompt;
 
-            ComponentManagerTreeView.Visibility = Visibility.Visible;
-            ComponentManagerTreeViewExtension.Visibility = Visibility.Visible;
+            _componentCreationWindowTreeView = new ComponentCreationWindowTreeView();
+            _componentCreationWindowTreeView.ComponentManagerTreeView.Items.Add(items);
+            _componentCreationWindowTreeView.Margin = new Thickness(0, 30, 0, 0);
 
-            ComponentManagerTreeView.Items.Add(items);
-            ComponentManagerTreeViewExtension.Items.Add(itemsExtension);
+            _componentCreationWindowTreeViewExtended = new ComponentCreationWindowTreeView();
+            _componentCreationWindowTreeViewExtended.ComponentManagerTreeView.Items.Add(itemsExtension);
+            _componentCreationWindowTreeViewExtended.Margin = new Thickness(0, 160, 0, 0);
+
+            GeneralGrid.Children.Add(_componentCreationWindowTreeView);
+            GeneralGrid.Children.Add(_componentCreationWindowTreeViewExtended);
+            GeneralGrid.Height = 325;
+            Height = 360;
         }
 
         private void CancelSelection(object sender, RoutedEventArgs e)
@@ -49,7 +61,7 @@ namespace _ttAgent.Visual
 
         private void Done(object sender, RoutedEventArgs e)
         {
-            var selectedItem = (TreeViewItem)ComponentManagerTreeView.SelectedItem;
+            var selectedItem = (TreeViewItem)_componentCreationWindowTreeView.ComponentManagerTreeView.SelectedItem;
             if (selectedItem == null) { return; }
             var result = (uint)selectedItem.AlternationCount;
 
@@ -60,7 +72,7 @@ namespace _ttAgent.Visual
                 return;
             }
 
-            selectedItem = (TreeViewItem)ComponentManagerTreeViewExtension.SelectedItem;
+            selectedItem = (TreeViewItem)_componentCreationWindowTreeViewExtended.ComponentManagerTreeView.SelectedItem;
             if (selectedItem == null) { return; }
             var resultExtension = (uint)selectedItem.AlternationCount;
 
