@@ -23,7 +23,7 @@ namespace _ttAgent.Analyzer
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
 
-        //MainModelView
+        //public MainModelView
 
         protected AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
