@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using AmpIdent.Visual;
 using _ttAgent.DataAquisition;
 
 namespace _ttAgent.Analyzer
@@ -23,7 +24,7 @@ namespace _ttAgent.Analyzer
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
 
-        //public MainModelView
+        public MainViewModel MainViewModel { get; set; }
 
         protected AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
