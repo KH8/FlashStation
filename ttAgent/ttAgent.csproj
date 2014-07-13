@@ -86,6 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="General\Module.cs" />
     <Compile Include="MainRegistry\RegistryAbstract.cs" />
