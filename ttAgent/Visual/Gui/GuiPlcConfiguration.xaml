@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignWidth="320" Height="390">
+             d:DesignWidth="320" Height="390"
+             HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid Name="GeneralGrid">
         <GroupBox Header="PLC Communication Setup" Width="320" Height="148" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Grid>
