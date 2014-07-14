@@ -5,9 +5,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Drawing;
+using System.Web.UI.WebControls;
 using AmpIdent.Visual;
 using OxyPlot;
 using OxyPlot.Wpf;
+using Axis = OxyPlot.Axes.Axis;
 using Brush = System.Windows.Media.Brush;
 using LineSeries = OxyPlot.Series.LineSeries;
 
@@ -16,7 +18,7 @@ namespace _ttAgent.Analyzer
     public class MainViewModel : Observable
     {
         private PlotModel _model;
-        private LineSeries _series;
+        private readonly LineSeries _series;
         readonly PlotModel _tmp;
 
         public MainViewModel()
@@ -25,13 +27,12 @@ namespace _ttAgent.Analyzer
             _tmp = new PlotModel
             {
                 IsLegendVisible = false,
-                TitleFontSize = 0,
-                Title = "",
-                SubtitleFontSize = 0
+                DefaultFontSize = 0,
             };
             _series = new LineSeries
             {
-                MarkerType = MarkerType.Circle, MarkerSize = 1
+                MarkerType = MarkerType.Circle, 
+                MarkerSize = 1
             };
             _tmp.Series.Add(_series);
         }

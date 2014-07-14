@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _ttAgent.Analyzer;
@@ -11,7 +10,7 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure
     {
-        private AnalyzerObservableVariable _analyzerObservableVariable;
+        private readonly AnalyzerObservableVariable _analyzerObservableVariable;
 
         public GuiAnalyzerSingleFigure(AnalyzerObservableVariable analyzerObservableVariable)
         {

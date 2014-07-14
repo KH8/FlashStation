@@ -31,14 +31,14 @@ namespace _ttAgent.Analyzer
         public AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
             CommunicationInterfaceVariable = communicationInterfaceVariable;
-            Type = AnalyzerObservableVariableBuilder.GetType(CommunicationInterfaceVariable);
+            Type = GetType(CommunicationInterfaceVariable);
             MainViewModel = new MainViewModel();
         }
 
         public void StoreActualValue()
         {
             var rand = new Random();
-            Value = AnalyzerObservableVariableBuilder.GetValue(CommunicationInterfaceVariable);
+            Value = GetValue(CommunicationInterfaceVariable);
             //MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, Value));
             MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, rand.NextDouble()));
             MainViewModel.Model.InvalidatePlot(true);
@@ -48,11 +48,8 @@ namespace _ttAgent.Analyzer
         {
             MainViewModel.Clear();
         }
-    }
 
-    public static class AnalyzerObservableVariableBuilder
-    {
-        public static double GetValue(CommunicationInterfaceVariable communicationInterfaceVariable)
+        private static double GetValue(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
             switch (communicationInterfaceVariable.Type)
             {
@@ -76,20 +73,20 @@ namespace _ttAgent.Analyzer
             }
         }
 
-        public static AnalyzerObservableVariable.VariableType GetType(CommunicationInterfaceVariable communicationInterfaceVariable)
+        private static VariableType GetType(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
             switch (communicationInterfaceVariable.Type)
             {
                 case CommunicationInterfaceComponent.VariableType.Bit:
-                    return AnalyzerObservableVariable.VariableType.Bit;
+                    return VariableType.Bit;
                 case CommunicationInterfaceComponent.VariableType.Byte:
-                    return AnalyzerObservableVariable.VariableType.Byte;
+                    return VariableType.Byte;
                 case CommunicationInterfaceComponent.VariableType.Integer:
-                    return AnalyzerObservableVariable.VariableType.Integer;
+                    return VariableType.Integer;
                 case CommunicationInterfaceComponent.VariableType.DoubleInteger:
-                    return AnalyzerObservableVariable.VariableType.DoubleInteger;
+                    return VariableType.DoubleInteger;
                 case CommunicationInterfaceComponent.VariableType.Real:
-                    return AnalyzerObservableVariable.VariableType.Real;
+                    return VariableType.Real;
                 default:
                     throw new Exception("This type of CommunicationInterfaceVariable is not handled");
             }

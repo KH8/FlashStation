@@ -9,8 +9,8 @@
              HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid Name="GeneralGrid">
         <Canvas HorizontalAlignment="Left" Height="120" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300" Background="White">
-            <Grid Background="#FFE5E5E5" Height="120" Width="1300">
-                <oxy:Plot Name="PlotArea" Model="{Binding Model}" Background="White" BorderThickness="1" MouseDoubleClick="Refresh"/>
+            <Grid Background="#FFF9F9F9" Height="120" Width="1300">
+                <oxy:Plot x:Name="PlotArea" BorderThickness="1" MouseDoubleClick="Refresh" Background="#FFF9F9F9" Model="{Binding Model}"/>
             </Grid>
         </Canvas>
         <GroupBox Header="Channel 1" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="195">
