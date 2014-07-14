@@ -5,24 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:oxy="http://oxyplot.codeplex.com"
              mc:Ignorable="d" 
-             d:DesignHeight="130" Width="1000">
+             d:DesignHeight="130" Width="1500"
+             HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid Name="GeneralGrid">
-        <Canvas HorizontalAlignment="Left" Height="130" Margin="200,0,0,0" VerticalAlignment="Top" Width="800" Background="White">
-            <Grid Background="#FFE5E5E5" Height="130" Width="800">
-                <oxy:Plot Model="{Binding Model}" BorderBrush="Black" Background="White" BorderThickness="1"/>
+        <Canvas HorizontalAlignment="Left" Height="120" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300" Background="White">
+            <Grid Background="#FFE5E5E5" Height="120" Width="1300">
+                <oxy:Plot Name="PlotArea" Model="{Binding Model}" Background="White" BorderThickness="1" MouseDoubleClick="Refresh"/>
             </Grid>
         </Canvas>
         <GroupBox Header="Channel 1" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="195">
             <Grid>
                 <Label Content="Variable:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180"/>
                 <ComboBox Name="VariableComboBox" HorizontalAlignment="Center" Height="23" Margin="0,25,0,0" VerticalAlignment="Top" Width="180"/>
-                <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,50,0,0"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="98,52,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="unit" VerticalAlignment="Top" Width="85"/>
-                <Label Content="Brush:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
-                <ComboBox HorizontalAlignment="Left" Height="23" Margin="98,77,0,0" HorizontalContentAlignment="Right" Text="unit" VerticalAlignment="Top" Width="85"/>
-                <Button Content="Button" Canvas.Left="-91" Canvas.Top="18" Width="75" Click="Refresh"/>
+                <Label Content="Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180" Margin="0,48,0,0"/>
+                <Label Name="TypeLabel" Content="$$Type" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="132" Margin="50,48,0,0"/>
+                <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="35,77,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="[1]" VerticalAlignment="Top" Width="50"/>
+                <Label Content="Brush:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="50" Margin="90,75,0,0"/>
+                <ComboBox Name="BrushComboBox" HorizontalAlignment="Left" Height="23" Margin="133,77,0,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="50" ItemsSource="{Binding ColorsList}" SelectionChanged="BrushSelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="{Binding}">
+                                <TextBlock Text="           "/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </GroupBox>
-
     </Grid>
 </UserControl>

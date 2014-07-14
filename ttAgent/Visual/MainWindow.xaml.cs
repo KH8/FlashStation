@@ -419,7 +419,7 @@ namespace _ttAgent.Visual
                 Header = "Test"
             };
             MainTabControl.Items.Add(testTab);
-            testTab.Content = new GuiAnalyzerSingleFigure(new AnalyzerObservableVariable());
+            testTab.Content = new GuiAnalyzerSingleFigure(new AnalyzerObservableVariable(new CiInteger(Name, 0, CommunicationInterfaceComponent.VariableType.Integer, 100)));
         }
 
         private void UpdateTreeView()

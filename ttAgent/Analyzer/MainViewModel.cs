@@ -4,30 +4,35 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Drawing;
 using AmpIdent.Visual;
 using OxyPlot;
-using OxyPlot.Series;
+using OxyPlot.Wpf;
+using Brush = System.Windows.Media.Brush;
+using LineSeries = OxyPlot.Series.LineSeries;
 
 namespace _ttAgent.Analyzer
 {
     public class MainViewModel : Observable
     {
         private PlotModel _model;
-        readonly LineSeries _series;
+        private LineSeries _series;
         readonly PlotModel _tmp;
 
         public MainViewModel()
         {
             // Create the plot model
-            _tmp = new PlotModel("Test Plot", "powered by OxyPlot")
+            _tmp = new PlotModel
             {
                 IsLegendVisible = false,
                 TitleFontSize = 0,
                 Title = "",
                 SubtitleFontSize = 0
             };
-
-            _series = new LineSeries("Data Series") { MarkerType = MarkerType.Circle, MarkerSize = 1 };
+            _series = new LineSeries
+            {
+                MarkerType = MarkerType.Circle, MarkerSize = 1
+            };
             _tmp.Series.Add(_series);
         }
 
@@ -40,6 +45,12 @@ namespace _ttAgent.Analyzer
                 _model = value;
                 RaisePropertyChanged(() => Model);
             }
+        }
+
+        public Brush Brush
+        {
+            get { return _series.Color.ToBrush(); }
+            set { _series.Color = value.ToOxyColor(); }
         }
 
         public void AddPoint(DataPoint dataPoint)
