@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
+using _ttAgent.Analyzer;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
 using _ttAgent.Log;
@@ -412,6 +413,13 @@ namespace _ttAgent.Visual
             MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
+
+            var testTab = new TabItem
+            {
+                Header = "Test"
+            };
+            MainTabControl.Items.Add(testTab);
+            testTab.Content = new GuiAnalyzerSingleFigure(new AnalyzerObservableVariable());
         }
 
         private void UpdateTreeView()

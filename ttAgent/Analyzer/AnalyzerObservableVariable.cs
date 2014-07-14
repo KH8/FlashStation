@@ -1,10 +1,11 @@
-﻿using System.Drawing;
-using AmpIdent.Visual;
+﻿using System;
+using System.Drawing;
+using OxyPlot;
 using _ttAgent.DataAquisition;
 
 namespace _ttAgent.Analyzer
 {
-    abstract class AnalyzerObservableVariable
+    public class AnalyzerObservableVariable
     {
         public enum VariableType
         {
@@ -26,12 +27,22 @@ namespace _ttAgent.Analyzer
 
         public MainViewModel MainViewModel { get; set; }
 
-        protected AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
+        public AnalyzerObservableVariable()
         {
-            CommunicationInterfaceVariable = communicationInterfaceVariable;
+            //CommunicationInterfaceVariable = communicationInterfaceVariable;
+            MainViewModel = new MainViewModel();
         }
 
-        public abstract void StoreActualValue();
-        public abstract void Clear();
+        public void StoreActualValue()
+        {
+            var rand = new Random();
+            MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, rand.NextDouble()));
+            MainViewModel.Model.InvalidatePlot(true);
+        }
+
+        public void Clear()
+        {
+            MainViewModel.Clear();
+        }
     }
 }

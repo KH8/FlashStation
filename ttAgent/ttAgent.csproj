@@ -133,6 +133,9 @@
     <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
       <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml.cs">
+      <DependentUpon>GuiAnalyzerSingleFigure.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
     </Compile>
@@ -196,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Visual\FaultReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
