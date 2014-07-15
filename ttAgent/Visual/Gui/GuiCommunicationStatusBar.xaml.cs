@@ -3,7 +3,6 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _ttAgent.PLC;
-using _ttAgent.Vector;
 
 namespace _ttAgent.Visual.Gui
 {

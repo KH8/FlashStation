@@ -4,12 +4,9 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Drawing;
-using System.Web.UI.WebControls;
 using AmpIdent.Visual;
 using OxyPlot;
 using OxyPlot.Wpf;
-using Axis = OxyPlot.Axes.Axis;
 using Brush = System.Windows.Media.Brush;
 using LineSeries = OxyPlot.Series.LineSeries;
 

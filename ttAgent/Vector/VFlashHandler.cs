@@ -389,10 +389,7 @@ namespace _ttAgent.Vector
         public void CreateInterfaceAssignment(uint id, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile)
         {
             VFlashHandlerInterfaceAssignmentFile = vFlashHandlerInterfaceAssignmentFile;
-            if (VFlashHandlerInterfaceAssignmentFile.Assignment[id].Length == 0)
-            {
-                VFlashHandlerInterfaceAssignmentFile.Assignment[id] = new string[10];
-            }
+            if (VFlashHandlerInterfaceAssignmentFile.Assignment[id].Length == 0) VFlashHandlerInterfaceAssignmentFile.Assignment[id] = new string[10];
 
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment

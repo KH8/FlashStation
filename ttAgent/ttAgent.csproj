@@ -97,6 +97,12 @@
     <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
     <Compile Include="Analyzer\MainViewModel.cs" />
     <Compile Include="Analyzer\Observable.cs" />
+    <Compile Include="Analyzer\Analyzer.cs" />
+    <Compile Include="Analyzer\AnalyzerAssignmentFile.Designer.cs">
+      <DependentUpon>AnalyzerAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="General\Module.cs" />
     <Compile Include="MainRegistry\RegistryAbstract.cs" />
@@ -161,6 +167,10 @@
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
+    <None Include="Analyzer\AnalyzerAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>AnalyzerAssignmentFile.Designer.cs</LastGenOutput>
+    </None>
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
