@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _ttAgent.Analyzer;
+using _ttAgent.DataAquisition;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -10,11 +12,14 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure
     {
-        private readonly AnalyzerObservableVariable _analyzerObservableVariable;
+        private uint _id;
+        private AnalyzerObservableVariable _analyzerObservableVariable;
+        private Analyzer.Analyzer _analyzer;
 
-        public GuiAnalyzerSingleFigure(AnalyzerObservableVariable analyzerObservableVariable)
+        public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer)
         {
-            _analyzerObservableVariable = analyzerObservableVariable;
+            _id = id;
+            _analyzer = analyzer;
             InitializeComponent();
 
             var colorsList = new List<Brush>
@@ -32,10 +37,10 @@ namespace _ttAgent.Visual.Gui
             };
 
             BrushComboBox.ItemsSource = colorsList;
-            BrushComboBox.SelectedItem = Brushes.Black;
+            BrushComboBox.SelectedItem = Brushes.Green;
             BrushComboBox.DataContext = this;
-            PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
-            TypeLabel.Content = _analyzerObservableVariable.Type;
+
+            VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
         }
 
         private void Refresh(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -45,7 +50,16 @@ namespace _ttAgent.Visual.Gui
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _analyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
+            if (_analyzerObservableVariable != null) _analyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
+        }
+
+        private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selector = (ComboBox) sender;
+            _analyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem);
+            _analyzer.AnalyzerObservableVariablesDictionary[_id] = _analyzerObservableVariable;
+            PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
+            TypeLabel.Content = _analyzerObservableVariable.Type;
         }
     }
 }

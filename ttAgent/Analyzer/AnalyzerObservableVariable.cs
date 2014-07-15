@@ -37,10 +37,9 @@ namespace _ttAgent.Analyzer
 
         public void StoreActualValue()
         {
-            var rand = new Random();
+            if (CommunicationInterfaceVariable == null) return;
             Value = GetValue(CommunicationInterfaceVariable);
-            //MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, Value));
-            MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, rand.NextDouble()));
+            MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, Value));
             MainViewModel.Model.InvalidatePlot(true);
         }
 

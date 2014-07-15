@@ -93,7 +93,8 @@ namespace _ttAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (_communicationInterfaceHandler.ReadInterfaceComposite != null &&
+                if (_communicationInterfaceHandler.PlcCommunicator.ConnectionStatus == 1 &&
+                    _communicationInterfaceHandler.ReadInterfaceComposite != null &&
                     _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
                 {
                     _communicationInterfaceHandler.UpdateObservableCollections();

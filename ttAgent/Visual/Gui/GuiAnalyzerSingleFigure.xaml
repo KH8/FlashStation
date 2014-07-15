@@ -16,7 +16,15 @@
         <GroupBox Header="Channel 1" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="195">
             <Grid>
                 <Label Content="Variable:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180"/>
-                <ComboBox Name="VariableComboBox" HorizontalAlignment="Center" Height="23" Margin="0,25,0,0" VerticalAlignment="Top" Width="180"/>
+                <ComboBox Name="VariableComboBox" HorizontalAlignment="Center" Height="23" Margin="0,25,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="VariableSelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <Label Content="Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180" Margin="0,48,0,0"/>
                 <Label Name="TypeLabel" Content="$$Type" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="132" Margin="50,48,0,0"/>
                 <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>

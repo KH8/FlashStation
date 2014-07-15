@@ -353,6 +353,24 @@ namespace _ttAgent.Visual
                 guiComponent.TabItem = newtabItem;
 
                 MainTabControl.SelectionChanged += guiComponent.SelectionChanged;
+
+
+                ////
+                var testTab = new TabItem
+                {
+                    Header = "Test"
+                };
+                var analyzer = new Analyzer.Analyzer(1, "", record);
+
+                MainTabControl.Items.Add(testTab);
+                var newTextGrid = new Grid();
+                testTab.Content = newTextGrid;
+                var test = new GuiComponent(1, "", new GuiAnalyzerSingleFigure(1, analyzer));
+                test.Initialize(0, 0, newTextGrid);
+                var test2 = new GuiComponent(2, "", new GuiAnalyzerSingleFigure(2, analyzer));
+                test2.Initialize(0, 130, newTextGrid);
+                var test3 = new GuiComponent(3, "", new GuiAnalyzerSingleFigure(3, analyzer));
+                test3.Initialize(0, 260, newTextGrid);
             }
 
             foreach (OutputHandler record in _registry.OutputHandlers)
@@ -413,20 +431,6 @@ namespace _ttAgent.Visual
             MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
-
-            var testTab = new TabItem
-            {
-                Header = "Test"
-            };
-            MainTabControl.Items.Add(testTab);
-            var newTextGrid = new Grid();
-            testTab.Content = newTextGrid;
-            var test = new GuiComponent(1, "", new GuiAnalyzerSingleFigure(new AnalyzerObservableVariable(new CiInteger(Name, 0, CommunicationInterfaceComponent.VariableType.Integer, 100))));
-            test.Initialize(0, 0, newTextGrid);
-            var test2 = new GuiComponent(1, "", new GuiAnalyzerSingleFigure(new AnalyzerObservableVariable(new CiInteger(Name, 0, CommunicationInterfaceComponent.VariableType.Integer, 100))));
-            test2.Initialize(0, 130, newTextGrid);
-            var test3 = new GuiComponent(1, "", new GuiAnalyzerSingleFigure(new AnalyzerObservableVariable(new CiInteger(Name, 0, CommunicationInterfaceComponent.VariableType.Integer, 100))));
-            test3.Initialize(0, 260, newTextGrid);
         }
 
         private void UpdateTreeView()

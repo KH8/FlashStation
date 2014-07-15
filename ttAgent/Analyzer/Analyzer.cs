@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
@@ -27,6 +28,7 @@ namespace _ttAgent.Analyzer
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
+        public Dictionary<uint,AnalyzerObservableVariable> AnalyzerObservableVariablesDictionary { get; set; }
 
         #endregion
 
@@ -38,10 +40,14 @@ namespace _ttAgent.Analyzer
             _pcControlModeChangeAllowed = true;
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
+            AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
 
             _thread = new Thread(AnalyzeThread);
-            _thread.SetApartmentState(ApartmentState.STA);
+            _thread.Start();
+            //_thread.SetApartmentState(ApartmentState.STA);
             _thread.IsBackground = true;
+
+            StartRecording();
         }
 
         #endregion
@@ -66,8 +72,15 @@ namespace _ttAgent.Analyzer
         {
             while (_thread.IsAlive)
             {
-                if(_recording) CheckInterface();
-                Thread.Sleep(10);
+                if (_recording)
+                {
+                    //CheckInterface();
+                    foreach (var analyzerObservableVariable in AnalyzerObservableVariablesDictionary)
+                    {
+                        analyzerObservableVariable.Value.StoreActualValue();
+                    }
+                }
+                Thread.Sleep(1000);
             }
         }
 
