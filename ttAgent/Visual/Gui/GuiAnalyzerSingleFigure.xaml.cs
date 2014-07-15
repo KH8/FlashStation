@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _ttAgent.Analyzer;
@@ -12,9 +12,9 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure
     {
-        private uint _id;
+        private readonly uint _id;
         private AnalyzerObservableVariable _analyzerObservableVariable;
-        private Analyzer.Analyzer _analyzer;
+        private readonly Analyzer.Analyzer _analyzer;
 
         public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer)
         {
@@ -56,7 +56,15 @@ namespace _ttAgent.Visual.Gui
         private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selector = (ComboBox) sender;
-            _analyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem);
+            try
+            {
+                _analyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem);
+            }
+            catch (Exception)
+            {
+                selector.SelectedItem = null;
+                return;
+            }
             _analyzer.AnalyzerObservableVariablesDictionary[_id] = _analyzerObservableVariable;
             PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
             TypeLabel.Content = _analyzerObservableVariable.Type;
