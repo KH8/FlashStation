@@ -46,7 +46,7 @@ namespace _ttAgent.Analyzer
             _thread.Start();
             _thread.IsBackground = true;
 
-            StartRecording();
+            //StartRecording();
         }
 
         #endregion
