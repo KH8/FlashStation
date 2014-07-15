@@ -1,11 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Threading;
 using _ttAgent.General;
-using _ttAgent.Log;
-using _ttAgent.Vector;
 
 namespace _ttAgent.Visual.Gui
 {
@@ -28,8 +22,6 @@ namespace _ttAgent.Visual.Gui
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
             _updateThread.Start();
-
-            HeaderGroupBox.Header = "Analyzer " + _analyzer.Header.Id;
         }
 
         public void Update()

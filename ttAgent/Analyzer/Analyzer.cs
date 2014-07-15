@@ -34,17 +34,20 @@ namespace _ttAgent.Analyzer
 
         #region Constructor
 
-        public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler) : base(id, name)
+        public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile) : base(id, name)
         {
             _pcControlMode = true;
             _pcControlModeChangeAllowed = true;
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
+            AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
 
             _thread = new Thread(AnalyzeThread);
             _thread.Start();
             _thread.IsBackground = true;
+
+            CreateInterfaceAssignment(id, AnalyzerAssignmentFile);
 
             //StartRecording();
         }

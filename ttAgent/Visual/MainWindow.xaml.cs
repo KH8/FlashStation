@@ -355,14 +355,15 @@ namespace _ttAgent.Visual
                 MainTabControl.SelectionChanged += guiComponent.SelectionChanged;
 
 
-                ////
+                ////TEST
                 var testTab = new TabItem
                 {
                     Header = "Test"
                 };
-                var analyzer = new Analyzer.Analyzer(1, "", record);
+                var analyzer = new Analyzer.Analyzer(1, "", record, AnalyzerAssignmentFile.Default);
 
                 MainTabControl.Items.Add(testTab);
+
                 var newTextGrid = new Grid();
                 testTab.Content = newTextGrid;
                 var test = new GuiComponent(1, "", new GuiAnalyzerSingleFigure(1, analyzer));
@@ -371,6 +372,20 @@ namespace _ttAgent.Visual
                 test2.Initialize(0, 130, newTextGrid);
                 var test3 = new GuiComponent(3, "", new GuiAnalyzerSingleFigure(3, analyzer));
                 test3.Initialize(0, 260, newTextGrid);
+
+                var newtabItem2 = new TabItem { Header = "Test" };
+                OutputTabControl.Items.Add(newtabItem2);
+                OutputTabControl.SelectedItem = newtabItem2;
+
+                var newGrid2 = new Grid();
+                newtabItem2.Content = newGrid2;
+
+                var guiAnalyzerComponent = new GuiComponent(1, "", new GuiAnalyzer(analyzer));
+                guiAnalyzerComponent.Initialize(0, 0, newGrid2);
+
+                var gridGuiInterfaceAssignment = new GuiComponent(1, "", new GuiInterfaceAssignment(analyzer));
+                gridGuiInterfaceAssignment.Initialize(402, 0, newGrid2);
+                /////
             }
 
             foreach (OutputHandler record in _registry.OutputHandlers)
