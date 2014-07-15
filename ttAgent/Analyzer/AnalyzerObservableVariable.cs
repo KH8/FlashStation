@@ -33,6 +33,7 @@ namespace _ttAgent.Analyzer
             CommunicationInterfaceVariable = communicationInterfaceVariable;
             Type = GetType(CommunicationInterfaceVariable);
             MainViewModel = new MainViewModel();
+            StoreActualValue();
         }
 
         public void StoreActualValue()

@@ -44,7 +44,6 @@ namespace _ttAgent.Analyzer
 
             _thread = new Thread(AnalyzeThread);
             _thread.Start();
-            //_thread.SetApartmentState(ApartmentState.STA);
             _thread.IsBackground = true;
 
             StartRecording();
@@ -80,7 +79,7 @@ namespace _ttAgent.Analyzer
                         analyzerObservableVariable.Value.StoreActualValue();
                     }
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
         }
 

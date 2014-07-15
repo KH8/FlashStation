@@ -12,14 +12,16 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure
     {
-        private readonly uint _id;
         private AnalyzerObservableVariable _analyzerObservableVariable;
         private readonly Analyzer.Analyzer _analyzer;
 
+        public uint Id;
+
         public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer)
         {
-            _id = id;
+            Id = id;
             _analyzer = analyzer;
+
             InitializeComponent();
 
             var colorsList = new List<Brush>
@@ -40,12 +42,9 @@ namespace _ttAgent.Visual.Gui
             BrushComboBox.SelectedItem = Brushes.Green;
             BrushComboBox.DataContext = this;
 
-            VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
-        }
+            ChannelGroupBox.Header = "Channel " + Id;
 
-        private void Refresh(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            _analyzerObservableVariable.StoreActualValue();
+            VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
         }
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,9 +62,11 @@ namespace _ttAgent.Visual.Gui
             catch (Exception)
             {
                 selector.SelectedItem = null;
+                TypeLabel.Content = "no variable selected";
                 return;
             }
-            _analyzer.AnalyzerObservableVariablesDictionary[_id] = _analyzerObservableVariable;
+
+            _analyzer.AnalyzerObservableVariablesDictionary[Id] = _analyzerObservableVariable;
             PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
             TypeLabel.Content = _analyzerObservableVariable.Type;
         }

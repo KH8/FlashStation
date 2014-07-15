@@ -25,7 +25,7 @@ namespace _ttAgent.Analyzer
             {
                 IsLegendVisible = false,
                 DefaultFontSize = 0,
-                PlotMargins = new OxyThickness(20,0,0,10),
+                PlotMargins = new OxyThickness(20,0,0,10)
             };
             _series = new LineSeries
             {
