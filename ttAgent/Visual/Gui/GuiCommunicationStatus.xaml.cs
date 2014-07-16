@@ -61,7 +61,7 @@ namespace _ttAgent.Visual.Gui
                     ConnectButton.Content = "Connect";
                     if (_plcCommunicator.ConnectionStatus == 1) { ConnectButton.Content = "Disconnect"; }
                 })));
-                Thread.Sleep(21);
+                Thread.Sleep(20);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using _ttAgent.General;
 
 namespace _ttAgent.Visual.Gui
@@ -8,7 +9,7 @@ namespace _ttAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzer
     {
-        private Analyzer.Analyzer _analyzer;
+        private readonly Analyzer.Analyzer _analyzer;
 
         private readonly Thread _updateThread;
 
@@ -26,7 +27,20 @@ namespace _ttAgent.Visual.Gui
 
         public void Update()
         {
-            
+            while (_updateThread.IsAlive)
+            {
+                AnalyzerStartStopButton.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    AnalyzerStartStopButton.Content = "Start";
+                    if (_analyzer != null && _analyzer.Recording) AnalyzerStartStopButton.Content = "Stop";
+                })));
+                Thread.Sleep(20);
+            }
+        }
+
+        private void StartStopRecording(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _analyzer.StartStopRecording();
         }
     }
 }

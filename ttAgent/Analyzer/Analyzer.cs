@@ -30,6 +30,12 @@ namespace _ttAgent.Analyzer
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public Dictionary<uint,AnalyzerObservableVariable> AnalyzerObservableVariablesDictionary { get; set; }
 
+        public bool Recording
+        {
+            get { return _recording; }
+            set { _recording = value; }
+        }
+
         #endregion
 
         #region Constructor
@@ -48,22 +54,15 @@ namespace _ttAgent.Analyzer
             _thread.IsBackground = true;
 
             CreateInterfaceAssignment(id, AnalyzerAssignmentFile);
-
-            //StartRecording();
         }
 
         #endregion
 
         #region Methods
 
-        public void StartRecording()
+        public void StartStopRecording()
         {
-            _recording = true;
-        }
-
-        public void StopRecording()
-        {
-            _recording = false;
+            _recording = !_recording;
         }
 
         #endregion
@@ -76,7 +75,6 @@ namespace _ttAgent.Analyzer
             {
                 if (_recording)
                 {
-                    //CheckInterface();
                     foreach (var analyzerObservableVariable in AnalyzerObservableVariablesDictionary)
                     {
                         analyzerObservableVariable.Value.StoreActualValue();
@@ -95,7 +93,7 @@ namespace _ttAgent.Analyzer
             public AnalyzerException(string info) : base(info) { }
         }
 
-        private Boolean CheckInterface()
+        /*private Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
@@ -111,7 +109,7 @@ namespace _ttAgent.Analyzer
                 return false;
 
             return true;
-        }
+        }*/
 
         #endregion
 

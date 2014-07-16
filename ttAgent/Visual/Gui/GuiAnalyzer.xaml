@@ -22,7 +22,7 @@
         <GroupBox Name="RecordingGroupBox" Header="Recording" Margin="0,150,0,0" HorizontalAlignment="Left" Height="65" VerticalAlignment="Top" Width="400">
             <Grid>
                 <Label Name="AnalyzerTimeLabel" Content="Recording time: 00:00:00" HorizontalAlignment="Right" Height="28" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="294" Margin="0,8,0,7"/>
-                <Button Name="AnalyzerStartStopButton" Content="Start" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="90" Height="25" />
+                <Button Name="AnalyzerStartStopButton" Content="Start" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="90" Height="25" Click="StartStopRecording"/>
             </Grid>
         </GroupBox>
     </Grid>
