@@ -22,7 +22,6 @@ namespace _ttAgent.Visual.Gui
             MainScrollViewer.Height = height;
             MainScrollViewer.Width = width;
 
-            GeneralGrid.Height = height;
             GeneralGrid.Width = width - 30;
 
             foreach (var analyzerSingleFigure in GeneralGrid.Children.Cast<GuiAnalyzerSingleFigure>())
