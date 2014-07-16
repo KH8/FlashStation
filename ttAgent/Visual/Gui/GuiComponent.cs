@@ -5,7 +5,7 @@ using _ttAgent.MainRegistry;
 
 namespace _ttAgent.Visual.Gui
 {
-    internal class GuiComponent : RegistryComponent
+    public class GuiComponent : RegistryComponent
     {
         private Grid _generalGridMemory = new Grid();
         public readonly UserControl UserControl;

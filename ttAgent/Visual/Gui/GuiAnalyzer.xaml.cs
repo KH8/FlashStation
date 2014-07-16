@@ -42,5 +42,10 @@ namespace _ttAgent.Visual.Gui
         {
             _analyzer.StartStopRecording();
         }
+
+        private void AddNewChannel(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _analyzer.AddNewChannel();
+        }
     }
 }

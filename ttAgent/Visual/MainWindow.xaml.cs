@@ -30,6 +30,8 @@ namespace _ttAgent.Visual
         private readonly Registry _registry;
         private Dictionary<TreeViewItem, RegistryComponent> _registryComponents;
 
+        private Analyzer.Analyzer _testAnalyzer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -43,6 +45,8 @@ namespace _ttAgent.Visual
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
+
+            _testAnalyzer = new Analyzer.Analyzer(1, "", (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1), new AnalyzerAssignmentFile());
 
             UpdateGui();
             UpdateTreeView();
@@ -356,22 +360,25 @@ namespace _ttAgent.Visual
 
 
                 ////TEST
+                var analyzer = _testAnalyzer;
+                
                 var testTab = new TabItem
                 {
                     Header = "Test"
                 };
-                var analyzer = new Analyzer.Analyzer(1, "", record, AnalyzerAssignmentFile.Default);
+                
+                newGrid = new Grid();
+                testTab.Content = newGrid;
 
                 MainTabControl.Items.Add(testTab);
 
-                var newTextGrid = new Grid();
-                testTab.Content = newTextGrid;
-                var test = new GuiComponent(1, "", new GuiAnalyzerSingleFigure(1, analyzer));
-                test.Initialize(0, 0, newTextGrid);
-                var test2 = new GuiComponent(2, "", new GuiAnalyzerSingleFigure(2, analyzer));
-                test2.Initialize(0, 130, newTextGrid);
-                var test3 = new GuiComponent(3, "", new GuiAnalyzerSingleFigure(3, analyzer));
-                test3.Initialize(0, 260, newTextGrid);
+                newGrid.Height = MainTabControl.Height - 32;
+                newGrid.Width = MainTabControl.Width - 10;
+
+                var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)analyzer.AnalyzerMainFrame.UserControl;
+
+                analyzer.AnalyzerMainFrame.Initialize(0, 0, newGrid);
+                analyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
 
                 var newtabItem2 = new TabItem { Header = "Test" };
                 OutputTabControl.Items.Add(newtabItem2);

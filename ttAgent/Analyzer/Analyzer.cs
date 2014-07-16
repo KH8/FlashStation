@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows.Forms;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
+using _ttAgent.Visual.Gui;
 
 namespace _ttAgent.Analyzer
 {
@@ -13,6 +15,7 @@ namespace _ttAgent.Analyzer
         private Boolean _pcControlMode;
         private readonly Boolean _pcControlModeChangeAllowed;
         private Boolean _recording;
+        private uint _numberOfChannels;
 
         private readonly Thread _thread;
 
@@ -29,6 +32,7 @@ namespace _ttAgent.Analyzer
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public Dictionary<uint,AnalyzerObservableVariable> AnalyzerObservableVariablesDictionary { get; set; }
+        public GuiComponent AnalyzerMainFrame { get; set; }
 
         public bool Recording
         {
@@ -45,9 +49,12 @@ namespace _ttAgent.Analyzer
             _pcControlMode = true;
             _pcControlModeChangeAllowed = true;
 
+            _numberOfChannels = 0;
+
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
+            AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
 
             _thread = new Thread(AnalyzeThread);
             _thread.Start();
@@ -63,6 +70,19 @@ namespace _ttAgent.Analyzer
         public void StartStopRecording()
         {
             _recording = !_recording;
+        }
+
+        public void AddNewChannel()
+        {
+            _numberOfChannels += 1;
+
+            var analyzerMainFrameGrid = (GuiAnalyzerMainFrame) AnalyzerMainFrame.UserControl;
+
+            var analyzerSingleFigure = new GuiComponent(_numberOfChannels, "", new GuiAnalyzerSingleFigure(_numberOfChannels, this));
+            analyzerSingleFigure.Initialize(0, ((int)_numberOfChannels - 1) * 130, analyzerMainFrameGrid.GeneralGrid);
+
+            var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
+            userControl.UpdateSizes(analyzerMainFrameGrid.Height, analyzerMainFrameGrid.Width);
         }
 
         #endregion

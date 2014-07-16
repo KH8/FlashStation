@@ -142,6 +142,9 @@
     <Compile Include="Visual\Gui\GuiAnalyzer.xaml.cs">
       <DependentUpon>GuiAnalyzer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzerMainFrame.xaml.cs">
+      <DependentUpon>GuiAnalyzerMainFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml.cs">
       <DependentUpon>GuiAnalyzerSingleFigure.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,10 @@
     <Page Include="Visual\Gui\GuiAnalyzer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\GuiAnalyzerMainFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml">
       <SubType>Designer</SubType>

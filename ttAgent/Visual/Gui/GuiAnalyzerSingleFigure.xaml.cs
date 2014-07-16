@@ -47,6 +47,14 @@ namespace _ttAgent.Visual.Gui
             VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
         }
 
+        public void UpdateSizes(double height, double width)
+        {
+            Width = width;
+            PlotCanvas.Width = width;
+            GeneralGrid.Width = width;
+            PlotGrid.Width = width - 225;
+        }
+
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_analyzerObservableVariable != null) _analyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
