@@ -1,0 +1,9 @@
+﻿<Window x:Class="_PlcAgent.Visual.FaultReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Fault Report" Height="306.818" Width="525" ResizeMode="NoResize" SnapsToDevicePixels="True">
+    <Grid Background="#FFF9F9F9">
+        <ListBox Name="FaultListBox" Margin="0,5,0,0" HorizontalAlignment="Center" Height="231" VerticalAlignment="Top" Width="500"/>
+        <Button Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Margin="0,0,0,5" Click="ClearFaults" RenderTransformOrigin="0.37,0.601"/>
+    </Grid>
+</Window>

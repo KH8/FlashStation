@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{389A4A50-7347-443B-ACA7-8A2F07D86245}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>_PlcAgent</RootNamespace>
+    <AssemblyName>PlcAgent</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="libnodave.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\libnodave.net.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot, Version=2014.1.319.1, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Analyzer\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2014.1.319.1, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Analyzer\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Vector.vFlash.Automation.vFlashStation, Version=2.5.3100.59554, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Vector\Vector.vFlash.Automation.vFlashStation.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
+    <Compile Include="Analyzer\MainViewModel.cs" />
+    <Compile Include="Analyzer\Observable.cs" />
+    <Compile Include="Analyzer\Analyzer.cs" />
+    <Compile Include="Analyzer\AnalyzerAssignmentFile.Designer.cs">
+      <DependentUpon>AnalyzerAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="General\InterfaceAssignment.cs" />
+    <Compile Include="General\Module.cs" />
+    <Compile Include="MainRegistry\RegistryAbstract.cs" />
+    <Compile Include="MainRegistry\RegistryComponent.cs" />
+    <Compile Include="MainRegistry\RegistryComposite.cs" />
+    <Compile Include="Output\OutputHandlerFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>OutputHandlerFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Output\OutputHandler.cs" />
+    <Compile Include="Output\OutputHandlerInterfaceAssignmentFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>OutputHandlerInterfaceAssignmentFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Output\OutputWriterFactory.cs" />
+    <Compile Include="General\ProjectFileStruture.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="MainRegistry\MainRegistry.cs" />
+    <Compile Include="MainRegistry\MainRegistryFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MainRegistryFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\VFlashHandlerInterfaceAssignmentFile.Designer.cs">
+      <DependentUpon>VFlashHandlerInterfaceAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Visual\ComponentCreationWindow.xaml.cs">
+      <DependentUpon>ComponentCreationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
+      <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzer.xaml.cs">
+      <DependentUpon>GuiAnalyzer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzerMainFrame.xaml.cs">
+      <DependentUpon>GuiAnalyzerMainFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml.cs">
+      <DependentUpon>GuiAnalyzerSingleFigure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml.cs">
+      <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationStatus.xaml.cs">
+      <DependentUpon>GuiCommunicationStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationStatusBar.xaml.cs">
+      <DependentUpon>GuiCommunicationStatusBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml.cs">
+      <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiOutputHandler.xaml.cs">
+      <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiComponent.cs" />
+    <Compile Include="Visual\Gui\GuiPlcConfiguration.xaml.cs">
+      <DependentUpon>GuiPlcConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
+      <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
+      <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
+    </Compile>
+    <None Include="Analyzer\AnalyzerAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>AnalyzerAssignmentFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAquisition\CommunicationInterfacePath.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAquisition\DB1000_NEW.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Output\OutputHandlerFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputHandlerFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="MainRegistry\MainRegistryFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MainRegistryFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Output\OutputHandlerInterfaceAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="PlcAgent.cd" />
+    <None Include="Vector\VFlashHandlerInterfaceAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>VFlashHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.vFlash.Automation.vFlash.chm" />
+    <None Include="Vector\Vector.vFlash.Automation.vFlashStation.chm" />
+    <None Include="Vector\VFlashTypeBankFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>VFlashTypeBankFile.Designer.cs</LastGenOutput>
+    </None>
+    <Page Include="Visual\ComponentCreationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\ComponentCreationWindowTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\FaultReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiAnalyzer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\GuiAnalyzerMainFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationStatusBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiOutputHandler.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\GuiPlcConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiVFlashHandler.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\GuiInterfaceAssignment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiVFlashPathBank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiVFlashStatusBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PLC\PlcConfigurationFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>PlcConfigurationFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="DataAquisition\CommunicationInterface.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfaceBuilder.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfaceFactory.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfaceHandler.cs" />
+    <Compile Include="DataAquisition\CommunicationInterfacePath.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>CommunicationInterfacePath.settings</DependentUpon>
+    </Compile>
+    <Compile Include="DataAquisition\DataMapper.cs" />
+    <Compile Include="Log\Logger.cs" />
+    <Compile Include="Output\OutputWriter.cs" />
+    <Compile Include="Vector\VFlashErrorCollector.cs" />
+    <Compile Include="Vector\VFlashHandler.cs" />
+    <Compile Include="Vector\VFlashStation.cs" />
+    <Compile Include="Vector\VFlashTypeBank.cs" />
+    <Compile Include="Vector\VFlashTypeBankFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\DisplayDataBuilder.cs" />
+    <Compile Include="Visual\FaultReportWindow.xaml.cs">
+      <DependentUpon>FaultReportWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiVFlashPathBank.xaml.cs">
+      <DependentUpon>GuiVFlashPathBank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiVFlashStatusBar.xaml.cs">
+      <DependentUpon>GuiVFlashStatusBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PLC\PlcCommunicator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="PLC\PlcConfigurationFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>PlcConfigurationFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Analyzer\OxyPlot.dll" />
+    <Content Include="Analyzer\OxyPlot.pdb" />
+    <Content Include="Analyzer\OxyPlot.Wpf.dll" />
+    <Content Include="Analyzer\OxyPlot.Wpf.pdb" />
+    <Resource Include="Analyzer\OxyPlot.Wpf.XML" />
+    <Resource Include="Analyzer\OxyPlot.xml" />
+    <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll" />
+    <Content Include="Vector\Vector.vFlash.Automation.vFlashStation.dll" />
+    <None Include="Log\Log.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\CsvHelper.dll" />
+    <None Include="libnodave.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\libnodave.dll" />
+    <Content Include="Resources\libnodave.net.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

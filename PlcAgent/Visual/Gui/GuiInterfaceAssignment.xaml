@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="_PlcAgent.Visual.Gui.GuiInterfaceAssignment"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="215" d:DesignWidth="523">
+    <Grid Name="GeneralGrid">
+        <GroupBox Header="Interface Assignment" HorizontalAlignment="Left" VerticalAlignment="Top" Height="215" Width="523">
+            <DataGrid Name="AssignmentDataGrid" HorizontalAlignment="Center" Width="510" Margin="0,15,0,0" ItemsSource="{Binding InterfaceAssignmentCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" CurrentCellChanged="AssignmentChanged" AlternatingRowBackground="#FFF6F6F6">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding VariableDirection}" Header="Interface" Width="60" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Variable Name" Width="130" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="60" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Path=Assignment}" Header="Assignment" Width="230" IsReadOnly="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+</UserControl>
