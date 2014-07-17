@@ -6,7 +6,7 @@ namespace _PlcAgent.Visual
     /// <summary>
     /// Interaction logic for ComponentCreationWindowTreeView.xaml
     /// </summary>
-    public partial class ComponentCreationWindowTreeView : UserControl
+    public partial class ComponentCreationWindowTreeView
     {
         public ComponentCreationWindowTreeView()
         {

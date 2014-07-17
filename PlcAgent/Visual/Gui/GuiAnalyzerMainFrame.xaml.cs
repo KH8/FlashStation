@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows.Forms;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace _PlcAgent.Visual.Gui
@@ -7,7 +6,7 @@ namespace _PlcAgent.Visual.Gui
     /// <summary>
     /// Interaction logic for GuiAnalyzerMainFrame.xaml
     /// </summary>
-    public partial class GuiAnalyzerMainFrame : UserControl
+    public partial class GuiAnalyzerMainFrame
     {
         public GuiAnalyzerMainFrame()
         {

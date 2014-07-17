@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Forms;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;

@@ -9,7 +9,7 @@ namespace _PlcAgent.Visual.Gui
     /// <summary>
     /// Interaction logic for GuiVFlashStatusBar_p.xaml
     /// </summary>
-    public partial class GuiCommunicationStatusBar : UserControl
+    public partial class GuiCommunicationStatusBar
     {
         private readonly PlcCommunicator _plcCommunicator;
         private readonly Thread _updateThread;

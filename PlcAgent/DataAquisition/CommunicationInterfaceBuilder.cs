@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.DataAquisition
 {
