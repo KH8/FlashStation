@@ -101,5 +101,20 @@ namespace _ttAgent.MainRegistry
                 this["VFlashHandlers"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public uint[][] Analyzers
+        {
+            get
+            {
+                return ((uint[][])(this["Analyzers"]));
+            }
+            set
+            {
+                this["Analyzers"] = value;
+            }
+        }
     }
 }

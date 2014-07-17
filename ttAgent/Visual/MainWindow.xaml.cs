@@ -46,8 +46,6 @@ namespace _ttAgent.Visual
             _communicationThread.IsBackground = true;
             _communicationThread.Start();
 
-            _testAnalyzer = new Analyzer.Analyzer(1, "", (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1), new AnalyzerAssignmentFile());
-
             UpdateGui();
             UpdateTreeView();
         }
@@ -153,6 +151,22 @@ namespace _ttAgent.Visual
             }
 
             var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeaderCommunicationInterface, newHeaderVFlashBank, AssignVFlashChannel);
+            window.Show();
+        }
+
+        private void AddAnalyzer(object sender, RoutedEventArgs e)
+        {
+            var newHeader = new TreeViewItem { Header = "Communication Interfaces", IsExpanded = true };
+            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
+            {
+                newHeader.Items.Add(new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
+                    AlternationCount = (int)record.Header.Id
+                });
+            }
+
+            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Analyzer", newHeader, AssignAnalyzer);
             window.Show();
         }
 
@@ -357,42 +371,6 @@ namespace _ttAgent.Visual
                 guiComponent.TabItem = newtabItem;
 
                 MainTabControl.SelectionChanged += guiComponent.SelectionChanged;
-
-
-                ////TEST
-                var analyzer = _testAnalyzer;
-                
-                var testTab = new TabItem
-                {
-                    Header = "Test"
-                };
-                
-                newGrid = new Grid();
-                testTab.Content = newGrid;
-
-                MainTabControl.Items.Add(testTab);
-
-                newGrid.Height = MainTabControl.Height - 32;
-                newGrid.Width = MainTabControl.Width - 10;
-
-                var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)analyzer.AnalyzerMainFrame.UserControl;
-
-                analyzer.AnalyzerMainFrame.Initialize(0, 0, newGrid);
-                analyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
-
-                var newtabItem2 = new TabItem { Header = "Test" };
-                OutputTabControl.Items.Add(newtabItem2);
-                OutputTabControl.SelectedItem = newtabItem2;
-
-                var newGrid2 = new Grid();
-                newtabItem2.Content = newGrid2;
-
-                var guiAnalyzerComponent = new GuiComponent(1, "", new GuiAnalyzer(analyzer));
-                guiAnalyzerComponent.Initialize(0, 0, newGrid2);
-
-                var gridGuiInterfaceAssignment = new GuiComponent(1, "", new GuiInterfaceAssignment(analyzer));
-                gridGuiInterfaceAssignment.Initialize(402, 0, newGrid2);
-                /////
             }
 
             foreach (OutputHandler record in _registry.OutputHandlers)
@@ -447,6 +425,38 @@ namespace _ttAgent.Visual
 
                 var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
+            }
+
+            foreach (Analyzer.Analyzer record in _registry.Analyzers)
+            {
+
+                var newtabItem = new TabItem { Header = record.Header.Name };
+                OutputTabControl.Items.Add(newtabItem);
+                OutputTabControl.SelectedItem = newtabItem;
+
+                var newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                var gridAnalyzer = (GuiComponent)_registry.GuiAnalyzers.ReturnComponent(record.Header.Id);
+                gridAnalyzer.Initialize(0, 0, newGrid);
+
+                var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiAnalyzerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
+
+                newtabItem = new TabItem { Header = record.Header.Name };
+                MainTabControl.Items.Add(newtabItem);
+                MainTabControl.SelectedItem = newtabItem;
+
+                newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                newGrid.Height = MainTabControl.Height - 32;
+                newGrid.Width = MainTabControl.Width - 10;
+
+                var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)record.AnalyzerMainFrame.UserControl;
+
+                record.AnalyzerMainFrame.Initialize(0, 0, newGrid);
+                analyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);
@@ -521,6 +531,18 @@ namespace _ttAgent.Visual
                 _registryComponents.Add(treeViewItem, record);
                 newHeader.Items.Add(treeViewItem);
             }
+
+            newHeader = new TreeViewItem { Header = "Analyzers", IsExpanded = true };
+            foreach (Analyzer.Analyzer record in _registry.Analyzers)
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
+
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }     
         }
 
@@ -567,6 +589,15 @@ namespace _ttAgent.Visual
         private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var newId = _registry.AddVFlashChannel(true, communicationInterfaceId, vFlashBankId);
+            if (newId == 0) return;
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void AssignAnalyzer(uint communicationInterfaceId)
+        {
+            var newId = _registry.AddAnalyzer(true, communicationInterfaceId);
             if (newId == 0) return;
 
             UpdateGui();

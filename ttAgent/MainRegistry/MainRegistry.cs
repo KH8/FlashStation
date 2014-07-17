@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using _ttAgent.Analyzer;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
 using _ttAgent.Log;
@@ -20,6 +21,7 @@ namespace _ttAgent.MainRegistry
             if (MainRegistryFile.Default.OutputHandlers == null) return;
             if (MainRegistryFile.Default.VFlashTypeBanks == null) return;
             if (MainRegistryFile.Default.VFlashHandlers == null) return;
+            if (MainRegistryFile.Default.Analyzers == null) return;
 
             foreach (var plcCommunicator in MainRegistryFile.Default.PlcCommunicators.Where(plcCommunicator => plcCommunicator != null))
             {
@@ -40,6 +42,10 @@ namespace _ttAgent.MainRegistry
             foreach (var vFlashHandler in MainRegistryFile.Default.VFlashHandlers.Where(vFlashHandler => vFlashHandler != null))
             {
                 AddVFlashChannel(vFlashHandler[0], vFlashHandler[2], vFlashHandler[3]);
+            }
+            foreach (var analyzer in MainRegistryFile.Default.Analyzers.Where(analyzer => analyzer != null))
+            {
+                AddAnalyzer(analyzer[0], analyzer[2]);
             }
 
             UpdateMainRegistryFile();
@@ -272,6 +278,54 @@ namespace _ttAgent.MainRegistry
             return id;
         }
 
+        public override uint AddAnalyzer(bool save, uint communicationInterfaceId)
+        {
+            var id = AddAnalyzer(communicationInterfaceId);
+            if (save && id != 0) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddAnalyzer(uint communicationInterfaceId)
+        {
+            var id = Analyzers.GetFirstNotUsed();
+            return AddAnalyzer(id, communicationInterfaceId);
+        }
+
+        public override uint AddAnalyzer(uint id, uint communicationInterfaceId)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Analyzer \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
+            Analyzer.Analyzer component;
+            try
+            {
+                Logger.Log("ID: " + id + " Creation of the Analyzer Component");
+                Analyzers.Add(
+                    new Analyzer.Analyzer(id, "ANALYZER__" + id,
+                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), AnalyzerAssignmentFile.Default));
+                Logger.Log("ID: " + id + " Initialization of the Analyzer");
+                component = (Analyzer.Analyzer)Analyzers.ReturnComponent(id);
+                component.Initialize();
+            }
+            catch (Exception)
+            {
+                Analyzers.Remove(Analyzers.ReturnComponent(id));
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new Analyzer failed");
+                return 0;
+            }
+
+            GuiAnalyzers.Add(new GuiComponent(id, "", new GuiAnalyzer(component)));
+            GuiAnalyzerMainFrames.Add(component.AnalyzerMainFrame);
+            GuiAnalyzerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
+
+            Logger.Log("ID: " + id + " new Analyzer have been created");
+            return id;
+        }
+
         public override void RemoveComponent(RegistryComponent component)
         {
             if (PlcCommunicators.Cast<object>().Any(plcCommunicator => component == plcCommunicator))
@@ -319,6 +373,11 @@ namespace _ttAgent.MainRegistry
                 vFlashHandler.Deinitialize();
 
                 VFlashHandlers.Children.Remove(component);
+            }
+            if (Analyzers.Cast<object>().Any(analyzer => component == analyzer))
+            {
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+                Analyzers.Children.Remove(component);
             }
             UpdateMainRegistryFile();
         }
@@ -417,6 +476,17 @@ namespace _ttAgent.MainRegistry
                     vFlashHandler.CommunicationInterfaceHandler.Header.Id;
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][3] = 
                     vFlashHandler.VFlashTypeBank.Header.Id;
+            }
+
+            MainRegistryFile.Default.Analyzers = new uint[9][];
+            foreach (Analyzer.Analyzer analyzer in Analyzers)
+            {
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id] = new uint[4];
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][0] = analyzer.Header.Id;
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][1] = 0;
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][2] =
+                    analyzer.CommunicationInterfaceHandler.Header.Id;
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][3] = 0;
             }
             MainRegistryFile.Default.Save();
         }
@@ -526,6 +596,10 @@ namespace _ttAgent.MainRegistry
                 throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.VFlashHandlers.Any(vFlashHandler => vFlashHandler != null && vFlashHandler[index] == component.Header.Id))
+            {
+                throw new Exception("The component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.Analyzers.Any(analyzer => analyzer != null && analyzer[index] == component.Header.Id))
             {
                 throw new Exception("The component is still assigned to another one");
             }

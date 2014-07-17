@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using _ttAgent.DataAquisition;
 using _ttAgent.General;
+using _ttAgent.Log;
 using _ttAgent.Visual.Gui;
 
 namespace _ttAgent.Analyzer
@@ -66,6 +67,11 @@ namespace _ttAgent.Analyzer
         #endregion
 
         #region Methods
+
+        public void Initialize()
+        {
+            Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
+        }
 
         public void StartStopRecording()
         {
