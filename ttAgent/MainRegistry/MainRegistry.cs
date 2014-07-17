@@ -414,6 +414,11 @@ namespace _ttAgent.MainRegistry
             GuiVFlashStatusBars.Clear();
             GuiVFlashHandlerInterfaceAssignmentComponents.Clear();
 
+            Analyzers.Clear();
+            GuiAnalyzers.Clear();
+            GuiAnalyzerMainFrames.Clear();
+            GuiAnalyzerInterfaceAssignmentComponents.Clear();
+
             UpdateMainRegistryFile();
             Logger.Log("Registry content removed");
         }
@@ -502,6 +507,7 @@ namespace _ttAgent.MainRegistry
             OutputHandlerInterfaceAssignmentFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
             VFlashHandlerInterfaceAssignmentFile.Default.Reset();
+            AnalyzerAssignmentFile.Default.Reset();
         }
 
         public void LoadConfiguration(ProjectFileStruture.ProjectSavedData projectData)
@@ -519,6 +525,7 @@ namespace _ttAgent.MainRegistry
             MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
             MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
             MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
+            MainRegistryFile.Default.Analyzers = projectData.Analyzers;
             MainRegistryFile.Default.Save();
 
             PlcConfigurationFile.Default.Configuration = projectData.Configuration;
@@ -545,6 +552,9 @@ namespace _ttAgent.MainRegistry
             VFlashHandlerInterfaceAssignmentFile.Default.Assignment = projectData.VFlashHandlerAssignment;
             VFlashHandlerInterfaceAssignmentFile.Default.Save();
 
+            AnalyzerAssignmentFile.Default.Assignment = projectData.AnalyzerAssignment;
+            AnalyzerAssignmentFile.Default.Save();
+
             Logger.Log("Registry initialization");
             Initialize();
         }
@@ -558,6 +568,7 @@ namespace _ttAgent.MainRegistry
                 OutputHandlers = MainRegistryFile.Default.OutputHandlers,
                 VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
                 VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
+                Analyzers = MainRegistryFile.Default.Analyzers,
                 Configuration = PlcConfigurationFile.Default.Configuration,
                 ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
                 Path = CommunicationInterfacePath.Default.Path,
@@ -570,6 +581,7 @@ namespace _ttAgent.MainRegistry
                 OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
                 VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,
+                AnalyzerAssignment = AnalyzerAssignmentFile.Default.Assignment
             };
             return projectData;
         }

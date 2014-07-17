@@ -13,6 +13,7 @@ namespace _ttAgent.General
             public uint[][] OutputHandlers;
             public uint[][] VFlashTypeBanks;
             public uint[][] VFlashHandlers;
+            public uint[][] Analyzers;
 
             public PlcCommunicator.PlcConfig[] Configuration;
             public Boolean[] ConnectAtStartUp;
@@ -29,6 +30,8 @@ namespace _ttAgent.General
 
             public string[][] TypeBank;
             public string[][] VFlashHandlerAssignment;
+
+            public string[][] AnalyzerAssignment;
         }
     }
 }

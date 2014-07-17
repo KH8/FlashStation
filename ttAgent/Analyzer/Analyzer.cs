@@ -57,9 +57,7 @@ namespace _ttAgent.Analyzer
             AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
             AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
 
-            _thread = new Thread(AnalyzeThread);
-            _thread.Start();
-            _thread.IsBackground = true;
+            _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
             CreateInterfaceAssignment(id, AnalyzerAssignmentFile);
         }
@@ -70,6 +68,7 @@ namespace _ttAgent.Analyzer
 
         public void Initialize()
         {
+            _thread.Start();
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
 
