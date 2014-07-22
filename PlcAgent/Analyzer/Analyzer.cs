@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
@@ -99,10 +100,8 @@ namespace _PlcAgent.Analyzer
             {
                 if (_recording)
                 {
-                    foreach (var analyzerObservableVariable in AnalyzerObservableVariablesDictionary)
-                    {
-                        analyzerObservableVariable.Value.StoreActualValue();
-                    }
+                    Parallel.ForEach(AnalyzerObservableVariablesDictionary,
+                        analyzerObservableVariable => analyzerObservableVariable.Value.StoreActualValue());
                 }
                 Thread.Sleep(100);
             }

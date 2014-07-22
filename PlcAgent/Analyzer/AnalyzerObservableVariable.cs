@@ -36,7 +36,7 @@ namespace _PlcAgent.Analyzer
             Unit = "1";
 
             MainViewModel = new MainViewModel();
-            StoreActualValue();
+            //StoreActualValue();
         }
 
         public void StoreActualValue()

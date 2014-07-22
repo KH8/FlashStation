@@ -5,8 +5,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Wpf;
 using Brush = System.Windows.Media.Brush;
+using LinearAxis = OxyPlot.Axes.LinearAxis;
 using LineSeries = OxyPlot.Series.LineSeries;
 
 namespace _PlcAgent.Analyzer
@@ -26,6 +28,11 @@ namespace _PlcAgent.Analyzer
                 DefaultFontSize = 0,
                 PlotMargins = new OxyThickness(20,0,0,10)
             };
+            _tmp.Axes.Add(new LinearAxis
+            {
+                IsAxisVisible = true, //todo: to be changed to false later
+                Position = AxisPosition.Bottom
+            });
             _series = new LineSeries
             {
                 MarkerType = MarkerType.Circle, 
