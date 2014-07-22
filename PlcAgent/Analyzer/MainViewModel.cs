@@ -30,8 +30,15 @@ namespace _PlcAgent.Analyzer
             };
             _tmp.Axes.Add(new LinearAxis
             {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
                 IsAxisVisible = true, //todo: to be changed to false later
                 Position = AxisPosition.Bottom
+            });
+            _tmp.Axes.Add(new LinearAxis
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
             });
             _series = new LineSeries
             {

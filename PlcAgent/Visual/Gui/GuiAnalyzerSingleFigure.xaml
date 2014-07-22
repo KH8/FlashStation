@@ -8,9 +8,9 @@
              d:DesignHeight="130" Width="1500"
              HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid Name="GeneralGrid">
-        <Canvas Name="PlotCanvas" HorizontalAlignment="Left" Height="121" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300" Background="White">
-            <Grid Name ="PlotGrid" Background="#FFF9F9F9" Height="121" Width="1300">
-                <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="#FFF9F9F9" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10" TextColor="#FF343434"/>
+        <Canvas Name="PlotCanvas" HorizontalAlignment="Left" Height="121" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300">
+            <Grid Name ="PlotGrid" Height="121" Width="1300">
+                <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10" TextColor="#FF343434"/>
             </Grid>
         </Canvas>
         <GroupBox Name="ChannelGroupBox" Header="Channel X" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="195">
