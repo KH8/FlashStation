@@ -31,7 +31,10 @@ namespace _PlcAgent.Analyzer
         public AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
             CommunicationInterfaceVariable = communicationInterfaceVariable;
+            Name = communicationInterfaceVariable.Name;
             Type = GetType(CommunicationInterfaceVariable);
+            Unit = "1";
+
             MainViewModel = new MainViewModel();
             StoreActualValue();
         }

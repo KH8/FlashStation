@@ -8,8 +8,8 @@
              d:DesignHeight="130" Width="1500"
              HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid Name="GeneralGrid">
-        <Canvas Name="PlotCanvas" HorizontalAlignment="Left" Height="120" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300" Background="White">
-            <Grid Name ="PlotGrid" Background="#FFF9F9F9" Height="120" Width="1300">
+        <Canvas Name="PlotCanvas" HorizontalAlignment="Left" Height="121" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300" Background="White">
+            <Grid Name ="PlotGrid" Background="#FFF9F9F9" Height="121" Width="1300">
                 <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="#FFF9F9F9" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10" TextColor="#FF343434"/>
             </Grid>
         </Canvas>
@@ -28,7 +28,7 @@
                 <Label Content="Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180" Margin="0,48,0,0"/>
                 <Label Name="TypeLabel" Content="no variable selected" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="132" Margin="50,48,0,0"/>
                 <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="35,77,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="[1]" VerticalAlignment="Top" Width="50"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="35,77,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextChanged="UnitBoxTextChanged"/>
                 <Label Content="Brush:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="50" Margin="90,75,0,0"/>
                 <ComboBox Name="BrushComboBox" HorizontalAlignment="Left" Height="23" Margin="133,77,0,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="50" ItemsSource="{Binding ColorsList}" SelectionChanged="BrushSelectionChanged">
                     <ComboBox.ItemTemplate>
@@ -41,5 +41,6 @@
                 </ComboBox>
             </Grid>
         </GroupBox>
+        <Label Name="VariableLabel" Content="no variable selected" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="1265" Margin="0,15,35,0"/>
     </Grid>
 </UserControl>

@@ -93,7 +93,7 @@ namespace _PlcAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (_communicationInterfaceHandler.PlcCommunicator.ConnectionStatus == 1 &&
+                if (/*_communicationInterfaceHandler.PlcCommunicator.ConnectionStatus == 1 &&*/
                     _communicationInterfaceHandler.ReadInterfaceComposite != null &&
                     _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
                 {

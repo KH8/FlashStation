@@ -77,6 +77,24 @@ namespace _PlcAgent.Visual.Gui
             _analyzer.AnalyzerObservableVariablesDictionary[Id] = _analyzerObservableVariable;
             PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
             TypeLabel.Content = _analyzerObservableVariable.Type;
+            UpdateLabels();
+        }
+
+        private void UnitBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var box = (TextBox)sender;
+
+            if (_analyzerObservableVariable == null) return;
+            try { _analyzerObservableVariable.Unit = box.Text; }
+            catch (Exception) { _analyzerObservableVariable.Unit = "1"; }
+            UpdateLabels();
+        }
+
+        private void UpdateLabels()
+        {
+            if (_analyzerObservableVariable == null) return;
+            VariableLabel.Content = _analyzerObservableVariable.Name + ", " + _analyzerObservableVariable.Type + ", [" +
+                                    _analyzerObservableVariable.Unit + "]";
         }
     }
 }
