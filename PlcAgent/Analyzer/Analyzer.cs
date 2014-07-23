@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using _PlcAgent.DataAquisition;
@@ -101,7 +102,12 @@ namespace _PlcAgent.Analyzer
                 if (_recording)
                 {
                     Parallel.ForEach(AnalyzerObservableVariablesDictionary,
-                        analyzerObservableVariable => analyzerObservableVariable.Value.StoreActualValue());
+                        analyzerObservableVariable =>
+                        {
+                            analyzerObservableVariable.Value.StoreActualValue();
+                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Minimum = analyzerObservableVariable.Value.ValueX - 5000;
+                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Maximum = analyzerObservableVariable.Value.ValueX + 5000;
+                        });
                 }
                 Thread.Sleep(100);
             }

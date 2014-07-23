@@ -24,7 +24,8 @@ namespace _PlcAgent.Analyzer
         public string Unit { get; set; }
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
-        public double Value { get; set; }
+        public double ValueY { get; set; }
+        public double ValueX { get; set; }
 
         public MainViewModel MainViewModel { get; set; }
 
@@ -36,14 +37,14 @@ namespace _PlcAgent.Analyzer
             Unit = "1";
 
             MainViewModel = new MainViewModel();
-            //StoreActualValue();
         }
 
         public void StoreActualValue()
         {
             if (CommunicationInterfaceVariable == null) return;
-            Value = GetValue(CommunicationInterfaceVariable);
-            MainViewModel.AddPoint(new DataPoint(DateTime.Now.TimeOfDay.TotalMilliseconds, Value));
+            ValueY = GetValue(CommunicationInterfaceVariable);
+            ValueX = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            MainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
             MainViewModel.Model.InvalidatePlot(true);
         }
 

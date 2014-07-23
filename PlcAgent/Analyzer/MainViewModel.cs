@@ -4,6 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Drawing;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Wpf;
@@ -19,6 +20,9 @@ namespace _PlcAgent.Analyzer
         private readonly LineSeries _series;
         readonly PlotModel _tmp;
 
+        public LinearAxis HorizontalAxis;
+        public LinearAxis VerticalAxis;
+
         public MainViewModel()
         {
             // Create the plot model
@@ -28,17 +32,21 @@ namespace _PlcAgent.Analyzer
                 DefaultFontSize = 0,
                 PlotMargins = new OxyThickness(20,0,0,10)
             };
-            _tmp.Axes.Add(new LinearAxis
+            _tmp.Axes.Add(HorizontalAxis = new LinearAxis
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
-                IsAxisVisible = true, //todo: to be changed to false later
+                IsAxisVisible = true,
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                TextColor = OxyColor.Parse("#FFF6F6F6"),
                 Position = AxisPosition.Bottom
             });
-            _tmp.Axes.Add(new LinearAxis
+            _tmp.Axes.Add(VerticalAxis = new LinearAxis
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
+                Position = AxisPosition.Left
             });
             _series = new LineSeries
             {
