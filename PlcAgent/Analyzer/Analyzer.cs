@@ -36,6 +36,9 @@ namespace _PlcAgent.Analyzer
         public Dictionary<uint,AnalyzerObservableVariable> AnalyzerObservableVariablesDictionary { get; set; }
         public GuiComponent AnalyzerMainFrame { get; set; }
 
+        public int SampleTime { get; set; }
+        public double TimeRange { get; set; }
+
         public bool Recording
         {
             get { return _recording; }
@@ -57,6 +60,9 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
             AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
+
+            SampleTime = 100;
+            TimeRange = 10000;
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
@@ -105,11 +111,11 @@ namespace _PlcAgent.Analyzer
                         analyzerObservableVariable =>
                         {
                             analyzerObservableVariable.Value.StoreActualValue();
-                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Minimum = analyzerObservableVariable.Value.ValueX - 5000;
-                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Maximum = analyzerObservableVariable.Value.ValueX + 5000;
+                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Minimum = analyzerObservableVariable.Value.ValueX - (TimeRange / 2.0);
+                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Maximum = analyzerObservableVariable.Value.ValueX + (TimeRange / 2.0);
                         });
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(SampleTime);
             }
         }
 

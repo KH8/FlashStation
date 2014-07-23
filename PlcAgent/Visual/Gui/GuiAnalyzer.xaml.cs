@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Controls;
 using _PlcAgent.General;
 
 namespace _PlcAgent.Visual.Gui
@@ -46,6 +47,20 @@ namespace _PlcAgent.Visual.Gui
         private void AddNewChannel(object sender, System.Windows.RoutedEventArgs e)
         {
             _analyzer.AddNewChannel();
+        }
+
+        private void SampleTimeChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+            var slider = (Slider) sender;
+            SampleTimeLabel.Content = slider.Value + " ms";
+            _analyzer.SampleTime = (int) slider.Value;
+        }
+
+        private void TiemRandeChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+            var slider = (Slider)sender;
+            TimeRandeLabel.Content = slider.Value + " ms";
+            _analyzer.TimeRange = slider.Value;
         }
     }
 }
