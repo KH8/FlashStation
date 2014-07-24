@@ -305,7 +305,7 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + id + " Creation of the Analyzer Component");
                 Analyzers.Add(
                     new Analyzer.Analyzer(id, "ANALYZER__" + id,
-                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), AnalyzerAssignmentFile.Default));
+                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), AnalyzerAssignmentFile.Default, AnalyzerSetupFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Analyzer");
                 component = (Analyzer.Analyzer)Analyzers.ReturnComponent(id);
                 component.Initialize();

@@ -11,9 +11,9 @@
                 <Label Content="Sample time: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="112" Margin="0,8,0,0"/>
                 <Label Name="SampleTimeLabel" Content="100 ms" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="68" Margin="320,8,0,0"/>
                 <Label Content="Time range: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="81" Margin="0,33,0,0"/>
-                <Label Name="TimeRandeLabel" Content="10000 ms" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="68" Margin="320,33,0,0"/>
-                <Slider HorizontalAlignment="Left" Margin="100,10,0,0" Minimum="10" Maximum="300" Value="100" VerticalAlignment="Top" Width="215" ValueChanged="SampleTimeChanged"/>
-                <Slider HorizontalAlignment="Left" Margin="100,35,0,0" Minimum="1000" Maximum="60000" Value="10000" VerticalAlignment="Top" Width="215" ValueChanged="TiemRandeChanged"/>
+                <Label Name="TimeRangeLabel" Content="10000 ms" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="68" Margin="320,33,0,0"/>
+                <Slider Name="SampleTimeSlider" HorizontalAlignment="Left" Margin="100,10,0,0" Minimum="10" Maximum="300" Value="100" VerticalAlignment="Top" Width="215" ValueChanged="SampleTimeChanged" TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True"/>
+                <Slider Name="TimeRangeSlider" HorizontalAlignment="Left" Margin="100,35,0,0" Minimum="1000" Maximum="60000" Value="10000" VerticalAlignment="Top" Width="215" ValueChanged="TimeRangeChanged" TickFrequency="1000" TickPlacement="BottomRight" IsSnapToTickEnabled="True"/>
                 <Button Name="AnalyzerAddChannelButton" Content="Add Channel" HorizontalAlignment="Left" Margin="0,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="AddNewChannel"/>
                 <Button Name="AnalyzerImportButton" Content="Import" HorizontalAlignment="Left" Margin="195,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" />
                 <Button Name="AnalyzerExportButton" Content="Export" HorizontalAlignment="Left" Margin="290,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" />

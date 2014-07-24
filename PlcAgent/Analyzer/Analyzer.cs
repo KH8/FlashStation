@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using _PlcAgent.DataAquisition;
@@ -33,11 +32,9 @@ namespace _PlcAgent.Analyzer
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
+        public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
         public Dictionary<uint,AnalyzerObservableVariable> AnalyzerObservableVariablesDictionary { get; set; }
         public GuiComponent AnalyzerMainFrame { get; set; }
-
-        public int SampleTime { get; set; }
-        public double TimeRange { get; set; }
 
         public bool Recording
         {
@@ -49,7 +46,7 @@ namespace _PlcAgent.Analyzer
 
         #region Constructor
 
-        public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile) : base(id, name)
+        public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile, AnalyzerSetupFile analyzerSetupFile) : base(id, name)
         {
             _pcControlMode = true;
             _pcControlModeChangeAllowed = true;
@@ -58,11 +55,9 @@ namespace _PlcAgent.Analyzer
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
+            AnalyzerSetupFile = analyzerSetupFile;
             AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
             AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
-
-            SampleTime = 100;
-            TimeRange = 10000;
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
@@ -75,6 +70,8 @@ namespace _PlcAgent.Analyzer
 
         public void Initialize()
         {
+            if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 10;
+            if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 1000;
             _thread.Start();
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
@@ -111,11 +108,11 @@ namespace _PlcAgent.Analyzer
                         analyzerObservableVariable =>
                         {
                             analyzerObservableVariable.Value.StoreActualValue();
-                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Minimum = analyzerObservableVariable.Value.ValueX - (TimeRange / 2.0);
-                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Maximum = analyzerObservableVariable.Value.ValueX + (TimeRange / 2.0);
+                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Minimum = analyzerObservableVariable.Value.ValueX - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Maximum = analyzerObservableVariable.Value.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                         });
                 }
-                Thread.Sleep(SampleTime);
+                Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
             }
         }
 
