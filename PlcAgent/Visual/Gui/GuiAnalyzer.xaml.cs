@@ -32,6 +32,8 @@ namespace _PlcAgent.Visual.Gui
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
+            _analyzer.InitrializeChannels();
+
             _save = true;
         }
 

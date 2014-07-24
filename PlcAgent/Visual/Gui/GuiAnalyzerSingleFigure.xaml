@@ -42,5 +42,6 @@
             </Grid>
         </GroupBox>
         <Label Name="VariableLabel" Content="no variable selected" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="1265" Margin="0,15,35,0"/>
+        <Button Content="Delete" HorizontalAlignment="Right" Height="25" Margin="0,40,35,0" VerticalAlignment="Top" Width="50"/>
     </Grid>
 </UserControl>

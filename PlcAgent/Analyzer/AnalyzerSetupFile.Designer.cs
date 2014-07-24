@@ -69,10 +69,20 @@ namespace _PlcAgent.Analyzer {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int NumberOfChannels {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                    </ArrayOfInt>")]
+        public int[] NumberOfChannels {
             get {
-                return ((int)(this["NumberOfChannels"]));
+                return ((int[])(this["NumberOfChannels"]));
             }
             set {
                 this["NumberOfChannels"] = value;

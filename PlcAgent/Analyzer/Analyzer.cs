@@ -16,7 +16,6 @@ namespace _PlcAgent.Analyzer
         private Boolean _pcControlMode;
         private readonly Boolean _pcControlModeChangeAllowed;
         private Boolean _recording;
-        private uint _numberOfChannels;
 
         private readonly Thread _thread;
 
@@ -51,8 +50,6 @@ namespace _PlcAgent.Analyzer
             _pcControlMode = true;
             _pcControlModeChangeAllowed = true;
 
-            _numberOfChannels = 0;
-
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
@@ -76,6 +73,14 @@ namespace _PlcAgent.Analyzer
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
 
+        public void InitrializeChannels()
+        {
+            for (int i = 1; i <= AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
+            {
+                AddChannel((uint)i);
+            }
+        }
+
         public void StartStopRecording()
         {
             _recording = !_recording;
@@ -83,12 +88,17 @@ namespace _PlcAgent.Analyzer
 
         public void AddNewChannel()
         {
-            _numberOfChannels += 1;
+            AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
+            AddChannel((uint)AnalyzerSetupFile.NumberOfChannels[Header.Id]);
+            AnalyzerSetupFile.Save();
+        }
 
-            var analyzerMainFrameGrid = (GuiAnalyzerMainFrame) AnalyzerMainFrame.UserControl;
+        private void AddChannel(uint id)
+        {
+            var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)AnalyzerMainFrame.UserControl;
 
-            var analyzerSingleFigure = new GuiComponent(_numberOfChannels, "", new GuiAnalyzerSingleFigure(_numberOfChannels, this));
-            analyzerSingleFigure.Initialize(0, ((int)_numberOfChannels - 1) * 130, analyzerMainFrameGrid.GeneralGrid);
+            var analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, this));
+            analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, analyzerMainFrameGrid.GeneralGrid);
 
             var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
             userControl.UpdateSizes(analyzerMainFrameGrid.Height, analyzerMainFrameGrid.Width);
