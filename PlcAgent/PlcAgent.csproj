@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Analyzer\AnalyzerChannel.cs" />
     <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
     <Compile Include="Analyzer\AnalyzerSetupFile.Designer.cs">
       <AutoGen>True</AutoGen>
