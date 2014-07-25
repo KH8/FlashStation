@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using _PlcAgent.DataAquisition;
@@ -32,7 +33,7 @@ namespace _PlcAgent.Analyzer
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
-        public Dictionary<uint,AnalyzerObservableVariable> AnalyzerObservableVariablesDictionary { get; set; }
+        public List<AnalyzerChannel> AnalyzerChannels { get; set; } 
         public GuiComponent AnalyzerMainFrame { get; set; }
 
         public bool Recording
@@ -53,7 +54,7 @@ namespace _PlcAgent.Analyzer
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
-            AnalyzerObservableVariablesDictionary = new Dictionary<uint, AnalyzerObservableVariable>();
+            AnalyzerChannels = new List<AnalyzerChannel>();
             AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
@@ -97,6 +98,8 @@ namespace _PlcAgent.Analyzer
         {
             var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)AnalyzerMainFrame.UserControl;
 
+            AnalyzerChannels.Add(new AnalyzerChannel(id));
+
             var analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, this));
             analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, analyzerMainFrameGrid.GeneralGrid);
 
@@ -114,12 +117,13 @@ namespace _PlcAgent.Analyzer
             {
                 if (_recording)
                 {
-                    Parallel.ForEach(AnalyzerObservableVariablesDictionary,
-                        analyzerObservableVariable =>
+                    Parallel.ForEach(AnalyzerChannels,
+                        analyzerChannel =>
                         {
-                            analyzerObservableVariable.Value.StoreActualValue();
-                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Minimum = analyzerObservableVariable.Value.ValueX - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
-                            analyzerObservableVariable.Value.MainViewModel.HorizontalAxis.Maximum = analyzerObservableVariable.Value.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+                            if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                            analyzerChannel.AnalyzerObservableVariable.StoreActualValue();
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = analyzerChannel.AnalyzerObservableVariable.ValueX - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = analyzerChannel.AnalyzerObservableVariable.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                         });
                 }
                 Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
@@ -152,8 +156,6 @@ namespace _PlcAgent.Analyzer
 
             return true;
         }*/
-
-        #endregion
 
         public void CreateInterfaceAssignment(uint id, AnalyzerAssignmentFile analyzerAssignmentFile)
         {
@@ -203,5 +205,17 @@ namespace _PlcAgent.Analyzer
                 InterfaceAssignmentCollection.GetAssignment("Status");
             AnalyzerAssignmentFile.Save();
         }
+
+        public AnalyzerChannel GetChannel(uint id)
+        {
+            return AnalyzerChannels.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
+        }
+
+        public void RemoveChannel(AnalyzerChannel analyzerChannel)
+        {
+            AnalyzerChannels.Remove(analyzerChannel);
+        }
+
+        #endregion
     }
 }

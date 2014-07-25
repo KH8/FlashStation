@@ -14,6 +14,7 @@ namespace _PlcAgent.Visual.Gui
     public partial class GuiAnalyzerSingleFigure
     {
         private AnalyzerObservableVariable _analyzerObservableVariable;
+        private AnalyzerChannel _analyzerChannel;
         private readonly Analyzer.Analyzer _analyzer;
 
         public uint Id;
@@ -22,6 +23,7 @@ namespace _PlcAgent.Visual.Gui
         {
             Id = id;
             _analyzer = analyzer;
+            _analyzerChannel = _analyzer.GetChannel(Id);
 
             InitializeComponent();
 
@@ -75,7 +77,7 @@ namespace _PlcAgent.Visual.Gui
                 return;
             }
 
-            _analyzer.AnalyzerObservableVariablesDictionary[Id] = _analyzerObservableVariable;
+            _analyzerChannel.AnalyzerObservableVariable = _analyzerObservableVariable;
             PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
             TypeLabel.Content = _analyzerObservableVariable.Type;
             UpdateLabels();
