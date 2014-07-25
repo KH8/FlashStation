@@ -76,9 +76,10 @@ namespace _PlcAgent.Analyzer
 
         public void InitrializeChannels()
         {
-            for (int i = 1; i <= AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
+            for (uint i = 1; i <= AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
             {
-                AddChannel((uint)i);
+                AnalyzerChannels.Add(new AnalyzerChannel(i));
+                DrawChannel(i);
             }
         }
 
@@ -90,21 +91,42 @@ namespace _PlcAgent.Analyzer
         public void AddNewChannel()
         {
             AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
-            AddChannel((uint)AnalyzerSetupFile.NumberOfChannels[Header.Id]);
+            var id = (uint)AnalyzerSetupFile.NumberOfChannels[Header.Id];
+            AnalyzerChannels.Add(new AnalyzerChannel(id));
+            DrawChannel(id);
             AnalyzerSetupFile.Save();
         }
 
-        private void AddChannel(uint id)
+        private void DrawChannel(uint id)
         {
             var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)AnalyzerMainFrame.UserControl;
-
-            AnalyzerChannels.Add(new AnalyzerChannel(id));
 
             var analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, this));
             analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, analyzerMainFrameGrid.GeneralGrid);
 
             var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
             userControl.UpdateSizes(analyzerMainFrameGrid.Height, analyzerMainFrameGrid.Width);
+        }
+
+        public AnalyzerChannel GetChannel(uint id)
+        {
+            return AnalyzerChannels.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
+        }
+
+        public void RemoveChannel(AnalyzerChannel analyzerChannel)
+        {
+            AnalyzerChannels.Remove(analyzerChannel);
+            RefreshGui();
+            AnalyzerSetupFile.NumberOfChannels[Header.Id] -= 1;
+            AnalyzerSetupFile.Save();
+        }
+
+        public void RefreshGui()
+        {
+            var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)AnalyzerMainFrame.UserControl;
+            analyzerMainFrameGrid.GeneralGrid.Children.Clear();
+
+            foreach (var analyzerChannel in AnalyzerChannels) { DrawChannel(analyzerChannel.Id); }
         }
 
         #endregion
@@ -204,16 +226,6 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile.Assignment[Header.Id][3] =
                 InterfaceAssignmentCollection.GetAssignment("Status");
             AnalyzerAssignmentFile.Save();
-        }
-
-        public AnalyzerChannel GetChannel(uint id)
-        {
-            return AnalyzerChannels.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
-        }
-
-        public void RemoveChannel(AnalyzerChannel analyzerChannel)
-        {
-            AnalyzerChannels.Remove(analyzerChannel);
         }
 
         #endregion

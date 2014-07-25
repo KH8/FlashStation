@@ -4,7 +4,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Drawing;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Wpf;

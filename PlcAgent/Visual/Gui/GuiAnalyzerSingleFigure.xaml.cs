@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _PlcAgent.Analyzer;
@@ -13,17 +12,17 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure
     {
-        private AnalyzerObservableVariable _analyzerObservableVariable;
-        private AnalyzerChannel _analyzerChannel;
         private readonly Analyzer.Analyzer _analyzer;
-
+        private readonly AnalyzerChannel _analyzerChannel;
+        private AnalyzerObservableVariable _analyzerObservableVariable;
+        
         public uint Id;
 
         public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer)
         {
             Id = id;
             _analyzer = analyzer;
-            _analyzerChannel = _analyzer.GetChannel(Id);
+            _analyzerChannel = analyzer.GetChannel(Id);
 
             InitializeComponent();
 
@@ -42,10 +41,10 @@ namespace _PlcAgent.Visual.Gui
             };
 
             BrushComboBox.ItemsSource = colorsList;
-            BrushComboBox.SelectedItem = Brushes.Green;
+            BrushComboBox.SelectedItem = _analyzerChannel.Brush;
             BrushComboBox.DataContext = this;
 
-            ChannelGroupBox.Header = "Channel " + Id;
+            ChannelGroupBox.Header = "Channel " + _analyzerChannel.Id;
 
             VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
         }
@@ -60,7 +59,9 @@ namespace _PlcAgent.Visual.Gui
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_analyzerObservableVariable != null) _analyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
+            if (_analyzerObservableVariable == null) return;
+            _analyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
+            _analyzerObservableVariable.Brush = (Brush) BrushComboBox.SelectedItem;
         }
 
         private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -85,7 +86,7 @@ namespace _PlcAgent.Visual.Gui
 
         private void UnitBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-            var box = (TextBox)sender;
+            var box = (TextBox) sender;
 
             if (_analyzerObservableVariable == null) return;
             try { _analyzerObservableVariable.Unit = box.Text; }
@@ -98,6 +99,11 @@ namespace _PlcAgent.Visual.Gui
             if (_analyzerObservableVariable == null) return;
             VariableLabel.Content = _analyzerObservableVariable.Name + ", " + _analyzerObservableVariable.Type + ", [" +
                                     _analyzerObservableVariable.Unit + "]";
+        }
+
+        private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _analyzer.RemoveChannel(_analyzerChannel);
         }
     }
 }
