@@ -19,11 +19,11 @@ namespace _PlcAgent.Analyzer
         public CommunicationInterfaceVariable CommunicationInterfaceVariable { get; set; }
 
         public VariableType Type { get; set; }
-        public Brush Brush { get; set; }
         public string Name { get; set; }
         public string Unit { get; set; }
-        public int MinValue { get; set; }
-        public int MaxValue { get; set; }
+        public Brush Brush { get; set; }
+        public double MinValue { get; set; }
+        public double MaxValue { get; set; }
         public double ValueY { get; set; }
         public double ValueX { get; set; }
 
@@ -34,7 +34,11 @@ namespace _PlcAgent.Analyzer
             CommunicationInterfaceVariable = communicationInterfaceVariable;
             Name = communicationInterfaceVariable.Name;
             Type = GetType(CommunicationInterfaceVariable);
+            Brush = Brushes.Green;
             Unit = "1";
+
+            MinValue = 0.0;
+            MaxValue = 0.0;
 
             MainViewModel = new MainViewModel();
         }
@@ -42,8 +46,13 @@ namespace _PlcAgent.Analyzer
         public void StoreActualValue()
         {
             if (CommunicationInterfaceVariable == null) return;
+
             ValueY = GetValue(CommunicationInterfaceVariable);
             ValueX = DateTime.Now.TimeOfDay.TotalMilliseconds;
+
+            if (ValueY > MaxValue) MaxValue = ValueY;
+            if (ValueY < MinValue) MinValue = ValueY;
+
             MainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
             MainViewModel.Model.InvalidatePlot(true);
         }

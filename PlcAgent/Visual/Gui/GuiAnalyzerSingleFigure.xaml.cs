@@ -14,7 +14,6 @@ namespace _PlcAgent.Visual.Gui
     {
         private readonly Analyzer.Analyzer _analyzer;
         private readonly AnalyzerChannel _analyzerChannel;
-        private AnalyzerObservableVariable _analyzerObservableVariable;
         
         public uint Id;
 
@@ -41,7 +40,7 @@ namespace _PlcAgent.Visual.Gui
             };
 
             BrushComboBox.ItemsSource = colorsList;
-            BrushComboBox.SelectedItem = _analyzerChannel.Brush;
+            BrushComboBox.SelectedItem = Brushes.Green;
             BrushComboBox.DataContext = this;
 
             ChannelGroupBox.Header = "Channel " + _analyzerChannel.Id;
@@ -57,48 +56,55 @@ namespace _PlcAgent.Visual.Gui
             PlotGrid.Width = width - 225;
         }
 
+        public void UpdateFigure()
+        {
+            UpdatePlotArea();
+            UpdateLabels();
+        }
+
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_analyzerObservableVariable == null) return;
-            _analyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
-            _analyzerObservableVariable.Brush = (Brush) BrushComboBox.SelectedItem;
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            _analyzerChannel.AnalyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
+            _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush)BrushComboBox.SelectedItem;
         }
 
         private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selector = (ComboBox) sender;
-            try
-            {
-                _analyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem);
-            }
+            try { _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem); }
             catch (Exception)
             {
                 selector.SelectedItem = null;
                 TypeLabel.Content = "no variable selected";
                 return;
             }
-
-            _analyzerChannel.AnalyzerObservableVariable = _analyzerObservableVariable;
-            PlotArea.DataContext = _analyzerObservableVariable.MainViewModel;
-            TypeLabel.Content = _analyzerObservableVariable.Type;
-            UpdateLabels();
+            UpdateFigure();
         }
 
         private void UnitBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             var box = (TextBox) sender;
 
-            if (_analyzerObservableVariable == null) return;
-            try { _analyzerObservableVariable.Unit = box.Text; }
-            catch (Exception) { _analyzerObservableVariable.Unit = "1"; }
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            try { _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text; }
+            catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
             UpdateLabels();
         }
 
+        private void UpdatePlotArea()
+        {
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel;
+        }
+
+
         private void UpdateLabels()
         {
-            if (_analyzerObservableVariable == null) return;
-            VariableLabel.Content = _analyzerObservableVariable.Name + ", " + _analyzerObservableVariable.Type + ", [" +
-                                    _analyzerObservableVariable.Unit + "]";
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+            VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name + ", " + _analyzerChannel.AnalyzerObservableVariable.Type + ", [" +
+                                    _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
         }
 
         private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
