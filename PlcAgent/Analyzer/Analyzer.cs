@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +32,7 @@ namespace _PlcAgent.Analyzer
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
-        public List<AnalyzerChannel> AnalyzerChannels { get; set; } 
+        public AnalyzerChannelList AnalyzerChannels { get; set; } 
         public GuiComponent AnalyzerMainFrame { get; set; }
 
         public bool Recording
@@ -54,7 +53,7 @@ namespace _PlcAgent.Analyzer
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
-            AnalyzerChannels = new List<AnalyzerChannel>();
+            AnalyzerChannels = new AnalyzerChannelList(0);
             AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
@@ -110,7 +109,7 @@ namespace _PlcAgent.Analyzer
 
         public AnalyzerChannel GetChannel(uint id)
         {
-            return AnalyzerChannels.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
+            return AnalyzerChannels.Children.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
         }
 
         public void RemoveChannel(AnalyzerChannel analyzerChannel)
@@ -126,7 +125,7 @@ namespace _PlcAgent.Analyzer
             var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)AnalyzerMainFrame.UserControl;
             analyzerMainFrameGrid.GeneralGrid.Children.Clear();
 
-            foreach (var analyzerChannel in AnalyzerChannels) { DrawChannel(analyzerChannel.Id); }
+            foreach (var analyzerChannel in AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id); }
         }
 
         #endregion
@@ -139,7 +138,7 @@ namespace _PlcAgent.Analyzer
             {
                 if (_recording)
                 {
-                    Parallel.ForEach(AnalyzerChannels,
+                    Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
                         {
                             if (analyzerChannel.AnalyzerObservableVariable == null) return;

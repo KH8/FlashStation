@@ -88,5 +88,20 @@ namespace _PlcAgent.Analyzer {
                 this["NumberOfChannels"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string[][] Channels
+        {
+            get
+            {
+                return ((string[][])(this["Channels"]));
+            }
+            set
+            {
+                this["Channels"] = value;
+            }
+        }
     }
 }

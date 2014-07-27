@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.Generic;
 
 namespace _PlcAgent.Analyzer
 {
@@ -22,6 +22,39 @@ namespace _PlcAgent.Analyzer
         {
             get { return _analyzerObservableVariable; }
             set { _analyzerObservableVariable = value; }
+        }
+    }
+
+    public class AnalyzerChannelList : AnalyzerChannel
+    {
+        public List<AnalyzerChannel> Children { get; set; } 
+
+        public AnalyzerChannelList(uint id) : base(id)
+        {
+            Children = new List<AnalyzerChannel>();
+            RetriveConfiguration();
+        }
+
+        public void Add(AnalyzerChannel analyzerChannel)
+        {
+            Children.Add(analyzerChannel);
+            StoreConfiguration();
+        }
+
+        public void Remove(AnalyzerChannel analyzerChannel)
+        {
+            Children.Remove(analyzerChannel);
+            StoreConfiguration();
+        }
+
+        private void StoreConfiguration()
+        {
+            
+        }
+
+        private void RetriveConfiguration()
+        {
+            
         }
     }
 }
