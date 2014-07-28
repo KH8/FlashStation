@@ -79,6 +79,7 @@ namespace _PlcAgent.Visual.Gui
                 TypeLabel.Content = "no variable selected";
                 return;
             }
+            _analyzer.AnalyzerChannels.StoreConfiguration();
             UpdateFigure();
         }
 
@@ -103,6 +104,7 @@ namespace _PlcAgent.Visual.Gui
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
             TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+            if (VariableLabel == null) return;
             VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name + ", " + _analyzerChannel.AnalyzerObservableVariable.Type + ", [" +
                                     _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
         }

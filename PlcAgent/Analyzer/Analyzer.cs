@@ -53,7 +53,7 @@ namespace _PlcAgent.Analyzer
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
-            AnalyzerChannels = new AnalyzerChannelList(0);
+            AnalyzerChannels = new AnalyzerChannelList(0, this);
             AnalyzerMainFrame = new GuiComponent(0, "", new GuiAnalyzerMainFrame());
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
@@ -77,7 +77,7 @@ namespace _PlcAgent.Analyzer
         {
             for (uint i = 1; i <= AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
             {
-                AnalyzerChannels.Add(new AnalyzerChannel(i));
+                AnalyzerChannels.Add(new AnalyzerChannel(i, this));
                 DrawChannel(i);
             }
         }
@@ -91,7 +91,7 @@ namespace _PlcAgent.Analyzer
         {
             AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
             var id = (uint)AnalyzerSetupFile.NumberOfChannels[Header.Id];
-            AnalyzerChannels.Add(new AnalyzerChannel(id));
+            AnalyzerChannels.Add(new AnalyzerChannel(id, this));
             DrawChannel(id);
             AnalyzerSetupFile.Save();
         }
