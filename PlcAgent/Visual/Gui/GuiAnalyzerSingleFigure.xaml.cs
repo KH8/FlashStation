@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _PlcAgent.Analyzer;
@@ -51,7 +52,10 @@ namespace _PlcAgent.Visual.Gui
             if (_analyzerChannel.AnalyzerObservableVariable != null)
             {
                 VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
-                BrushComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.Brush;
+                foreach (var brush in colorsList.Where(brush => Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
+                {
+                    BrushComboBox.SelectedItem = brush;
+                }
                 UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit; 
             }
             
