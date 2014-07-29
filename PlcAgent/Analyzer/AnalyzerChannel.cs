@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Media;
 
 namespace _PlcAgent.Analyzer
 {
@@ -44,8 +46,6 @@ namespace _PlcAgent.Analyzer
         {
             Children = new List<AnalyzerChannel>();
             AnalyzerSetupFile = analyzer.AnalyzerSetupFile;
-
-            RetriveConfiguration();
         }
 
         public void Add(AnalyzerChannel analyzerChannel)
@@ -68,11 +68,13 @@ namespace _PlcAgent.Analyzer
             {
                 if (analyzerChannel.AnalyzerObservableVariable == null)
                 {
-                    AnalyzerSetupFile.Channels[analyzerChannel.Id] = "Empty Channel";
+                    AnalyzerSetupFile.Channels[analyzerChannel.Id] =
+                        analyzerChannel.Id + "%" + "Empty";
                 }
                 else
                 {
-                    AnalyzerSetupFile.Channels[analyzerChannel.Id] =
+                    AnalyzerSetupFile.Channels[analyzerChannel.Id] = 
+                    analyzerChannel.Id + "%" +
                     analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable.Name + "%" +
                     analyzerChannel.AnalyzerObservableVariable.Name + "%" +
                     analyzerChannel.AnalyzerObservableVariable.Type + "%" +
@@ -83,9 +85,30 @@ namespace _PlcAgent.Analyzer
             AnalyzerSetupFile.Save();
         }
 
-        private void RetriveConfiguration()
+        public void RetriveConfiguration()
         {
-            
+            foreach (var channelStrings in AnalyzerSetupFile.Channels.Where(channel => channel != null).Select(channel => channel.Split('%')))
+            {
+                if (channelStrings[1] != "Empty")
+                {
+                    Children.Add(new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer)
+                    {
+                        AnalyzerObservableVariable =
+                            new AnalyzerObservableVariable(
+                                Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
+                                    channelStrings[1]))
+                            {
+                                Name = channelStrings[2],
+                                Unit = channelStrings[4],
+                                Brush = (Brush) new BrushConverter().ConvertFromString(channelStrings[5])
+                            }
+                    });
+                }
+                else
+                {
+                    Children.Add(new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer));
+                }
+            }
         }
     }
 }

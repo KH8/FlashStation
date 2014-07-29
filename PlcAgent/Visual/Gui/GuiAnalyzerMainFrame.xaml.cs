@@ -8,8 +8,11 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerMainFrame
     {
-        public GuiAnalyzerMainFrame()
+        private readonly Analyzer.Analyzer _analyzer;
+
+        public GuiAnalyzerMainFrame(Analyzer.Analyzer analyzer)
         {
+            _analyzer = analyzer;
             InitializeComponent();
         }
 
@@ -27,6 +30,21 @@ namespace _PlcAgent.Visual.Gui
             {
                 analyzerSingleFigure.UpdateSizes(height, width);
             }
+        }
+
+        private void DrawChannel(uint id)
+        {
+            var analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, _analyzer));
+            analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, GeneralGrid);
+
+            var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
+            userControl.UpdateSizes(Height, Width);
+        }
+
+        public void RefreshGui()
+        {
+            GeneralGrid.Children.Clear();
+            foreach (var analyzerChannel in _analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id); }
         }
     }
 }

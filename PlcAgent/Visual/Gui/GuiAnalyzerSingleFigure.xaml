@@ -28,7 +28,7 @@
                 <Label Content="Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180" Margin="0,48,0,0"/>
                 <Label Name="TypeLabel" Content="no variable selected" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="132" Margin="50,48,0,0"/>
                 <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="35,77,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextChanged="UnitBoxTextChanged"/>
+                <TextBox Name="UnitTextBox" HorizontalAlignment="Left" Height="23" Margin="35,77,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextChanged="UnitBoxTextChanged"/>
                 <Label Content="Brush:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="50" Margin="90,75,0,0"/>
                 <ComboBox Name="BrushComboBox" HorizontalAlignment="Left" Height="23" Margin="133,77,0,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="50" ItemsSource="{Binding ColorsList}" SelectionChanged="BrushSelectionChanged">
                     <ComboBox.ItemTemplate>

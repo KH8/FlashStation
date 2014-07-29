@@ -46,6 +46,12 @@ namespace _PlcAgent.Visual.Gui
             ChannelGroupBox.Header = "Channel " + _analyzerChannel.Id;
 
             VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
+
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
+            BrushComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.Brush;
+            UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
+            UpdateFigure();
         }
 
         public void UpdateSizes(double height, double width)
