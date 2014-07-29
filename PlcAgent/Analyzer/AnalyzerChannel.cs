@@ -60,6 +60,11 @@ namespace _PlcAgent.Analyzer
             StoreConfiguration();
         }
 
+        public AnalyzerChannel GetChannel(uint id)
+        {
+            return Children.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
+        }
+
         public void StoreConfiguration()
         {
             AnalyzerSetupFile.Channels = new string[1];
@@ -91,7 +96,7 @@ namespace _PlcAgent.Analyzer
             {
                 if (channelStrings[1] != "Empty")
                 {
-                    Children.Add(new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer)
+                    var newChannel = new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer)
                     {
                         AnalyzerObservableVariable =
                             new AnalyzerObservableVariable(
@@ -99,10 +104,13 @@ namespace _PlcAgent.Analyzer
                                     channelStrings[1]))
                             {
                                 Name = channelStrings[2],
-                                Unit = channelStrings[4],
-                                Brush = (Brush) new BrushConverter().ConvertFromString(channelStrings[5])
                             }
-                    });
+                    };
+                    newChannel.AnalyzerObservableVariable.Unit = channelStrings[4];
+                    newChannel.AnalyzerObservableVariable.Brush =
+                        (Brush)new BrushConverter().ConvertFromString(channelStrings[5]);
+
+                    Children.Add(newChannel);
                 }
                 else
                 {

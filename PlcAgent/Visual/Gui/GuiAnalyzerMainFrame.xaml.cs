@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace _PlcAgent.Visual.Gui
 {
@@ -14,6 +13,8 @@ namespace _PlcAgent.Visual.Gui
         {
             _analyzer = analyzer;
             InitializeComponent();
+
+            RefreshGui();
         }
 
         public void UpdateSizes(double height, double width)

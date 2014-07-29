@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using _PlcAgent.DataAquisition;
@@ -32,7 +31,8 @@ namespace _PlcAgent.Analyzer
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
-        public AnalyzerChannelList AnalyzerChannels { get; set; } 
+        public AnalyzerChannelList AnalyzerChannels { get; set; }
+        public GuiAnalyzerMainFrame GuiAnalyzerMainFrame { get; set; }
 
         public bool Recording
         {
@@ -72,14 +72,6 @@ namespace _PlcAgent.Analyzer
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
 
-        public void InitrializeChannels()
-        {
-            for (uint i = 1; i <= AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
-            {
-                DrawChannel(i);
-            }
-        }
-
         public void StartStopRecording()
         {
             _recording = !_recording;
@@ -88,23 +80,26 @@ namespace _PlcAgent.Analyzer
         public void AddNewChannel()
         {
             AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
+
             var id = (uint)AnalyzerSetupFile.NumberOfChannels[Header.Id];
             AnalyzerChannels.Add(new AnalyzerChannel(id, this));
-            DrawChannel(id);
             AnalyzerSetupFile.Save();
+
+            if (GuiAnalyzerMainFrame == null) return;
+            GuiAnalyzerMainFrame.RefreshGui();
         }
 
-        public AnalyzerChannel GetChannel(uint id)
-        {
-            return AnalyzerChannels.Children.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
-        }
+        
 
         public void RemoveChannel(AnalyzerChannel analyzerChannel)
         {
             AnalyzerChannels.Remove(analyzerChannel);
-            RefreshGui();
+
             AnalyzerSetupFile.NumberOfChannels[Header.Id] -= 1;
             AnalyzerSetupFile.Save();
+
+            if (GuiAnalyzerMainFrame == null) return;
+            GuiAnalyzerMainFrame.RefreshGui();
         }
 
         #endregion
@@ -139,7 +134,7 @@ namespace _PlcAgent.Analyzer
             public AnalyzerException(string info) : base(info) { }
         }
 
-        /*private Boolean CheckInterface()
+        private Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
@@ -155,7 +150,7 @@ namespace _PlcAgent.Analyzer
                 return false;
 
             return true;
-        }*/
+        }
 
         public void CreateInterfaceAssignment(uint id, AnalyzerAssignmentFile analyzerAssignmentFile)
         {

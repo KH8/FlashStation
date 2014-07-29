@@ -450,10 +450,11 @@ namespace _PlcAgent.Visual
                 newGrid.Height = MainTabControl.Height - 32;
                 newGrid.Width = MainTabControl.Width - 10;
 
-                var analyzerMainFrameGrid = (GuiAnalyzerMainFrame)record.AnalyzerMainFrame.UserControl;
+                var analyzerMainFrameGrid = (GuiComponent)_registry.GuiAnalyzerMainFrames.ReturnComponent(record.Header.Id);
+                analyzerMainFrameGrid.Initialize(0, 0, newGrid);
 
-                record.AnalyzerMainFrame.Initialize(0, 0, newGrid);
-                analyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
+                var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame) analyzerMainFrameGrid.UserControl;
+                guiAnalyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);

@@ -21,7 +21,13 @@ namespace _PlcAgent.Analyzer
         public VariableType Type { get; set; }
         public string Name { get; set; }
         public string Unit { get; set; }
-        public Brush Brush { get; set; }
+
+        public Brush Brush
+        {
+            get { return MainViewModel.Brush; }
+            set { MainViewModel.Brush = value; }
+        }
+
         public double MinValue { get; set; }
         public double MaxValue { get; set; }
         public double ValueY { get; set; }
@@ -34,7 +40,6 @@ namespace _PlcAgent.Analyzer
             CommunicationInterfaceVariable = communicationInterfaceVariable;
             Name = communicationInterfaceVariable.Name;
             Type = GetType(CommunicationInterfaceVariable);
-            Brush = Brushes.Green;
             Unit = "1";
 
             MinValue = 0.0;

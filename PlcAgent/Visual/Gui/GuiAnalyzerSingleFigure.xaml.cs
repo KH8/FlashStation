@@ -12,6 +12,7 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure
     {
+        private readonly Boolean _save;
         private readonly Analyzer.Analyzer _analyzer;
         private readonly AnalyzerChannel _analyzerChannel;
         
@@ -21,7 +22,7 @@ namespace _PlcAgent.Visual.Gui
         {
             Id = id;
             _analyzer = analyzer;
-            _analyzerChannel = analyzer.GetChannel(Id);
+            _analyzerChannel = analyzer.AnalyzerChannels.GetChannel(Id);
 
             InitializeComponent();
 
@@ -47,11 +48,16 @@ namespace _PlcAgent.Visual.Gui
 
             VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
 
-            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
-            BrushComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.Brush;
-            UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
+            if (_analyzerChannel.AnalyzerObservableVariable != null)
+            {
+                VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
+                BrushComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.Brush;
+                UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit; 
+            }
+            
             UpdateFigure();
+
+            _save = true;
         }
 
         public void UpdateSizes(double height, double width)
@@ -62,40 +68,14 @@ namespace _PlcAgent.Visual.Gui
             PlotGrid.Width = width - 225;
         }
 
+        private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _analyzer.RemoveChannel(_analyzerChannel);
+        }
+
         public void UpdateFigure()
         {
             UpdatePlotArea();
-            UpdateLabels();
-        }
-
-        private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            _analyzerChannel.AnalyzerObservableVariable.MainViewModel.Brush = (Brush)BrushComboBox.SelectedItem;
-            _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush)BrushComboBox.SelectedItem;
-        }
-
-        private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selector = (ComboBox) sender;
-            try { _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem); }
-            catch (Exception)
-            {
-                selector.SelectedItem = null;
-                TypeLabel.Content = "no variable selected";
-                return;
-            }
-            _analyzer.AnalyzerChannels.StoreConfiguration();
-            UpdateFigure();
-        }
-
-        private void UnitBoxTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var box = (TextBox) sender;
-
-            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            try { _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text; }
-            catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
             UpdateLabels();
         }
 
@@ -109,15 +89,51 @@ namespace _PlcAgent.Visual.Gui
         private void UpdateLabels()
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+
+            if (TypeLabel == null) return;
             TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+
             if (VariableLabel == null) return;
             VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name + ", " + _analyzerChannel.AnalyzerObservableVariable.Type + ", [" +
                                     _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
         }
 
-        private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
+        private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _analyzer.RemoveChannel(_analyzerChannel);
+            if (!_save) return; 
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush)BrushComboBox.SelectedItem;
+            _analyzer.AnalyzerChannels.StoreConfiguration();
+        }
+
+        private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selector = (ComboBox) sender;
+
+            if (!_save) return; 
+            try { _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem); }
+            catch (Exception)
+            {
+                selector.SelectedItem = null;
+                TypeLabel.Content = "no variable selected";
+                return;
+            }
+
+            UpdateFigure();
+            _analyzer.AnalyzerChannels.StoreConfiguration();
+        }
+
+        private void UnitBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var box = (TextBox) sender;
+
+            if (!_save) return; 
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+            try { _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text; }
+            catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
+
+            UpdateLabels();
+            _analyzer.AnalyzerChannels.StoreConfiguration();
         }
     }
 }
