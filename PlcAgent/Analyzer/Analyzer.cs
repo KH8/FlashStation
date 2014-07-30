@@ -70,6 +70,8 @@ namespace _PlcAgent.Analyzer
 
         public void Initialize()
         {
+            InitCsvFile();
+
             if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 10;
             if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 1000;
 
@@ -133,6 +135,8 @@ namespace _PlcAgent.Analyzer
 
         private void AnalyzeThread()
         {
+            var lastMilliseconds = 0.0;
+
             while (_thread.IsAlive)
             {
                 if (_recording)
@@ -149,7 +153,12 @@ namespace _PlcAgent.Analyzer
                         });
                     StorePointsInCsvFile();
                 }
-                Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
+
+                var timeDifference = (int) (DateTime.Now.TimeOfDay.TotalMilliseconds - lastMilliseconds);
+                if (timeDifference > AnalyzerSetupFile.SampleTime[Header.Id]) timeDifference = AnalyzerSetupFile.SampleTime[Header.Id];
+
+                Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id] - timeDifference);
+                lastMilliseconds = DateTime.Now.TimeOfDay.TotalMilliseconds;
             }
         }
 
@@ -187,7 +196,7 @@ namespace _PlcAgent.Analyzer
                 foreach (var analyzerChannel in AnalyzerChannels.Children)
                 {
                     if (analyzerChannel.AnalyzerObservableVariable == null) break;
-                    writer.WriteField(analyzerChannel.AnalyzerObservableVariable.ValueX); break;
+                    writer.WriteField(TimeSpan.FromMilliseconds(analyzerChannel.AnalyzerObservableVariable.ValueX).ToString()); break;
                 }
                 foreach (var analyzerChannel in AnalyzerChannels.Children)
                 {

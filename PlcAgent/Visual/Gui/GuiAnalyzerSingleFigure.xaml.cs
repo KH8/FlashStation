@@ -89,7 +89,6 @@ namespace _PlcAgent.Visual.Gui
             PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel;
         }
 
-
         private void UpdateLabels()
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
