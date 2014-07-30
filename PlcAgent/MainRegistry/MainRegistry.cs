@@ -377,22 +377,25 @@ namespace _PlcAgent.MainRegistry
             }
             if (Analyzers.Cast<object>().Any(analyzer => component == analyzer))
             {
+                var analyzer = (Analyzer.Analyzer) component;
+                if (analyzer.Recording) throw new Exception("At least one of the components function is still running");
+
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
                 Analyzers.Children.Remove(component);
             }
             UpdateMainRegistryFile();
         }
 
+        public void Deinitialize()
+        {
+            foreach (VFlashHandler vFlashHandler in VFlashHandlers) { vFlashHandler.Deinitialize(); }
+            foreach (Analyzer.Analyzer analyzer in Analyzers) { analyzer.Deinitialize(); }
+            foreach (PlcCommunicator plcCommunicator in PlcCommunicators) { plcCommunicator.CloseConnection(); }
+        }
+
         public override void RemoveAll()
         {
-            foreach (VFlashHandler vFlashHandler in VFlashHandlers)
-            {
-                vFlashHandler.Deinitialize();
-            }
-            foreach (PlcCommunicator plcCommunicator in PlcCommunicators)
-            {
-                plcCommunicator.CloseConnection();
-            }
+            Deinitialize();
 
             PlcCommunicators.Clear();
             PlcGuiCommunicationStatuses.Clear();

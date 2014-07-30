@@ -67,14 +67,14 @@ namespace _PlcAgent.Visual
 
         private void CloseApp(object sender, RoutedEventArgs routedEventArgs)
         {
-            foreach (VFlashHandler vFlashHandler in _registry.VFlashHandlers) { vFlashHandler.Deinitialize(); }
+            _registry.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }
 
         private void CloseApp(object sender, CancelEventArgs e)
         {
-            foreach (VFlashHandler vFlashHandler in _registry.VFlashHandlers) { vFlashHandler.Deinitialize(); }
+            _registry.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }

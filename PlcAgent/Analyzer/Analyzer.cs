@@ -68,8 +68,16 @@ namespace _PlcAgent.Analyzer
         {
             if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 10;
             if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 1000;
+
             _thread.Start();
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
+        }
+
+        public void Deinitialize()
+        {
+            _recording = false;
+            Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
+            Logger.Log("ID: " + Header.Id + " Analyzer Deinitialized");
         }
 
         public void StartStopRecording()
