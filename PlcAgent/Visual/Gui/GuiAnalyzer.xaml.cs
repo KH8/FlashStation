@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Win32;
 using _PlcAgent.Analyzer;
 using _PlcAgent.General;
 
@@ -44,21 +46,38 @@ namespace _PlcAgent.Visual.Gui
                     AnalyzerStartStopButton.Content = "Start";
                     if (_analyzer != null && _analyzer.Recording) AnalyzerStartStopButton.Content = "Stop";
                 })));
+                AnalyzerTimeLabel.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    AnalyzerTimeLabel.Content = "Recording time: " + TimeSpan.FromMilliseconds(_analyzer.RecordingTime);
+                })));
                 Thread.Sleep(20);
             }
         }
 
-        private void StartStopRecording(object sender, System.Windows.RoutedEventArgs e)
+        private void StartStopRecording(object sender, RoutedEventArgs e)
         {
             _analyzer.StartStopRecording();
         }
 
-        private void AddNewChannel(object sender, System.Windows.RoutedEventArgs e)
+        private void AddNewChannel(object sender, RoutedEventArgs e)
         {
             _analyzer.AddNewChannel();
         }
 
-        private void SampleTimeChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        private void Export(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog
+            {
+                FileName = "AnalysisExport",
+                DefaultExt = ".csv",
+                Filter = "CSV character-separated values file (.csv)|*.csv"
+            };
+
+            var result = dlg.ShowDialog();
+            if (result == true) _analyzer.ExportCsvFile(dlg.FileName);
+        }
+
+        private void SampleTimeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var slider = (Slider) sender;
             SampleTimeLabel.Content = slider.Value + " ms";
@@ -67,7 +86,7 @@ namespace _PlcAgent.Visual.Gui
             _analyzerSetupFile.Save();
         }
 
-        private void TimeRangeChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        private void TimeRangeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var slider = (Slider)sender;
             TimeRangeLabel.Content = slider.Value + " ms";

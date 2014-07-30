@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using CsvHelper;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -17,6 +19,9 @@ namespace _PlcAgent.Analyzer
         private Boolean _pcControlMode;
         private readonly Boolean _pcControlModeChangeAllowed;
         private Boolean _recording;
+
+        private double _startRecordingTime;
+        private double _recordingTime;
 
         private readonly Thread _thread;
 
@@ -41,7 +46,11 @@ namespace _PlcAgent.Analyzer
         public bool Recording
         {
             get { return _recording; }
-            set { _recording = value; }
+        }
+
+        public double RecordingTime
+        {
+            get { return _recordingTime; }
         }
 
         #endregion
@@ -74,8 +83,8 @@ namespace _PlcAgent.Analyzer
         {
             InitCsvFile();
 
-            if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 10;
-            if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 1000;
+            if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 100;
+            if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 10000;
 
             _thread.Start();
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
@@ -106,6 +115,11 @@ namespace _PlcAgent.Analyzer
                     if (analyzerChannel.AnalyzerObservableVariable == null) return;
                     analyzerChannel.AnalyzerObservableVariable.Clear();
                 });
+
+            _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            _recordingTime = 0.0;
+
+            Logger.Log("ID: " + Header.Id + " Analysis cleared");
         }
 
         public void AddNewChannel()
@@ -154,11 +168,13 @@ namespace _PlcAgent.Analyzer
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = analyzerChannel.AnalyzerObservableVariable.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                         });
                     StorePointsInCsvFile();
+
+                    _recordingTime = lastMilliseconds - _startRecordingTime;
                 }
 
                 var timeDifference = (int) (DateTime.Now.TimeOfDay.TotalMilliseconds - lastMilliseconds);
                 if (timeDifference > AnalyzerSetupFile.SampleTime[Header.Id]) timeDifference = AnalyzerSetupFile.SampleTime[Header.Id];
-
+                
                 Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id] - timeDifference);
                 lastMilliseconds = DateTime.Now.TimeOfDay.TotalMilliseconds;
             }
@@ -167,6 +183,17 @@ namespace _PlcAgent.Analyzer
         #endregion
 
         #region CSV Storage
+
+        public void ExportCsvFile(string fileName)
+        {
+            try { File.Copy(_filePath, fileName); }
+            catch (Exception)
+            {
+                Logger.Log("ID: " + Header.Id + " Analysis export failed");
+                return;
+            }
+            Logger.Log("ID: " + Header.Id + " Analysis exported to file: " + fileName);
+        }
 
         private void InitCsvFile()
         {
@@ -177,9 +204,8 @@ namespace _PlcAgent.Analyzer
                 writer.Configuration.Delimiter = ";";
 
                 writer.WriteField("GENERAL:AXIS:X");
-                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                foreach (var analyzerChannel in AnalyzerChannels.Children.TakeWhile(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 {
-                    if (analyzerChannel.AnalyzerObservableVariable == null) break;
                     writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
                 }
 
@@ -195,14 +221,12 @@ namespace _PlcAgent.Analyzer
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
 
-                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                foreach (var analyzerChannel in AnalyzerChannels.Children.TakeWhile(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 {
-                    if (analyzerChannel.AnalyzerObservableVariable == null) break;
                     writer.WriteField(TimeSpan.FromMilliseconds(analyzerChannel.AnalyzerObservableVariable.ValueX).ToString()); break;
                 }
-                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                foreach (var analyzerChannel in AnalyzerChannels.Children.TakeWhile(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 {
-                    if (analyzerChannel.AnalyzerObservableVariable == null) break;
                     writer.WriteField(analyzerChannel.AnalyzerObservableVariable.ValueY);
                 }
 

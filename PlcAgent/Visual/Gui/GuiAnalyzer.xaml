@@ -15,13 +15,12 @@
                 <Slider Name="SampleTimeSlider" HorizontalAlignment="Left" Margin="100,10,0,0" Minimum="10" Maximum="300" Value="100" VerticalAlignment="Top" Width="215" ValueChanged="SampleTimeChanged" TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True"/>
                 <Slider Name="TimeRangeSlider" HorizontalAlignment="Left" Margin="100,35,0,0" Minimum="1000" Maximum="60000" Value="10000" VerticalAlignment="Top" Width="215" ValueChanged="TimeRangeChanged" TickFrequency="1000" TickPlacement="BottomRight" IsSnapToTickEnabled="True"/>
                 <Button Name="AnalyzerAddChannelButton" Content="Add Channel" HorizontalAlignment="Left" Margin="0,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="AddNewChannel"/>
-                <Button Name="AnalyzerImportButton" Content="Import" HorizontalAlignment="Left" Margin="195,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" />
-                <Button Name="AnalyzerExportButton" Content="Export" HorizontalAlignment="Left" Margin="290,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" />
+                <Button Name="AnalyzerExportButton" Content="Export" HorizontalAlignment="Left" Margin="290,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Export"/>
             </Grid>
         </GroupBox>
         <GroupBox Name="RecordingGroupBox" Header="Recording" Margin="0,150,0,0" HorizontalAlignment="Left" Height="65" VerticalAlignment="Top" Width="400">
             <Grid>
-                <Label Name="AnalyzerTimeLabel" Content="Recording time: 00:00:00" HorizontalAlignment="Right" Height="28" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="294" Margin="0,8,0,7"/>
+                <Label Name="AnalyzerTimeLabel" Content="Recording time: 00:00:00.0000000" HorizontalAlignment="Right" Height="28" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="294" Margin="0,8,0,7"/>
                 <Button Name="AnalyzerStartStopButton" Content="Start" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="90" Height="25" Click="StartStopRecording"/>
             </Grid>
         </GroupBox>
