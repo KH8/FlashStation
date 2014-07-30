@@ -120,11 +120,13 @@ namespace _PlcAgent.Analyzer
             {
                 if (_recording)
                 {
+                    var timeTick = DateTime.Now.TimeOfDay.TotalMilliseconds;
+
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
                         {
                             if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                            analyzerChannel.AnalyzerObservableVariable.StoreActualValue();
+                            analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick);
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = analyzerChannel.AnalyzerObservableVariable.ValueX - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = analyzerChannel.AnalyzerObservableVariable.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                         });

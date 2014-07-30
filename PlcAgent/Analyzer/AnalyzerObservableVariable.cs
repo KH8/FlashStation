@@ -48,12 +48,12 @@ namespace _PlcAgent.Analyzer
             MainViewModel = new MainViewModel();
         }
 
-        public void StoreActualValue()
+        public void StoreActualValue(double valueX)
         {
             if (CommunicationInterfaceVariable == null) return;
 
             ValueY = GetValue(CommunicationInterfaceVariable);
-            ValueX = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            ValueX = valueX;
 
             if (ValueY > MaxValue) MaxValue = ValueY;
             if (ValueY < MinValue) MinValue = ValueY;
