@@ -67,18 +67,18 @@ namespace _PlcAgent.Analyzer
 
         public void StoreConfiguration()
         {
-            AnalyzerSetupFile.Channels = new string[1];
-            AnalyzerSetupFile.Channels = new string[AnalyzerSetupFile.NumberOfChannels[Analyzer.Header.Id] + 1];
+            AnalyzerSetupFile.Channels[Analyzer.Header.Id] = new string[1];
+            AnalyzerSetupFile.Channels[Analyzer.Header.Id] = new string[AnalyzerSetupFile.NumberOfChannels[Analyzer.Header.Id] + 1];
             foreach (var analyzerChannel in Children)
             {
                 if (analyzerChannel.AnalyzerObservableVariable == null)
                 {
-                    AnalyzerSetupFile.Channels[analyzerChannel.Id] =
+                    AnalyzerSetupFile.Channels[Analyzer.Header.Id][analyzerChannel.Id] =
                         analyzerChannel.Id + "%" + "Empty";
                 }
                 else
                 {
-                    AnalyzerSetupFile.Channels[analyzerChannel.Id] = 
+                    AnalyzerSetupFile.Channels[Analyzer.Header.Id][analyzerChannel.Id] = 
                     analyzerChannel.Id + "%" +
                     analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable.Name + "%" +
                     analyzerChannel.AnalyzerObservableVariable.Name + "%" +
@@ -92,7 +92,7 @@ namespace _PlcAgent.Analyzer
 
         public void RetriveConfiguration()
         {
-            foreach (var channelStrings in AnalyzerSetupFile.Channels.Where(channel => channel != null).Select(channel => channel.Split('%')))
+            foreach (var channelStrings in AnalyzerSetupFile.Channels[Analyzer.Header.Id].Where(channel => channel != null).Select(channel => channel.Split('%')))
             {
                 if (channelStrings[1] != "Empty")
                 {

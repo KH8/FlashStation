@@ -509,6 +509,7 @@ namespace _PlcAgent.MainRegistry
             VFlashTypeBankFile.Default.Reset();
             VFlashHandlerInterfaceAssignmentFile.Default.Reset();
             AnalyzerAssignmentFile.Default.Reset();
+            AnalyzerSetupFile.Default.Reset();
         }
 
         public void LoadConfiguration(ProjectFileStruture.ProjectSavedData projectData)
@@ -556,6 +557,12 @@ namespace _PlcAgent.MainRegistry
             AnalyzerAssignmentFile.Default.Assignment = projectData.AnalyzerAssignment;
             AnalyzerAssignmentFile.Default.Save();
 
+            AnalyzerSetupFile.Default.SampleTime = projectData.SampleTime;
+            AnalyzerSetupFile.Default.TimeRange = projectData.TimeRange;
+            AnalyzerSetupFile.Default.NumberOfChannels = projectData.NumberOfChannels;
+            AnalyzerSetupFile.Default.Channels = projectData.Channels;
+            AnalyzerSetupFile.Default.Save();
+
             Logger.Log("Registry initialization");
             Initialize();
         }
@@ -582,7 +589,11 @@ namespace _PlcAgent.MainRegistry
                 OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
                 VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,
-                AnalyzerAssignment = AnalyzerAssignmentFile.Default.Assignment
+                AnalyzerAssignment = AnalyzerAssignmentFile.Default.Assignment,
+                SampleTime = AnalyzerSetupFile.Default.SampleTime,
+                TimeRange = AnalyzerSetupFile.Default.TimeRange,
+                NumberOfChannels = AnalyzerSetupFile.Default.NumberOfChannels,
+                Channels = AnalyzerSetupFile.Default.Channels
             };
             return projectData;
         }

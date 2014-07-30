@@ -91,12 +91,22 @@ namespace _PlcAgent.Analyzer {
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string[] Channels
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfString>
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                            <ArrayOfString />
+                                                                        </ArrayOfArrayOfString>")]
+        public string[][] Channels
         {
             get
             {
-                return ((string[])(this["Channels"]));
+                return ((string[][])(this["Channels"]));
             }
             set
             {

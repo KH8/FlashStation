@@ -32,6 +32,12 @@ namespace _PlcAgent.General
             public string[][] VFlashHandlerAssignment;
 
             public string[][] AnalyzerAssignment;
+
+            public int[] SampleTime;
+            public double[] TimeRange;
+            public int[] NumberOfChannels;
+            public string[][] Channels;
+
         }
     }
 }
