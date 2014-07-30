@@ -188,9 +188,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AnalyzerSetupFile.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Analyzer\Temp.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="DataAquisition\CommunicationInterfacePath.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CommunicationInterfacePath.Designer.cs</LastGenOutput>

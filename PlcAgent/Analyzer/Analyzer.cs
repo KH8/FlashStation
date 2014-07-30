@@ -20,7 +20,7 @@ namespace _PlcAgent.Analyzer
 
         private readonly Thread _thread;
 
-        private readonly string _filePath = "Analyzer\\Temp.csv";
+        private readonly string _filePath;
 
         #endregion
 
@@ -52,6 +52,8 @@ namespace _PlcAgent.Analyzer
         {
             _pcControlMode = true;
             _pcControlModeChangeAllowed = true;
+
+            _filePath = "Analyzer\\Temp_ANALYZER_" + id + ".csv"; 
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
