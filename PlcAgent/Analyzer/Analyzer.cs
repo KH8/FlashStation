@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using CsvHelper;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
@@ -17,6 +19,8 @@ namespace _PlcAgent.Analyzer
         private Boolean _recording;
 
         private readonly Thread _thread;
+
+        private readonly string _filePath = "Analyzer\\Temp.csv";
 
         #endregion
 
@@ -82,7 +86,22 @@ namespace _PlcAgent.Analyzer
 
         public void StartStopRecording()
         {
+            if (!_recording)
+            {
+                Clear();
+                InitCsvFile();
+            }
             _recording = !_recording;
+        }
+
+        public void Clear()
+        {
+            Parallel.ForEach(AnalyzerChannels.Children,
+                analyzerChannel =>
+                {
+                    if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                    analyzerChannel.AnalyzerObservableVariable.Clear();
+                });
         }
 
         public void AddNewChannel()
@@ -96,8 +115,6 @@ namespace _PlcAgent.Analyzer
             if (GuiAnalyzerMainFrame == null) return;
             GuiAnalyzerMainFrame.RefreshGui();
         }
-
-        
 
         public void RemoveChannel(AnalyzerChannel analyzerChannel)
         {
@@ -130,12 +147,61 @@ namespace _PlcAgent.Analyzer
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = analyzerChannel.AnalyzerObservableVariable.ValueX - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = analyzerChannel.AnalyzerObservableVariable.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                         });
+                    StorePointsInCsvFile();
                 }
                 Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
             }
         }
 
         #endregion
+
+        #region CSV Storage
+
+        private void InitCsvFile()
+        {
+            File.Create(_filePath).Close();
+            using (var streamWriter = File.AppendText(_filePath))
+            {
+                var writer = new CsvWriter(streamWriter);
+                writer.Configuration.Delimiter = ";";
+
+                writer.WriteField("GENERAL:AXIS:X");
+                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                {
+                    if (analyzerChannel.AnalyzerObservableVariable == null) break;
+                    writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
+                }
+
+                writer.NextRecord();
+                streamWriter.Close();
+            }
+        }
+
+        private void StorePointsInCsvFile()
+        {
+            using (var streamWriter = File.AppendText(_filePath))
+            {
+                var writer = new CsvWriter(streamWriter);
+                writer.Configuration.Delimiter = ";";
+
+                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                {
+                    if (analyzerChannel.AnalyzerObservableVariable == null) break;
+                    writer.WriteField(analyzerChannel.AnalyzerObservableVariable.ValueX); break;
+                }
+                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                {
+                    if (analyzerChannel.AnalyzerObservableVariable == null) break;
+                    writer.WriteField(analyzerChannel.AnalyzerObservableVariable.ValueY);
+                }
+
+                writer.NextRecord();
+                streamWriter.Close();
+            }
+        }
+
+        #endregion
+
 
         #region Auxiliaries
 
