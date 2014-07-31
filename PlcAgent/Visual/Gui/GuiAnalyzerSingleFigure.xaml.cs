@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _PlcAgent.Analyzer;
@@ -16,6 +17,8 @@ namespace _PlcAgent.Visual.Gui
         private readonly Boolean _save;
         private readonly Analyzer.Analyzer _analyzer;
         private readonly AnalyzerChannel _analyzerChannel;
+
+        private readonly Thread _updateThread;
         
         public uint Id;
 
@@ -58,10 +61,27 @@ namespace _PlcAgent.Visual.Gui
                 }
                 UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit; 
             }
-            
-            UpdateFigure();
 
             _save = true;
+
+            _updateThread = new Thread(Update);
+            _updateThread.SetApartmentState(ApartmentState.STA);
+            _updateThread.IsBackground = true;
+            _updateThread.Start();
+        }
+
+        public void Update()
+        {
+            while (_updateThread.IsAlive)
+            {
+                if (_analyzerChannel.AnalyzerObservableVariable != null)
+                {
+                    PlotArea.Dispatcher.BeginInvoke((new Action(
+                        () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
+                }
+                UpdateLabels();
+                Thread.Sleep(10);
+            }
         }
 
         public void UpdateSizes(double height, double width)
@@ -77,28 +97,29 @@ namespace _PlcAgent.Visual.Gui
             _analyzer.RemoveChannel(_analyzerChannel);
         }
 
-        public void UpdateFigure()
-        {
-            UpdatePlotArea();
-            UpdateLabels();
-        }
-
-        private void UpdatePlotArea()
-        {
-            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel;
-        }
-
         private void UpdateLabels()
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
 
             if (TypeLabel == null) return;
-            TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
-
+            TypeLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+            })));
             if (VariableLabel == null) return;
-            VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name + ", " + _analyzerChannel.AnalyzerObservableVariable.Type + ", [" +
+            VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name + ", " + _analyzerChannel.AnalyzerObservableVariable.Type + ", [" +
                                     _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
+            })));
+            VariableComboBox.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                VariableComboBox.IsEnabled = !_analyzer.Recording;
+            })));
+            DeleteButton.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                DeleteButton.IsEnabled = !_analyzer.Recording;
+            })));
         }
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -122,7 +143,6 @@ namespace _PlcAgent.Visual.Gui
                 return;
             }
 
-            UpdateFigure();
             _analyzer.AnalyzerChannels.StoreConfiguration();
         }
 

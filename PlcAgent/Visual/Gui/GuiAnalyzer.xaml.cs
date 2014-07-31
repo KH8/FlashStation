@@ -50,6 +50,14 @@ namespace _PlcAgent.Visual.Gui
                 {
                     AnalyzerTimeLabel.Content = "Recording time: " + TimeSpan.FromMilliseconds(_analyzer.RecordingTime);
                 })));
+                AnalyzerAddChannelButton.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    AnalyzerAddChannelButton.IsEnabled = !_analyzer.Recording;
+                })));
+                AnalyzerExportButton.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    AnalyzerExportButton.IsEnabled = !_analyzer.Recording;
+                })));
                 Thread.Sleep(20);
             }
         }

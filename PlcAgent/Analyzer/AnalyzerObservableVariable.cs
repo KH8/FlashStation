@@ -7,6 +7,8 @@ namespace _PlcAgent.Analyzer
 {
     public class AnalyzerObservableVariable
     {
+        private MainViewModel _mainViewModel;
+
         public enum VariableType
         {
             Bit,
@@ -24,8 +26,8 @@ namespace _PlcAgent.Analyzer
 
         public Brush Brush
         {
-            get { return MainViewModel.Brush; }
-            set { MainViewModel.Brush = value; }
+            get { return _mainViewModel.Brush; }
+            set { _mainViewModel.Brush = value; }
         }
 
         public double MinValue { get; set; }
@@ -33,7 +35,11 @@ namespace _PlcAgent.Analyzer
         public double ValueY { get; set; }
         public double ValueX { get; set; }
 
-        public MainViewModel MainViewModel { get; set; }
+        public MainViewModel MainViewModel
+        {
+            get { return (MainViewModel) _mainViewModel.Clone(); }
+            set { _mainViewModel = value; }
+        }
 
         public AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
         {
@@ -45,7 +51,7 @@ namespace _PlcAgent.Analyzer
             MinValue = 0.0;
             MaxValue = 0.0;
 
-            MainViewModel = new MainViewModel();
+            _mainViewModel = new MainViewModel();
         }
 
         public void StoreActualValue(double valueX)
@@ -58,13 +64,12 @@ namespace _PlcAgent.Analyzer
             if (ValueY > MaxValue) MaxValue = ValueY;
             if (ValueY < MinValue) MinValue = ValueY;
 
-            MainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
-            MainViewModel.Model.InvalidatePlot(true);
+            _mainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
         }
 
         public void Clear()
         {
-            MainViewModel.Clear();
+            _mainViewModel.Clear();
         }
 
         private static double GetValue(CommunicationInterfaceVariable communicationInterfaceVariable)
