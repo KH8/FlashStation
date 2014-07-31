@@ -82,7 +82,7 @@ namespace _PlcAgent.Visual.Gui
                             () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
                 }
                 UpdateLabels();
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         }
 
