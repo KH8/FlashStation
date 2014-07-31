@@ -10,7 +10,7 @@ namespace _PlcAgent.Visual.Gui
     public partial class GuiAnalyzerMainFrame
     {
         private readonly Analyzer.Analyzer _analyzer;
-        private List<GuiComponent> _channeList;
+        private readonly List<GuiComponent> _channeList;
 
         public GuiAnalyzerMainFrame(Analyzer.Analyzer analyzer)
         {
