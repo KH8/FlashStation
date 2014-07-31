@@ -74,7 +74,7 @@ namespace _PlcAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (_analyzerChannel.AnalyzerObservableVariable != null)
+                if (_analyzerChannel.AnalyzerObservableVariable != null && _analyzer.Recording)
                 {
                     PlotArea.Dispatcher.BeginInvoke((new Action(
                             () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
