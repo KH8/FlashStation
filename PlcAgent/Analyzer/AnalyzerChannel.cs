@@ -41,6 +41,19 @@ namespace _PlcAgent.Analyzer
     {
         public List<AnalyzerChannel> Children { get; set; }
 
+        public uint HighestId
+        {
+            get
+            {
+                uint[] highestId = {0};
+                foreach (var analyzerChannel in Children.Where(analyzerChannel => analyzerChannel.Id > highestId[0]))
+                {
+                    highestId[0] = analyzerChannel.Id;
+                }
+                return highestId[0];
+            }
+        }
+
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
 
         public AnalyzerChannelList(uint id, Analyzer analyzer) : base(id, analyzer)
@@ -69,7 +82,7 @@ namespace _PlcAgent.Analyzer
         public void StoreConfiguration()
         {
             AnalyzerSetupFile.Channels[Analyzer.Header.Id] = new string[1];
-            AnalyzerSetupFile.Channels[Analyzer.Header.Id] = new string[AnalyzerSetupFile.NumberOfChannels[Analyzer.Header.Id] + 1];
+            AnalyzerSetupFile.Channels[Analyzer.Header.Id] = new string[HighestId + 1];
             foreach (var analyzerChannel in Children)
             {
                 if (analyzerChannel.AnalyzerObservableVariable == null)

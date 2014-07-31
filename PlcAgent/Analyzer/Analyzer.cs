@@ -126,7 +126,15 @@ namespace _PlcAgent.Analyzer
         {
             AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
 
-            var id = (uint)AnalyzerSetupFile.NumberOfChannels[Header.Id];
+            uint id = 0;
+
+            for (uint i = 0; i < AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
+            {
+                if (AnalyzerChannels.GetChannel(i) != null) continue;
+                id = i;
+                break;
+            }
+
             AnalyzerChannels.Add(new AnalyzerChannel(id, this));
             AnalyzerSetupFile.Save();
 

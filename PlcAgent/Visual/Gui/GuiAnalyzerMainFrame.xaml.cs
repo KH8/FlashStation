@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace _PlcAgent.Visual.Gui
 {
@@ -8,10 +10,13 @@ namespace _PlcAgent.Visual.Gui
     public partial class GuiAnalyzerMainFrame
     {
         private readonly Analyzer.Analyzer _analyzer;
+        private List<GuiComponent> _channeList;
 
         public GuiAnalyzerMainFrame(Analyzer.Analyzer analyzer)
         {
             _analyzer = analyzer;
+            _channeList = new List<GuiComponent>();
+
             InitializeComponent();
 
             RefreshGui();
@@ -35,7 +40,11 @@ namespace _PlcAgent.Visual.Gui
 
         private void DrawChannel(uint id)
         {
-            var analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, _analyzer));
+            GuiComponent analyzerSingleFigure = null;
+
+            foreach (var guiComponent in _channeList.Where(guiComponent => guiComponent.Header.Id == id)) { analyzerSingleFigure = guiComponent; }
+            if (analyzerSingleFigure == null) _channeList.Add(analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, _analyzer)));
+
             analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, GeneralGrid);
 
             var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
@@ -45,6 +54,9 @@ namespace _PlcAgent.Visual.Gui
         public void RefreshGui()
         {
             GeneralGrid.Children.Clear();
+
+            var componentToBeRemoved = _channeList.Where(guiComponent => _analyzer.AnalyzerChannels.GetChannel(guiComponent.Header.Id) == null).ToList();
+            foreach (var guiComponent in componentToBeRemoved) { _channeList.Remove(guiComponent); }
             foreach (var analyzerChannel in _analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id); }
         }
     }

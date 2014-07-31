@@ -64,6 +64,8 @@ namespace _PlcAgent.Visual.Gui
 
             _save = true;
 
+            PlotArea.DataContext = new MainViewModel();
+
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
@@ -80,7 +82,7 @@ namespace _PlcAgent.Visual.Gui
                             () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
                 }
                 UpdateLabels();
-                Thread.Sleep(10);
+                Thread.Sleep(100);
             }
         }
 
@@ -138,6 +140,7 @@ namespace _PlcAgent.Visual.Gui
             try { _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem); }
             catch (Exception)
             {
+                _analyzerChannel.AnalyzerObservableVariable = null;
                 selector.SelectedItem = null;
                 TypeLabel.Content = "no variable selected";
                 return;
