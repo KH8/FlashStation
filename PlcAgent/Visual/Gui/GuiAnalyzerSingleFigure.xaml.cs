@@ -77,7 +77,7 @@ namespace _PlcAgent.Visual.Gui
                 if (_analyzerChannel.AnalyzerObservableVariable != null)
                 {
                     PlotArea.Dispatcher.BeginInvoke((new Action(
-                        () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
+                            () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
                 }
                 UpdateLabels();
                 Thread.Sleep(10);
