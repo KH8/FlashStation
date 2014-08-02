@@ -136,8 +136,16 @@ namespace _PlcAgent.Visual.Gui
         {
             var selector = (ComboBox) sender;
 
-            if (!_save) return; 
-            try { _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem); }
+            if (!_save) return;
+            try
+            {
+                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem)
+                {
+                    Brush = (Brush) BrushComboBox.SelectedItem,
+                    Unit = UnitTextBox.Text
+                };
+                _analyzer.AnalyzerChannels.StoreConfiguration();
+            }
             catch (Exception)
             {
                 _analyzerChannel.AnalyzerObservableVariable = null;
