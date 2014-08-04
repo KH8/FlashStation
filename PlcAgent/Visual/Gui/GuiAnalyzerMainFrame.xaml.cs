@@ -65,10 +65,5 @@ namespace _PlcAgent.Visual.Gui
             foreach (var guiComponent in componentToBeRemoved) { _channelList.Remove(guiComponent); }
             foreach (var analyzerChannel in _analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id); }
         }
-
-        private void PlotAreaOnMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            _analyzer.AnalyzerSetupFile.TimeRange[_analyzer.Header.Id] += e.Delta;
-        }
     }
 }
