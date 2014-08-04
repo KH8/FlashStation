@@ -43,5 +43,6 @@
         </GroupBox>
         <Label Name="VariableLabel" Content="no variable selected" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="1265" Margin="0,15,35,0"/>
         <Button Name="DeleteButton" Content="Delete" HorizontalAlignment="Right" Height="25" Margin="0,40,35,0" VerticalAlignment="Top" Width="50" Click="RemoveChannel"/>
+        <Label Name="MinMaxLabel" Content="ACTUAL: 0 MIN: 0 MAX: 0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="1275" Margin="225,0,0,-5" FontSize="10"/>
     </Grid>
 </UserControl>

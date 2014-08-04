@@ -81,7 +81,7 @@ namespace _PlcAgent.Visual.Gui
                     PlotArea.Dispatcher.BeginInvoke((new Action(
                             () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
                 }
-                UpdateLabels();
+                UpdateControls();
                 Thread.Sleep(10);
             }
         }
@@ -99,7 +99,7 @@ namespace _PlcAgent.Visual.Gui
             _analyzer.RemoveChannel(_analyzerChannel);
         }
 
-        private void UpdateLabels()
+        private void UpdateControls()
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
 
@@ -111,8 +111,15 @@ namespace _PlcAgent.Visual.Gui
             if (VariableLabel == null) return;
             VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
-                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name + ", " + _analyzerChannel.AnalyzerObservableVariable.Type + ", [" +
-                                    _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
+                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name 
+                    + ", " + _analyzerChannel.AnalyzerObservableVariable.Type 
+                    + ", [" +  _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
+            })));
+            MinMaxLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY 
+                    + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
+                    + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
             })));
             VariableComboBox.Dispatcher.BeginInvoke((new Action(delegate
             {
@@ -166,7 +173,7 @@ namespace _PlcAgent.Visual.Gui
             try { _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text; }
             catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
 
-            UpdateLabels();
+            UpdateControls();
             _analyzer.AnalyzerChannels.StoreConfiguration();
         }
     }

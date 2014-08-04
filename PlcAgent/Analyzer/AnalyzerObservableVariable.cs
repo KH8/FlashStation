@@ -58,7 +58,7 @@ namespace _PlcAgent.Analyzer
         {
             if (CommunicationInterfaceVariable == null) return;
 
-            ValueY = GetValue(CommunicationInterfaceVariable);
+            ValueY = new Random().NextDouble();//GetValue(CommunicationInterfaceVariable);
             ValueX = valueX;
 
             if (ValueY > MaxValue) MaxValue = ValueY;
