@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using CsvHelper;
+using OxyPlot;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
@@ -22,6 +23,7 @@ namespace _PlcAgent.Analyzer
 
         private double _startRecordingTime;
         private double _recordingTime;
+        private MainViewModel _timeAxisViewModel;
 
         private readonly Thread _thread;
 
@@ -53,6 +55,11 @@ namespace _PlcAgent.Analyzer
             get { return _recordingTime; }
         }
 
+        public MainViewModel TimeAxisViewModel
+        {
+            get { return _timeAxisViewModel; }
+        }
+
         #endregion
 
         #region Constructor
@@ -69,6 +76,8 @@ namespace _PlcAgent.Analyzer
             AnalyzerSetupFile = analyzerSetupFile;
             AnalyzerChannels = new AnalyzerChannelList(0, this);
             AnalyzerChannels.RetriveConfiguration();
+
+            _timeAxisViewModel = new MainViewModel();
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
@@ -115,6 +124,8 @@ namespace _PlcAgent.Analyzer
                     if (analyzerChannel.AnalyzerObservableVariable == null) return;
                     analyzerChannel.AnalyzerObservableVariable.Clear();
                 });
+
+            _timeAxisViewModel.Clear();
 
             _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
             _recordingTime = 0.0;
@@ -176,6 +187,8 @@ namespace _PlcAgent.Analyzer
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = analyzerChannel.AnalyzerObservableVariable.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
                         });
                     StorePointsInCsvFile();
+
+                    _timeAxisViewModel.AddPoint(new DataPoint(timeTick, 0));
 
                     _recordingTime = lastMilliseconds - _startRecordingTime;
                 }

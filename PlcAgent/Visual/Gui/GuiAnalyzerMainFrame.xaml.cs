@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
+using _PlcAgent.Analyzer;
 
 namespace _PlcAgent.Visual.Gui
 {
@@ -18,6 +18,8 @@ namespace _PlcAgent.Visual.Gui
             _channeList = new List<GuiComponent>();
 
             InitializeComponent();
+
+            PlotArea.DataContext = _analyzer.TimeAxisViewModel;
 
             RefreshGui();
         }
