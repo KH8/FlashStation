@@ -91,7 +91,8 @@ namespace _PlcAgent.Analyzer
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
-                Position = AxisPosition.Bottom
+                Position = AxisPosition.Bottom,
+                StringFormat = "hh:mm:ss"
             });
             _timeAxisViewModel.Brush = Brushes.Black;
 
@@ -186,16 +187,17 @@ namespace _PlcAgent.Analyzer
             var timeTick = _timeAxis.ActualMinimum + timeDiff;
 
             _timeAxis.Reset();
-            _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
-            _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+            _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+            _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+
             _timeAxisViewModel.Model.InvalidatePlot(true);
 
             Parallel.ForEach(AnalyzerChannels.Children,
                 analyzerChannel =>
                 {
                     if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _timeAxis.ActualMinimum;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _timeAxis.ActualMinimum * 1000;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum * 1000;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
                 });
         }
@@ -212,13 +214,13 @@ namespace _PlcAgent.Analyzer
             {
                 if (_recording)
                 {
-                    var timeTick = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                    var timeTick = DateTime.Now.TimeOfDay;
 
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
                         {
                             if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                            analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick);
+                            analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick.TotalMilliseconds);
 
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Reset();
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum =
@@ -230,11 +232,14 @@ namespace _PlcAgent.Analyzer
                         });
                     StorePointsInCsvFile();
 
-                    _timeAxisViewModel.AddPoint(new DataPoint(timeTick, 0));
+                    var timePoint = new DataPoint(TimeSpanAxis.ToDouble(DateTime.Now.TimeOfDay), 0);
+                    _timeAxisViewModel.AddPoint(timePoint);
 
                     _timeAxis.Reset();
-                    _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
-                    _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
+                    _timeAxis.Minimum = timeTick.TotalMilliseconds - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+                    _timeAxis.Minimum /= 1000;
+                    _timeAxis.Maximum = timeTick.TotalMilliseconds + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+                    _timeAxis.Maximum /= 1000;
 
                     _recordingTime = lastMilliseconds - _startRecordingTime;
                 }
