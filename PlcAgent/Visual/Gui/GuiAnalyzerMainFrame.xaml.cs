@@ -29,10 +29,12 @@ namespace _PlcAgent.Visual.Gui
             Height = height;
             Width = width;
 
-            MainScrollViewer.Height = height;
+            MainScrollViewer.Height = height - 30;
             MainScrollViewer.Width = width;
 
             GeneralGrid.Width = width - 30;
+
+            PlotGrid.Width = width - 225;
 
             foreach (var analyzerSingleFigure in GeneralGrid.Children.Cast<GuiAnalyzerSingleFigure>())
             {
