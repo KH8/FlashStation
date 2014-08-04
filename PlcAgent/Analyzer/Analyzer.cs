@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
+using System.Windows.Media;
 using CsvHelper;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -11,7 +11,6 @@ using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Visual.Gui;
-using LinearAxis = OxyPlot.Wpf.LinearAxis;
 
 namespace _PlcAgent.Analyzer
 {
@@ -83,7 +82,7 @@ namespace _PlcAgent.Analyzer
 
             _timeAxisViewModel = new MainViewModel();
             _timeAxisViewModel.Model.Axes.Clear();
-            _timeAxisViewModel.Model.Axes.Add(new OxyPlot.Axes.LinearAxis
+            _timeAxisViewModel.Model.Axes.Add(new LinearAxis
             {
                 Position = AxisPosition.Left,
                 IsAxisVisible = false
@@ -94,6 +93,7 @@ namespace _PlcAgent.Analyzer
                 MinorGridlineStyle = LineStyle.Dot,
                 Position = AxisPosition.Bottom
             });
+            _timeAxisViewModel.Brush = Brushes.Black;
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
@@ -213,7 +213,6 @@ namespace _PlcAgent.Analyzer
                 if (_recording)
                 {
                     var timeTick = DateTime.Now.TimeOfDay.TotalMilliseconds;
-                    var timeSpan = DateTime.Now.TimeOfDay;
 
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
@@ -231,7 +230,7 @@ namespace _PlcAgent.Analyzer
                         });
                     StorePointsInCsvFile();
 
-                    _timeAxisViewModel.AddPoint(new DataPoint(TimeSpanAxis.ToDouble(timeSpan), 0));
+                    _timeAxisViewModel.AddPoint(new DataPoint(timeTick, 0));
 
                     _timeAxis.Reset();
                     _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
@@ -269,16 +268,20 @@ namespace _PlcAgent.Analyzer
 
         private void InitCsvFile()
         {
-            File.Create(_filePath).Close();
+            const string subPath = "Analyzer";
+            var isExists = Directory.Exists(subPath);
+            if (!isExists) Directory.CreateDirectory(subPath);
+
+            File.Create(_filePath).Close(); 
             using (var streamWriter = File.AppendText(_filePath))
             {
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
 
                 writer.WriteField("GENERAL:AXIS:X");
-                foreach (var analyzerChannel in AnalyzerChannels.Children.TakeWhile(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                foreach (var analyzerChannel in AnalyzerChannels.Children)
                 {
-                    writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
+                    if (analyzerChannel.AnalyzerObservableVariable != null) writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
                 }
 
                 writer.NextRecord();
@@ -293,15 +296,15 @@ namespace _PlcAgent.Analyzer
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
 
-                foreach (var analyzerChannel in AnalyzerChannels.Children.TakeWhile(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 {
-                    writer.WriteField(TimeSpan.FromMilliseconds(analyzerChannel.AnalyzerObservableVariable.ValueX).ToString()); break;
+                    writer.WriteField(TimeSpan.FromMilliseconds(analyzerChannel.AnalyzerObservableVariable.ValueX).ToString());
+                    break;
                 }
-                foreach (var analyzerChannel in AnalyzerChannels.Children.TakeWhile(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 {
                     writer.WriteField(analyzerChannel.AnalyzerObservableVariable.ValueY);
                 }
-
                 writer.NextRecord();
                 streamWriter.Close();
             }
