@@ -25,7 +25,7 @@ namespace _PlcAgent.Analyzer
 
         private double _startRecordingTime;
         private double _recordingTime;
-        private readonly MainViewModel _timeAxisViewModel;
+        private MainViewModel _timeAxisViewModel;
         private readonly TimeSpanAxis _timeAxis;
 
         private readonly Thread _thread;
@@ -61,6 +61,7 @@ namespace _PlcAgent.Analyzer
         public MainViewModel TimeAxisViewModel
         {
             get { return _timeAxisViewModel; }
+            set { _timeAxisViewModel = value; }
         }
 
         #endregion
@@ -179,6 +180,26 @@ namespace _PlcAgent.Analyzer
             GuiAnalyzerMainFrame.RefreshGui();
         }
 
+        public void SynchronizeView()
+        {
+            var timeDiff = (_timeAxis.ActualMaximum - _timeAxis.ActualMinimum) / 2.0;
+            var timeTick = _timeAxis.ActualMinimum + timeDiff;
+
+            _timeAxis.Reset();
+            _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+            _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+            _timeAxisViewModel.Model.InvalidatePlot(true);
+
+            Parallel.ForEach(AnalyzerChannels.Children,
+                analyzerChannel =>
+                {
+                    if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _timeAxis.ActualMinimum;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
+                });
+        }
+
         #endregion
 
         #region Background methods
@@ -199,16 +220,28 @@ namespace _PlcAgent.Analyzer
                         {
                             if (analyzerChannel.AnalyzerObservableVariable == null) return;
                             analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick);
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = analyzerChannel.AnalyzerObservableVariable.ValueX - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = analyzerChannel.AnalyzerObservableVariable.ValueX + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Reset();
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum =
+                                analyzerChannel.AnalyzerObservableVariable.ValueX -
+                                (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum =
+                                analyzerChannel.AnalyzerObservableVariable.ValueX +
+                                (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
                         });
                     StorePointsInCsvFile();
 
                     _timeAxisViewModel.AddPoint(new DataPoint(TimeSpanAxis.ToDouble(timeSpan), 0));
-                    _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
-                    _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+
+                    _timeAxis.Reset();
+                    _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
+                    _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
 
                     _recordingTime = lastMilliseconds - _startRecordingTime;
+                }
+                else
+                {
+                    SynchronizeView();
                 }
 
                 var timeDifference = (int) (DateTime.Now.TimeOfDay.TotalMilliseconds - lastMilliseconds);

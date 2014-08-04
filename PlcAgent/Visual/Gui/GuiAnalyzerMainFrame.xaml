@@ -12,7 +12,7 @@
             </Grid>
         </ScrollViewer>
         <Grid Name ="PlotGrid" Width="785" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="207,0,0,5">
-            <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10"/>
+            <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10" MouseWheel="PlotAreaOnMouseWheel"/>
         </Grid>
     </Grid>
 </UserControl>
