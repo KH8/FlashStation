@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using CsvHelper;
 using OxyPlot;
+using OxyPlot.Axes;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Visual.Gui;
+using LinearAxis = OxyPlot.Wpf.LinearAxis;
 
 namespace _PlcAgent.Analyzer
 {
@@ -23,7 +25,8 @@ namespace _PlcAgent.Analyzer
 
         private double _startRecordingTime;
         private double _recordingTime;
-        private MainViewModel _timeAxisViewModel;
+        private readonly MainViewModel _timeAxisViewModel;
+        private readonly TimeSpanAxis _timeAxis;
 
         private readonly Thread _thread;
 
@@ -78,6 +81,18 @@ namespace _PlcAgent.Analyzer
             AnalyzerChannels.RetriveConfiguration();
 
             _timeAxisViewModel = new MainViewModel();
+            _timeAxisViewModel.Model.Axes.Clear();
+            _timeAxisViewModel.Model.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = AxisPosition.Left,
+                IsAxisVisible = false
+            });
+            _timeAxisViewModel.Model.Axes.Add(_timeAxis = new TimeSpanAxis
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                Position = AxisPosition.Bottom
+            });
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
@@ -177,6 +192,7 @@ namespace _PlcAgent.Analyzer
                 if (_recording)
                 {
                     var timeTick = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                    var timeSpan = DateTime.Now.TimeOfDay;
 
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
@@ -188,7 +204,9 @@ namespace _PlcAgent.Analyzer
                         });
                     StorePointsInCsvFile();
 
-                    _timeAxisViewModel.AddPoint(new DataPoint(timeTick, 0));
+                    _timeAxisViewModel.AddPoint(new DataPoint(TimeSpanAxis.ToDouble(timeSpan), 0));
+                    _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
+                    _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
 
                     _recordingTime = lastMilliseconds - _startRecordingTime;
                 }

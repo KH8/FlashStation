@@ -5,9 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -15,6 +13,7 @@ using OxyPlot.Wpf;
 using Brush = System.Windows.Media.Brush;
 using LinearAxis = OxyPlot.Axes.LinearAxis;
 using LineSeries = OxyPlot.Series.LineSeries;
+using TimeSpanAxis = OxyPlot.Axes.TimeSpanAxis;
 
 namespace _PlcAgent.Analyzer
 {
@@ -41,7 +40,7 @@ namespace _PlcAgent.Analyzer
                 DefaultFontSize = 0,
                 PlotMargins = new OxyThickness(20,0,0,10)
             };
-            tmp.Axes.Add(HorizontalAxis = new LinearAxis
+            tmp.Axes.Add(HorizontalAxis = new TimeSpanAxis
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
