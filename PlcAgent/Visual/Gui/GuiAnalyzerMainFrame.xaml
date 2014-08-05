@@ -6,9 +6,10 @@
              xmlns:oxy="http://oxyplot.codeplex.com"
              mc:Ignorable="d" Height="800" Width="1000"
              VerticalAlignment="Top" HorizontalContentAlignment="Left">
-    <Grid>
+    <Grid Name="Grid">
         <ScrollViewer Name="MainScrollViewer" Height="750" Width="1000" VerticalAlignment="Top">
             <Grid Name="GeneralGrid">
+                
             </Grid>
         </ScrollViewer>
         <Grid Name ="PlotGrid" Width="785" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="207,0,0,5">

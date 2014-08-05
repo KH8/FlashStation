@@ -461,6 +461,15 @@ namespace _PlcAgent.Visual
             MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
+
+            var newtabItemTest = new TabItem { Header = "Test" };
+            MainTabControl.Items.Add(newtabItemTest);
+            MainTabControl.SelectedItem = newtabItemTest;
+
+            var newGridTest = new Grid();
+            newtabItemTest.Content = newGridTest;
+
+            newGridTest.Children.Add(new DataCursor());
         }
 
         private void UpdateTreeView()
