@@ -92,7 +92,9 @@ namespace _PlcAgent.Analyzer
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Position = AxisPosition.Bottom,
-                StringFormat = "hh:mm:ss"
+                StringFormat = "hh:mm:ss",
+                MajorStep = 1,
+                MinorStep = 0.1
             });
             _timeAxisViewModel.Brush = Brushes.Black;
 
@@ -196,8 +198,8 @@ namespace _PlcAgent.Analyzer
                 analyzerChannel =>
                 {
                     if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _timeAxis.ActualMinimum * 1000;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum * 1000;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _timeAxis.ActualMinimum * 1000.0;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum * 1000.0;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
                 });
         }
@@ -232,14 +234,13 @@ namespace _PlcAgent.Analyzer
                         });
                     StorePointsInCsvFile();
 
-                    var timePoint = new DataPoint(TimeSpanAxis.ToDouble(DateTime.Now.TimeOfDay), 0);
+                    var timePoint = new DataPoint(TimeSpanAxis.ToDouble(timeTick), 0);
                     _timeAxisViewModel.AddPoint(timePoint);
 
                     _timeAxis.Reset();
-                    _timeAxis.Minimum = timeTick.TotalMilliseconds - (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
-                    _timeAxis.Minimum /= 1000;
-                    _timeAxis.Maximum = timeTick.TotalMilliseconds + (AnalyzerSetupFile.TimeRange[Header.Id] / 2.0);
-                    _timeAxis.Maximum /= 1000;
+
+                    _timeAxis.Minimum = timeTick.TotalSeconds - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+                    _timeAxis.Maximum = timeTick.TotalSeconds + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
 
                     _recordingTime = lastMilliseconds - _startRecordingTime;
                 }
