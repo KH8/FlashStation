@@ -19,10 +19,10 @@ namespace _PlcAgent.Visual.Gui
 
         public void UpdateSizes(double height, double width)
         {
-            Height = height - 43;
-            Width = width - 242;
+            Height = height - 25;
+            Width = width - 300;
 
-            Margin = new Thickness(217,18,0,0);
+            Margin = new Thickness(217,0,0,0);
         }
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
@@ -33,7 +33,7 @@ namespace _PlcAgent.Visual.Gui
                 var offset = grid.Width/2;
                 var posX = e.GetPosition(this).X - offset;
                 if (posX < 0) posX = 0;
-                if (posX > Width - 80) posX = Width - 80;
+                if (posX > Width - offset - 5) posX = Width - offset - 5;
 
                 grid.Margin = new Thickness(posX, 0, 0, 0);
             }
