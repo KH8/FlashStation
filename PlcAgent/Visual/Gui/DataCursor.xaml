@@ -3,7 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Height="500" Width="500">
-    <Grid HorizontalAlignment="Left" Height="20" Margin="10,238,0,0" VerticalAlignment="Top" Width="480" MouseMove="UIElement_OnMouseMove" Background="Black">
+             mc:Ignorable="d" Height="500" Width="600" Foreground="{x:Null}">
+    <Grid>
+        <Grid Width="10" HorizontalAlignment="Left" Background="Transparent" Opacity="0.8" Margin="100,0,0,0" MouseMove="UIElement_OnMouseMove">
+            <Grid VerticalAlignment="Top" Background="Red" Height="1"></Grid>
+            <Grid Background="Red" Width="1"></Grid>
+            <Grid VerticalAlignment="Bottom" Background="Red" Height="1"></Grid>
+        </Grid>
+        <Grid Width="10" HorizontalAlignment="Left" Background="Transparent" Opacity="0.8" MouseMove="UIElement_OnMouseMove">
+            <Grid VerticalAlignment="Top" Background="Blue" Height="1"></Grid>
+            <Grid Background="Blue" Width="1"></Grid>
+            <Grid VerticalAlignment="Bottom" Background="Blue" Height="1"></Grid>
+        </Grid>
     </Grid>
 </UserControl>

@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Microsoft.Win32;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -453,6 +454,8 @@ namespace _PlcAgent.Visual
                 var analyzerMainFrameGrid = (GuiComponent)_registry.GuiAnalyzerMainFrames.ReturnComponent(record.Header.Id);
                 analyzerMainFrameGrid.Initialize(0, 0, newGrid);
 
+                newGrid.Children.Add(new DataCursor());
+
                 var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame) analyzerMainFrameGrid.UserControl;
                 guiAnalyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
@@ -461,15 +464,6 @@ namespace _PlcAgent.Visual
             MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
-
-            var newtabItemTest = new TabItem { Header = "Test" };
-            MainTabControl.Items.Add(newtabItemTest);
-            MainTabControl.SelectedItem = newtabItemTest;
-
-            var newGridTest = new Grid();
-            newtabItemTest.Content = newGridTest;
-
-            newGridTest.Children.Add(new DataCursor());
         }
 
         private void UpdateTreeView()

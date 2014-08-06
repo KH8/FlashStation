@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,8 +28,8 @@ namespace _PlcAgent.Visual.Gui
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
         {
-            var grid = (Grid)sender;
-            if(Mouse.LeftButton == MouseButtonState.Pressed) grid.Margin = new Thickness(0, e.GetPosition(this).Y - 10, 0, 0);
+            var grid = (Grid) sender;
+            if (Mouse.LeftButton == MouseButtonState.Pressed) grid.Margin = new Thickness(e.GetPosition(this).X - 5, 0, 0, 0);
         }
     }
 }
