@@ -461,6 +461,7 @@ namespace _PlcAgent.Visual
                 analyzerDataCursorGrid.Initialize(0, 0, newGrid);
 
                 var guiAnalyzerDataCursorGrid = (GuiAnalyzerDataCursor)analyzerDataCursorGrid.UserControl;
+                guiAnalyzerDataCursorGrid.ParentGrid = newGrid;
                 guiAnalyzerDataCursorGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
