@@ -1,46 +1,85 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace _PlcAgent.Visual.Gui
 {
     /// <summary>
-    /// Interaction logic for DataCursor.xaml
+    /// Interaction logic for GuiAnalyzerDataCursor.xaml
     /// </summary>
     public partial class GuiAnalyzerDataCursor
     {
-        private readonly Analyzer.Analyzer _analyzer;
+        private readonly double _leftLimitPosition;
+        private double _rightLimitPosition;
+
+        private double _actualPosition;
 
         public Grid ParentGrid;
 
-        public GuiAnalyzerDataCursor(Analyzer.Analyzer analyzer)
+        public Brush Brush
         {
-            _analyzer = analyzer;
+            set
+            {
+                TopHorizontalGrid.Background = value;
+                VerticalGrid.Background = value;
+                BottomHorizontalGrid.Background = value;
+                PositionLabel.Foreground = value;
+            }
+        }
+
+        public double ActualPosition
+        {
+            get { return _actualPosition; }
+            set { SetPosition(value); }
+        }
+
+        public GuiAnalyzerDataCursor()
+        {
+            _leftLimitPosition = 206.0;
+            _rightLimitPosition = 1000.0;
+
+            _actualPosition = 0.0;
 
             InitializeComponent();
+
+            PositionLabel.Visibility = Visibility.Hidden;
         }
 
         public void UpdateSizes(double height, double width)
         {
             Height = height - 25;
-            //Width = width - 300;
-
-            //Margin = new Thickness(217,0,0,0);
+            SetPosition(_actualPosition);
         }
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
         {
-            //var grid = (Grid) sender;
-            if (Mouse.RightButton == MouseButtonState.Pressed)
-            {
-                //var offset = grid.Width/2;
-                //var posX = e.GetPosition(this).X - offset;
-                //if (posX < 0) posX = 0;
-                //if (posX > Width - offset - 5) posX = Width - offset - 5;
-                if (ParentGrid == null) return;
-                Margin = new Thickness(e.GetPosition(ParentGrid).X - 5, 0, 0, 0);
-            }
+            PositionLabel.Visibility = Visibility.Hidden;
 
+            if (Mouse.RightButton != MouseButtonState.Pressed) return;
+            if (ParentGrid == null) return;
+
+            var offset = CursorGrid.Width/2;
+            var newPositionX = e.GetPosition(ParentGrid).X - offset;
+
+            SetPosition(newPositionX);
+
+            PositionLabel.Visibility = Visibility.Visible;
+            PositionLabel.Content = _actualPosition;
+        }
+
+        private void SetPosition(double newPositionX)
+        {
+            if (ParentGrid == null) return;
+
+            _rightLimitPosition = ParentGrid.Width - 100;
+
+            if (newPositionX < _leftLimitPosition) newPositionX = _leftLimitPosition;
+            if (newPositionX > _rightLimitPosition) newPositionX = _rightLimitPosition;
+
+            Margin = new Thickness(newPositionX, 0, 0, 0);
+
+            _actualPosition = newPositionX;
         }
     }
 }

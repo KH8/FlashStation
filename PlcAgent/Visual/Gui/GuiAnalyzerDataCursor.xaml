@@ -3,12 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Height="500" Width="40" Foreground="{x:Null}"
+             mc:Ignorable="d" Height="500" Width="60" Foreground="{x:Null}"
              HorizontalAlignment="Left" VerticalAlignment="Top"
              MouseMove="UIElement_OnMouseMove">
-    <Grid Width="40" HorizontalAlignment="Left" Background="Transparent" Opacity=".7">
-        <Grid VerticalAlignment="Top" Background="Red" Width="5" Height="2"></Grid>
-        <Grid Background="Red" Width="1"></Grid>
-        <Grid VerticalAlignment="Bottom" Background="Red" Width="5" Height="2"></Grid>
+    <Grid Name="CursorGrid" Width="60" HorizontalAlignment="Left" Background="Transparent">
+        <Grid Name="TopHorizontalGrid" VerticalAlignment="Top" Background="Red" Width="5" Height="2"></Grid>
+        <Grid Name="VerticalGrid" Background="Red" Width="1"></Grid>
+        <Grid Name="BottomHorizontalGrid" VerticalAlignment="Bottom" Background="Red" Width="5" Height="2"></Grid>
+        <Label Name="PositionLabel" Content="PositionX" HorizontalAlignment="Left" Foreground="Red" Height="25" Margin="0,0,-30,30" VerticalAlignment="Bottom" Width="80" RenderTransformOrigin="1.044,0.86">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform X="-34.52" Y="-52.52"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
     </Grid>
 </UserControl>

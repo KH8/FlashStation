@@ -28,7 +28,6 @@ namespace _PlcAgent.MainRegistry
         public RegistryComposite Analyzers = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzers = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerMainFrames = new RegistryComposite(0, "");
-        public RegistryComposite GuiAnalyzerDataCursors = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
         public abstract uint AddPlcCommunicator();

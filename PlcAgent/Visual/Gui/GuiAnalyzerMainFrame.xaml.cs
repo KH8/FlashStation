@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Media;
 
 namespace _PlcAgent.Visual.Gui
 {
@@ -14,12 +12,30 @@ namespace _PlcAgent.Visual.Gui
         private readonly Analyzer.Analyzer _analyzer;
         private readonly List<GuiComponent> _channelList;
 
+        public GuiAnalyzerDataCursor AnalyzerDataCursorRed;
+        public GuiAnalyzerDataCursor AnalyzerDataCursorBlue;
+
         public GuiAnalyzerMainFrame(Analyzer.Analyzer analyzer)
         {
             _analyzer = analyzer;
             _channelList = new List<GuiComponent>();
 
             InitializeComponent();
+
+            AnalyzerDataCursorRed = new GuiAnalyzerDataCursor
+            {
+                ParentGrid = GeneralGrid,
+                Brush = Brushes.Red,
+                ActualPosition = 246.0
+            };
+            AnalyzerDataCursorBlue = new GuiAnalyzerDataCursor
+            {
+                ParentGrid = GeneralGrid,
+                Brush = Brushes.Blue,
+                ActualPosition = 206.0
+            };
+            Grid.Children.Add(AnalyzerDataCursorRed);
+            Grid.Children.Add(AnalyzerDataCursorBlue);
 
             PlotArea.DataContext = _analyzer.TimeAxisViewModel;
 
@@ -42,6 +58,9 @@ namespace _PlcAgent.Visual.Gui
             {
                 analyzerSingleFigure.UpdateSizes(height, width);
             }
+
+            AnalyzerDataCursorRed.UpdateSizes(height, width);
+            AnalyzerDataCursorBlue.UpdateSizes(height, width);
         }
 
         private void DrawChannel(uint id)

@@ -7,7 +7,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Microsoft.Win32;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -456,13 +455,6 @@ namespace _PlcAgent.Visual
 
                 var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame) analyzerMainFrameGrid.UserControl;
                 guiAnalyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
-
-                var analyzerDataCursorGrid = (GuiComponent)_registry.GuiAnalyzerDataCursors.ReturnComponent(record.Header.Id);
-                analyzerDataCursorGrid.Initialize(0, 0, newGrid);
-
-                var guiAnalyzerDataCursorGrid = (GuiAnalyzerDataCursor)analyzerDataCursorGrid.UserControl;
-                guiAnalyzerDataCursorGrid.ParentGrid = newGrid;
-                guiAnalyzerDataCursorGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);
