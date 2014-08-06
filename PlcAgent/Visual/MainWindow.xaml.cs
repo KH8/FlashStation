@@ -454,10 +454,14 @@ namespace _PlcAgent.Visual
                 var analyzerMainFrameGrid = (GuiComponent)_registry.GuiAnalyzerMainFrames.ReturnComponent(record.Header.Id);
                 analyzerMainFrameGrid.Initialize(0, 0, newGrid);
 
-                newGrid.Children.Add(new DataCursor());
-
                 var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame) analyzerMainFrameGrid.UserControl;
                 guiAnalyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
+
+                var analyzerDataCursorGrid = (GuiComponent)_registry.GuiAnalyzerDataCursors.ReturnComponent(record.Header.Id);
+                analyzerDataCursorGrid.Initialize(0, 0, newGrid);
+
+                var guiAnalyzerDataCursorGrid = (GuiAnalyzerDataCursor)analyzerDataCursorGrid.UserControl;
+                guiAnalyzerDataCursorGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);

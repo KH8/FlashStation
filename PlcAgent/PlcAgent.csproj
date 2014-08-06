@@ -146,8 +146,8 @@
     <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
       <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\DataCursor.xaml.cs">
-      <DependentUpon>DataCursor.xaml</DependentUpon>
+    <Compile Include="Visual\Gui\GuiAnalyzerDataCursor.xaml.cs">
+      <DependentUpon>GuiAnalyzerDataCursor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiAnalyzer.xaml.cs">
       <DependentUpon>GuiAnalyzer.xaml</DependentUpon>
@@ -233,7 +233,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\DataCursor.xaml">
+    <Page Include="Visual\Gui\GuiAnalyzerDataCursor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
