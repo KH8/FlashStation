@@ -96,6 +96,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Analyzer\AnalyzerChannel.cs" />
+    <Compile Include="Analyzer\AnalyzerDataCursorPoint.cs" />
     <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
     <Compile Include="Analyzer\AnalyzerSetupFile.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -145,6 +146,9 @@
     </Compile>
     <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
       <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzerDataCursorTable.xaml.cs">
+      <DependentUpon>GuiAnalyzerDataCursorTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiAnalyzerDataCursor.xaml.cs">
       <DependentUpon>GuiAnalyzerDataCursor.xaml</DependentUpon>
@@ -232,6 +236,10 @@
     <Page Include="Visual\FaultReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\GuiAnalyzerDataCursorTable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\GuiAnalyzerDataCursor.xaml">
       <SubType>Designer</SubType>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -46,6 +47,9 @@ namespace _PlcAgent.Analyzer
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
         public AnalyzerChannelList AnalyzerChannels { get; set; }
         public GuiAnalyzerMainFrame GuiAnalyzerMainFrame { get; set; }
+        public GuiAnalyzerDataCursorTable GuiAnalyzerDataCursorTable { get; set; }
+
+        public AnalyzerDataCursorPointCollection AnalyzerDataCursorPointCollection;
 
         public bool Recording
         {
@@ -97,6 +101,8 @@ namespace _PlcAgent.Analyzer
                 MinorStep = 0.1
             });
             _timeAxisViewModel.Brush = Brushes.Black;
+
+            AnalyzerDataCursorPointCollection = new AnalyzerDataCursorPointCollection();
 
             _thread = new Thread(AnalyzeThread) {IsBackground = true};
 
@@ -202,6 +208,31 @@ namespace _PlcAgent.Analyzer
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum * 1000.0;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
                 });
+        }
+
+        public void UpdateDataCursorTable()
+        {
+            AnalyzerDataCursorPointCollection.Children.Clear();
+
+            string timePointBlue;
+            string timePointRed;
+            string timeDifference;
+
+            try { timePointBlue = TimeSpan.FromMilliseconds(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition)).ToString(); }
+            catch (Exception) { timePointBlue = "N/A"; }
+            try { timePointRed = TimeSpan.FromMilliseconds(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition)).ToString(); }
+            catch (Exception) { timePointRed = "N/A"; }
+            try { timeDifference = TimeSpan.FromMilliseconds(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition) 
+                                                           - GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition)).ToString(); }
+            catch (Exception) { timeDifference = "N/A"; }
+
+            AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
+            {
+                Name = "Time base",
+                BlueValue = timePointBlue,
+                RedValue = timePointRed,
+                Difference = timeDifference
+            });
         }
 
         #endregion

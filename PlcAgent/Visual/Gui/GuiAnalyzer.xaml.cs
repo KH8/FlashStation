@@ -116,11 +116,13 @@ namespace _PlcAgent.Visual.Gui
 
             _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = Visibility.Hidden;
             _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
+            if (_analyzer.GuiAnalyzerDataCursorTable != null) _analyzer.GuiAnalyzerDataCursorTable.Visibility = Visibility.Hidden;
 
             if (!_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id]) return;
             
             _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = Visibility.Visible;
             _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = Visibility.Visible;
+            if (_analyzer.GuiAnalyzerDataCursorTable != null) _analyzer.GuiAnalyzerDataCursorTable.Visibility = Visibility.Visible;
         }
     }
 }

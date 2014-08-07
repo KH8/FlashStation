@@ -322,6 +322,8 @@ namespace _PlcAgent.MainRegistry
             component.GuiAnalyzerMainFrame = new GuiAnalyzerMainFrame(component);
             GuiAnalyzerMainFrames.Add(new GuiComponent(id, "", component.GuiAnalyzerMainFrame));
             GuiAnalyzerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
+            component.GuiAnalyzerDataCursorTable = new GuiAnalyzerDataCursorTable(component);
+            GuiAnalyzerDataCursorTables.Add((new GuiComponent(id, "", component.GuiAnalyzerDataCursorTable)));
 
             Logger.Log("ID: " + id + " new Analyzer have been created");
             return id;
@@ -422,6 +424,7 @@ namespace _PlcAgent.MainRegistry
             GuiAnalyzers.Clear();
             GuiAnalyzerMainFrames.Clear();
             GuiAnalyzerInterfaceAssignmentComponents.Clear();
+            GuiAnalyzerDataCursorTables.Clear();
 
             UpdateMainRegistryFile();
             Logger.Log("Registry content removed");

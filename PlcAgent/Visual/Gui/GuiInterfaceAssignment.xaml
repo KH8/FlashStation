@@ -7,7 +7,7 @@
              d:DesignHeight="215" d:DesignWidth="523">
     <Grid Name="GeneralGrid">
         <GroupBox Header="Interface Assignment" HorizontalAlignment="Left" VerticalAlignment="Top" Height="215" Width="523">
-            <DataGrid Name="AssignmentDataGrid" HorizontalAlignment="Center" Width="510" Margin="0,15,0,0" ItemsSource="{Binding InterfaceAssignmentCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" CurrentCellChanged="AssignmentChanged" AlternatingRowBackground="#FFF6F6F6">
+            <DataGrid Name="AssignmentDataGrid" HorizontalAlignment="Center" Width="510" Margin="0,5,0,0" ItemsSource="{Binding InterfaceAssignmentCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" CurrentCellChanged="AssignmentChanged" AlternatingRowBackground="#FFF6F6F6">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding VariableDirection}" Header="Interface" Width="60" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Variable Name" Width="130" IsReadOnly="True"/>

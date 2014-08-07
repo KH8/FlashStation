@@ -20,6 +20,7 @@ namespace _PlcAgent.Visual.Gui
 
         private Grid _parentGrid;
         private double _actualPosition;
+        private double _percentageActualPosition;
 
         public Grid ParentGrid
         {
@@ -47,6 +48,11 @@ namespace _PlcAgent.Visual.Gui
             set { SetPosition(value); }
         }
 
+        public double PercentageActualPosition
+        {
+            get { return _percentageActualPosition; }
+        }
+
         public GuiAnalyzerDataCursor(Analyzer.Analyzer analyzer)
         {
             _analyzer = analyzer;
@@ -55,6 +61,7 @@ namespace _PlcAgent.Visual.Gui
             _rightLimitPosition = 1000.0;
 
             _actualPosition = 0.0;
+            _percentageActualPosition = 0.0;
 
             InitializeComponent();
 
@@ -79,6 +86,9 @@ namespace _PlcAgent.Visual.Gui
             Margin = new Thickness(newPositionX, 0, 0, 0);
 
             _actualPosition = newPositionX;
+            _percentageActualPosition = (_actualPosition - _leftLimitPosition) / (_parentGrid.Width - _leftLimitPosition - 26.5);
+            
+            _analyzer.UpdateDataCursorTable();
         }
 
         private void CursorGrid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -103,9 +113,8 @@ namespace _PlcAgent.Visual.Gui
 
             SetPosition(newPositionX);
 
-            var positionPercentage = (_actualPosition - _leftLimitPosition) / (_parentGrid.Width - _leftLimitPosition - 26.5);
             PositionLabel.Visibility = Visibility.Visible;
-            PositionLabel.Content = TimeSpan.FromMilliseconds(_analyzer.GetTimePosition(positionPercentage));
+            PositionLabel.Content = TimeSpan.FromMilliseconds(_analyzer.GetTimePosition(_percentageActualPosition));
         }
     }
 }
