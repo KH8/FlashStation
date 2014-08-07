@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+
 namespace _PlcAgent.Analyzer {
     
     
@@ -111,6 +113,33 @@ namespace _PlcAgent.Analyzer {
             set
             {
                 this["Channels"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+                                                                     <ArrayOfBoolean xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
+                                                                        xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                        <boolean>false</boolean>
+                                                                    </ArrayOfBoolean>")]
+        public Boolean[] ShowDataCursors
+        {
+            get
+            {
+                return ((Boolean[])(this["ShowDataCursors"]));
+            }
+            set
+            {
+                this["ShowDataCursors"] = value;
             }
         }
     }

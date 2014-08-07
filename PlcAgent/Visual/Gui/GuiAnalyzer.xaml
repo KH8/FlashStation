@@ -16,6 +16,7 @@
                 <Slider Name="TimeRangeSlider" HorizontalAlignment="Left" Margin="100,35,0,0" Minimum="1000" Maximum="60000" Value="10000" VerticalAlignment="Top" Width="215" ValueChanged="TimeRangeChanged" TickFrequency="1000" TickPlacement="BottomRight" IsSnapToTickEnabled="True"/>
                 <Button Name="AnalyzerAddChannelButton" Content="Add Channel" HorizontalAlignment="Left" Margin="0,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="AddNewChannel"/>
                 <Button Name="AnalyzerExportButton" Content="Export" HorizontalAlignment="Left" Margin="290,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Export"/>
+                <CheckBox Name="ShowDataCursorsCheckBox" Content="Show data cursors" HorizontalAlignment="Left" Margin="226,82,0,0" VerticalAlignment="Top" Width="152" FlowDirection="RightToLeft" Checked="ShowHideDataCursors" Unchecked="ShowHideDataCursors"/>
             </Grid>
         </GroupBox>
         <GroupBox Name="RecordingGroupBox" Header="Recording" Margin="0,150,0,0" HorizontalAlignment="Left" Height="65" VerticalAlignment="Top" Width="400">

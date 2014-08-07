@@ -564,6 +564,7 @@ namespace _PlcAgent.MainRegistry
             AnalyzerSetupFile.Default.TimeRange = projectData.TimeRange;
             AnalyzerSetupFile.Default.NumberOfChannels = projectData.NumberOfChannels;
             AnalyzerSetupFile.Default.Channels = projectData.Channels;
+            AnalyzerSetupFile.Default.ShowDataCursors = projectData.ShowDataCursors;
             AnalyzerSetupFile.Default.Save();
 
             Logger.Log("Registry initialization");
@@ -596,7 +597,8 @@ namespace _PlcAgent.MainRegistry
                 SampleTime = AnalyzerSetupFile.Default.SampleTime,
                 TimeRange = AnalyzerSetupFile.Default.TimeRange,
                 NumberOfChannels = AnalyzerSetupFile.Default.NumberOfChannels,
-                Channels = AnalyzerSetupFile.Default.Channels
+                Channels = AnalyzerSetupFile.Default.Channels,
+                ShowDataCursors = AnalyzerSetupFile.Default.ShowDataCursors
             };
             return projectData;
         }

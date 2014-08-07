@@ -37,6 +37,7 @@ namespace _PlcAgent.General
             public double[] TimeRange;
             public int[] NumberOfChannels;
             public string[][] Channels;
+            public Boolean[] ShowDataCursors;
 
         }
     }

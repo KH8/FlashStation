@@ -34,6 +34,8 @@ namespace _PlcAgent.Visual.Gui
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
+            ShowDataCursorsCheckBox.IsChecked = _analyzerSetupFile.ShowDataCursors[_analyzer.Header.Id];
+
             _save = true;
         }
 
@@ -101,6 +103,24 @@ namespace _PlcAgent.Visual.Gui
             if (!_save) return; 
             _analyzerSetupFile.TimeRange[_analyzer.Header.Id] = slider.Value;
             _analyzerSetupFile.Save();
+        }
+
+        private void ShowHideDataCursors(object sender, RoutedEventArgs e)
+        {
+            var showDataCursorsCheckBox = (CheckBox)sender;
+            if (showDataCursorsCheckBox.IsChecked == null) return;
+            _analyzerSetupFile.ShowDataCursors[_analyzer.Header.Id] = (bool)showDataCursorsCheckBox.IsChecked;
+            _analyzerSetupFile.Save();
+
+            if (_analyzer.GuiAnalyzerMainFrame == null) return;
+
+            _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = Visibility.Hidden;
+            _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
+
+            if (!_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id]) return;
+            
+            _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = Visibility.Visible;
+            _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = Visibility.Visible;
         }
     }
 }

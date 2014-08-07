@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace _PlcAgent.Visual.Gui
@@ -36,6 +37,12 @@ namespace _PlcAgent.Visual.Gui
             };
             Grid.Children.Add(AnalyzerDataCursorRed);
             Grid.Children.Add(AnalyzerDataCursorBlue);
+
+            if (!_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id])
+            {
+                AnalyzerDataCursorRed.Visibility = Visibility.Hidden;
+                AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
+            }
 
             PlotArea.DataContext = _analyzer.TimeAxisViewModel;
 
