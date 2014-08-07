@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Windows.Media;
 using OxyPlot;
+using OxyPlot.Series;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Analyzer
@@ -65,6 +68,20 @@ namespace _PlcAgent.Analyzer
             if (ValueY < MinValue) MinValue = ValueY;
 
             _mainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
+        }
+
+        public double GetValue(double valueX, double tolerance)
+        {
+            var result = Double.NaN;
+
+            if (CommunicationInterfaceVariable == null) return result;
+
+            foreach (var lineSerie in _mainViewModel.Model.Series.Cast<LineSeries>())
+            {
+                try { foreach (var point in lineSerie.Points.Where(point => point.X >= valueX - tolerance && point.X <= valueX + tolerance)) { result = point.Y; } }
+                catch (Exception) { result = Double.NaN; }
+            }
+            return result;
         }
 
         public void Clear()

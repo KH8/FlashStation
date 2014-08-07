@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="215" d:DesignWidth="433">
+             d:DesignHeight="215" d:DesignWidth="523">
     <Grid Name="GeneralGrid">
-        <GroupBox Header="Data Cursors" HorizontalAlignment="Left" VerticalAlignment="Top" Height="215" Width="433">
-            <DataGrid Name="DataCursorTableGrid" HorizontalAlignment="Center" Width="420" Margin="1,5,0,0" ItemsSource="{Binding AnalyzerDataCursorPointCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
+        <GroupBox Header="Data Cursors" HorizontalAlignment="Left" VerticalAlignment="Top" Height="215" Width="523">
+            <DataGrid Name="DataCursorTableGrid" HorizontalAlignment="Center" Width="510" Margin="1,5,0,0" ItemsSource="{Binding AnalyzerDataCursorPointCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="70" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="150" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding BlueValue}" Header="Blue Cursor" Foreground="Blue" Width="110" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding RedValue}" Header="Red Cursor" Foreground="Red" Width="110" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Difference}" Header="Difference" Width="110" IsReadOnly="True"/>

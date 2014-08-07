@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -212,17 +212,17 @@ namespace _PlcAgent.Analyzer
 
         public void UpdateDataCursorTable()
         {
-            string timePointBlue;
-            string timePointRed;
-            string timeDifference;
+            double timePointBlue;
+            double timePointRed;
+            double timeDifference;
 
-            try { timePointBlue = TimeSpan.FromMilliseconds(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition)).ToString(); }
-            catch (Exception) { timePointBlue = "N/A"; }
-            try { timePointRed = TimeSpan.FromMilliseconds(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition)).ToString(); }
-            catch (Exception) { timePointRed = "N/A"; }
-            try { timeDifference = TimeSpan.FromMilliseconds(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition) 
-                                                           - GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition)).ToString(); }
-            catch (Exception) { timeDifference = "N/A"; }
+            try { timePointBlue = GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition); }
+            catch (Exception) { timePointBlue = Double.NaN; }
+            try { timePointRed = GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition); }
+            catch (Exception) { timePointRed = Double.NaN; }
+            try { timeDifference = GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition) 
+                                                           - GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition); }
+            catch (Exception) { timeDifference = Double.NaN; }
 
             if (AnalyzerDataCursorPointCollection == null) return;
 
@@ -232,10 +232,25 @@ namespace _PlcAgent.Analyzer
                 AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
                 {
                     Name = "Time base",
-                    BlueValue = timePointBlue,
-                    RedValue = timePointRed,
-                    Difference = timeDifference
+                    BlueValue = FromMilliseconds(timePointBlue),
+                    RedValue = FromMilliseconds(timePointRed),
+                    Difference = FromMilliseconds(timeDifference)
                 });
+
+                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                {
+                    timePointBlue = analyzerChannel.AnalyzerObservableVariable.GetValue(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition), AnalyzerSetupFile.SampleTime[Header.Id] / 2.0);
+                    timePointRed = analyzerChannel.AnalyzerObservableVariable.GetValue(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition), AnalyzerSetupFile.SampleTime[Header.Id] / 2.0);
+                    timeDifference = timePointRed - timePointBlue;
+
+                    AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
+                    {
+                        Name = analyzerChannel.AnalyzerObservableVariable.Name,
+                        BlueValue = FormatNumber(timePointBlue,15),
+                        RedValue = FormatNumber(timePointRed, 15),
+                        Difference = FormatNumber(timeDifference, 15)
+                    });
+                }
             })));
         }
 
@@ -433,6 +448,24 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile.Assignment[Header.Id][3] =
                 InterfaceAssignmentCollection.GetAssignment("Status");
             AnalyzerAssignmentFile.Save();
+        }
+
+        private static string FromMilliseconds(double value)
+        {
+            return Double.IsNaN(value) ? "N/A" : TimeSpan.FromMilliseconds(value).ToString();
+        }
+
+        public string FormatNumber(double number, int length)
+        {
+            var stringRepresentation = number.ToString(CultureInfo.InvariantCulture);
+
+            if (stringRepresentation.Length > length)
+                stringRepresentation = stringRepresentation.Substring(0, length);
+
+            if (stringRepresentation.Length == length && stringRepresentation.EndsWith("."))
+                stringRepresentation = stringRepresentation.Substring(0, length - 1);
+
+            return stringRepresentation.PadLeft(length);
         }
 
         #endregion
