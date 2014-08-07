@@ -7,7 +7,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
@@ -18,7 +17,6 @@ using _PlcAgent.Output;
 using _PlcAgent.PLC;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
-using HorizontalAlignment = System.Windows.HorizontalAlignment;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
@@ -293,10 +291,28 @@ namespace _PlcAgent.Visual
             ConnectionTabControl.Height = ActualHeight - 120;
             ConnectionTabControl.Width = 378;
 
+            ConnectionTabControlLabel.Content = "Hide";
+
+            if (MainWindowConfigurationFile.Default.ConnectionTabControlMinimized)
+            {
+                ConnectionTabControlGrid.Width = 32;
+                ConnectionTabControl.Width = 30;
+                ConnectionTabControlLabel.Content = "Show";
+            }
+
             OutputTabControlGrid.Height = 252;
             OutputTabControlGrid.Width = ActualWidth - 400;
             OutputTabControl.Height = 250;
             OutputTabControl.Width = ActualWidth - 402;
+
+            OutputTabControlLabel.Content = "Hide";
+
+            if (MainWindowConfigurationFile.Default.OutputTabControlMinimized)
+            {
+                OutputTabControlGrid.Height = 28;
+                OutputTabControl.Height = 26;
+                OutputTabControlLabel.Content = "Show";
+            }
 
             LogListBox.Height = MainTabControl.Height - 32;
             LogListBox.Width = MainTabControl.Width - 10;
@@ -579,14 +595,14 @@ namespace _PlcAgent.Visual
 
         private void OutputTabControlLabel_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindowConfigurationFile.Default.OutputTabControlMinimized = true;
+            MainWindowConfigurationFile.Default.OutputTabControlMinimized = !MainWindowConfigurationFile.Default.OutputTabControlMinimized;
             MainWindowConfigurationFile.Default.Save();
             UpdateSizes();
         }
 
         private void ConnectionTabControlLabel_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindowConfigurationFile.Default.ConnectionTabControlMinimized = true;
+            MainWindowConfigurationFile.Default.ConnectionTabControlMinimized = !MainWindowConfigurationFile.Default.ConnectionTabControlMinimized;
             MainWindowConfigurationFile.Default.Save();
             UpdateSizes();
         }
