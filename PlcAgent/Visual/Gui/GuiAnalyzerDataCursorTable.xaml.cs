@@ -9,20 +9,16 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerDataCursorTable
     {
-        private readonly Analyzer.Analyzer _analyzer;
-
         public ObservableCollection<AnalyzerDataCursorPoint> AnalyzerDataCursorPointCollection;
 
         public GuiAnalyzerDataCursorTable(Analyzer.Analyzer analyzer)
         {
-            _analyzer = analyzer;
-
             InitializeComponent();
 
-            AnalyzerDataCursorPointCollection = _analyzer.AnalyzerDataCursorPointCollection.Children;
-            DataCursorTableGrid.ItemsSource = AnalyzerDataCursorPointCollection;
+            AnalyzerDataCursorPointCollection = analyzer.AnalyzerDataCursorPointCollection.Children;
+            CursorTableDataGrid.ItemsSource = AnalyzerDataCursorPointCollection;
 
-            if (_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id]) return;
+            if (analyzer.AnalyzerSetupFile.ShowDataCursors[analyzer.Header.Id]) return;
             Visibility = Visibility.Hidden;
         }
     }

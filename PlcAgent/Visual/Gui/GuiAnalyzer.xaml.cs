@@ -60,30 +60,7 @@ namespace _PlcAgent.Visual.Gui
                 {
                     AnalyzerExportButton.IsEnabled = !_analyzer.Recording;
                 })));
-
-                var visibility = Visibility.Hidden;
-                if (_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id] && !_analyzer.Recording) visibility = Visibility.Visible;
-
-                if (_analyzer.GuiAnalyzerMainFrame != null)
-                {
-                    _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Dispatcher.BeginInvoke((new Action(delegate
-                    {
-                        _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = visibility;
-                    })));
-                    _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Dispatcher.BeginInvoke((new Action(delegate
-                    {
-                        _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = visibility;
-                    })));
-                }
-                if (_analyzer.GuiAnalyzerDataCursorTable != null)
-                {
-                    _analyzer.GuiAnalyzerDataCursorTable.Dispatcher.BeginInvoke((new Action(delegate
-                    {
-                        _analyzer.GuiAnalyzerDataCursorTable.Visibility = visibility;
-                    })));  
-                }
-
-                Thread.Sleep(20);
+                Thread.Sleep(100);
             }
         }
 
@@ -134,6 +111,16 @@ namespace _PlcAgent.Visual.Gui
             if (showDataCursorsCheckBox.IsChecked == null) return;
             _analyzerSetupFile.ShowDataCursors[_analyzer.Header.Id] = (bool)showDataCursorsCheckBox.IsChecked;
             _analyzerSetupFile.Save();
+
+            var visibility = Visibility.Hidden;
+            if (_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id]) visibility = Visibility.Visible;
+
+            if (_analyzer.GuiAnalyzerMainFrame != null)
+            {
+                _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = visibility;
+                _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = visibility;
+            }
+            if (_analyzer.GuiAnalyzerDataCursorTable != null) _analyzer.GuiAnalyzerDataCursorTable.Visibility = visibility;
         }
     }
 }

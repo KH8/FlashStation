@@ -7,7 +7,7 @@
              d:DesignHeight="215" d:DesignWidth="523">
     <Grid Name="GeneralGrid">
         <GroupBox Header="Data Cursors" HorizontalAlignment="Left" VerticalAlignment="Top" Height="215" Width="523">
-            <DataGrid Name="DataCursorTableGrid" HorizontalAlignment="Center" Width="510" Margin="1,5,0,0" ItemsSource="{Binding AnalyzerDataCursorPointCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
+            <DataGrid Name="CursorTableDataGrid" HorizontalAlignment="Center" Width="510" Margin="1,5,0,0" ItemsSource="{Binding AnalyzerDataCursorPointCollection}" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="150" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding BlueValue}" Header="Blue Cursor" Foreground="Blue" Width="110" IsReadOnly="True"/>
