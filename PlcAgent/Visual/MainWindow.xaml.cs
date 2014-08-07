@@ -532,6 +532,7 @@ namespace _PlcAgent.Visual
                 _registryComponents.Add(treeViewItem, record);
                 newHeader.Items.Add(treeViewItem);
             }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }   
 
             newHeader = new TreeViewItem { Header = "Analyzers", IsExpanded = true };
             foreach (Analyzer.Analyzer record in _registry.Analyzers)
@@ -543,7 +544,6 @@ namespace _PlcAgent.Visual
                 _registryComponents.Add(treeViewItem, record);
                 newHeader.Items.Add(treeViewItem);
             }
-
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }     
         }
 
