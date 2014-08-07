@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using CsvHelper;
 using OxyPlot;
@@ -302,9 +303,8 @@ namespace _PlcAgent.Analyzer
                 else
                 {
                     SynchronizeView();
+                    UpdateDataCursorTable();
                 }
-
-                UpdateDataCursorTable();
 
                 var timeDifference = (int) (DateTime.Now.TimeOfDay.TotalMilliseconds - lastMilliseconds);
                 if (timeDifference > AnalyzerSetupFile.SampleTime[Header.Id]) timeDifference = AnalyzerSetupFile.SampleTime[Header.Id];
