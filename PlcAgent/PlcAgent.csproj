@@ -187,6 +187,11 @@
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\MainWindowConfigurationFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MainWindowConfigurationFile.settings</DependentUpon>
+    </Compile>
     <None Include="Analyzer\AnalyzerAssignmentFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AnalyzerAssignmentFile.Designer.cs</LastGenOutput>
@@ -224,6 +229,10 @@
     <None Include="Vector\VFlashTypeBankFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>VFlashTypeBankFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Visual\MainWindowConfigurationFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MainWindowConfigurationFile.Designer.cs</LastGenOutput>
     </None>
     <Page Include="Visual\ComponentCreationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -7,7 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
@@ -16,7 +18,14 @@ using _PlcAgent.Output;
 using _PlcAgent.PLC;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using Label = System.Windows.Controls.Label;
+using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using Registry = _PlcAgent.MainRegistry.Registry;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using TreeView = System.Windows.Controls.TreeView;
 
 namespace _PlcAgent.Visual
 {
@@ -271,14 +280,23 @@ namespace _PlcAgent.Visual
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            UpdateSizes();
+        }
+
+        private void UpdateSizes()
+        {
             MainTabControl.Height = ActualHeight - 372;
-            MainTabControl.Width = ActualWidth - 374;
+            MainTabControl.Width = ActualWidth - 402;
 
+            ConnectionTabControlGrid.Height = ActualHeight - 118;
+            ConnectionTabControlGrid.Width = 380;
             ConnectionTabControl.Height = ActualHeight - 120;
-            ConnectionTabControl.Width = 350;
+            ConnectionTabControl.Width = 378;
 
+            OutputTabControlGrid.Height = 252;
+            OutputTabControlGrid.Width = ActualWidth - 400;
             OutputTabControl.Height = 250;
-            OutputTabControl.Width = ActualWidth - 374;
+            OutputTabControl.Width = ActualWidth - 402;
 
             LogListBox.Height = MainTabControl.Height - 32;
             LogListBox.Width = MainTabControl.Width - 10;
@@ -547,6 +565,32 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }     
         }
 
+        private void Label_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            var label = (Label)sender;
+            label.Foreground = Brushes.DarkGray;
+        }
+
+        private void Label_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            var label = (Label)sender;
+            label.Foreground = Brushes.Black;
+        }
+
+        private void OutputTabControlLabel_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindowConfigurationFile.Default.OutputTabControlMinimized = true;
+            MainWindowConfigurationFile.Default.Save();
+            UpdateSizes();
+        }
+
+        private void ConnectionTabControlLabel_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindowConfigurationFile.Default.ConnectionTabControlMinimized = true;
+            MainWindowConfigurationFile.Default.Save();
+            UpdateSizes();
+        }
+
         #endregion
 
         #region Assignment Methods
@@ -606,6 +650,5 @@ namespace _PlcAgent.Visual
         }
 
         #endregion
-
     }
 }

@@ -66,12 +66,43 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <TabControl Name="OutputTabControl" HorizontalAlignment="Left" Height="250" VerticalAlignment="Bottom" Width="941" Margin="2,0,0,2">
-                    <Label Content="Use EDIT menu to create new output handlers."></Label>
-                </TabControl>
-                <TabControl Name="ConnectionTabControl" HorizontalAlignment="Right" Height="542" VerticalAlignment="Top" Width="350" Margin="0,2,2,0">
-                    <Label Content="Use EDIT menu to create new connections and interfaces."></Label>
-                </TabControl>
+                <Grid Name="OutputTabControlGrid" HorizontalAlignment="Left" Height="250" VerticalAlignment="Bottom" Width="945" >
+                    <Label Name="OutputTabControlLabel" Content="Hide" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" MouseEnter="Label_OnMouseEnter" MouseLeave="Label_OnMouseLeave" MouseDown="OutputTabControlLabel_OnMouseDown"></Label>
+                    <TabControl Name="OutputTabControl" HorizontalAlignment="Left" Height="248" VerticalAlignment="Bottom" Width="941" Margin="2,0,0,2" TabStripPlacement="Bottom" UseLayoutRounding="True">
+                        <Label Content="Use EDIT menu to create new output handlers."></Label>
+                    </TabControl>
+                </Grid>
+                    <Grid Name="ConnectionTabControlGrid" HorizontalAlignment="Right" Height="544" VerticalAlignment="Top" Width="353" >
+                        <Label Name="ConnectionTabControlLabel" Content="Hide" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" MouseEnter="Label_OnMouseEnter" MouseLeave="Label_OnMouseLeave" MouseDown="ConnectionTabControlLabel_OnMouseDown" RenderTransformOrigin="0.5,0.5" Margin="0,0,1,5">
+                        <Label.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Label.RenderTransform>
+                    </Label>
+                        <TabControl Name="ConnectionTabControl" HorizontalAlignment="Right" Height="542" VerticalAlignment="Top" Width="350" Margin="0,2,2,0" TabStripPlacement="Right" UseLayoutRounding="True">
+                                <TabControl.Resources>
+                                    <Style TargetType="{x:Type TabItem}">
+                                        <Setter Property="HeaderTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <ContentPresenter Content="{TemplateBinding Content}">
+                                                        <ContentPresenter.LayoutTransform>
+                                                            <RotateTransform Angle="270" />
+                                                        </ContentPresenter.LayoutTransform>
+                                                    </ContentPresenter>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Padding" Value="3" />
+                                    </Style>
+                                </TabControl.Resources>
+                            <Label Content="Use EDIT menu to create new connections and interfaces."></Label>
+                        </TabControl>
+                    </Grid>
             </Grid>
         </Border>
         <!--FOOTER-->
