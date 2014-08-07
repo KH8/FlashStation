@@ -11,14 +11,24 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerDataCursor
     {
-        private Analyzer.Analyzer _analyzer;
+        private readonly Analyzer.Analyzer _analyzer;
+
+        private Boolean _isSelected;
 
         private readonly double _leftLimitPosition;
         private double _rightLimitPosition;
 
+        private Grid _parentGrid;
         private double _actualPosition;
 
-        public Grid ParentGrid;
+        public Grid ParentGrid
+        {
+            set
+            {
+                _parentGrid = value;
+                _parentGrid.MouseMove += ParenGrid_OnMouseMove;
+            }
+        }
 
         public Brush Brush
         {
@@ -57,28 +67,11 @@ namespace _PlcAgent.Visual.Gui
             SetPosition(_actualPosition);
         }
 
-        private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
-        {
-            PositionLabel.Visibility = Visibility.Hidden;
-
-            if (Mouse.RightButton != MouseButtonState.Pressed) return;
-            if (ParentGrid == null) return;
-
-            var offset = CursorGrid.Width/2;
-            var newPositionX = e.GetPosition(ParentGrid).X - offset;
-
-            SetPosition(newPositionX);
-
-            var positionPercentage = (_actualPosition - _leftLimitPosition)/(ParentGrid.Width - _leftLimitPosition - 26.5);
-            PositionLabel.Visibility = Visibility.Visible;
-            PositionLabel.Content = TimeSpan.FromMilliseconds(_analyzer.GetTimePosition(positionPercentage));
-        }
-
         private void SetPosition(double newPositionX)
         {
-            if (ParentGrid == null) return;
+            if (_parentGrid == null) return;
 
-            _rightLimitPosition = ParentGrid.Width - 100;
+            _rightLimitPosition = _parentGrid.Width - 100;
 
             if (newPositionX < _leftLimitPosition) newPositionX = _leftLimitPosition;
             if (newPositionX > _rightLimitPosition) newPositionX = _rightLimitPosition;
@@ -86,6 +79,33 @@ namespace _PlcAgent.Visual.Gui
             Margin = new Thickness(newPositionX, 0, 0, 0);
 
             _actualPosition = newPositionX;
+        }
+
+        private void CursorGrid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _isSelected = true;
+        }
+
+        private void ParenGrid_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            PositionLabel.Visibility = Visibility.Hidden;
+
+            if (Mouse.RightButton != MouseButtonState.Pressed)
+            {
+                _isSelected = false;
+                return;
+            }
+            if (!_isSelected) return;
+            if (_parentGrid == null) return;
+
+            var offset = CursorGrid.Width / 2;
+            var newPositionX = e.GetPosition(_parentGrid).X - offset;
+
+            SetPosition(newPositionX);
+
+            var positionPercentage = (_actualPosition - _leftLimitPosition) / (_parentGrid.Width - _leftLimitPosition - 26.5);
+            PositionLabel.Visibility = Visibility.Visible;
+            PositionLabel.Content = TimeSpan.FromMilliseconds(_analyzer.GetTimePosition(positionPercentage));
         }
     }
 }
