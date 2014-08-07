@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace _PlcAgent.Analyzer
 {
@@ -14,6 +15,7 @@ namespace _PlcAgent.Analyzer
     public class AnalyzerDataCursorPointCollection
     {
         public ObservableCollection<AnalyzerDataCursorPoint> Children { get; set; }
+        public Dispatcher Dispatcher = Dispatcher.CurrentDispatcher;
 
         public AnalyzerDataCursorPointCollection()
         {

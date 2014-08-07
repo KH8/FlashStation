@@ -212,8 +212,6 @@ namespace _PlcAgent.Analyzer
 
         public void UpdateDataCursorTable()
         {
-            AnalyzerDataCursorPointCollection.Children.Clear();
-
             string timePointBlue;
             string timePointRed;
             string timeDifference;
@@ -226,13 +224,19 @@ namespace _PlcAgent.Analyzer
                                                            - GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition)).ToString(); }
             catch (Exception) { timeDifference = "N/A"; }
 
-            AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
+            if (AnalyzerDataCursorPointCollection == null) return;
+
+            AnalyzerDataCursorPointCollection.Dispatcher.BeginInvoke((new Action(delegate
             {
-                Name = "Time base",
-                BlueValue = timePointBlue,
-                RedValue = timePointRed,
-                Difference = timeDifference
-            });
+                AnalyzerDataCursorPointCollection.Children.Clear();
+                AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
+                {
+                    Name = "Time base",
+                    BlueValue = timePointBlue,
+                    RedValue = timePointRed,
+                    Difference = timeDifference
+                });
+            })));
         }
 
         #endregion
@@ -285,6 +289,8 @@ namespace _PlcAgent.Analyzer
                     SynchronizeView();
                 }
 
+                UpdateDataCursorTable();
+
                 var timeDifference = (int) (DateTime.Now.TimeOfDay.TotalMilliseconds - lastMilliseconds);
                 if (timeDifference > AnalyzerSetupFile.SampleTime[Header.Id]) timeDifference = AnalyzerSetupFile.SampleTime[Header.Id];
                 
@@ -321,9 +327,9 @@ namespace _PlcAgent.Analyzer
                 writer.Configuration.Delimiter = ";";
 
                 writer.WriteField("GENERAL:AXIS:X");
-                foreach (var analyzerChannel in AnalyzerChannels.Children)
+                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 {
-                    if (analyzerChannel.AnalyzerObservableVariable != null) writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
+                    writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
                 }
 
                 writer.NextRecord();

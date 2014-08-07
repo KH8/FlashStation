@@ -87,8 +87,6 @@ namespace _PlcAgent.Visual.Gui
 
             _actualPosition = newPositionX;
             _percentageActualPosition = (_actualPosition - _leftLimitPosition) / (_parentGrid.Width - _leftLimitPosition - 26.5);
-            
-            _analyzer.UpdateDataCursorTable();
         }
 
         private void CursorGrid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
