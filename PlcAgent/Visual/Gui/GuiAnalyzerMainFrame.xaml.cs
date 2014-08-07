@@ -22,13 +22,13 @@ namespace _PlcAgent.Visual.Gui
 
             InitializeComponent();
 
-            AnalyzerDataCursorRed = new GuiAnalyzerDataCursor
+            AnalyzerDataCursorRed = new GuiAnalyzerDataCursor(_analyzer)
             {
                 ParentGrid = GeneralGrid,
                 Brush = Brushes.Red,
                 ActualPosition = 246.0
             };
-            AnalyzerDataCursorBlue = new GuiAnalyzerDataCursor
+            AnalyzerDataCursorBlue = new GuiAnalyzerDataCursor(_analyzer)
             {
                 ParentGrid = GeneralGrid,
                 Brush = Brushes.Blue,

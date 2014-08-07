@@ -10,7 +10,7 @@
         <Grid Name="TopHorizontalGrid" VerticalAlignment="Top" Background="Red" Width="5" Height="2"></Grid>
         <Grid Name="VerticalGrid" Background="Red" Width="1"></Grid>
         <Grid Name="BottomHorizontalGrid" VerticalAlignment="Bottom" Background="Red" Width="5" Height="2"></Grid>
-        <Label Name="PositionLabel" Content="PositionX" HorizontalAlignment="Left" Foreground="Red" Height="25" Margin="0,0,-30,30" VerticalAlignment="Bottom" Width="80" RenderTransformOrigin="1.044,0.86">
+        <Label Name="PositionLabel" Content="PositionX" HorizontalAlignment="Left" Foreground="Red" Height="25" Margin="-72,0,-17,102" VerticalAlignment="Bottom" Width="150" RenderTransformOrigin="1.044,0.86">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

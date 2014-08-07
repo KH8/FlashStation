@@ -206,6 +206,11 @@ namespace _PlcAgent.Analyzer
 
         #endregion
 
+        public double GetTimePosition(double positionPercentage)
+        {
+            return AnalyzerSetupFile.TimeRange[Header.Id]*positionPercentage + _timeAxis.Minimum*1000.0;
+        }
+
         #region Background methods
 
         private void AnalyzeThread()

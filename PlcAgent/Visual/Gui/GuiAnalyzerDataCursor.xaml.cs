@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,6 +11,8 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerDataCursor
     {
+        private Analyzer.Analyzer _analyzer;
+
         private readonly double _leftLimitPosition;
         private double _rightLimitPosition;
 
@@ -34,8 +37,10 @@ namespace _PlcAgent.Visual.Gui
             set { SetPosition(value); }
         }
 
-        public GuiAnalyzerDataCursor()
+        public GuiAnalyzerDataCursor(Analyzer.Analyzer analyzer)
         {
+            _analyzer = analyzer;
+
             _leftLimitPosition = 206.0;
             _rightLimitPosition = 1000.0;
 
@@ -64,8 +69,9 @@ namespace _PlcAgent.Visual.Gui
 
             SetPosition(newPositionX);
 
+            var positionPercentage = (_actualPosition - _leftLimitPosition)/(ParentGrid.Width - _leftLimitPosition - 26.5);
             PositionLabel.Visibility = Visibility.Visible;
-            PositionLabel.Content = _actualPosition;
+            PositionLabel.Content = TimeSpan.FromMilliseconds(_analyzer.GetTimePosition(positionPercentage));
         }
 
         private void SetPosition(double newPositionX)
