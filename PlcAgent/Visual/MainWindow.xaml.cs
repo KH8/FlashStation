@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
@@ -342,17 +344,30 @@ namespace _PlcAgent.Visual
 
         private void UpdateGui()
         {
+            object mainTabControlSelection;
+            object outputTabControlSelection;
+            object connectionTabControlSelection;
+
+            var selection = (TabItem) MainTabControl.SelectedItem;
+            mainTabControlSelection = selection != null ? selection.Header : null;
+            selection = (TabItem)OutputTabControl.SelectedItem;
+            outputTabControlSelection = selection != null ? selection.Header : null;
+            selection = (TabItem)ConnectionTabControl.SelectedItem;
+            connectionTabControlSelection = selection != null ? selection.Header : null;
+
             MainTabControl.Items.Clear();
             OutputTabControl.Items.Clear();
             ConnectionTabControl.Items.Clear();
             FooterGrid.Children.Clear();
 
             var labelConnectionTabControl = new Label { Content = "Use EDIT menu to create new connections and interfaces." };
-            ConnectionTabControl.Items.Add(labelConnectionTabControl);
+            var newTabForLabel = new TabItem { Header = "", Content = labelConnectionTabControl };
+            ConnectionTabControl.Items.Add(newTabForLabel);
             ConnectionTabControl.SelectedItem = labelConnectionTabControl;
 
             var labelOutputTabControl = new Label { Content = "Use EDIT menu to create new output handlers." };
-            OutputTabControl.Items.Add(labelOutputTabControl);
+            newTabForLabel = new TabItem { Header = "", Content = labelOutputTabControl };
+            OutputTabControl.Items.Add(newTabForLabel);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
             foreach (PlcCommunicator record in _registry.PlcCommunicators)
@@ -533,6 +548,20 @@ namespace _PlcAgent.Visual
             MainTabControl.SelectedItem = ComponentManagerTabItem;
             MainTabControl.Items.Add(AboutTabItem);
             MainTabControl.Items.Add(LogTabItem);
+
+            SelectTabItem(MainTabControl, mainTabControlSelection);
+            SelectTabItem(ConnectionTabControl, connectionTabControlSelection);
+            SelectTabItem(OutputTabControl, outputTabControlSelection);
+
+        }
+
+        private static void SelectTabItem(TabControl tabControl, object tabItemHeader)
+        {
+            if (tabItemHeader == null) return;
+            foreach (var tabItem in tabControl.Items.Cast<object>().Where(item => item.GetType() == typeof (TabItem)).Cast<TabItem>().Where(tabItem => Equals(tabItem.Header, tabItemHeader)))
+            {
+                tabControl.SelectedItem = tabItem;
+            }
         }
 
         private void UpdateTreeView()
