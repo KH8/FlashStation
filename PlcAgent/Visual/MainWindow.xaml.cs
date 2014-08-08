@@ -283,12 +283,12 @@ namespace _PlcAgent.Visual
 
         private void UpdateSizes()
         {
-            MainTabControl.Height = ActualHeight - 372;
+            MainTabControl.Height = ActualHeight - 390;
             MainTabControl.Width = ActualWidth - 402;
 
-            OutputTabControlGrid.Height = 252;
+            OutputTabControlGrid.Height = 270;
             OutputTabControlGrid.Width = ActualWidth - 400;
-            OutputTabControl.Height = 250;
+            OutputTabControl.Height = 268;
             OutputTabControl.Width = ActualWidth - 402;
 
             OutputTabControlLabel.Content = "Hide";
@@ -417,8 +417,15 @@ namespace _PlcAgent.Visual
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
+                var newScrollViewer = new ScrollViewer
+                {
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+                };
+                newtabItem.Content = newScrollViewer;
+
                 var newGrid = new Grid();
-                newtabItem.Content = newGrid;
+                newScrollViewer.Content = newGrid;
 
                 var guiOutputHandlerComponent = (GuiComponent)_registry.GuiOutputHandlerComponents.ReturnComponent(record.Header.Id);
                 guiOutputHandlerComponent.Initialize(0, 0, newGrid);
@@ -433,8 +440,15 @@ namespace _PlcAgent.Visual
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
+                var newScrollViewer = new ScrollViewer
+                {
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+                };
+                newtabItem.Content = newScrollViewer;
+
                 var newGrid = new Grid();
-                newtabItem.Content = newGrid;
+                newScrollViewer.Content = newGrid;
 
                 newGrid.Height = OutputTabControl.Height - 32;
                 newGrid.Width = OutputTabControl.Width - 10;
@@ -452,8 +466,15 @@ namespace _PlcAgent.Visual
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
+                var newScrollViewer = new ScrollViewer
+                {
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+                };
+                newtabItem.Content = newScrollViewer;
+
                 var newGrid = new Grid();
-                newtabItem.Content = newGrid;
+                newScrollViewer.Content = newGrid;
 
                 var gridVFlashComponent = (GuiComponent)_registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
                 gridVFlashComponent.Initialize(0, 0, newGrid);
@@ -472,8 +493,15 @@ namespace _PlcAgent.Visual
                 OutputTabControl.Items.Add(newtabItem);
                 OutputTabControl.SelectedItem = newtabItem;
 
+                var newScrollViewer = new ScrollViewer
+                {
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+                };
+                newtabItem.Content = newScrollViewer;
+
                 var newGrid = new Grid();
-                newtabItem.Content = newGrid;
+                newScrollViewer.Content = newGrid;
 
                 var gridAnalyzer = (GuiComponent)_registry.GuiAnalyzers.ReturnComponent(record.Header.Id);
                 gridAnalyzer.Initialize(0, 0, newGrid);
