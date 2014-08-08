@@ -286,20 +286,6 @@ namespace _PlcAgent.Visual
             MainTabControl.Height = ActualHeight - 372;
             MainTabControl.Width = ActualWidth - 402;
 
-            ConnectionTabControlGrid.Height = ActualHeight - 118;
-            ConnectionTabControlGrid.Width = 380;
-            ConnectionTabControl.Height = ActualHeight - 120;
-            ConnectionTabControl.Width = 378;
-
-            ConnectionTabControlLabel.Content = "Hide";
-
-            if (MainWindowConfigurationFile.Default.ConnectionTabControlMinimized)
-            {
-                ConnectionTabControlGrid.Width = 32;
-                ConnectionTabControl.Width = 30;
-                ConnectionTabControlLabel.Content = "Show";
-            }
-
             OutputTabControlGrid.Height = 252;
             OutputTabControlGrid.Width = ActualWidth - 400;
             OutputTabControl.Height = 250;
@@ -312,6 +298,27 @@ namespace _PlcAgent.Visual
                 OutputTabControlGrid.Height = 28;
                 OutputTabControl.Height = 26;
                 OutputTabControlLabel.Content = "Show";
+
+                MainTabControl.Height = ActualHeight - 148;
+            }
+
+            ConnectionTabControlGrid.Height = ActualHeight - 118;
+            ConnectionTabControlGrid.Width = 380;
+            ConnectionTabControl.Height = ActualHeight - 120;
+            ConnectionTabControl.Width = 378;
+
+            ConnectionTabControlLabel.Content = "Hide";
+
+            if (MainWindowConfigurationFile.Default.ConnectionTabControlMinimized)
+            {
+                ConnectionTabControlGrid.Width = 32;
+                ConnectionTabControl.Width = 30;
+                ConnectionTabControlLabel.Content = "Show";
+
+                MainTabControl.Width = ActualWidth - 54;
+
+                OutputTabControlGrid.Width = ActualWidth - 52;
+                OutputTabControl.Width = ActualWidth - 54;
             }
 
             LogListBox.Height = MainTabControl.Height - 32;
