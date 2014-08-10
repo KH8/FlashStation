@@ -77,8 +77,7 @@ namespace _PlcAgent.Output
                 {
                     if (interfaceInputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
                     {
-                        var ciString = interfaceInputComponent;
-                        fileName = (string) ciString.Value;
+                        fileName = (string) interfaceInputComponent.Value;
                     }
                 }
                 var interfaceOutputComponent = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(interfaceVariable[1]);
@@ -86,8 +85,7 @@ namespace _PlcAgent.Output
                 {
                     if (interfaceOutputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
                     {
-                        var ciString = interfaceOutputComponent;
-                        fileName = (string) ciString.Value;
+                        fileName = (string) interfaceOutputComponent.Value;
                     }
                 }
             }

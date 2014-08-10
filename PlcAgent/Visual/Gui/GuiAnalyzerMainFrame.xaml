@@ -6,12 +6,16 @@
              xmlns:oxy="http://oxyplot.codeplex.com"
              mc:Ignorable="d" Height="800" Width="1000"
              VerticalAlignment="Top" HorizontalContentAlignment="Left">
-    <Grid Name="Grid">
+    <Grid Name="GeneralGrid">
         <ScrollViewer Name="MainScrollViewer" Height="750" Width="1000" VerticalAlignment="Top">
-            <Grid Name="GeneralGrid">
+            <Grid Name="PlotGrid">
             </Grid>
         </ScrollViewer>
-        <Grid Name ="PlotGrid" Width="785" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="207,0,0,5">
+        <Grid>
+            <Label Name="AnalyzerTimeLabel" Content="Recording time: &#10;00:00:00.0000000" FontSize="10" HorizontalAlignment="Left" Height="34" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Width="176" Margin="8,0,0,-2"/>
+            <Button Name="AnalyzerStartStopButton" Content="Start" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="StartStopRecording"/>
+        </Grid>
+        <Grid Name ="TimePlotGrid" Width="785" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="207,0,0,5">
             <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10"/>
         </Grid>
     </Grid>

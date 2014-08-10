@@ -13,16 +13,13 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerControl
     {
-        private readonly Boolean _save;
         private readonly Analyzer.Analyzer _analyzer;
-        private readonly AnalyzerSetupFile _analyzerSetupFile;
 
         private readonly Thread _updateThread;
 
         public GuiAnalyzerControl(Module module)
         {
             _analyzer = (Analyzer.Analyzer) module;
-            _analyzerSetupFile = _analyzer.AnalyzerSetupFile;
 
             InitializeComponent();
 
@@ -30,8 +27,6 @@ namespace _PlcAgent.Visual.Gui
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
             _updateThread.Start();
-
-            _save = true;
         }
 
         public void Update()

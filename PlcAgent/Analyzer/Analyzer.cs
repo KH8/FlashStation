@@ -82,8 +82,6 @@ namespace _PlcAgent.Analyzer
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
-            AnalyzerChannels = new AnalyzerChannelList(0, this);
-            AnalyzerChannels.RetriveConfiguration();
 
             _timeAxisViewModel = new MainViewModel();
             _timeAxisViewModel.Model.Axes.Clear();
@@ -102,6 +100,9 @@ namespace _PlcAgent.Analyzer
                 MinorStep = 0.1
             });
             _timeAxisViewModel.Brush = Brushes.Black;
+
+            AnalyzerChannels = new AnalyzerChannelList(0, this);
+            AnalyzerChannels.RetriveConfiguration();
 
             AnalyzerDataCursorPointCollection = new AnalyzerDataCursorPointCollection();
 
@@ -396,7 +397,6 @@ namespace _PlcAgent.Analyzer
         }
 
         #endregion
-
 
         #region Auxiliaries
 

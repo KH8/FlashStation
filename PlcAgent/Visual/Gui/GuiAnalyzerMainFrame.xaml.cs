@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 
@@ -13,6 +15,8 @@ namespace _PlcAgent.Visual.Gui
         private readonly Analyzer.Analyzer _analyzer;
         private readonly List<GuiComponent> _channelList;
 
+        private readonly Thread _updateThread;
+
         public GuiAnalyzerDataCursor AnalyzerDataCursorRed;
         public GuiAnalyzerDataCursor AnalyzerDataCursorBlue;
 
@@ -25,18 +29,18 @@ namespace _PlcAgent.Visual.Gui
 
             AnalyzerDataCursorRed = new GuiAnalyzerDataCursor(_analyzer)
             {
-                ParentGrid = GeneralGrid,
+                ParentGrid = PlotGrid,
                 Brush = Brushes.Red,
                 ActualPosition = 246.0
             };
             AnalyzerDataCursorBlue = new GuiAnalyzerDataCursor(_analyzer)
             {
-                ParentGrid = GeneralGrid,
+                ParentGrid = PlotGrid,
                 Brush = Brushes.Blue,
                 ActualPosition = 206.0
             };
-            Grid.Children.Add(AnalyzerDataCursorRed);
-            Grid.Children.Add(AnalyzerDataCursorBlue);
+            GeneralGrid.Children.Add(AnalyzerDataCursorRed);
+            GeneralGrid.Children.Add(AnalyzerDataCursorBlue);
 
             if (!_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id])
             {
@@ -47,6 +51,33 @@ namespace _PlcAgent.Visual.Gui
             PlotArea.DataContext = _analyzer.TimeAxisViewModel;
 
             RefreshGui();
+
+            _updateThread = new Thread(Update);
+            _updateThread.SetApartmentState(ApartmentState.STA);
+            _updateThread.IsBackground = true;
+            _updateThread.Start();
+        }
+
+        public void Update()
+        {
+            while (_updateThread.IsAlive)
+            {
+                AnalyzerStartStopButton.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    AnalyzerStartStopButton.Content = "Start";
+                    if (_analyzer != null && _analyzer.Recording) AnalyzerStartStopButton.Content = "Stop";
+                })));
+                AnalyzerTimeLabel.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    AnalyzerTimeLabel.Content = "Recording time: \n" + TimeSpan.FromMilliseconds(_analyzer.RecordingTime);
+                })));
+                Thread.Sleep(100);
+            }
+        }
+
+        private void StartStopRecording(object sender, RoutedEventArgs e)
+        {
+            _analyzer.StartStopRecording();
         }
 
         public void UpdateSizes(double height, double width)
@@ -57,11 +88,11 @@ namespace _PlcAgent.Visual.Gui
             MainScrollViewer.Height = height - 30;
             MainScrollViewer.Width = width;
 
-            GeneralGrid.Width = width - 30;
+            PlotGrid.Width = width - 30;
 
-            PlotGrid.Width = width - 225;
+            TimePlotGrid.Width = width - 225;
 
-            foreach (var analyzerSingleFigure in GeneralGrid.Children.Cast<GuiAnalyzerSingleFigure>())
+            foreach (var analyzerSingleFigure in PlotGrid.Children.Cast<GuiAnalyzerSingleFigure>())
             {
                 analyzerSingleFigure.UpdateSizes(height, width);
             }
@@ -77,7 +108,7 @@ namespace _PlcAgent.Visual.Gui
             foreach (var guiComponent in _channelList.Where(guiComponent => guiComponent.Header.Id == id)) { analyzerSingleFigure = guiComponent; }
             if (analyzerSingleFigure == null) _channelList.Add(analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, _analyzer)));
 
-            analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, GeneralGrid);
+            analyzerSingleFigure.Initialize(0, ((int)id - 1) * 130, PlotGrid);
 
             var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
             userControl.UpdateSizes(Height, Width);
@@ -85,7 +116,7 @@ namespace _PlcAgent.Visual.Gui
 
         public void RefreshGui()
         {
-            GeneralGrid.Children.Clear();
+            PlotGrid.Children.Clear();
 
             var componentToBeRemoved = _channelList.Where(guiComponent => _analyzer.AnalyzerChannels.GetChannel(guiComponent.Header.Id) == null).ToList();
             foreach (var guiComponent in componentToBeRemoved) { _channelList.Remove(guiComponent); }
