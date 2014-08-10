@@ -147,14 +147,17 @@
     <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
       <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\GuiAnalyzerControl.xaml.cs">
+      <DependentUpon>GuiAnalyzerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\GuiAnalyzerDataCursorTable.xaml.cs">
       <DependentUpon>GuiAnalyzerDataCursorTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiAnalyzerDataCursor.xaml.cs">
       <DependentUpon>GuiAnalyzerDataCursor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzer.xaml.cs">
-      <DependentUpon>GuiAnalyzer.xaml</DependentUpon>
+    <Compile Include="Visual\Gui\GuiAnalyzerConfiguration.xaml.cs">
+      <DependentUpon>GuiAnalyzerConfiguration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiAnalyzerMainFrame.xaml.cs">
       <DependentUpon>GuiAnalyzerMainFrame.xaml</DependentUpon>
@@ -246,6 +249,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Visual\Gui\GuiAnalyzerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Visual\Gui\GuiAnalyzerDataCursorTable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,7 +261,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzer.xaml">
+    <Page Include="Visual\Gui\GuiAnalyzerConfiguration.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

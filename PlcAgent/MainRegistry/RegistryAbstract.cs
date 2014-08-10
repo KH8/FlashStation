@@ -26,7 +26,8 @@ namespace _PlcAgent.MainRegistry
         public RegistryComposite GuiVFlashHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
         public RegistryComposite Analyzers = new RegistryComposite(0, "");
-        public RegistryComposite GuiAnalyzers = new RegistryComposite(0, "");
+        public RegistryComposite GuiAnalyzerConfigurations = new RegistryComposite(0, "");
+        public RegistryComposite GuiAnalyzerControls = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerMainFrames = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerInterfaceAssignmentComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerDataCursorTables = new RegistryComposite(0, "");

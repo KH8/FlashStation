@@ -11,7 +11,7 @@ namespace _PlcAgent.Visual.Gui
     /// <summary>
     /// Interaction logic for GuiInterfaceAssignment.xaml
     /// </summary>
-    public partial class GuiAnalyzer
+    public partial class GuiAnalyzerConfiguration
     {
         private readonly Boolean _save;
         private readonly Analyzer.Analyzer _analyzer;
@@ -19,7 +19,7 @@ namespace _PlcAgent.Visual.Gui
 
         private readonly Thread _updateThread;
 
-        public GuiAnalyzer(Module module)
+        public GuiAnalyzerConfiguration(Module module)
         {
             _analyzer = (Analyzer.Analyzer) module;
             _analyzerSetupFile = _analyzer.AnalyzerSetupFile;
@@ -43,15 +43,6 @@ namespace _PlcAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                AnalyzerStartStopButton.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    AnalyzerStartStopButton.Content = "Start";
-                    if (_analyzer != null && _analyzer.Recording) AnalyzerStartStopButton.Content = "Stop";
-                })));
-                AnalyzerTimeLabel.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    AnalyzerTimeLabel.Content = "Recording time: " + TimeSpan.FromMilliseconds(_analyzer.RecordingTime);
-                })));
                 AnalyzerAddChannelButton.Dispatcher.BeginInvoke((new Action(delegate
                 {
                     AnalyzerAddChannelButton.IsEnabled = !_analyzer.Recording;
@@ -62,11 +53,6 @@ namespace _PlcAgent.Visual.Gui
                 })));
                 Thread.Sleep(100);
             }
-        }
-
-        private void StartStopRecording(object sender, RoutedEventArgs e)
-        {
-            _analyzer.StartStopRecording();
         }
 
         private void AddNewChannel(object sender, RoutedEventArgs e)

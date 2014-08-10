@@ -8,7 +8,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
@@ -344,16 +343,12 @@ namespace _PlcAgent.Visual
 
         private void UpdateGui()
         {
-            object mainTabControlSelection;
-            object outputTabControlSelection;
-            object connectionTabControlSelection;
-
             var selection = (TabItem) MainTabControl.SelectedItem;
-            mainTabControlSelection = selection != null ? selection.Header : null;
+            var mainTabControlSelection = selection != null ? selection.Header : null;
             selection = (TabItem)OutputTabControl.SelectedItem;
-            outputTabControlSelection = selection != null ? selection.Header : null;
+            var outputTabControlSelection = selection != null ? selection.Header : null;
             selection = (TabItem)ConnectionTabControl.SelectedItem;
-            connectionTabControlSelection = selection != null ? selection.Header : null;
+            var connectionTabControlSelection = selection != null ? selection.Header : null;
 
             MainTabControl.Items.Clear();
             OutputTabControl.Items.Clear();
@@ -518,8 +513,13 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridAnalyzer = (GuiComponent)_registry.GuiAnalyzers.ReturnComponent(record.Header.Id);
-                gridAnalyzer.Initialize(0, 0, newGrid);
+                var gridAnalyzerConfiguration = (GuiComponent)_registry.GuiAnalyzerConfigurations.ReturnComponent(record.Header.Id);
+                gridAnalyzerConfiguration.Initialize(0, 0, newGrid);
+
+                var gridAnalyzerControl = (GuiComponent)_registry.GuiAnalyzerControls.ReturnComponent(record.Header.Id);
+                gridAnalyzerControl.Initialize(0, 150, newGrid);
+
+                var gridAnalyzerControlGrid = (GuiAnalyzerControl) gridAnalyzerControl.UserControl;
 
                 var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiAnalyzerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);

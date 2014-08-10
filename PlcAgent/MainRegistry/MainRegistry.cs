@@ -318,7 +318,8 @@ namespace _PlcAgent.MainRegistry
                 return 0;
             }
 
-            GuiAnalyzers.Add(new GuiComponent(id, "", new GuiAnalyzer(component)));
+            GuiAnalyzerConfigurations.Add(new GuiComponent(id, "", new GuiAnalyzerConfiguration(component)));
+            GuiAnalyzerControls.Add(new GuiComponent(id, "", new GuiAnalyzerControl(component)));
             component.GuiAnalyzerMainFrame = new GuiAnalyzerMainFrame(component);
             GuiAnalyzerMainFrames.Add(new GuiComponent(id, "", component.GuiAnalyzerMainFrame));
             GuiAnalyzerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
@@ -421,7 +422,8 @@ namespace _PlcAgent.MainRegistry
             GuiVFlashHandlerInterfaceAssignmentComponents.Clear();
 
             Analyzers.Clear();
-            GuiAnalyzers.Clear();
+            GuiAnalyzerConfigurations.Clear();
+            GuiAnalyzerControls.Clear();
             GuiAnalyzerMainFrames.Clear();
             GuiAnalyzerInterfaceAssignmentComponents.Clear();
             GuiAnalyzerDataCursorTables.Clear();
