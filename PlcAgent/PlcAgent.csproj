@@ -420,6 +420,8 @@
     <Content Include="Analyzer\OxyPlot.Wpf.pdb" />
     <Resource Include="Analyzer\OxyPlot.Wpf.XML" />
     <Resource Include="Analyzer\OxyPlot.xml" />
+    <Resource Include="graph.ico" />
+    <Resource Include="graph.png" />
     <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll" />
     <Content Include="Vector\Vector.vFlash.Automation.vFlashStation.dll" />
     <None Include="Log\Log.txt">

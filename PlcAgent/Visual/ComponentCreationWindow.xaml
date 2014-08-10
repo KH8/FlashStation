@@ -1,7 +1,7 @@
 ﻿<Window x:Class="_PlcAgent.Visual.ComponentCreationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="New Component Creator" Height="300" Width="500" ResizeMode="NoResize">
+        Title="New Component Creator" Height="300" Width="500" ResizeMode="NoResize" Icon="/PlcAgent;component/graph.ico">
     <Grid Name="GeneralGrid" Background="#FFF9F9F9" Margin="0,0,0,0" Width="490" Height="270" HorizontalAlignment="Center">
         <Label Name="Prompt" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Select a PLC connection to be assigned with a new Communication Interface" Width="485" Height="25" Margin="5,0,0,0"/>
         <Button Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="CancelSelection"/>

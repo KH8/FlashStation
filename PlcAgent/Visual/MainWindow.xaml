@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="PLC Agent 1.0" Height="650" Width="1308"
-        Closing="CloseApp" SizeChanged="WindowSizeChanged" Background="#FFF9F9F9" WindowState="Maximized" MinWidth="1308" MinHeight="654">
+        Closing="CloseApp" SizeChanged="WindowSizeChanged" Background="#FFF9F9F9" WindowState="Maximized" MinWidth="1308" MinHeight="654" Icon="/PlcAgent;component/graph.ico">
     <Grid Margin="0,0,0,0" Name="MainGrid">
         <!--MENU-->
         <Menu IsMainMenu="True" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="829" Background="{x:Null}" BorderBrush="#FF212121" RenderTransformOrigin="0.5,0.5">
@@ -54,10 +54,9 @@
                         </Grid> 
                     </TabItem>
                     <TabItem Name="AboutTabItem" Header="About">
-                        <Grid Name="AboutGrid" VerticalAlignment="Top" Height="505" Margin="0,0,0,0">
-                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" Height="167"><LineBreak/><Run Text="PLC Agent v1.0"/><LineBreak/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><Run Text="reczek.krzysztof@gmail.com"/></TextBlock>
-                            <Grid Background="#FF05467C" VerticalAlignment="Bottom" Height="70" Margin="0,0,0,0">
-                            </Grid>
+                        <Grid Name="AboutGrid" VerticalAlignment="Top" Height="261" Margin="0,0,0,0">
+                            <Image Source="/PlcAgent;component/graph.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Margin="10,15,0,0"/>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" Height="167"><Run FontWeight="Bold" Text="PLC Agent v1.0"/><LineBreak/><Run Text="author: Krzysztof Reczek"/><LineBreak/><Run Text="reczek.krzysztof@gmail.com"/></TextBlock>
                         </Grid>
                     </TabItem>
                     <TabItem Name="LogTabItem" Header="Log">
