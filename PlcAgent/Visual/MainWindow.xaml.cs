@@ -519,8 +519,6 @@ namespace _PlcAgent.Visual
                 var gridAnalyzerControl = (GuiComponent)_registry.GuiAnalyzerControls.ReturnComponent(record.Header.Id);
                 gridAnalyzerControl.Initialize(0, 150, newGrid);
 
-                var gridAnalyzerControlGrid = (GuiAnalyzerControl) gridAnalyzerControl.UserControl;
-
                 var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiAnalyzerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
 
