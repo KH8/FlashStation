@@ -56,6 +56,8 @@ namespace _PlcAgent.DataAquisition
             get { return _type; }
         }
 
+        public abstract object Value { get; set; }
+
         public abstract string StringValue();
 
         public abstract void Add(CommunicationInterfaceComponent c);
@@ -82,6 +84,12 @@ namespace _PlcAgent.DataAquisition
         public CommunicationInterfaceComposite(string name)
             : base(name, 0, VariableType.Composite)
         {
+        }
+
+        public override object Value
+        {
+            get { return null; }
+            set {}
         }
 
         public override string StringValue()
@@ -203,10 +211,10 @@ namespace _PlcAgent.DataAquisition
         private Boolean _value;
         private int _bitPosition;
 
-        public Boolean Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (Boolean)value; }
         }
 
         public int BitPosition
@@ -242,10 +250,10 @@ namespace _PlcAgent.DataAquisition
     {
         private Byte _value;
 
-        public Byte Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (byte) value; }
         }
 
         public CiByte(string name, int pos, VariableType type, Byte value)
@@ -257,7 +265,7 @@ namespace _PlcAgent.DataAquisition
         public override string StringValue()
         {
             var data = new byte[1];
-            data[0] = Value;
+            data[0] = _value;
             var hex = BitConverter.ToString(data);
             return hex.Replace("-", "");
         }
@@ -277,10 +285,10 @@ namespace _PlcAgent.DataAquisition
     {
         private Char _value;
 
-        public Char Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (char) value; }
         }
 
         public CiChar(string name, int pos, VariableType type, Char value)
@@ -310,10 +318,10 @@ namespace _PlcAgent.DataAquisition
     {
         private BitArray _value;
 
-        public BitArray Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (BitArray) value; }
         }
 
         public CiWord(string name, int pos, VariableType type, BitArray value)
@@ -325,7 +333,7 @@ namespace _PlcAgent.DataAquisition
         public override string StringValue()
         {
             var data = new byte[4];
-            Value.CopyTo(data, 0);
+            _value.CopyTo(data, 0);
             var dataShort = new byte[2];
 
             dataShort[0] = data[0];
@@ -350,10 +358,10 @@ namespace _PlcAgent.DataAquisition
     {
         private BitArray[] _value;
 
-        public BitArray[] Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (BitArray[]) value; }
         }
 
         public CiDoubleWord(string name, int pos, VariableType type, BitArray[] value)
@@ -365,8 +373,8 @@ namespace _PlcAgent.DataAquisition
         public override string StringValue()
         {
             var data = new byte[8];
-            Value[0].CopyTo(data, 0);
-            Value[1].CopyTo(data, 2);
+            _value[0].CopyTo(data, 0);
+            _value[1].CopyTo(data, 2);
 
             var dataShort = new byte[4];
 
@@ -394,10 +402,10 @@ namespace _PlcAgent.DataAquisition
     {
         private Int16 _value;
 
-        public Int16 Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (Int16)value; }
         }
 
         public CiInteger(string name, int pos, VariableType type, Int16 value)
@@ -426,10 +434,10 @@ namespace _PlcAgent.DataAquisition
     {
         private Int32 _value;
 
-        public Int32 Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (Int32)value; }
         }
 
         public CiDoubleInteger(string name, int pos, VariableType type, Int32 value)
@@ -458,10 +466,10 @@ namespace _PlcAgent.DataAquisition
     {
         private float _value;
 
-        public float Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (float) value; }
         }
 
         public CiReal(string name, int pos, VariableType type, float value)
@@ -491,10 +499,10 @@ namespace _PlcAgent.DataAquisition
         private string _value;
         private int _length;
 
-        public string Value
+        public override object Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = (string) value; }
         }
 
         public int Length

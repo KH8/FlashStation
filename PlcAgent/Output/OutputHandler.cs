@@ -77,8 +77,8 @@ namespace _PlcAgent.Output
                 {
                     if (interfaceInputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
                     {
-                        var ciString = (CiString)interfaceInputComponent;
-                        fileName = ciString.Value;
+                        var ciString = interfaceInputComponent;
+                        fileName = (string) ciString.Value;
                     }
                 }
                 var interfaceOutputComponent = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(interfaceVariable[1]);
@@ -86,8 +86,8 @@ namespace _PlcAgent.Output
                 {
                     if (interfaceOutputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
                     {
-                        var ciString = (CiString)interfaceOutputComponent;
-                        fileName = ciString.Value;
+                        var ciString = interfaceOutputComponent;
+                        fileName = (string) ciString.Value;
                     }
                 }
             }
@@ -126,9 +126,9 @@ namespace _PlcAgent.Output
 
                 if (!_pcControlMode && CheckInterface())
                 {
-                    var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
+                    var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
 
-                    switch (inputCompositeCommand.Value)
+                    switch (inputCompositeCommand)
                     {
                         case 100:
                             if (caseAuxiliary != 100)

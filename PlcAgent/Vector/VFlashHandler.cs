@@ -165,11 +165,11 @@ namespace _PlcAgent.Vector
 
                 if (channelFound != null && !_pcControlMode && CheckInterface())
                 {
-                    var inputCompositeCommand = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
-                    var inputCompositeProgrammTyp = (CiInteger)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type"));
-                    var inputCompositeProgrammVersion = (CiString)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Version"));
+                    var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
+                    var inputCompositeProgrammTyp = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type")).Value;
+                    var inputCompositeProgrammVersion = (string)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Version")).Value;
 
-                    switch (inputCompositeCommand.Value)
+                    switch (inputCompositeCommand)
                     {
                         case 100:
                             if (caseAuxiliary != 100)
@@ -177,13 +177,13 @@ namespace _PlcAgent.Vector
                                 Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                            " : Path change requested from PLC");
                                 var returnedPath =
-                                    _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion.Value);
+                                    _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion);
                                 if (returnedPath != null)
                                 {
                                     SetProjectPath(Header.Id,
-                                        _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion.Value));
-                                    programActive = inputCompositeProgrammTyp.Value;
-                                    version = inputCompositeProgrammVersion.Value;
+                                        _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion));
+                                    programActive = inputCompositeProgrammTyp;
+                                    version = inputCompositeProgrammVersion;
                                     antwort = 100;
                                 }
                                 else

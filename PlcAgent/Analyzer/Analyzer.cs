@@ -329,10 +329,8 @@ namespace _PlcAgent.Analyzer
                         dataCursorPoint.RedValue = "---";
                         dataCursorPoint.Difference = "---";
                     }
-                    GuiAnalyzerDataCursorTable.CursorTableDataGrid.Dispatcher.BeginInvoke((new Action(delegate
-                    {
-                        GuiAnalyzerDataCursorTable.CursorTableDataGrid.Items.Refresh();
-                    })));
+                    GuiAnalyzerDataCursorTable.CursorTableDataGrid.Dispatcher.BeginInvoke((new Action(
+                        () => GuiAnalyzerDataCursorTable.CursorTableDataGrid.Items.Refresh())));
                 }   
                 Thread.Sleep(100);
             }
