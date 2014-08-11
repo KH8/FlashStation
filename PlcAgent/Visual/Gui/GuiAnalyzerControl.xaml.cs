@@ -17,7 +17,7 @@ namespace _PlcAgent.Visual.Gui
 
         private readonly Thread _updateThread;
 
-        public GuiAnalyzerControl(Module module)
+        public GuiAnalyzerControl(OutputModule module)
         {
             _analyzer = (Analyzer.Analyzer) module;
 

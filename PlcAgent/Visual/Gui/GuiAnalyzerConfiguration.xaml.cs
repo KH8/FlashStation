@@ -19,7 +19,7 @@ namespace _PlcAgent.Visual.Gui
 
         private readonly Thread _updateThread;
 
-        public GuiAnalyzerConfiguration(Module module)
+        public GuiAnalyzerConfiguration(OutputModule module)
         {
             _analyzer = (Analyzer.Analyzer) module;
             _analyzerSetupFile = _analyzer.AnalyzerSetupFile;

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading;
+using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.PLC
 {
-    public class PlcCommunicator : RegistryComponent
+    public class PlcCommunicator : Module
     {
         [Serializable]
         public struct PlcConfig
@@ -134,6 +135,16 @@ namespace _PlcAgent.PLC
 
         #region Methods
 
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Deinitialize()
+        {
+            throw new NotImplementedException();
+        }
+
         public void InitializeConnection()
         {
             _communicationWatchDogThread.Start();
@@ -261,6 +272,7 @@ namespace _PlcAgent.PLC
         }
 
         #endregion
+
     }
 
     #region Auxiliaries

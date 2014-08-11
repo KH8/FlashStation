@@ -17,9 +17,9 @@ namespace _PlcAgent.Visual.Gui
         private readonly VFlashTypeBank _vFlashTypeBank;
         private readonly VFlashTypeBankFile _vFlashTypeBankFile;
 
-        private readonly ObservableCollection<VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashDisplayProjectData>();
+        private readonly ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData>();
 
-        public ObservableCollection<VFlashDisplayProjectData> VFlashProjectCollection
+        public ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData> VFlashProjectCollection
         { get { return _vFlashProjectCollection; } }
 
         public GuiVFlashPathBank(VFlashTypeBank vFlashTypeBank)
@@ -33,7 +33,7 @@ namespace _PlcAgent.Visual.Gui
             VFlashBankListBox.View = CreateGridView();
             VFlashBankListBox.Foreground = Brushes.Black;
 
-            VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id], _vFlashTypeBank);
+            VFlashTypeBank.VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id], _vFlashTypeBank);
             UpdateVFlashProjectCollection();
 
         }
@@ -89,21 +89,21 @@ namespace _PlcAgent.Visual.Gui
             var result = dlg.ShowDialog();
             if (result == true)
             {
-                _vFlashTypeBank.Add(new VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
+                _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
                 UpdateVFlashProjectCollection();
             }
         }
 
         private void UpdateVFlashProjectCollection()
         {
-            _vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
+            _vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeBank.VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
             _vFlashTypeBankFile.Save();
 
             _vFlashProjectCollection.Clear();
             foreach (var vFlashType in _vFlashTypeBank.Children)
             {
-                var type = (VFlashTypeComponent)vFlashType;
-                _vFlashProjectCollection.Add(new VFlashDisplayProjectData
+                var type = (VFlashTypeBank.VFlashTypeComponent)vFlashType;
+                _vFlashProjectCollection.Add(new VFlashTypeBank.VFlashDisplayProjectData
                 {
                     Type = type.Type,
                     Version = type.Version,
@@ -115,7 +115,7 @@ namespace _PlcAgent.Visual.Gui
         private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
         {
             var listView = (ListView)sender;
-            var projectdata = (VFlashDisplayProjectData)listView.SelectedItem;
+            var projectdata = (VFlashTypeBank.VFlashDisplayProjectData)listView.SelectedItem;
             if (projectdata != null) TypeNumberBox.Text = projectdata.Type.ToString(CultureInfo.InvariantCulture);
             if (projectdata != null) TypeVersionBox.Text = projectdata.Version;
         }

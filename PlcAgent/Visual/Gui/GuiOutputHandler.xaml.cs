@@ -20,7 +20,7 @@ namespace _PlcAgent.Visual.Gui
         private readonly OutputHandler _outputHandler;
         private readonly OutputHandlerFile _outputHandlerFile;
 
-        public GuiOutputHandler(Module module)
+        public GuiOutputHandler(OutputModule module)
         {
             _outputHandler = (OutputHandler)module;
             _outputHandlerFile = _outputHandler.OutputHandlerFile;

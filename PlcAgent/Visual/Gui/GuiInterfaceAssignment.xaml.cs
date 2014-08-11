@@ -9,11 +9,11 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiInterfaceAssignment
     {
-        private readonly Module _module;
+        private readonly OutputModule _module;
 
         public ObservableCollection<InterfaceAssignment> InterfaceAssignmentCollection;
 
-        public GuiInterfaceAssignment(Module module)
+        public GuiInterfaceAssignment(OutputModule module)
         {
             _module = module;
             InitializeComponent();

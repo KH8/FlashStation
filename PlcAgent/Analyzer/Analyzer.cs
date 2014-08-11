@@ -15,7 +15,7 @@ using _PlcAgent.Visual.Gui;
 
 namespace _PlcAgent.Analyzer
 {
-    public class Analyzer : Module
+    public class Analyzer : OutputModule
     {
         #region Variables
 
@@ -109,14 +109,14 @@ namespace _PlcAgent.Analyzer
             _thread = new Thread(AnalyzeThread) { IsBackground = true };
             _visualThread = new Thread(VisualThread) { IsBackground = true };
 
-            CreateInterfaceAssignment(id, AnalyzerAssignmentFile);
+            CreateInterfaceAssignment(id, AnalyzerAssignmentFile.Assignment);
         }
 
         #endregion
 
         #region Methods
 
-        public void Initialize()
+        public override void Initialize()
         {
             InitCsvFile();
 
@@ -129,7 +129,7 @@ namespace _PlcAgent.Analyzer
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
 
-        public void Deinitialize()
+        public override void Deinitialize()
         {
             _recording = false;
             Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
@@ -405,7 +405,7 @@ namespace _PlcAgent.Analyzer
             public AnalyzerException(string info) : base(info) { }
         }
 
-        private Boolean CheckInterface()
+        protected override Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
@@ -423,10 +423,9 @@ namespace _PlcAgent.Analyzer
             return true;
         }
 
-        public void CreateInterfaceAssignment(uint id, AnalyzerAssignmentFile analyzerAssignmentFile)
+        protected override sealed void CreateInterfaceAssignment(uint id, string[][] assignment)
         {
-            AnalyzerAssignmentFile = analyzerAssignmentFile;
-            if (AnalyzerAssignmentFile.Assignment[id].Length == 0) AnalyzerAssignmentFile.Assignment[id] = new string[4];
+            if (assignment[id].Length == 0) assignment[id] = new string[4];
 
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using _PlcAgent.General;
 using _PlcAgent.Log;
-using _PlcAgent.MainRegistry;
 using _PlcAgent.PLC;
 using _PlcAgent.Visual;
 
 namespace _PlcAgent.DataAquisition
 {
-    public class CommunicationInterfaceHandler : RegistryComponent
+    public class CommunicationInterfaceHandler : Module
     {
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;
@@ -73,11 +73,16 @@ namespace _PlcAgent.DataAquisition
             }
         }
 
-        internal void Initialize()
+        public override void Initialize()
         {
             _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id, CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
             DisplayDataBuilder.Build(_readInterfaceCollection, _writeInterfaceCollection, this);
+        }
+
+        public override void Deinitialize()
+        {
+            //
         }
 
         public void MaintainConnection()

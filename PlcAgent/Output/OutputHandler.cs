@@ -7,7 +7,7 @@ using _PlcAgent.Log;
 
 namespace _PlcAgent.Output
 {
-    public class OutputHandler : Module
+    public class OutputHandler : OutputModule
     {
         #region Variables
 
@@ -51,12 +51,22 @@ namespace _PlcAgent.Output
             _outputThread.SetApartmentState(ApartmentState.STA);
             _outputThread.IsBackground = true;
 
-            CreateInterfaceAssignment(id, outputHandlerInterfaceAssignmentFile);
+            CreateInterfaceAssignment(id, outputHandlerInterfaceAssignmentFile.Assignment);
         }
 
         #endregion
 
         #region Methods
+
+        public override void Initialize()
+        {
+            //
+        }
+
+        public override void Deinitialize()
+        {
+            //
+        }
 
         public void InitializeOutputHandler()
         {
@@ -172,7 +182,7 @@ namespace _PlcAgent.Output
             public OutputHandlerException(string info) : base(info) { }
         }
 
-        private Boolean CheckInterface()
+        protected override Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
@@ -185,14 +195,9 @@ namespace _PlcAgent.Output
             return true;
         }
 
-        public void CreateInterfaceAssignment(uint id,
-            OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
+        protected override sealed void CreateInterfaceAssignment(uint id, string[][] assignment)
         {
-            OutputHandlerInterfaceAssignmentFile = outputHandlerInterfaceAssignmentFile;
-            if (OutputHandlerInterfaceAssignmentFile.Assignment[id].Length == 0)
-            {
-                OutputHandlerInterfaceAssignmentFile.Assignment[id] = new string[4];
-            }
+            if (assignment[id].Length == 0) assignment[id] = new string[4];
 
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
@@ -239,5 +244,6 @@ namespace _PlcAgent.Output
         }
 
         #endregion
+   
     }
 }

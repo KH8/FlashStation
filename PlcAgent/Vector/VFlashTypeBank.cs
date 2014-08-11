@@ -1,20 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _PlcAgent.General;
 using _PlcAgent.Log;
-using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.Vector
 {
-    public class VFlashDisplayProjectData
+    public class VFlashTypeBank : Module
     {
-        public uint Type { get; set; }
-        public string Version { get; set; }
-        public string Path { get; set; }
-    }
+        public class VFlashDisplayProjectData
+        {
+            public uint Type { get; set; }
+            public string Version { get; set; }
+            public string Path { get; set; }
+        }
 
-    public class VFlashTypeBank : RegistryComponent
-    {
+        public class VFlashTypeComponent : VFlashDisplayProjectData
+        {
+            public VFlashTypeComponent(uint type, string version, string path)
+            {
+                Type = type;
+                Version = version;
+                Path = path;
+            }
+        }
+
+        public static class VFlashTypeConverter
+        {
+            public static string[] VFlashTypesToStrings(List<VFlashDisplayProjectData> list)
+            {
+                var output = new string[list.Count];
+                uint i = 0;
+                foreach (var vFlashType in list)
+                {
+                    var type = (VFlashTypeComponent)vFlashType;
+                    output[i] = type.Type + "=" + type.Version + "+" + type.Path; i++;
+                }
+                return output;
+            }
+
+            public static void StringsToVFlashChannels(string[] types, VFlashTypeBank bank)
+            {
+                try
+                {
+                    var dictionary = types.Select(type => type.Split('=')).ToDictionary<string[], uint, string>(words => Convert.ToUInt16(words[0]), words => words[1]);
+                    var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
+                    foreach (KeyValuePair<uint, string> type in sortedDict)
+                    {
+                        var words = type.Value.Split('+');
+                        bank.Add(new VFlashTypeComponent(type.Key, words[0], words[1]));
+                    }
+                }
+                catch (Exception e) { Logger.Log("Configuration is wrong : " + e.Message); }
+            }
+        }
+
         private List<VFlashDisplayProjectData> _children = new List<VFlashDisplayProjectData>();
 
         public VFlashTypeBankFile VFlashTypeBankFile;
@@ -22,6 +62,16 @@ namespace _PlcAgent.Vector
         public VFlashTypeBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile) : base(id, name)
         {
             VFlashTypeBankFile = vFlashTypeBankFile;
+        }
+
+        public override void Initialize()
+        {
+            //
+        }
+
+        public override void Deinitialize()
+        {
+            //
         }
 
         public List<VFlashDisplayProjectData> Children
@@ -62,44 +112,6 @@ namespace _PlcAgent.Vector
         {
             var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);
             return child != null ? child.Version : null;
-        }
-    }
-
-    class VFlashTypeComponent : VFlashDisplayProjectData
-    {
-        public VFlashTypeComponent(uint type, string version, string path)
-        {
-            Type = type;
-            Version = version;
-            Path = path;
-        }
-    }
-
-    static class VFlashTypeConverter
-    {
-        public static string[] VFlashTypesToStrings(List<VFlashDisplayProjectData> list)
-        {
-            var output = new string[list.Count];
-                uint i = 0;
-                foreach (var vFlashType in list){
-                    var type = (VFlashTypeComponent) vFlashType;
-                    output[i] = type.Type +"=" + type.Version + "+" + type.Path; i++; }
-            return output;
-        }
-
-        public static void StringsToVFlashChannels(string[] types, VFlashTypeBank bank)
-        {
-            try
-            {
-                var dictionary = types.Select(type => type.Split('=')).ToDictionary<string[], uint, string>(words => Convert.ToUInt16(words[0]), words => words[1]);
-                var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
-                foreach (KeyValuePair<uint, string> type in sortedDict)
-                {
-                    var words = type.Value.Split('+');
-                    bank.Add(new VFlashTypeComponent(type.Key, words[0], words[1]));
-                }
-            }
-            catch (Exception e) { Logger.Log("Configuration is wrong : " + e.Message);}
         }
     }
 }

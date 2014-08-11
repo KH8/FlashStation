@@ -8,7 +8,7 @@ using _PlcAgent.Log;
 
 namespace _PlcAgent.Vector
 {
-    public class VFlashHandler : Module
+    public class VFlashHandler : OutputModule
     {
         #region Variables
 
@@ -52,6 +52,7 @@ namespace _PlcAgent.Vector
         public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile) : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
+            VFlashHandlerInterfaceAssignmentFile = vFlashHandlerInterfaceAssignmentFile;
 
             _vFlashErrorCollector = new VFlashErrorCollector();
             _vFlashStationController = new VFlashStationController(ReportError, Header.Id);
@@ -64,7 +65,7 @@ namespace _PlcAgent.Vector
             _vFlashThread.SetApartmentState(ApartmentState.STA);
             _vFlashThread.IsBackground = true;
 
-            CreateInterfaceAssignment(id, vFlashHandlerInterfaceAssignmentFile);
+            CreateInterfaceAssignment(id, VFlashHandlerInterfaceAssignmentFile.Assignment);
         }
 
         #endregion
@@ -140,7 +141,12 @@ namespace _PlcAgent.Vector
             return (VFlashChannel)_vFlashStationController.ReturnChannelSetup(chanId);
         }
 
-        public void Deinitialize()
+        public override void Initialize()
+        {
+            //
+        }
+
+        public override void Deinitialize()
         {
             _vFlashStationController.Deinitialize();
         }
@@ -351,7 +357,7 @@ namespace _PlcAgent.Vector
             }
         }
 
-        private Boolean CheckInterface()
+        protected override Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
@@ -386,10 +392,9 @@ namespace _PlcAgent.Vector
 
         #endregion
 
-        public void CreateInterfaceAssignment(uint id, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile)
+        protected override sealed void CreateInterfaceAssignment(uint id, string[][] assignment)
         {
-            VFlashHandlerInterfaceAssignmentFile = vFlashHandlerInterfaceAssignmentFile;
-            if (VFlashHandlerInterfaceAssignmentFile.Assignment[id].Length == 0) VFlashHandlerInterfaceAssignmentFile.Assignment[id] = new string[10];
+            if (assignment[id].Length == 0) assignment[id] = new string[10];
 
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment

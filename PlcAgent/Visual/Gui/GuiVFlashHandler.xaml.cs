@@ -20,7 +20,7 @@ namespace _PlcAgent.Visual.Gui
 
         private readonly Thread _updateThread;
 
-        public GuiVFlashHandler(Module module)
+        public GuiVFlashHandler(OutputModule module)
         {
             InitializeComponent();
             _vFlash = (VFlashHandler)module;

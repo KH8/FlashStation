@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using _PlcAgent.MainRegistry;
+using _PlcAgent.General;
 
 namespace _PlcAgent.Visual.Gui
 {
-    public class GuiComponent : RegistryComponent
+    public class GuiComponent : Module
     {
         private Grid _generalGridMemory = new Grid();
         public readonly UserControl UserControl;
@@ -23,7 +23,18 @@ namespace _PlcAgent.Visual.Gui
             _generalGridMemory = generalGrid;
         }
 
+        public override void Initialize()
+        {
+            //
+        }
+
+        public override void Deinitialize()
+        {
+            //
+        }
+
         public void MakeVisible() { UserControl.Visibility = Visibility.Visible; }
         public void MakeInvisible() { UserControl.Visibility = Visibility.Hidden; }
+
     }
 }
