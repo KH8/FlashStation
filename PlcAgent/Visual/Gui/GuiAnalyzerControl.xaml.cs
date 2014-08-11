@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Win32;
-using _PlcAgent.Analyzer;
 using _PlcAgent.General;
 
 namespace _PlcAgent.Visual.Gui
