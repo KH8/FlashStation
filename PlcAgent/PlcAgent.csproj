@@ -96,7 +96,8 @@
     </ApplicationDefinition>
     <Compile Include="Analyzer\AnalyzerChannel.cs" />
     <Compile Include="Analyzer\AnalyzerDataCursorPoint.cs" />
-    <Compile Include="Analyzer\AnalyzerGuiComponent.cs" />
+    <Compile Include="Analyzer\AnalyzerComponent.cs" />
+    <Compile Include="Analyzer\AnalyzerObservableTime.cs" />
     <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
     <Compile Include="Analyzer\AnalyzerSetupFile.Designer.cs">
       <AutoGen>True</AutoGen>

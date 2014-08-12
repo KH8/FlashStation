@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Media;
 using OxyPlot;
@@ -8,7 +7,7 @@ using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Analyzer
 {
-    public class AnalyzerObservableVariable
+    public class AnalyzerObservableVariable : AnalyzerComponent
     {
         private MainViewModel _mainViewModel;
 
@@ -24,7 +23,7 @@ namespace _PlcAgent.Analyzer
         public CommunicationInterfaceVariable CommunicationInterfaceVariable { get; set; }
 
         public VariableType Type { get; set; }
-        public string Name { get; set; }
+        public new string Name { get; set; }
         public string Unit { get; set; }
 
         public Brush Brush
@@ -38,13 +37,16 @@ namespace _PlcAgent.Analyzer
         public double ValueY { get; set; }
         public double ValueX { get; set; }
 
+        public double ValueFactor { get; set; }
+
         public MainViewModel MainViewModel
         {
             get { return (MainViewModel) _mainViewModel.Clone(); }
             set { _mainViewModel = value; }
         }
 
-        public AnalyzerObservableVariable(CommunicationInterfaceVariable communicationInterfaceVariable)
+        public AnalyzerObservableVariable(Analyzer analyzer, CommunicationInterfaceVariable communicationInterfaceVariable)
+            : base(analyzer)
         {
             CommunicationInterfaceVariable = communicationInterfaceVariable;
             Name = communicationInterfaceVariable.Name;
@@ -53,6 +55,8 @@ namespace _PlcAgent.Analyzer
 
             MinValue = 0.0;
             MaxValue = 0.0;
+
+            ValueFactor = 1.0;
 
             _mainViewModel = new MainViewModel();
         }
@@ -68,6 +72,10 @@ namespace _PlcAgent.Analyzer
             if (ValueY < MinValue) MinValue = ValueY;
 
             _mainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
+
+            _mainViewModel.HorizontalAxis.Reset();
+            _mainViewModel.HorizontalAxis.Minimum = ValueX - (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * ValueFactor));
+            _mainViewModel.HorizontalAxis.Maximum = ValueX + (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * ValueFactor));
         }
 
         public double GetValue(double valueX, double tolerance)
@@ -131,5 +139,11 @@ namespace _PlcAgent.Analyzer
                     throw new Exception("This type of CommunicationInterfaceVariable is not handled");
             }
         }
+
+        protected override void OnRecordingChanged()
+        {}
+
+        protected override void OnRecordingTimeChanged()
+        {}
     }
 }

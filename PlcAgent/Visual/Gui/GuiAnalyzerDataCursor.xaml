@@ -1,4 +1,4 @@
-﻿<analyzer:AnalyzerGuiComponent x:Class="_PlcAgent.Visual.Gui.GuiAnalyzerDataCursor"
+﻿<analyzer:AnalyzerComponent x:Class="_PlcAgent.Visual.Gui.GuiAnalyzerDataCursor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -22,4 +22,4 @@
             </Label.RenderTransform>
         </Label>
     </Grid>
-</analyzer:AnalyzerGuiComponent>
+</analyzer:AnalyzerComponent>

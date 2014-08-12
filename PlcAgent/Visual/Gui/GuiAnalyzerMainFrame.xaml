@@ -1,4 +1,4 @@
-﻿<analyzer:AnalyzerGuiComponent x:Class="_PlcAgent.Visual.Gui.GuiAnalyzerMainFrame"
+﻿<analyzer:AnalyzerComponent x:Class="_PlcAgent.Visual.Gui.GuiAnalyzerMainFrame"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,4 +20,4 @@
             <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10"/>
         </Grid>
     </Grid>
-</analyzer:AnalyzerGuiComponent>
+</analyzer:AnalyzerComponent>

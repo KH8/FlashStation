@@ -41,11 +41,11 @@
       <FileName>Analyzer\AnalyzerDataCursorPoint.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_PlcAgent.Analyzer.AnalyzerGuiComponent" Collapsed="true">
+  <Class Name="_PlcAgent.Analyzer.AnalyzerComponent" Collapsed="true">
     <Position X="6.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAABAAAACCAAAAAAAAA=</HashCode>
-      <FileName>Analyzer\AnalyzerGuiComponent.cs</FileName>
+      <FileName>Analyzer\AnalyzerComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerObservableVariable" Collapsed="true">

@@ -5,16 +5,15 @@ using System.Windows.Media;
 
 namespace _PlcAgent.Analyzer
 {
-    public class AnalyzerChannel
+    public class AnalyzerChannel : AnalyzerComponent
     {
         private uint _id;
-        private Analyzer _analyzer;
         private AnalyzerObservableVariable _analyzerObservableVariable;
 
         public AnalyzerChannel(uint id, Analyzer analyzer)
+            : base(analyzer)
         {
             _id = id;
-            _analyzer = analyzer;
         }
 
         public uint Id
@@ -23,17 +22,17 @@ namespace _PlcAgent.Analyzer
             set { _id = value; }
         }
 
-        public Analyzer Analyzer
-        {
-            get { return _analyzer; }
-            set { _analyzer = value; }
-        }
-
         public AnalyzerObservableVariable AnalyzerObservableVariable
         {
             get { return _analyzerObservableVariable; }
             set { _analyzerObservableVariable = value; }
         }
+
+        protected override void OnRecordingChanged()
+        {}
+
+        protected override void OnRecordingTimeChanged()
+        {}
     }
 
     public class AnalyzerChannelList : AnalyzerChannel
@@ -78,6 +77,15 @@ namespace _PlcAgent.Analyzer
             return Children.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
         }
 
+        public void Clear()
+        {
+            foreach (var analyzerChannel in Children)
+            {
+                if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                analyzerChannel.AnalyzerObservableVariable.Clear();
+            }
+        }
+
         public void StoreConfiguration()
         {
             AnalyzerSetupFile.Channels[Analyzer.Header.Id] = new string[1];
@@ -112,7 +120,7 @@ namespace _PlcAgent.Analyzer
                     var newChannel = new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer)
                     {
                         AnalyzerObservableVariable =
-                            new AnalyzerObservableVariable(
+                            new AnalyzerObservableVariable(Analyzer,
                                 Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
                                     channelStrings[1]))
                             {

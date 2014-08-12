@@ -24,8 +24,7 @@ namespace _PlcAgent.Analyzer
         private double _startRecordingTime;
         private double _recordingTime;
 
-        private MainViewModel _timeAxisViewModel;
-        private readonly TimeSpanAxis _timeAxis;
+        private AnalyzerObservableTime _observableTime;
 
         private readonly Thread _thread;
         private readonly Thread _visualThread;
@@ -68,10 +67,15 @@ namespace _PlcAgent.Analyzer
             }
         }
 
-        public MainViewModel TimeAxisViewModel
+        public AnalyzerObservableTime ObservableTime
         {
-            get { return _timeAxisViewModel; }
-            set { _timeAxisViewModel = value; }
+            get { return _observableTime; }
+            private set
+            {
+                if (Equals(value, _observableTime)) return;
+                _observableTime = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion
@@ -90,23 +94,8 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
 
-            _timeAxisViewModel = new MainViewModel();
-            _timeAxisViewModel.Model.Axes.Clear();
-            _timeAxisViewModel.Model.Axes.Add(new LinearAxis
-            {
-                Position = AxisPosition.Left,
-                IsAxisVisible = false
-            });
-            _timeAxisViewModel.Model.Axes.Add(_timeAxis = new TimeSpanAxis
-            {
-                MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle = LineStyle.Dot,
-                Position = AxisPosition.Bottom,
-                StringFormat = "hh:mm:ss",
-                MajorStep = 1,
-                MinorStep = 0.1
-            });
-            _timeAxisViewModel.Brush = Brushes.Black;
+            _observableTime = new AnalyzerObservableTime(this);
+            
 
             AnalyzerChannels = new AnalyzerChannelList(0, this);
             AnalyzerChannels.RetriveConfiguration();
@@ -156,18 +145,12 @@ namespace _PlcAgent.Analyzer
 
         public void Clear()
         {
-            Parallel.ForEach(AnalyzerChannels.Children,
-                analyzerChannel =>
-                {
-                    if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                    analyzerChannel.AnalyzerObservableVariable.Clear();
-                });
+            AnalyzerChannels.Clear();
+            _observableTime.Clear();
 
-            _timeAxisViewModel.Clear();
-
-            _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
             RecordingTime = 0.0;
-
+            _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            
             Logger.Log("ID: " + Header.Id + " Analysis cleared");
         }
 
@@ -176,7 +159,6 @@ namespace _PlcAgent.Analyzer
             AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
 
             uint id = 0;
-
             for (uint i = 0; i < AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
             {
                 if (AnalyzerChannels.GetChannel(i) != null) continue;
@@ -204,21 +186,21 @@ namespace _PlcAgent.Analyzer
 
         public void SynchronizeView()
         {
-            var timeDiff = (_timeAxis.ActualMaximum - _timeAxis.ActualMinimum) / 2.0;
-            var timeTick = _timeAxis.ActualMinimum + timeDiff;
+            var timeDiff = (_observableTime.TimeSpanAxis.ActualMaximum - _observableTime.TimeSpanAxis.ActualMinimum) / 2.0;
+            var timeTick = _observableTime.TimeSpanAxis.ActualMinimum + timeDiff;
 
-            _timeAxis.Reset();
-            _timeAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
-            _timeAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+            _observableTime.TimeSpanAxis.Reset();
+            _observableTime.TimeSpanAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+            _observableTime.TimeSpanAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
 
-            _timeAxisViewModel.Model.InvalidatePlot(true);
+            _observableTime.MainViewModel.Model.InvalidatePlot(true);
 
             Parallel.ForEach(AnalyzerChannels.Children,
                 analyzerChannel =>
                 {
                     if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _timeAxis.ActualMinimum * 1000.0;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _timeAxis.ActualMaximum * 1000.0;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _observableTime.TimeSpanAxis.ActualMinimum * 1000.0;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _observableTime.TimeSpanAxis.ActualMaximum * 1000.0;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
                 });
         }
@@ -289,27 +271,13 @@ namespace _PlcAgent.Analyzer
 
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
-                        {
-                            if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                            analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick.TotalMilliseconds);
+                    {
+                        if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                        analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick.TotalMilliseconds);
+                    });
+                    _observableTime.StoreActualValue(TimeSpanAxis.ToDouble(timeTick));
 
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Reset();
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum =
-                                analyzerChannel.AnalyzerObservableVariable.ValueX -
-                                (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum =
-                                analyzerChannel.AnalyzerObservableVariable.ValueX +
-                                (AnalyzerSetupFile.TimeRange[Header.Id]/2.0);
-                        });
                     StorePointsInCsvFile();
-
-                    var timePoint = new DataPoint(TimeSpanAxis.ToDouble(timeTick), 0);
-                    _timeAxisViewModel.AddPoint(timePoint);
-
-                    _timeAxis.Reset();
-
-                    _timeAxis.Minimum = timeTick.TotalSeconds - (AnalyzerSetupFile.TimeRange[Header.Id]/2000.0);
-                    _timeAxis.Maximum = timeTick.TotalSeconds + (AnalyzerSetupFile.TimeRange[Header.Id]/2000.0);
 
                     RecordingTime = lastMilliseconds - _startRecordingTime;
                 }

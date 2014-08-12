@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace _PlcAgent.Analyzer
 {
-    public abstract class AnalyzerGuiComponent : UserControl
+    public abstract class AnalyzerComponent : UserControl
     {
         protected Analyzer Analyzer;
 
@@ -23,7 +23,7 @@ namespace _PlcAgent.Analyzer
         protected abstract void OnRecordingChanged();
         protected abstract void OnRecordingTimeChanged();
 
-        protected AnalyzerGuiComponent(Analyzer analyzer)
+        protected AnalyzerComponent(Analyzer analyzer)
         {
             Analyzer = analyzer;
             Analyzer.PropertyChanged += OnPropertyChangedEventHandler;

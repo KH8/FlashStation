@@ -1,13 +1,15 @@
-﻿using System;using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
+using _PlcAgent.Analyzer;
 
 namespace _PlcAgent.Visual.Gui
 {
     /// <summary>
     /// Interaction logic for GuiInterfaceAssignment.xaml
     /// </summary>
-    public partial class GuiAnalyzerConfiguration
+    public partial class GuiAnalyzerConfiguration : AnalyzerComponent
     {
         #region Variables
 

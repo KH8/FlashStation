@@ -152,7 +152,7 @@ namespace _PlcAgent.Visual.Gui
             if (!_save) return;
             try
             {
-                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable((CommunicationInterfaceVariable)selector.SelectedItem)
+                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer,(CommunicationInterfaceVariable)selector.SelectedItem)
                 {
                     Brush = (Brush) BrushComboBox.SelectedItem,
                     Unit = UnitTextBox.Text
