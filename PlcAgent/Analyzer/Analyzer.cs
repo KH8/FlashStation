@@ -4,9 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using CsvHelper;
-using OxyPlot;
 using OxyPlot.Axes;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -24,8 +22,6 @@ namespace _PlcAgent.Analyzer
         private double _startRecordingTime;
         private double _recordingTime;
 
-        private AnalyzerObservableTime _observableTime;
-
         private readonly Thread _thread;
         private readonly Thread _visualThread;
 
@@ -40,6 +36,7 @@ namespace _PlcAgent.Analyzer
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
         public AnalyzerChannelList AnalyzerChannels { get; set; }
+
         public GuiAnalyzerMainFrame GuiAnalyzerMainFrame { get; set; }
         public GuiAnalyzerDataCursorTable GuiAnalyzerDataCursorTable { get; set; }
 
@@ -67,16 +64,7 @@ namespace _PlcAgent.Analyzer
             }
         }
 
-        public AnalyzerObservableTime ObservableTime
-        {
-            get { return _observableTime; }
-            private set
-            {
-                if (Equals(value, _observableTime)) return;
-                _observableTime = value;
-                OnPropertyChanged();
-            }
-        }
+        public AnalyzerObservableTime ObservableTime { get; set; }
 
         #endregion
 
@@ -94,9 +82,8 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
 
-            _observableTime = new AnalyzerObservableTime(this);
+            ObservableTime = new AnalyzerObservableTime(this);
             
-
             AnalyzerChannels = new AnalyzerChannelList(0, this);
             AnalyzerChannels.RetriveConfiguration();
 
@@ -146,7 +133,7 @@ namespace _PlcAgent.Analyzer
         public void Clear()
         {
             AnalyzerChannels.Clear();
-            _observableTime.Clear();
+            ObservableTime.Clear();
 
             RecordingTime = 0.0;
             _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
@@ -168,9 +155,6 @@ namespace _PlcAgent.Analyzer
 
             AnalyzerChannels.Add(new AnalyzerChannel(id, this));
             AnalyzerSetupFile.Save();
-
-            if (GuiAnalyzerMainFrame == null) return;
-            GuiAnalyzerMainFrame.RefreshGui();
         }
 
         public void RemoveChannel(AnalyzerChannel analyzerChannel)
@@ -179,28 +163,25 @@ namespace _PlcAgent.Analyzer
 
             AnalyzerSetupFile.NumberOfChannels[Header.Id] -= 1;
             AnalyzerSetupFile.Save();
-
-            if (GuiAnalyzerMainFrame == null) return;
-            GuiAnalyzerMainFrame.RefreshGui();
         }
 
         public void SynchronizeView()
         {
-            var timeDiff = (_observableTime.TimeSpanAxis.ActualMaximum - _observableTime.TimeSpanAxis.ActualMinimum) / 2.0;
-            var timeTick = _observableTime.TimeSpanAxis.ActualMinimum + timeDiff;
+            var timeDiff = (ObservableTime.TimeSpanAxis.ActualMaximum - ObservableTime.TimeSpanAxis.ActualMinimum) / 2.0;
+            var timeTick = ObservableTime.TimeSpanAxis.ActualMinimum + timeDiff;
 
-            _observableTime.TimeSpanAxis.Reset();
-            _observableTime.TimeSpanAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
-            _observableTime.TimeSpanAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+            ObservableTime.TimeSpanAxis.Reset();
+            ObservableTime.TimeSpanAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
+            ObservableTime.TimeSpanAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
 
-            _observableTime.MainViewModel.Model.InvalidatePlot(true);
+            ObservableTime.MainViewModel.Model.InvalidatePlot(true);
 
             Parallel.ForEach(AnalyzerChannels.Children,
                 analyzerChannel =>
                 {
                     if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = _observableTime.TimeSpanAxis.ActualMinimum * 1000.0;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = _observableTime.TimeSpanAxis.ActualMaximum * 1000.0;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = ObservableTime.TimeSpanAxis.ActualMinimum * 1000.0;
+                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = ObservableTime.TimeSpanAxis.ActualMaximum * 1000.0;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
                 });
         }
@@ -251,7 +232,7 @@ namespace _PlcAgent.Analyzer
 
         public double GetTimePosition(double positionPercentage)
         {
-            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + _timeAxis.Minimum * 1000.0;
+            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + ObservableTime.TimeSpanAxis.Minimum * 1000.0;
         }
 
         #endregion
@@ -269,16 +250,15 @@ namespace _PlcAgent.Analyzer
                 {
                     var timeTick = DateTime.Now.TimeOfDay;
 
+                    ObservableTime.StoreActualValue(TimeSpanAxis.ToDouble(timeTick));
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
                     {
                         if (analyzerChannel.AnalyzerObservableVariable == null) return;
                         analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick.TotalMilliseconds);
                     });
-                    _observableTime.StoreActualValue(TimeSpanAxis.ToDouble(timeTick));
 
                     StorePointsInCsvFile();
-
                     RecordingTime = lastMilliseconds - _startRecordingTime;
                 }
 

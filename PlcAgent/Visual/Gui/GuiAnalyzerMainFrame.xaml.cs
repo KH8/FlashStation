@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -33,6 +34,9 @@ namespace _PlcAgent.Visual.Gui
         {
             InitializeComponent();
 
+            Analyzer.AnalyzerChannels.OnChannelListModified += RefreshGui;
+            Analyzer.ObservableTime.OnPointCreated += OnPointCreated;
+
             _channelList = new List<GuiComponent>();
 
             AnalyzerDataCursorRed = new GuiAnalyzerDataCursor(Analyzer)
@@ -57,7 +61,7 @@ namespace _PlcAgent.Visual.Gui
                 AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
             }
 
-            PlotArea.DataContext = Analyzer.TimeAxisViewModel;
+            PlotArea.DataContext = Analyzer.ObservableTime.MainViewModel;
 
             RefreshGui();
         }
@@ -120,6 +124,12 @@ namespace _PlcAgent.Visual.Gui
 
 
         #region Event Handlers
+
+        private void OnPointCreated()
+        {
+            PlotArea.Dispatcher.BeginInvoke((new Action(
+                () => PlotArea.DataContext = Analyzer.ObservableTime.MainViewModel)));
+        }
 
         protected override void OnRecordingChanged()
         {

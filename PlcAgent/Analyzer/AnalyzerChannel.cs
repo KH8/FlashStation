@@ -1,42 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
+using _PlcAgent.Annotations;
 
 namespace _PlcAgent.Analyzer
 {
     public class AnalyzerChannel : AnalyzerComponent
     {
-        private uint _id;
-        private AnalyzerObservableVariable _analyzerObservableVariable;
+        #region Constructors
 
         public AnalyzerChannel(uint id, Analyzer analyzer)
             : base(analyzer)
         {
-            _id = id;
+            Id = id;
         }
 
-        public uint Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public uint Id { get; set; }
 
-        public AnalyzerObservableVariable AnalyzerObservableVariable
-        {
-            get { return _analyzerObservableVariable; }
-            set { _analyzerObservableVariable = value; }
-        }
+        #endregion
+
+
+        #region Properties
+
+        public AnalyzerObservableVariable AnalyzerObservableVariable { get; set; }
+
+        #endregion
+
+
+        #region Event Handlers
 
         protected override void OnRecordingChanged()
         {}
 
         protected override void OnRecordingTimeChanged()
         {}
+
+        #endregion
+
     }
 
     public class AnalyzerChannelList : AnalyzerChannel
     {
+        #region Properties
+
         public List<AnalyzerChannel> Children { get; set; }
 
         public uint HighestId
@@ -54,27 +63,36 @@ namespace _PlcAgent.Analyzer
 
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
 
+        public delegate void ChannelListModifiedDelegate();
+        public ChannelListModifiedDelegate OnChannelListModified;
+
+        #endregion
+
+        #region Constructors
+
+        #region Methods
+
         public AnalyzerChannelList(uint id, Analyzer analyzer) : base(id, analyzer)
         {
             Children = new List<AnalyzerChannel>();
             AnalyzerSetupFile = analyzer.AnalyzerSetupFile;
         }
 
+        #endregion
+
+
         public void Add(AnalyzerChannel analyzerChannel)
         {
             Children.Add(analyzerChannel);
             StoreConfiguration();
+            if (OnChannelListModified != null) OnChannelListModified();
         }
 
         public void Remove(AnalyzerChannel analyzerChannel)
         {
             Children.Remove(analyzerChannel);
             StoreConfiguration();
-        }
-
-        public AnalyzerChannel GetChannel(uint id)
-        {
-            return Children.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
+            if (OnChannelListModified != null) OnChannelListModified();
         }
 
         public void Clear()
@@ -84,6 +102,12 @@ namespace _PlcAgent.Analyzer
                 if (analyzerChannel.AnalyzerObservableVariable == null) return;
                 analyzerChannel.AnalyzerObservableVariable.Clear();
             }
+            if (OnChannelListModified != null) OnChannelListModified();
+        }
+
+        public AnalyzerChannel GetChannel(uint id)
+        {
+            return Children.FirstOrDefault(analyzerChannel => analyzerChannel.Id == id);
         }
 
         public void StoreConfiguration()
@@ -99,13 +123,13 @@ namespace _PlcAgent.Analyzer
                 }
                 else
                 {
-                    AnalyzerSetupFile.Channels[Analyzer.Header.Id][analyzerChannel.Id] = 
-                    analyzerChannel.Id + "%" +
-                    analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable.Name + "%" +
-                    analyzerChannel.AnalyzerObservableVariable.Name + "%" +
-                    analyzerChannel.AnalyzerObservableVariable.Type + "%" +
-                    analyzerChannel.AnalyzerObservableVariable.Unit + "%" +
-                    analyzerChannel.AnalyzerObservableVariable.Brush;
+                    AnalyzerSetupFile.Channels[Analyzer.Header.Id][analyzerChannel.Id] =
+                        analyzerChannel.Id + "%" +
+                        analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable.Name + "%" +
+                        analyzerChannel.AnalyzerObservableVariable.Name + "%" +
+                        analyzerChannel.AnalyzerObservableVariable.Type + "%" +
+                        analyzerChannel.AnalyzerObservableVariable.Unit + "%" +
+                        analyzerChannel.AnalyzerObservableVariable.Brush;
                 }
             }
             AnalyzerSetupFile.Save();
@@ -113,7 +137,10 @@ namespace _PlcAgent.Analyzer
 
         public void RetriveConfiguration()
         {
-            foreach (var channelStrings in AnalyzerSetupFile.Channels[Analyzer.Header.Id].Where(channel => channel != null).Select(channel => channel.Split('%')))
+            foreach (
+                var channelStrings in
+                    AnalyzerSetupFile.Channels[Analyzer.Header.Id].Where(channel => channel != null)
+                        .Select(channel => channel.Split('%')))
             {
                 if (channelStrings[1] != "Empty")
                 {
@@ -129,7 +156,7 @@ namespace _PlcAgent.Analyzer
                     };
                     newChannel.AnalyzerObservableVariable.Unit = channelStrings[4];
                     newChannel.AnalyzerObservableVariable.Brush =
-                        (Brush)new BrushConverter().ConvertFromString(channelStrings[5]);
+                        (Brush) new BrushConverter().ConvertFromString(channelStrings[5]);
 
                     Children.Add(newChannel);
                 }
@@ -139,5 +166,8 @@ namespace _PlcAgent.Analyzer
                 }
             }
         }
+
+        #endregion
+
     }
 }

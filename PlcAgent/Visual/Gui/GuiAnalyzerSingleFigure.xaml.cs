@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using _PlcAgent.Analyzer;
@@ -15,19 +16,33 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerSingleFigure : IResizableGui
     {
+        #region Variables
+
         private readonly Boolean _save;
         private readonly AnalyzerChannel _analyzerChannel;
 
         private readonly Thread _updateThread;
-        
+
+        #endregion
+
+
+        #region Properties
+
         public uint Id;
+
+        public AnalyzerChannel AnalyzerChannel { get { return _analyzerChannel;}}
+
+        #endregion
+
+
+        #region Constructors
 
         public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
 
             Id = id;
-            
+
             _analyzerChannel = Analyzer.AnalyzerChannels.GetChannel(Id);
 
             var colorsList = new List<Brush>
@@ -54,12 +69,18 @@ namespace _PlcAgent.Visual.Gui
 
             if (_analyzerChannel.AnalyzerObservableVariable != null)
             {
-                VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
-                foreach (var brush in colorsList.Where(brush => Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
+                VariableComboBox.SelectedItem =
+                    _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
+                foreach (
+                    var brush in
+                        colorsList.Where(
+                            brush =>
+                                Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
                 {
                     BrushComboBox.SelectedItem = brush;
                 }
-                UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit; 
+                UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
+                _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
             }
 
             _save = true;
@@ -72,15 +93,15 @@ namespace _PlcAgent.Visual.Gui
             _updateThread.Start();
         }
 
+        #endregion
+
+
+        #region Mathods
+
         public void Update()
         {
             while (_updateThread.IsAlive)
             {
-                if (_analyzerChannel.AnalyzerObservableVariable != null && Analyzer.Recording)
-                {
-                    PlotArea.Dispatcher.BeginInvoke((new Action(
-                            () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
-                }
                 UpdateControls();
                 Thread.Sleep(10);
             }
@@ -106,16 +127,37 @@ namespace _PlcAgent.Visual.Gui
             if (VariableLabel == null) return;
             VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
-                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name 
-                    + ", " + _analyzerChannel.AnalyzerObservableVariable.Type 
-                    + ", [" +  _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
+                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
+                                        + ", " + _analyzerChannel.AnalyzerObservableVariable.Type
+                                        + ", [" + _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
             })));
             MinMaxLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
-                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY 
-                    + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
-                    + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
+                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
+                                      + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
+                                      + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
             })));
+
+        }
+
+        #endregion
+
+
+        #region Event Handlers
+
+        private void OnPointCreated()
+        {
+            PlotArea.Dispatcher.BeginInvoke((new Action(
+                () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
+        }
+
+        private void RemoveChannel(object sender, RoutedEventArgs e)
+        {
+            Analyzer.RemoveChannel(_analyzerChannel);
+        }
+
+        protected override void OnRecordingChanged()
+        {
             VariableComboBox.Dispatcher.BeginInvoke((new Action(delegate
             {
                 VariableComboBox.IsEnabled = !Analyzer.Recording;
@@ -126,22 +168,15 @@ namespace _PlcAgent.Visual.Gui
             })));
         }
 
-        private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Analyzer.RemoveChannel(_analyzerChannel);
-        }
-
-        protected override void OnRecordingChanged()
-        {}
-
         protected override void OnRecordingTimeChanged()
-        {}
+        {
+        }
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_save) return; 
+            if (!_save) return;
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush)BrushComboBox.SelectedItem;
+            _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush) BrushComboBox.SelectedItem;
             Analyzer.AnalyzerChannels.StoreConfiguration();
         }
 
@@ -152,11 +187,13 @@ namespace _PlcAgent.Visual.Gui
             if (!_save) return;
             try
             {
-                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer,(CommunicationInterfaceVariable)selector.SelectedItem)
+                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer,
+                    (CommunicationInterfaceVariable) selector.SelectedItem)
                 {
                     Brush = (Brush) BrushComboBox.SelectedItem,
                     Unit = UnitTextBox.Text
                 };
+                _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
                 Analyzer.AnalyzerChannels.StoreConfiguration();
             }
             catch (Exception)
@@ -174,13 +211,22 @@ namespace _PlcAgent.Visual.Gui
         {
             var box = (TextBox) sender;
 
-            if (!_save) return; 
+            if (!_save) return;
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            try { _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text; }
-            catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
+            try
+            {
+                _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text;
+            }
+            catch (Exception)
+            {
+                _analyzerChannel.AnalyzerObservableVariable.Unit = "1";
+            }
 
             UpdateControls();
             Analyzer.AnalyzerChannels.StoreConfiguration();
         }
+
+        #endregion
+
     }
 }

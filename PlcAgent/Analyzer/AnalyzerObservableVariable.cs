@@ -39,6 +39,9 @@ namespace _PlcAgent.Analyzer
 
         public double ValueFactor { get; set; }
 
+        public delegate void PointCreatedDelegate();
+        public PointCreatedDelegate OnPointCreated;
+
         public MainViewModel MainViewModel
         {
             get { return (MainViewModel) _mainViewModel.Clone(); }
@@ -65,7 +68,7 @@ namespace _PlcAgent.Analyzer
         {
             if (CommunicationInterfaceVariable == null) return;
 
-            ValueY = GetValue(CommunicationInterfaceVariable);
+            ValueY = Convert.ToDouble(CommunicationInterfaceVariable.Value);
             ValueX = valueX;
 
             if (ValueY > MaxValue) MaxValue = ValueY;
@@ -76,6 +79,8 @@ namespace _PlcAgent.Analyzer
             _mainViewModel.HorizontalAxis.Reset();
             _mainViewModel.HorizontalAxis.Minimum = ValueX - (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * ValueFactor));
             _mainViewModel.HorizontalAxis.Maximum = ValueX + (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * ValueFactor));
+
+            if (OnPointCreated != null) OnPointCreated();
         }
 
         public double GetValue(double valueX, double tolerance)
@@ -95,30 +100,6 @@ namespace _PlcAgent.Analyzer
         public void Clear()
         {
             _mainViewModel.Clear();
-        }
-
-        private static double GetValue(CommunicationInterfaceVariable communicationInterfaceVariable)
-        {
-            switch (communicationInterfaceVariable.Type)
-            {
-                case CommunicationInterfaceComponent.VariableType.Bit:
-                    var componentBit = (CiBit) communicationInterfaceVariable;
-                    return Convert.ToDouble(componentBit.Value);
-                case CommunicationInterfaceComponent.VariableType.Byte:
-                    var componentByte = (CiByte) communicationInterfaceVariable;
-                    return Convert.ToDouble(componentByte.Value);
-                case CommunicationInterfaceComponent.VariableType.Integer:
-                    var componentInteger = (CiInteger) communicationInterfaceVariable;
-                    return Convert.ToDouble(componentInteger.Value);
-                case CommunicationInterfaceComponent.VariableType.DoubleInteger:
-                    var componentDoubleInteger = (CiDoubleInteger) communicationInterfaceVariable;
-                    return Convert.ToDouble(componentDoubleInteger.Value);
-                case CommunicationInterfaceComponent.VariableType.Real:
-                    var componentReal = (CiReal) communicationInterfaceVariable;
-                    return Convert.ToDouble(componentReal.Value);
-                default:
-                    throw new Exception("This type of CommunicationInterfaceVariable is not handled");
-            }
         }
 
         private static VariableType GetType(CommunicationInterfaceVariable communicationInterfaceVariable)
