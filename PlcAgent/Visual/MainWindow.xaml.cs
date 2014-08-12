@@ -460,7 +460,7 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                newGrid.Height = OutputTabControl.Height - 32;
+                newGrid.Height = OutputTabControl.Height - 50;
                 newGrid.Width = OutputTabControl.Width - 10;
 
                 var gridGuiVFlashPathBank = (GuiComponent)_registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);

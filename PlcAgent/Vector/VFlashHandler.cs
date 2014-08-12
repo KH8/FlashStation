@@ -12,9 +12,6 @@ namespace _PlcAgent.Vector
     {
         #region Variables
 
-        private Boolean _pcControlMode;
-        private Boolean _pcControlModeChangeAllowed;
-
         private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _vFlashErrorCollector;
         private VFlashTypeBank _vFlashTypeBank;
@@ -24,12 +21,6 @@ namespace _PlcAgent.Vector
         #endregion
 
         #region Properties
-
-        public Boolean PcControlMode
-        {
-            get { return _pcControlMode; }
-            set { if (_pcControlModeChangeAllowed) { _pcControlMode = value;}}
-        }
 
         public VFlashErrorCollector ErrorCollector
         {
@@ -167,9 +158,9 @@ namespace _PlcAgent.Vector
             while (_vFlashThread.IsAlive)
             {
                 var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
-                _pcControlModeChangeAllowed = false;
+                PcControlModeChangeAllowed = false;
 
-                if (channelFound != null && !_pcControlMode && CheckInterface())
+                if (channelFound != null && !PcControlMode && CheckInterface())
                 {
                     var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
                     var inputCompositeProgrammTyp = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type")).Value;
@@ -277,7 +268,7 @@ namespace _PlcAgent.Vector
                 else
                 {
                     antwort = 999;
-                    _pcControlModeChangeAllowed = true;
+                    PcControlModeChangeAllowed = true;
                 }
 
                 Int16 statusInt = 0;
@@ -287,14 +278,14 @@ namespace _PlcAgent.Vector
                     {
                         case VFlashStationComponent.VFlashStatus.Created:
                             statusInt = 100;
-                            _pcControlModeChangeAllowed = true;
+                            PcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Loading:
                             statusInt = 299;
                             break;
                         case VFlashStationComponent.VFlashStatus.Loaded:
                             statusInt = 200;
-                            _pcControlModeChangeAllowed = true;
+                            PcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:
                             statusInt = 399;
@@ -302,25 +293,25 @@ namespace _PlcAgent.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloaded:
                             statusInt = 300;
-                            _pcControlModeChangeAllowed = true;
+                            PcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Flashing:
                             statusInt = 499;
                             break;
                         case VFlashStationComponent.VFlashStatus.Flashed:
                             statusInt = 400;
-                            _pcControlModeChangeAllowed = true;
+                            PcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Aborting:
                             statusInt = 599;
                             break;
                         case VFlashStationComponent.VFlashStatus.Fault:
-                            _pcControlModeChangeAllowed = true;
+                            PcControlModeChangeAllowed = true;
                             statusInt = 999;
                             break;
                         default:
                             statusInt = 0;
-                            _pcControlModeChangeAllowed = true;
+                            PcControlModeChangeAllowed = true;
                             break;
                     }
                 if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())

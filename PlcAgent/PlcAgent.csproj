@@ -96,6 +96,7 @@
     </ApplicationDefinition>
     <Compile Include="Analyzer\AnalyzerChannel.cs" />
     <Compile Include="Analyzer\AnalyzerDataCursorPoint.cs" />
+    <Compile Include="Analyzer\AnalyzerGuiComponent.cs" />
     <Compile Include="Analyzer\AnalyzerObservableVariable.cs" />
     <Compile Include="Analyzer\AnalyzerSetupFile.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -135,6 +136,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainRegistryFile.settings</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Vector\VFlashHandlerInterfaceAssignmentFile.Designer.cs">
       <DependentUpon>VFlashHandlerInterfaceAssignmentFile.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -189,6 +191,8 @@
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Interfaces\IRefreshableGui.cs" />
+    <Compile Include="Visual\Interfaces\IResizableGui.cs" />
     <Compile Include="Visual\MainWindowConfigurationFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

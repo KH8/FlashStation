@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading;
-using System.Windows;
+﻿using System;using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using _PlcAgent.Analyzer;
-using _PlcAgent.General;
 
 namespace _PlcAgent.Visual.Gui
 {
@@ -14,50 +10,22 @@ namespace _PlcAgent.Visual.Gui
     public partial class GuiAnalyzerConfiguration
     {
         private readonly Boolean _save;
-        private readonly Analyzer.Analyzer _analyzer;
-        private readonly AnalyzerSetupFile _analyzerSetupFile;
 
-        private readonly Thread _updateThread;
-
-        public GuiAnalyzerConfiguration(OutputModule module)
+        public GuiAnalyzerConfiguration(Analyzer.Analyzer analyzer) : base(analyzer)
         {
-            _analyzer = (Analyzer.Analyzer) module;
-            _analyzerSetupFile = _analyzer.AnalyzerSetupFile;
-
             InitializeComponent();
 
-            SampleTimeSlider.Value = _analyzerSetupFile.SampleTime[_analyzer.Header.Id];
-            TimeRangeSlider.Value = _analyzerSetupFile.TimeRange[_analyzer.Header.Id];
+            SampleTimeSlider.Value = Analyzer.AnalyzerSetupFile.SampleTime[Analyzer.Header.Id];
+            TimeRangeSlider.Value = Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id];
 
-            _updateThread = new Thread(Update);
-            _updateThread.SetApartmentState(ApartmentState.STA);
-            _updateThread.IsBackground = true;
-            _updateThread.Start();
-
-            ShowDataCursorsCheckBox.IsChecked = _analyzerSetupFile.ShowDataCursors[_analyzer.Header.Id];
+            ShowDataCursorsCheckBox.IsChecked = Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id];
 
             _save = true;
         }
 
-        public void Update()
-        {
-            while (_updateThread.IsAlive)
-            {
-                AnalyzerAddChannelButton.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    AnalyzerAddChannelButton.IsEnabled = !_analyzer.Recording;
-                })));
-                AnalyzerExportButton.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    AnalyzerExportButton.IsEnabled = !_analyzer.Recording;
-                })));
-                Thread.Sleep(100);
-            }
-        }
-
         private void AddNewChannel(object sender, RoutedEventArgs e)
         {
-            _analyzer.AddNewChannel();
+            Analyzer.AddNewChannel();
         }
 
         private void Export(object sender, RoutedEventArgs e)
@@ -70,43 +38,63 @@ namespace _PlcAgent.Visual.Gui
             };
 
             var result = dlg.ShowDialog();
-            if (result == true) _analyzer.ExportCsvFile(dlg.FileName);
+            if (result == true) Analyzer.ExportCsvFile(dlg.FileName);
         }
 
         private void SampleTimeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var slider = (Slider) sender;
             SampleTimeLabel.Content = slider.Value + " ms";
-            if (!_save) return; 
-            _analyzerSetupFile.SampleTime[_analyzer.Header.Id] = (int) slider.Value;
-            _analyzerSetupFile.Save();
+
+            if (!_save) return;
+            Analyzer.AnalyzerSetupFile.SampleTime[Analyzer.Header.Id] = (int)slider.Value;
+            Analyzer.AnalyzerSetupFile.Save();
         }
 
         private void TimeRangeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var slider = (Slider)sender;
             TimeRangeLabel.Content = slider.Value + " ms";
-            if (!_save) return; 
-            _analyzerSetupFile.TimeRange[_analyzer.Header.Id] = slider.Value;
-            _analyzerSetupFile.Save();
+
+            if (!_save) return;
+            Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] = slider.Value;
+            Analyzer.AnalyzerSetupFile.Save();
         }
 
         private void ShowHideDataCursors(object sender, RoutedEventArgs e)
         {
             var showDataCursorsCheckBox = (CheckBox)sender;
             if (showDataCursorsCheckBox.IsChecked == null) return;
-            _analyzerSetupFile.ShowDataCursors[_analyzer.Header.Id] = (bool)showDataCursorsCheckBox.IsChecked;
-            _analyzerSetupFile.Save();
+
+            Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id] = (bool)showDataCursorsCheckBox.IsChecked;
+            Analyzer.AnalyzerSetupFile.Save();
 
             var visibility = Visibility.Hidden;
-            if (_analyzer.AnalyzerSetupFile.ShowDataCursors[_analyzer.Header.Id]) visibility = Visibility.Visible;
+            if (Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id]) visibility = Visibility.Visible;
 
-            if (_analyzer.GuiAnalyzerMainFrame != null)
+            if (Analyzer.GuiAnalyzerMainFrame != null)
             {
-                _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = visibility;
-                _analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = visibility;
+                Analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = visibility;
+                Analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = visibility;
             }
-            if (_analyzer.GuiAnalyzerDataCursorTable != null) _analyzer.GuiAnalyzerDataCursorTable.Visibility = visibility;
+            if (Analyzer.GuiAnalyzerDataCursorTable != null) Analyzer.GuiAnalyzerDataCursorTable.Visibility = visibility;
+        }
+
+        protected override void OnRecordingChanged()
+        {
+            AnalyzerAddChannelButton.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                AnalyzerAddChannelButton.IsEnabled = !Analyzer.Recording;
+            })));
+            AnalyzerExportButton.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                AnalyzerExportButton.IsEnabled = !Analyzer.Recording;
+            })));
+        }
+
+        protected override void OnRecordingTimeChanged()
+        {
+            
         }
     }
 }

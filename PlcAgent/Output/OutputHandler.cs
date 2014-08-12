@@ -11,9 +11,6 @@ namespace _PlcAgent.Output
     {
         #region Variables
 
-        private Boolean _pcControlMode;
-        private Boolean _pcControlModeChangeAllowed;
-
         private OutputWriter _outputWriter;
 
         private readonly Thread _outputThread;
@@ -21,12 +18,6 @@ namespace _PlcAgent.Output
         #endregion
 
         #region Properties
-
-        public Boolean PcControlMode
-        {
-            get { return _pcControlMode; }
-            set { if (_pcControlModeChangeAllowed) { _pcControlMode = value;}}
-        }
 
         public OutputWriter OutputWriter
         {
@@ -127,12 +118,12 @@ namespace _PlcAgent.Output
 
             while (_outputThread.IsAlive)
             {
-                _pcControlModeChangeAllowed = false;
+                PcControlModeChangeAllowed = false;
 
                 Int16 antwort;
                 Int16 status;
 
-                if (!_pcControlMode && CheckInterface())
+                if (!PcControlMode && CheckInterface())
                 {
                     var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
 
@@ -159,7 +150,7 @@ namespace _PlcAgent.Output
                 {
                     antwort = 999;
                     status = 999;
-                    _pcControlModeChangeAllowed = true;
+                    PcControlModeChangeAllowed = true;
                 }
 
                 if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())

@@ -10,42 +10,31 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerControl
     {
-        private readonly Analyzer.Analyzer _analyzer;
-
-        private readonly Thread _updateThread;
-
-        public GuiAnalyzerControl(OutputModule module)
+        public GuiAnalyzerControl(Analyzer.Analyzer analyzer) : base(analyzer)
         {
-            _analyzer = (Analyzer.Analyzer) module;
-
             InitializeComponent();
-
-            _updateThread = new Thread(Update);
-            _updateThread.SetApartmentState(ApartmentState.STA);
-            _updateThread.IsBackground = true;
-            _updateThread.Start();
         }
 
-        public void Update()
+        protected override void OnRecordingChanged()
         {
-            while (_updateThread.IsAlive)
+            AnalyzerStartStopButton.Dispatcher.BeginInvoke((new Action(delegate
             {
-                AnalyzerStartStopButton.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    AnalyzerStartStopButton.Content = "Start";
-                    if (_analyzer != null && _analyzer.Recording) AnalyzerStartStopButton.Content = "Stop";
-                })));
-                AnalyzerTimeLabel.Dispatcher.BeginInvoke((new Action(delegate
-                {
-                    AnalyzerTimeLabel.Content = "Recording time: " + TimeSpan.FromMilliseconds(_analyzer.RecordingTime);
-                })));
-                Thread.Sleep(100);
-            }
+                AnalyzerStartStopButton.Content = "Start";
+                if (Analyzer != null && Analyzer.Recording) AnalyzerStartStopButton.Content = "Stop";
+            })));
+        }
+
+        protected override void OnRecordingTimeChanged()
+        {
+            AnalyzerTimeLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                AnalyzerTimeLabel.Content = "Recording time: " + TimeSpan.FromMilliseconds(Analyzer.RecordingTime);
+            })));
         }
 
         private void StartStopRecording(object sender, RoutedEventArgs e)
         {
-            _analyzer.StartStopRecording();
+            Analyzer.StartStopRecording();
         }
     }
 }

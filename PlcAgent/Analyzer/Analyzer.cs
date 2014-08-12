@@ -19,12 +19,11 @@ namespace _PlcAgent.Analyzer
     {
         #region Variables
 
-        private Boolean _pcControlMode;
-        private readonly Boolean _pcControlModeChangeAllowed;
         private Boolean _recording;
 
         private double _startRecordingTime;
         private double _recordingTime;
+
         private MainViewModel _timeAxisViewModel;
         private readonly TimeSpanAxis _timeAxis;
 
@@ -36,12 +35,6 @@ namespace _PlcAgent.Analyzer
         #endregion
 
         #region Properties
-
-        public Boolean PcControlMode
-        {
-            get { return _pcControlMode; }
-            set { if (_pcControlModeChangeAllowed) { _pcControlMode = value;}}
-        }
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
@@ -55,11 +48,23 @@ namespace _PlcAgent.Analyzer
         public bool Recording
         {
             get { return _recording; }
+            private set
+            {
+                if (value == _recording) return;
+                _recording = value;
+                OnPropertyChanged();
+            }
         }
 
         public double RecordingTime
         {
             get { return _recordingTime; }
+            private set
+            {
+                if (Math.Abs(value - _recordingTime) < 1) return;
+                _recordingTime = value;
+                OnPropertyChanged();
+            }
         }
 
         public MainViewModel TimeAxisViewModel
@@ -74,8 +79,8 @@ namespace _PlcAgent.Analyzer
 
         public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile, AnalyzerSetupFile analyzerSetupFile) : base(id, name)
         {
-            _pcControlMode = true;
-            _pcControlModeChangeAllowed = true;
+            PcControlModeChangeAllowed = true;
+            PcControlMode = true;
 
             _filePath = "Analyzer\\Temp_ANALYZER_" + id + ".csv"; 
 
@@ -131,19 +136,19 @@ namespace _PlcAgent.Analyzer
 
         public override void Deinitialize()
         {
-            _recording = false;
+            Recording = false;
             Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
             Logger.Log("ID: " + Header.Id + " Analyzer Deinitialized");
         }
 
         public void StartStopRecording()
         {
-            if (!_recording)
+            if (!Recording)
             {
                 Clear();
                 InitCsvFile();
             }
-            _recording = !_recording;
+            Recording = !Recording;
         }
 
         public void Clear()
@@ -158,7 +163,7 @@ namespace _PlcAgent.Analyzer
             _timeAxisViewModel.Clear();
 
             _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
-            _recordingTime = 0.0;
+            RecordingTime = 0.0;
 
             Logger.Log("ID: " + Header.Id + " Analysis cleared");
         }
@@ -274,7 +279,7 @@ namespace _PlcAgent.Analyzer
 
             while (_thread.IsAlive)
             {
-                if (_recording)
+                if (Recording)
                 {
                     var timeTick = DateTime.Now.TimeOfDay;
 
@@ -302,7 +307,7 @@ namespace _PlcAgent.Analyzer
                     _timeAxis.Minimum = timeTick.TotalSeconds - (AnalyzerSetupFile.TimeRange[Header.Id]/2000.0);
                     _timeAxis.Maximum = timeTick.TotalSeconds + (AnalyzerSetupFile.TimeRange[Header.Id]/2000.0);
 
-                    _recordingTime = lastMilliseconds - _startRecordingTime;
+                    RecordingTime = lastMilliseconds - _startRecordingTime;
                 }
 
                 var timeDifference = (int) (DateTime.Now.TimeOfDay.TotalMilliseconds - lastMilliseconds);
@@ -317,7 +322,7 @@ namespace _PlcAgent.Analyzer
         {
             while (_visualThread.IsAlive)
             {
-                if (!_recording)
+                if (!Recording)
                 {
                     SynchronizeView();
                     UpdateDataCursorTable();
