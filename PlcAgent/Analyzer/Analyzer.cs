@@ -34,6 +34,7 @@ namespace _PlcAgent.Analyzer
 
         #endregion
 
+
         #region Properties
 
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
@@ -75,7 +76,8 @@ namespace _PlcAgent.Analyzer
 
         #endregion
 
-        #region Constructor
+
+        #region Constructors
 
         public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile, AnalyzerSetupFile analyzerSetupFile) : base(id, name)
         {
@@ -118,6 +120,7 @@ namespace _PlcAgent.Analyzer
         }
 
         #endregion
+
 
         #region Methods
 
@@ -264,13 +267,14 @@ namespace _PlcAgent.Analyzer
             })));
         }
 
-        #endregion
-
         public double GetTimePosition(double positionPercentage)
         {
-            return AnalyzerSetupFile.TimeRange[Header.Id]*positionPercentage + _timeAxis.Minimum*1000.0;
+            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + _timeAxis.Minimum * 1000.0;
         }
 
+        #endregion
+
+        
         #region Background methods
 
         private void AnalyzeThread()
@@ -343,6 +347,7 @@ namespace _PlcAgent.Analyzer
         }
 
         #endregion
+
 
         #region CSV Storage
 

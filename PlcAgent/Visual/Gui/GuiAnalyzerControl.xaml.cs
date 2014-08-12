@@ -10,10 +10,17 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerControl
     {
+        #region Constructors
+
         public GuiAnalyzerControl(Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
         }
+
+        #endregion
+
+
+        #region Event Handlers
 
         protected override void OnRecordingChanged()
         {
@@ -36,5 +43,8 @@ namespace _PlcAgent.Visual.Gui
         {
             Analyzer.StartStopRecording();
         }
+
+        #endregion
+
     }
 }

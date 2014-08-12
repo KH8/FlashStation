@@ -9,17 +9,38 @@ namespace _PlcAgent.Visual.Gui
     /// </summary>
     public partial class GuiAnalyzerDataCursorTable
     {
+        #region Properties
+
         public ObservableCollection<AnalyzerDataCursorPoint> AnalyzerDataCursorPointCollection;
 
-        public GuiAnalyzerDataCursorTable(Analyzer.Analyzer analyzer)
+        #endregion
+
+
+        #region Constructors
+
+        public GuiAnalyzerDataCursorTable(Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
 
-            AnalyzerDataCursorPointCollection = analyzer.AnalyzerDataCursorPointCollection.Children;
+            AnalyzerDataCursorPointCollection = Analyzer.AnalyzerDataCursorPointCollection.Children;
             CursorTableDataGrid.ItemsSource = AnalyzerDataCursorPointCollection;
 
-            if (analyzer.AnalyzerSetupFile.ShowDataCursors[analyzer.Header.Id]) return;
+            if (Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id]) return;
             Visibility = Visibility.Hidden;
         }
+
+        #endregion
+
+
+        #region Event Handlers
+
+        protected override void OnRecordingChanged()
+        {}
+
+        protected override void OnRecordingTimeChanged()
+        {}
+
+        #endregion
+
     }
 }

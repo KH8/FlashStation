@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="_PlcAgent.Visual.Gui.GuiAnalyzerSingleFigure"
+﻿<analyzer:AnalyzerGuiComponent x:Class="_PlcAgent.Visual.Gui.GuiAnalyzerSingleFigure"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:oxy="http://oxyplot.codeplex.com"
+             xmlns:analyzer="clr-namespace:_PlcAgent.Analyzer"
              mc:Ignorable="d" 
              d:DesignHeight="130" Width="1500"
              HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -45,4 +46,4 @@
         <Button Name="DeleteButton" Content="Delete" HorizontalAlignment="Right" Height="25" Margin="0,40,35,0" VerticalAlignment="Top" Width="50" Click="RemoveChannel"/>
         <Label Name="MinMaxLabel" Content="ACTUAL: 0 MIN: 0 MAX: 0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="1275" Margin="225,0,0,-5" FontSize="10"/>
     </Grid>
-</UserControl>
+</analyzer:AnalyzerGuiComponent>

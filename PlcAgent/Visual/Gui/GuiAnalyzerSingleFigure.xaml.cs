@@ -6,29 +6,29 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using _PlcAgent.Analyzer;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui
 {
     /// <summary>
     /// Interaction logic for GuiAnalyzerSingleFigure.xaml
     /// </summary>
-    public partial class GuiAnalyzerSingleFigure
+    public partial class GuiAnalyzerSingleFigure : IResizableGui
     {
         private readonly Boolean _save;
-        private readonly Analyzer.Analyzer _analyzer;
         private readonly AnalyzerChannel _analyzerChannel;
 
         private readonly Thread _updateThread;
         
         public uint Id;
 
-        public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer)
+        public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer) : base(analyzer)
         {
-            Id = id;
-            _analyzer = analyzer;
-            _analyzerChannel = analyzer.AnalyzerChannels.GetChannel(Id);
-
             InitializeComponent();
+
+            Id = id;
+            
+            _analyzerChannel = Analyzer.AnalyzerChannels.GetChannel(Id);
 
             var colorsList = new List<Brush>
             {
@@ -50,7 +50,7 @@ namespace _PlcAgent.Visual.Gui
 
             ChannelGroupBox.Header = "Channel " + _analyzerChannel.Id;
 
-            VariableComboBox.ItemsSource = _analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
+            VariableComboBox.ItemsSource = Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
 
             if (_analyzerChannel.AnalyzerObservableVariable != null)
             {
@@ -76,7 +76,7 @@ namespace _PlcAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (_analyzerChannel.AnalyzerObservableVariable != null && _analyzer.Recording)
+                if (_analyzerChannel.AnalyzerObservableVariable != null && Analyzer.Recording)
                 {
                     PlotArea.Dispatcher.BeginInvoke((new Action(
                             () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
@@ -92,11 +92,6 @@ namespace _PlcAgent.Visual.Gui
             PlotCanvas.Width = width;
             GeneralGrid.Width = width;
             PlotGrid.Width = width - 225;
-        }
-
-        private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _analyzer.RemoveChannel(_analyzerChannel);
         }
 
         private void UpdateControls()
@@ -123,20 +118,31 @@ namespace _PlcAgent.Visual.Gui
             })));
             VariableComboBox.Dispatcher.BeginInvoke((new Action(delegate
             {
-                VariableComboBox.IsEnabled = !_analyzer.Recording;
+                VariableComboBox.IsEnabled = !Analyzer.Recording;
             })));
             DeleteButton.Dispatcher.BeginInvoke((new Action(delegate
             {
-                DeleteButton.IsEnabled = !_analyzer.Recording;
+                DeleteButton.IsEnabled = !Analyzer.Recording;
             })));
         }
+
+        private void RemoveChannel(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Analyzer.RemoveChannel(_analyzerChannel);
+        }
+
+        protected override void OnRecordingChanged()
+        {}
+
+        protected override void OnRecordingTimeChanged()
+        {}
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_save) return; 
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
             _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush)BrushComboBox.SelectedItem;
-            _analyzer.AnalyzerChannels.StoreConfiguration();
+            Analyzer.AnalyzerChannels.StoreConfiguration();
         }
 
         private void VariableSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -151,7 +157,7 @@ namespace _PlcAgent.Visual.Gui
                     Brush = (Brush) BrushComboBox.SelectedItem,
                     Unit = UnitTextBox.Text
                 };
-                _analyzer.AnalyzerChannels.StoreConfiguration();
+                Analyzer.AnalyzerChannels.StoreConfiguration();
             }
             catch (Exception)
             {
@@ -161,7 +167,7 @@ namespace _PlcAgent.Visual.Gui
                 return;
             }
 
-            _analyzer.AnalyzerChannels.StoreConfiguration();
+            Analyzer.AnalyzerChannels.StoreConfiguration();
         }
 
         private void UnitBoxTextChanged(object sender, TextChangedEventArgs e)
@@ -174,7 +180,7 @@ namespace _PlcAgent.Visual.Gui
             catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
 
             UpdateControls();
-            _analyzer.AnalyzerChannels.StoreConfiguration();
+            Analyzer.AnalyzerChannels.StoreConfiguration();
         }
     }
 }
