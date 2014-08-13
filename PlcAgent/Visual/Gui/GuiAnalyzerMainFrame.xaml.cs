@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using OxyPlot;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui
@@ -16,6 +19,8 @@ namespace _PlcAgent.Visual.Gui
         #region Variables
 
         private readonly List<GuiComponent> _channelList;
+
+        private readonly Thread _updateThread;
 
         #endregion
 
@@ -64,6 +69,9 @@ namespace _PlcAgent.Visual.Gui
             PlotArea.DataContext = Analyzer.ObservableTime.MainViewModel;
 
             RefreshGui();
+
+            _updateThread = new Thread(AxisSynchronization) { IsBackground = true };
+            _updateThread.Start();
         }
 
         #endregion
@@ -118,6 +126,34 @@ namespace _PlcAgent.Visual.Gui
 
             foreach (var guiComponent in componentToBeRemoved) { _channelList.Remove(guiComponent);}
             foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id);}
+        }
+
+        public void AxisSynchronization()
+        {
+            while (_updateThread.IsAlive)
+            {
+                if (!Analyzer.Recording)
+                {
+                    var timeDiff = (Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum - Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum) / 2.0;
+                    var timeTick = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum + timeDiff;
+
+                    Analyzer.ObservableTime.MainViewModel.HorizontalAxis.Reset();
+                    Analyzer.ObservableTime.MainViewModel.HorizontalAxis.Minimum = timeTick - (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * Analyzer.ObservableTime.ValueFactor));
+                    Analyzer.ObservableTime.MainViewModel.HorizontalAxis.Maximum = timeTick + (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * Analyzer.ObservableTime.ValueFactor));
+
+                    Analyzer.ObservableTime.MainViewModel.Model.InvalidatePlot(true);
+
+                    Parallel.ForEach(Analyzer.AnalyzerChannels.Children,
+                        analyzerChannel =>
+                        {
+                            if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum * Analyzer.ObservableTime.ValueFactor;
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum * Analyzer.ObservableTime.ValueFactor;
+                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
+                        });
+                }
+                Thread.Sleep(10);
+            }
         }
 
         #endregion

@@ -179,11 +179,11 @@ namespace _PlcAgent.Analyzer
 
             _mainViewModel.HorizontalAxis.Reset();
             _mainViewModel.HorizontalAxis.Minimum = ValueX -
-                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id]/
-                                                     (2.0*ValueFactor));
+                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] /
+                                                     (2.0 * ValueFactor));
             _mainViewModel.HorizontalAxis.Maximum = ValueX +
-                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id]/
-                                                     (2.0*ValueFactor));
+                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] /
+                                                     (2.0 * ValueFactor));
 
             if (OnPointCreated != null) OnPointCreated();
         }

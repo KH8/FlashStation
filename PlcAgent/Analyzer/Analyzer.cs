@@ -165,27 +165,6 @@ namespace _PlcAgent.Analyzer
             AnalyzerSetupFile.Save();
         }
 
-        public void SynchronizeView()
-        {
-            /*var timeDiff = (ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum - ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum) / 2.0;
-            var timeTick = ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum + timeDiff;
-
-            ObservableTime.MainViewModel.HorizontalAxis.Reset();
-            ObservableTime.MainViewModel.HorizontalAxis.Minimum = timeTick - (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
-            ObservableTime.MainViewModel.HorizontalAxis.Maximum = timeTick + (AnalyzerSetupFile.TimeRange[Header.Id] / 2000.0);
-
-            ObservableTime.MainViewModel.Model.InvalidatePlot(true);
-
-            Parallel.ForEach(AnalyzerChannels.Children,
-                analyzerChannel =>
-                {
-                    if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum * 1000.0;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum * 1000.0;
-                    analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
-                });*/
-        }
-
         public void UpdateDataCursorTable()
         {
             double timePointBlue;
@@ -276,7 +255,6 @@ namespace _PlcAgent.Analyzer
             {
                 if (!Recording)
                 {
-                    SynchronizeView();
                     UpdateDataCursorTable();
                 }
                 else 

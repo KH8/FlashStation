@@ -183,6 +183,9 @@ namespace _PlcAgent.Visual.Gui
                 };
                 _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
                 _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
+
+                UpdateControls(this, new PropertyChangedEventArgs(""));
+
                 Analyzer.AnalyzerChannels.StoreConfiguration();
             }
             catch (Exception)
