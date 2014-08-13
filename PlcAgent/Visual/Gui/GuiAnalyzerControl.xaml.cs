@@ -39,6 +39,9 @@ namespace _PlcAgent.Visual.Gui
             })));
         }
 
+        protected override void OnDataCursorsVisibilityChanged()
+        {}
+
         private void StartStopRecording(object sender, RoutedEventArgs e)
         {
             Analyzer.StartStopRecording();

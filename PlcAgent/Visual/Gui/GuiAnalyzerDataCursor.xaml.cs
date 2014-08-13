@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using _PlcAgent.Annotations;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui
@@ -10,7 +13,7 @@ namespace _PlcAgent.Visual.Gui
     /// <summary>
     /// Interaction logic for GuiAnalyzerDataCursor.xaml
     /// </summary>
-    public partial class GuiAnalyzerDataCursor : IResizableGui
+    public partial class GuiAnalyzerDataCursor : IResizableGui, INotifyPropertyChanged
     {
         #region Variables
 
@@ -20,7 +23,6 @@ namespace _PlcAgent.Visual.Gui
         private double _rightLimitPosition = 1000.0;
 
         private double _actualPosition;
-        private double _percentageActualPosition;
 
         private Grid _parentGrid;
 
@@ -55,9 +57,15 @@ namespace _PlcAgent.Visual.Gui
             set { SetPosition(value); }
         }
 
-        public double PercentageActualPosition
+        public double PercentageActualPosition { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            get { return _percentageActualPosition; }
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
@@ -95,7 +103,9 @@ namespace _PlcAgent.Visual.Gui
             Margin = new Thickness(newPositionX, 0, 0, 0);
 
             _actualPosition = newPositionX;
-            _percentageActualPosition = (_actualPosition - LeftLimitPosition) / (_parentGrid.Width - LeftLimitPosition - 26.5);
+            PercentageActualPosition = (_actualPosition - LeftLimitPosition) / (_parentGrid.Width - LeftLimitPosition - 26.5);
+
+            OnPropertyChanged("ActualPosition");
         }
 
         #endregion
@@ -107,6 +117,11 @@ namespace _PlcAgent.Visual.Gui
 
         protected override void OnRecordingTimeChanged()
         {}
+
+        protected override void OnDataCursorsVisibilityChanged()
+        {
+            Visibility = Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id] ? Visibility.Visible : Visibility.Hidden;
+        }
 
         private void CursorGrid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -131,10 +146,9 @@ namespace _PlcAgent.Visual.Gui
             SetPosition(newPositionX);
 
             PositionLabel.Visibility = Visibility.Visible;
-            //PositionLabel.Content = TimeSpan.FromMilliseconds(Analyzer.GetTimePosition(_percentageActualPosition));
+            PositionLabel.Content = TimeSpan.FromMilliseconds(Analyzer.TimeObservableVariable.GetTimePosition(PercentageActualPosition));
         }
 
         #endregion
-
     }
 }

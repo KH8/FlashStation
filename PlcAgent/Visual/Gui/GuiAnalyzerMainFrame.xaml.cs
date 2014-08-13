@@ -27,8 +27,7 @@ namespace _PlcAgent.Visual.Gui
 
         #region Properties
 
-        public GuiAnalyzerDataCursor AnalyzerDataCursorRed;
-        public GuiAnalyzerDataCursor AnalyzerDataCursorBlue;
+        
 
         #endregion
 
@@ -43,26 +42,18 @@ namespace _PlcAgent.Visual.Gui
 
             _channelList = new List<GuiComponent>();
 
-            AnalyzerDataCursorRed = new GuiAnalyzerDataCursor(Analyzer)
-            {
-                ParentGrid = PlotGrid,
-                Brush = Brushes.Red,
-                ActualPosition = 246.0
-            };
-            AnalyzerDataCursorBlue = new GuiAnalyzerDataCursor(Analyzer)
-            {
-                ParentGrid = PlotGrid,
-                Brush = Brushes.Blue,
-                ActualPosition = 206.0
-            };
+            Analyzer.AnalyzerDataCursorRed.ParentGrid = PlotGrid;
+            Analyzer.AnalyzerDataCursorRed.ActualPosition = 246.0;
+            Analyzer.AnalyzerDataCursorBlue.ParentGrid = PlotGrid;
+            Analyzer.AnalyzerDataCursorBlue.ActualPosition = 206.0;
 
-            GeneralGrid.Children.Add(AnalyzerDataCursorRed);
-            GeneralGrid.Children.Add(AnalyzerDataCursorBlue);
+            GeneralGrid.Children.Add(Analyzer.AnalyzerDataCursorRed);
+            GeneralGrid.Children.Add(Analyzer.AnalyzerDataCursorBlue);
 
             if (!Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id])
             {
-                AnalyzerDataCursorRed.Visibility = Visibility.Hidden;
-                AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
+                Analyzer.AnalyzerDataCursorRed.Visibility = Visibility.Hidden;
+                Analyzer.AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
             }
 
             PlotArea.Dispatcher.BeginInvoke((new Action(
@@ -96,8 +87,8 @@ namespace _PlcAgent.Visual.Gui
                 analyzerSingleFigure.UpdateSizes(height, width);
             }
 
-            AnalyzerDataCursorRed.UpdateSizes(height, width);
-            AnalyzerDataCursorBlue.UpdateSizes(height, width);
+            Analyzer.AnalyzerDataCursorRed.UpdateSizes(height, width);
+            Analyzer.AnalyzerDataCursorBlue.UpdateSizes(height, width);
         }
 
         private void DrawChannel(uint id)
@@ -137,13 +128,12 @@ namespace _PlcAgent.Visual.Gui
                     var minimum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMinimum;
                     var maximum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMaximum;
 
-                    Parallel.ForEach(Analyzer.AnalyzerChannels.Children,
-                        analyzerChannel =>
-                        {
-                            if (analyzerChannel.AnalyzerObservableVariable != null) analyzerChannel.AnalyzerObservableVariable.MainViewModel.SynchronizeView(minimum,maximum);
-                        });
+                    foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                    {
+                        analyzerChannel.AnalyzerObservableVariable.MainViewModel.SynchronizeView(minimum, maximum);
+                    }
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(200);
             }
         }
 
@@ -151,12 +141,6 @@ namespace _PlcAgent.Visual.Gui
 
 
         #region Event Handlers
-
-        /*private void OnPointCreated()
-        {
-            PlotArea.Dispatcher.BeginInvoke((new Action(
-                () => PlotArea.DataContext = Analyzer.ObservableTime.MainViewModel)));
-        }*/
 
         protected override void OnRecordingChanged()
         {
@@ -174,6 +158,9 @@ namespace _PlcAgent.Visual.Gui
                 AnalyzerTimeLabel.Content = "Recording time: \n" + TimeSpan.FromMilliseconds(Analyzer.RecordingTime);
             })));
         }
+
+        protected override void OnDataCursorsVisibilityChanged()
+        {}
 
         private void StartStopRecording(object sender, RoutedEventArgs e)
         {

@@ -65,7 +65,9 @@ namespace _PlcAgent.Visual.Gui
 
             if (_analyzerChannel.AnalyzerObservableVariable != null)
             {
-                UpdateControls(this, new PropertyChangedEventArgs(""));
+                UpdateControls(this, new PropertyChangedEventArgs("CommunicationInterfaceVariable"));
+                UpdateControls(this, new PropertyChangedEventArgs("Brush"));
+                UpdateControls(this, new PropertyChangedEventArgs("Unit"));
                 _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
 
                 PlotArea.Dispatcher.BeginInvoke((new Action(
@@ -113,26 +115,41 @@ namespace _PlcAgent.Visual.Gui
         protected override void OnRecordingTimeChanged()
         {}
 
+        protected override void OnDataCursorsVisibilityChanged()
+        {}
+
         private void UpdateControls(object sender, PropertyChangedEventArgs e)
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
 
-            VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
-
-            foreach (var brush in _colorsList.Where(brush => Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
-            { BrushComboBox.SelectedItem = brush; }
-
-            UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
-
-            TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
-
-            VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
+            switch (e.PropertyName)
+            {
+                case "CommunicationInterfaceVariable":
+                    VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
+                    TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+                    break;
+                case "Brush":
+                    foreach (var brush in _colorsList.Where(brush => Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
+                    { BrushComboBox.SelectedItem = brush; }
+                    break;
+                case "Unit":
+                    UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
+                    break;
+            }
+            VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
                                         + ", " + _analyzerChannel.AnalyzerObservableVariable.Type
                                         + ", [" + _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
-
-            MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
+            })));
+            
+            MinMaxLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
                                      + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
                                      + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
+            })));
+            
 
         }
 
@@ -161,7 +178,9 @@ namespace _PlcAgent.Visual.Gui
                     Unit = UnitTextBox.Text
                 };
 
-                UpdateControls(this, new PropertyChangedEventArgs(""));
+                UpdateControls(this, new PropertyChangedEventArgs("CommunicationInterfaceVariable"));
+                UpdateControls(this, new PropertyChangedEventArgs("Brush"));
+                UpdateControls(this, new PropertyChangedEventArgs("Unit"));
                 _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
 
                 PlotArea.Dispatcher.BeginInvoke((new Action(

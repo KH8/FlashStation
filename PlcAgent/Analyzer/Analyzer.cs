@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using CsvHelper;
 using OxyPlot.Axes;
@@ -22,6 +23,7 @@ namespace _PlcAgent.Analyzer
 
         private double _startRecordingTime;
         private double _recordingTime;
+        private Visibility _dataCursorVisibility;
 
         private readonly Thread _thread;
 
@@ -37,8 +39,8 @@ namespace _PlcAgent.Analyzer
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
         public AnalyzerChannelList AnalyzerChannels { get; set; }
 
-        public GuiAnalyzerMainFrame GuiAnalyzerMainFrame { get; set; }
-        public GuiAnalyzerDataCursorTable GuiAnalyzerDataCursorTable { get; set; }
+        public GuiAnalyzerDataCursor AnalyzerDataCursorRed;
+        public GuiAnalyzerDataCursor AnalyzerDataCursorBlue;
 
         public AnalyzerDataCursorPointCollection AnalyzerDataCursorPointCollection;
 
@@ -71,10 +73,26 @@ namespace _PlcAgent.Analyzer
                 foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
                 { analyzerChannel.AnalyzerObservableVariable.TimeRange = value; }
                 TimeObservableVariable.TimeRange = value;
+                if (OnUpdatePlotsDelegate != null) OnUpdatePlotsDelegate();
+            }
+        }
+
+        public Visibility DataCursorsVisibility
+        {
+            get { return _dataCursorVisibility; }
+            set
+            {
+                if (value == _dataCursorVisibility) return;
+                _dataCursorVisibility = value;
+                OnPropertyChanged();
             }
         }
 
         public AnalyzerObservableVariable TimeObservableVariable { get; set; }
+
+        public delegate void UpdatePlotsDelegate();
+
+        public UpdatePlotsDelegate OnUpdatePlotsDelegate;
 
         #endregion
 
@@ -101,9 +119,19 @@ namespace _PlcAgent.Analyzer
             AnalyzerChannels = new AnalyzerChannelList(0, this);
             AnalyzerChannels.RetriveConfiguration();
 
+            AnalyzerDataCursorRed = new GuiAnalyzerDataCursor(this)
+            {
+                Brush = Brushes.Red
+            };
+            AnalyzerDataCursorBlue = new GuiAnalyzerDataCursor(this)
+            {
+                Brush = Brushes.Blue
+            };
+
             AnalyzerDataCursorPointCollection = new AnalyzerDataCursorPointCollection();
 
             TimeRange = AnalyzerSetupFile.TimeRange[Header.Id];
+            DataCursorsVisibility = AnalyzerSetupFile.ShowDataCursors[Header.Id] ? Visibility.Visible : Visibility.Hidden;
 
             _thread = new Thread(AnalyzeThread) { IsBackground = true };
 
@@ -179,55 +207,6 @@ namespace _PlcAgent.Analyzer
             AnalyzerSetupFile.Save();
         }
 
-        /*public void UpdateDataCursorTable()
-        {
-            double timePointBlue;
-            double timePointRed;
-            double timeDifference;
-
-            try { timePointBlue = GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition); }
-            catch (Exception) { timePointBlue = Double.NaN; }
-            try { timePointRed = GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition); }
-            catch (Exception) { timePointRed = Double.NaN; }
-            try { timeDifference = GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition) 
-                                                           - GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition); }
-            catch (Exception) { timeDifference = Double.NaN; }
-
-            if (AnalyzerDataCursorPointCollection == null) return;
-
-            AnalyzerDataCursorPointCollection.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                AnalyzerDataCursorPointCollection.Children.Clear();
-                AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
-                {
-                    Name = "Time base",
-                    BlueValue = FromMilliseconds(timePointBlue),
-                    RedValue = FromMilliseconds(timePointRed),
-                    Difference = FromMilliseconds(timeDifference)
-                });
-
-                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
-                {
-                    timePointBlue = analyzerChannel.AnalyzerObservableVariable.GetValue(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.PercentageActualPosition), AnalyzerSetupFile.SampleTime[Header.Id]);
-                    timePointRed = analyzerChannel.AnalyzerObservableVariable.GetValue(GetTimePosition(GuiAnalyzerMainFrame.AnalyzerDataCursorRed.PercentageActualPosition), AnalyzerSetupFile.SampleTime[Header.Id]);
-                    timeDifference = timePointRed - timePointBlue;
-
-                    AnalyzerDataCursorPointCollection.Children.Add(new AnalyzerDataCursorPoint
-                    {
-                        Name = analyzerChannel.AnalyzerObservableVariable.Name,
-                        BlueValue = FormatNumber(timePointBlue,15),
-                        RedValue = FormatNumber(timePointRed, 15),
-                        Difference = FormatNumber(timeDifference, 15)
-                    });
-                }
-            })));
-        }
-
-        public double GetTimePosition(double positionPercentage)
-        {
-            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + TimeObservableVariable.MainViewModel.HorizontalAxis.Minimum * 1000.0;
-        }*/
-
         #endregion
 
         
@@ -261,22 +240,6 @@ namespace _PlcAgent.Analyzer
                 Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id] - timeDifference);
                 lastMilliseconds = DateTime.Now.TimeOfDay.TotalMilliseconds;
             }
-        }
-
-        private void VisualThread()
-        {
-            if (Recording)
-            {
-                foreach (var dataCursorPoint in AnalyzerDataCursorPointCollection.Children)
-                {
-                    dataCursorPoint.BlueValue = "---";
-                    dataCursorPoint.RedValue = "---";
-                    dataCursorPoint.Difference = "---";
-                }
-                GuiAnalyzerDataCursorTable.CursorTableDataGrid.Dispatcher.BeginInvoke((new Action(
-                    () => GuiAnalyzerDataCursorTable.CursorTableDataGrid.Items.Refresh())));
-            }
-            Thread.Sleep(100);
         }
 
         #endregion
@@ -412,24 +375,6 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile.Assignment[Header.Id][3] =
                 InterfaceAssignmentCollection.GetAssignment("Status");
             AnalyzerAssignmentFile.Save();
-        }
-
-        private static string FromMilliseconds(double value)
-        {
-            return Double.IsNaN(value) ? "N/A" : TimeSpan.FromMilliseconds(value).ToString();
-        }
-
-        public string FormatNumber(double number, int length)
-        {
-            var stringRepresentation = number.ToString(CultureInfo.InvariantCulture);
-
-            if (stringRepresentation.Length > length)
-                stringRepresentation = stringRepresentation.Substring(0, length);
-
-            if (stringRepresentation.Length == length && stringRepresentation.EndsWith("."))
-                stringRepresentation = stringRepresentation.Substring(0, length - 1);
-
-            return stringRepresentation.PadLeft(length);
         }
 
         #endregion

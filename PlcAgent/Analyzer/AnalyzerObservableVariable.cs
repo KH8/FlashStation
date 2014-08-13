@@ -183,7 +183,7 @@ namespace _PlcAgent.Analyzer
         {
             if (CommunicationInterfaceVariable == null) return;
 
-            ValueY = Convert.ToDouble(CommunicationInterfaceVariable.Value);
+            ValueY = new Random().NextDouble(); //Convert.ToDouble(CommunicationInterfaceVariable.Value);
             ValueX = valueX;
 
             if (ValueY > MaxValue) MaxValue = ValueY;
@@ -208,6 +208,11 @@ namespace _PlcAgent.Analyzer
                 catch (Exception) { result = Double.NaN;}
             }
             return result;
+        }
+
+        public double GetTimePosition(double positionPercentage)
+        {
+            return TimeRange * positionPercentage + _mainViewModel.HorizontalAxis.Minimum * 1000.0;
         }
 
         private static VariableType GetType(CommunicationInterfaceComponent communicationInterfaceVariable)
@@ -238,6 +243,9 @@ namespace _PlcAgent.Analyzer
         {}
 
         protected override void OnRecordingTimeChanged()
+        {}
+
+        protected override void OnDataCursorsVisibilityChanged()
         {}
 
         #endregion

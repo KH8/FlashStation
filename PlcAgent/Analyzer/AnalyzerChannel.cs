@@ -38,6 +38,9 @@ namespace _PlcAgent.Analyzer
         protected override void OnRecordingTimeChanged()
         {}
 
+        protected override void OnDataCursorsVisibilityChanged()
+        {}
+
         #endregion
 
     }
@@ -70,8 +73,6 @@ namespace _PlcAgent.Analyzer
 
         #region Constructors
 
-        #region Methods
-
         public AnalyzerChannelList(uint id, Analyzer analyzer) : base(id, analyzer)
         {
             Children = new List<AnalyzerChannel>();
@@ -80,6 +81,8 @@ namespace _PlcAgent.Analyzer
 
         #endregion
 
+
+        #region Methods
 
         public void Add(AnalyzerChannel analyzerChannel)
         {

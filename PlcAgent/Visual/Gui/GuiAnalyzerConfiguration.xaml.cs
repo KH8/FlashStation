@@ -52,6 +52,9 @@ namespace _PlcAgent.Visual.Gui
         protected override void OnRecordingTimeChanged()
         {}
 
+        protected override void OnDataCursorsVisibilityChanged()
+        {}
+
         private void AddNewChannel(object sender, RoutedEventArgs e)
         {
             Analyzer.AddNewChannel();
@@ -101,16 +104,7 @@ namespace _PlcAgent.Visual.Gui
             Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id] = (bool) showDataCursorsCheckBox.IsChecked;
             Analyzer.AnalyzerSetupFile.Save();
 
-            var visibility = Visibility.Hidden;
-            if (Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id]) visibility = Visibility.Visible;
-
-            if (Analyzer.GuiAnalyzerMainFrame != null)
-            {
-                Analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorRed.Visibility = visibility;
-                Analyzer.GuiAnalyzerMainFrame.AnalyzerDataCursorBlue.Visibility = visibility;
-            }
-            if (Analyzer.GuiAnalyzerDataCursorTable != null)
-                Analyzer.GuiAnalyzerDataCursorTable.Visibility = visibility;
+            Analyzer.DataCursorsVisibility = Analyzer.AnalyzerSetupFile.ShowDataCursors[Analyzer.Header.Id] ? Visibility.Visible : Visibility.Hidden;
         }
 
         #endregion

@@ -17,11 +17,15 @@ namespace _PlcAgent.Analyzer
                 case "RecordingTime":
                     OnRecordingTimeChanged();
                     break;
+                case "DataCursorsVisibility":
+                    OnDataCursorsVisibilityChanged();
+                    break;
             }
         }
 
         protected abstract void OnRecordingChanged();
         protected abstract void OnRecordingTimeChanged();
+        protected abstract void OnDataCursorsVisibilityChanged();
 
         protected AnalyzerComponent(Analyzer analyzer)
         {

@@ -320,11 +320,9 @@ namespace _PlcAgent.MainRegistry
 
             GuiAnalyzerConfigurations.Add(new GuiComponent(id, "", new GuiAnalyzerConfiguration(component)));
             GuiAnalyzerControls.Add(new GuiComponent(id, "", new GuiAnalyzerControl(component)));
-            component.GuiAnalyzerMainFrame = new GuiAnalyzerMainFrame(component);
-            GuiAnalyzerMainFrames.Add(new GuiComponent(id, "", component.GuiAnalyzerMainFrame));
+            GuiAnalyzerMainFrames.Add(new GuiComponent(id, "", new GuiAnalyzerMainFrame(component)));
             GuiAnalyzerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
-            component.GuiAnalyzerDataCursorTable = new GuiAnalyzerDataCursorTable(component);
-            GuiAnalyzerDataCursorTables.Add((new GuiComponent(id, "", component.GuiAnalyzerDataCursorTable)));
+            GuiAnalyzerDataCursorTables.Add((new GuiComponent(id, "", new GuiAnalyzerDataCursorTable(component))));
 
             Logger.Log("ID: " + id + " new Analyzer have been created");
             return id;
