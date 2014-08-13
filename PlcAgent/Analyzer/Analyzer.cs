@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using CsvHelper;
 using OxyPlot.Axes;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -27,8 +24,6 @@ namespace _PlcAgent.Analyzer
 
         private readonly Thread _thread;
 
-        private readonly string _filePath;
-
         #endregion
 
 
@@ -43,6 +38,7 @@ namespace _PlcAgent.Analyzer
         public GuiAnalyzerDataCursor AnalyzerDataCursorBlue;
 
         public AnalyzerDataCursorPointCollection AnalyzerDataCursorPointCollection;
+        public AnalyzerCsvHandler AnalyzerCsvHandler;
 
         public bool Recording
         {
@@ -104,8 +100,6 @@ namespace _PlcAgent.Analyzer
             PcControlModeChangeAllowed = true;
             PcControlMode = true;
 
-            _filePath = "Analyzer\\Temp_ANALYZER_" + id + ".csv"; 
-
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
@@ -133,6 +127,8 @@ namespace _PlcAgent.Analyzer
             TimeRange = AnalyzerSetupFile.TimeRange[Header.Id];
             DataCursorsVisibility = AnalyzerSetupFile.ShowDataCursors[Header.Id] ? Visibility.Visible : Visibility.Hidden;
 
+            AnalyzerCsvHandler = new AnalyzerCsvHandler(this);
+
             _thread = new Thread(AnalyzeThread) { IsBackground = true };
 
             CreateInterfaceAssignment(id, AnalyzerAssignmentFile.Assignment);
@@ -145,7 +141,8 @@ namespace _PlcAgent.Analyzer
 
         public override void Initialize()
         {
-            InitCsvFile();
+            try { AnalyzerCsvHandler.RetrivePointsFromCsvFile(); }
+            catch (Exception) { Logger.Log("ID: " + Header.Id + " Plot could not be retrieved"); }
 
             if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 100;
             if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 10000;
@@ -167,7 +164,7 @@ namespace _PlcAgent.Analyzer
             if (!Recording)
             {
                 Clear();
-                InitCsvFile();
+                AnalyzerCsvHandler.InitCsvFile();
             }
             Recording = !Recording;
         }
@@ -187,8 +184,8 @@ namespace _PlcAgent.Analyzer
         {
             AnalyzerSetupFile.NumberOfChannels[Header.Id] += 1;
 
-            uint id = 0;
-            for (uint i = 0; i < AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
+            uint id = 1;
+            for (uint i = 1; i < AnalyzerSetupFile.NumberOfChannels[Header.Id]; i++)
             {
                 if (AnalyzerChannels.GetChannel(i) != null) continue;
                 id = i;
@@ -230,7 +227,7 @@ namespace _PlcAgent.Analyzer
                         analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick);
                     });
 
-                    StorePointsInCsvFile();
+                    AnalyzerCsvHandler.StorePointsInCsvFile();
                     RecordingTime = lastMilliseconds - _startRecordingTime;
                 }
 
@@ -244,65 +241,6 @@ namespace _PlcAgent.Analyzer
 
         #endregion
 
-
-        #region CSV Storage
-
-        public void ExportCsvFile(string fileName)
-        {
-            try { File.Copy(_filePath, fileName); }
-            catch (Exception)
-            {
-                Logger.Log("ID: " + Header.Id + " Analysis export failed");
-                return;
-            }
-            Logger.Log("ID: " + Header.Id + " Analysis exported to file: " + fileName);
-        }
-
-        private void InitCsvFile()
-        {
-            const string subPath = "Analyzer";
-            var isExists = Directory.Exists(subPath);
-            if (!isExists) Directory.CreateDirectory(subPath);
-
-            File.Create(_filePath).Close(); 
-            using (var streamWriter = File.AppendText(_filePath))
-            {
-                var writer = new CsvWriter(streamWriter);
-                writer.Configuration.Delimiter = ";";
-
-                writer.WriteField("GENERAL:AXIS:X");
-                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
-                {
-                    writer.WriteField("VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" + analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y");
-                }
-
-                writer.NextRecord();
-                streamWriter.Close();
-            }
-        }
-
-        private void StorePointsInCsvFile()
-        {
-            using (var streamWriter = File.AppendText(_filePath))
-            {
-                var writer = new CsvWriter(streamWriter);
-                writer.Configuration.Delimiter = ";";
-
-                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
-                {
-                    writer.WriteField(TimeSpan.FromMilliseconds(analyzerChannel.AnalyzerObservableVariable.ValueX).ToString());
-                    break;
-                }
-                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
-                {
-                    writer.WriteField(analyzerChannel.AnalyzerObservableVariable.ValueY);
-                }
-                writer.NextRecord();
-                streamWriter.Close();
-            }
-        }
-
-        #endregion
 
         #region Auxiliaries
 

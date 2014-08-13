@@ -6,7 +6,6 @@
 
 using System;
 using System.Threading;
-using System.Windows.Media;
 using System.Windows.Threading;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -23,7 +22,7 @@ namespace _PlcAgent.Analyzer
         #region Variables
 
         private PlotModel _model;
-        private readonly LineSeries _series;
+        private LineSeries _series;
 
         private readonly DataPoint _emptyDataPoint;
         private DataPoint _newDataPoint;
@@ -41,6 +40,12 @@ namespace _PlcAgent.Analyzer
 
         public abstract TimeSpanAxis HorizontalAxis { get; set; }
         public abstract LinearAxis VerticalAxis { get; set; }
+
+        public LineSeries Series
+        {
+            get { return _series; }
+            set { _series = value; }
+        }
 
         public PlotModel Model
         {

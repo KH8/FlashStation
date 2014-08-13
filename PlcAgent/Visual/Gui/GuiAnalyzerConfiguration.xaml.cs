@@ -70,7 +70,7 @@ namespace _PlcAgent.Visual.Gui
             };
 
             var result = dlg.ShowDialog();
-            if (result == true) Analyzer.ExportCsvFile(dlg.FileName);
+            if (result == true) Analyzer.AnalyzerCsvHandler.ExportCsvFile(dlg.FileName);
         }
 
         private void SampleTimeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

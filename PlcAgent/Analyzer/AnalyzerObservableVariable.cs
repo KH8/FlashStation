@@ -167,6 +167,7 @@ namespace _PlcAgent.Analyzer
             MaxValue = 0.0;
 
             _mainViewModel = new DataMainViewModel();
+            TimeRange = Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id];
         }
 
         #endregion
@@ -183,7 +184,16 @@ namespace _PlcAgent.Analyzer
         {
             if (CommunicationInterfaceVariable == null) return;
 
-            ValueY = new Random().NextDouble(); //Convert.ToDouble(CommunicationInterfaceVariable.Value);
+            var valueY = new Random().NextDouble(); //Convert.ToDouble(CommunicationInterfaceVariable.Value);
+
+            StoreValue(valueX, valueY);
+        }
+
+        public void StoreValue(double valueX, double valueY)
+        {
+            if (CommunicationInterfaceVariable == null) return;
+
+            ValueY = valueY;
             ValueX = valueX;
 
             if (ValueY > MaxValue) MaxValue = ValueY;
