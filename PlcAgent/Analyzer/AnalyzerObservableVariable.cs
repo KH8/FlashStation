@@ -1,15 +1,25 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using OxyPlot;
 using OxyPlot.Series;
+using _PlcAgent.Annotations;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Analyzer
 {
-    public class AnalyzerObservableVariable : AnalyzerComponent
+    public class AnalyzerObservableVariable : AnalyzerComponent, INotifyPropertyChanged
     {
         #region Variables
+
+        private VariableType _type;
+        private string _name;
+        private string _unit;
+
+        private double _minValue;
+        private double _maxValue;
 
         private MainViewModel _mainViewModel;
 
@@ -29,25 +39,77 @@ namespace _PlcAgent.Analyzer
 
         public CommunicationInterfaceVariable CommunicationInterfaceVariable { get; set; }
 
-        public VariableType Type { get; set; }
-        public new string Name { get; set; }
-        public string Unit { get; set; }
+        public VariableType Type
+        {
+            get { return _type; }
+            set
+            {
+                if (Equals(value, _type)) return;
+                _type = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public new string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Unit
+        {
+            get { return _unit; }
+            set
+            {
+                if (value == _unit) return;
+                _unit = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Brush Brush
         {
             get { return _mainViewModel.Brush; }
-            set { _mainViewModel.Brush = value; }
+            set
+            {
+                if (Equals(value, _mainViewModel.Brush)) return;
+                _mainViewModel.Brush = value;
+                OnPropertyChanged();
+            }
         }
 
-        public double MinValue { get; set; }
-        public double MaxValue { get; set; }
+        public double MinValue
+        {
+            get { return _minValue; }
+            set
+            {
+                if (Equals(value, _minValue)) return;
+                _minValue = value;
+                OnPropertyChanged();
+            }
+        }
+        public double MaxValue
+        {
+            get { return _maxValue; }
+            set
+            {
+                if (Equals(value, _maxValue)) return;
+                _maxValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         public double ValueY { get; set; }
         public double ValueX { get; set; }
 
         public double ValueFactor { get; set; }
 
         public delegate void PointCreatedDelegate();
-
         public PointCreatedDelegate OnPointCreated;
 
         public MainViewModel MainViewModel
@@ -60,6 +122,15 @@ namespace _PlcAgent.Analyzer
         {
             get { return (MainViewModel) _mainViewModel.Clone(); }
             set { _mainViewModel = value; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
@@ -143,7 +214,7 @@ namespace _PlcAgent.Analyzer
             return result;
         }
 
-        private static VariableType GetType(CommunicationInterfaceVariable communicationInterfaceVariable)
+        private static VariableType GetType(CommunicationInterfaceComponent communicationInterfaceVariable)
         {
             switch (communicationInterfaceVariable.Type)
             {
@@ -176,6 +247,5 @@ namespace _PlcAgent.Analyzer
         }
 
         #endregion
-
     }
 }

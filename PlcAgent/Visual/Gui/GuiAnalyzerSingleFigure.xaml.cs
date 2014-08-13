@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -20,8 +21,6 @@ namespace _PlcAgent.Visual.Gui
 
         private readonly Boolean _save;
         private readonly AnalyzerChannel _analyzerChannel;
-
-        private readonly Thread _updateThread;
 
         #endregion
 
@@ -80,17 +79,16 @@ namespace _PlcAgent.Visual.Gui
                     BrushComboBox.SelectedItem = brush;
                 }
                 UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
+
                 _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
+                _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
+
+                UpdateControls(this, new PropertyChangedEventArgs(""));
             }
 
             _save = true;
 
             PlotArea.DataContext = new MainViewModel();
-
-            _updateThread = new Thread(Update);
-            _updateThread.SetApartmentState(ApartmentState.STA);
-            _updateThread.IsBackground = true;
-            _updateThread.Start();
         }
 
         #endregion
@@ -98,46 +96,12 @@ namespace _PlcAgent.Visual.Gui
 
         #region Mathods
 
-        public void Update()
-        {
-            while (_updateThread.IsAlive)
-            {
-                UpdateControls();
-                Thread.Sleep(10);
-            }
-        }
-
         public void UpdateSizes(double height, double width)
         {
             Width = width;
             PlotCanvas.Width = width;
             GeneralGrid.Width = width;
             PlotGrid.Width = width - 225;
-        }
-
-        private void UpdateControls()
-        {
-            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-
-            if (TypeLabel == null) return;
-            TypeLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
-            })));
-            if (VariableLabel == null) return;
-            VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
-                                        + ", " + _analyzerChannel.AnalyzerObservableVariable.Type
-                                        + ", [" + _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
-            })));
-            MinMaxLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
-                                      + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
-                                      + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
-            })));
-
         }
 
         #endregion
@@ -169,7 +133,31 @@ namespace _PlcAgent.Visual.Gui
         }
 
         protected override void OnRecordingTimeChanged()
+        {}
+
+        private void UpdateControls(object sender, PropertyChangedEventArgs e)
         {
+            if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+
+            if (TypeLabel == null) return;
+            TypeLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+            })));
+            if (VariableLabel == null) return;
+            VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
+                                        + ", " + _analyzerChannel.AnalyzerObservableVariable.Type
+                                        + ", [" + _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
+            })));
+            MinMaxLabel.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
+                                      + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
+                                      + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
+            })));
+
         }
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -194,6 +182,7 @@ namespace _PlcAgent.Visual.Gui
                     Unit = UnitTextBox.Text
                 };
                 _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
+                _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
                 Analyzer.AnalyzerChannels.StoreConfiguration();
             }
             catch (Exception)
@@ -222,7 +211,6 @@ namespace _PlcAgent.Visual.Gui
                 _analyzerChannel.AnalyzerObservableVariable.Unit = "1";
             }
 
-            UpdateControls();
             Analyzer.AnalyzerChannels.StoreConfiguration();
         }
 
