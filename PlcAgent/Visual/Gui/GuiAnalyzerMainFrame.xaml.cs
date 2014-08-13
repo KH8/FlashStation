@@ -132,26 +132,17 @@ namespace _PlcAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                /*if (!Analyzer.Recording)
+                if (!Analyzer.Recording)
                 {
-                    var timeDiff = (Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum - Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum) / 2.0;
-                    var timeTick = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum + timeDiff;
-
-                    Analyzer.ObservableTime.MainViewModel.HorizontalAxis.Reset();
-                    Analyzer.ObservableTime.MainViewModel.HorizontalAxis.Minimum = timeTick - (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * Analyzer.ObservableTime.ValueFactor));
-                    Analyzer.ObservableTime.MainViewModel.HorizontalAxis.Maximum = timeTick + (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * Analyzer.ObservableTime.ValueFactor));
-
-                    Analyzer.ObservableTime.MainViewModel.Model.InvalidatePlot(true);
+                    var minimum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMinimum;
+                    var maximum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMaximum;
 
                     Parallel.ForEach(Analyzer.AnalyzerChannels.Children,
                         analyzerChannel =>
                         {
-                            if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum * Analyzer.ObservableTime.ValueFactor;
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum * Analyzer.ObservableTime.ValueFactor;
-                            analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
+                            if (analyzerChannel.AnalyzerObservableVariable != null) analyzerChannel.AnalyzerObservableVariable.MainViewModel.SynchronizeView(minimum,maximum);
                         });
-                }*/
+                }
                 Thread.Sleep(10);
             }
         }

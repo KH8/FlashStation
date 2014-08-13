@@ -94,6 +94,16 @@ namespace _PlcAgent.Analyzer
             }
         }
 
+        public double TimeRange
+        {
+            get { return _mainViewModel.TimeRange; }
+            set
+            {
+                _mainViewModel.TimeRange = value;
+                _mainViewModel.SynchronizeView();
+            }
+        }
+
         public double MinValue
         {
             get { return _minValue; }

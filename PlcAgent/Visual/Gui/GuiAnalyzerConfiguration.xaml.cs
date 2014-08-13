@@ -73,21 +73,24 @@ namespace _PlcAgent.Visual.Gui
         private void SampleTimeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var slider = (Slider) sender;
-            SampleTimeLabel.Content = slider.Value + " ms";
-
+            SampleTimeLabel.Content = (int)slider.Value + " ms";
+            
             if (!_save) return;
-            Analyzer.AnalyzerSetupFile.SampleTime[Analyzer.Header.Id] = (int) slider.Value;
+            Analyzer.AnalyzerSetupFile.SampleTime[Analyzer.Header.Id] = (int)slider.Value;
             Analyzer.AnalyzerSetupFile.Save();
         }
 
         private void TimeRangeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var slider = (Slider) sender;
-            TimeRangeLabel.Content = slider.Value + " ms";
+            var newTimeRange = (int)slider.Value;
+            TimeRangeLabel.Content = newTimeRange + " ms";
 
             if (!_save) return;
-            Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] = slider.Value;
+            Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] = newTimeRange;
             Analyzer.AnalyzerSetupFile.Save();
+
+            Analyzer.TimeRange = newTimeRange;
         }
 
         private void ShowHideDataCursors(object sender, RoutedEventArgs e)

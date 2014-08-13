@@ -31,6 +31,8 @@ namespace _PlcAgent.Analyzer
         private readonly Dispatcher _dispatcher;
         private readonly Thread _updateThread;
 
+        private Boolean _refreshPlot ;
+
         #endregion
 
         #region Properties
@@ -82,6 +84,7 @@ namespace _PlcAgent.Analyzer
             _dispatcher = Dispatcher.CurrentDispatcher;
 
             TimeRange = 10000;
+            _refreshPlot = true;
 
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
@@ -108,6 +111,32 @@ namespace _PlcAgent.Analyzer
             return MemberwiseClone();
         }
 
+        public void SynchronizeView()
+        {
+            var timeDiff = (HorizontalAxis.ActualMaximum - HorizontalAxis.ActualMinimum) / 2.0;
+            var timeTick = HorizontalAxis.ActualMinimum + timeDiff;
+
+            SynchronizeView(timeTick);
+        }
+
+        public void SynchronizeView(double timeTick)
+        {
+            HorizontalAxis.Reset();
+            HorizontalAxis.Minimum = timeTick - TimeRange / 2000.0;
+            HorizontalAxis.Maximum = timeTick + TimeRange / 2000.0;
+
+            _refreshPlot = true;
+        }
+
+        public void SynchronizeView(double minimum, double maximum)
+        {
+            HorizontalAxis.Reset();
+            HorizontalAxis.Minimum = minimum;
+            HorizontalAxis.Maximum = maximum;
+
+            _refreshPlot = true;
+        }
+
         #endregion
 
 
@@ -119,19 +148,16 @@ namespace _PlcAgent.Analyzer
             {
                 _dispatcher.Invoke(() =>
                 {
+                    if(_refreshPlot) _model.InvalidatePlot(true);
+                    _refreshPlot = false;
+
                     if (Equals(_newDataPoint, _emptyDataPoint)) return;
 
                     _series.Points.Add(_newDataPoint);
-
-                    HorizontalAxis.Reset();
-                    HorizontalAxis.Minimum = _newDataPoint.X - TimeRange / 2000.0;
-                    HorizontalAxis.Maximum = _newDataPoint.X + TimeRange / 2000.0;
-
-                    _model.InvalidatePlot(true);
+                    SynchronizeView(_newDataPoint.X);
+                    _newDataPoint = _emptyDataPoint;
 
                     RaisePropertyChanged(() => _model);
-
-                    _newDataPoint = _emptyDataPoint;
                 });
                 Thread.Sleep(5);
             }

@@ -64,6 +64,16 @@ namespace _PlcAgent.Analyzer
             }
         }
 
+        public double TimeRange
+        {
+            set
+            {
+                foreach (var analyzerChannel in AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                { analyzerChannel.AnalyzerObservableVariable.TimeRange = value; }
+                TimeObservableVariable.TimeRange = value;
+            }
+        }
+
         public AnalyzerObservableVariable TimeObservableVariable { get; set; }
 
         #endregion
@@ -92,6 +102,8 @@ namespace _PlcAgent.Analyzer
             AnalyzerChannels.RetriveConfiguration();
 
             AnalyzerDataCursorPointCollection = new AnalyzerDataCursorPointCollection();
+
+            TimeRange = AnalyzerSetupFile.TimeRange[Header.Id];
 
             _thread = new Thread(AnalyzeThread) { IsBackground = true };
 
