@@ -167,7 +167,7 @@ namespace _PlcAgent.Analyzer
 
         public void SynchronizeView()
         {
-            var timeDiff = (ObservableTime.TimeSpanAxis.ActualMaximum - ObservableTime.TimeSpanAxis.ActualMinimum) / 2.0;
+        /*    var timeDiff = (ObservableTime.TimeSpanAxis.ActualMaximum - ObservableTime.TimeSpanAxis.ActualMinimum) / 2.0;
             var timeTick = ObservableTime.TimeSpanAxis.ActualMinimum + timeDiff;
 
             ObservableTime.TimeSpanAxis.Reset();
@@ -183,7 +183,7 @@ namespace _PlcAgent.Analyzer
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Minimum = ObservableTime.TimeSpanAxis.ActualMinimum * 1000.0;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = ObservableTime.TimeSpanAxis.ActualMaximum * 1000.0;
                     analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
-                });
+                });*/
         }
 
         public void UpdateDataCursorTable()
@@ -232,7 +232,7 @@ namespace _PlcAgent.Analyzer
 
         public double GetTimePosition(double positionPercentage)
         {
-            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + ObservableTime.TimeSpanAxis.Minimum * 1000.0;
+            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + ObservableTime.MainViewModel.HorizontalAxis.Minimum * 1000.0;
         }
 
         #endregion

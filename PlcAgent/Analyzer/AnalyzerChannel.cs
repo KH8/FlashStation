@@ -97,12 +97,10 @@ namespace _PlcAgent.Analyzer
 
         public void Clear()
         {
-            foreach (var analyzerChannel in Children)
+            foreach (var analyzerChannel in Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
             {
-                if (analyzerChannel.AnalyzerObservableVariable == null) return;
                 analyzerChannel.AnalyzerObservableVariable.Clear();
             }
-            if (OnChannelListModified != null) OnChannelListModified();
         }
 
         public AnalyzerChannel GetChannel(uint id)

@@ -9,7 +9,14 @@ namespace _PlcAgent.Analyzer
 {
     public class AnalyzerObservableVariable : AnalyzerComponent
     {
+        #region Variables
+
         private MainViewModel _mainViewModel;
+
+        #endregion
+
+
+        #region Properties
 
         public enum VariableType
         {
@@ -40,15 +47,28 @@ namespace _PlcAgent.Analyzer
         public double ValueFactor { get; set; }
 
         public delegate void PointCreatedDelegate();
+
         public PointCreatedDelegate OnPointCreated;
 
         public MainViewModel MainViewModel
+        {
+            get { return _mainViewModel; }
+            set { _mainViewModel = value; }
+        }
+
+        public MainViewModel MainViewModelClone
         {
             get { return (MainViewModel) _mainViewModel.Clone(); }
             set { _mainViewModel = value; }
         }
 
-        public AnalyzerObservableVariable(Analyzer analyzer, CommunicationInterfaceVariable communicationInterfaceVariable)
+        #endregion
+
+
+        #region Constructors
+
+        public AnalyzerObservableVariable(Analyzer analyzer,
+            CommunicationInterfaceVariable communicationInterfaceVariable)
             : base(analyzer)
         {
             CommunicationInterfaceVariable = communicationInterfaceVariable;
@@ -64,6 +84,16 @@ namespace _PlcAgent.Analyzer
             _mainViewModel = new MainViewModel();
         }
 
+        #endregion
+
+
+        #region Methods
+
+        public void Clear()
+        {
+            _mainViewModel.Clear();
+        }
+
         public void StoreActualValue(double valueX)
         {
             if (CommunicationInterfaceVariable == null) return;
@@ -77,8 +107,12 @@ namespace _PlcAgent.Analyzer
             _mainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
 
             _mainViewModel.HorizontalAxis.Reset();
-            _mainViewModel.HorizontalAxis.Minimum = ValueX - (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * ValueFactor));
-            _mainViewModel.HorizontalAxis.Maximum = ValueX + (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] / (2 * ValueFactor));
+            _mainViewModel.HorizontalAxis.Minimum = ValueX -
+                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id]/
+                                                     (2.0*ValueFactor));
+            _mainViewModel.HorizontalAxis.Maximum = ValueX +
+                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id]/
+                                                     (2.0*ValueFactor));
 
             if (OnPointCreated != null) OnPointCreated();
         }
@@ -91,15 +125,22 @@ namespace _PlcAgent.Analyzer
 
             foreach (var lineSerie in _mainViewModel.Model.Series.Cast<LineSeries>())
             {
-                try { foreach (var point in lineSerie.Points.Where(point => point.X >= valueX - tolerance && point.X <= valueX + tolerance)) { result = point.Y; } }
-                catch (Exception) { result = Double.NaN; }
+                try
+                {
+                    foreach (
+                        var point in
+                            lineSerie.Points.Where(
+                                point => point.X >= valueX - tolerance && point.X <= valueX + tolerance))
+                    {
+                        result = point.Y;
+                    }
+                }
+                catch (Exception)
+                {
+                    result = Double.NaN;
+                }
             }
             return result;
-        }
-
-        public void Clear()
-        {
-            _mainViewModel.Clear();
         }
 
         private static VariableType GetType(CommunicationInterfaceVariable communicationInterfaceVariable)
@@ -121,10 +162,20 @@ namespace _PlcAgent.Analyzer
             }
         }
 
+        #endregion
+
+
+        #region Event Handlers
+
         protected override void OnRecordingChanged()
-        {}
+        {
+        }
 
         protected override void OnRecordingTimeChanged()
-        {}
+        {
+        }
+
+        #endregion
+
     }
 }
