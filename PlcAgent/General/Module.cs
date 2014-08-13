@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using _PlcAgent.Annotations;
+using _PlcAgent.Properties;
 using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.General

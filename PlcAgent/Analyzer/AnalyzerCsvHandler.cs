@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using CsvHelper;
 using OxyPlot;
 using OxyPlot.Axes;
-using OxyPlot.Reporting;
 using _PlcAgent.Log;
 
 namespace _PlcAgent.Analyzer
@@ -59,7 +57,8 @@ namespace _PlcAgent.Analyzer
                 for (var i = 1; i <= Analyzer.AnalyzerChannels.HighestId; i++)
                 {
                     var fieldString = "";
-                    foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null && analyzerChannel.Id == i))
+                    var id = i;
+                    foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null && analyzerChannel.Id == id))
                     {
                         fieldString = "VARIABLE:" + analyzerChannel.AnalyzerObservableVariable.Name + ":[" +
                                           analyzerChannel.AnalyzerObservableVariable.Unit + "]:AXIS:Y";
@@ -88,7 +87,8 @@ namespace _PlcAgent.Analyzer
                 for (var i = 1; i <= Analyzer.AnalyzerChannels.HighestId; i++)
                 {
                     var fieldValue = 0.0;
-                    foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null && analyzerChannel.Id == i))
+                    var id = i;
+                    foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null && analyzerChannel.Id == id))
                     {
                         fieldValue = analyzerChannel.AnalyzerObservableVariable.ValueY;
                     }

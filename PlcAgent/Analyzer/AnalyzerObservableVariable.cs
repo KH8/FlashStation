@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using OxyPlot;
 using OxyPlot.Series;
-using _PlcAgent.Annotations;
+using _PlcAgent.Properties;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Analyzer

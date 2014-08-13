@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using OxyPlot;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui

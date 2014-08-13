@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using _PlcAgent.Annotations;
+using _PlcAgent.Properties;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui
@@ -105,7 +105,7 @@ namespace _PlcAgent.Visual.Gui
             _actualPosition = newPositionX;
             PercentageActualPosition = (_actualPosition - LeftLimitPosition) / (_parentGrid.Width - LeftLimitPosition - 26.5);
 
-            OnPropertyChanged("ActualPosition");
+            OnPropertyChanged();
         }
 
         #endregion

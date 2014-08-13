@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
 using System.Windows;
-using _PlcAgent.General;
 
 namespace _PlcAgent.Visual.Gui
 {

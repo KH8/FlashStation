@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Media;
-using _PlcAgent.Annotations;
 
 namespace _PlcAgent.Analyzer
 {
