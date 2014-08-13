@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -22,29 +21,7 @@ namespace _PlcAgent.Visual.Gui
         private readonly Boolean _save;
         private readonly AnalyzerChannel _analyzerChannel;
 
-        #endregion
-
-
-        #region Properties
-
-        public uint Id;
-
-        public AnalyzerChannel AnalyzerChannel { get { return _analyzerChannel;}}
-
-        #endregion
-
-
-        #region Constructors
-
-        public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer) : base(analyzer)
-        {
-            InitializeComponent();
-
-            Id = id;
-
-            _analyzerChannel = Analyzer.AnalyzerChannels.GetChannel(Id);
-
-            var colorsList = new List<Brush>
+        private readonly List<Brush> _colorsList = new List<Brush>
             {
                 Brushes.Red,
                 Brushes.DarkRed,
@@ -58,37 +35,44 @@ namespace _PlcAgent.Visual.Gui
                 Brushes.Black
             };
 
-            BrushComboBox.ItemsSource = colorsList;
+        #endregion
+
+
+        #region Properties
+
+        public AnalyzerChannel AnalyzerChannel { get { return _analyzerChannel;}}
+
+        #endregion
+
+
+        #region Constructors
+
+        public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer) : base(analyzer)
+        {
+            InitializeComponent();
+
+            BrushComboBox.ItemsSource = _colorsList;
             BrushComboBox.SelectedItem = Brushes.Green;
             BrushComboBox.DataContext = this;
 
+            VariableComboBox.ItemsSource = Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
+
+            _analyzerChannel = Analyzer.AnalyzerChannels.GetChannel(id);
             ChannelGroupBox.Header = "Channel " + _analyzerChannel.Id;
 
-            VariableComboBox.ItemsSource = Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
+            PlotArea.Dispatcher.BeginInvoke((new Action(
+                () => PlotArea.DataContext = new DataMainViewModel())));
 
             if (_analyzerChannel.AnalyzerObservableVariable != null)
             {
-                VariableComboBox.SelectedItem =
-                    _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
-                foreach (
-                    var brush in
-                        colorsList.Where(
-                            brush =>
-                                Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
-                {
-                    BrushComboBox.SelectedItem = brush;
-                }
-                UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
-
-                _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
+                UpdateControls(this, new PropertyChangedEventArgs(""));
                 _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
 
-                UpdateControls(this, new PropertyChangedEventArgs(""));
+                PlotArea.Dispatcher.BeginInvoke((new Action(
+                () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModelClone)));
             }
 
             _save = true;
-
-            PlotArea.DataContext = new MainViewModel();
         }
 
         #endregion
@@ -108,12 +92,6 @@ namespace _PlcAgent.Visual.Gui
 
 
         #region Event Handlers
-
-        private void OnPointCreated()
-        {
-            PlotArea.Dispatcher.BeginInvoke((new Action(
-                () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModel)));
-        }
 
         private void RemoveChannel(object sender, RoutedEventArgs e)
         {
@@ -139,32 +117,33 @@ namespace _PlcAgent.Visual.Gui
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
 
-            if (TypeLabel == null) return;
-            TypeLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
-            })));
-            if (VariableLabel == null) return;
-            VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
+            VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
+
+            foreach (var brush in _colorsList.Where(brush => Equals(brush.ToString(), _analyzerChannel.AnalyzerObservableVariable.Brush.ToString())))
+            { BrushComboBox.SelectedItem = brush; }
+
+            UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
+
+            TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
+
+            VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
                                         + ", " + _analyzerChannel.AnalyzerObservableVariable.Type
                                         + ", [" + _analyzerChannel.AnalyzerObservableVariable.Unit + "]";
-            })));
-            MinMaxLabel.Dispatcher.BeginInvoke((new Action(delegate
-            {
-                MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
-                                      + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
-                                      + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
-            })));
+
+            MinMaxLabel.Content = "ACTUAL: " + _analyzerChannel.AnalyzerObservableVariable.ValueY
+                                     + " MIN: " + _analyzerChannel.AnalyzerObservableVariable.MinValue
+                                     + " MAX: " + _analyzerChannel.AnalyzerObservableVariable.MaxValue;
 
         }
 
         private void BrushSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_save) return;
+
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
+
             _analyzerChannel.AnalyzerObservableVariable.Brush = (Brush) BrushComboBox.SelectedItem;
+
             Analyzer.AnalyzerChannels.StoreConfiguration();
         }
 
@@ -173,20 +152,20 @@ namespace _PlcAgent.Visual.Gui
             var selector = (ComboBox) sender;
 
             if (!_save) return;
+
             try
             {
-                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer,
-                    (CommunicationInterfaceVariable) selector.SelectedItem)
+                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer, (CommunicationInterfaceVariable)VariableComboBox.SelectedItem)
                 {
                     Brush = (Brush) BrushComboBox.SelectedItem,
                     Unit = UnitTextBox.Text
                 };
-                _analyzerChannel.AnalyzerObservableVariable.OnPointCreated += OnPointCreated;
-                _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
 
                 UpdateControls(this, new PropertyChangedEventArgs(""));
+                _analyzerChannel.AnalyzerObservableVariable.PropertyChanged += UpdateControls;
 
-                Analyzer.AnalyzerChannels.StoreConfiguration();
+                PlotArea.Dispatcher.BeginInvoke((new Action(
+                () => PlotArea.DataContext = _analyzerChannel.AnalyzerObservableVariable.MainViewModelClone)));
             }
             catch (Exception)
             {
@@ -204,15 +183,11 @@ namespace _PlcAgent.Visual.Gui
             var box = (TextBox) sender;
 
             if (!_save) return;
+
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
-            try
-            {
-                _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text;
-            }
-            catch (Exception)
-            {
-                _analyzerChannel.AnalyzerObservableVariable.Unit = "1";
-            }
+
+            try { _analyzerChannel.AnalyzerObservableVariable.Unit = box.Text; }
+            catch (Exception) { _analyzerChannel.AnalyzerObservableVariable.Unit = "1"; }
 
             Analyzer.AnalyzerChannels.StoreConfiguration();
         }

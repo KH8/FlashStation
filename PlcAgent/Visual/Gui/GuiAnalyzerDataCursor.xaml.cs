@@ -131,7 +131,7 @@ namespace _PlcAgent.Visual.Gui
             SetPosition(newPositionX);
 
             PositionLabel.Visibility = Visibility.Visible;
-            PositionLabel.Content = TimeSpan.FromMilliseconds(Analyzer.GetTimePosition(_percentageActualPosition));
+            //PositionLabel.Content = TimeSpan.FromMilliseconds(Analyzer.GetTimePosition(_percentageActualPosition));
         }
 
         #endregion

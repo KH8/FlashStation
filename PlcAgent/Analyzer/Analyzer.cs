@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using CsvHelper;
 using OxyPlot.Axes;
 using _PlcAgent.DataAquisition;
@@ -23,7 +24,6 @@ namespace _PlcAgent.Analyzer
         private double _recordingTime;
 
         private readonly Thread _thread;
-        private readonly Thread _visualThread;
 
         private readonly string _filePath;
 
@@ -64,7 +64,7 @@ namespace _PlcAgent.Analyzer
             }
         }
 
-        public AnalyzerObservableTime ObservableTime { get; set; }
+        public AnalyzerObservableVariable TimeObservableVariable { get; set; }
 
         #endregion
 
@@ -82,15 +82,18 @@ namespace _PlcAgent.Analyzer
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
 
-            ObservableTime = new AnalyzerObservableTime(this);
-            
+            TimeObservableVariable = new AnalyzerObservableVariable(this, new CiInteger("Time", 0, CommunicationInterfaceComponent.VariableType.Integer, 0))
+            {
+                MainViewModel = new TimeMainViewModel(),
+                Brush = Brushes.Black
+            };
+
             AnalyzerChannels = new AnalyzerChannelList(0, this);
             AnalyzerChannels.RetriveConfiguration();
 
             AnalyzerDataCursorPointCollection = new AnalyzerDataCursorPointCollection();
 
             _thread = new Thread(AnalyzeThread) { IsBackground = true };
-            _visualThread = new Thread(VisualThread) { IsBackground = true };
 
             CreateInterfaceAssignment(id, AnalyzerAssignmentFile.Assignment);
         }
@@ -108,7 +111,6 @@ namespace _PlcAgent.Analyzer
             if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 10000;
 
             _thread.Start();
-            _visualThread.Start();
 
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
@@ -133,7 +135,7 @@ namespace _PlcAgent.Analyzer
         public void Clear()
         {
             AnalyzerChannels.Clear();
-            ObservableTime.Clear();
+            TimeObservableVariable.Clear();
 
             RecordingTime = 0.0;
             _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
@@ -165,7 +167,7 @@ namespace _PlcAgent.Analyzer
             AnalyzerSetupFile.Save();
         }
 
-        public void UpdateDataCursorTable()
+        /*public void UpdateDataCursorTable()
         {
             double timePointBlue;
             double timePointRed;
@@ -211,8 +213,8 @@ namespace _PlcAgent.Analyzer
 
         public double GetTimePosition(double positionPercentage)
         {
-            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + ObservableTime.MainViewModel.HorizontalAxis.Minimum * 1000.0;
-        }
+            return AnalyzerSetupFile.TimeRange[Header.Id] * positionPercentage + TimeObservableVariable.MainViewModel.HorizontalAxis.Minimum * 1000.0;
+        }*/
 
         #endregion
 
@@ -227,14 +229,14 @@ namespace _PlcAgent.Analyzer
             {
                 if (Recording)
                 {
-                    var timeTick = DateTime.Now.TimeOfDay;
+                    var timeTick = TimeSpanAxis.ToDouble(DateTime.Now.TimeOfDay);
 
-                    ObservableTime.StoreActualValue(TimeSpanAxis.ToDouble(timeTick));
+                    TimeObservableVariable.StoreActualValue(timeTick);
                     Parallel.ForEach(AnalyzerChannels.Children,
                         analyzerChannel =>
                     {
                         if (analyzerChannel.AnalyzerObservableVariable == null) return;
-                        analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick.TotalMilliseconds);
+                        analyzerChannel.AnalyzerObservableVariable.StoreActualValue(timeTick);
                     });
 
                     StorePointsInCsvFile();
@@ -251,25 +253,18 @@ namespace _PlcAgent.Analyzer
 
         private void VisualThread()
         {
-            while (_visualThread.IsAlive)
+            if (Recording)
             {
-                if (!Recording)
+                foreach (var dataCursorPoint in AnalyzerDataCursorPointCollection.Children)
                 {
-                    UpdateDataCursorTable();
+                    dataCursorPoint.BlueValue = "---";
+                    dataCursorPoint.RedValue = "---";
+                    dataCursorPoint.Difference = "---";
                 }
-                else 
-                {
-                    foreach (var dataCursorPoint in AnalyzerDataCursorPointCollection.Children)
-                    {
-                        dataCursorPoint.BlueValue = "---";
-                        dataCursorPoint.RedValue = "---";
-                        dataCursorPoint.Difference = "---";
-                    }
-                    GuiAnalyzerDataCursorTable.CursorTableDataGrid.Dispatcher.BeginInvoke((new Action(
-                        () => GuiAnalyzerDataCursorTable.CursorTableDataGrid.Items.Refresh())));
-                }   
-                Thread.Sleep(100);
+                GuiAnalyzerDataCursorTable.CursorTableDataGrid.Dispatcher.BeginInvoke((new Action(
+                    () => GuiAnalyzerDataCursorTable.CursorTableDataGrid.Items.Refresh())));
             }
+            Thread.Sleep(100);
         }
 
         #endregion

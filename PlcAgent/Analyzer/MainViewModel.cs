@@ -6,6 +6,7 @@
 
 using System;
 using System.Threading;
+using System.Windows.Media;
 using System.Windows.Threading;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -13,16 +14,16 @@ using OxyPlot.Wpf;
 using Brush = System.Windows.Media.Brush;
 using LinearAxis = OxyPlot.Axes.LinearAxis;
 using LineSeries = OxyPlot.Series.LineSeries;
+using TimeSpanAxis = OxyPlot.Axes.TimeSpanAxis;
 
 namespace _PlcAgent.Analyzer
 {
-    public class MainViewModel : Observable, ICloneable
+    public abstract class MainViewModel : Observable, ICloneable
     {
+        #region Variables
+
         private PlotModel _model;
         private readonly LineSeries _series;
-
-        public LinearAxis HorizontalAxis;
-        public LinearAxis VerticalAxis;
 
         private readonly DataPoint _emptyDataPoint;
         private DataPoint _newDataPoint;
@@ -30,49 +31,14 @@ namespace _PlcAgent.Analyzer
         private readonly Dispatcher _dispatcher;
         private readonly Thread _updateThread;
 
-        public MainViewModel()
-        {
-            // Create the plot model
-            var tmp = new PlotModel
-            {
-                IsLegendVisible = false,
-                DefaultFontSize = 0,
-                PlotMargins = new OxyThickness(20,0,0,10)
-            };
-            tmp.Axes.Add(HorizontalAxis = new LinearAxis
-            {
-                MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle = LineStyle.Dot,
-                IsAxisVisible = true,
-                IsPanEnabled = false,
-                IsZoomEnabled = false,
-                TextColor = OxyColor.Parse("#FFF6F6F6"),
-                Position = AxisPosition.Bottom
-            });
-            tmp.Axes.Add(VerticalAxis = new LinearAxis
-            {
-                MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle = LineStyle.Dot,
-                Position = AxisPosition.Left
-            });
-            _series = new LineSeries
-            {
-                MarkerType = MarkerType.Circle, 
-                MarkerSize = 1
-            };
-            tmp.Series.Add(_series);
-            _model = tmp;
+        #endregion
 
-            _emptyDataPoint = new DataPoint(-1.0,-1.0);
-            _newDataPoint = _emptyDataPoint;
+        #region Properties
 
-            _dispatcher = Dispatcher.CurrentDispatcher;
+        public double TimeRange { get; set; }
 
-            _updateThread = new Thread(Update);
-            _updateThread.SetApartmentState(ApartmentState.STA);
-            _updateThread.IsBackground = true;
-            _updateThread.Start();
-        }
+        public abstract TimeSpanAxis HorizontalAxis { get; set; }
+        public abstract LinearAxis VerticalAxis { get; set; }
 
         public PlotModel Model
         {
@@ -83,8 +49,49 @@ namespace _PlcAgent.Analyzer
         public Brush Brush
         {
             get { return _series.Color.ToBrush(); }
-            set { _series.Color = value.ToOxyColor(); }
+            set
+            {
+                _series.Color = value.ToOxyColor();
+                _model.InvalidatePlot(true);
+            }
         }
+
+        #endregion
+
+
+        #region Constructors
+
+        protected MainViewModel()
+        {
+            _model = new PlotModel
+            {
+                IsLegendVisible = false,
+                DefaultFontSize = 0,
+                PlotMargins = new OxyThickness(20, 0, 0, 10)
+            };
+            _series = new LineSeries
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 1
+            };
+            _model.Series.Add(_series);
+
+            _emptyDataPoint = new DataPoint(-1.0, -1.0);
+            _newDataPoint = _emptyDataPoint;
+
+            _dispatcher = Dispatcher.CurrentDispatcher;
+
+            TimeRange = 10000;
+
+            _updateThread = new Thread(Update);
+            _updateThread.SetApartmentState(ApartmentState.STA);
+            _updateThread.IsBackground = true;
+            _updateThread.Start();
+        }
+
+        #endregion
+
+        #region Methods
 
         public void AddPoint(DataPoint dataPoint)
         {
@@ -101,6 +108,11 @@ namespace _PlcAgent.Analyzer
             return MemberwiseClone();
         }
 
+        #endregion
+
+
+        #region Background Methods
+
         public void Update()
         {
             while (_updateThread.IsAlive)
@@ -110,7 +122,13 @@ namespace _PlcAgent.Analyzer
                     if (Equals(_newDataPoint, _emptyDataPoint)) return;
 
                     _series.Points.Add(_newDataPoint);
+
+                    HorizontalAxis.Reset();
+                    HorizontalAxis.Minimum = _newDataPoint.X - TimeRange / 2000.0;
+                    HorizontalAxis.Maximum = _newDataPoint.X + TimeRange / 2000.0;
+
                     _model.InvalidatePlot(true);
+
                     RaisePropertyChanged(() => _model);
 
                     _newDataPoint = _emptyDataPoint;
@@ -118,5 +136,83 @@ namespace _PlcAgent.Analyzer
                 Thread.Sleep(5);
             }
         }
+
+        #endregion
+    }
+
+    public class DataMainViewModel : MainViewModel
+    {
+        #region Properties
+
+        public override sealed TimeSpanAxis HorizontalAxis { get; set; }
+        public override sealed LinearAxis VerticalAxis { get; set; }
+
+        #endregion
+
+
+        #region Constructors
+
+        public DataMainViewModel()
+        {
+            HorizontalAxis = new TimeSpanAxis
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                IsAxisVisible = true,
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                TextColor = OxyColor.Parse("#FFF6F6F6"),
+                Position = AxisPosition.Bottom
+            };
+            VerticalAxis = new LinearAxis
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                Position = AxisPosition.Left
+            };
+
+            Model.Axes.Add(HorizontalAxis);
+            Model.Axes.Add(VerticalAxis);
+        }
+
+        #endregion
+
+    }
+
+    public class TimeMainViewModel : MainViewModel
+    {
+        #region Properties
+
+        public override sealed TimeSpanAxis HorizontalAxis { get; set; }
+        public override sealed LinearAxis VerticalAxis { get; set; }
+
+        #endregion
+
+
+        #region Constructors
+
+        public TimeMainViewModel()
+        {
+            HorizontalAxis = new TimeSpanAxis
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                StringFormat = "hh:mm:ss",
+                MajorStep = 1,
+                MinorStep = 0.1,
+                TextColor = OxyColors.Black,
+                Position = AxisPosition.Bottom
+            };
+            VerticalAxis = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                IsAxisVisible = false
+            };
+
+            Model.Axes.Add(HorizontalAxis);
+            Model.Axes.Add(VerticalAxis);
+        }
+
+        #endregion
     }
 }

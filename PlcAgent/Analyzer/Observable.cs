@@ -28,7 +28,6 @@ namespace _PlcAgent.Analyzer
             }
         }
 
-
         protected void RaisePropertyChanged(Expression<Func<object>> expression)
         {
             var lambda = expression as LambdaExpression;
@@ -42,12 +41,10 @@ namespace _PlcAgent.Analyzer
             {
                 memberExpression = lambda.Body as MemberExpression;
             }
-            if (memberExpression != null)
-            {
-                var propertyInfo = memberExpression.Member as PropertyInfo;
-                if (propertyInfo != null)
-                    RaisePropertyChanged(propertyInfo.Name);
-            }
+            if (memberExpression == null) return;
+            var propertyInfo = memberExpression.Member as PropertyInfo;
+            if (propertyInfo != null)
+                RaisePropertyChanged(propertyInfo.Name);
         }
     }
 }

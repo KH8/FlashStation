@@ -14,6 +14,8 @@ namespace _PlcAgent.Analyzer
     {
         #region Variables
 
+        private CommunicationInterfaceVariable _communicationInterfaceVariable;
+
         private VariableType _type;
         private string _name;
         private string _unit;
@@ -37,7 +39,16 @@ namespace _PlcAgent.Analyzer
             Real
         }
 
-        public CommunicationInterfaceVariable CommunicationInterfaceVariable { get; set; }
+        public CommunicationInterfaceVariable CommunicationInterfaceVariable
+        {
+            get { return _communicationInterfaceVariable; }
+            set
+            {
+                if (Equals(value, _communicationInterfaceVariable)) return;
+                _communicationInterfaceVariable = value;
+                OnPropertyChanged();
+            }
+        }
 
         public VariableType Type
         {
@@ -107,11 +118,6 @@ namespace _PlcAgent.Analyzer
         public double ValueY { get; set; }
         public double ValueX { get; set; }
 
-        public double ValueFactor { get; set; }
-
-        public delegate void PointCreatedDelegate();
-        public PointCreatedDelegate OnPointCreated;
-
         public MainViewModel MainViewModel
         {
             get { return _mainViewModel; }
@@ -120,7 +126,7 @@ namespace _PlcAgent.Analyzer
 
         public MainViewModel MainViewModelClone
         {
-            get { return (MainViewModel) _mainViewModel.Clone(); }
+            get { return (MainViewModel)_mainViewModel.Clone(); }
             set { _mainViewModel = value; }
         }
 
@@ -150,9 +156,7 @@ namespace _PlcAgent.Analyzer
             MinValue = 0.0;
             MaxValue = 0.0;
 
-            ValueFactor = 1.0;
-
-            _mainViewModel = new MainViewModel();
+            _mainViewModel = new DataMainViewModel();
         }
 
         #endregion
@@ -176,16 +180,6 @@ namespace _PlcAgent.Analyzer
             if (ValueY < MinValue) MinValue = ValueY;
 
             _mainViewModel.AddPoint(new DataPoint(ValueX, ValueY));
-
-            _mainViewModel.HorizontalAxis.Reset();
-            _mainViewModel.HorizontalAxis.Minimum = ValueX -
-                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] /
-                                                     (2.0 * ValueFactor));
-            _mainViewModel.HorizontalAxis.Maximum = ValueX +
-                                                    (Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id] /
-                                                     (2.0 * ValueFactor));
-
-            if (OnPointCreated != null) OnPointCreated();
         }
 
         public double GetValue(double valueX, double tolerance)
@@ -198,18 +192,10 @@ namespace _PlcAgent.Analyzer
             {
                 try
                 {
-                    foreach (
-                        var point in
-                            lineSerie.Points.Where(
-                                point => point.X >= valueX - tolerance && point.X <= valueX + tolerance))
-                    {
-                        result = point.Y;
-                    }
+                    foreach ( var point in lineSerie.Points.Where( point => point.X >= valueX - tolerance && point.X <= valueX + tolerance))
+                    { result = point.Y; }
                 }
-                catch (Exception)
-                {
-                    result = Double.NaN;
-                }
+                catch (Exception) { result = Double.NaN;}
             }
             return result;
         }
@@ -239,12 +225,10 @@ namespace _PlcAgent.Analyzer
         #region Event Handlers
 
         protected override void OnRecordingChanged()
-        {
-        }
+        {}
 
         protected override void OnRecordingTimeChanged()
-        {
-        }
+        {}
 
         #endregion
     }

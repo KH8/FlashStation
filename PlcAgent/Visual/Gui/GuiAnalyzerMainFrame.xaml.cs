@@ -40,7 +40,6 @@ namespace _PlcAgent.Visual.Gui
             InitializeComponent();
 
             Analyzer.AnalyzerChannels.OnChannelListModified += RefreshGui;
-            Analyzer.ObservableTime.OnPointCreated += OnPointCreated;
 
             _channelList = new List<GuiComponent>();
 
@@ -66,7 +65,8 @@ namespace _PlcAgent.Visual.Gui
                 AnalyzerDataCursorBlue.Visibility = Visibility.Hidden;
             }
 
-            PlotArea.DataContext = Analyzer.ObservableTime.MainViewModel;
+            PlotArea.Dispatcher.BeginInvoke((new Action(
+                () => PlotArea.DataContext = Analyzer.TimeObservableVariable.MainViewModelClone)));
 
             RefreshGui();
 
@@ -132,7 +132,7 @@ namespace _PlcAgent.Visual.Gui
         {
             while (_updateThread.IsAlive)
             {
-                if (!Analyzer.Recording)
+                /*if (!Analyzer.Recording)
                 {
                     var timeDiff = (Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum - Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum) / 2.0;
                     var timeTick = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMinimum + timeDiff;
@@ -151,7 +151,7 @@ namespace _PlcAgent.Visual.Gui
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.HorizontalAxis.Maximum = Analyzer.ObservableTime.MainViewModel.HorizontalAxis.ActualMaximum * Analyzer.ObservableTime.ValueFactor;
                             analyzerChannel.AnalyzerObservableVariable.MainViewModel.Model.InvalidatePlot(true);
                         });
-                }
+                }*/
                 Thread.Sleep(10);
             }
         }
@@ -161,11 +161,11 @@ namespace _PlcAgent.Visual.Gui
 
         #region Event Handlers
 
-        private void OnPointCreated()
+        /*private void OnPointCreated()
         {
             PlotArea.Dispatcher.BeginInvoke((new Action(
                 () => PlotArea.DataContext = Analyzer.ObservableTime.MainViewModel)));
-        }
+        }*/
 
         protected override void OnRecordingChanged()
         {
