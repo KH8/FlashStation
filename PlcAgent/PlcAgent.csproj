@@ -130,6 +130,7 @@
     </Compile>
     <Compile Include="Output\OutputWriterFactory.cs" />
     <Compile Include="General\ProjectFileStruture.cs" />
+    <Compile Include="PLC\PlcCommunicatorComponent.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="MainRegistry\MainRegistry.cs" />
     <Compile Include="MainRegistry\MainRegistryFile.Designer.cs">
@@ -148,32 +149,32 @@
     <Compile Include="Visual\ComponentCreationWindowTreeView.xaml.cs">
       <DependentUpon>ComponentCreationWindowTreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzerControl.xaml.cs">
+    <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerControl.xaml.cs">
       <DependentUpon>GuiAnalyzerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzerDataCursorTable.xaml.cs">
+    <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerDataCursorTable.xaml.cs">
       <DependentUpon>GuiAnalyzerDataCursorTable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzerDataCursor.xaml.cs">
+    <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerDataCursor.xaml.cs">
       <DependentUpon>GuiAnalyzerDataCursor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzerConfiguration.xaml.cs">
+    <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerConfiguration.xaml.cs">
       <DependentUpon>GuiAnalyzerConfiguration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzerMainFrame.xaml.cs">
+    <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerMainFrame.xaml.cs">
       <DependentUpon>GuiAnalyzerMainFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml.cs">
+    <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerSingleFigure.xaml.cs">
       <DependentUpon>GuiAnalyzerSingleFigure.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiCommunicationStatus.xaml.cs">
-      <DependentUpon>GuiCommunicationStatus.xaml</DependentUpon>
+    <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml.cs">
+      <DependentUpon>GuiPlcCommunicatorStatus.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiCommunicationStatusBar.xaml.cs">
-      <DependentUpon>GuiCommunicationStatusBar.xaml</DependentUpon>
+    <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorStatusBar.xaml.cs">
+      <DependentUpon>GuiPlcCommunicatorStatusBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
@@ -182,8 +183,8 @@
       <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiComponent.cs" />
-    <Compile Include="Visual\Gui\GuiPlcConfiguration.xaml.cs">
-      <DependentUpon>GuiPlcConfiguration.xaml</DependentUpon>
+    <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorConfiguration.xaml.cs">
+      <DependentUpon>GuiPlcCommunicatorConfiguration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
@@ -252,27 +253,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzerControl.xaml">
+    <Page Include="Visual\Gui\Analyzer\GuiAnalyzerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzerDataCursorTable.xaml">
+    <Page Include="Visual\Gui\Analyzer\GuiAnalyzerDataCursorTable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzerDataCursor.xaml">
+    <Page Include="Visual\Gui\Analyzer\GuiAnalyzerDataCursor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzerConfiguration.xaml">
+    <Page Include="Visual\Gui\Analyzer\GuiAnalyzerConfiguration.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzerMainFrame.xaml">
+    <Page Include="Visual\Gui\Analyzer\GuiAnalyzerMainFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiAnalyzerSingleFigure.xaml">
+    <Page Include="Visual\Gui\Analyzer\GuiAnalyzerSingleFigure.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -280,11 +281,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiCommunicationStatus.xaml">
+    <Page Include="Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiCommunicationStatusBar.xaml">
+    <Page Include="Visual\Gui\PLC\GuiPlcCommunicatorStatusBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -296,7 +297,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Visual\Gui\GuiPlcConfiguration.xaml">
+    <Page Include="Visual\Gui\PLC\GuiPlcCommunicatorConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

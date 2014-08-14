@@ -9,6 +9,7 @@ using _PlcAgent.Output;
 using _PlcAgent.PLC;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.PLC;
 
 namespace _PlcAgent.MainRegistry
 {
@@ -92,9 +93,9 @@ namespace _PlcAgent.MainRegistry
                 return 0;
             }
 
-            PlcGuiCommunicationStatuses.Add(new GuiComponent(id, "", new GuiCommunicationStatus(component)));
-            PlcGuiCommunicationStatusBars.Add(new GuiComponent(id, "", new GuiCommunicationStatusBar(component)));
-            PlcGuiConfigurations.Add(new GuiComponent(id, "", new GuiPlcConfiguration(component)));
+            GuiPlcCommunicatorStatuses.Add(new GuiComponent(id, "", new GuiPlcCommunicatorStatus(component)));
+            GuiPlcCommunicatorStatusBars.Add(new GuiComponent(id, "", new GuiPlcCommunicatorStatusBar(component)));
+            GuiPlcCommunicatorConfigurations.Add(new GuiComponent(id, "", new GuiPlcCommunicatorConfiguration(component)));
 
             Logger.Log("ID: " + id + " new PLC Connection have been created");
             return id;
@@ -126,7 +127,7 @@ namespace _PlcAgent.MainRegistry
             {
                 Logger.Log("ID: " + id + " Creation of the Communication Interface Component");
                 CommunicationInterfaceHandlers.Add(
-                    new CommunicationInterfaceHandler(id, "INT__" + id, 
+                    new CommunicationInterfaceHandler(id, "INT__" + id,
                         (PlcCommunicator)PlcCommunicators.ReturnComponent(plcConnectionId), 
                         CommunicationInterfacePath.Default));
                 Logger.Log("ID: " + id + " Initialization of the Communication Interface");
@@ -333,14 +334,14 @@ namespace _PlcAgent.MainRegistry
             if (PlcCommunicators.Cast<object>().Any(plcCommunicator => component == plcCommunicator))
             {
                 CheckAssignment(component, 1);
-                foreach (var plcGuiCommunicationStatusBar in PlcGuiCommunicationStatusBars.Cast<GuiComponent>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
+                foreach (var plcGuiCommunicationStatusBar in GuiPlcCommunicatorStatusBars.Cast<GuiComponent>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
                 {
-                    PlcGuiCommunicationStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
+                    GuiPlcCommunicatorStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
                     break;
                 }
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
-                var plcCommunicator = (PlcCommunicator) component;
+                var plcCommunicator = (PlcCommunicator)component;
                 plcCommunicator.CloseConnection();
 
                 PlcCommunicators.Children.Remove(component);
@@ -399,9 +400,9 @@ namespace _PlcAgent.MainRegistry
             Deinitialize();
 
             PlcCommunicators.Clear();
-            PlcGuiCommunicationStatuses.Clear();
-            PlcGuiCommunicationStatusBars.Clear();
-            PlcGuiConfigurations.Clear();
+            GuiPlcCommunicatorStatuses.Clear();
+            GuiPlcCommunicatorStatusBars.Clear();
+            GuiPlcCommunicatorConfigurations.Clear();
 
             CommunicationInterfaceHandlers.Clear();
             GuiComInterfacemunicationConfigurations.Clear();

@@ -1,5 +1,4 @@
 ﻿using System;
-using _PlcAgent.PLC;
 
 namespace _PlcAgent.General
 {
@@ -15,7 +14,7 @@ namespace _PlcAgent.General
             public uint[][] VFlashHandlers;
             public uint[][] Analyzers;
 
-            public PlcCommunicator.PlcConfig[] Configuration;
+            public PLC.PlcCommunicator.PlcConfig[] Configuration;
             public Boolean[] ConnectAtStartUp;
 
             public string[] Path;

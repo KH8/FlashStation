@@ -53,6 +53,7 @@ namespace _PlcAgent.PLC
 
         #endregion
 
+
         #region Properties
 
         //Public
@@ -60,13 +61,22 @@ namespace _PlcAgent.PLC
         public int ConnectionStatus
         {
             get { return _connectionStatus; }
-            set { _connectionStatus = value; }
+            set
+            {
+                if (value == _connectionStatus) return;
+                _connectionStatus = value;
+                OnPropertyChanged();
+            }
         }
 
         public int ConfigurationStatus
         {
             get { return _configurationStatus; }
-            set { _configurationStatus = value; }
+            set
+            {
+                _configurationStatus = value;
+                OnPropertyChanged();
+            }
         }
 
         //Configuration
@@ -104,6 +114,7 @@ namespace _PlcAgent.PLC
 
         #endregion
 
+
         #region Constructor
 
         public PlcCommunicator(uint id, string name, PlcConfigurationFile plcConfigurationFile) : base(id, name)
@@ -116,8 +127,8 @@ namespace _PlcAgent.PLC
             //Init Properties
             PlcConfigurationFile = plcConfigurationFile;
             PlcConfiguration = plcConfigurationFile.Configuration[Header.Id];
-            _connectionStatus = -1;
-            _configurationStatus = -1;
+            ConnectionStatus = -1;
+            ConfigurationStatus = -1;
 
             //Threads
             _communicationWatchDogThread = new Thread(WatchDog);
@@ -132,29 +143,26 @@ namespace _PlcAgent.PLC
 
         #endregion
 
+
         #region Methods
 
         public override void Initialize()
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public override void Deinitialize()
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public void InitializeConnection()
         {
             _communicationWatchDogThread.Start();
             _dataAquisitionThread.Start();
 
-            if (!PlcConfigurationFile.ConnectAtStartUp[Header.Id] || _connectionStatus == 1)
+            if (!PlcConfigurationFile.ConnectAtStartUp[Header.Id] || ConnectionStatus == 1)
             {
                 Logger.Log("ID: " + Header.Id + " PLC communication initialized");
                 return;
             }
-            _connectionStatus = -2;
+            ConnectionStatus = -2;
             Logger.Log("ID: " + Header.Id + " Connected with IP address " + PlcConfiguration.PlcIpAddress + " at start up");//*/
             Logger.Log("ID: " + Header.Id + " PLC communication initialized");
         }
@@ -163,7 +171,7 @@ namespace _PlcAgent.PLC
         {
             if (configuration.PlcConfigurationStatus != 1)
             {
-                _configurationStatus = -1;
+                ConfigurationStatus = -1;
             }
             else
             {
@@ -172,20 +180,20 @@ namespace _PlcAgent.PLC
                 _writeBytesBuffer = new byte[PlcConfiguration.PlcWriteLength];
                 _readBytes = new byte[PlcConfiguration.PlcReadLength];
                 _writeBytes = new byte[PlcConfiguration.PlcWriteLength];
-                _configurationStatus = 1;
+                ConfigurationStatus = 1;
             }
         }
 
         public void OpenConnection()
         {
             // Check if configuration is done
-            if (_configurationStatus != 1)
+            if (ConfigurationStatus != 1)
             {
                 Logger.Log("ID: " + Header.Id + " Connection failed: Plc communication is not configured.");
                 throw new PlcException("ID: " + Header.Id + " Error: Plc communication is not configured.");
             }
             // Open connection only if was closed
-            if (_connectionStatus != 1)
+            if (ConnectionStatus != 1)
             {
                 _daveOSserialType.rfd = libnodave.openSocket(PlcConfiguration.PlcPortNumber, PlcConfiguration.PlcIpAddress);
                 _daveOSserialType.wfd = _daveOSserialType.rfd;
@@ -197,12 +205,12 @@ namespace _PlcAgent.PLC
 
                     if (_daveConnection.connectPLC() == 0)
                     {
-                        _connectionStatus = 1;
+                        ConnectionStatus = 1;
                         Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " +
                                    PlcConfiguration.PlcIpAddress + " established");
                     }
                     else
-                        _connectionStatus = -1;
+                        ConnectionStatus = -1;
                 }
                 else
                 {
@@ -214,7 +222,7 @@ namespace _PlcAgent.PLC
 
         public void CloseConnection()
         {
-            _connectionStatus = -1;
+            ConnectionStatus = -1;
             if (_daveConnection != null)
             {
                 _daveConnection.disconnectPLC();
@@ -225,11 +233,16 @@ namespace _PlcAgent.PLC
             Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was closed");
         }
 
+        #endregion
+
+
+        #region Background Methods
+
         private void DataAquisition()
         {
             while (_dataAquisitionThread.IsAlive)
             {
-                if (_connectionStatus == 1)
+                if (ConnectionStatus == 1)
                 {
                     // Reading...
                     _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, PlcConfiguration.PlcReadDbNumber, PlcConfiguration.PlcReadStartAddress, PlcConfiguration.PlcReadLength, _readBytesBuffer);
@@ -247,24 +260,24 @@ namespace _PlcAgent.PLC
         {
             while (_communicationWatchDogThread.IsAlive)
             {
-                if (_connectionStatus == -2)
+                if (ConnectionStatus == -2)
                 {
                     try { OpenConnection(); }
                     catch (Exception e) { Console.WriteLine(e); }
                 }
                 // Reading...
-                if (_errorReadByteNoDave != 0 && _connectionStatus != -1)
+                if (_errorReadByteNoDave != 0 && ConnectionStatus != -1)
                 {
                     CloseConnection();
-                    if (_connectionStatus != -2) Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was broken");
-                    _connectionStatus = -2;
+                    if (ConnectionStatus != -2) Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was broken");
+                    ConnectionStatus = -2;
                 }
                 // Writeing...
-                if (_errorWriteByteNoDave != 0 && _connectionStatus != -1)
+                if (_errorWriteByteNoDave != 0 && ConnectionStatus != -1)
                 {
                     CloseConnection();
-                    if (_connectionStatus != -2) Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was broken");
-                    _connectionStatus = -2;
+                    if (ConnectionStatus != -2) Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was broken");
+                    ConnectionStatus = -2;
                 }
                 Thread.Sleep(1000);
             }

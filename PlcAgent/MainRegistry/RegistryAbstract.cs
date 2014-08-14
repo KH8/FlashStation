@@ -5,9 +5,9 @@ namespace _PlcAgent.MainRegistry
     abstract class RegistryAbstract
     {
         public RegistryComposite PlcCommunicators = new RegistryComposite(0, "");
-        public RegistryComposite PlcGuiCommunicationStatuses = new RegistryComposite(0, "");
-        public RegistryComposite PlcGuiCommunicationStatusBars = new RegistryComposite(0, "");
-        public RegistryComposite PlcGuiConfigurations = new RegistryComposite(0, "");
+        public RegistryComposite GuiPlcCommunicatorStatuses = new RegistryComposite(0, "");
+        public RegistryComposite GuiPlcCommunicatorStatusBars = new RegistryComposite(0, "");
+        public RegistryComposite GuiPlcCommunicatorConfigurations = new RegistryComposite(0, "");
 
         public RegistryComposite CommunicationInterfaceHandlers = new RegistryComposite(0, "");
         public RegistryComposite GuiComInterfacemunicationConfigurations = new RegistryComposite(0, "");

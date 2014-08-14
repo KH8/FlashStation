@@ -1,8 +1,9 @@
-﻿<UserControl x:Class="_PlcAgent.Visual.Gui.GuiCommunicationStatus"
+﻿<plc:PlcCommunicatorComponent x:Class="_PlcAgent.Visual.Gui.PLC.GuiPlcCommunicatorStatus"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:plc="clr-namespace:_PlcAgent.PLC"
              mc:Ignorable="d" 
              d:DesignHeight="272" d:DesignWidth="320">
     <Grid Name="GeneralGrid">
@@ -33,4 +34,4 @@
         <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top" Height="25" Width="100" Click="ConnectionButtonClick"/>
         <CheckBox Name="StartUpConnectionControlBox" Content="Connect at Start Up" HorizontalAlignment="Left" Margin="181,251,0,0" VerticalAlignment="Top" FlowDirection="RightToLeft" Width="139" Checked="ConnectionAtStartUpChecked" Unchecked="ConnectionAtStartUpChecked"/>
     </Grid>
-</UserControl>
+</plc:PlcCommunicatorComponent>

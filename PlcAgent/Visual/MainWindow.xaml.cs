@@ -15,7 +15,6 @@ using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
-using _PlcAgent.PLC;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
 using Label = System.Windows.Controls.Label;
@@ -95,7 +94,7 @@ namespace _PlcAgent.Visual
         private void AddInterface(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
-            foreach (PlcCommunicator record in _registry.PlcCommunicators)
+            foreach (PLC.PlcCommunicator record in _registry.PlcCommunicators)
             { 
                 newHeader.Items.Add(new TreeViewItem
                 {
@@ -365,7 +364,7 @@ namespace _PlcAgent.Visual
             OutputTabControl.Items.Add(newTabForLabel);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
-            foreach (PlcCommunicator record in _registry.PlcCommunicators)
+            foreach (PLC.PlcCommunicator record in _registry.PlcCommunicators)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
@@ -377,13 +376,13 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationStatus = (GuiComponent)_registry.PlcGuiCommunicationStatuses.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationStatus = (GuiComponent)_registry.GuiPlcCommunicatorStatuses.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
-                var gridGuiPlcConfiguration = (GuiComponent)_registry.PlcGuiConfigurations.ReturnComponent(record.Header.Id);
+                var gridGuiPlcConfiguration = (GuiComponent)_registry.GuiPlcCommunicatorConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfiguration.Initialize(0, 275, newGrid);
 
-                var gridGuiPlcConfigurationStatusBar = (GuiComponent)_registry.PlcGuiCommunicationStatusBars.ReturnComponent(record.Header.Id);
+                var gridGuiPlcConfigurationStatusBar = (GuiComponent)_registry.GuiPlcCommunicatorStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfigurationStatusBar.Initialize(95 * ((int)record.Header.Id - 1), -25, FooterGrid);
             }
 
@@ -571,7 +570,7 @@ namespace _PlcAgent.Visual
             ComponentManagerTreeView.Items.Add(mainHeader);
             
             var newHeader= new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
-            foreach (PlcCommunicator record in _registry.PlcCommunicators)
+            foreach (PLC.PlcCommunicator record in _registry.PlcCommunicators)
             {
                 var treeViewItem = new TreeViewItem
                 {

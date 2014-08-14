@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using _PlcAgent.General;
 using _PlcAgent.Log;
-using _PlcAgent.PLC;
 using _PlcAgent.Visual;
 
 namespace _PlcAgent.DataAquisition
@@ -19,7 +18,8 @@ namespace _PlcAgent.DataAquisition
         public ObservableCollection<DisplayDataBuilder.DisplayData> ReadInterfaceCollection { get { return _readInterfaceCollection; } }
         public ObservableCollection<DisplayDataBuilder.DisplayData> WriteInterfaceCollection { get { return _writeInterfaceCollection; } }
 
-        public CommunicationInterfaceHandler(uint id, string name, PlcCommunicator plcCommunicator, CommunicationInterfacePath pathFile) : base(id, name)
+        public CommunicationInterfaceHandler(uint id, string name, PLC.PlcCommunicator plcCommunicator, CommunicationInterfacePath pathFile)
+            : base(id, name)
         {
             PlcCommunicator = plcCommunicator;
             PathFile = pathFile;
@@ -38,7 +38,7 @@ namespace _PlcAgent.DataAquisition
 
         public CommunicationInterfacePath PathFile { get; set; }
 
-        public PlcCommunicator PlcCommunicator { get; set; }
+        public PLC.PlcCommunicator PlcCommunicator { get; set; }
 
         public void InitializeInterface()
         {
