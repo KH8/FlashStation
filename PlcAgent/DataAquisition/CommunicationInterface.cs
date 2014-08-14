@@ -315,7 +315,14 @@ namespace _PlcAgent.DataAquisition
 
     public class CiByte : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private Byte _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
@@ -323,11 +330,21 @@ namespace _PlcAgent.DataAquisition
             set { _value = (byte) value; }
         }
 
+        #endregion
+
+
+        #region Constructors
+
         public CiByte(string name, int pos, VariableType type, Byte value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -346,11 +363,21 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.Write8Bits(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     public class CiChar : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private Char _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
@@ -358,11 +385,21 @@ namespace _PlcAgent.DataAquisition
             set { _value = (char) value; }
         }
 
+        #endregion
+
+
+        #region Constructors
+
         public CiChar(string name, int pos, VariableType type, Char value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -379,11 +416,21 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.Write8Bits(valByte, Pos, Convert.ToByte(_value));
         }
+
+        #endregion
+
     }
 
     public class CiWord : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private BitArray _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
@@ -391,11 +438,21 @@ namespace _PlcAgent.DataAquisition
             set { _value = (BitArray) value; }
         }
 
+        #endregion
+
+
+        #region Constructors
+
         public CiWord(string name, int pos, VariableType type, BitArray value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -419,11 +476,21 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.Write16Bits(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     public class CiDoubleWord : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private BitArray[] _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
@@ -431,11 +498,21 @@ namespace _PlcAgent.DataAquisition
             set { _value = (BitArray[]) value; }
         }
 
+        #endregion
+
+
+        #region Contructors
+
         public CiDoubleWord(string name, int pos, VariableType type, BitArray[] value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -463,23 +540,43 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.Write32Bits(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     public class CiInteger : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private Int16 _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
             get { return _value; }
-            set { _value = (Int16)value; }
+            set { _value = (Int16) value; }
         }
+
+        #endregion
+
+
+        #region Constructors
 
         public CiInteger(string name, int pos, VariableType type, Int16 value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -495,23 +592,43 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.WriteInteger(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     public class CiDoubleInteger : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private Int32 _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
             get { return _value; }
-            set { _value = (Int32)value; }
+            set { _value = (Int32) value; }
         }
+
+        #endregion
+
+
+        #region Constructors
 
         public CiDoubleInteger(string name, int pos, VariableType type, Int32 value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -527,11 +644,21 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.WriteDInteger(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     public class CiReal : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private float _value;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
@@ -539,11 +666,21 @@ namespace _PlcAgent.DataAquisition
             set { _value = (float) value; }
         }
 
+        #endregion
+
+
+        #region Constructors
+
         public CiReal(string name, int pos, VariableType type, float value)
             : base(name, pos, type)
         {
             _value = value;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -559,12 +696,22 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.WriteReal(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     public class CiString : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private string _value;
         private int _length;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
@@ -578,12 +725,22 @@ namespace _PlcAgent.DataAquisition
             set { _length = value; }
         }
 
+        #endregion
+
+
+        #region Constructors
+
         public CiString(string name, int pos, VariableType type, string value, int length)
             : base(name, pos, type)
         {
             _value = value;
             _length = length;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -599,6 +756,9 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.WriteString(valByte, Pos, _value);
         }
+
+        #endregion
+
     }
 
     #endregion
