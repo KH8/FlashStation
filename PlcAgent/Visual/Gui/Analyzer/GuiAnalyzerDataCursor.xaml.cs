@@ -8,7 +8,7 @@ using System.Windows.Media;
 using _PlcAgent.Properties;
 using _PlcAgent.Visual.Interfaces;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Analyzer
 {
     /// <summary>
     /// Interaction logic for GuiAnalyzerDataCursor.xaml
@@ -73,7 +73,7 @@ namespace _PlcAgent.Visual.Gui
 
         #region Constructors
 
-        public GuiAnalyzerDataCursor(Analyzer.Analyzer analyzer)
+        public GuiAnalyzerDataCursor(_PlcAgent.Analyzer.Analyzer analyzer)
             : base(analyzer)
         {
             InitializeComponent();

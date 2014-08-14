@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,6 +16,8 @@ using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.Analyzer;
+using _PlcAgent.Visual.Gui.DataAquisition;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
@@ -32,9 +33,15 @@ namespace _PlcAgent.Visual
     /// </summary>
     public partial class MainWindow
     {
-        private readonly Thread _communicationThread;
+        #region Variables
+
         private readonly Registry _registry;
         private Dictionary<TreeViewItem, RegistryComponent> _registryComponents;
+
+        #endregion
+
+
+        #region Constructors
 
         public MainWindow()
         {
@@ -45,30 +52,12 @@ namespace _PlcAgent.Visual
             _registry = new Registry();
             _registry.Initialize();
 
-            _communicationThread = new Thread(CommunicationHandler);
-            _communicationThread.SetApartmentState(ApartmentState.STA);
-            _communicationThread.IsBackground = true;
-            _communicationThread.Start();
-
             UpdateGui();
             UpdateTreeView();
         }
 
-        #region Thread Methods
-
-        private void CommunicationHandler()
-        {
-            while (_communicationThread.IsAlive)
-            {
-                foreach (CommunicationInterfaceHandler communicationInterfaceHandler in _registry.CommunicationInterfaceHandlers)
-                {
-                    communicationInterfaceHandler.MaintainConnection();
-                }
-                Thread.Sleep(10);
-            }
-        }
-
         #endregion
+
 
         #region Buttons
 
@@ -268,6 +257,7 @@ namespace _PlcAgent.Visual
         }
 
         #endregion
+
 
         #region GUI Parameters Handleing
 
@@ -669,6 +659,7 @@ namespace _PlcAgent.Visual
         }
 
         #endregion
+
 
         #region Assignment Methods
 

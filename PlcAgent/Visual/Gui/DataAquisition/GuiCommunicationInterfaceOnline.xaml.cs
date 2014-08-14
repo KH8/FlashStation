@@ -1,44 +1,53 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Visual.Interfaces;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.DataAquisition
 {
     /// <summary>
     /// Interaction logic for GuiCommunicationInterfaceOnline.xaml
     /// </summary>
-    public partial class GuiCommunicationInterfaceOnline
+    public partial class GuiCommunicationInterfaceOnline : IResizableGui
     {
-        private readonly CommunicationInterfaceHandler _communicationInterfaceHandler;
+        #region Variables
 
         private Boolean _isActive;
 
-        private readonly Thread _updateThread;
+        #endregion
+
+
+        #region Properties
 
         public TabItem TabItem = new TabItem();
 
-        public GuiCommunicationInterfaceOnline(CommunicationInterfaceHandler communicationInterfaceHandler)
-        {
-            _communicationInterfaceHandler = communicationInterfaceHandler;
+        #endregion
 
+
+        #region Constructors
+
+        public GuiCommunicationInterfaceOnline(CommunicationInterfaceHandler communicationInterfaceHandler)
+            : base(communicationInterfaceHandler)
+        {
             InitializeComponent();
 
-            _updateThread = new Thread(Update);
-            _updateThread.SetApartmentState(ApartmentState.STA);
-            _updateThread.IsBackground = true;
-            _updateThread.Start();
+            CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
             CommunicationReadInterfaceListBox.View = CreateGridView();
-            CommunicationReadInterfaceListBox.ItemsSource = _communicationInterfaceHandler.ReadInterfaceCollection;
+            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
             CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
 
             CommunicationWriteInterfaceListBox.View = CreateGridView();
-            CommunicationWriteInterfaceListBox.ItemsSource = _communicationInterfaceHandler.WriteInterfaceCollection;
+            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public void UpdateSizes(double height, double width)
         {
@@ -49,9 +58,9 @@ namespace _PlcAgent.Visual.Gui
             GeneralGrid.Width = width;
 
             CommunicationReadInterfaceListBox.Height = height;
-            CommunicationReadInterfaceListBox.Width = (width / 2) - 2;
+            CommunicationReadInterfaceListBox.Width = (width/2) - 2;
             CommunicationWriteInterfaceListBox.Height = height;
-            CommunicationWriteInterfaceListBox.Width = (width / 2) - 2;
+            CommunicationWriteInterfaceListBox.Width = (width/2) - 2;
 
             CommunicationReadInterfaceListBox.View = CreateGridView();
             CommunicationWriteInterfaceListBox.View = CreateGridView();
@@ -69,7 +78,7 @@ namespace _PlcAgent.Visual.Gui
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = (Width / 2) - 280,
+                Width = (Width/2) - 280,
                 Header = "Name",
                 DisplayMemberBinding = new Binding("Name")
             });
@@ -89,22 +98,18 @@ namespace _PlcAgent.Visual.Gui
             return gridView;
         }
 
-        public void Update()
+        #endregion
+
+
+        #region Event Handlers
+
+        public void OnInterfaceUpdatedDelegate()
         {
-            while (_updateThread.IsAlive)
-            {
-                if (/*_communicationInterfaceHandler.PlcCommunicator.ConnectionStatus == 1 &&*/
-                    _communicationInterfaceHandler.ReadInterfaceComposite != null &&
-                    _communicationInterfaceHandler.WriteInterfaceComposite != null && _isActive)
-                {
-                    _communicationInterfaceHandler.UpdateObservableCollections();
-                    CommunicationReadInterfaceListBox.Dispatcher.BeginInvoke((new Action(
-                        () => CommunicationReadInterfaceListBox.Items.Refresh())));
-                    CommunicationWriteInterfaceListBox.Dispatcher.BeginInvoke((new Action(
-                        () => CommunicationWriteInterfaceListBox.Items.Refresh())));
-                }
-                Thread.Sleep(200);
-            }
+            if (CommunicationInterfaceHandler.ReadInterfaceComposite == null || CommunicationInterfaceHandler.WriteInterfaceComposite == null || !_isActive) return;
+
+            CommunicationInterfaceHandler.UpdateObservableCollections();
+            CommunicationReadInterfaceListBox.Dispatcher.BeginInvoke((new Action(() => CommunicationReadInterfaceListBox.Items.Refresh())));
+            CommunicationWriteInterfaceListBox.Dispatcher.BeginInvoke((new Action(() => CommunicationWriteInterfaceListBox.Items.Refresh())));
         }
 
         public void SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -112,5 +117,8 @@ namespace _PlcAgent.Visual.Gui
             var tab = (TabControl) sender;
             _isActive = Equals(tab.SelectedItem, TabItem);
         }
+
+        #endregion
+
     }
 }

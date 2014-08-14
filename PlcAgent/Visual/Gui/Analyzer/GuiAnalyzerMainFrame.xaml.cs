@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using _PlcAgent.Visual.Interfaces;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Analyzer
 {
     /// <summary>
     /// Interaction logic for GuiAnalyzerMainFrame.xaml
@@ -30,7 +30,7 @@ namespace _PlcAgent.Visual.Gui
 
         #region Constructors
 
-        public GuiAnalyzerMainFrame(Analyzer.Analyzer analyzer) : base(analyzer)
+        public GuiAnalyzerMainFrame(_PlcAgent.Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
 

@@ -9,6 +9,8 @@ using _PlcAgent.Output;
 using _PlcAgent.PLC;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.Analyzer;
+using _PlcAgent.Visual.Gui.DataAquisition;
 using _PlcAgent.Visual.Gui.PLC;
 
 namespace _PlcAgent.MainRegistry

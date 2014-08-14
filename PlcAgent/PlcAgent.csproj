@@ -112,6 +112,7 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="DataAquisition\CommunicationInterfaceHandlerComponent.cs" />
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="General\Module.cs" />
     <Compile Include="MainRegistry\RegistryAbstract.cs" />
@@ -167,7 +168,7 @@
     <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerSingleFigure.xaml.cs">
       <DependentUpon>GuiAnalyzerSingleFigure.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml.cs">
+    <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnline.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml.cs">
@@ -176,7 +177,7 @@
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorStatusBar.xaml.cs">
       <DependentUpon>GuiPlcCommunicatorStatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml.cs">
+    <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceConfiguration.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiOutputHandler.xaml.cs">
@@ -277,7 +278,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiCommunicationInterfaceOnline.xaml">
+    <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,7 +290,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Visual\Gui\GuiCommunicationInterfaceConfiguration.xaml">
+    <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

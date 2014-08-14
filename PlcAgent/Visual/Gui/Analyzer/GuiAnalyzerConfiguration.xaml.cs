@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Analyzer
 {
     /// <summary>
     /// Interaction logic for GuiInterfaceAssignment.xaml
@@ -19,7 +19,7 @@ namespace _PlcAgent.Visual.Gui
 
         #region Constructors
 
-        public GuiAnalyzerConfiguration(Analyzer.Analyzer analyzer) : base(analyzer)
+        public GuiAnalyzerConfiguration(_PlcAgent.Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
 

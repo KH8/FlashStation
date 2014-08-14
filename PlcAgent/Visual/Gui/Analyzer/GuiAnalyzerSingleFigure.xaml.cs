@@ -9,7 +9,7 @@ using _PlcAgent.Analyzer;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Visual.Interfaces;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Analyzer
 {
     /// <summary>
     /// Interaction logic for GuiAnalyzerSingleFigure.xaml
@@ -47,7 +47,7 @@ namespace _PlcAgent.Visual.Gui
 
         #region Constructors
 
-        public GuiAnalyzerSingleFigure(uint id, Analyzer.Analyzer analyzer) : base(analyzer)
+        public GuiAnalyzerSingleFigure(uint id, _PlcAgent.Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
 

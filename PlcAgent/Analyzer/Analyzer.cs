@@ -8,7 +8,7 @@ using OxyPlot.Axes;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
-using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.Analyzer;
 
 namespace _PlcAgent.Analyzer
 {
