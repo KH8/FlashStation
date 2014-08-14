@@ -18,6 +18,7 @@ using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
 using _PlcAgent.Visual.Gui.Analyzer;
 using _PlcAgent.Visual.Gui.DataAquisition;
+using _PlcAgent.Visual.Gui.Vector;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;

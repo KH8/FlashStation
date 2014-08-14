@@ -5,7 +5,10 @@ namespace _PlcAgent.DataAquisition
 {
     static public class CommunicationInterfaceFactory
     {
-        public static CommunicationInterfaceVariable CreateVariable(string name, int pos, int posBit, CommunicationInterfaceComponent.VariableType type, int length)
+        #region Methods
+
+        public static CommunicationInterfaceVariable CreateVariable(string name, int pos, int posBit,
+            CommunicationInterfaceComponent.VariableType type, int length)
         {
             switch (type)
             {
@@ -34,6 +37,9 @@ namespace _PlcAgent.DataAquisition
                     throw new FactoryException("Cannot create a variable");
             }
         }
+
+        #endregion
+
 
         #region Auxiliaries
 

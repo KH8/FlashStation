@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using _PlcAgent.Vector;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Vector
 {
     /// <summary>
     /// Interaction logic for GuiVFlashPathBank.xaml

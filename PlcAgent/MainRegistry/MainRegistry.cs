@@ -11,7 +11,9 @@ using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
 using _PlcAgent.Visual.Gui.Analyzer;
 using _PlcAgent.Visual.Gui.DataAquisition;
+using _PlcAgent.Visual.Gui.Output;
 using _PlcAgent.Visual.Gui.PLC;
+using _PlcAgent.Visual.Gui.Vector;
 
 namespace _PlcAgent.MainRegistry
 {

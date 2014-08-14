@@ -5,19 +5,27 @@ namespace _PlcAgent.DataAquisition
 {
     static class CommunicationInterfaceBuilder
     {
+        #region Structures
+
         public struct Address
         {
             public int ByteAddress;
             public int BitAddress;
         }
 
-        public static CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
+        #endregion
+
+
+        #region Methods
+
+        public static CommunicationInterfaceComposite InitializeInterface(uint id,
+            CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
         {
             var readAreaFound = false;
             var writeAreaFound = false;
 
-            var readAddress = new Address { ByteAddress = 0, BitAddress = 0, };
-            var writeAddress = new Address { ByteAddress = 0, BitAddress = 0, };
+            var readAddress = new Address {ByteAddress = 0, BitAddress = 0,};
+            var writeAddress = new Address {ByteAddress = 0, BitAddress = 0,};
 
             var readByteOverloaded = false;
             var writeByteOverloaded = false;
@@ -44,14 +52,20 @@ namespace _PlcAgent.DataAquisition
                         if (readAreaFound)
                         {
                             var readByteOverloadedAux = readByteOverloaded;
-                            readAddress = CheckRules(previousReadType, words[1], readByteOverloadedAux, readAddress, out readByteOverloaded);
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]), GetLength(words[1])));
+                            readAddress = CheckRules(previousReadType, words[1], readByteOverloadedAux, readAddress,
+                                out readByteOverloaded);
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0],
+                                readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]),
+                                GetLength(words[1])));
                             readAddress = CreateNewAddress(readAddress, words[1]);
                             previousReadType = words[1];
                         }
                         if (words[0] == "#READ") readAreaFound = true;
                     }
-                    if (!readAreaFound) { throw new Exception("Read Area not found"); }
+                    if (!readAreaFound)
+                    {
+                        throw new Exception("Read Area not found");
+                    }
                     break;
                 case CommunicationInterfaceComponent.InterfaceType.WriteInterface:
                     while (true)
@@ -63,16 +77,23 @@ namespace _PlcAgent.DataAquisition
                         if (writeAreaFound)
                         {
                             var writeByteOverloadedAux = writeByteOverloaded;
-                            writeAddress = CheckRules(previousWriteType, words[1], writeByteOverloadedAux, writeAddress, out writeByteOverloaded);
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0], writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]), GetLength(words[1])));
+                            writeAddress = CheckRules(previousWriteType, words[1], writeByteOverloadedAux, writeAddress,
+                                out writeByteOverloaded);
+                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0],
+                                writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]),
+                                GetLength(words[1])));
                             writeAddress = CreateNewAddress(writeAddress, words[1]);
                             previousWriteType = words[1];
                         }
                         if (words[0] == "#WRITE") writeAreaFound = true;
                     }
-                    if (!writeAreaFound) { throw new Exception("Write Area not found"); }
+                    if (!writeAreaFound)
+                    {
+                        throw new Exception("Write Area not found");
+                    }
                     break;
-                default: throw new Exception("Error: Wrong interface type.");    
+                default:
+                    throw new Exception("Error: Wrong interface type.");
             }
             return interfaceComposite;
         }
@@ -120,7 +141,7 @@ namespace _PlcAgent.DataAquisition
         internal static Address CreateNewAddress(Address address, string typeString)
         {
             var oldAddress = address;
-            var newAddress = new Address { BitAddress = 0, ByteAddress = 0 };
+            var newAddress = new Address {BitAddress = 0, ByteAddress = 0};
 
             var type = typeString.Split('[');
             switch (type[0])
@@ -184,7 +205,8 @@ namespace _PlcAgent.DataAquisition
             return length;
         }
 
-        internal static Address CheckRules(string previousType, string actualType, Boolean overloadIn, Address address, out Boolean overloadOut)
+        internal static Address CheckRules(string previousType, string actualType, Boolean overloadIn, Address address,
+            out Boolean overloadOut)
         {
             var newAddress = address;
             overloadOut = overloadIn;
@@ -198,7 +220,8 @@ namespace _PlcAgent.DataAquisition
                         newAddress.ByteAddress = address.ByteAddress + 1;
                         overloadOut = false;
                     }
-                    else if (actualType == "BYTE" || actualType == "CHAR") newAddress.ByteAddress = address.ByteAddress + 1;
+                    else if (actualType == "BYTE" || actualType == "CHAR")
+                        newAddress.ByteAddress = address.ByteAddress + 1;
                     else newAddress.ByteAddress = address.ByteAddress + 2;
                     address.BitAddress = 0;
                 }
@@ -211,7 +234,7 @@ namespace _PlcAgent.DataAquisition
             }
             if (previousType == "BYTE" || previousType == "CHAR")
             {
-                var moduloAddress = address.ByteAddress % 2;
+                var moduloAddress = address.ByteAddress%2;
                 if (actualType != "BYTE" && actualType != "CHAR" && moduloAddress != 0)
                 {
                     newAddress.ByteAddress = address.ByteAddress + 1;
@@ -220,5 +243,8 @@ namespace _PlcAgent.DataAquisition
 
             return newAddress;
         }
+
+        #endregion
+
     }
 }

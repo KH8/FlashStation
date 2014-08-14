@@ -9,7 +9,7 @@ using _PlcAgent.Output;
 using ComboBox = System.Windows.Controls.ComboBox;
 using TextBox = System.Windows.Controls.TextBox;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Output
 {
     /// <summary>
     /// Interaction logic for GuiInterfaceAssignment.xaml

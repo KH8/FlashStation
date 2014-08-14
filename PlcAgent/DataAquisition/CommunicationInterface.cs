@@ -10,9 +10,16 @@ namespace _PlcAgent.DataAquisition
 
     public abstract class CommunicationInterfaceComponent
     {
+        #region Variables
+
         private readonly string _name;
         private readonly int _pos;
         private readonly VariableType _type;
+
+        #endregion
+
+
+        #region Constructors
 
         protected CommunicationInterfaceComponent(string name, int pos, VariableType type)
         {
@@ -20,6 +27,11 @@ namespace _PlcAgent.DataAquisition
             _pos = pos;
             _type = type;
         }
+
+        #endregion
+
+
+        #region Properties
 
         public enum VariableType
         {
@@ -58,21 +70,37 @@ namespace _PlcAgent.DataAquisition
 
         public abstract object Value { get; set; }
 
+        #endregion
+
+
+        #region Methods
+
         public abstract string StringValue();
 
         public abstract void Add(CommunicationInterfaceComponent c);
         public abstract void Remove(CommunicationInterfaceComponent c);
         public abstract void ReadValue(byte[] valByte);
         public abstract void WriteValue(byte[] valByte);
+
+        #endregion
+
     }
 
     #endregion
+
 
     #region Composite
 
     public class CommunicationInterfaceComposite : CommunicationInterfaceComponent
     {
+        #region Variables
+
         private List<CommunicationInterfaceComponent> _children = new List<CommunicationInterfaceComponent>();
+
+        #endregion
+
+
+        #region Properties
 
         public List<CommunicationInterfaceComponent> Children
         {
@@ -80,22 +108,30 @@ namespace _PlcAgent.DataAquisition
             set { _children = value; }
         }
 
-        // Constructor
-        public CommunicationInterfaceComposite(string name)
-            : base(name, 0, VariableType.Composite)
-        {
-        }
-
         public override object Value
         {
             get { return null; }
-            set {}
+            set { }
         }
 
         public override string StringValue()
         {
             return "";
         }
+
+        #endregion
+
+
+        #region Constructors
+
+        public CommunicationInterfaceComposite(string name)
+            : base(name, 0, VariableType.Composite)
+        {}
+
+        #endregion
+
+
+        #region Methods
 
         public override void Add(CommunicationInterfaceComponent component)
         {
@@ -181,6 +217,8 @@ namespace _PlcAgent.DataAquisition
         }
 
         #endregion
+
+        #endregion
     }
 
     #endregion
@@ -189,11 +227,17 @@ namespace _PlcAgent.DataAquisition
 
     public abstract class CommunicationInterfaceVariable : CommunicationInterfaceComponent
     {
-        // Constructor
+        #region Constructors
+
         protected CommunicationInterfaceVariable(string name, int pos, VariableType type)
             : base(name, pos, type)
         {
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override void Add(CommunicationInterfaceComponent c)
         {
@@ -204,17 +248,27 @@ namespace _PlcAgent.DataAquisition
         {
             throw new CompositeException("Error: Cannot remove from a single variable");
         }
+
+        #endregion
+
     }
 
     public class CiBit : CommunicationInterfaceVariable
     {
+        #region Variables
+
         private Boolean _value;
         private int _bitPosition;
+
+        #endregion
+
+
+        #region Properties
 
         public override object Value
         {
             get { return _value; }
-            set { _value = (Boolean)value; }
+            set { _value = (Boolean) value; }
         }
 
         public int BitPosition
@@ -223,12 +277,22 @@ namespace _PlcAgent.DataAquisition
             set { _bitPosition = value; }
         }
 
+        #endregion
+
+
+        #region Constructor
+
         public CiBit(string name, int pos, int bitPos, VariableType type, Boolean value)
             : base(name, pos, type)
         {
             _value = value;
             _bitPosition = bitPos;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public override string StringValue()
         {
@@ -244,6 +308,9 @@ namespace _PlcAgent.DataAquisition
         {
             DataMapper.WriteSingleBit(valByte, Pos, _bitPosition, _value);
         }
+
+        #endregion
+
     }
 
     public class CiByte : CommunicationInterfaceVariable

@@ -7,7 +7,7 @@ using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Vector;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Vector
 {
     /// <summary>
     /// Interaction logic for GuiInterfaceAssignment.xaml

@@ -180,14 +180,14 @@
     <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceConfiguration.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceConfiguration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiOutputHandler.xaml.cs">
+    <Compile Include="Visual\Gui\Output\GuiOutputHandler.xaml.cs">
       <DependentUpon>GuiOutputHandler.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiComponent.cs" />
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorConfiguration.xaml.cs">
       <DependentUpon>GuiPlcCommunicatorConfiguration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiVFlashHandler.xaml.cs">
+    <Compile Include="Visual\Gui\Vector\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
@@ -294,7 +294,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiOutputHandler.xaml">
+    <Page Include="Visual\Gui\Output\GuiOutputHandler.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -302,7 +302,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiVFlashHandler.xaml">
+    <Page Include="Visual\Gui\Vector\GuiVFlashHandler.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -310,11 +310,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiVFlashPathBank.xaml">
+    <Page Include="Visual\Gui\Vector\GuiVFlashPathBank.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\GuiVFlashStatusBar.xaml">
+    <Page Include="Visual\Gui\Vector\GuiVFlashStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -356,10 +356,10 @@
     <Compile Include="Visual\FaultReportWindow.xaml.cs">
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiVFlashPathBank.xaml.cs">
+    <Compile Include="Visual\Gui\Vector\GuiVFlashPathBank.xaml.cs">
       <DependentUpon>GuiVFlashPathBank.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\GuiVFlashStatusBar.xaml.cs">
+    <Compile Include="Visual\Gui\Vector\GuiVFlashStatusBar.xaml.cs">
       <DependentUpon>GuiVFlashStatusBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\MainWindow.xaml.cs">

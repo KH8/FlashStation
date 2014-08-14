@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows.Media;
 using _PlcAgent.Vector;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.Gui.Vector
 {
     /// <summary>
     /// Interaction logic for GuiVFlashStatusBar_p.xaml
