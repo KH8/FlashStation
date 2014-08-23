@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -17,28 +16,25 @@ namespace _PlcAgent.Visual.Gui.Output
     public partial class GuiOutputHandler
     {
         private readonly Boolean _save;
-        private readonly OutputHandler _outputHandler;
-        private readonly OutputHandlerFile _outputHandlerFile;
 
-        public GuiOutputHandler(OutputModule module)
+        public GuiOutputHandler(OutputHandler outputHandler)
+            : base(outputHandler)
         {
-            _outputHandler = (OutputHandler)module;
-            _outputHandlerFile = _outputHandler.OutputHandlerFile;
-
             InitializeComponent();
-            FileNameSuffixBox.Text = _outputHandlerFile.FileNameSuffixes[_outputHandler.Header.Id];
-            StartPositionBox.Text = _outputHandlerFile.StartAddress[_outputHandler.Header.Id].ToString(CultureInfo.InvariantCulture);
-            EndPositionBox.Text = _outputHandlerFile.EndAddress[_outputHandler.Header.Id].ToString(CultureInfo.InvariantCulture);
-            DirectoryPathBox.Text = _outputHandlerFile.DirectoryPaths[_outputHandler.Header.Id];
+
+            FileNameSuffixBox.Text = OutputHandler.OutputHandlerFile.FileNameSuffixes[OutputHandler.Header.Id];
+            StartPositionBox.Text = OutputHandler.OutputHandlerFile.StartAddress[OutputHandler.Header.Id].ToString(CultureInfo.InvariantCulture);
+            EndPositionBox.Text = OutputHandler.OutputHandlerFile.EndAddress[OutputHandler.Header.Id].ToString(CultureInfo.InvariantCulture);
+            DirectoryPathBox.Text = OutputHandler.OutputHandlerFile.DirectoryPaths[OutputHandler.Header.Id];
 
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xml", Content = "*.xml" });
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Xls", Content = "*.xls" });
-            OutputTypeComboBox.SelectedIndex = _outputHandlerFile.SelectedIndex[_outputHandler.Header.Id];
+            OutputTypeComboBox.SelectedIndex = OutputHandler.OutputHandlerFile.SelectedIndex[OutputHandler.Header.Id];
 
-            _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
+            OutputHandler.OutputWriter = OutputWriterFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
 
-            HeaderGroupBox.Header = "Output Handler " + _outputHandler.Header.Id;
+            HeaderGroupBox.Header = "Output Handler " + OutputHandler.Header.Id;
             _save = true;
         }
 
@@ -46,42 +42,42 @@ namespace _PlcAgent.Visual.Gui.Output
         {
             if (!_save) return; 
             var box = (TextBox)sender;
-            try { _outputHandlerFile.FileNameSuffixes[_outputHandler.Header.Id] = box.Text; }
-            catch (Exception) { _outputHandlerFile.FileNameSuffixes[_outputHandler.Header.Id] = "noName"; }
-            _outputHandlerFile.Save();
+            try { OutputHandler.OutputHandlerFile.FileNameSuffixes[OutputHandler.Header.Id] = box.Text; }
+            catch (Exception) { OutputHandler.OutputHandlerFile.FileNameSuffixes[OutputHandler.Header.Id] = "noName"; }
+            OutputHandler.OutputHandlerFile.Save();
         }
 
         private void ComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             if (!_save) return; 
             var outputTypeComboBox = (ComboBox)sender;
-            _outputHandlerFile.SelectedIndex[_outputHandler.Header.Id] = outputTypeComboBox.SelectedIndex;
-            _outputHandler.OutputWriter = OutputWriterFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
-            _outputHandlerFile.Save();
+            OutputHandler.OutputHandlerFile.SelectedIndex[OutputHandler.Header.Id] = outputTypeComboBox.SelectedIndex;
+            OutputHandler.OutputWriter = OutputWriterFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
+            OutputHandler.OutputHandlerFile.Save();
         }
 
         private void StartPositionChanged(object sender, TextChangedEventArgs e)
         {
             if (!_save) return; 
             var box = (TextBox)sender;
-            try { _outputHandlerFile.StartAddress[_outputHandler.Header.Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputHandlerFile.StartAddress[_outputHandler.Header.Id] = 0; }
-            _outputHandlerFile.Save();
+            try { OutputHandler.OutputHandlerFile.StartAddress[OutputHandler.Header.Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { OutputHandler.OutputHandlerFile.StartAddress[OutputHandler.Header.Id] = 0; }
+            OutputHandler.OutputHandlerFile.Save();
         }
 
         private void EndPositionBoxChanged(object sender, TextChangedEventArgs e)
         {
             if (!_save) return; 
             var box = (TextBox)sender;
-            try { _outputHandlerFile.EndAddress[_outputHandler.Header.Id] = Convert.ToInt32(box.Text); }
-            catch (Exception) { _outputHandlerFile.EndAddress[_outputHandler.Header.Id] = 0; }
-            _outputHandlerFile.Save();
+            try { OutputHandler.OutputHandlerFile.EndAddress[OutputHandler.Header.Id] = Convert.ToInt32(box.Text); }
+            catch (Exception) { OutputHandler.OutputHandlerFile.EndAddress[OutputHandler.Header.Id] = 0; }
+            OutputHandler.OutputHandlerFile.Save();
         }
 
         private void CreateOutput(object sender, RoutedEventArgs e)
         {
-            Logger.Log("ID: " + _outputHandler.Header.Id + " : Output file creation requested by the user");
-            _outputHandler.CreateOutput();
+            Logger.Log("ID: " + OutputHandler.Header.Id + " : Output file creation requested by the user");
+            OutputHandler.CreateOutput();
         }
 
         private void SetDirectoryPath(object sender, RoutedEventArgs e)
@@ -91,8 +87,8 @@ namespace _PlcAgent.Visual.Gui.Output
             if (result.ToString() == "OK")
                 DirectoryPathBox.Text = folderDialog.SelectedPath;
 
-            _outputHandlerFile.DirectoryPaths[_outputHandler.Header.Id] = DirectoryPathBox.Text;
-            _outputHandlerFile.Save();
+            OutputHandler.OutputHandlerFile.DirectoryPaths[OutputHandler.Header.Id] = DirectoryPathBox.Text;
+            OutputHandler.OutputHandlerFile.Save();
         }
     }
 }
