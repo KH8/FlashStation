@@ -33,8 +33,8 @@ namespace _PlcAgent.DataAquisition
             var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
             var reader = new StreamReader(pathFile.Path[id]);
 
-            string previousReadType = "";
-            string previousWriteType = "";
+            var previousReadType = "";
+            var previousWriteType = "";
 
             string line;
             string[] words;

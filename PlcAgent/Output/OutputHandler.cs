@@ -17,6 +17,7 @@ namespace _PlcAgent.Output
 
         #endregion
 
+
         #region Properties
 
         public OutputWriter OutputWriter
@@ -31,7 +32,8 @@ namespace _PlcAgent.Output
 
         #endregion
 
-        #region Constructor
+
+        #region Constructors
 
         public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputHandlerFile outputHandlerFile, OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile) : base(id, name)
         {
@@ -47,17 +49,14 @@ namespace _PlcAgent.Output
 
         #endregion
 
+
         #region Methods
 
         public override void Initialize()
-        {
-            //
-        }
+        {}
 
         public override void Deinitialize()
-        {
-            //
-        }
+        {}
 
         public void InitializeOutputHandler()
         {
@@ -108,6 +107,7 @@ namespace _PlcAgent.Output
         }
 
         #endregion
+
 
         #region Background methods
 
@@ -166,6 +166,7 @@ namespace _PlcAgent.Output
 
         #endregion
 
+
         #region Auxiliaries
 
         public class OutputHandlerException : ApplicationException
@@ -196,28 +197,28 @@ namespace _PlcAgent.Output
                 VariableDirection = InterfaceAssignment.Direction.In,
                 Name = "Command",
                 Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][0]
+                Assignment = assignment[id][0]
             });
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
             {
                 VariableDirection = InterfaceAssignment.Direction.Out,
                 Name = "Life Counter",
                 Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][1]
+                Assignment = assignment[id][1]
             });
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
             {
                 VariableDirection = InterfaceAssignment.Direction.Out,
                 Name = "Reply",
                 Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][2]
+                Assignment = assignment[id][2]
             });
             InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
             {
                 VariableDirection = InterfaceAssignment.Direction.Out,
                 Name = "Status",
                 Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[id][3]
+                Assignment = assignment[id][3]
             });
         }
 
