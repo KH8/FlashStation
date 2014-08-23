@@ -20,6 +20,7 @@ namespace _PlcAgent.Vector
 
         #endregion
 
+
         #region Properties
 
         public VFlashErrorCollector ErrorCollector
@@ -38,7 +39,8 @@ namespace _PlcAgent.Vector
 
         #endregion
 
-        #region Constructor
+
+        #region Constructors
 
         public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile) : base(id, name)
         {
@@ -60,6 +62,7 @@ namespace _PlcAgent.Vector
         }
 
         #endregion
+
 
         #region Methods
 
@@ -143,6 +146,7 @@ namespace _PlcAgent.Vector
         }
 
         #endregion
+
 
         #region Background methods
 
@@ -329,6 +333,7 @@ namespace _PlcAgent.Vector
 
         #endregion
 
+
         #region Auxiliaries
 
         public class FlashHandlerException : ApplicationException
@@ -380,8 +385,6 @@ namespace _PlcAgent.Vector
 
             return true;
         }
-
-        #endregion
 
         protected override sealed void CreateInterfaceAssignment(uint id, string[][] assignment)
         {
@@ -477,5 +480,8 @@ namespace _PlcAgent.Vector
                 InterfaceAssignmentCollection.GetAssignment("Status");
             VFlashHandlerInterfaceAssignmentFile.Save();
         }
+
+        #endregion
+
     }
 }

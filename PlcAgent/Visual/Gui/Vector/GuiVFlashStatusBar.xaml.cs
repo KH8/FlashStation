@@ -10,12 +10,11 @@ namespace _PlcAgent.Visual.Gui.Vector
     /// </summary>
     public partial class GuiVFlashStatusBar
     {
-        private readonly VFlashHandler _vFlash;
         private readonly Thread _updateThread;
 
         public GuiVFlashStatusBar(VFlashHandler vFlashHandler)
+            : base(vFlashHandler)
         {
-            _vFlash = vFlashHandler;
             InitializeComponent();
 
             _updateThread = new Thread(Update);
@@ -23,14 +22,14 @@ namespace _PlcAgent.Visual.Gui.Vector
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
-            StatusLabel.Content = "VFLASH__" + _vFlash.Header.Id + ":";
+            StatusLabel.Content = "VFLASH__" + VFlashHandler.Header.Id + ":";
         }
 
         public void Update()
         {
             while (_updateThread.IsAlive)
             {
-                var channel = _vFlash.ReturnChannelSetup(_vFlash.Header.Id);
+                var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
                 if (channel == null) return;
 
                 Brush colourBrush;

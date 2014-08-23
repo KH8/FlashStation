@@ -140,6 +140,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainRegistryFile.settings</DependentUpon>
     </Compile>
+    <Compile Include="Vector\VFlashHandlerComponent.cs" />
     <Compile Include="Vector\VFlashHandlerInterfaceAssignmentFile.Designer.cs">
       <DependentUpon>VFlashHandlerInterfaceAssignmentFile.settings</DependentUpon>
       <AutoGen>True</AutoGen>

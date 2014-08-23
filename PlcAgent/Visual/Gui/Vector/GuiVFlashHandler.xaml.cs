@@ -3,7 +3,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Vector;
 
@@ -15,30 +14,29 @@ namespace _PlcAgent.Visual.Gui.Vector
     public partial class GuiVFlashHandler
     {
         private FaultReportWindow _windowReport;
-        private readonly VFlashHandler _vFlash;
         private int _vFlashButtonEnables = 100;
 
         private readonly Thread _updateThread;
 
-        public GuiVFlashHandler(OutputModule module)
+        public GuiVFlashHandler(VFlashHandler vFlashHandler)
+            : base(vFlashHandler)
         {
             InitializeComponent();
-            _vFlash = (VFlashHandler)module;
 
             _updateThread = new Thread(Update);
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
             _updateThread.Start();
 
-            HeaderGroupBox.Header = "Channel " + _vFlash.Header.Id;
+            HeaderGroupBox.Header = "Channel " + VFlashHandler.Header.Id;
         }
 
         private void VFlashControlModeChanged(object sender, RoutedEventArgs e)
         {
             var box = (CheckBox)sender;
-            _vFlash.PcControlMode = !_vFlash.PcControlMode;
-            box.IsChecked = _vFlash.PcControlMode;
-            Logger.Log("VFlash: PC Control mode changed to " + _vFlash.PcControlMode);
+            VFlashHandler.PcControlMode = !VFlashHandler.PcControlMode;
+            box.IsChecked = VFlashHandler.PcControlMode;
+            Logger.Log("VFlash: PC Control mode changed to " + VFlashHandler.PcControlMode);
         }
 
         private void LoadVFlashProject(object sender, RoutedEventArgs e)
@@ -53,8 +51,8 @@ namespace _PlcAgent.Visual.Gui.Vector
             {
                 try
                 {
-                    _vFlash.SetProjectPath(_vFlash.Header.Id, dlg.FileName);
-                    _vFlash.LoadProject(_vFlash.Header.Id);
+                    VFlashHandler.SetProjectPath(VFlashHandler.Header.Id, dlg.FileName);
+                    VFlashHandler.LoadProject(VFlashHandler.Header.Id);
                     Logger.Log("Path load requested by the user");
                 }
                 catch (Exception exception) { MessageBox.Show(exception.Message, "Path Loading Failed"); }
@@ -65,7 +63,7 @@ namespace _PlcAgent.Visual.Gui.Vector
         {
             try
             {
-                _vFlash.UnloadProject(_vFlash.Header.Id);
+                VFlashHandler.UnloadProject(VFlashHandler.Header.Id);
                 Logger.Log("Path unload requested by the user");
             }
             catch (Exception exception) { MessageBox.Show(exception.Message, "Path Unloading Failed"); }
@@ -73,12 +71,12 @@ namespace _PlcAgent.Visual.Gui.Vector
 
         private void FlashVFlashProject(object sender, RoutedEventArgs e)
         {
-            var channel = _vFlash.ReturnChannelSetup(_vFlash.Header.Id);
+            var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
             if (channel.Status == VFlashStationComponent.VFlashStatus.Flashing)
             {
                 try
                 {
-                    _vFlash.AbortFlashing(_vFlash.Header.Id);
+                    VFlashHandler.AbortFlashing(VFlashHandler.Header.Id);
                     Logger.Log("Flash abort requested by the user");
                 }
                 catch (Exception exception)
@@ -90,7 +88,7 @@ namespace _PlcAgent.Visual.Gui.Vector
             {
                 try
                 {
-                    _vFlash.StartFlashing(_vFlash.Header.Id);
+                    VFlashHandler.StartFlashing(VFlashHandler.Header.Id);
                     Logger.Log("Path start requested by the user");
                 }
                 catch (Exception exception)
@@ -104,15 +102,15 @@ namespace _PlcAgent.Visual.Gui.Vector
         {
             _windowReport = new FaultReportWindow(ClearFaults);
             _windowReport.Show();
-            _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
-            _vFlash.ErrorCollector.CreateReport();
+            _windowReport.FaultListBox.Items.Add(VFlashHandler.ErrorCollector.CreateReport());
+            VFlashHandler.ErrorCollector.CreateReport();
         }
 
         private void ClearFaults()
         {
-            _vFlash.ErrorCollector.Clear();
+            VFlashHandler.ErrorCollector.Clear();
             _windowReport.FaultListBox.Items.Clear();
-            _windowReport.FaultListBox.Items.Add(_vFlash.ErrorCollector.CreateReport());
+            _windowReport.FaultListBox.Items.Add(VFlashHandler.ErrorCollector.CreateReport());
             Logger.Log("VFlash: Fault list ereased by te user");
         }
 
@@ -125,7 +123,7 @@ namespace _PlcAgent.Visual.Gui.Vector
                 string status;
                 Brush colourBrush;
 
-                var channel = _vFlash.ReturnChannelSetup(_vFlash.Header.Id);
+                var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
                 if (channel == null)
                 {
                     return;
@@ -200,7 +198,7 @@ namespace _PlcAgent.Visual.Gui.Vector
                     VFlashFlashButton.Dispatcher.BeginInvoke(
                         (new Action(delegate { VFlashFlashButton.IsEnabled = false; })));
                 }
-                if (!_vFlash.PcControlMode)
+                if (!VFlashHandler.PcControlMode)
                 {
                     VFlashLoadButton.Dispatcher.BeginInvoke(
                         (new Action(delegate { VFlashLoadButton.IsEnabled = false; })));
@@ -223,14 +221,14 @@ namespace _PlcAgent.Visual.Gui.Vector
                     VFlashStatusLabel.Foreground = colourBrush;
                 })));
 
-                VFlashStatusHandler(_vFlash.Header.Id);
+                VFlashStatusHandler(VFlashHandler.Header.Id);
                 Thread.Sleep(21);
             }
         }
 
         private void VFlashStatusHandler(uint chanId)
         {
-            var channel = _vFlash.ReturnChannelSetup(chanId);
+            var channel = VFlashHandler.ReturnChannelSetup(chanId);
 
             var remainingTimeInMinutes = new TimeSpan(0, 0, 0, (int)channel.RemainingTimeInSecs);
             VFlashTimeLabel.Dispatcher.BeginInvoke((new Action(delegate { VFlashTimeLabel.Content = "Remaining time: " + remainingTimeInMinutes; })));
