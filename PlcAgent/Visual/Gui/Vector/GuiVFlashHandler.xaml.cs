@@ -11,7 +11,7 @@ namespace _PlcAgent.Visual.Gui.Vector
     /// <summary>
     /// Interaction logic for GuiInterfaceAssignment.xaml
     /// </summary>
-    public partial class GuiVFlashHandler
+    public sealed partial class GuiVFlashHandler
     {
         #region Variables
 
@@ -29,6 +29,15 @@ namespace _PlcAgent.Visual.Gui.Vector
             InitializeComponent();
 
             HeaderGroupBox.Header = "Channel " + VFlashHandler.Header.Id;
+
+            OnCommandChanged();
+            OnStatusChanged();
+            OnProjectHandleChanged();
+            OnFlashProjectPathChanged();
+            OnResultChanged();
+            OnProgressPercentageChanged();
+            OnRemainingTimeInSecsChanged();
+
         }
 
         #endregion

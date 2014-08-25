@@ -7,7 +7,7 @@ namespace _PlcAgent.Visual.Gui.Vector
     /// <summary>
     /// Interaction logic for GuiVFlashStatusBar_p.xaml
     /// </summary>
-    public partial class GuiVFlashStatusBar
+    public sealed partial class GuiVFlashStatusBar
     {
         #region Constructors
 
@@ -17,6 +17,14 @@ namespace _PlcAgent.Visual.Gui.Vector
             InitializeComponent();
 
             StatusLabel.Content = "VFLASH__" + VFlashHandler.Header.Id + ":";
+
+            OnCommandChanged();
+            OnStatusChanged();
+            OnProjectHandleChanged();
+            OnFlashProjectPathChanged();
+            OnResultChanged();
+            OnProgressPercentageChanged();
+            OnRemainingTimeInSecsChanged();
         }
 
         #endregion
