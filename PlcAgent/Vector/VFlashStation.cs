@@ -1,19 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Vector.vFlash.Automation;
+using _PlcAgent.Annotations;
 using _PlcAgent.Log;
 
 namespace _PlcAgent.Vector
 {
     #region Component
 
-    public abstract class VFlashStationComponent
+    public abstract class VFlashStationComponent : INotifyPropertyChanged
     {
+        #region Variables
+
         private readonly uint _channelId;
         private VFlashCommand _command;
         private VFlashStatus _status;
+
+        #endregion
+
+
+        #region Properties
 
         public delegate void ReportErrorDelegate(uint channelId, long handle, string message);
 
@@ -53,21 +63,49 @@ namespace _PlcAgent.Vector
         public VFlashCommand Command
         {
             get { return _command; }
-            set { _command = value; }
+            set
+            {
+                if (Equals(value, _command)) return;
+                _command = value;
+                OnPropertyChanged();
+            }
         }
 
         public VFlashStatus Status
         {
             get { return _status; }
-            set { _status = value; }
+            set
+            {
+                if (Equals(value, _status)) return;
+                _status = value;
+                OnPropertyChanged();
+            }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+
+        #region Methods
 
         public abstract void Add(VFlashStationComponent c);
         public abstract void Remove(VFlashStationComponent c);
-        protected abstract bool LoadProject();
-        protected abstract bool UnloadProject();
+        public abstract bool LoadProject();
+        public abstract bool UnloadProject();
         public abstract bool StartFlashing();
         public abstract bool AbortFlashing();
+
+        #endregion
+
+
     }
 
     #endregion
@@ -130,21 +168,19 @@ namespace _PlcAgent.Vector
             _children.Remove(c);
         }
 
-        protected override bool LoadProject()
+        public override bool LoadProject()
         {
-            foreach (var vFlashStationComponent in _children)
+            foreach (var channel in _children.Cast<VFlashChannel>())
             {
-                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand(VFlashCommand.Load);
             }
             return true;
         }
 
-        protected override bool UnloadProject()
+        public override bool UnloadProject()
         {
-            foreach (var vFlashStationComponent in _children)
+            foreach (var channel in _children.Cast<VFlashChannel>())
             {
-                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand(VFlashCommand.Unload);
             }
             return true;
@@ -152,9 +188,8 @@ namespace _PlcAgent.Vector
 
         public override bool StartFlashing()
         {
-            foreach (var vFlashStationComponent in _children)
+            foreach (var channel in _children.Cast<VFlashChannel>())
             {
-                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand(VFlashCommand.Start);
             }
             return true;
@@ -162,9 +197,8 @@ namespace _PlcAgent.Vector
 
         public override bool AbortFlashing()
         {
-            foreach (var vFlashStationComponent in _children)
+            foreach (var channel in _children.Cast<VFlashChannel>())
             {
-                var channel = (VFlashChannel) vFlashStationComponent;
                 channel.ExecuteCommand(VFlashCommand.Abort);
             }
             return true;
@@ -217,29 +251,56 @@ namespace _PlcAgent.Vector
         public long ProjectHandle
         {
             get { return _projectHandle; }
-            set { _projectHandle = value; }
+            set
+            {
+                if (Equals(value, _projectHandle)) return;
+                _projectHandle = value;
+                OnPropertyChanged();
+            }
         }
 
         public string FlashProjectPath
         {
             get { return _flashProjectPath; }
-            set { _flashProjectPath = value; }
+            set
+            {
+                if (Equals(value, _flashProjectPath)) return;
+                _flashProjectPath = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool Result
         {
             get { return _result; }
-            set { _result = value; }
+            set
+            {
+                if (Equals(value, _result)) return;
+                _result = value;
+                OnPropertyChanged();
+            }
         }
 
         public uint ProgressPercentage
         {
             get { return _progressPercentage; }
+            set
+            {
+                if (Equals(value, _progressPercentage)) return;
+                _progressPercentage = value;
+                OnPropertyChanged();
+            }
         }
 
         public uint RemainingTimeInSecs
         {
             get { return _remainingTimeInSecs; }
+            set
+            {
+                if (Equals(value, _remainingTimeInSecs)) return;
+                _remainingTimeInSecs = value;
+                OnPropertyChanged();
+            }
         }
 
         public override void Add(VFlashStationComponent c)
@@ -256,7 +317,7 @@ namespace _PlcAgent.Vector
             }
         }
 
-        protected override bool LoadProject()
+        public override bool LoadProject()
         {
             long projectHandle;
             var resLoad = VFlashStationAPI.LoadProjectForChannel(FlashProjectPath, ChannelId, out projectHandle);
@@ -272,7 +333,7 @@ namespace _PlcAgent.Vector
             return true;
         }
 
-        protected override bool UnloadProject()
+        public override bool UnloadProject()
         {
             if (ProjectHandle != -1)
             {
@@ -322,7 +383,7 @@ namespace _PlcAgent.Vector
             if (status == VFlashStationStatus.Success)
             {
                 Status = VFlashStatus.Flashed;
-                _progressPercentage = 0;
+                ProgressPercentage = 0;
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
             }
             else
@@ -334,8 +395,8 @@ namespace _PlcAgent.Vector
 
         internal void UpdateProgress(long handle, uint progressInPercent, uint remainingTimeInSecs)
         {
-            _progressPercentage = progressInPercent;
-            _remainingTimeInSecs = remainingTimeInSecs;
+            ProgressPercentage = progressInPercent;
+            RemainingTimeInSecs = remainingTimeInSecs;
         }
 
         private void VectorBackgroundThread()

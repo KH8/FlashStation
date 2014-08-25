@@ -9,12 +9,45 @@ namespace _PlcAgent.Vector
 
         protected void OnPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
+            switch (e.PropertyName)
+            {
+                case "Command":
+                    OnCommandChanged();
+                    break;
+                case "Status":
+                    OnStatusChanged();
+                    break;
+                case "ProjectHandler":
+                    OnProjectHandleChanged();
+                    break;
+                case "FlashProjectPath":
+                    OnFlashProjectPathChanged();
+                    break;
+                case "Result":
+                    OnResultChanged();
+                    break;
+                case "ProgressPercentage":
+                    OnProgressPercentageChanged();
+                    break;
+                case "RemainingTimeInSecs":
+                    OnRemainingTimeInSecsChanged();
+                    break;
+            }
         }
+
+        protected abstract void OnCommandChanged();
+        protected abstract void OnStatusChanged();
+        protected abstract void OnProjectHandleChanged();
+        protected abstract void OnFlashProjectPathChanged();
+        protected abstract void OnResultChanged();
+        protected abstract void OnProgressPercentageChanged();
+        protected abstract void OnRemainingTimeInSecsChanged();
 
         protected VFlashHandlerComponent(VFlashHandler vFlashHandler)
         {
             VFlashHandler = vFlashHandler;
-            VFlashHandler.PropertyChanged += OnPropertyChangedEventHandler;
+            var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
+            channel.PropertyChanged += OnPropertyChangedEventHandler;
         }
     }
 }
