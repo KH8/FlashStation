@@ -82,6 +82,16 @@ namespace _PlcAgent.Vector
             Logger.Log("ID: " + Header.Id + " vFlash Initialized");
         }
 
+        public override void Initialize()
+        {
+            
+        }
+
+        public override void Deinitialize()
+        {
+            _vFlashStationController.Deinitialize();
+        }
+
         public void LoadProject(uint chanId)
         {
             var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
@@ -133,16 +143,6 @@ namespace _PlcAgent.Vector
         public VFlashChannel ReturnChannelSetup(uint chanId)
         {
             return (VFlashChannel)_vFlashStationController.ReturnChannelSetup(chanId);
-        }
-
-        public override void Initialize()
-        {
-            //
-        }
-
-        public override void Deinitialize()
-        {
-            _vFlashStationController.Deinitialize();
         }
 
         #endregion

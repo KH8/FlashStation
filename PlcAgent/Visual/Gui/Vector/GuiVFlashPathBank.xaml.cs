@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -87,11 +88,9 @@ namespace _PlcAgent.Visual.Gui.Vector
             };
 
             var result = dlg.ShowDialog();
-            if (result == true)
-            {
-                _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
-                UpdateVFlashProjectCollection();
-            }
+            if (result != true) return;
+            _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
+            UpdateVFlashProjectCollection();
         }
 
         private void UpdateVFlashProjectCollection()
@@ -100,9 +99,8 @@ namespace _PlcAgent.Visual.Gui.Vector
             _vFlashTypeBankFile.Save();
 
             _vFlashProjectCollection.Clear();
-            foreach (var vFlashType in _vFlashTypeBank.Children)
+            foreach (var type in _vFlashTypeBank.Children.Cast<VFlashTypeBank.VFlashTypeComponent>())
             {
-                var type = (VFlashTypeBank.VFlashTypeComponent)vFlashType;
                 _vFlashProjectCollection.Add(new VFlashTypeBank.VFlashDisplayProjectData
                 {
                     Type = type.Type,

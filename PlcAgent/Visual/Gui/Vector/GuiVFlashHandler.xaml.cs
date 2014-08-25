@@ -119,7 +119,7 @@ namespace _PlcAgent.Visual.Gui.Vector
         {
             while (_updateThread.IsAlive)
             {
-                string path = "File path is not specified";
+                var path = "File path is not specified";
                 string status;
                 Brush colourBrush;
 
@@ -210,7 +210,7 @@ namespace _PlcAgent.Visual.Gui.Vector
 
                 if (channel.FlashProjectPath != "")
                 {
-                    string[] words = channel.FlashProjectPath.Split('\\');
+                    var words = channel.FlashProjectPath.Split('\\');
                     path = words[words.GetLength(0) - 1];
                 }
                 VFlashProjectPathLabel.Dispatcher.BeginInvoke(
