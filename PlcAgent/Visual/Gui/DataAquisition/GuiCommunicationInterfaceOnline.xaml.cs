@@ -79,7 +79,7 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = (Width/2) - 280,
+                Width = Limiter.DoubleLimit((Width/2) - 280, 0),
                 Header = "Name",
                 DisplayMemberBinding = new Binding("Name")
             });

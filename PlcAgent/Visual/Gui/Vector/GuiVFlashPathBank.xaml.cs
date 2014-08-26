@@ -72,7 +72,7 @@ namespace _PlcAgent.Visual.Gui.Vector
             });
             gridView.Columns.Add(new GridViewColumn
             {
-                Width = Width - 130,
+                Width = Limiter.DoubleLimit(Width - 130, 0),
                 Header = "Path",
                 DisplayMemberBinding = new Binding("Path")
             });

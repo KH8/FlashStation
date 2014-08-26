@@ -540,7 +540,6 @@ namespace _PlcAgent.Visual
             SelectTabItem(MainTabControl, mainTabControlSelection);
             SelectTabItem(ConnectionTabControl, connectionTabControlSelection);
             SelectTabItem(OutputTabControl, outputTabControlSelection);
-
         }
 
         private static void SelectTabItem(TabControl tabControl, object tabItemHeader)
@@ -719,5 +718,6 @@ namespace _PlcAgent.Visual
         }
 
         #endregion
+
     }
 }
