@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using _PlcAgent.General;
 using _PlcAgent.Properties;
 using _PlcAgent.Visual.Interfaces;
 
@@ -87,7 +88,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
 
         public void UpdateSizes(double height, double width)
         {
-            Height = height - 25;
+            Height = Limiter.DoubleLimit(height - 25, 0);
             SetPosition(_actualPosition);
         }
 

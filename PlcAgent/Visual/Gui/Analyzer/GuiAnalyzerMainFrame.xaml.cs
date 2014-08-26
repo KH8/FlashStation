@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui.Analyzer
@@ -71,12 +72,12 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             Height = height;
             Width = width;
 
-            MainScrollViewer.Height = height - 30;
+            MainScrollViewer.Height = Limiter.DoubleLimit(height - 30, 0);
             MainScrollViewer.Width = width;
 
-            PlotGrid.Width = width - 30;
+            PlotGrid.Width = Limiter.DoubleLimit(width - 30, 0);
 
-            TimePlotGrid.Width = width - 225;
+            TimePlotGrid.Width = Limiter.DoubleLimit(width - 225, 0);
 
             foreach (var analyzerSingleFigure in PlotGrid.Children.Cast<GuiAnalyzerSingleFigure>())
             {

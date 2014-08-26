@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui.DataAquisition
@@ -58,9 +59,9 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             GeneralGrid.Width = width;
 
             CommunicationReadInterfaceListBox.Height = height;
-            CommunicationReadInterfaceListBox.Width = (width/2) - 2;
+            CommunicationReadInterfaceListBox.Width = Limiter.DoubleLimit((width/2) - 2, 0);
             CommunicationWriteInterfaceListBox.Height = height;
-            CommunicationWriteInterfaceListBox.Width = (width/2) - 2;
+            CommunicationWriteInterfaceListBox.Width = Limiter.DoubleLimit((width/2) - 2, 0);
 
             CommunicationReadInterfaceListBox.View = CreateGridView();
             CommunicationWriteInterfaceListBox.View = CreateGridView();

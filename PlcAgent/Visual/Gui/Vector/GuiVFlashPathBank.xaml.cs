@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using _PlcAgent.General;
 using _PlcAgent.Vector;
 
 namespace _PlcAgent.Visual.Gui.Vector
@@ -47,7 +48,7 @@ namespace _PlcAgent.Visual.Gui.Vector
             GeneralGrid.Height = height;
             GeneralGrid.Width = width;
 
-            VFlashBankListBox.Height = height - 30;
+            VFlashBankListBox.Height = Limiter.DoubleLimit(height - 30, 0);
             VFlashBankListBox.Width = width;
 
             VFlashBankListBox.View = CreateGridView();

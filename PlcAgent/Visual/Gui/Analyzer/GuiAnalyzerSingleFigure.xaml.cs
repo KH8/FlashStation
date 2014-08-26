@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using _PlcAgent.Analyzer;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
 
 namespace _PlcAgent.Visual.Gui.Analyzer
@@ -87,7 +88,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             Width = width;
             PlotCanvas.Width = width;
             GeneralGrid.Width = width;
-            PlotGrid.Width = width - 225;
+            PlotGrid.Width = Limiter.DoubleLimit(width - 225, 0);
         }
 
         #endregion

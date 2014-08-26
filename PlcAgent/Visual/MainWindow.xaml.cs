@@ -274,13 +274,13 @@ namespace _PlcAgent.Visual
 
         private void UpdateSizes()
         {
-            MainTabControl.Height = ActualHeight - 390;
-            MainTabControl.Width = ActualWidth - 402;
+            MainTabControl.Height = Limiter.DoubleLimit(ActualHeight - 390, 0);
+            MainTabControl.Width = Limiter.DoubleLimit(ActualWidth - 402, 0);
 
             OutputTabControlGrid.Height = 270;
-            OutputTabControlGrid.Width = ActualWidth - 400;
+            OutputTabControlGrid.Width = Limiter.DoubleLimit(ActualWidth - 400, 0);
             OutputTabControl.Height = 268;
-            OutputTabControl.Width = ActualWidth - 402;
+            OutputTabControl.Width = Limiter.DoubleLimit(ActualWidth - 402, 0);
 
             OutputTabControlLabel.Content = "Hide";
 
@@ -290,12 +290,12 @@ namespace _PlcAgent.Visual
                 OutputTabControl.Height = 26;
                 OutputTabControlLabel.Content = "Show";
 
-                MainTabControl.Height = ActualHeight - 148;
+                MainTabControl.Height = Limiter.DoubleLimit(ActualHeight - 148, 0);
             }
 
-            ConnectionTabControlGrid.Height = ActualHeight - 118;
+            ConnectionTabControlGrid.Height = Limiter.DoubleLimit(ActualHeight - 118, 0);
             ConnectionTabControlGrid.Width = 380;
-            ConnectionTabControl.Height = ActualHeight - 120;
+            ConnectionTabControl.Height = Limiter.DoubleLimit(ActualHeight - 120, 0);
             ConnectionTabControl.Width = 378;
 
             ConnectionTabControlLabel.Content = "Hide";
@@ -306,20 +306,20 @@ namespace _PlcAgent.Visual
                 ConnectionTabControl.Width = 30;
                 ConnectionTabControlLabel.Content = "Show";
 
-                MainTabControl.Width = ActualWidth - 54;
+                MainTabControl.Width = Limiter.DoubleLimit(ActualWidth - 54, 0);
 
-                OutputTabControlGrid.Width = ActualWidth - 52;
-                OutputTabControl.Width = ActualWidth - 54;
+                OutputTabControlGrid.Width = Limiter.DoubleLimit(ActualWidth - 52, 0);
+                OutputTabControl.Width = Limiter.DoubleLimit(ActualWidth - 54, 0);
             }
 
-            LogListBox.Height = MainTabControl.Height - 32;
-            LogListBox.Width = MainTabControl.Width - 10;
+            LogListBox.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
+            LogListBox.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-            AboutGrid.Height = MainTabControl.Height - 32;
-            AboutGrid.Width = MainTabControl.Width - 10;
+            AboutGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
+            AboutGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-            ComponentManagerTreeView.Height = MainTabControl.Height - 62;
-            ComponentManagerTreeView.Width = MainTabControl.Width - 10;
+            ComponentManagerTreeView.Height = Limiter.DoubleLimit(MainTabControl.Height - 62, 0);
+            ComponentManagerTreeView.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
             UpdateGui();
         }
@@ -399,8 +399,8 @@ namespace _PlcAgent.Visual
                 newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                newGrid.Height = MainTabControl.Height - 32;
-                newGrid.Width = MainTabControl.Width - 10;
+                newGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
+                newGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
                 var gridGuiCommunicationInterfaceOnline = (GuiComponent)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
@@ -450,8 +450,8 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                newGrid.Height = OutputTabControl.Height - 50;
-                newGrid.Width = OutputTabControl.Width - 10;
+                newGrid.Height = Limiter.DoubleLimit(OutputTabControl.Height - 50.0, 0);
+                newGrid.Width = Limiter.DoubleLimit(OutputTabControl.Width - 10, 0);
 
                 var gridGuiVFlashPathBank = (GuiComponent)_registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);
                 gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
@@ -522,8 +522,8 @@ namespace _PlcAgent.Visual
                 newGrid = new Grid();
                 newtabItem.Content = newGrid;
 
-                newGrid.Height = MainTabControl.Height - 32;
-                newGrid.Width = MainTabControl.Width - 10;
+                newGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
+                newGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
                 var analyzerMainFrameGrid = (GuiComponent)_registry.GuiAnalyzerMainFrames.ReturnComponent(record.Header.Id);
                 analyzerMainFrameGrid.Initialize(0, 0, newGrid);
