@@ -347,11 +347,13 @@ namespace _PlcAgent.Visual
 
             var labelConnectionTabControl = new Label { Content = "Use EDIT menu to create new connections and interfaces." };
             var newTabForLabel = new TabItem { Header = "", Content = labelConnectionTabControl };
+            newTabForLabel.MouseDoubleClick += ConnectionTabControlLabel_OnMouseDown;
             ConnectionTabControl.Items.Add(newTabForLabel);
             ConnectionTabControl.SelectedItem = labelConnectionTabControl;
 
             var labelOutputTabControl = new Label { Content = "Use EDIT menu to create new output handlers." };
             newTabForLabel = new TabItem { Header = "", Content = labelOutputTabControl };
+            newTabForLabel.MouseDoubleClick += OutputTabControlLabel_OnMouseDown;
             OutputTabControl.Items.Add(newTabForLabel);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
@@ -363,6 +365,7 @@ namespace _PlcAgent.Visual
 
                 var newScrollViewer = new ScrollViewer();
                 newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += ConnectionTabControlLabel_OnMouseDown;
 
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
@@ -385,6 +388,7 @@ namespace _PlcAgent.Visual
 
                 var newScrollViewer = new ScrollViewer();
                 newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += ConnectionTabControlLabel_OnMouseDown;
 
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
@@ -423,6 +427,7 @@ namespace _PlcAgent.Visual
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
                 };
                 newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += OutputTabControlLabel_OnMouseDown;
 
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
@@ -446,6 +451,7 @@ namespace _PlcAgent.Visual
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
                 };
                 newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += OutputTabControlLabel_OnMouseDown;
 
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
@@ -472,6 +478,7 @@ namespace _PlcAgent.Visual
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
                 };
                 newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += OutputTabControlLabel_OnMouseDown;
 
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
@@ -499,6 +506,7 @@ namespace _PlcAgent.Visual
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
                 };
                 newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += OutputTabControlLabel_OnMouseDown;
 
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
@@ -646,14 +654,25 @@ namespace _PlcAgent.Visual
 
         private void OutputTabControlLabel_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindowConfigurationFile.Default.OutputTabControlMinimized = !MainWindowConfigurationFile.Default.OutputTabControlMinimized;
-            MainWindowConfigurationFile.Default.Save();
-            UpdateSizes();
+            ModifyTabControlMinimizedSetting("Output");
         }
 
         private void ConnectionTabControlLabel_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindowConfigurationFile.Default.ConnectionTabControlMinimized = !MainWindowConfigurationFile.Default.ConnectionTabControlMinimized;
+            ModifyTabControlMinimizedSetting("Connection");
+        }
+
+        private void ModifyTabControlMinimizedSetting(string tabDescription)
+        {
+            switch (tabDescription)
+            {
+                case "Output":
+                    MainWindowConfigurationFile.Default.OutputTabControlMinimized = !MainWindowConfigurationFile.Default.OutputTabControlMinimized;
+                    break;
+                case "Connection":
+                    MainWindowConfigurationFile.Default.ConnectionTabControlMinimized = !MainWindowConfigurationFile.Default.ConnectionTabControlMinimized;
+                    break;
+            }
             MainWindowConfigurationFile.Default.Save();
             UpdateSizes();
         }
