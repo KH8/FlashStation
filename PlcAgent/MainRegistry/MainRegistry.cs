@@ -346,7 +346,7 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var plcCommunicator = (PlcCommunicator)component;
-                plcCommunicator.CloseConnection();
+                plcCommunicator.Deinitialize();
 
                 PlcCommunicators.Children.Remove(component);
             }
@@ -354,17 +354,29 @@ namespace _PlcAgent.MainRegistry
             {
                 CheckAssignment(component, 2);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var communicationInterfaceHandler = (CommunicationInterfaceHandler)component;
+                communicationInterfaceHandler.Deinitialize();
+
                 CommunicationInterfaceHandlers.Children.Remove(component);
             }
             if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
             {
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var outputHandler = (OutputHandler)component;
+                outputHandler.Deinitialize();
+
                 OutputHandlers.Children.Remove(component);
             }
             if (VFlashTypeBanks.Cast<object>().Any(vFlashTypeBank => component == vFlashTypeBank))
             {
                 CheckAssignment(component, 3);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var vFlashTypeBank = (VFlashTypeBank)component;
+                vFlashTypeBank.Deinitialize();
+
                 VFlashTypeBanks.Children.Remove(component);
             }
             if (VFlashHandlers.Cast<object>().Any(vFlashHandler => component == vFlashHandler))
@@ -387,6 +399,9 @@ namespace _PlcAgent.MainRegistry
                 if (analyzer.Recording) throw new Exception("At least one of the components function is still running");
 
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                analyzer.Deinitialize();
+
                 Analyzers.Children.Remove(component);
             }
             UpdateMainRegistryFile();

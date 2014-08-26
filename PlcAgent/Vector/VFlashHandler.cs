@@ -90,6 +90,9 @@ namespace _PlcAgent.Vector
         public override void Deinitialize()
         {
             _vFlashStationController.Deinitialize();
+            _vFlashThread.Abort();
+
+            Logger.Log("ID: " + Header.Id + " vFlash Deinitialized");
         }
 
         public void LoadProject(uint chanId)

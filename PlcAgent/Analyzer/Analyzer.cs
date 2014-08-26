@@ -22,7 +22,8 @@ namespace _PlcAgent.Analyzer
         private double _recordingTime;
         private Visibility _dataCursorVisibility;
 
-        private readonly Thread _thread;
+        private readonly Thread _analysisThread;
+        private readonly Thread _communicationThread;
 
         #endregion
 
@@ -98,7 +99,7 @@ namespace _PlcAgent.Analyzer
         public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile, AnalyzerSetupFile analyzerSetupFile) : base(id, name)
         {
             PcControlModeChangeAllowed = true;
-            PcControlMode = true;
+            PcControlMode = false;
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             AnalyzerAssignmentFile = analyzerAssignmentFile;
@@ -129,7 +130,13 @@ namespace _PlcAgent.Analyzer
 
             AnalyzerCsvHandler = new AnalyzerCsvHandler(this);
 
-            _thread = new Thread(AnalyzeThread) { IsBackground = true };
+            _analysisThread = new Thread(AnalyzeThread);
+            _analysisThread.SetApartmentState(ApartmentState.STA);
+            _analysisThread.IsBackground = true;
+
+            _communicationThread = new Thread(OutputCommunicationThread);
+            _communicationThread.SetApartmentState(ApartmentState.STA);
+            _communicationThread.IsBackground = true;
 
             CreateInterfaceAssignment(id, AnalyzerAssignmentFile.Assignment);
         }
@@ -147,7 +154,8 @@ namespace _PlcAgent.Analyzer
             if (AnalyzerSetupFile.SampleTime[Header.Id] < 10) AnalyzerSetupFile.SampleTime[Header.Id] = 100;
             if (AnalyzerSetupFile.TimeRange[Header.Id] < 1000) AnalyzerSetupFile.TimeRange[Header.Id] = 10000;
 
-            _thread.Start();
+            _analysisThread.Start();
+            _communicationThread.Start();
 
             Logger.Log("ID: " + Header.Id + " Analyzer Initialized");
         }
@@ -156,6 +164,10 @@ namespace _PlcAgent.Analyzer
         {
             Recording = false;
             Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id]);
+
+            _analysisThread.Abort();
+            _communicationThread.Abort();
+
             Logger.Log("ID: " + Header.Id + " Analyzer Deinitialized");
         }
 
@@ -213,7 +225,7 @@ namespace _PlcAgent.Analyzer
         {
             var lastMilliseconds = 0.0;
 
-            while (_thread.IsAlive)
+            while (_analysisThread.IsAlive)
             {
                 if (Recording)
                 {
@@ -236,6 +248,57 @@ namespace _PlcAgent.Analyzer
                 
                 Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id] - timeDifference);
                 lastMilliseconds = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            }
+        }
+
+        private void OutputCommunicationThread()
+        {
+            Int16 counter = 0;
+            Int16 caseAuxiliary = 0;
+
+            while (_communicationThread.IsAlive)
+            {
+                Int16 antwort;
+                Int16 status = 0;
+
+                if (CheckInterface())
+                {
+                    var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
+
+                    switch (inputCompositeCommand)
+                    {
+                        case 100:
+                            if (caseAuxiliary != 100)
+                            {
+                                Logger.Log("ID: " + Header.Id + " : Start/stop analysis requested from PLC");
+                                StartStopRecording();
+                            }
+                            caseAuxiliary = 100;
+                            antwort = 100;
+                            break;
+                        default:
+                            caseAuxiliary = 0;
+                            antwort = 0;
+                            break;
+                    }
+
+                    if (Recording) status = 100;
+                }
+                else
+                {
+                    antwort = 999;
+                    status = 999;
+                    PcControlModeChangeAllowed = true;
+                }
+
+                if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())
+                {
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Life Counter"), counter);
+                    counter++;
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Reply"), antwort);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Status"), status);
+                }
+                Thread.Sleep(200);
             }
         }
 

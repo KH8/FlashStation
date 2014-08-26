@@ -13,7 +13,7 @@ namespace _PlcAgent.Output
 
         private OutputWriter _outputWriter;
 
-        private readonly Thread _outputThread;
+        private readonly Thread _communicationThread;
 
         #endregion
 
@@ -39,10 +39,11 @@ namespace _PlcAgent.Output
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             OutputHandlerFile = outputHandlerFile;
+            OutputHandlerInterfaceAssignmentFile = outputHandlerInterfaceAssignmentFile;
 
-            _outputThread = new Thread(OutputCommunicationThread);
-            _outputThread.SetApartmentState(ApartmentState.STA);
-            _outputThread.IsBackground = true;
+            _communicationThread = new Thread(OutputCommunicationThread);
+            _communicationThread.SetApartmentState(ApartmentState.STA);
+            _communicationThread.IsBackground = true;
 
             CreateInterfaceAssignment(id, outputHandlerInterfaceAssignmentFile.Assignment);
         }
@@ -56,11 +57,15 @@ namespace _PlcAgent.Output
         {}
 
         public override void Deinitialize()
-        {}
+        {
+            _communicationThread.Abort();
+
+            Logger.Log("ID: " + Header.Id + " Output Handler Deinitialized");
+        }
 
         public void InitializeOutputHandler()
         {
-            _outputThread.Start();
+            _communicationThread.Start();
             Logger.Log("ID: " + Header.Id + " Output Handler Initialized");
         }
 
@@ -116,7 +121,7 @@ namespace _PlcAgent.Output
             Int16 counter = 0;
             Int16 caseAuxiliary = 0;
 
-            while (_outputThread.IsAlive)
+            while (_communicationThread.IsAlive)
             {
                 PcControlModeChangeAllowed = false;
 

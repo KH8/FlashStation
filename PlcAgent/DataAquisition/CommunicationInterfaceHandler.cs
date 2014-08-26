@@ -58,7 +58,6 @@ namespace _PlcAgent.DataAquisition
             _communicationThread = new Thread(CommunicationHandler);
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
-            _communicationThread.Start();
 
             Logger.Log("ID: " + Header.Id + " Communication interface component created");
         }
@@ -75,10 +74,18 @@ namespace _PlcAgent.DataAquisition
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id,
                 CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
             DisplayDataBuilder.Build(_readInterfaceCollection, _writeInterfaceCollection, this);
+
+            _communicationThread.Start();
+
+            Logger.Log("ID: " + Header.Id + " Communication interface Initialized");
         }
 
         public override void Deinitialize()
-        {}
+        {
+            _communicationThread.Abort();
+
+            Logger.Log("ID: " + Header.Id + " Communication interface Deinitialized");
+        }
 
         public void InitializeInterface()
         {
@@ -144,7 +151,7 @@ namespace _PlcAgent.DataAquisition
 
         private void MaintainConnection()
         {
-            if (PlcCommunicator.ConnectionStatus != 1) return;
+            //if (PlcCommunicator.ConnectionStatus != 1) return;
             if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
             if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
 

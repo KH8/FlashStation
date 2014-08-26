@@ -150,7 +150,13 @@ namespace _PlcAgent.PLC
         {}
 
         public override void Deinitialize()
-        {}
+        {
+            CloseConnection();
+            _communicationWatchDogThread.Abort();
+            _dataAquisitionThread.Abort();
+
+            Logger.Log("ID: " + Header.Id + " PLC communication Deinitialized");
+        }
 
         public void InitializeConnection()
         {
@@ -159,7 +165,7 @@ namespace _PlcAgent.PLC
 
             if (!PlcConfigurationFile.ConnectAtStartUp[Header.Id] || ConnectionStatus == 1)
             {
-                Logger.Log("ID: " + Header.Id + " PLC communication initialized");
+                Logger.Log("ID: " + Header.Id + " PLC communication Initialized");
                 return;
             }
             ConnectionStatus = -2;

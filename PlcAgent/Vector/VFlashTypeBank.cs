@@ -31,9 +31,8 @@ namespace _PlcAgent.Vector
             {
                 var output = new string[list.Count];
                 uint i = 0;
-                foreach (var vFlashType in list)
+                foreach (var type in list.Cast<VFlashTypeComponent>())
                 {
-                    var type = (VFlashTypeComponent)vFlashType;
                     output[i] = type.Type + "=" + type.Version + "+" + type.Path; i++;
                 }
                 return output;
@@ -45,7 +44,7 @@ namespace _PlcAgent.Vector
                 {
                     var dictionary = types.Select(type => type.Split('=')).ToDictionary<string[], uint, string>(words => Convert.ToUInt16(words[0]), words => words[1]);
                     var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
-                    foreach (KeyValuePair<uint, string> type in sortedDict)
+                    foreach (var type in sortedDict)
                     {
                         var words = type.Value.Split('+');
                         bank.Add(new VFlashTypeComponent(type.Key, words[0], words[1]));
@@ -66,12 +65,11 @@ namespace _PlcAgent.Vector
 
         public override void Initialize()
         {
-            //
         }
 
         public override void Deinitialize()
         {
-            //
+            Logger.Log("ID: " + Header.Id + " vFlashTypeBank Deinitialized");
         }
 
         public List<VFlashDisplayProjectData> Children
