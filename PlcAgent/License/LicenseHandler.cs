@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using PlcAgentLicenceGenerator.BlowFish;
-using PlcAgentLicenceGenerator.Signature;
 using _PlcAgent.Log;
 using _PlcAgent.Signature;
 
@@ -21,7 +19,7 @@ namespace _PlcAgent.License
 
         #region Properties
 
-        public static string LicenceOwnerName = "Null";
+        public static string LicenseOwnerName = "Null";
 
         #endregion
 
@@ -33,7 +31,7 @@ namespace _PlcAgent.License
             _signature = SignatureHandler.GetSignature();
             _blowFishEncryptor = new BlowFish(HexKey.Value);
 
-            const string fileName = @"License\licence.lic";
+            const string fileName = @"License\license.lic";
             string storedSignature;
 
             try
@@ -43,7 +41,7 @@ namespace _PlcAgent.License
                 var r = new BinaryReader(fs);
 
                 // Read data from Test.data.
-                LicenceOwnerName = r.ReadString();
+                LicenseOwnerName = r.ReadString();
                 storedSignature = r.ReadString();
 
                 r.Close();
@@ -51,18 +49,18 @@ namespace _PlcAgent.License
             }
             catch (Exception)
             {
-                Logger.Log("Licence file does not exist");
-                MessageBox.Show("Licence file does not exist", "License ");
+                Logger.Log("License file does not exist");
+                MessageBox.Show("License file does not exist", "License ");
                 return false;
             }
 
             if (Equals(_signature, _blowFishEncryptor.Decrypt_CTR(storedSignature)))
             {
-                Logger.Log("Licence verified. Licence owner: " + LicenceOwnerName);
+                Logger.Log("License verified. License owner: " + LicenseOwnerName);
                 return true;
             }
-            Logger.Log("Licence is not valid");
-            MessageBox.Show("Licence is not valid", "License ");
+            Logger.Log("License is not valid");
+            MessageBox.Show("License is not valid", "License ");
             return false;
         }
 

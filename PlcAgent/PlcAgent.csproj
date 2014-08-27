@@ -224,6 +224,9 @@
     <None Include="DataAquisition\DB1000_NEW.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="License\license.lic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Output\OutputHandlerFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>OutputHandlerFile.Designer.cs</LastGenOutput>
