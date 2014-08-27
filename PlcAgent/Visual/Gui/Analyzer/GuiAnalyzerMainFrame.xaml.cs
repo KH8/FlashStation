@@ -100,8 +100,8 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                 _channelList.Add(
                     analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, Analyzer)));
 
-            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(132), MinHeight = 132});
-            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(2) });
+            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(138), MinHeight = 138});
+            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1) });
             
 
             analyzerSingleFigure.Initialize(0, 0, PlotGrid);
@@ -109,11 +109,11 @@ namespace _PlcAgent.Visual.Gui.Analyzer
 
             GridSplitter newGridSplitter;
 
-            PlotGrid.Children.Add(newGridSplitter = new GridSplitter { Height = 2, HorizontalAlignment = HorizontalAlignment.Stretch });
+            PlotGrid.Children.Add(newGridSplitter = new GridSplitter { Height = 1, HorizontalAlignment = HorizontalAlignment.Stretch });
             Grid.SetRow(newGridSplitter, ((int)id * 2) - 1);
 
             var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
-            userControl.UpdateSizes(Height, Width);
+            userControl.UpdateSizes(Height, Width); 
         }
 
         public void RefreshGui()
@@ -129,7 +129,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             foreach (var guiComponent in componentToBeRemoved) { _channelList.Remove(guiComponent);}
             foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id);}
 
-            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(5) });
+            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1) });
         }
 
         public void AxisSynchronization()
