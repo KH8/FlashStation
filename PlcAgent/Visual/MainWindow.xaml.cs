@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
+using _PlcAgent.License;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
@@ -49,6 +50,8 @@ namespace _PlcAgent.Visual
             InitializeComponent();
             Logger.Log("Program Started");
 
+            if (!LicenseHandler.CheckLicense()) CloseApp();
+
             Logger.Log("Registry initialization");
             _registry = new Registry();
             _registry.Initialize();
@@ -64,16 +67,12 @@ namespace _PlcAgent.Visual
 
         private void CloseApp(object sender, RoutedEventArgs routedEventArgs)
         {
-            _registry.Deinitialize();
-            Logger.Log("Program Closed");
-            Environment.Exit(0);
+            CloseApp();
         }
 
         private void CloseApp(object sender, CancelEventArgs e)
         {
-            _registry.Deinitialize();
-            Logger.Log("Program Closed");
-            Environment.Exit(0);
+            CloseApp();
         }
 
         private void AddConnection(object sender, RoutedEventArgs e)
@@ -737,6 +736,19 @@ namespace _PlcAgent.Visual
         }
 
         #endregion
+
+
+        #region Methods
+
+        private void CloseApp()
+        {
+            if(_registry != null) _registry.Deinitialize();
+            Logger.Log("Program Closed");
+            Environment.Exit(0);
+        }
+
+        #endregion
+
 
     }
 }
