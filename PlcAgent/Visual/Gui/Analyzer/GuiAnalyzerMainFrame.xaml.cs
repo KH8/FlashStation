@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
 

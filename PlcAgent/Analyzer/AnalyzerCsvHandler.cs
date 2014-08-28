@@ -79,11 +79,7 @@ namespace _PlcAgent.Analyzer
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
 
-                foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
-                {
-                    writer.WriteField(TimeSpan.FromSeconds(analyzerChannel.AnalyzerObservableVariable.ValueX).ToString());
-                    break;
-                }
+                writer.WriteField(TimeSpan.FromSeconds(Analyzer.TimeObservableVariable.ValueX).ToString());
                 for (var i = 1; i <= Analyzer.AnalyzerChannels.HighestId; i++)
                 {
                     var fieldValue = 0.0;
