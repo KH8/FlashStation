@@ -56,9 +56,9 @@ namespace _PlcAgent.License
                 return false;
             }
 
-            if (Equals(_signature, _blowFishEncryptor.Decrypt_CTR(SignatureStored)))
+            if (Equals(_signature + LicenseOwnerName + LicenseCreationTime, _blowFishEncryptor.Decrypt_CTR(SignatureStored)))
             {
-                Logger.Log("License verified. License owner: " + LicenseOwnerName);
+                Logger.Log("License verified. License owner: " + LicenseOwnerName + " date: " + LicenseCreationTime);
                 return true;
             }
             Logger.Log("License is not valid");
