@@ -3,8 +3,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using System.Windows.Media;
-using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
 using ComboBox = System.Windows.Controls.ComboBox;
