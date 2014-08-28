@@ -3,9 +3,13 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Media;
+using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
 using ComboBox = System.Windows.Controls.ComboBox;
+using DragDropEffects = System.Windows.DragDropEffects;
+using DragEventArgs = System.Windows.DragEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 
 namespace _PlcAgent.Visual.Gui.Output
@@ -89,6 +93,21 @@ namespace _PlcAgent.Visual.Gui.Output
 
             OutputHandler.OutputHandlerFile.DirectoryPaths[OutputHandler.Header.Id] = DirectoryPathBox.Text;
             OutputHandler.OutputHandlerFile.Save();
+        }
+
+        private void TextBox_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            e.Effects = DragDropEffects.Move;
+            if (!e.Data.GetDataPresent("Name")) e.Effects = DragDropEffects.None;
+        }
+
+        private void TextBox_Drop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("Name")) return;
+            var displayData = e.Data.GetData("Name") as DisplayDataBuilder.DisplayData;
+
+            if (displayData != null) FileNameSuffixBox.Text = "%" + displayData.Name;
         }
     }
 }
