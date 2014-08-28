@@ -151,11 +151,11 @@ namespace _PlcAgent.DataAquisition
 
         private void MaintainConnection()
         {
-            //if (PlcCommunicator.ConnectionStatus != 1) return;
+            if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
+
+            if (PlcCommunicator.ConnectionStatus != 1) return;
             if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
             if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
-
-            if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
         }
 
         #endregion
