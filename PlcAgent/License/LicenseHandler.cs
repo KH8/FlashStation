@@ -20,6 +20,8 @@ namespace _PlcAgent.License
         #region Properties
 
         public static string LicenseOwnerName = "Null";
+        public static string SignatureStored = "Null";
+        public static string LicenseCreationTime = "Null";
 
         #endregion
 
@@ -32,7 +34,6 @@ namespace _PlcAgent.License
             _blowFishEncryptor = new BlowFish(HexKey.Value);
 
             const string fileName = @"License\license.lic";
-            string storedSignature;
 
             try
             {
@@ -42,7 +43,8 @@ namespace _PlcAgent.License
 
                 // Read data from Test.data.
                 LicenseOwnerName = r.ReadString();
-                storedSignature = r.ReadString();
+                SignatureStored = r.ReadString();
+                LicenseCreationTime = r.ReadString();
 
                 r.Close();
                 fs.Close();
@@ -54,7 +56,7 @@ namespace _PlcAgent.License
                 return false;
             }
 
-            if (Equals(_signature, _blowFishEncryptor.Decrypt_CTR(storedSignature)))
+            if (Equals(_signature, _blowFishEncryptor.Decrypt_CTR(SignatureStored)))
             {
                 Logger.Log("License verified. License owner: " + LicenseOwnerName);
                 return true;

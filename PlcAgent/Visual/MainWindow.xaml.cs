@@ -51,6 +51,8 @@ namespace _PlcAgent.Visual
             Logger.Log("Program Started");
 
             if (!LicenseHandler.CheckLicense()) CloseApp();
+            LicenseLabel.Content = "License generated for: " + LicenseHandler.LicenseOwnerName + ", date: " +
+                                   LicenseHandler.LicenseCreationTime;
 
             Logger.Log("Registry initialization");
             _registry = new Registry();
