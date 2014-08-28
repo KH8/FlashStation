@@ -11,6 +11,7 @@ namespace _PlcAgent.License
         #region Variables
 
         private static string _signature;
+        private static string _personalSignatureStored;
 
         private static BlowFish _blowFishEncryptor;
 
@@ -31,7 +32,6 @@ namespace _PlcAgent.License
         public static Boolean CheckLicense()
         {
             _signature = SignatureHandler.GetSignature();
-            _blowFishEncryptor = new BlowFish(HexKey.Value);
 
             const string fileName = @"License\license.lic";
 
@@ -42,9 +42,11 @@ namespace _PlcAgent.License
                 var r = new BinaryReader(fs);
 
                 // Read data from Test.data.
-                LicenseOwnerName = r.ReadString();
+
                 SignatureStored = r.ReadString();
+                LicenseOwnerName = r.ReadString();
                 LicenseCreationTime = r.ReadString();
+                _personalSignatureStored = r.ReadString();
 
                 r.Close();
                 fs.Close();
@@ -56,10 +58,17 @@ namespace _PlcAgent.License
                 return false;
             }
 
-            if (Equals(_signature + LicenseOwnerName + LicenseCreationTime, _blowFishEncryptor.Decrypt_CTR(SignatureStored)))
+            _blowFishEncryptor = new BlowFish(HexKey.PersonalValue);
+            _personalSignatureStored = _blowFishEncryptor.Decrypt_CTR(_personalSignatureStored);
+
+            _blowFishEncryptor = new BlowFish(HexKey.SignatureValue);
+            if (Equals(LicenseOwnerName + LicenseCreationTime, _blowFishEncryptor.Decrypt_CTR(_personalSignatureStored)))
             {
-                Logger.Log("License verified. License owner: " + LicenseOwnerName + ", date: " + LicenseCreationTime);
-                return true;
+                if (Equals(_signature, _blowFishEncryptor.Decrypt_CTR(SignatureStored)))
+                {
+                    Logger.Log("License verified. License owner: " + LicenseOwnerName + ", date: " + LicenseCreationTime);
+                    return true;
+                }
             }
             Logger.Log("License is not valid");
             MessageBox.Show("License is not valid", "License ");
