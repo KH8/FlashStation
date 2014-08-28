@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -16,6 +18,7 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
         #region Variables
 
         private Boolean _isActive;
+        private Point _storedPosition;
 
         #endregion
 
@@ -117,6 +120,53 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
         {
             var tab = (TabControl) sender;
             _isActive = Equals(tab.SelectedItem, TabItem);
+        }
+
+        private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Store the mouse position
+            _storedPosition = e.GetPosition(null);
+        }
+
+        private void List_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Get the current mouse position
+            var mousePos = e.GetPosition(null);
+            var diff = _storedPosition - mousePos;
+
+            if (e.LeftButton != MouseButtonState.Pressed) return;
+            if (!(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) &&
+                !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)) return;
+            // Get the dragged ListViewItem
+            var listView = sender as ListView;
+            var listViewItem = FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+            // Find the data behind the ListViewItem
+            if (listViewItem == null || listView == null) return;
+            var displayData = (DisplayDataBuilder.DisplayData)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
+
+            // Initialize the drag & drop operation
+            var dragData = new DataObject("Name", displayData);
+            DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+        }
+
+        #endregion
+
+
+        #region Auxiliaries
+
+        private static T FindAncestor<T>(DependencyObject current)
+            where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)
+                {
+                    return (T) current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            } while (current != null);
+            return null;
         }
 
         #endregion
