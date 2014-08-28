@@ -22,7 +22,7 @@ namespace _PlcAgent.DataAquisition
         private readonly ObservableCollection<DisplayDataBuilder.DisplayData> _writeInterfaceCollection =
             new ObservableCollection<DisplayDataBuilder.DisplayData>();
 
-        private readonly Thread _communicationThread;
+        private Thread _communicationThread;
 
         #endregion
 
@@ -69,6 +69,16 @@ namespace _PlcAgent.DataAquisition
 
         public override void Initialize()
         {
+            if (_communicationThread.IsAlive)
+            {
+                _communicationThread.Abort();
+                Thread.Sleep(500);
+
+                _communicationThread = new Thread(CommunicationHandler);
+                _communicationThread.SetApartmentState(ApartmentState.STA);
+                _communicationThread.IsBackground = true;
+            }
+
             _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id,
                 CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
             _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id,
@@ -142,17 +152,25 @@ namespace _PlcAgent.DataAquisition
 
         private void CommunicationHandler()
         {
+            var counter = 0;
+
             while (_communicationThread.IsAlive)
             {
                 MaintainConnection();
+                counter++;
+
+                if (counter > 100)
+                {
+                    if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
+                    counter = 0;
+                }
+
                 Thread.Sleep(10);
             }
         }
 
         private void MaintainConnection()
         {
-            if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
-
             if (PlcCommunicator.ConnectionStatus != 1) return;
             if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
             if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
