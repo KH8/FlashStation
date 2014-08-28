@@ -5,16 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:oxy="http://oxyplot.codeplex.com"
              xmlns:analyzer="clr-namespace:_PlcAgent.Analyzer"
-             mc:Ignorable="d" 
-             d:DesignHeight="130" Width="1500"
-             HorizontalAlignment="Left" VerticalAlignment="Top">
+             mc:Ignorable="d" Width="1500"
+             HorizontalAlignment="Left" VerticalAlignment="Stretch">
     <Grid Name="GeneralGrid">
-        <Canvas Name="PlotCanvas" HorizontalAlignment="Left" Height="121" Margin="200,9,0,0" VerticalAlignment="Top" Width="1300">
-            <Grid Name ="PlotGrid" Height="121" Width="1300">
-                <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10" TextColor="#FF343434"/>
-            </Grid>
-        </Canvas>
-        <GroupBox Name="ChannelGroupBox" Header="Channel X" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="195">
+        <Grid Name ="PlotGrid" HorizontalAlignment="Left" Width="1300" Margin="200,9,0,4" VerticalAlignment="Stretch">
+            <oxy:PlotView x:Name="PlotArea" BorderThickness="1" Background="{x:Null}" Foreground="DarkGray" Model="{Binding Model}" IsManipulationEnabled="False" IsMouseWheelEnabled="False" IsLegendVisible="False" DefaultFontSize="10" LegendFontSize="10" TextColor="#FF343434"/>
+        </Grid>
+        <GroupBox Name="ChannelGroupBox" Header="Channel X" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="195" Margin="0,0,0,8">
             <Grid>
                 <Label Content="Variable:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180" Background="#FFF6F6F6"/>
                 <ComboBox Name="VariableComboBox" HorizontalAlignment="Center" Height="23" Margin="0,25,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="VariableSelectionChanged">
@@ -28,10 +25,10 @@
                 </ComboBox>
                 <Label Content="Type:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="180" Margin="0,48,0,0"/>
                 <Label Name="TypeLabel" Content="no variable selected" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="132" Margin="50,48,0,0"/>
-                <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
-                <TextBox Name="UnitTextBox" HorizontalAlignment="Left" Height="23" Margin="35,77,0,0" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextChanged="UnitBoxTextChanged"/>
-                <Label Content="Brush:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="50" Margin="90,75,0,0"/>
-                <ComboBox Name="BrushComboBox" HorizontalAlignment="Left" Height="23" Margin="133,77,0,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="50" ItemsSource="{Binding ColorsList}" SelectionChanged="BrushSelectionChanged">
+                <Label Content="Unit:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Bottom" Width="100" Margin="0,0,0,8"/>
+                <TextBox Name="UnitTextBox" HorizontalAlignment="Left" Height="23" Margin="35,0,0,8" HorizontalContentAlignment="Right" TextWrapping="Wrap" Text="1" VerticalAlignment="Bottom" Width="50" TextChanged="UnitBoxTextChanged"/>
+                <Label Content="Brush:" HorizontalAlignment="Left" Height="25" VerticalAlignment="Bottom" Width="50" Margin="85,0,0,8"/>
+                <ComboBox Name="BrushComboBox" HorizontalAlignment="Left" Height="23" Margin="130,0,0,8" HorizontalContentAlignment="Right" VerticalAlignment="Bottom" Width="50" ItemsSource="{Binding ColorsList}" SelectionChanged="BrushSelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Background="{Binding}">
@@ -44,6 +41,6 @@
         </GroupBox>
         <Label Name="VariableLabel" Content="no variable selected" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Height="25" VerticalAlignment="Top" Width="1265" Margin="0,15,35,0"/>
         <Button Name="DeleteButton" Content="Delete" HorizontalAlignment="Right" Height="25" Margin="0,40,35,0" VerticalAlignment="Top" Width="50" Click="RemoveChannel"/>
-        <Label Name="MinMaxLabel" Content="ACTUAL: 0 MIN: 0 MAX: 0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="1275" Margin="225,0,0,-5" FontSize="10"/>
+        <Label Name="MinMaxLabel" Content="ACTUAL: 0 MIN: 0 MAX: 0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="1275" Margin="225,0,0,0" FontSize="10"/>
     </Grid>
 </analyzer:AnalyzerComponent>

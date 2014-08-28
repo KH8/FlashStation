@@ -86,7 +86,6 @@ namespace _PlcAgent.Visual.Gui.Analyzer
         public void UpdateSizes(double height, double width)
         {
             Width = width;
-            PlotCanvas.Width = width;
             GeneralGrid.Width = width;
             PlotGrid.Width = Limiter.DoubleLimit(width - 225, 0);
         }

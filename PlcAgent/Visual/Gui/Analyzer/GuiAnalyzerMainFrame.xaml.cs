@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Input;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
 
@@ -20,13 +20,6 @@ namespace _PlcAgent.Visual.Gui.Analyzer
         private readonly List<GuiComponent> _channelList;
 
         private readonly Thread _updateThread;
-
-        #endregion
-
-
-        #region Properties
-
-        
 
         #endregion
 
@@ -100,16 +93,15 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                 _channelList.Add(
                     analyzerSingleFigure = new GuiComponent(id, "", new GuiAnalyzerSingleFigure(id, Analyzer)));
 
-            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(138), MinHeight = 138});
-            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1) });
-            
+            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto, MinHeight = 138, MaxHeight = 350});
+            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(3) });
 
             analyzerSingleFigure.Initialize(0, 0, PlotGrid);
             Grid.SetRow(analyzerSingleFigure.UserControl, ((int)id - 1) * 2);
 
             GridSplitter newGridSplitter;
 
-            PlotGrid.Children.Add(newGridSplitter = new GridSplitter { Height = 1, HorizontalAlignment = HorizontalAlignment.Stretch });
+            PlotGrid.Children.Add(newGridSplitter = new GridSplitter { Height = 3, HorizontalAlignment = HorizontalAlignment.Stretch });
             Grid.SetRow(newGridSplitter, ((int)id * 2) - 1);
 
             var userControl = (GuiAnalyzerSingleFigure)analyzerSingleFigure.UserControl;
@@ -129,7 +121,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             foreach (var guiComponent in componentToBeRemoved) { _channelList.Remove(guiComponent);}
             foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id);}
 
-            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1) });
+            PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(3) });
         }
 
         public void AxisSynchronization()
