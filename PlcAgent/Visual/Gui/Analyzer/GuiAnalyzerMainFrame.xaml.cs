@@ -121,6 +121,8 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children) { DrawChannel(analyzerChannel.Id);}
 
             PlotGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(3) });
+
+            Analyzer.TimeObservableVariable.Refresh();
         }
 
         public void AxisSynchronization()

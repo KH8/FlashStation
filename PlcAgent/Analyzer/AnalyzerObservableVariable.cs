@@ -167,7 +167,8 @@ namespace _PlcAgent.Analyzer
             MaxValue = 0.0;
 
             _mainViewModel = new DataMainViewModel();
-            TimeRange = Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id];
+
+            Refresh();
         }
 
         #endregion
@@ -223,6 +224,12 @@ namespace _PlcAgent.Analyzer
         public double GetTimePosition(double positionPercentage)
         {
             return TimeRange * positionPercentage + _mainViewModel.HorizontalAxis.Minimum * 1000.0;
+        }
+
+        public void Refresh()
+        {
+            TimeRange = Analyzer.AnalyzerSetupFile.TimeRange[Analyzer.Header.Id];
+            _mainViewModel.SynchronizeView();
         }
 
         private static VariableType GetType(CommunicationInterfaceComponent communicationInterfaceVariable)
