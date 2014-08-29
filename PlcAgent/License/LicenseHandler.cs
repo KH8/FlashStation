@@ -58,7 +58,7 @@ namespace _PlcAgent.License
                 return false;
             }
 
-            _blowFishEncryptor = new BlowFish(HexKey.PersonalValue);
+            _blowFishEncryptor = new BlowFish(HexKey.PersonalSignatureValue);
             _personalSignatureStored = _blowFishEncryptor.Decrypt_CTR(_personalSignatureStored);
 
             _blowFishEncryptor = new BlowFish(HexKey.SignatureValue);

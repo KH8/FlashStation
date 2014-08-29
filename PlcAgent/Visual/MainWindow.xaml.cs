@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -211,7 +210,7 @@ namespace _PlcAgent.Visual
                 var serializationString = (string)formatter.Deserialize(stream);
                 stream.Close();
 
-                serializationString = new BlowFish(HexKey.SignatureValue).Decrypt_CTR(serializationString);
+                serializationString = new BlowFish(HexKey.ConfigurationSignatureValue).Decrypt_CTR(serializationString);
 
                 // convert string to stream
                 var byteArray = Convert.FromBase64String(serializationString);
@@ -248,7 +247,7 @@ namespace _PlcAgent.Visual
                 var memoryStream = new MemoryStream();
                 formatter.Serialize(memoryStream, projectData);
 
-                var serializationString = new BlowFish(HexKey.SignatureValue).Encrypt_CTR(Convert.ToBase64String(memoryStream.ToArray()));
+                var serializationString = new BlowFish(HexKey.ConfigurationSignatureValue).Encrypt_CTR(Convert.ToBase64String(memoryStream.ToArray()));
 
                 Stream stream = new FileStream(dlg.FileName,
                                          FileMode.Create,
