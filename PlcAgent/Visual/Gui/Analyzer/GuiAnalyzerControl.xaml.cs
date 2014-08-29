@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace _PlcAgent.Visual.Gui.Analyzer
@@ -13,12 +14,21 @@ namespace _PlcAgent.Visual.Gui.Analyzer
         public GuiAnalyzerControl(_PlcAgent.Analyzer.Analyzer analyzer) : base(analyzer)
         {
             InitializeComponent();
+
+            Analyzer.CommunicationInterfaceHandler.PlcCommunicator.PropertyChanged += OnConnectionStatusChanged;
+            if (Analyzer.CommunicationInterfaceHandler.PlcCommunicator.ConnectionStatus != 1) AnalyzerStartStopButton.IsEnabled = false;
         }
 
         #endregion
 
 
         #region Event Handlers
+
+        protected void OnConnectionStatusChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            AnalyzerStartStopButton.IsEnabled = true;
+            if (Analyzer.CommunicationInterfaceHandler.PlcCommunicator.ConnectionStatus != 1) AnalyzerStartStopButton.IsEnabled = false;
+        }
 
         protected override void OnRecordingChanged()
         {

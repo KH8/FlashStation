@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -51,6 +52,9 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                 () => PlotArea.DataContext = Analyzer.TimeObservableVariable.MainViewModelClone)));
 
             RefreshGui();
+
+            Analyzer.CommunicationInterfaceHandler.PlcCommunicator.PropertyChanged += OnConnectionStatusChanged;
+            if (Analyzer.CommunicationInterfaceHandler.PlcCommunicator.ConnectionStatus != 1) AnalyzerStartStopButton.IsEnabled = false;
 
             _updateThread = new Thread(AxisSynchronization) { IsBackground = true };
             _updateThread.Start();
@@ -147,6 +151,12 @@ namespace _PlcAgent.Visual.Gui.Analyzer
 
 
         #region Event Handlers
+
+        protected void OnConnectionStatusChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            AnalyzerStartStopButton.IsEnabled = true;
+            if (Analyzer.CommunicationInterfaceHandler.PlcCommunicator.ConnectionStatus != 1) AnalyzerStartStopButton.IsEnabled = false;
+        }
 
         protected override void OnRecordingChanged()
         {

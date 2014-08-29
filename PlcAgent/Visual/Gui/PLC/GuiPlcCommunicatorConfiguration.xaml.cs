@@ -38,6 +38,8 @@ namespace _PlcAgent.Visual.Gui.PLC
                 PlcCommunicator.PlcConfiguration.PlcWriteStartAddress.ToString(CultureInfo.InvariantCulture);
             WriteDbLengthBox.Text =
                 PlcCommunicator.PlcConfiguration.PlcWriteLength.ToString(CultureInfo.InvariantCulture);
+
+            if (PlcCommunicator.ConnectionStatus != -1) UseSettingsButton.IsEnabled = false;
         }
 
         #endregion
@@ -59,7 +61,10 @@ namespace _PlcAgent.Visual.Gui.PLC
         #region Event Handlers
 
         protected override void OnConnectionStatusChanged()
-        {}
+        {
+            UseSettingsButton.IsEnabled = true;
+            if (PlcCommunicator.ConnectionStatus != -1) UseSettingsButton.IsEnabled = false;
+        }
 
         protected override void OnConfigurationStatusChanged()
         {}
