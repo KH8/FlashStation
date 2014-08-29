@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +16,7 @@ using _PlcAgent.License;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
+using _PlcAgent.Signature;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
 using _PlcAgent.Visual.Gui.Analyzer;
@@ -206,8 +208,17 @@ namespace _PlcAgent.Visual
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.Read);
-                var projectData = (ProjectFileStruture.ProjectSavedData)formatter.Deserialize(stream);
+                var serializationString = (string)formatter.Deserialize(stream);
                 stream.Close();
+
+                serializationString = new BlowFish(HexKey.SignatureValue).Decrypt_CTR(serializationString);
+
+                // convert string to stream
+                var byteArray = Convert.FromBase64String(serializationString);
+                //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
+                var memoryStream = new MemoryStream(byteArray);
+
+                var projectData = (ProjectFileStruture.ProjectSavedData)new BinaryFormatter().Deserialize(memoryStream);
 
                 _registry.LoadConfiguration(projectData);
 
@@ -233,10 +244,16 @@ namespace _PlcAgent.Visual
                 var projectData = _registry.SaveConfiguration();
 
                 IFormatter formatter = new BinaryFormatter();
+
+                var memoryStream = new MemoryStream();
+                formatter.Serialize(memoryStream, projectData);
+
+                var serializationString = new BlowFish(HexKey.SignatureValue).Encrypt_CTR(Convert.ToBase64String(memoryStream.ToArray()));
+
                 Stream stream = new FileStream(dlg.FileName,
                                          FileMode.Create,
                                          FileAccess.Write, FileShare.None);
-                formatter.Serialize(stream, projectData);
+                formatter.Serialize(stream, serializationString);
                 stream.Close();
             }
             Logger.Log("Configuration saved");
