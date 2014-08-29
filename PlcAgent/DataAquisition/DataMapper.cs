@@ -88,7 +88,7 @@ namespace _PlcAgent.DataAquisition
 
         public static void Write16Bits(byte[] valByte, int pos, BitArray valBitArray)
         {
-            var valByte1 = new byte[2];
+            var valByte1 = new byte[8];
             valBitArray.CopyTo(valByte1, 0);
             valByte[pos + 0] = valByte1[0];
             valByte[pos + 1] = valByte1[1];
@@ -96,7 +96,7 @@ namespace _PlcAgent.DataAquisition
 
         public static void Write32Bits(byte[] valByte, int pos, BitArray[] valBitArray)
         {
-            var valByte1 = new byte[4];
+            var valByte1 = new byte[8];
             valBitArray.CopyTo(valByte1, 0);
             valByte[pos + 0] = valByte1[0];
             valByte[pos + 1] = valByte1[1];

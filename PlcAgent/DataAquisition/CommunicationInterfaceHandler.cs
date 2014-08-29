@@ -159,7 +159,7 @@ namespace _PlcAgent.DataAquisition
                 MaintainConnection();
                 counter++;
 
-                if (counter > 100)
+                if (counter > 10)
                 {
                     if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
                     counter = 0;
@@ -172,8 +172,18 @@ namespace _PlcAgent.DataAquisition
         private void MaintainConnection()
         {
             if (PlcCommunicator.ConnectionStatus != 1) return;
-            if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
-            if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
+            try
+            {
+                if (_readInterfaceComposite != null) _readInterfaceComposite.ReadValue(PlcCommunicator.ReadBytes);
+                if (_writeInterfaceComposite != null) _writeInterfaceComposite.WriteValue(PlcCommunicator.WriteBytes);
+            }
+            catch (Exception)
+            {
+                PlcCommunicator.CloseConnection();
+                MessageBox.Show("ID: " + Header.Id + " Interface does not meet a connection set up",
+                        "Interface Fault");
+                Logger.Log("ID: " + Header.Id + " Interface does not meet a connection set up");
+            }
         }
 
         #endregion

@@ -185,7 +185,7 @@ namespace _PlcAgent.Analyzer
         {
             if (CommunicationInterfaceVariable == null) return;
 
-            var valueY = new Random().NextDouble(); //Convert.ToDouble(CommunicationInterfaceVariable.Value);
+            var valueY = Convert.ToDouble(CommunicationInterfaceVariable.Value);
 
             StoreValue(valueX, valueY);
         }

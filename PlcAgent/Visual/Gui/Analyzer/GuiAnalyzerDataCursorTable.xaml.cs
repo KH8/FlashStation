@@ -74,7 +74,10 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                     dataCursorPoint.RedValue = "---";
                     dataCursorPoint.Difference = "---";
                 }
-                CursorTableDataGrid.Items.Refresh();
+                CursorTableDataGrid.Dispatcher.BeginInvoke((new Action(delegate
+                {
+                    CursorTableDataGrid.Items.Refresh();
+                })));
             }
             else { OnDataCursorPositionChanged(this, new PropertyChangedEventArgs(""));}
         }
