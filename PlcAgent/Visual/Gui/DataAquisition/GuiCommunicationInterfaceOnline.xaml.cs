@@ -46,6 +46,26 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             CommunicationWriteInterfaceListBox.View = CreateGridView();
             CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
+
+            var gridView = CreateGridView();
+            GridViewHeaderRowPresenter.Columns = gridView.Columns;
+            
+            var newTreeListViewItem = new TreeListViewItem
+            {
+                Header = "Header1"
+            };
+            var newNewTreeListViewItem = new TreeListViewItem
+            {
+                Header = "Header2"
+            };
+            newTreeListViewItem.Items.Add(newNewTreeListViewItem);
+            newNewTreeListViewItem.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            TestTreeListView.Items.Add(newTreeListViewItem);
+            newTreeListViewItem = new TreeListViewItem
+            {
+                Header = "Header3"
+            };
+            TestTreeListView.Items.Add(newTreeListViewItem);
         }
 
         #endregion
