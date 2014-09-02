@@ -196,6 +196,7 @@
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorConfiguration.xaml.cs">
       <DependentUpon>GuiPlcCommunicatorConfiguration.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\TreeListView.cs" />
     <Compile Include="Visual\Gui\Vector\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
