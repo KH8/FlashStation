@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace _PlcAgent.Visual.Gui
+namespace _PlcAgent.Visual.TreeListView
 {
     public class TreeListView : TreeView
     {

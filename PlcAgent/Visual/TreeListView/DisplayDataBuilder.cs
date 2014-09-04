@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using _PlcAgent.DataAquisition;
 
-namespace _PlcAgent.Visual
+namespace _PlcAgent.Visual.TreeListView
 {
     public class DisplayDataBuilder
     {

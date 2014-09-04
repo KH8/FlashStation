@@ -82,6 +82,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="Vector.vFlash.Automation.vFlashStation, Version=2.5.3100.59554, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Vector\Vector.vFlash.Automation.vFlashStation.dll</HintPath>
@@ -196,7 +197,6 @@
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorConfiguration.xaml.cs">
       <DependentUpon>GuiPlcCommunicatorConfiguration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\TreeListView.cs" />
     <Compile Include="Visual\Gui\Vector\GuiVFlashHandler.xaml.cs">
       <DependentUpon>GuiVFlashHandler.xaml</DependentUpon>
     </Compile>
@@ -209,6 +209,12 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MainWindowConfigurationFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\TreeListView\Converters.cs" />
+    <Compile Include="Visual\TreeListView\DisplayDataBuilder.cs" />
+    <Compile Include="Visual\TreeListView\TreeListView.cs" />
+    <Compile Include="Visual\TreeListView\WindowTest.xaml.cs">
+      <DependentUpon>WindowTest.xaml</DependentUpon>
     </Compile>
     <None Include="Analyzer\AnalyzerAssignmentFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -365,7 +371,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>VFlashTypeBankFile.settings</DependentUpon>
     </Compile>
-    <Compile Include="Visual\DisplayDataBuilder.cs" />
     <Compile Include="Visual\FaultReportWindow.xaml.cs">
       <DependentUpon>FaultReportWindow.xaml</DependentUpon>
     </Compile>
@@ -379,6 +384,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Visual\TreeListView\WindowTest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PLC\PlcCommunicator.cs" />

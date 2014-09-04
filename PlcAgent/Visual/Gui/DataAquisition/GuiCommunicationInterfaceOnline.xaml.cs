@@ -7,6 +7,7 @@ using System.Windows.Media;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
+using _PlcAgent.Visual.TreeListView;
 
 namespace _PlcAgent.Visual.Gui.DataAquisition
 {
@@ -47,25 +48,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
 
-            var gridView = CreateGridView();
-            GridViewHeaderRowPresenter.Columns = gridView.Columns;
-            
-            var newTreeListViewItem = new TreeListViewItem
-            {
-                Header = "Header1"
-            };
-            var newNewTreeListViewItem = new TreeListViewItem
-            {
-                Header = "Header2"
-            };
-            newTreeListViewItem.Items.Add(newNewTreeListViewItem);
-            newNewTreeListViewItem.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
-            TestTreeListView.Items.Add(newTreeListViewItem);
-            newTreeListViewItem = new TreeListViewItem
-            {
-                Header = "Header3"
-            };
-            TestTreeListView.Items.Add(newTreeListViewItem);
         }
 
         #endregion

@@ -61,6 +61,9 @@ namespace _PlcAgent.Visual
 
             UpdateGui();
             UpdateTreeView();
+
+            var window = new TreeListView.WindowTest();
+            window.Show();
         }
 
         #endregion
