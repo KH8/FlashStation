@@ -19,6 +19,22 @@ namespace _PlcAgent.Visual.TreeListView
                 Type = "asd",
                 Value = "000"
             });
+            TestTreeListView.Items.Add(new DisplayDataBuilder.DisplayData
+            {
+                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
+                Address = "0",
+                Name = "testVal",
+                Type = "asd",
+                Value = "000"
+            });
+            TestTreeListView.Items.Add(new DisplayDataBuilder.DisplayData
+            {
+                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
+                Address = "0",
+                Name = "testVal",
+                Type = "asd",
+                Value = "000"
+            });
             var testHeader = new TreeListViewItem
             {
                 Header = new DisplayDataBuilder.DisplayData
@@ -30,6 +46,22 @@ namespace _PlcAgent.Visual.TreeListView
                     Value = ""
                 } 
             };
+            testHeader.Items.Add(new DisplayDataBuilder.DisplayData
+            {
+                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
+                Address = "0",
+                Name = "testVal",
+                Type = "asd",
+                Value = "000"
+            });
+            testHeader.Items.Add(new DisplayDataBuilder.DisplayData
+            {
+                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
+                Address = "0",
+                Name = "testVal",
+                Type = "asd",
+                Value = "000"
+            });
             testHeader.Items.Add(new DisplayDataBuilder.DisplayData
             {
                 Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
