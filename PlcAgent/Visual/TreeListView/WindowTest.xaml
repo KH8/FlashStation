@@ -4,51 +4,28 @@
     xmlns:treeListView="clr-namespace:_PlcAgent.Visual.TreeListView"
     Title="Main Window" Height="300" Width="500">
     <Window.Resources>
-
-        <Style x:Key="ExpandCollapseToggleStyle"
-           TargetType="{x:Type ToggleButton}">
-            <Setter Property="Focusable"
-              Value="False"/>
-            <Setter Property="Width"
-              Value="19"/>
-            <Setter Property="Height"
-              Value="13"/>
+        <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Width" Value="19"/>
+            <Setter Property="Height" Value="13"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border Width="19"
-                    Height="13"
-                    Background="Transparent">
-                            <Border Width="9"
-                      Height="9"
-                      BorderThickness="1"
-                      BorderBrush="#FF7898B5"
-                      CornerRadius="1"
-                      SnapsToDevicePixels="true">
+                        <Border Width="19" Height="13" Background="Transparent"> <Border Width="9" Height="9" BorderThickness="1" BorderBrush="#FF7898B5" CornerRadius="1" SnapsToDevicePixels="true">
                                 <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0"
-                                       EndPoint="1,1">
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <LinearGradientBrush.GradientStops>
-                                            <GradientStop Color="White"
-                                    Offset=".2"/>
-                                            <GradientStop Color="#FFC0B7A6"
-                                    Offset="1"/>
+                                            <GradientStop Color="White" Offset=".2"/>
+                                            <GradientStop Color="#FFC0B7A6" Offset="1"/>
                                         </LinearGradientBrush.GradientStops>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <Path x:Name="ExpandPath"
-                      Margin="1,1,1,1"
-                      Fill="Black"
-                      Data="M 0 2 L 0 3 L 2 3 L 2 5 L 3 5 L 3 3 
-                            L 5 3 L 5 2 L 3 2 L 3 0 L 2 0 L 2 2 Z"/>
+                                <Path x:Name="ExpandPath" Margin="1,1,1,1" Fill="Black" Data="M 0 2 L 0 3 L 2 3 L 2 5 L 3 5 L 3 3 L 5 3 L 5 2 L 3 2 L 3 0 L 2 0 L 2 2 Z"/>
                             </Border>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked"
-                       Value="True">
-                                <Setter Property="Data"
-                        TargetName="ExpandPath"
-                        Value="M 0 2 L 0 3 L 5 3 L 5 2 Z"/>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Data" TargetName="ExpandPath" Value="M 0 2 L 0 3 L 5 3 L 5 2 Z"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -58,43 +35,25 @@
 
         <treeListView:LevelToIndentConverter x:Key="LevelToIndentConverter"/>
 
-        <DataTemplate x:Key="CellTemplate_Name">
+        <DataTemplate x:Key="CellTemplateName">
             <DockPanel>
-                <ToggleButton x:Name="Expander" 
-                      Style="{StaticResource ExpandCollapseToggleStyle}" 
-                      Margin="{Binding Level,
-                             Converter={StaticResource 
-                                        LevelToIndentConverter},
-                             RelativeSource={RelativeSource 
-                                             AncestorType=
-                                             {x:Type treeListView:TreeListViewItem}}}"
-                      IsChecked="{Binding Path=IsExpanded,
-                                 RelativeSource={RelativeSource 
-                                                 AncestorType=
-                                                  {x:Type treeListView:TreeListViewItem}}}"
-                      ClickMode="Press"/>
+                <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}"
+                      IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource  AncestorType={x:Type treeListView:TreeListViewItem}}}" ClickMode="Press"/>
                 <TextBlock Text="{Binding Name}"/>
             </DockPanel>
             <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding Path=HasItems,
-                               RelativeSource={RelativeSource 
-                               AncestorType={x:Type treeListView:TreeListViewItem}}}" 
-                     Value="False">
-                    <Setter TargetName="Expander"
-                  Property="Visibility"
-                  Value="Hidden"/>
+                <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}" Value="False">
+                    <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
 
 
-        <GridViewColumnCollection x:Key="gvcc">
-            <GridViewColumn Header="Name"  
-                      CellTemplate="{StaticResource CellTemplate_Name}" />
-            <GridViewColumn Header="IsAbstract" 
-                      DisplayMemberBinding="{Binding IsAbstract}" Width="60" />
-            <GridViewColumn Header="Namespace" 
-                      DisplayMemberBinding="{Binding Namespace}" />
+        <GridViewColumnCollection x:Key="Gvcc">
+            <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="60" />
+            <GridViewColumn Header="Name" CellTemplate="{StaticResource CellTemplateName}" />
+            <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="60" />
+            <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}" />
         </GridViewColumnCollection>
 
 
@@ -110,7 +69,7 @@
                       Padding="{TemplateBinding Padding}">
                                 <GridViewRowPresenter x:Name="PART_Header" 
                                       Content="{TemplateBinding Header}" 
-                                      Columns="{StaticResource gvcc}" />
+                                      Columns="{StaticResource Gvcc}" />
                             </Border>
                             <ItemsPresenter x:Name="ItemsHost" />
                         </StackPanel>
@@ -185,11 +144,9 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type treeListView:TreeListView}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <DockPanel>
-                                <GridViewHeaderRowPresenter Columns="{StaticResource gvcc}"
-                                            DockPanel.Dock="Top"/>
+                                <GridViewHeaderRowPresenter Columns="{StaticResource Gvcc}" DockPanel.Dock="Top"/>
                                 <ItemsPresenter/>
                             </DockPanel>
                         </Border>
@@ -200,190 +157,22 @@
 
     </Window.Resources>
 
-    <treeListView:TreeListView>
+    <treeListView:TreeListView x:Name="TestTreeListView">
 
         <treeListView:TreeListViewItem>
             <treeListView:TreeListViewItem.Header>
-                <x:Type TypeName="DependencyObject" />
+                <x:Type TypeName="treeListView:DisplayDataBuilder" />
+            </treeListView:TreeListViewItem.Header>
+       </treeListView:TreeListViewItem>
+
+        <treeListView:TreeListViewItem>
+            <treeListView:TreeListViewItem.Header>
+                <x:Type TypeName="Vector" />
             </treeListView:TreeListViewItem.Header>
 
             <treeListView:TreeListViewItem>
                 <treeListView:TreeListViewItem.Header>
-                    <x:Type TypeName="Visual" />
-                </treeListView:TreeListViewItem.Header>
-
-                <treeListView:TreeListViewItem>
-                    <treeListView:TreeListViewItem.Header>
-                        <x:Type TypeName="UIElement" />
-                    </treeListView:TreeListViewItem.Header>
-
-                    <treeListView:TreeListViewItem>
-                        <treeListView:TreeListViewItem.Header>
-                            <x:Type TypeName="FrameworkElement" />
-                        </treeListView:TreeListViewItem.Header>
-
-                        <treeListView:TreeListViewItem>
-                            <treeListView:TreeListViewItem.Header>
-                                <x:Type TypeName="Control" />
-                            </treeListView:TreeListViewItem.Header>
-
-                            <treeListView:TreeListViewItem>
-                                <treeListView:TreeListViewItem.Header>
-                                    <x:Type TypeName="ContentControl" />
-                                </treeListView:TreeListViewItem.Header>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="ButtonBase" />
-                                    </treeListView:TreeListViewItem.Header>
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="GridViewColumnHeader" />
-                                        </treeListView:TreeListViewItem.Header>
-                                    </treeListView:TreeListViewItem>
-
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="Button" />
-                                        </treeListView:TreeListViewItem.Header>
-                                    </treeListView:TreeListViewItem>
-
-                                </treeListView:TreeListViewItem>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="HeaderedContentControl" />
-                                    </treeListView:TreeListViewItem.Header>
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="Expander" />
-                                        </treeListView:TreeListViewItem.Header>
-                                    </treeListView:TreeListViewItem>
-
-                                </treeListView:TreeListViewItem>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="StatusBarItem" />
-                                    </treeListView:TreeListViewItem.Header>
-                                </treeListView:TreeListViewItem>
-
-                            </treeListView:TreeListViewItem>
-
-
-                            <treeListView:TreeListViewItem>
-                                <treeListView:TreeListViewItem.Header>
-                                    <x:Type TypeName="ItemsControl" />
-                                </treeListView:TreeListViewItem.Header>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="Selector" />
-                                    </treeListView:TreeListViewItem.Header>
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="ListBox" />
-                                        </treeListView:TreeListViewItem.Header>
-
-                                        <treeListView:TreeListViewItem>
-                                            <treeListView:TreeListViewItem.Header>
-                                                <x:Type TypeName="ListView" />
-                                            </treeListView:TreeListViewItem.Header>
-                                        </treeListView:TreeListViewItem>
-
-                                    </treeListView:TreeListViewItem>
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="ComboBox" />
-                                        </treeListView:TreeListViewItem.Header>
-                                    </treeListView:TreeListViewItem>
-
-                                </treeListView:TreeListViewItem>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="HeaderedItemsControl" />
-                                    </treeListView:TreeListViewItem.Header>
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="TreeViewItem" />
-                                        </treeListView:TreeListViewItem.Header>
-
-                                        <treeListView:TreeListViewItem>
-                                            <treeListView:TreeListViewItem.Header>
-                                                <x:Type TypeName="treeListView:TreeListViewItem" />
-                                            </treeListView:TreeListViewItem.Header>
-                                        </treeListView:TreeListViewItem>
-
-                                    </treeListView:TreeListViewItem>
-
-                                </treeListView:TreeListViewItem>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="TreeView" />
-                                    </treeListView:TreeListViewItem.Header>
-
-                                    <treeListView:TreeListViewItem>
-                                        <treeListView:TreeListViewItem.Header>
-                                            <x:Type TypeName="treeListView:TreeListView" />
-                                        </treeListView:TreeListViewItem.Header>
-                                    </treeListView:TreeListViewItem>
-
-                                </treeListView:TreeListViewItem>
-
-                                <treeListView:TreeListViewItem>
-                                    <treeListView:TreeListViewItem.Header>
-                                        <x:Type TypeName="StatusBar" />
-                                    </treeListView:TreeListViewItem.Header>
-                                </treeListView:TreeListViewItem>
-
-                            </treeListView:TreeListViewItem>
-                        </treeListView:TreeListViewItem>
-
-                        <treeListView:TreeListViewItem >
-                            <treeListView:TreeListViewItem.Header>
-                                <x:Type TypeName="GridViewRowPresenterBase" />
-                            </treeListView:TreeListViewItem.Header>
-
-                            <treeListView:TreeListViewItem>
-                                <treeListView:TreeListViewItem.Header>
-                                    <x:Type TypeName="GridViewHeaderRowPresenter" />
-                                </treeListView:TreeListViewItem.Header>
-                            </treeListView:TreeListViewItem>
-
-                            <treeListView:TreeListViewItem>
-                                <treeListView:TreeListViewItem.Header>
-                                    <x:Type TypeName="GridViewRowPresenter" />
-                                </treeListView:TreeListViewItem.Header>
-                            </treeListView:TreeListViewItem>
-
-                        </treeListView:TreeListViewItem>
-
-                    </treeListView:TreeListViewItem>
-                </treeListView:TreeListViewItem>
-            </treeListView:TreeListViewItem>
-
-            <treeListView:TreeListViewItem >
-                <treeListView:TreeListViewItem.Header>
-                    <x:Type TypeName="ViewBase" />
-                </treeListView:TreeListViewItem.Header>
-                <treeListView:TreeListViewItem>
-                    <treeListView:TreeListViewItem.Header>
-                        <x:Type TypeName="GridView" />
-                    </treeListView:TreeListViewItem.Header>
-                </treeListView:TreeListViewItem>
-            </treeListView:TreeListViewItem>
-
-            <treeListView:TreeListViewItem>
-                <treeListView:TreeListViewItem.Header>
-                    <x:Type TypeName="GridViewColumn" />
+                    <x:Type TypeName="Vector" />
                 </treeListView:TreeListViewItem.Header>
             </treeListView:TreeListViewItem>
 
@@ -391,14 +180,15 @@
 
         <treeListView:TreeListViewItem>
             <treeListView:TreeListViewItem.Header>
-                <x:Type TypeName="GridViewColumnCollection" />
+                <x:Type TypeName="Vector" />
             </treeListView:TreeListViewItem.Header>
-        </treeListView:TreeListViewItem>
 
-        <treeListView:TreeListViewItem>
-            <treeListView:TreeListViewItem.Header>
-                <x:Type TypeName="GridViewColumnHeaderRole" />
-            </treeListView:TreeListViewItem.Header>
+            <treeListView:TreeListViewItem>
+                <treeListView:TreeListViewItem.Header>
+                    <x:Type TypeName="Vector" />
+                </treeListView:TreeListViewItem.Header>
+            </treeListView:TreeListViewItem>
+
         </treeListView:TreeListViewItem>
 
     </treeListView:TreeListView>
