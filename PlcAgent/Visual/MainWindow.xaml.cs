@@ -62,7 +62,9 @@ namespace _PlcAgent.Visual
             UpdateGui();
             UpdateTreeView();
 
-            var window = new TreeListView.WindowTest();
+            var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
+
+            var window = new TreeListView.WindowTest(cih.ReadInterfaceCollection);
             window.Show();
         }
 

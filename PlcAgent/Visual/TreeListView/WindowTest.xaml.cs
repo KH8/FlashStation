@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Visual.TreeListView
@@ -8,77 +10,27 @@ namespace _PlcAgent.Visual.TreeListView
     /// </summary>
     public partial class WindowTest
     {
-        public WindowTest()
+        public ObservableCollection<DisplayDataBuilder.DisplayData> Collection { get; set; } 
+
+        public WindowTest(ObservableCollection<DisplayDataBuilder.DisplayData> collection)
         {
             InitializeComponent();
-            TestTreeListView.Items.Add(new DisplayDataBuilder.DisplayData
+            Collection = collection;
+
+            CreateTreeStructure();
+        }
+
+        private void CreateTreeStructure()
+        {
+            
+            TestTreeListView.Items.Add(Collection.First());
+
+            string[] stringsMemory;
+
+            foreach (var displayData in Collection)
             {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
-            TestTreeListView.Items.Add(new DisplayDataBuilder.DisplayData
-            {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
-            TestTreeListView.Items.Add(new DisplayDataBuilder.DisplayData
-            {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
-            var testHeader = new TreeListViewItem
-            {
-                Header = new DisplayDataBuilder.DisplayData
-                {
-                    Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                    Address = "",
-                    Name = "testasdasdasdasdasdVal",
-                    Type = "",
-                    Value = ""
-                } 
-            };
-            testHeader.Items.Add(new DisplayDataBuilder.DisplayData
-            {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
-            testHeader.Items.Add(new DisplayDataBuilder.DisplayData
-            {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
-            testHeader.Items.Add(new DisplayDataBuilder.DisplayData
-            {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
-            TestTreeListView.Items.Add(testHeader);
-            TestTreeListView.Items.Add(new DisplayDataBuilder.DisplayData
-            {
-                Component = new CiReal("sdas", 0, CommunicationInterfaceComponent.VariableType.Real, 0.9f),
-                Address = "0",
-                Name = "testVal",
-                Type = "asd",
-                Value = "000"
-            });
+                var strings = displayData.Name.Split('.');
+            }
         }
     }
 }
