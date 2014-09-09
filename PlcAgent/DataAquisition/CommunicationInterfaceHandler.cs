@@ -80,9 +80,9 @@ namespace _PlcAgent.DataAquisition
                 _communicationThread.IsBackground = true;
             }
 
-            _readInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id,
+            _readInterfaceComposite = new CommunicationInterfaceSimpleBuilder().InitializeInterface(Header.Id,
                 CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
-            _writeInterfaceComposite = CommunicationInterfaceBuilder.InitializeInterface(Header.Id,
+            _writeInterfaceComposite = new CommunicationInterfaceSimpleBuilder().InitializeInterface(Header.Id,
                 CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
             DisplayDataBuilder.Build(_readInterfaceCollection, _writeInterfaceCollection, this);
 
