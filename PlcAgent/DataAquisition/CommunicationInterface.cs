@@ -58,6 +58,15 @@ namespace _PlcAgent.DataAquisition
             get { return _name; }
         }
 
+        public string LastName
+        {
+            get
+            {
+                var fullName = Name.Split('.');
+                return fullName[fullName.Length - 1];
+            }
+        }
+
         public int Pos
         {
             get { return _pos; }

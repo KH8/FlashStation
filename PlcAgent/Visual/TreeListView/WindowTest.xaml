@@ -41,7 +41,7 @@
             <DockPanel>
                 <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}"
                       IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource  AncestorType={x:Type treeListView:TreeListViewItem}}}" ClickMode="Press"/>
-                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200"/>
+                <TextBlock Text="{Binding LastName}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200"/>
             </DockPanel>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}" Value="False">
@@ -52,7 +52,7 @@
 
         <DataTemplate x:Key="CellTemplateAddress">
             <DockPanel>
-                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" Width="60"/>
+                <TextBlock Text="{Binding Pos}" VerticalAlignment="Center" Width="60"/>
             </DockPanel>
         </DataTemplate>
 
