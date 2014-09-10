@@ -18,10 +18,90 @@ namespace _PlcAgent.DataAquisition
 
         #region Methods
 
-        abstract public CommunicationInterfaceComposite InitializeInterface(uint id,
-            CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile);
+        public CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
+        {
+            var readAreaFound = false;
+            var writeAreaFound = false;
 
+            var readAddress = new Address { ByteAddress = 0, BitAddress = 0, };
+            var writeAddress = new Address { ByteAddress = 0, BitAddress = 0, };
 
+            var readByteOverloaded = false;
+            var writeByteOverloaded = false;
+
+            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
+            var reader = new StreamReader(pathFile.Path[id]);
+
+            var previousReadType = "";
+            var previousWriteType = "";
+
+            string line;
+            string[] words;
+
+            switch (type)
+            {
+                case CommunicationInterfaceComponent.InterfaceType.ReadInterface:
+                    while (true)
+                    {
+                        //todo gotowiec?
+                        line = reader.ReadLine();
+                        if (line == null) break;
+                        words = line.Split(';');
+                        if (readAreaFound && words[0] == "#END") break;
+                        if (readAreaFound)
+                        {
+                            var readByteOverloadedAux = readByteOverloaded;
+                            readAddress = CheckRules(previousReadType, words[1], readByteOverloadedAux, readAddress,
+                                out readByteOverloaded);
+
+                            AddToInterface(interfaceComposite, CommunicationInterfaceFactory.CreateVariable(words[0],
+                                readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]),
+                                GetLength(words[1])));
+
+                            readAddress = CreateNewAddress(readAddress, words[1]);
+                            previousReadType = words[1];
+                        }
+                        if (words[0] == "#READ") readAreaFound = true;
+                    }
+                    if (!readAreaFound)
+                    {
+                        throw new Exception("Read Area not found");
+                    }
+                    break;
+                case CommunicationInterfaceComponent.InterfaceType.WriteInterface:
+                    while (true)
+                    {
+                        line = reader.ReadLine();
+                        if (line == null) break;
+                        words = line.Split(';');
+                        if (writeAreaFound && words[0] == "#END") break;
+                        if (writeAreaFound)
+                        {
+                            var writeByteOverloadedAux = writeByteOverloaded;
+                            writeAddress = CheckRules(previousWriteType, words[1], writeByteOverloadedAux, writeAddress,
+                                out writeByteOverloaded);
+
+                            AddToInterface(interfaceComposite, CommunicationInterfaceFactory.CreateVariable(words[0],
+                                writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]),
+                                GetLength(words[1])));
+
+                            writeAddress = CreateNewAddress(writeAddress, words[1]);
+                            previousWriteType = words[1];
+                        }
+                        if (words[0] == "#WRITE") writeAreaFound = true;
+                    }
+                    if (!writeAreaFound)
+                    {
+                        throw new Exception("Write Area not found");
+                    }
+                    break;
+                default:
+                    throw new Exception("Error: Wrong interface type.");
+            }
+            return interfaceComposite;
+        }
+
+        protected abstract void AddToInterface(CommunicationInterfaceComposite interfaceComposite, CommunicationInterfaceVariable variable);
 
         internal static CommunicationInterfaceComponent.VariableType StringToVariableType(string typeString)
         {
@@ -175,168 +255,17 @@ namespace _PlcAgent.DataAquisition
 
     public class CommunicationInterfaceSimpleBuilder : CommunicationInterfaceBuilder
     {
-        public override CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
+        protected override void AddToInterface(CommunicationInterfaceComposite interfaceComposite, CommunicationInterfaceVariable variable)
         {
-            var readAreaFound = false;
-            var writeAreaFound = false;
-
-            var readAddress = new Address { ByteAddress = 0, BitAddress = 0, };
-            var writeAddress = new Address { ByteAddress = 0, BitAddress = 0, };
-
-            var readByteOverloaded = false;
-            var writeByteOverloaded = false;
-
-            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
-            var reader = new StreamReader(pathFile.Path[id]);
-
-            var previousReadType = "";
-            var previousWriteType = "";
-
-            string line;
-            string[] words;
-
-            switch (type)
-            {
-                case CommunicationInterfaceComponent.InterfaceType.ReadInterface:
-                    while (true)
-                    {
-                        //todo gotowiec?
-                        line = reader.ReadLine();
-                        if (line == null) break;
-                        words = line.Split(';');
-                        if (readAreaFound && words[0] == "#END") break;
-                        if (readAreaFound)
-                        {
-                            var readByteOverloadedAux = readByteOverloaded;
-                            readAddress = CheckRules(previousReadType, words[1], readByteOverloadedAux, readAddress,
-                                out readByteOverloaded);
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0],
-                                readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]),
-                                GetLength(words[1])));
-                            readAddress = CreateNewAddress(readAddress, words[1]);
-                            previousReadType = words[1];
-                        }
-                        if (words[0] == "#READ") readAreaFound = true;
-                    }
-                    if (!readAreaFound)
-                    {
-                        throw new Exception("Read Area not found");
-                    }
-                    break;
-                case CommunicationInterfaceComponent.InterfaceType.WriteInterface:
-                    while (true)
-                    {
-                        line = reader.ReadLine();
-                        if (line == null) break;
-                        words = line.Split(';');
-                        if (writeAreaFound && words[0] == "#END") break;
-                        if (writeAreaFound)
-                        {
-                            var writeByteOverloadedAux = writeByteOverloaded;
-                            writeAddress = CheckRules(previousWriteType, words[1], writeByteOverloadedAux, writeAddress,
-                                out writeByteOverloaded);
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0],
-                                writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]),
-                                GetLength(words[1])));
-                            writeAddress = CreateNewAddress(writeAddress, words[1]);
-                            previousWriteType = words[1];
-                        }
-                        if (words[0] == "#WRITE") writeAreaFound = true;
-                    }
-                    if (!writeAreaFound)
-                    {
-                        throw new Exception("Write Area not found");
-                    }
-                    break;
-                default:
-                    throw new Exception("Error: Wrong interface type.");
-            }
-            return interfaceComposite;
+            interfaceComposite.Add(variable);
         }
     }
 
     public class CommunicationInterfaceHierarchicalBuilder : CommunicationInterfaceBuilder
     {
-        public override CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
+        protected override void AddToInterface(CommunicationInterfaceComposite interfaceComposite, CommunicationInterfaceVariable variable)
         {
-            var readAreaFound = false;
-            var writeAreaFound = false;
-
-            var readAddress = new Address { ByteAddress = 0, BitAddress = 0, };
-            var writeAddress = new Address { ByteAddress = 0, BitAddress = 0, };
-
-            var readByteOverloaded = false;
-            var writeByteOverloaded = false;
-
-            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
-            var reader = new StreamReader(pathFile.Path[id]);
-
-            var previousReadType = "";
-            var previousWriteType = "";
-
-            string line;
-            string[] words;
-
-            switch (type)
-            {
-                case CommunicationInterfaceComponent.InterfaceType.ReadInterface:
-                    while (true)
-                    {
-                        line = reader.ReadLine();
-                        if (line == null) break;
-                        words = line.Split(';');
-                        if (readAreaFound && words[0] == "#END") break;
-                        if (readAreaFound)
-                        {
-                            var readByteOverloadedAux = readByteOverloaded;
-                            readAddress = CheckRules(previousReadType, words[1], readByteOverloadedAux, readAddress,
-                                out readByteOverloaded);
-
-
-
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0],
-                                readAddress.ByteAddress, readAddress.BitAddress, StringToVariableType(words[1]),
-                                GetLength(words[1])));
-
-                            readAddress = CreateNewAddress(readAddress, words[1]);
-                            previousReadType = words[1];
-                        }
-                        if (words[0] == "#READ") readAreaFound = true;
-                    }
-                    if (!readAreaFound)
-                    {
-                        throw new Exception("Read Area not found");
-                    }
-                    break;
-                case CommunicationInterfaceComponent.InterfaceType.WriteInterface:
-                    while (true)
-                    {
-                        line = reader.ReadLine();
-                        if (line == null) break;
-                        words = line.Split(';');
-                        if (writeAreaFound && words[0] == "#END") break;
-                        if (writeAreaFound)
-                        {
-                            var writeByteOverloadedAux = writeByteOverloaded;
-                            writeAddress = CheckRules(previousWriteType, words[1], writeByteOverloadedAux, writeAddress,
-                                out writeByteOverloaded);
-                            interfaceComposite.Add(CommunicationInterfaceFactory.CreateVariable(words[0],
-                                writeAddress.ByteAddress, writeAddress.BitAddress, StringToVariableType(words[1]),
-                                GetLength(words[1])));
-                            writeAddress = CreateNewAddress(writeAddress, words[1]);
-                            previousWriteType = words[1];
-                        }
-                        if (words[0] == "#WRITE") writeAreaFound = true;
-                    }
-                    if (!writeAreaFound)
-                    {
-                        throw new Exception("Write Area not found");
-                    }
-                    break;
-                default:
-                    throw new Exception("Error: Wrong interface type.");
-            }
-            return interfaceComposite;
+            throw new NotImplementedException();
         }
     }
 }
