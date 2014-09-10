@@ -13,7 +13,7 @@ namespace _PlcAgent.DataAquisition
         #region Variables
 
         private readonly string _name;
-        private readonly int _pos;
+        private int _pos;
         private readonly VariableType _type;
 
         #endregion
@@ -61,6 +61,7 @@ namespace _PlcAgent.DataAquisition
         public int Pos
         {
             get { return _pos; }
+            set { _pos = value; }
         }
 
         public VariableType Type
@@ -162,6 +163,16 @@ namespace _PlcAgent.DataAquisition
         public CommunicationInterfaceComponent ReturnComponent(string name)
         {
             return _children.FirstOrDefault(component => component.Name == name);
+        }
+
+        public CommunicationInterfaceComposite ReturnComposite(string name)
+        {
+            CommunicationInterfaceComposite composite;
+
+            try { composite = (CommunicationInterfaceComposite)ReturnComponent(name); }
+            catch (Exception) { composite = null; }
+
+            return composite;
         }
 
         public CommunicationInterfaceVariable ReturnVariable(string name)

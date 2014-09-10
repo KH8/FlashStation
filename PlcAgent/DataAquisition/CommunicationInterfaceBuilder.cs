@@ -265,24 +265,39 @@ namespace _PlcAgent.DataAquisition
     {
         protected override void AddToInterface(CommunicationInterfaceComposite interfaceComposite, CommunicationInterfaceVariable variable)
         {
-            CommunicationInterfaceComponent actualComponent = interfaceComposite;
-            CommunicationInterfaceComponent newComponent = null;
+            var actualComposite = interfaceComposite;
+            CommunicationInterfaceComposite newComposite;
 
             var name = variable.Name.Split('.');
 
             for (var i = 0; i < name.Length - 1; i++)
             {
-                newComponent = interfaceComposite.ReturnComponent(name[i]);
-                if (newComponent == null)
+                newComposite = actualComposite.ReturnComposite(name[i]);
+
+                if (newComposite == null)
                 {
-                    newComponent = new CommunicationInterfaceComposite(name[i]);
-                    actualComponent.Add(newComponent);
+                    newComposite = new CommunicationInterfaceComposite(name[i]) {Pos = variable.Pos};
+                    actualComposite.Add(newComposite);
                 }
 
-                actualComponent = newComponent;
+                actualComposite = newComposite;
             }
 
-            actualComponent.Add(variable);
+            var lastName = name[name.Length - 1].Split('[');
+            if (lastName.Length > 1)
+            {
+                newComposite = actualComposite.ReturnComposite(lastName[0]);
+
+                if (newComposite == null)
+                {
+                    newComposite = new CommunicationInterfaceComposite(lastName[0]) { Pos = variable.Pos };
+                    actualComposite.Add(newComposite);
+                }
+
+                actualComposite = newComposite;
+            }
+
+            actualComposite.Add(variable);
         }
     }
 }
