@@ -92,7 +92,7 @@ namespace _PlcAgent.DataAquisition
 
     #region Composite
 
-    public class CommunicationInterfaceComposite : CommunicationInterfaceComponent
+    public class CommunicationInterfaceComposite : CommunicationInterfaceComponent, IEnumerable
     {
         #region Variables
 
@@ -240,6 +240,16 @@ namespace _PlcAgent.DataAquisition
         #endregion
 
         #endregion
+
+        #region Interface
+
+        public IEnumerator GetEnumerator()
+        {
+            return Children.GetEnumerator();
+        }
+
+        #endregion
+
     }
 
     #endregion

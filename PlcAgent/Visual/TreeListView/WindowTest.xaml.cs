@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Visual.TreeListView
@@ -10,26 +11,40 @@ namespace _PlcAgent.Visual.TreeListView
     /// </summary>
     public partial class WindowTest
     {
-        public ObservableCollection<DisplayDataBuilder.DisplayData> Collection { get; set; } 
+        public CommunicationInterfaceComposite Composite { get; set; } 
 
-        public WindowTest(ObservableCollection<DisplayDataBuilder.DisplayData> collection)
+        public WindowTest(CommunicationInterfaceComposite composite)
         {
             InitializeComponent();
-            Collection = collection;
+            Composite = composite;
 
             CreateTreeStructure();
         }
 
         private void CreateTreeStructure()
         {
-            
-            TestTreeListView.Items.Add(Collection.First());
+            StepDownComposite(TestTreeListView.Items, Composite);
+        }
 
-            string[] stringsMemory;
-
-            foreach (var displayData in Collection)
+        private void StepDownComposite(ItemCollection items, CommunicationInterfaceComposite composite)
+        {
+            foreach (var component in composite)
             {
-                var strings = displayData.Name.Split('.');
+                var actualItemCollection = items;
+
+                if (component.GetType() == typeof (CommunicationInterfaceComposite))
+                {
+                    var compositeComponent = (CommunicationInterfaceComposite) component;
+
+                    var header = new TreeListViewItem {Header = compositeComponent};
+                    actualItemCollection.Add(header);
+
+                    StepDownComposite(header.Items, compositeComponent);
+                }
+                else
+                {
+                    actualItemCollection.Add(component);
+                }
             }
         }
     }
