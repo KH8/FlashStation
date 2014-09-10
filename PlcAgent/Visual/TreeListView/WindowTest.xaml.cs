@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.PLC;
 
 namespace _PlcAgent.Visual.TreeListView
 {
@@ -43,8 +41,7 @@ namespace _PlcAgent.Visual.TreeListView
                 }
                 else
                 {
-                    var variable = (CommunicationInterfaceVariable)component;
-                    actualItemCollection.Add(variable);
+                    actualItemCollection.Add(component);
                 }
             }
         }

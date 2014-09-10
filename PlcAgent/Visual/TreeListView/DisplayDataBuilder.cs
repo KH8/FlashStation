@@ -55,7 +55,7 @@ namespace _PlcAgent.Visual.TreeListView
             });
         }
 
-        private static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
+        public static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
         {
             if (component == null) return null;
             var address = plcStartAddress + component.Pos;
@@ -69,7 +69,7 @@ namespace _PlcAgent.Visual.TreeListView
             };
         }
 
-        private static DisplayData DisplayComponent(CommunicationInterfaceComponent component, int plcStartAddress)
+        public static DisplayData DisplayComponent(CommunicationInterfaceComponent component, int plcStartAddress)
         {
             if (component == null) return null;
             var address = plcStartAddress + component.Pos;
