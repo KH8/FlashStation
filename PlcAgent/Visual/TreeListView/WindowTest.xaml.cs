@@ -43,7 +43,8 @@ namespace _PlcAgent.Visual.TreeListView
                 }
                 else
                 {
-                    actualItemCollection.Add(component);
+                    var variable = (CommunicationInterfaceVariable)component;
+                    actualItemCollection.Add(variable);
                 }
             }
         }
