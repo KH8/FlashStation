@@ -265,39 +265,33 @@ namespace _PlcAgent.DataAquisition
     {
         protected override void AddToInterface(CommunicationInterfaceComposite interfaceComposite, CommunicationInterfaceVariable variable)
         {
-            var actualComposite = interfaceComposite;
-            CommunicationInterfaceComposite newComposite;
+            string newCompositeName;
 
-            var name = variable.Name.Split('.');
-
-            for (var i = 0; i < name.Length - 1; i++)
-            {
-                newComposite = actualComposite.ReturnComposite(name[i]);
-
-                if (newComposite == null)
-                {
-                    newComposite = new CommunicationInterfaceComposite(name[i]) {Pos = variable.Pos};
-                    actualComposite.Add(newComposite);
-                }
-
-                actualComposite = newComposite;
-            }
-
-            var lastName = name[name.Length - 1].Split('[');
-            if (lastName.Length > 1)
-            {
-                newComposite = actualComposite.ReturnComposite(lastName[0]);
-
-                if (newComposite == null)
-                {
-                    newComposite = new CommunicationInterfaceComposite(lastName[0]) { Pos = variable.Pos };
-                    actualComposite.Add(newComposite);
-                }
-
-                actualComposite = newComposite;
-            }
-
+            var actualComposite = CreateCompositeStructure(out newCompositeName, variable.Name, variable.Pos, interfaceComposite, '.');
+            actualComposite = CreateCompositeStructure(out newCompositeName, newCompositeName, variable.Pos, actualComposite, '[');
             actualComposite.Add(variable);
+        }
+
+        private static CommunicationInterfaceComposite CreateCompositeStructure(out string outputName, string name, int position, CommunicationInterfaceComposite baseComposite, char splitChar)
+        {
+            var nameSplit = name.Split(splitChar);
+            var actualComposite = baseComposite;
+
+            for (var i = 0; i < nameSplit.Length - 1; i++)
+            {
+                var newComposite = actualComposite.ReturnComposite(nameSplit[i]);
+
+                if (newComposite == null)
+                {
+                    newComposite = new CommunicationInterfaceComposite(nameSplit[i]) { Pos = position };
+                    actualComposite.Add(newComposite);
+                }
+
+                actualComposite = newComposite;
+            }
+
+            outputName = nameSplit[nameSplit.Length - 1];
+            return actualComposite;
         }
     }
 }
