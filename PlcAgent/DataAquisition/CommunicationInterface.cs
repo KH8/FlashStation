@@ -159,9 +159,19 @@ namespace _PlcAgent.DataAquisition
             }
         }
 
+        public CommunicationInterfaceComponent ReturnComponent(string name)
+        {
+            return _children.FirstOrDefault(component => component.Name == name);
+        }
+
         public CommunicationInterfaceVariable ReturnVariable(string name)
         {
-            return _children.Where(component => component.Name == name).Cast<CommunicationInterfaceVariable>().FirstOrDefault();
+            CommunicationInterfaceVariable variable;
+
+            try { variable = (CommunicationInterfaceVariable) ReturnComponent(name);}
+            catch (Exception) { variable = null; }
+
+            return variable;
         }
 
         #region ModifyValue Methods

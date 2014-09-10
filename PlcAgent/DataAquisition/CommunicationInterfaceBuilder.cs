@@ -265,7 +265,24 @@ namespace _PlcAgent.DataAquisition
     {
         protected override void AddToInterface(CommunicationInterfaceComposite interfaceComposite, CommunicationInterfaceVariable variable)
         {
-            throw new NotImplementedException();
+            CommunicationInterfaceComponent actualComponent = interfaceComposite;
+            CommunicationInterfaceComponent newComponent = null;
+
+            var name = variable.Name.Split('.');
+
+            for (var i = 0; i < name.Length - 1; i++)
+            {
+                newComponent = interfaceComposite.ReturnComponent(name[i]);
+                if (newComponent == null)
+                {
+                    newComponent = new CommunicationInterfaceComposite(name[i]);
+                    actualComponent.Add(newComponent);
+                }
+
+                actualComponent = newComponent;
+            }
+
+            actualComponent.Add(variable);
         }
     }
 }
