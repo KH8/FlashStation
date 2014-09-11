@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-using _PlcAgent.DataAquisition;
-using _PlcAgent.PLC;
+﻿using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Visual.TreeListView
 {
@@ -9,41 +7,21 @@ namespace _PlcAgent.Visual.TreeListView
     /// </summary>
     public partial class WindowTest
     {
-        public CommunicationInterfaceComposite Composite { get; set; } 
+        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
 
-        public WindowTest(CommunicationInterfaceComposite composite)
+        public WindowTest(CommunicationInterfaceHandler ciHandler)
         {
             InitializeComponent();
-            Composite = composite;
+            CommunicationInterfaceHandler = ciHandler;
 
             CreateTreeStructure();
         }
 
         private void CreateTreeStructure()
         {
-            StepDownComposite(TestTreeListView.Items, Composite);
-        }
+            var dummyTree = new TreeListView();
+            DisplayDataBuilder.Build(TestTreeListView.Items, dummyTree.Items, CommunicationInterfaceHandler);
 
-        private void StepDownComposite(ItemCollection items, CommunicationInterfaceComposite composite)
-        {
-            foreach (var component in composite)
-            {
-                var actualItemCollection = items;
-
-                if (component.GetType() == typeof (CommunicationInterfaceComposite))
-                {
-                    var compositeComponent = (CommunicationInterfaceComposite) component;
-
-                    var header = new TreeListViewItem {Header = compositeComponent};
-                    actualItemCollection.Add(header);
-
-                    StepDownComposite(header.Items, compositeComponent);
-                }
-                else
-                {
-                    actualItemCollection.Add(component);
-                }
-            }
         }
     }
 }

@@ -64,7 +64,7 @@ namespace _PlcAgent.Visual
 
             var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
 
-            var window = new TreeListView.WindowTest(cih.ReadInterfaceComposite);
+            var window = new TreeListView.WindowTest(cih);
             window.Show();
         }
 
