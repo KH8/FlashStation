@@ -86,10 +86,35 @@ namespace _PlcAgent.Visual.TreeListView
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
+                var header = new TreeListViewItem
+                {
+                    Header = new DisplayData
+                    {
+                        Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadDbNumber,
+                        Name = "Read Interface",
+                        Type = "-",
+                        Value = "-"
+                    },
+                    IsExpanded = true
+                };
                 onlineReadDataStructure.Clear();
-                StepDownComposite(onlineReadDataStructure, communicationHandler.ReadInterfaceComposite, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress);
+                onlineReadDataStructure.Add(header);
+                StepDownComposite(header.Items, communicationHandler.ReadInterfaceComposite, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress);
+
+                header = new TreeListViewItem
+                {
+                    Header = new DisplayData
+                    {
+                        Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteDbNumber,
+                        Name = "Write Interface",
+                        Type = "-",
+                        Value = "-"
+                    },
+                    IsExpanded = true
+                };
                 onlineWriteDataStructure.Clear();
-                StepDownComposite(onlineWriteDataStructure, communicationHandler.WriteInterfaceComposite, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress);
+                onlineWriteDataStructure.Add(header);
+                StepDownComposite(header.Items, communicationHandler.WriteInterfaceComposite, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress);
             });
         }
 
@@ -102,8 +127,9 @@ namespace _PlcAgent.Visual.TreeListView
                 if (component.GetType() == typeof (CommunicationInterfaceComposite))
                 {
                     var compositeComponent = (CommunicationInterfaceComposite) component;
+                    var displayData = DisplayComposite(compositeComponent, startAddress);
 
-                    var header = new TreeListViewItem {Header = compositeComponent};
+                    var header = new TreeListViewItem { Header = displayData };
                     actualItemCollection.Add(header);
 
                     StepDownComposite(header.Items, compositeComponent, startAddress);
@@ -152,6 +178,20 @@ namespace _PlcAgent.Visual.TreeListView
                 Name = component.Name,
                 Type = component.Type.ToString(),
                 Value = component.StringValue()
+            };
+        }
+
+        private static DisplayData DisplayComposite(CommunicationInterfaceComposite composite, int plcStartAddress)
+        {
+            if (composite == null) return null;
+            var address = plcStartAddress + composite.Pos;
+            return new DisplayData
+            {
+                Component = composite,
+                Address = "DBW " + address,
+                Name = composite.Name,
+                Type = "-",
+                Value = "-"
             };
         }
 
