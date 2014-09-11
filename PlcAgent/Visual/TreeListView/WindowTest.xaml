@@ -8,11 +8,11 @@
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="Width" Value="15"/>
-            <Setter Property="Height" Value="20"/>
+            <Setter Property="Height" Value="19"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border Width="15" Height="20" Background="Transparent">
+                        <Border Width="15" Height="19" Background="Transparent">
                             <Border Width="11" Height="11" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#FF7898B5" CornerRadius="0" SnapsToDevicePixels="true">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -76,6 +76,7 @@
         </GridViewColumnCollection>
 
         <Style TargetType="{x:Type treeListView:TreeListViewItem}">
+            <Setter Property="AlternationCount" Value="2"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type treeListView:TreeListViewItem}">
@@ -83,11 +84,19 @@
                             <Border Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
                                 <GridViewRowPresenter x:Name="PART_Header" Content="{TemplateBinding Header}" Columns="{StaticResource Gvcc}" />
                             </Border>
-                            <ItemsPresenter x:Name="ItemsHost" />
+                            <ItemsPresenter x:Name="ItemsHost"/>
                         </StackPanel>
                         <ControlTemplate.Triggers>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                <Setter TargetName="Bd" Property="Background" Value="#FFF6F6F6"/>
+                            </Trigger>
                             <Trigger Property="IsExpanded" Value="false">
                                 <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="true">
+                                <Setter TargetName="Bd" Property="Background" Value="White"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FFF6F6F6"/>
+                                <Setter TargetName="Bd" Property="BorderThickness" Value="1"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>

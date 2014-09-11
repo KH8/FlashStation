@@ -190,7 +190,7 @@ namespace _PlcAgent.Visual.TreeListView
                 Component = composite,
                 Address = "DBW " + address,
                 Name = composite.Name,
-                Type = "-",
+                Type = "Composite",
                 Value = "-"
             };
         }
