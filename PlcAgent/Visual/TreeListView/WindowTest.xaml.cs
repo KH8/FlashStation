@@ -19,9 +19,7 @@ namespace _PlcAgent.Visual.TreeListView
 
         private void CreateTreeStructure()
         {
-            var dummyTree = new TreeListView();
-            DisplayDataBuilder.Build(TestTreeListView.Items, dummyTree.Items, CommunicationInterfaceHandler);
-
+            DisplayDataBuilder.Build(TestTreeListView.Items, TestTreeListView2.Items, CommunicationInterfaceHandler);
         }
     }
 }
