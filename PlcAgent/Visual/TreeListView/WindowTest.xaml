@@ -58,7 +58,7 @@
 
         <DataTemplate x:Key="CellTemplateType">
             <DockPanel>
-                <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Width="120"/>
+                <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Width="100"/>
             </DockPanel>
         </DataTemplate>
 
