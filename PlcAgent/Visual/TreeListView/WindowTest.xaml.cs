@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.DataAquisition;
 
 namespace _PlcAgent.Visual.TreeListView
 {
@@ -15,12 +17,15 @@ namespace _PlcAgent.Visual.TreeListView
             InitializeComponent();
             CommunicationInterfaceHandler = ciHandler;
 
-            CreateTreeStructure();
+            var component = new GuiComponent(0, "", new GuiCommunicationInterfaceOnlineHierarchical(CommunicationInterfaceHandler));
+            component.Initialize(0, 0, GeneralGrid);
+
+            //CreateTreeStructure();
         }
 
         private void CreateTreeStructure()
         {
-            new DisplayDataHierarchicalBuilder().Build(TestTreeListView.Items, TestTreeListView2.Items, CommunicationInterfaceHandler);
+            //new DisplayDataHierarchicalBuilder().Build(TestTreeListView.Items, TestTreeListView2.Items, CommunicationInterfaceHandler);
         }
     }
 }
