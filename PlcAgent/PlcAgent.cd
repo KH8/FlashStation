@@ -1,62 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="_PlcAgent.Analyzer.Analyzer" Collapsed="true">
-    <Position X="18.5" Y="11.75" Width="1.5" />
+    <Position X="15.5" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAkjgCAAgAAwIAAAICgAAAABAMAKBIAEQRAADEABA=</HashCode>
       <FileName>Analyzer\Analyzer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerAssignmentFile" Collapsed="true">
-    <Position X="25.5" Y="0.5" Width="1.5" />
+    <Position X="30.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIQAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerChannel" Collapsed="true">
-    <Position X="3.5" Y="6" Width="1.5" />
+    <Position X="1.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAECAgAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerChannel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerChannelList" Collapsed="true">
-    <Position X="3.5" Y="7.5" Width="1.5" />
+    <Position X="1.5" Y="7.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIIAAwAAAAAAAAAAAAAEBAAEAAAAAAAAAgAAEABAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerChannel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerComponent" Collapsed="true">
-    <Position X="10.25" Y="4.5" Width="1.5" />
+    <Position X="12.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAABAAAACSAAAAAAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerCsvHandler" Collapsed="true">
-    <Position X="12.5" Y="6" Width="1.5" />
+    <Position X="9.25" Y="6" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAgAAAAAAAAACAQAgAAABAAAAAQAAAIAAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerCsvHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerDataCursorPoint" Collapsed="true">
-    <Position X="27.25" Y="0.5" Width="1.5" />
+    <Position X="32.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQBQAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerDataCursorPoint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerDataCursorPointCollection" Collapsed="true">
-    <Position X="29" Y="0.5" Width="1.5" />
+    <Position X="34" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAACAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerDataCursorPoint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerObservableVariable" Collapsed="true">
-    <Position X="19.25" Y="6" Width="1.5" />
+    <Position X="20.25" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>EAEAIgAAIABASA5AIAIAACQAgAABgEEAAQAgASBAAAI=</HashCode>
       <FileName>Analyzer\AnalyzerObservableVariable.cs</FileName>
@@ -64,13 +64,13 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerSetupFile" Collapsed="true">
-    <Position X="30.75" Y="0.5" Width="1.5" />
+    <Position X="35.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAIAAAAAABAIAAQAAAABAAEAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.MainViewModel" Collapsed="true">
-    <Position X="1.75" Y="17.75" Width="1.5" />
+    <Position X="20" Y="17.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAIACBQAQIAAiIAAAAAACAAAAAAAAhACABgABE=</HashCode>
       <FileName>Analyzer\MainViewModel.cs</FileName>
@@ -78,21 +78,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Analyzer.DataMainViewModel" Collapsed="true">
-    <Position X="0.5" Y="19.25" Width="1.5" />
+    <Position X="18.5" Y="19.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analyzer\MainViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.TimeMainViewModel" Collapsed="true">
-    <Position X="2.75" Y="19.25" Width="1.5" />
+    <Position X="21" Y="19.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analyzer\MainViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.Observable" Collapsed="true">
-    <Position X="1.75" Y="16.5" Width="1.5" />
+    <Position X="20" Y="16.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analyzer\Observable.cs</FileName>
@@ -100,167 +100,182 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.App" Collapsed="true">
-    <Position X="32.5" Y="0.5" Width="1.5" />
+    <Position X="37.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceComponent" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+    <Position X="14.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAIAIAAAAAAAAAQAAAAABAQAAACAAAQgAQAgAQAAAAA=</HashCode>
+      <HashCode>AAIAIAAAAAAAAAQAAAAABAQAAACAAAQgAQAgAQAAAAg=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceComposite" Collapsed="true">
-    <Position X="1.5" Y="1.75" Width="1.5" />
+    <Position X="1.75" Y="1.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAYQAAAAABAAAAAAAAAEBAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
+      <HashCode>AAYQAAAAABAAABAAAAAEBAAEAAAAAAQgAAAgAQEAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceVariable" Collapsed="true">
-    <Position X="12.75" Y="1.75" Width="1.5" />
+    <Position X="16" Y="1.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiBit" Collapsed="true">
-    <Position X="3.75" Y="3.25" Width="1.5" />
+    <Position X="5.25" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAQAQgAACgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiByte" Collapsed="true">
-    <Position X="6" Y="3.25" Width="1.5" />
+    <Position X="8" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiChar" Collapsed="true">
-    <Position X="8.25" Y="3.25" Width="1.5" />
+    <Position X="10.75" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiWord" Collapsed="true">
-    <Position X="10.5" Y="3.25" Width="1.5" />
+    <Position X="13.5" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiDoubleWord" Collapsed="true">
-    <Position X="12.75" Y="3.25" Width="1.5" />
+    <Position X="16.25" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiInteger" Collapsed="true">
-    <Position X="15" Y="3.25" Width="1.5" />
+    <Position X="19" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiDoubleInteger" Collapsed="true">
-    <Position X="17.25" Y="3.25" Width="1.5" />
+    <Position X="21.75" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiReal" Collapsed="true">
-    <Position X="19.5" Y="3.25" Width="1.5" />
+    <Position X="24.5" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CiString" Collapsed="true">
-    <Position X="21.75" Y="3.25" Width="1.5" />
+    <Position X="27.25" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAABAAAAAAAQgBAAgAQAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CompositeException" Collapsed="true">
-    <Position X="30.75" Y="4.5" Width="1.5" />
+    <Position X="34" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceBuilder" Collapsed="true">
-    <Position X="41.25" Y="3.5" Width="1.5" />
+    <Position X="15" Y="20.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAABAAQAAAIAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAQAAAABAAQAAAIAAAAIAAAABAAAAAAAAA=</HashCode>
+      <FileName>DataAquisition\CommunicationInterfaceBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceSimpleBuilder" Collapsed="true">
+    <Position X="12.75" Y="21.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>DataAquisition\CommunicationInterfaceBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceHierarchicalBuilder" Collapsed="true">
+    <Position X="16.25" Y="21.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceFactory" Collapsed="true">
-    <Position X="43" Y="3.5" Width="1.5" />
+    <Position X="46.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceHandler" Collapsed="true">
-    <Position X="11.75" Y="10.25" Width="1.5" />
+    <Position X="10" Y="10.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>EAAIMAABAIAYARQAACIAAAAEAAAAACAAIAAABCAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceHandlerComponent" Collapsed="true">
-    <Position X="6.75" Y="17.5" Width="1.5" />
+    <Position X="22.75" Y="13.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABACAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceHandlerComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfacePath" Collapsed="true">
-    <Position X="25.5" Y="4.5" Width="1.5" />
+    <Position X="48" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEAAAIAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.DataMapper" Collapsed="true">
-    <Position X="36" Y="4.5" Width="1.5" />
+    <Position X="39.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAIkAAAIEAAAAAEAgEAAASAAAEAAUAACAAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\DataMapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.InterfaceAssignment" Collapsed="true">
-    <Position X="37.75" Y="5.5" Width="1.5" />
+    <Position X="39.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAASQAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>General\InterfaceAssignment.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.InterfaceAssignmentCollection" Collapsed="true">
-    <Position X="39.5" Y="5.5" Width="1.5" />
+    <Position X="41" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>General\InterfaceAssignment.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.Limiter" Collapsed="true">
-    <Position X="29" Y="6.5" Width="1.5" />
+    <Position X="30.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>General\Limiter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.Module" Collapsed="true">
-    <Position X="16.25" Y="8.75" Width="1.5" />
+    <Position X="15" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAIAIAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>General\Module.cs</FileName>
@@ -268,69 +283,69 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.General.OutputModule" Collapsed="true">
-    <Position X="20.75" Y="10.25" Width="1.5" />
+    <Position X="17.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAAAAAIAAAAAAAAAABAAAQAIAAABAACAAAA=</HashCode>
       <FileName>General\Module.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.ProjectFileStruture" Collapsed="true">
-    <Position X="41.25" Y="7.5" Width="1.5" />
+    <Position X="42.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>General\ProjectFileStruture.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.License.BlowFish" Collapsed="true">
-    <Position X="32.5" Y="3.5" Width="1.5" />
+    <Position X="37.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ECAIAgAACIFABgAACAaABg8EiAAACQlACGAgAEIggCQ=</HashCode>
       <FileName>License\BlowFish.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.License.LicenseHandler" Collapsed="true">
-    <Position X="27.25" Y="6.5" Width="1.5" />
+    <Position X="48" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAABAAQBAAAAAACAEAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>License\LicenseHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Log.Logger" Collapsed="true">
-    <Position X="34.25" Y="6.5" Width="1.5" />
+    <Position X="35.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAAAAAAAAAAQAAAAAiAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>Log\Logger.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.MainRegistry.Registry" Collapsed="true">
-    <Position X="10.5" Y="18.75" Width="1.5" />
+    <Position X="0.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAIQAAQAAAEJAIAAAAAQJAAAEIAAAAAAQACA=</HashCode>
       <FileName>MainRegistry\MainRegistry.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.MainRegistry.MainRegistryFile" Collapsed="true">
-    <Position X="36" Y="6.5" Width="1.5" />
+    <Position X="37.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAAAAAAAABIAAAAAABAABAACAAAAAAJAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.MainRegistry.RegistryAbstract" Collapsed="true">
-    <Position X="10.5" Y="17.5" Width="1.5" />
+    <Position X="0.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIQJAQAaAQAAAAAEABIAQCAAQBAQBEMiIAAAASJAA=</HashCode>
       <FileName>MainRegistry\RegistryAbstract.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.MainRegistry.RegistryComponent" Collapsed="true">
-    <Position X="15" Y="7.5" Width="1.5" />
+    <Position X="13.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MainRegistry\RegistryComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.MainRegistry.RegistryComposite" Collapsed="true">
-    <Position X="7.25" Y="8.75" Width="1.5" />
+    <Position X="5.25" Y="8.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAIQAAAAAAAAABAAAAAEBAAAAAAAAAAAgAAAAAFAAAA=</HashCode>
       <FileName>MainRegistry\RegistryComposite.cs</FileName>
@@ -338,652 +353,652 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Output.OutputHandler" Collapsed="true">
-    <Position X="23" Y="11.75" Width="1.5" />
+    <Position X="20" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAkAAAAAgAAQAAAhIAQAAAABCAAABAAAABAACgAAA=</HashCode>
       <FileName>Output\OutputHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputHandlerComponent" Collapsed="true">
-    <Position X="0.5" Y="7.5" Width="1.5" />
+    <Position X="0.5" Y="22.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAAAAA=</HashCode>
       <FileName>Output\OutputHandlerComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputHandlerFile" Collapsed="true">
-    <Position X="32.5" Y="7.5" Width="1.5" />
+    <Position X="34" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAACAAAAAIAAABAADAAAAAIAAQAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputHandlerInterfaceAssignmentFile" Collapsed="true">
-    <Position X="34.25" Y="7.5" Width="1.5" />
+    <Position X="35.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIQAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputWriter" Collapsed="true">
-    <Position X="11" Y="14.5" Width="1.5" />
+    <Position X="13" Y="16.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAACAQAAAAABAAEAAAAA=</HashCode>
       <FileName>Output\OutputWriter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputXmlWriter" Collapsed="true">
-    <Position X="8.75" Y="15.75" Width="1.5" />
+    <Position X="15.25" Y="17.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Output\OutputWriter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputCsvWriter" Collapsed="true">
-    <Position X="11" Y="15.75" Width="1.5" />
+    <Position X="10.75" Y="17.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Output\OutputWriter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputXlsWriter" Collapsed="true">
-    <Position X="13.25" Y="15.75" Width="1.5" />
+    <Position X="13" Y="17.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Output\OutputWriter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputWriterFactory" Collapsed="true">
-    <Position X="36" Y="7.5" Width="1.5" />
+    <Position X="37.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Output\OutputWriterFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.PLC.PlcCommunicator" Collapsed="true">
-    <Position X="9.5" Y="10.25" Width="1.5" />
+    <Position X="7.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAJAIAAAEQAQAAAkJRABAASQAAAFACAIgIDEAQABA=</HashCode>
       <FileName>PLC\PlcCommunicator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.PLC.PlcException" Collapsed="true">
-    <Position X="39.5" Y="7.5" Width="1.5" />
+    <Position X="41" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>PLC\PlcCommunicator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.PLC.PlcCommunicatorComponent" Collapsed="true">
-    <Position X="3" Y="13.5" Width="1.5" />
+    <Position X="4" Y="16.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAACAAAAAAAQAA=</HashCode>
       <FileName>PLC\PlcCommunicatorComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.PLC.PlcConfigurationFile" Collapsed="true">
-    <Position X="37.75" Y="7.5" Width="1.5" />
+    <Position X="39.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAgAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.CanBeNullAttribute" Collapsed="true">
-    <Position X="34.25" Y="3.5" Width="1.5" />
+    <Position X="41" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.NotNullAttribute" Collapsed="true">
-    <Position X="29" Y="7.5" Width="1.5" />
+    <Position X="30.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.StringFormatMethodAttribute" Collapsed="true">
-    <Position X="41.25" Y="8.5" Width="1.5" />
+    <Position X="42.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.InvokerParameterNameAttribute" Collapsed="true">
-    <Position X="41.25" Y="5.5" Width="1.5" />
+    <Position X="44.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.NotifyPropertyChangedInvocatorAttribute" Collapsed="true">
-    <Position X="25.5" Y="7.5" Width="1.5" />
+    <Position X="46.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.ContractAnnotationAttribute" Collapsed="true">
-    <Position X="32.5" Y="4.5" Width="1.5" />
+    <Position X="35.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAIAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.LocalizationRequiredAttribute" Collapsed="true">
-    <Position X="32.5" Y="6.5" Width="1.5" />
+    <Position X="34" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.CannotApplyEqualityOperatorAttribute" Collapsed="true">
-    <Position X="37.75" Y="3.5" Width="1.5" />
+    <Position X="42.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.BaseTypeRequiredAttribute" Collapsed="true">
-    <Position X="29" Y="3.5" Width="1.5" />
+    <Position X="35.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.UsedImplicitlyAttribute" Collapsed="true">
-    <Position X="27.25" Y="9.5" Width="1.5" />
+    <Position X="48" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.MeansImplicitUseAttribute" Collapsed="true">
-    <Position X="43" Y="6.5" Width="1.5" />
+    <Position X="42.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.PublicAPIAttribute" Collapsed="true">
-    <Position X="25.5" Y="8.5" Width="1.5" />
+    <Position X="44.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.InstantHandleAttribute" Collapsed="true">
-    <Position X="36" Y="5.5" Width="1.5" />
+    <Position X="35.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.PureAttribute" Collapsed="true">
-    <Position X="27.25" Y="8.5" Width="1.5" />
+    <Position X="48" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.PathReferenceAttribute" Collapsed="true">
-    <Position X="11" Y="11.5" Width="1.5" />
+    <Position X="12.25" Y="13.5" Width="2" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcAreaMasterLocationFormatAttribute" Collapsed="true">
-    <Position X="43" Y="0.5" Width="1.5" />
+    <Position X="48" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcAreaPartialViewLocationFormatAttribute" Collapsed="true">
-    <Position X="27.25" Y="1.5" Width="1.5" />
+    <Position X="30.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcAreaViewLocationFormatAttribute" Collapsed="true">
-    <Position X="29" Y="1.5" Width="1.5" />
+    <Position X="35.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcMasterLocationFormatAttribute" Collapsed="true">
-    <Position X="29" Y="2.5" Width="1.5" />
+    <Position X="32.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcPartialViewLocationFormatAttribute" Collapsed="true">
-    <Position X="36" Y="2.5" Width="1.5" />
+    <Position X="39.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcViewLocationFormatAttribute" Collapsed="true">
-    <Position X="27.25" Y="3.5" Width="1.5" />
+    <Position X="30.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcActionAttribute" Collapsed="true">
-    <Position X="34.25" Y="0.5" Width="1.5" />
+    <Position X="39.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcAreaAttribute" Collapsed="true">
-    <Position X="8.75" Y="13" Width="1.5" />
+    <Position X="9.75" Y="15" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcControllerAttribute" Collapsed="true">
-    <Position X="32.5" Y="1.5" Width="1.5" />
+    <Position X="39.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcMasterAttribute" Collapsed="true">
-    <Position X="43" Y="1.5" Width="1.5" />
+    <Position X="48" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcModelTypeAttribute" Collapsed="true">
-    <Position X="30.75" Y="2.5" Width="1.5" />
+    <Position X="37.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcPartialViewAttribute" Collapsed="true">
-    <Position X="11" Y="13" Width="1.5" />
+    <Position X="12.25" Y="15" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcSupressViewErrorAttribute" Collapsed="true">
-    <Position X="37.75" Y="2.5" Width="1.5" />
+    <Position X="42.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcDisplayTemplateAttribute" Collapsed="true">
-    <Position X="36" Y="1.5" Width="1.5" />
+    <Position X="42.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcEditorTemplateAttribute" Collapsed="true">
-    <Position X="41.25" Y="1.5" Width="1.5" />
+    <Position X="46.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcTemplateAttribute" Collapsed="true">
-    <Position X="43" Y="2.5" Width="1.5" />
+    <Position X="48" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcViewAttribute" Collapsed="true">
-    <Position X="13.25" Y="13" Width="1.5" />
+    <Position X="15.25" Y="15" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcActionSelectorAttribute" Collapsed="true">
-    <Position X="37.75" Y="0.5" Width="1.5" />
+    <Position X="42.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.HtmlElementAttributesAttribute" Collapsed="true">
-    <Position X="32.5" Y="5.5" Width="1.5" />
+    <Position X="34" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.HtmlAttributeValueAttribute" Collapsed="true">
-    <Position X="29" Y="5.5" Width="1.5" />
+    <Position X="30.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.RazorSectionAttribute" Collapsed="true">
-    <Position X="30.75" Y="8.5" Width="1.5" />
+    <Position X="34" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.Resources" Collapsed="true">
-    <Position X="34.25" Y="8.5" Width="1.5" />
+    <Position X="35.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.Settings" Collapsed="true">
-    <Position X="36" Y="8.5" Width="1.5" />
+    <Position X="37.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.CanBeNullAttribute" Collapsed="true">
-    <Position X="36" Y="3.5" Width="1.5" />
+    <Position X="39.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.NotNullAttribute" Collapsed="true">
-    <Position X="30.75" Y="7.5" Width="1.5" />
+    <Position X="32.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.StringFormatMethodAttribute" Collapsed="true">
-    <Position X="39.5" Y="8.5" Width="1.5" />
+    <Position X="41" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.InvokerParameterNameAttribute" Collapsed="true">
-    <Position X="43" Y="5.5" Width="1.5" />
+    <Position X="42.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.NotifyPropertyChangedInvocatorAttribute" Collapsed="true">
-    <Position X="27.25" Y="7.5" Width="1.5" />
+    <Position X="48" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.ContractAnnotationAttribute" Collapsed="true">
-    <Position X="34.25" Y="4.5" Width="1.5" />
+    <Position X="37.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAIAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.LocalizationRequiredAttribute" Collapsed="true">
-    <Position X="30.75" Y="6.5" Width="1.5" />
+    <Position X="32.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.CannotApplyEqualityOperatorAttribute" Collapsed="true">
-    <Position X="39.5" Y="3.5" Width="1.5" />
+    <Position X="44.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.BaseTypeRequiredAttribute" Collapsed="true">
-    <Position X="30.75" Y="3.5" Width="1.5" />
+    <Position X="34" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.UsedImplicitlyAttribute" Collapsed="true">
-    <Position X="29" Y="9.5" Width="1.5" />
+    <Position X="30.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.MeansImplicitUseAttribute" Collapsed="true">
-    <Position X="41.25" Y="6.5" Width="1.5" />
+    <Position X="44.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.PublicAPIAttribute" Collapsed="true">
-    <Position X="43" Y="7.5" Width="1.5" />
+    <Position X="46.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.InstantHandleAttribute" Collapsed="true">
-    <Position X="34.25" Y="5.5" Width="1.5" />
+    <Position X="37.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.PureAttribute" Collapsed="true">
-    <Position X="29" Y="8.5" Width="1.5" />
+    <Position X="30.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.PathReferenceAttribute" Collapsed="true">
-    <Position X="3" Y="10.5" Width="1.5" />
+    <Position X="3.25" Y="11.5" Width="2" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcAreaMasterLocationFormatAttribute" Collapsed="true">
-    <Position X="41.25" Y="0.5" Width="1.5" />
+    <Position X="46.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcAreaPartialViewLocationFormatAttribute" Collapsed="true">
-    <Position X="25.5" Y="1.5" Width="1.5" />
+    <Position X="32.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcAreaViewLocationFormatAttribute" Collapsed="true">
-    <Position X="30.75" Y="1.5" Width="1.5" />
+    <Position X="34" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcMasterLocationFormatAttribute" Collapsed="true">
-    <Position X="27.25" Y="2.5" Width="1.5" />
+    <Position X="34" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcPartialViewLocationFormatAttribute" Collapsed="true">
-    <Position X="34.25" Y="2.5" Width="1.5" />
+    <Position X="41" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcViewLocationFormatAttribute" Collapsed="true">
-    <Position X="25.5" Y="3.5" Width="1.5" />
+    <Position X="32.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcActionAttribute" Collapsed="true">
-    <Position X="36" Y="0.5" Width="1.5" />
+    <Position X="41" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcAreaAttribute" Collapsed="true">
-    <Position X="5.25" Y="12" Width="1.5" />
+    <Position X="0.75" Y="13" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcControllerAttribute" Collapsed="true">
-    <Position X="34.25" Y="1.5" Width="1.5" />
+    <Position X="37.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcMasterAttribute" Collapsed="true">
-    <Position X="25.5" Y="2.5" Width="1.5" />
+    <Position X="30.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcModelTypeAttribute" Collapsed="true">
-    <Position X="32.5" Y="2.5" Width="1.5" />
+    <Position X="35.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcPartialViewAttribute" Collapsed="true">
-    <Position X="0.75" Y="12" Width="1.5" />
+    <Position X="3.25" Y="13" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcSupressViewErrorAttribute" Collapsed="true">
-    <Position X="39.5" Y="2.5" Width="1.5" />
+    <Position X="44.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcDisplayTemplateAttribute" Collapsed="true">
-    <Position X="37.75" Y="1.5" Width="1.5" />
+    <Position X="41" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcEditorTemplateAttribute" Collapsed="true">
-    <Position X="39.5" Y="1.5" Width="1.5" />
+    <Position X="44.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcTemplateAttribute" Collapsed="true">
-    <Position X="41.25" Y="2.5" Width="1.5" />
+    <Position X="46.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcViewAttribute" Collapsed="true">
-    <Position X="3" Y="12" Width="1.5" />
+    <Position X="6.25" Y="13" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.AspMvcActionSelectorAttribute" Collapsed="true">
-    <Position X="39.5" Y="0.5" Width="1.5" />
+    <Position X="44.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.HtmlElementAttributesAttribute" Collapsed="true">
-    <Position X="30.75" Y="5.5" Width="1.5" />
+    <Position X="32.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.HtmlAttributeValueAttribute" Collapsed="true">
-    <Position X="27.25" Y="5.5" Width="1.5" />
+    <Position X="48" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Annotations.RazorSectionAttribute" Collapsed="true">
-    <Position X="32.5" Y="8.5" Width="1.5" />
+    <Position X="32.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Signature.HexKey" Collapsed="true">
-    <Position X="25.5" Y="5.5" Width="1.5" />
+    <Position X="46.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAEEAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Signature\HexKey.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Signature.SignatureHandler" Collapsed="true">
-    <Position X="37.75" Y="8.5" Width="1.5" />
+    <Position X="39.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Signature\SignatureHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashErrorCollector" Collapsed="true">
-    <Position X="30.75" Y="9.5" Width="1.5" />
+    <Position X="32.25" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAEAAAAAAAAAAAAAAAAAAAIEAAAAABAAAA=</HashCode>
       <FileName>Vector\VFlashErrorCollector.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashHandler" Collapsed="true">
-    <Position X="20.75" Y="11.75" Width="1.5" />
+    <Position X="17.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AICIgAAAAAEAAQAABAIAAAAAEBUAAABQEAIhAASAAAA=</HashCode>
       <FileName>Vector\VFlashHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashHandlerComponent" Collapsed="true">
-    <Position X="17.75" Y="16.5" Width="1.5" />
+    <Position X="7.75" Y="19.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAMAAAAAAAAAEIAAAAAAAQAAAAAAMACAAgAAAAAAA=</HashCode>
       <FileName>Vector\VFlashHandlerComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashHandlerInterfaceAssignmentFile" Collapsed="true">
-    <Position X="32.5" Y="9.5" Width="1.5" />
+    <Position X="34" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIQAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashStationComponent" Collapsed="true">
-    <Position X="17.75" Y="13.5" Width="1.5" />
+    <Position X="2" Y="19.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AEIAAAAEAAAAAAAAJAAABAAAgAEAAAAQAAQgABAAAAA=</HashCode>
       <FileName>Vector\VFlashStation.cs</FileName>
@@ -991,82 +1006,82 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashStationController" Collapsed="true">
-    <Position X="16.5" Y="14.75" Width="1.5" />
+    <Position X="0.5" Y="20.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AIIQAAAAAAAAAQAABAIEBAQAAAEAAAAQAAAgAAAAAAA=</HashCode>
       <FileName>Vector\VFlashStation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashChannel" Collapsed="true">
-    <Position X="18.75" Y="14.75" Width="1.5" />
+    <Position X="3.25" Y="20.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIICAAAEABAAEAADBAAABAQAQAEAAAQYIAIgAAIAAAA=</HashCode>
       <FileName>Vector\VFlashStation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashTypeBank" Collapsed="true">
-    <Position X="14" Y="10.25" Width="1.5" />
+    <Position X="13.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIQgAAAAAAAAQAAAAIEBAEAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Vector\VFlashTypeBank.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashTypeBankFile" Collapsed="true">
-    <Position X="34.25" Y="9.5" Width="1.5" />
+    <Position X="35.75" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.ComponentCreationWindow" Collapsed="true">
-    <Position X="27.25" Y="4.5" Width="1.5" />
+    <Position X="30.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAIAQAAAAAAAAIAAAAAAAAYAA=</HashCode>
       <FileName>Visual\ComponentCreationWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.ComponentCreationWindowTreeView" Collapsed="true">
-    <Position X="29" Y="4.5" Width="1.5" />
+    <Position X="32.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\ComponentCreationWindowTreeView.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.FaultReportWindow" Collapsed="true">
-    <Position X="39.5" Y="4.5" Width="1.5" />
+    <Position X="41" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Visual\FaultReportWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.MainWindow" Collapsed="true">
-    <Position X="37.75" Y="6.5" Width="1.5" />
+    <Position X="39.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgACJABMkARABCCAAABgICBAEKAhAAgECAAAIUAQAhA=</HashCode>
       <FileName>Visual\MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.MainWindowConfigurationFile" Collapsed="true">
-    <Position X="39.5" Y="6.5" Width="1.5" />
+    <Position X="41" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAIIAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerConfiguration" Collapsed="true">
-    <Position X="1.25" Y="6" Width="1.5" />
+    <Position X="4" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAACgAAAAAAAACAAAAABAAAAAABACAAAQAgAAAACAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerConfiguration.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerControl" Collapsed="true">
-    <Position X="5.75" Y="6" Width="1.5" />
+    <Position X="6.75" Y="6" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAggAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAQAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerControl.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerDataCursor" Collapsed="true">
-    <Position X="8" Y="6" Width="1.5" />
+    <Position X="11.75" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>IAAAAggAABACAAIAIBAAAADAoAABQkAAIQAAAAAAAAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerDataCursor.xaml.cs</FileName>
@@ -1074,14 +1089,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerDataCursorTable" Collapsed="true">
-    <Position X="10.25" Y="6" Width="1.5" />
+    <Position X="14.5" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAABgAAQAAAAAAAAAAAAAAAgEABAAAAAQAAAAAEAAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerDataCursorTable.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerMainFrame" Collapsed="true">
-    <Position X="14.75" Y="6" Width="1.5" />
+    <Position X="17.5" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>ACBAAggAAAAAAAAAAAAAAABABAABAAAAAQAAAAAgQAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerMainFrame.xaml.cs</FileName>
@@ -1089,7 +1104,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerSingleFigure" Collapsed="true">
-    <Position X="17" Y="6" Width="1.5" />
+    <Position X="23.25" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AAIAAgAKQAACACAAAAAAAABAAAABABAAASAgAAAAAAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerSingleFigure.xaml.cs</FileName>
@@ -1097,85 +1112,93 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceConfiguration" Collapsed="true">
-    <Position X="5.5" Y="19" Width="1.5" />
+    <Position X="18.75" Y="15" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQBA=</HashCode>
       <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceConfiguration.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnline" Collapsed="true">
-    <Position X="7.75" Y="19" Width="1.5" />
+  <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineHierarchical" Collapsed="true">
+    <Position X="22.5" Y="15" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAIAIACBAAgAAAAAAgAAARAAgAAA=</HashCode>
-      <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnline.xaml.cs</FileName>
+      <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineHierarchical.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineSimple" Collapsed="true">
+    <Position X="26.5" Y="15" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAIAIACBAAgAAAAAAgAAARAAgAAA=</HashCode>
+      <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.GuiComponent" Collapsed="true">
-    <Position X="16.25" Y="10.25" Width="1.5" />
+    <Position X="22.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAAEIgAAAAAAAQAQAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\Gui\GuiComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.GuiInterfaceAssignment" Collapsed="true">
-    <Position X="41.25" Y="4.5" Width="1.5" />
+    <Position X="42.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAgAAAAAAAAAIAAAAAAAAAAACAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Visual\Gui\GuiInterfaceAssignment.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Output.GuiOutputHandler" Collapsed="true">
-    <Position X="0.5" Y="9" Width="1.5" />
+    <Position X="0.5" Y="24" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAABQAAAAAAAAAAAACCAggAACAIgAAAAAAA=</HashCode>
       <FileName>Visual\Gui\Output\GuiOutputHandler.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.PLC.GuiPlcCommunicatorConfiguration" Collapsed="true">
-    <Position X="3" Y="15" Width="1.5" />
+    <Position X="0.75" Y="18" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAggAAASEAAAABAAAAAAAAAAACAgAIBAgAEAAAQAA=</HashCode>
       <FileName>Visual\Gui\PLC\GuiPlcCommunicatorConfiguration.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.PLC.GuiPlcCommunicatorStatus" Collapsed="true">
-    <Position X="5.25" Y="15" Width="1.5" />
+    <Position X="4" Y="18" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAACAAQAAAAAAAAAAAAAAAEAAAAAAAAAAAQAA=</HashCode>
       <FileName>Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.PLC.GuiPlcCommunicatorStatusBar" Collapsed="true">
-    <Position X="0.75" Y="15" Width="1.5" />
+    <Position X="7" Y="18" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>Visual\Gui\PLC\GuiPlcCommunicatorStatusBar.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Vector.GuiVFlashHandler" Collapsed="true">
-    <Position X="16.5" Y="18" Width="1.5" />
+    <Position X="6.5" Y="21" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAQAAAAAEIgAAA0AAQAAAAAAMAAAAkAAAAACA=</HashCode>
       <FileName>Visual\Gui\Vector\GuiVFlashHandler.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Vector.GuiVFlashPathBank" Collapsed="true">
-    <Position X="43" Y="4.5" Width="1.5" />
+    <Position X="44.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAABAAAAAAAAABAAgAIAEAAAAAJIAAAAAA=</HashCode>
       <FileName>Visual\Gui\Vector\GuiVFlashPathBank.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Vector.GuiVFlashStatusBar" Collapsed="true">
-    <Position X="18.75" Y="18" Width="1.5" />
+    <Position X="9" Y="21" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAEIAAAAAAAQAAAAAAMAAAAgAAAAAAA=</HashCode>
       <FileName>Visual\Gui\Vector\GuiVFlashStatusBar.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.LevelToIndentConverter" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="25.5" Y="6.5" Width="1.5" />
+    <Position X="46.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Visual\TreeListView\Converters.cs</FileName>
@@ -1183,70 +1206,77 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.DisplayDataBuilder" Collapsed="true">
-    <Position X="37.75" Y="4.5" Width="1.5" />
+    <Position X="20.75" Y="20.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAgAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAKAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visual\TreeListView\DisplayDataBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Visual.TreeListView.DisplayDataSimpleBuilder" Collapsed="true">
+    <Position X="20.5" Y="21.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\TreeListView\DisplayDataBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.TreeListView" Collapsed="true">
-    <Position X="43" Y="8.5" Width="1.5" />
+    <Position X="44.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Visual\TreeListView\TreeListView.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.TreeListViewItem" Collapsed="true">
-    <Position X="25.5" Y="9.5" Width="1.5" />
+    <Position X="46.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQEAAAAAAAABAAAAAAQAAAA=</HashCode>
       <FileName>Visual\TreeListView\TreeListView.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.WindowTest" Collapsed="true">
-    <Position X="36" Y="9.5" Width="1.5" />
+    <Position X="37.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\TreeListView\WindowTest.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="_PlcAgent.Visual.Interfaces.IRefreshableGui" Collapsed="true">
-    <Position X="25.5" Y="10.75" Width="1.5" />
+    <Position X="30.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\Interfaces\IRefreshableGui.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="_PlcAgent.Visual.Interfaces.IResizableGui" Collapsed="true">
-    <Position X="27.25" Y="10.75" Width="1.5" />
+    <Position X="32.25" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\Interfaces\IResizableGui.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="_PlcAgent.Properties.ImplicitUseKindFlags" Collapsed="true">
-    <Position X="25.5" Y="11.75" Width="1.5" />
+    <Position X="30.5" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAABAEAAAAAAIAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="_PlcAgent.Properties.ImplicitUseTargetFlags" Collapsed="true">
-    <Position X="29" Y="11.75" Width="1.5" />
+    <Position X="34" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAAAAEAAAAAAQ=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="_PlcAgent.Annotations.ImplicitUseKindFlags" Collapsed="true">
-    <Position X="27.25" Y="11.75" Width="1.5" />
+    <Position X="32.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAABAEAAAAAAIAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="_PlcAgent.Annotations.ImplicitUseTargetFlags" Collapsed="true">
-    <Position X="30.75" Y="11.75" Width="1.5" />
+    <Position X="35.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAIAAAAAAAAAAAAAAEAAAAAAQ=</HashCode>
       <FileName>Properties\Annotations1.cs</FileName>
