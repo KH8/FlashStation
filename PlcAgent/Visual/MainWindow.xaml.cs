@@ -430,7 +430,7 @@ namespace _PlcAgent.Visual
 
                 var gridGuiCommunicationInterfaceOnline = (GuiComponent)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
-                var guiComponent = (GuiCommunicationInterfaceOnline) gridGuiCommunicationInterfaceOnline.UserControl;
+                var guiComponent = (GuiCommunicationInterfaceOnlineSimple) gridGuiCommunicationInterfaceOnline.UserControl;
                 guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
                 guiComponent.TabItem = newtabItem;
 

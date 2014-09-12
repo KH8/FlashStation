@@ -14,7 +14,7 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
     /// <summary>
     /// Interaction logic for GuiCommunicationInterfaceOnline.xaml
     /// </summary>
-    public partial class GuiCommunicationInterfaceOnline : IResizableGui
+    public partial class GuiCommunicationInterfaceOnlineSimple : IResizableGui
     {
         #region Variables
 
@@ -33,7 +33,7 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
         #region Constructors
 
-        public GuiCommunicationInterfaceOnline(CommunicationInterfaceHandler communicationInterfaceHandler)
+        public GuiCommunicationInterfaceOnlineSimple(CommunicationInterfaceHandler communicationInterfaceHandler)
             : base(communicationInterfaceHandler)
         {
             InitializeComponent();

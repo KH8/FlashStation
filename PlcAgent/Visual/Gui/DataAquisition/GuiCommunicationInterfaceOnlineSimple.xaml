@@ -1,4 +1,4 @@
-﻿<dataAquisition:CommunicationInterfaceHandlerComponent x:Class="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnline"
+﻿<dataAquisition:CommunicationInterfaceHandlerComponent x:Class="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineSimple"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

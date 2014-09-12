@@ -178,8 +178,8 @@
     <Compile Include="Visual\Gui\Analyzer\GuiAnalyzerSingleFigure.xaml.cs">
       <DependentUpon>GuiAnalyzerSingleFigure.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnline.xaml.cs">
-      <DependentUpon>GuiCommunicationInterfaceOnline.xaml</DependentUpon>
+    <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs">
+      <DependentUpon>GuiCommunicationInterfaceOnlineSimple.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml.cs">
       <DependentUpon>GuiPlcCommunicatorStatus.xaml</DependentUpon>
@@ -297,7 +297,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnline.xaml">
+    <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
