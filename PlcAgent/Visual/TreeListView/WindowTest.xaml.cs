@@ -1,4 +1,5 @@
-﻿using _PlcAgent.DataAquisition;
+﻿using System.Collections.ObjectModel;
+using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Visual.TreeListView
 {
@@ -19,7 +20,7 @@ namespace _PlcAgent.Visual.TreeListView
 
         private void CreateTreeStructure()
         {
-            DisplayDataBuilder.Build(TestTreeListView.Items, TestTreeListView2.Items, CommunicationInterfaceHandler);
+            new DisplayDataHierarchicalBuilder().Build(TestTreeListView.Items, TestTreeListView2.Items, CommunicationInterfaceHandler);
         }
     }
 }

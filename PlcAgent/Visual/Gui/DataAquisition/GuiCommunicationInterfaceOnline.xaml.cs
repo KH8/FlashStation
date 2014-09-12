@@ -41,11 +41,11 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
             CommunicationReadInterfaceListBox.View = CreateGridView();
-            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection.Items;
             CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
 
             CommunicationWriteInterfaceListBox.View = CreateGridView();
-            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
+            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection.Items;
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
 
         }

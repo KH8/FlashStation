@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.PLC;
-using _PlcAgent.Visual;
 using _PlcAgent.Visual.TreeListView;
 
 namespace _PlcAgent.DataAquisition
@@ -17,11 +19,8 @@ namespace _PlcAgent.DataAquisition
         private CommunicationInterfaceComposite _readInterfaceComposite;
         private CommunicationInterfaceComposite _writeInterfaceComposite;
 
-        private readonly ObservableCollection<DisplayDataBuilder.DisplayData> _readInterfaceCollection =
-            new ObservableCollection<DisplayDataBuilder.DisplayData>();
-
-        private readonly ObservableCollection<DisplayDataBuilder.DisplayData> _writeInterfaceCollection =
-            new ObservableCollection<DisplayDataBuilder.DisplayData>();
+        private readonly ItemsControl _readInterfaceCollection = new ItemsControl();
+        private readonly ItemsControl _writeInterfaceCollection = new ItemsControl();
 
         private Thread _communicationThread;
 
@@ -38,8 +37,8 @@ namespace _PlcAgent.DataAquisition
         public PlcCommunicator PlcCommunicator { get; set; }
         public CommunicationInterfacePath PathFile { get; set; }
 
-        public ObservableCollection<DisplayDataBuilder.DisplayData> ReadInterfaceCollection { get { return _readInterfaceCollection; } }
-        public ObservableCollection<DisplayDataBuilder.DisplayData> WriteInterfaceCollection { get { return _writeInterfaceCollection; }}
+        public ItemsControl ReadInterfaceCollection { get { return _readInterfaceCollection; } }
+        public ItemsControl WriteInterfaceCollection { get { return _writeInterfaceCollection; } }
 
         public delegate void InterfaceUpdatedDelegate();
         public InterfaceUpdatedDelegate OnInterfaceUpdatedDelegate;
@@ -84,7 +83,7 @@ namespace _PlcAgent.DataAquisition
                 CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
             _writeInterfaceComposite = new CommunicationInterfaceHierarchicalBuilder().InitializeInterface(Header.Id,
                 CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
-            DisplayDataBuilder.Build(_readInterfaceCollection, _writeInterfaceCollection, this);
+            new DisplayDataSimpleBuilder().Build(_readInterfaceCollection.Items, _writeInterfaceCollection.Items, this);
 
             _communicationThread.Start();
 
@@ -142,8 +141,8 @@ namespace _PlcAgent.DataAquisition
 
         public void UpdateObservableCollections()
         {
-            foreach (var displayDataComponent in _readInterfaceCollection) { displayDataComponent.Update(); }
-            foreach (var displayDataComponent in _writeInterfaceCollection) { displayDataComponent.Update();}
+            foreach (var displayDataComponent in _readInterfaceCollection.Items.Cast<DisplayDataBuilder.DisplayData>()) { displayDataComponent.Update();}
+            foreach (var displayDataComponent in _writeInterfaceCollection.Items.Cast<DisplayDataBuilder.DisplayData>()) { displayDataComponent.Update(); }
         }
 
         #endregion

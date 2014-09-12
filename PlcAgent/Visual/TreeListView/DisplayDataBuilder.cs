@@ -1,11 +1,10 @@
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Visual.TreeListView
 {
-    public class DisplayDataBuilder
+    abstract public class DisplayDataBuilder
     {
         #region SubClasses
 
@@ -28,14 +27,62 @@ namespace _PlcAgent.Visual.TreeListView
 
         #region Methods
 
-        public static void Build(ObservableCollection<DisplayData> onlineReadDataCollection,
-            ObservableCollection<DisplayData> onlineWriteDataCollection,
+        public abstract void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler);
+
+        protected static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
+        {
+            if (component == null) return null;
+            var address = plcStartAddress + component.Pos;
+            return new DisplayData
+            {
+                Component = component,
+                Address = "DBW " + address + "." + component.BitPosition,
+                Name = component.Name,
+                Type = component.Type.ToString(),
+                Value = component.StringValue()
+            };
+        }
+
+        protected static DisplayData DisplayComponent(CommunicationInterfaceComponent component, int plcStartAddress)
+        {
+            if (component == null) return null;
+            var address = plcStartAddress + component.Pos;
+            return new DisplayData
+            {
+                Component = component,
+                Address = "DBW " + address,
+                Name = component.Name,
+                Type = component.Type.ToString(),
+                Value = component.StringValue()
+            };
+        }
+
+        protected static DisplayData DisplayComposite(CommunicationInterfaceComposite composite, int plcStartAddress)
+        {
+            if (composite == null) return null;
+            var address = plcStartAddress + composite.Pos;
+            return new DisplayData
+            {
+                Component = composite,
+                Address = "DBW " + address,
+                Name = composite.Name,
+                Type = "Composite",
+                Value = "-"
+            };
+        }
+
+        #endregion
+    }
+
+    public class DisplayDataSimpleBuilder : DisplayDataBuilder
+    {
+        public override void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure,
             CommunicationInterfaceHandler communicationHandler)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                onlineReadDataCollection.Clear();
-                onlineReadDataCollection.Add(new DisplayData
+                onlineReadDataStructure.Clear();
+                onlineReadDataStructure.Add(new DisplayData
                 {
                     Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadDbNumber,
                     Name = "-",
@@ -47,17 +94,17 @@ namespace _PlcAgent.Visual.TreeListView
                     switch (inputComponent.Type)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent as CiBit,
+                            onlineReadDataStructure.Add(DisplayComponent(inputComponent as CiBit,
                                 communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                         default:
-                            onlineReadDataCollection.Add(DisplayComponent(inputComponent,
+                            onlineReadDataStructure.Add(DisplayComponent(inputComponent,
                                 communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
                             break;
                     }
                 }
-                onlineWriteDataCollection.Clear();
-                onlineWriteDataCollection.Add(new DisplayData
+                onlineWriteDataStructure.Clear();
+                onlineWriteDataStructure.Add(new DisplayData
                 {
                     Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteDbNumber,
                     Name = "-",
@@ -69,20 +116,22 @@ namespace _PlcAgent.Visual.TreeListView
                     switch (inputComponent.Type)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent as CiBit,
+                            onlineWriteDataStructure.Add(DisplayComponent(inputComponent as CiBit,
                                 communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                         default:
-                            onlineWriteDataCollection.Add(DisplayComponent(inputComponent,
+                            onlineWriteDataStructure.Add(DisplayComponent(inputComponent,
                                 communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
                             break;
                     }
                 }
             });
         }
+    }
 
-        public static void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure,
-            CommunicationInterfaceHandler communicationHandler)
+    public class DisplayDataHierarchicalBuilder : DisplayDataBuilder
+    {
+        public override void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -124,9 +173,9 @@ namespace _PlcAgent.Visual.TreeListView
             {
                 var actualItemCollection = items;
 
-                if (component.GetType() == typeof (CommunicationInterfaceComposite))
+                if (component.GetType() == typeof(CommunicationInterfaceComposite))
                 {
-                    var compositeComponent = (CommunicationInterfaceComposite) component;
+                    var compositeComponent = (CommunicationInterfaceComposite)component;
                     var displayData = DisplayComposite(compositeComponent, startAddress);
 
                     var header = new TreeListViewItem { Header = displayData };
@@ -136,7 +185,7 @@ namespace _PlcAgent.Visual.TreeListView
                 }
                 else
                 {
-                    var variable = (CommunicationInterfaceVariable) component;
+                    var variable = (CommunicationInterfaceVariable)component;
                     DisplayData newComponent;
                     switch (variable.Type)
                     {
@@ -152,50 +201,5 @@ namespace _PlcAgent.Visual.TreeListView
                 }
             }
         }
-
-        private static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
-        {
-            if (component == null) return null;
-            var address = plcStartAddress + component.Pos;
-            return new DisplayData
-            {
-                Component = component,
-                Address = "DBW " + address + "." + component.BitPosition,
-                Name = component.Name,
-                Type = component.Type.ToString(),
-                Value = component.StringValue()
-            };
-        }
-
-        private static DisplayData DisplayComponent(CommunicationInterfaceComponent component, int plcStartAddress)
-        {
-            if (component == null) return null;
-            var address = plcStartAddress + component.Pos;
-            return new DisplayData
-            {
-                Component = component,
-                Address = "DBW " + address,
-                Name = component.Name,
-                Type = component.Type.ToString(),
-                Value = component.StringValue()
-            };
-        }
-
-        private static DisplayData DisplayComposite(CommunicationInterfaceComposite composite, int plcStartAddress)
-        {
-            if (composite == null) return null;
-            var address = plcStartAddress + composite.Pos;
-            return new DisplayData
-            {
-                Component = composite,
-                Address = "DBW " + address,
-                Name = composite.Name,
-                Type = "Composite",
-                Value = "-"
-            };
-        }
-
-        #endregion
-
     }
 }
