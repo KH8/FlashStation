@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
@@ -16,10 +19,33 @@ namespace _PlcAgent.Visual.TreeListView
             public string LastName { get; set; }
             public string Type { get; set; }
             public string Value { get; set; }
+        }
 
+        public class DisplayDataContainer : ItemsControl, IObservable<object>
+        {
             public void Update()
             {
-                if (Component != null) Value = Component.StringValue();
+                StepDownUpdate(Items);
+            }
+
+            private static void StepDownUpdate(IEnumerable items)
+            {
+                foreach (var item in items)
+                {
+                    if (item.GetType() == typeof(DisplayData))
+                    {
+                        var displayData = (DisplayData)item;
+                        if (displayData.Component != null) displayData.Value = displayData.Component.StringValue();
+                    }
+                    if (item.GetType() != typeof (TreeListViewItem)) continue;
+                    var treeListViewItem = (TreeListViewItem) item;
+                    StepDownUpdate(treeListViewItem.Items);
+                }
+            }
+
+            public IDisposable Subscribe(IObserver<object> observer)
+            {
+                return Items.DeferRefresh();
             }
         }
 

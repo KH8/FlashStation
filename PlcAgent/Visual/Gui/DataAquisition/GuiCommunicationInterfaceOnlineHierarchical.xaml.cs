@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
@@ -39,9 +38,10 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             InitializeComponent();
 
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
+            
+            CommunicationReadInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection.Items;
+            CommunicationWriteInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection.Items;
 
-            new DisplayDataHierarchicalBuilder().Build(CommunicationReadInterfaceTreeListView.Items,
-                CommunicationWriteInterfaceTreeListView.Items, CommunicationInterfaceHandler);
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
             CommunicationInterfaceHandler.UpdateObservableCollections();
             CommunicationReadInterfaceTreeListView.Dispatcher.BeginInvoke((new Action(() => CommunicationReadInterfaceTreeListView.Items.Refresh())));
-            CommunicationReadInterfaceTreeListView.Dispatcher.BeginInvoke((new Action(() => CommunicationReadInterfaceTreeListView.Items.Refresh())));
+            CommunicationWriteInterfaceTreeListView.Dispatcher.BeginInvoke((new Action(() => CommunicationWriteInterfaceTreeListView.Items.Refresh())));
         }
 
         public void SelectionChanged(object sender, SelectionChangedEventArgs e)
