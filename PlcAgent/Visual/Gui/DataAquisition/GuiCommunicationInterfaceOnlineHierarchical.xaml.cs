@@ -63,38 +63,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             CommunicationWriteInterfaceTreeListView.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
         }
 
-        private GridView CreateGridView()
-        {
-            var gridView = new GridView();
-
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 80,
-                Header = "Addr.",
-                DisplayMemberBinding = new Binding("Address")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = Limiter.DoubleLimit((Width/2) - 280, 0),
-                Header = "Name",
-                DisplayMemberBinding = new Binding("Name")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 80,
-                Header = "Type",
-                DisplayMemberBinding = new Binding("Type")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 80,
-                Header = "Value",
-                DisplayMemberBinding = new Binding("Value")
-            });
-
-            return gridView;
-        }
-
         #endregion
 
 
@@ -130,17 +98,16 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             if (e.LeftButton != MouseButtonState.Pressed) return;
             if (!(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) &&
                 !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)) return;
-            // Get the dragged ListViewItem
-            var listView = sender as ListView;
-            var listViewItem = FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
+            // Get the dragged TreeListViewItem
+            var treeListViewItem = FindAncestor<TreeListViewItem>((DependencyObject)e.OriginalSource);
 
-            // Find the data behind the ListViewItem
-            if (listViewItem == null || listView == null) return;
-            var displayData = (DisplayDataBuilder.DisplayData)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
+            // Find the data behind the TreeListViewItem
+            if (treeListViewItem == null) return;
+            var displayData = (DisplayDataBuilder.DisplayData)treeListViewItem.Header;
 
             // Initialize the drag & drop operation
             var dragData = new DataObject("Name", displayData);
-            DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+            DragDrop.DoDragDrop(treeListViewItem, dragData, DragDropEffects.Move);
         }
 
         #endregion

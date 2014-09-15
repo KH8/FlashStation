@@ -13,6 +13,7 @@ namespace _PlcAgent.Visual.TreeListView
             public CommunicationInterfaceComponent Component;
             public string Address { get; set; }
             public string Name { get; set; }
+            public string LastName { get; set; }
             public string Type { get; set; }
             public string Value { get; set; }
 
@@ -38,6 +39,7 @@ namespace _PlcAgent.Visual.TreeListView
                 Component = component,
                 Address = "DBW " + address + "." + component.BitPosition,
                 Name = component.Name,
+                LastName = component.LastName,
                 Type = component.Type.ToString(),
                 Value = component.StringValue()
             };
@@ -52,6 +54,7 @@ namespace _PlcAgent.Visual.TreeListView
                 Component = component,
                 Address = "DBW " + address,
                 Name = component.Name,
+                LastName = component.LastName,
                 Type = component.Type.ToString(),
                 Value = component.StringValue()
             };
@@ -66,6 +69,7 @@ namespace _PlcAgent.Visual.TreeListView
                 Component = composite,
                 Address = "DBW " + address,
                 Name = composite.Name,
+                LastName = composite.LastName,
                 Type = "Composite",
                 Value = "-"
             };
@@ -86,6 +90,7 @@ namespace _PlcAgent.Visual.TreeListView
                 {
                     Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadDbNumber,
                     Name = "-",
+                    LastName = "-",
                     Type = "-",
                     Value = "-"
                 });
@@ -108,6 +113,7 @@ namespace _PlcAgent.Visual.TreeListView
                 {
                     Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteDbNumber,
                     Name = "-",
+                    LastName = "-",
                     Type = "-",
                     Value = "-"
                 });
@@ -141,6 +147,7 @@ namespace _PlcAgent.Visual.TreeListView
                     {
                         Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadDbNumber,
                         Name = "Read Interface",
+                        LastName = "Read Interface",
                         Type = "-",
                         Value = "-"
                     },
@@ -156,6 +163,7 @@ namespace _PlcAgent.Visual.TreeListView
                     {
                         Address = "DB" + communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteDbNumber,
                         Name = "Write Interface",
+                        LastName = "Write Interface",
                         Type = "-",
                         Value = "-"
                     },
@@ -186,16 +194,13 @@ namespace _PlcAgent.Visual.TreeListView
                 else
                 {
                     var variable = (CommunicationInterfaceVariable)component;
-                    DisplayData newComponent;
                     switch (variable.Type)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
-                            actualItemCollection.Add(newComponent = DisplayComponent(variable as CiBit, startAddress));
-                            newComponent.Name = variable.LastName;
+                            actualItemCollection.Add(DisplayComponent(variable as CiBit, startAddress));
                             break;
                         default:
-                            actualItemCollection.Add(newComponent = DisplayComponent(variable, startAddress));
-                            newComponent.Name = variable.LastName;
+                            actualItemCollection.Add(DisplayComponent(variable, startAddress));
                             break;
                     }
                 }

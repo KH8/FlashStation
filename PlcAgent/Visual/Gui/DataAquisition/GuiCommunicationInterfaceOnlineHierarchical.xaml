@@ -44,7 +44,7 @@
             <DockPanel>
                 <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}"
                       IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource  AncestorType={x:Type treeListView:TreeListViewItem}}}" ClickMode="Press"/>
-                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200"/>
+                <TextBlock Text="{Binding LastName}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200"/>
             </DockPanel>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}" Value="False">
@@ -154,7 +154,7 @@
         </Style>
     </UserControl.Resources>
     <Grid Name="GeneralGrid">
-        <treeListView:TreeListView x:Name="CommunicationReadInterfaceTreeListView" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="449"/>
-        <treeListView:TreeListView x:Name="CommunicationWriteInterfaceTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" Margin="451,0,0,0" />
+        <treeListView:TreeListView x:Name="CommunicationReadInterfaceTreeListView" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="449" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+        <treeListView:TreeListView x:Name="CommunicationWriteInterfaceTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" Margin="451,0,0,0" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
     </Grid>
 </dataAquisition:CommunicationInterfaceHandlerComponent>
