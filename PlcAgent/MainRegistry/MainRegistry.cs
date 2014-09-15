@@ -147,7 +147,7 @@ namespace _PlcAgent.MainRegistry
             }
 
             GuiComInterfacemunicationConfigurations.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceConfiguration(component)));
-            GuiCommunicationInterfaceOnlines.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceOnlineSimple(component)));
+            GuiCommunicationInterfaceOnlines.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceOnlineHierarchical(component)));
 
             Logger.Log("ID: " + id + " new Communication Interface have been created");
             return id;

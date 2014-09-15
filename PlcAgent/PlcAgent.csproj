@@ -216,9 +216,6 @@
     <Compile Include="Visual\TreeListView\Converters.cs" />
     <Compile Include="Visual\TreeListView\DisplayDataBuilder.cs" />
     <Compile Include="Visual\TreeListView\TreeListView.cs" />
-    <Compile Include="Visual\TreeListView\WindowTest.xaml.cs">
-      <DependentUpon>WindowTest.xaml</DependentUpon>
-    </Compile>
     <None Include="Analyzer\AnalyzerAssignmentFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AnalyzerAssignmentFile.Designer.cs</LastGenOutput>
@@ -391,10 +388,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Visual\TreeListView\WindowTest.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PLC\PlcCommunicator.cs" />

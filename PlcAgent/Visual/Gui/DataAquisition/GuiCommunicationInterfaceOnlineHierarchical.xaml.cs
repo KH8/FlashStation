@@ -41,7 +41,7 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
             new DisplayDataHierarchicalBuilder().Build(CommunicationReadInterfaceTreeListView.Items,
-                CommunicationReadInterfaceTreeListView.Items, CommunicationInterfaceHandler);
+                CommunicationWriteInterfaceTreeListView.Items, CommunicationInterfaceHandler);
         }
 
         #endregion
@@ -59,6 +59,8 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
             CommunicationReadInterfaceTreeListView.Height = height;
             CommunicationReadInterfaceTreeListView.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
+            CommunicationWriteInterfaceTreeListView.Height = height;
+            CommunicationWriteInterfaceTreeListView.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
         }
 
         private GridView CreateGridView()

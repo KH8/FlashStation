@@ -61,11 +61,6 @@ namespace _PlcAgent.Visual
 
             UpdateGui();
             UpdateTreeView();
-
-            var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
-
-            var window = new TreeListView.WindowTest(cih);
-            window.Show();
         }
 
         #endregion
@@ -430,7 +425,7 @@ namespace _PlcAgent.Visual
 
                 var gridGuiCommunicationInterfaceOnline = (GuiComponent)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
-                var guiComponent = (GuiCommunicationInterfaceOnlineSimple) gridGuiCommunicationInterfaceOnline.UserControl;
+                var guiComponent = (GuiCommunicationInterfaceOnlineHierarchical) gridGuiCommunicationInterfaceOnline.UserControl;
                 guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
                 guiComponent.TabItem = newtabItem;
 

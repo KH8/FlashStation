@@ -143,7 +143,7 @@
                         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <DockPanel>
                                 <GridViewHeaderRowPresenter Columns="{StaticResource Gvcc}" DockPanel.Dock="Top"/>
-                                <ScrollViewer>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                                     <ItemsPresenter/>
                                 </ScrollViewer>
                             </DockPanel>
@@ -153,7 +153,8 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Name="GeneralGrid" Width="900" Height="700">
-        <treeListView:TreeListView x:Name="CommunicationReadInterfaceTreeListView" HorizontalAlignment="Left" Width="900" />
+    <Grid Name="GeneralGrid">
+        <treeListView:TreeListView x:Name="CommunicationReadInterfaceTreeListView" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="449"/>
+        <treeListView:TreeListView x:Name="CommunicationWriteInterfaceTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" Margin="451,0,0,0" />
     </Grid>
 </dataAquisition:CommunicationInterfaceHandlerComponent>

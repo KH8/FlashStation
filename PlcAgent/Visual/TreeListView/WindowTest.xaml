@@ -1,7 +1,0 @@
-﻿<Window x:Class="_PlcAgent.Visual.TreeListView.WindowTest"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Main Window" Height="300" Width="1017">
-    <Grid Name="GeneralGrid" Margin="0,0,0,0">
-    </Grid> 
-</Window>
