@@ -39,8 +39,8 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
             
-            CommunicationReadInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection.Items;
-            CommunicationWriteInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection.Items;
+            CommunicationReadInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            CommunicationWriteInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
 
         }
 
@@ -70,11 +70,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
         public void OnInterfaceUpdatedDelegate()
         {
-            if (CommunicationInterfaceHandler.ReadInterfaceComposite == null || CommunicationInterfaceHandler.WriteInterfaceComposite == null || !_isActive) return;
-
-            CommunicationInterfaceHandler.UpdateObservableCollections();
-            CommunicationReadInterfaceTreeListView.Dispatcher.BeginInvoke((new Action(() => CommunicationReadInterfaceTreeListView.Items.Refresh())));
-            CommunicationWriteInterfaceTreeListView.Dispatcher.BeginInvoke((new Action(() => CommunicationWriteInterfaceTreeListView.Items.Refresh())));
         }
 
         public void SelectionChanged(object sender, SelectionChangedEventArgs e)

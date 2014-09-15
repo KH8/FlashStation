@@ -1,9 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Properties;
 
 namespace _PlcAgent.Visual.TreeListView
 {
@@ -11,17 +13,36 @@ namespace _PlcAgent.Visual.TreeListView
     {
         #region SubClasses
 
-        public class DisplayData
+        public class DisplayData : INotifyPropertyChanged
         {
+            private string _value;
             public CommunicationInterfaceComponent Component;
             public string Address { get; set; }
             public string Name { get; set; }
             public string LastName { get; set; }
             public string Type { get; set; }
-            public string Value { get; set; }
+
+            public string Value
+            {
+                get { return _value; }
+                set
+                {
+                    _value = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            [NotifyPropertyChangedInvocator]
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                var handler = PropertyChanged;
+                if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
-        public class DisplayDataContainer : ItemsControl, IObservable<object>
+        public class DisplayDataContainer : ObservableCollection<object>
         {
             public void Update()
             {
@@ -35,17 +56,13 @@ namespace _PlcAgent.Visual.TreeListView
                     if (item.GetType() == typeof(DisplayData))
                     {
                         var displayData = (DisplayData)item;
-                        if (displayData.Component != null) displayData.Value = displayData.Component.StringValue();
+                        if (displayData.Component != null && displayData.Value != displayData.Component.StringValue()) displayData.Value = displayData.Component.StringValue();
+                        continue;
                     }
                     if (item.GetType() != typeof (TreeListViewItem)) continue;
                     var treeListViewItem = (TreeListViewItem) item;
                     StepDownUpdate(treeListViewItem.Items);
                 }
-            }
-
-            public IDisposable Subscribe(IObserver<object> observer)
-            {
-                return Items.DeferRefresh();
             }
         }
 
@@ -54,7 +71,7 @@ namespace _PlcAgent.Visual.TreeListView
 
         #region Methods
 
-        public abstract void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler);
+        public abstract void Build(ObservableCollection<object> onlineReadDataStructure, ObservableCollection<object> onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler);
 
         protected static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
         {
@@ -106,7 +123,7 @@ namespace _PlcAgent.Visual.TreeListView
 
     public class DisplayDataSimpleBuilder : DisplayDataBuilder
     {
-        public override void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure,
+        public override void Build(ObservableCollection<object> onlineReadDataStructure, ObservableCollection<object> onlineWriteDataStructure,
             CommunicationInterfaceHandler communicationHandler)
         {
             Application.Current.Dispatcher.Invoke(delegate
@@ -163,7 +180,7 @@ namespace _PlcAgent.Visual.TreeListView
 
     public class DisplayDataHierarchicalBuilder : DisplayDataBuilder
     {
-        public override void Build(ItemCollection onlineReadDataStructure, ItemCollection onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler)
+        public override void Build(ObservableCollection<object> onlineReadDataStructure, ObservableCollection<object> onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {

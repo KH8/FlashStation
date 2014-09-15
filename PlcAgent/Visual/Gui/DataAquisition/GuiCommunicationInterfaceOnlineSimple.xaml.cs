@@ -41,11 +41,11 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
             CommunicationReadInterfaceListBox.View = CreateGridView();
-            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection.Items;
+            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
             CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
 
             CommunicationWriteInterfaceListBox.View = CreateGridView();
-            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection.Items;
+            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
             CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
 
         }
@@ -111,11 +111,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
         public void OnInterfaceUpdatedDelegate()
         {
-            if (CommunicationInterfaceHandler.ReadInterfaceComposite == null || CommunicationInterfaceHandler.WriteInterfaceComposite == null || !_isActive) return;
-
-            CommunicationInterfaceHandler.UpdateObservableCollections();
-            CommunicationReadInterfaceListBox.Dispatcher.BeginInvoke((new Action(() => CommunicationReadInterfaceListBox.Items.Refresh())));
-            CommunicationWriteInterfaceListBox.Dispatcher.BeginInvoke((new Action(() => CommunicationWriteInterfaceListBox.Items.Refresh())));
         }
 
         public void SelectionChanged(object sender, SelectionChangedEventArgs e)

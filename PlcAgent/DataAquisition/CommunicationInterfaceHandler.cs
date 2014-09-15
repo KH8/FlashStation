@@ -79,7 +79,7 @@ namespace _PlcAgent.DataAquisition
                 CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
             _writeInterfaceComposite = new CommunicationInterfaceHierarchicalBuilder().InitializeInterface(Header.Id,
                 CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
-            new DisplayDataHierarchicalBuilder().Build(_readInterfaceCollection.Items, _writeInterfaceCollection.Items, this);
+            new DisplayDataHierarchicalBuilder().Build(_readInterfaceCollection, _writeInterfaceCollection, this);
 
             _communicationThread.Start();
 
@@ -135,7 +135,7 @@ namespace _PlcAgent.DataAquisition
             }
         }
 
-        public void UpdateObservableCollections()
+        private void UpdateObservableCollections()
         {
             _readInterfaceCollection.Update();
             _writeInterfaceCollection.Update();
@@ -158,6 +158,7 @@ namespace _PlcAgent.DataAquisition
                 if (counter > 10)
                 {
                     if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
+                    UpdateObservableCollections();
                     counter = 0;
                 }
 
