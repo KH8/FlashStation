@@ -41,10 +41,10 @@
         <treeListView:LevelToIndentConverter x:Key="LevelToIndentConverter"/>
 
         <DataTemplate x:Key="CellTemplateName">
-            <DockPanel Width="200">
+            <DockPanel Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}"
                       IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource  AncestorType={x:Type treeListView:TreeListViewItem}}}" ClickMode="Press"/>
-                <TextBlock Text="{Binding LastName}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding LastName}" />
             </DockPanel>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}" Value="False">
@@ -54,20 +54,20 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CellTemplateAddress">
-            <DockPanel Width="60">
-                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="Auto"/>
+            <DockPanel Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding Address}" />
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="CellTemplateType">
-            <DockPanel Width="100">
-                <TextBlock Text="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="Auto"/>
+            <DockPanel Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding Type}" />
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="CellTemplateValue">
-            <DockPanel Width="120">
-                <TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="Auto"/>
+            <DockPanel Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding Value}" />
             </DockPanel>
         </DataTemplate>
 
@@ -153,7 +153,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Name="GeneralGrid">
+    <Grid Name="GeneralGrid" Background="White">
         <treeListView:TreeListView x:Name="CommunicationReadInterfaceTreeListView" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="449" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
         <treeListView:TreeListView x:Name="CommunicationWriteInterfaceTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" Margin="451,0,0,0" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
     </Grid>

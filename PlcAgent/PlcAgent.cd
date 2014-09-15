@@ -1121,7 +1121,7 @@
   <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineHierarchical" Collapsed="true">
     <Position X="22.5" Y="15" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAAIAIACBAAgAAAAAAgAAARAAgAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAAAAIACBAAAAAAAAAgAAABAAgAAA=</HashCode>
       <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineHierarchical.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -1129,7 +1129,7 @@
   <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineSimple" Collapsed="true">
     <Position X="26.5" Y="15" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAAIAIACBAAgAAAAAAgAAARAAgAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAAAAIACBAAgAAAAAAgAAABAAgAAA=</HashCode>
       <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -1231,13 +1231,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQEAAAAAAAABAAAAAAQAAAA=</HashCode>
       <FileName>Visual\TreeListView\TreeListView.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="_PlcAgent.Visual.TreeListView.WindowTest" Collapsed="true">
-    <Position X="37.5" Y="9.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
-      <FileName>Visual\TreeListView\WindowTest.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="_PlcAgent.Visual.Interfaces.IRefreshableGui" Collapsed="true">

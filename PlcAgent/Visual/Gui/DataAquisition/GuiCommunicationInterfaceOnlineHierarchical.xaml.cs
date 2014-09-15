@@ -17,7 +17,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
     {
         #region Variables
 
-        private Boolean _isActive;
         private Point _storedPosition;
 
         #endregion
@@ -70,12 +69,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
         public void OnInterfaceUpdatedDelegate()
         {
-        }
-
-        public void SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var tab = (TabControl) sender;
-            _isActive = Equals(tab.SelectedItem, TabItem);
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -428,8 +428,6 @@ namespace _PlcAgent.Visual
                 var guiComponent = (GuiCommunicationInterfaceOnlineHierarchical) gridGuiCommunicationInterfaceOnline.UserControl;
                 guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
                 guiComponent.TabItem = newtabItem;
-
-                MainTabControl.SelectionChanged += guiComponent.SelectionChanged;
             }
 
             foreach (OutputHandler record in _registry.OutputHandlers)
