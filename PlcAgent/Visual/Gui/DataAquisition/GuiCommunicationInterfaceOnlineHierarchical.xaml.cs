@@ -69,6 +69,10 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
         public void OnInterfaceUpdatedDelegate()
         {
+            CommunicationReadInterfaceTreeListView.ItemsSource = null;
+            CommunicationReadInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            CommunicationWriteInterfaceTreeListView.ItemsSource = null;
+            CommunicationWriteInterfaceTreeListView.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

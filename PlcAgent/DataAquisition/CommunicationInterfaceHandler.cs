@@ -81,6 +81,8 @@ namespace _PlcAgent.DataAquisition
                 CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
             new DisplayDataHierarchicalBuilder().Build(_readInterfaceCollection, _writeInterfaceCollection, this);
 
+            if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
+
             _communicationThread.Start();
 
             Logger.Log("ID: " + Header.Id + " Communication interface Initialized");
@@ -148,20 +150,10 @@ namespace _PlcAgent.DataAquisition
 
         private void CommunicationHandler()
         {
-            var counter = 0;
-
             while (_communicationThread.IsAlive)
-            {
+            { 
                 MaintainConnection();
-                counter++;
-
-                if (counter > 10)
-                {
-                    if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();
-                    UpdateObservableCollections();
-                    counter = 0;
-                }
-
+                UpdateObservableCollections();
                 Thread.Sleep(10);
             }
         }
