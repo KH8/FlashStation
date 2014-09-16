@@ -177,12 +177,7 @@ namespace _PlcAgent.DataAquisition
 
         public CommunicationInterfaceComposite ReturnComposite(string name)
         {
-            CommunicationInterfaceComposite composite;
-
-            try { composite = (CommunicationInterfaceComposite)ReturnComponent(name); }
-            catch (Exception) { composite = null; }
-
-            return composite;
+            return _children.Where(communicationInterfaceComponent => communicationInterfaceComponent.GetType() == typeof (CommunicationInterfaceComposite)).Cast<CommunicationInterfaceComposite>().FirstOrDefault(composite => composite.Name == name);
         }
 
         public CommunicationInterfaceVariable ReturnVariable(string name)

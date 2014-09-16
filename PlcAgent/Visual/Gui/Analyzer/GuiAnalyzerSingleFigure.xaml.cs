@@ -206,8 +206,15 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             {
                 _analyzerChannel.AnalyzerObservableVariable = null;
                 selector.SelectedItem = null;
+
+                UnitTextBox.Text = "1";
                 TypeLabel.Content = "no variable selected";
                 VariableLabel.Content = "no variable selected";
+
+                BrushComboBox.ItemsSource = _colorsList;
+                BrushComboBox.SelectedItem = Brushes.Green;
+                BrushComboBox.DataContext = this;
+
                 return;
             }
 
