@@ -91,6 +91,7 @@ namespace _PlcAgent.DataAquisition
         public abstract void Remove(CommunicationInterfaceComponent c);
         public abstract void ReadValue(byte[] valByte);
         public abstract void WriteValue(byte[] valByte);
+        public abstract CommunicationInterfaceComponent ReturnComponent(string name);
 
         #endregion
 
@@ -169,9 +170,9 @@ namespace _PlcAgent.DataAquisition
             }
         }
 
-        public CommunicationInterfaceComponent ReturnComponent(string name)
+        public override CommunicationInterfaceComponent ReturnComponent(string name)
         {
-            return _children.FirstOrDefault(component => component.Name == name);
+            return _children.Select(communicationInterfaceComponent => communicationInterfaceComponent.ReturnComponent(name)).FirstOrDefault(component => component != null);
         }
 
         public CommunicationInterfaceComposite ReturnComposite(string name)
@@ -278,6 +279,11 @@ namespace _PlcAgent.DataAquisition
 
 
         #region Methods
+
+        public override CommunicationInterfaceComponent ReturnComponent(string name)
+        {
+            return Name == name ? this : null;
+        }
 
         public override void Add(CommunicationInterfaceComponent c)
         {

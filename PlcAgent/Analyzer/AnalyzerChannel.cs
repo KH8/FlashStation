@@ -101,6 +101,9 @@ namespace _PlcAgent.Analyzer
             {
                 analyzerChannel.AnalyzerObservableVariable.Clear();
             }
+
+            StoreConfiguration();
+            if (OnChannelListModified != null) OnChannelListModified();
         }
 
         public AnalyzerChannel GetChannel(uint id)
@@ -145,18 +148,17 @@ namespace _PlcAgent.Analyzer
                 if (channelStrings[1] != "Empty")
                 {
                     var newChannel = new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer);
-                    if (Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
-                        channelStrings[1]) != null)
+                    var variable = Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
+                        channelStrings[1]);
+
+                    if (variable != null)
                     {
-                        newChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer,
-                            Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
-                                channelStrings[1]))
+                        newChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer, variable)
                         {
                             Name = channelStrings[2],
+                            Unit = channelStrings[4],
+                            Brush = (Brush) new BrushConverter().ConvertFromString(channelStrings[5]),
                         };
-                        newChannel.AnalyzerObservableVariable.Unit = channelStrings[4];
-                        newChannel.AnalyzerObservableVariable.Brush =
-                            (Brush)new BrushConverter().ConvertFromString(channelStrings[5]);
                     }
                     Children.Add(newChannel);
                 }
@@ -166,6 +168,7 @@ namespace _PlcAgent.Analyzer
                 }
             }
 
+            StoreConfiguration();
             if (OnChannelListModified != null) OnChannelListModified();
         }
 

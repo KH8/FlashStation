@@ -102,7 +102,7 @@ namespace _PlcAgent.Analyzer
             PcControlMode = false;
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
-            CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += UpdateChannels;
+            CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += Clear;
 
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
@@ -192,6 +192,8 @@ namespace _PlcAgent.Analyzer
             _startRecordingTime = DateTime.Now.TimeOfDay.TotalMilliseconds;
             
             Logger.Log("ID: " + Header.Id + " Analysis cleared");
+
+            AnalyzerSetupFile.Save();
         }
 
         public void AddNewChannel()
@@ -216,12 +218,6 @@ namespace _PlcAgent.Analyzer
 
             AnalyzerSetupFile.NumberOfChannels[Header.Id] -= 1;
             AnalyzerSetupFile.Save();
-        }
-
-        public void UpdateChannels()
-        {
-            AnalyzerChannels.RetriveConfiguration();
-            AnalyzerChannels.StoreConfiguration();
         }
 
         #endregion

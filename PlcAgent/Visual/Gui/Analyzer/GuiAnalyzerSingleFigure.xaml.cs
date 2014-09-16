@@ -38,6 +38,9 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                 Brushes.Black
             };
 
+        private readonly ObservableCollection<object> _observableReadCollection = new ObservableCollection<object>();
+        private readonly ObservableCollection<object> _observableWriteCollection = new ObservableCollection<object>();
+
         #endregion
 
 
@@ -123,11 +126,8 @@ namespace _PlcAgent.Visual.Gui.Analyzer
 
         protected void OnInterfaceUpdated()
         {
-            var observableReadCollection = new ObservableCollection<object>();
-            var observableWriteCollection = new ObservableCollection<object>();
-
-            new DisplayDataSimpleBuilder().Build(observableReadCollection, observableWriteCollection, Analyzer.CommunicationInterfaceHandler);
-            VariableComboBox.ItemsSource = observableReadCollection;
+            new DisplayDataSimpleBuilder().Build(_observableReadCollection, _observableWriteCollection, Analyzer.CommunicationInterfaceHandler);
+            VariableComboBox.ItemsSource = _observableReadCollection;
         }
 
         private void UpdateControls(object sender, PropertyChangedEventArgs e)
@@ -137,7 +137,9 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             switch (e.PropertyName)
             {
                 case "CommunicationInterfaceVariable":
-                    VariableComboBox.SelectedItem = _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable;
+                    foreach (var displayData in _observableReadCollection.Cast<DisplayDataBuilder.DisplayData>().Where(displayData => displayData.Component ==
+                                                                                                                   _analyzerChannel.AnalyzerObservableVariable.CommunicationInterfaceVariable))
+                    { VariableComboBox.SelectedItem = displayData;}
                     TypeLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Type;
                     break;
                 case "Brush":
@@ -148,6 +150,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                     UnitTextBox.Text = _analyzerChannel.AnalyzerObservableVariable.Unit;
                     break;
             }
+
             VariableLabel.Dispatcher.BeginInvoke((new Action(delegate
             {
                 VariableLabel.Content = _analyzerChannel.AnalyzerObservableVariable.Name
@@ -204,6 +207,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
                 _analyzerChannel.AnalyzerObservableVariable = null;
                 selector.SelectedItem = null;
                 TypeLabel.Content = "no variable selected";
+                VariableLabel.Content = "no variable selected";
                 return;
             }
 
