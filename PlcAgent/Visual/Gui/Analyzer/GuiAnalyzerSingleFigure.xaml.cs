@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -9,6 +10,7 @@ using _PlcAgent.Analyzer;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
+using _PlcAgent.Visual.TreeListView;
 
 namespace _PlcAgent.Visual.Gui.Analyzer
 {
@@ -56,7 +58,8 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             BrushComboBox.SelectedItem = Brushes.Green;
             BrushComboBox.DataContext = this;
 
-            VariableComboBox.ItemsSource = Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.Children;
+            Analyzer.CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdated;
+            OnInterfaceUpdated();
 
             _analyzerChannel = Analyzer.AnalyzerChannels.GetChannel(id);
             ChannelGroupBox.Header = "Channel " + _analyzerChannel.Id;
@@ -118,6 +121,15 @@ namespace _PlcAgent.Visual.Gui.Analyzer
         protected override void OnDataCursorsVisibilityChanged()
         {}
 
+        protected void OnInterfaceUpdated()
+        {
+            var observableReadCollection = new ObservableCollection<object>();
+            var observableWriteCollection = new ObservableCollection<object>();
+
+            new DisplayDataSimpleBuilder().Build(observableReadCollection, observableWriteCollection, Analyzer.CommunicationInterfaceHandler);
+            VariableComboBox.ItemsSource = observableReadCollection;
+        }
+
         private void UpdateControls(object sender, PropertyChangedEventArgs e)
         {
             if (_analyzerChannel.AnalyzerObservableVariable == null) return;
@@ -172,7 +184,8 @@ namespace _PlcAgent.Visual.Gui.Analyzer
 
             try
             {
-                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer, (CommunicationInterfaceVariable)VariableComboBox.SelectedItem)
+                var displayData = (DisplayDataBuilder.DisplayData) VariableComboBox.SelectedItem;
+                _analyzerChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer, (CommunicationInterfaceVariable)displayData.Component)
                 {
                     Brush = (Brush) BrushComboBox.SelectedItem,
                     Unit = UnitTextBox.Text

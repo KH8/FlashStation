@@ -90,6 +90,7 @@ namespace _PlcAgent.DataAquisition
 
         public override void Deinitialize()
         {
+            OnInterfaceUpdatedDelegate = null;
             _communicationThread.Abort();
 
             Logger.Log("ID: " + Header.Id + " Communication interface Deinitialized");

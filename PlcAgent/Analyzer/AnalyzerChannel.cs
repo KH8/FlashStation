@@ -135,6 +135,8 @@ namespace _PlcAgent.Analyzer
 
         public void RetriveConfiguration()
         {
+            Children.Clear();
+
             foreach (
                 var channelStrings in
                     AnalyzerSetupFile.Channels[Analyzer.Header.Id].Where(channel => channel != null)
@@ -142,20 +144,20 @@ namespace _PlcAgent.Analyzer
             {
                 if (channelStrings[1] != "Empty")
                 {
-                    var newChannel = new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer)
+                    var newChannel = new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer);
+                    if (Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
+                        channelStrings[1]) != null)
                     {
-                        AnalyzerObservableVariable =
-                            new AnalyzerObservableVariable(Analyzer,
-                                Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
-                                    channelStrings[1]))
-                            {
-                                Name = channelStrings[2],
-                            }
-                    };
-                    newChannel.AnalyzerObservableVariable.Unit = channelStrings[4];
-                    newChannel.AnalyzerObservableVariable.Brush =
-                        (Brush) new BrushConverter().ConvertFromString(channelStrings[5]);
-
+                        newChannel.AnalyzerObservableVariable = new AnalyzerObservableVariable(Analyzer,
+                            Analyzer.CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(
+                                channelStrings[1]))
+                        {
+                            Name = channelStrings[2],
+                        };
+                        newChannel.AnalyzerObservableVariable.Unit = channelStrings[4];
+                        newChannel.AnalyzerObservableVariable.Brush =
+                            (Brush)new BrushConverter().ConvertFromString(channelStrings[5]);
+                    }
                     Children.Add(newChannel);
                 }
                 else
@@ -163,6 +165,8 @@ namespace _PlcAgent.Analyzer
                     Children.Add(new AnalyzerChannel(Convert.ToUInt32(channelStrings[0]), Analyzer));
                 }
             }
+
+            if (OnChannelListModified != null) OnChannelListModified();
         }
 
         #endregion

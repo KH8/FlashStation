@@ -137,20 +137,8 @@ namespace _PlcAgent.Visual.TreeListView
                     Type = "-",
                     Value = "-"
                 });
-                foreach (var inputComponent in communicationHandler.ReadInterfaceComposite.Children)
-                {
-                    switch (inputComponent.Type)
-                    {
-                        case CommunicationInterfaceComponent.VariableType.Bit:
-                            onlineReadDataStructure.Add(DisplayComponent(inputComponent as CiBit,
-                                communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
-                            break;
-                        default:
-                            onlineReadDataStructure.Add(DisplayComponent(inputComponent,
-                                communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress));
-                            break;
-                    }
-                }
+                StepDownComposite(onlineReadDataStructure, communicationHandler.ReadInterfaceComposite, communicationHandler.PlcCommunicator.PlcConfiguration.PlcReadStartAddress);
+
                 onlineWriteDataStructure.Clear();
                 onlineWriteDataStructure.Add(new DisplayData
                 {
@@ -160,21 +148,35 @@ namespace _PlcAgent.Visual.TreeListView
                     Type = "-",
                     Value = "-"
                 });
-                foreach (var inputComponent in communicationHandler.WriteInterfaceComposite.Children)
+                StepDownComposite(onlineWriteDataStructure, communicationHandler.WriteInterfaceComposite, communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress);
+            });
+        }
+
+        private static void StepDownComposite(ObservableCollection<object> collection, CommunicationInterfaceComposite composite, int startAddress)
+        {
+            foreach (var component in composite)
+            {
+                var actualItemCollection = collection;
+
+                if (component.GetType() == typeof(CommunicationInterfaceComposite))
                 {
-                    switch (inputComponent.Type)
+                    var compositeComponent = (CommunicationInterfaceComposite)component;
+                    StepDownComposite(collection, compositeComponent, startAddress);
+                }
+                else
+                {
+                    var variable = (CommunicationInterfaceVariable)component;
+                    switch (variable.Type)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
-                            onlineWriteDataStructure.Add(DisplayComponent(inputComponent as CiBit,
-                                communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
+                            actualItemCollection.Add(DisplayComponent(variable as CiBit, startAddress));
                             break;
                         default:
-                            onlineWriteDataStructure.Add(DisplayComponent(inputComponent,
-                                communicationHandler.PlcCommunicator.PlcConfiguration.PlcWriteStartAddress));
+                            actualItemCollection.Add(DisplayComponent(variable, startAddress));
                             break;
                     }
                 }
-            });
+            }
         }
     }
 

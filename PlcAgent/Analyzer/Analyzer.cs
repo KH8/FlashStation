@@ -221,6 +221,7 @@ namespace _PlcAgent.Analyzer
         public void UpdateChannels()
         {
             AnalyzerChannels.RetriveConfiguration();
+            AnalyzerChannels.StoreConfiguration();
         }
 
         #endregion
