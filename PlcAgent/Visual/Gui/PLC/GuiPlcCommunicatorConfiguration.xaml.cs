@@ -62,8 +62,11 @@ namespace _PlcAgent.Visual.Gui.PLC
 
         protected override void OnConnectionStatusChanged()
         {
-            UseSettingsButton.IsEnabled = true;
-            if (PlcCommunicator.ConnectionStatus != -1) UseSettingsButton.IsEnabled = false;
+            UseSettingsButton.Dispatcher.BeginInvoke((new Action(delegate
+            {
+                UseSettingsButton.IsEnabled = true;
+                if (PlcCommunicator.ConnectionStatus != -1) UseSettingsButton.IsEnabled = false;
+            })));
         }
 
         protected override void OnConfigurationStatusChanged()
