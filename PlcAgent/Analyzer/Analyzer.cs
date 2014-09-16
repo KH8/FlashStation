@@ -102,6 +102,8 @@ namespace _PlcAgent.Analyzer
             PcControlMode = false;
 
             CommunicationInterfaceHandler = communicationInterfaceHandler;
+            CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += UpdateChannels;
+
             AnalyzerAssignmentFile = analyzerAssignmentFile;
             AnalyzerSetupFile = analyzerSetupFile;
 
@@ -214,6 +216,11 @@ namespace _PlcAgent.Analyzer
 
             AnalyzerSetupFile.NumberOfChannels[Header.Id] -= 1;
             AnalyzerSetupFile.Save();
+        }
+
+        public void UpdateChannels()
+        {
+            AnalyzerChannels.RetriveConfiguration();
         }
 
         #endregion
