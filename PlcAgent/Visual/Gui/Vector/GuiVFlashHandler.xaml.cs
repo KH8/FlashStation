@@ -198,6 +198,8 @@ namespace _PlcAgent.Visual.Gui.Vector
             VFlashHandler.PcControlMode = !VFlashHandler.PcControlMode;
             box.IsChecked = VFlashHandler.PcControlMode;
             Logger.Log("VFlash: PC Control mode changed to " + VFlashHandler.PcControlMode);
+
+            OnStatusChanged();
         }
 
         private void LoadVFlashProject(object sender, RoutedEventArgs e)

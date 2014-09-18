@@ -253,12 +253,12 @@ namespace _PlcAgent.PLC
                     // Reading...
                     _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, PlcConfiguration.PlcReadDbNumber, PlcConfiguration.PlcReadStartAddress, PlcConfiguration.PlcReadLength, _readBytesBuffer);
                     if (_errorReadByteNoDave == 0) _readBytes = _readBytesBuffer;
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, PlcConfiguration.PlcWriteDbNumber, PlcConfiguration.PlcWriteStartAddress, PlcConfiguration.PlcWriteLength, _writeBytesBuffer);
                     if (_errorWriteByteNoDave == 0) _writeBytes = _writeBytesBuffer;
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(5);
             }
         }
 

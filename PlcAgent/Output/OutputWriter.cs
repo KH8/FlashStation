@@ -39,22 +39,35 @@ namespace _PlcAgent.Output
         public List<string> InterfaceToStrings(CommunicationInterfaceComposite inputComposite, int startPos, int stopPos)
         {
             var list = new List<string>();
-            foreach (var variable in inputComposite.Children.Where(variable => variable.Pos >= startPos && variable.Pos < stopPos))
+            StepDownInterfaceToStrings(list, inputComposite, startPos, stopPos);
+            return list;
+        }
+
+        protected void StepDownInterfaceToStrings(List<string> list, CommunicationInterfaceComposite inputComposite, int startPos, int stopPos)
+        {
+            foreach (var component in inputComposite.Children.Where(component => component.Pos >= startPos && component.Pos < stopPos))
             {
-                switch (variable.Type)
+                if (component.GetType() == typeof (CommunicationInterfaceComposite))
                 {
-                    case CommunicationInterfaceComponent.VariableType.Bit:
-                        var variableCastedBit = (CiBit) variable;
-                        list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
-                                 variableCastedBit.StringValue());
-                        break;
-                    default:
-                        list.Add(variable.Pos + "$" + variable.Name + "$" + variable.Type + "$" +
-                                 variable.StringValue());
-                        break;
+                    var composite = (CommunicationInterfaceComposite) component;
+                    StepDownInterfaceToStrings(list, composite, startPos, stopPos);
+                }
+                else
+                {
+                    switch (component.Type)
+                    {
+                        case CommunicationInterfaceComponent.VariableType.Bit:
+                            var variableCastedBit = (CiBit)component;
+                            list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
+                                     variableCastedBit.StringValue());
+                            break;
+                        default:
+                            list.Add(component.Pos + "$" + component.Name + "$" + component.Type + "$" +
+                                     component.StringValue());
+                            break;
+                    }
                 }
             }
-            return list;
         }
     }
 
