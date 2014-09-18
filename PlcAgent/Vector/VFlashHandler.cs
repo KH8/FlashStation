@@ -159,7 +159,6 @@ namespace _PlcAgent.Vector
             Int16 antwort = 0;
             Int16 caseAuxiliary = 0;
             Int16 programActive = 0;
-            Int16 programPercentage = 0;
 
             var version = "N/L ";
 
@@ -280,7 +279,7 @@ namespace _PlcAgent.Vector
                 }
 
                 Int16 statusInt = 0;
-                programPercentage = 0;
+                Int16 programPercentage = 0;
 
                 if (channelFound != null)
                     switch (channelFound.Status)
