@@ -159,6 +159,7 @@ namespace _PlcAgent.Vector
             Int16 antwort = 0;
             Int16 caseAuxiliary = 0;
             Int16 programActive = 0;
+            Int16 programPercentage = 0;
 
             var version = "N/L ";
 
@@ -279,6 +280,7 @@ namespace _PlcAgent.Vector
                 }
 
                 Int16 statusInt = 0;
+                programPercentage = 0;
 
                 if (channelFound != null)
                     switch (channelFound.Status)
@@ -304,9 +306,11 @@ namespace _PlcAgent.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Flashing:
                             statusInt = 499;
+                            programPercentage = Convert.ToInt16(channelFound.ProgressPercentage);
                             break;
                         case VFlashStationComponent.VFlashStatus.Flashed:
                             statusInt = 400;
+                            programPercentage = 100;
                             PcControlModeChangeAllowed = true;
                             break;
                         case VFlashStationComponent.VFlashStatus.Aborting:
@@ -329,6 +333,7 @@ namespace _PlcAgent.Vector
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Status"), statusInt);
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), programActive);
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), version);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Progress Percentage"), programPercentage);
                 }
                 Thread.Sleep(200);
             }
@@ -383,6 +388,9 @@ namespace _PlcAgent.Vector
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.String)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Fault Code"));
+            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+                return false;
+            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Progress Percentage"));
             if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
 
@@ -457,6 +465,13 @@ namespace _PlcAgent.Vector
                 Type = CommunicationInterfaceComponent.VariableType.Integer,
                 Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][8]
             });
+            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
+            {
+                VariableDirection = InterfaceAssignment.Direction.Out,
+                Name = "Progress Percentage",
+                Type = CommunicationInterfaceComponent.VariableType.Integer,
+                Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[id][9]
+            });
         }
 
         public override void UpdateAssignment()
@@ -480,7 +495,7 @@ namespace _PlcAgent.Vector
             VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][8] =
                 InterfaceAssignmentCollection.GetAssignment("Fault Code");
             VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id][9] =
-                InterfaceAssignmentCollection.GetAssignment("Status");
+                InterfaceAssignmentCollection.GetAssignment("Progress Percentage");
             VFlashHandlerInterfaceAssignmentFile.Save();
         }
 
