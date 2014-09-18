@@ -83,10 +83,8 @@ namespace _PlcAgent.Output
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PLCVariables");
 
-                foreach (string line in elementsList)
+                foreach (var linecomponents in elementsList.Select(line => line.Split('$')))
                 {
-                    string[] linecomponents = line.Split('$');
-
                     writer.WriteStartElement("Variable");
                     writer.WriteElementString("Position", linecomponents[0]);
                     writer.WriteElementString("Name", linecomponents[1]);
@@ -115,14 +113,12 @@ namespace _PlcAgent.Output
         public override void CreateOutput(string fixedName, string directoryName, List<string> elementsList)
         {
             var fileName = FileNameCreator(fixedName, directoryName, "csv");
-            using (StreamWriter streamWriter = File.AppendText(fileName))
+            using (var streamWriter = File.AppendText(fileName))
             {
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
-                foreach (string line in elementsList)
+                foreach (var linecomponents in elementsList.Select(line => line.Split('$')))
                 {
-                    string[] linecomponents = line.Split('$');
-
                     writer.WriteField("Position"); writer.WriteField(linecomponents[0]);
                     writer.WriteField("Name"); writer.WriteField(linecomponents[1]);
                     writer.WriteField("Type"); writer.WriteField(linecomponents[2]);
