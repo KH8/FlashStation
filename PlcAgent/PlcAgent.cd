@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="_PlcAgent.Analyzer.Analyzer" Collapsed="true">
     <Position X="15.5" Y="11.75" Width="1.5" />
     <TypeIdentifier>
@@ -35,7 +35,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerCsvHandler" Collapsed="true">
-    <Position X="9.25" Y="6" Width="1.75" />
+    <Position X="4" Y="6" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAgAAAAAAAAACAQAgAAABAAAAAQAAAIAAAAA=</HashCode>
       <FileName>Analyzer\AnalyzerCsvHandler.cs</FileName>
@@ -56,7 +56,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Analyzer.AnalyzerObservableVariable" Collapsed="true">
-    <Position X="20.25" Y="6" Width="2.25" />
+    <Position X="11.75" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>EAEAIgAAIABASA5AIAIAACQAgAABgEEAAQAgASBAAAI=</HashCode>
       <FileName>Analyzer\AnalyzerObservableVariable.cs</FileName>
@@ -109,7 +109,7 @@
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceComponent" Collapsed="true">
     <Position X="14.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAIAIAAAAAAAAAQAAAAABAQAAACAAAQgAQAgAQAAAAg=</HashCode>
+      <HashCode>AAIAIAAAAAAAAAQAAAAABAQAAACAAAQgAQAgAQEAAAg=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -124,7 +124,7 @@
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceVariable" Collapsed="true">
     <Position X="16" Y="1.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterface.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -199,21 +199,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceBuilder" Collapsed="true">
-    <Position X="15" Y="20.5" Width="2.25" />
+    <Position X="24" Y="20.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAABAAQAAAIAAAAIAAAABAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceSimpleBuilder" Collapsed="true">
-    <Position X="12.75" Y="21.75" Width="2.75" />
+    <Position X="21.75" Y="21.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.DataAquisition.CommunicationInterfaceHierarchicalBuilder" Collapsed="true">
-    <Position X="16.25" Y="21.75" Width="3.25" />
+    <Position X="25.25" Y="21.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAA=</HashCode>
       <FileName>DataAquisition\CommunicationInterfaceBuilder.cs</FileName>
@@ -360,7 +360,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputHandlerComponent" Collapsed="true">
-    <Position X="0.5" Y="22.5" Width="2" />
+    <Position X="3.5" Y="22.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAAAAA=</HashCode>
       <FileName>Output\OutputHandlerComponent.cs</FileName>
@@ -381,7 +381,7 @@
   <Class Name="_PlcAgent.Output.OutputWriter" Collapsed="true">
     <Position X="13" Y="16.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAACAQAAAAABAAEAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAACAQAgAAABAAEAAAAA=</HashCode>
       <FileName>Output\OutputWriter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -413,8 +413,30 @@
       <FileName>Output\OutputWriterFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="_PlcAgent.Output.Template.OutputDataTemplateComponent" Collapsed="true">
+    <Position X="15" Y="20.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAQACAAAAAAAQAAAAABAQAAAAAAAAAAQBAAAEAAAA=</HashCode>
+      <FileName>Output\Template\OutputDataTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.Template.OutputDataTemplateComposite" Collapsed="true">
+    <Position X="12.75" Y="21.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQAAAAAAAAABAAAAAEBAAEAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Output\Template\OutputDataTemplate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="_PlcAgent.Output.Template.OutputDataTemplateLeaf" Collapsed="true">
+    <Position X="16" Y="21.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Output\Template\OutputDataTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="_PlcAgent.PLC.PlcCommunicator" Collapsed="true">
-    <Position X="7.75" Y="10.25" Width="1.5" />
+    <Position X="13.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAJAIAAAEQAQAAAkJRABAASQAAAFACAIgIDEAQABA=</HashCode>
       <FileName>PLC\PlcCommunicator.cs</FileName>
@@ -595,7 +617,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcAreaAttribute" Collapsed="true">
-    <Position X="9.75" Y="15" Width="1.75" />
+    <Position X="12.25" Y="15" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
@@ -623,7 +645,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcPartialViewAttribute" Collapsed="true">
-    <Position X="12.25" Y="15" Width="2.25" />
+    <Position X="14.75" Y="15" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
@@ -658,7 +680,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Properties.AspMvcViewAttribute" Collapsed="true">
-    <Position X="15.25" Y="15" Width="1.75" />
+    <Position X="9.75" Y="15" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Properties\Annotations.cs</FileName>
@@ -1020,7 +1042,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Vector.VFlashTypeBank" Collapsed="true">
-    <Position X="13.25" Y="10.25" Width="1.5" />
+    <Position X="22.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIQgAAAAAAAAQAAAAIEBAEAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Vector\VFlashTypeBank.cs</FileName>
@@ -1067,21 +1089,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerConfiguration" Collapsed="true">
-    <Position X="4" Y="6" Width="2" />
+    <Position X="6.5" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAACgAAAAAAAACAAAAABAAAAAABACAAAQAgAAAACAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerConfiguration.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerControl" Collapsed="true">
-    <Position X="6.75" Y="6" Width="1.75" />
+    <Position X="9.25" Y="6" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAggAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAQAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerControl.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerDataCursor" Collapsed="true">
-    <Position X="11.75" Y="6" Width="2" />
+    <Position X="14.75" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>IAAAAggAABACAAIAIBAAAADAoAABQkAAIQAAAAAAAAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerDataCursor.xaml.cs</FileName>
@@ -1089,14 +1111,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerDataCursorTable" Collapsed="true">
-    <Position X="14.5" Y="6" Width="2.25" />
+    <Position X="17.5" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAABgAAQAAAAAAAAAAAAAAAgEABAAAAAQAAAAAEAAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerDataCursorTable.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerMainFrame" Collapsed="true">
-    <Position X="17.5" Y="6" Width="2" />
+    <Position X="20.5" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>ACBAAggAAAAAAAAAAAAAAABABAABAAAAAQAAAAAgQAA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerMainFrame.xaml.cs</FileName>
@@ -1106,20 +1128,20 @@
   <Class Name="_PlcAgent.Visual.Gui.Analyzer.GuiAnalyzerSingleFigure" Collapsed="true">
     <Position X="23.25" Y="6" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAgAKQAACACAAAAAAAABAAAABABAAASAgAAAAAAA=</HashCode>
+      <HashCode>BAKAAgAKQAACACAAAAAAAABAAAABABAAASAgAAAAAQA=</HashCode>
       <FileName>Visual\Gui\Analyzer\GuiAnalyzerSingleFigure.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceConfiguration" Collapsed="true">
-    <Position X="18.75" Y="15" Width="3" />
+    <Position X="22.5" Y="15" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQBA=</HashCode>
       <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceConfiguration.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineHierarchical" Collapsed="true">
-    <Position X="22.5" Y="15" Width="3.25" />
+    <Position X="26.25" Y="15" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAIACBAAAAAAAAAgAAABAAgAAA=</HashCode>
       <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineHierarchical.xaml.cs</FileName>
@@ -1127,7 +1149,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.DataAquisition.GuiCommunicationInterfaceOnlineSimple" Collapsed="true">
-    <Position X="26.5" Y="15" Width="3" />
+    <Position X="18.75" Y="15" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAIACBAAgAAAAAAgAAABAAgAAA=</HashCode>
       <FileName>Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs</FileName>
@@ -1135,7 +1157,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.GuiComponent" Collapsed="true">
-    <Position X="22.25" Y="10.25" Width="1.5" />
+    <Position X="7.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAAEIgAAAAAAAQAQAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\Gui\GuiComponent.cs</FileName>
@@ -1149,7 +1171,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.Gui.Output.GuiOutputHandler" Collapsed="true">
-    <Position X="0.5" Y="24" Width="1.75" />
+    <Position X="3.5" Y="24" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAABQAAAAAAAAAAAACCAggAACAIgAAAAAAA=</HashCode>
       <FileName>Visual\Gui\Output\GuiOutputHandler.xaml.cs</FileName>
@@ -1206,16 +1228,16 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.DisplayDataBuilder" Collapsed="true">
-    <Position X="20.75" Y="20.5" Width="1.5" />
+    <Position X="0.75" Y="22.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAKAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visual\TreeListView\DisplayDataBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Visual.TreeListView.DisplayDataSimpleBuilder" Collapsed="true">
-    <Position X="20.5" Y="21.75" Width="2" />
+    <Position X="0.5" Y="23.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAg=</HashCode>
       <FileName>Visual\TreeListView\DisplayDataBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
