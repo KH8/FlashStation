@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="Output\OutputWriterFactory.cs" />
     <Compile Include="General\ProjectFileStruture.cs" />
+    <Compile Include="Output\Template\OutputDataTemplate.cs" />
     <Compile Include="PLC\PlcCommunicatorComponent.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="MainRegistry\MainRegistry.cs" />
