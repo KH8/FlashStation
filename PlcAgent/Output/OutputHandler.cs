@@ -59,7 +59,6 @@ namespace _PlcAgent.Output
         public override void Deinitialize()
         {
             _communicationThread.Abort();
-
             Logger.Log("ID: " + Header.Id + " Output Handler Deinitialized");
         }
 

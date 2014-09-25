@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using _PlcAgent.DataAquisition;
 using _PlcAgent.Output.Template;
 using _PlcAgent.Properties;
 using _PlcAgent.MainRegistry;
@@ -52,9 +53,12 @@ namespace _PlcAgent.General
 
         public OutputDataTemplateComposite OutputDataTemplate { get; set; }
         public DisplayDataBuilder.DisplayDataContainer ReadInterfaceCollection { get { return _outputDataTemplateCollection; } }
+        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
 
-        protected OutputModule(uint id, string name) : base(id, name)
+        protected OutputModule(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler)
+            : base(id, name)
         {
+            CommunicationInterfaceHandler = communicationInterfaceHandler;
         }
 
         public void ClearDataTemplate()
