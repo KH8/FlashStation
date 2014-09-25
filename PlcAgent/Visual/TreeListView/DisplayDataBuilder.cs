@@ -21,6 +21,7 @@ namespace _PlcAgent.Visual.TreeListView
             public string Name { get; set; }
             public string LastName { get; set; }
             public string Type { get; set; }
+            public object Reference { get; set; }
 
             public string Value
             {

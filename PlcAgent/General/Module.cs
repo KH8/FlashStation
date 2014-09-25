@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using _PlcAgent.Output.Template;
 using _PlcAgent.Properties;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.TreeListView;
 
 namespace _PlcAgent.General
 {
@@ -46,7 +48,16 @@ namespace _PlcAgent.General
 
     public abstract class OutputModule : ExecutiveModule
     {
+        private readonly DisplayDataBuilder.DisplayDataContainer _outputDataTemplateCollection = new DisplayDataBuilder.DisplayDataContainer();
+
+        public OutputDataTemplateComposite OutputDataTemplate { get; set; }
+        public DisplayDataBuilder.DisplayDataContainer ReadInterfaceCollection { get { return _outputDataTemplateCollection; } }
+
         protected OutputModule(uint id, string name) : base(id, name)
+        {
+        }
+
+        public void ClearDataTemplate()
         {
         }
     }
