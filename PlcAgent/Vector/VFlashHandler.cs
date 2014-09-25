@@ -8,7 +8,7 @@ using _PlcAgent.Log;
 
 namespace _PlcAgent.Vector
 {
-    public class VFlashHandler : OutputModule
+    public class VFlashHandler : ExecutiveModule
     {
         #region Variables
 

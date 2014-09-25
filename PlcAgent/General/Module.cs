@@ -23,7 +23,7 @@ namespace _PlcAgent.General
         }
     }
 
-    public abstract class OutputModule : Module
+    public abstract class ExecutiveModule : Module
     {
         private Boolean _pcControlMode;
         protected Boolean PcControlModeChangeAllowed  { get; set; }
@@ -32,7 +32,7 @@ namespace _PlcAgent.General
 
         public abstract void UpdateAssignment();
 
-        protected OutputModule(uint id, string name) : base(id, name){}
+        protected ExecutiveModule(uint id, string name) : base(id, name){}
 
         public Boolean PcControlMode
         {
@@ -42,5 +42,19 @@ namespace _PlcAgent.General
 
         protected abstract Boolean CheckInterface();
         protected abstract void CreateInterfaceAssignment(uint id, string[][] assignment);
+    }
+
+    public abstract class OutputModule : ExecutiveModule
+    {
+        protected OutputModule(uint id, string name) : base(id, name)
+        {
+        }
+    }
+
+    public abstract class InputModule : ExecutiveModule
+    {
+        protected InputModule(uint id, string name) : base(id, name)
+        {
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace _PlcAgent.Visual.Gui
     {
         #region Variables
 
-        private readonly OutputModule _module;
+        private readonly ExecutiveModule _module;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace _PlcAgent.Visual.Gui
 
         #region Constructors
 
-        public GuiInterfaceAssignment(OutputModule module)
+        public GuiInterfaceAssignment(ExecutiveModule module)
         {
             _module = module;
             InitializeComponent();

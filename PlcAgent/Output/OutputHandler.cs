@@ -7,7 +7,7 @@ using _PlcAgent.Log;
 
 namespace _PlcAgent.Output
 {
-    public class OutputHandler : OutputModule
+    public class OutputHandler : ExecutiveModule
     {
         #region Variables
 

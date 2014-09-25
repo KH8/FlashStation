@@ -12,7 +12,7 @@ using _PlcAgent.Visual.Gui.Analyzer;
 
 namespace _PlcAgent.Analyzer
 {
-    public class Analyzer : OutputModule
+    public class Analyzer : ExecutiveModule
     {
         #region Variables
 
