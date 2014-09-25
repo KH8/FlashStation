@@ -32,9 +32,18 @@ namespace _PlcAgent.Output.OutputFileCreator
         {
             OutputWriter = new OutputXmlWriter();
 
-            //_communicationThread = new Thread(OutputCommunicationThread);
+            _communicationThread = new Thread(OutputCommunicationThread);
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
+        }
+
+        #endregion
+
+
+        #region Background methods
+
+        private void OutputCommunicationThread()
+        {
         }
 
         #endregion
