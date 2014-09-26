@@ -138,11 +138,11 @@ namespace _PlcAgent.Output.Template
 
     #region Leafs
 
-    public abstract class OutputDataTemplateLeaf : OutputDataTemplateComponent
+    public class OutputDataTemplateLeaf : OutputDataTemplateComponent
     {
         #region Constructors
 
-        protected OutputDataTemplateLeaf(string name, object reference, OutputDataTemplateComponentType type, CommunicationInterfaceComponent component)
+        public OutputDataTemplateLeaf(string name, object reference, OutputDataTemplateComponentType type, CommunicationInterfaceComponent component)
             : base(name, reference, type, component)
         {
         }
