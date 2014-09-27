@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Output.Template;
 using _PlcAgent.Properties;
 
 namespace _PlcAgent.Visual.TreeListView
@@ -73,6 +74,7 @@ namespace _PlcAgent.Visual.TreeListView
         #region Methods
 
         public abstract void Build(ObservableCollection<object> onlineReadDataStructure, ObservableCollection<object> onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler);
+        public abstract void Build(ObservableCollection<object> displayDataTemplateStructure, OutputDataTemplateComposite outputDataTemplateComposite);
 
         protected static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
         {
@@ -153,7 +155,24 @@ namespace _PlcAgent.Visual.TreeListView
             });
         }
 
-        private static void StepDownComposite(ObservableCollection<object> collection, CommunicationInterfaceComposite composite, int startAddress)
+        public override void Build(ObservableCollection<object> displayDataTemplateStructure, OutputDataTemplateComposite outputDataTemplateComposite)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                displayDataTemplateStructure.Clear();
+                displayDataTemplateStructure.Add(new DisplayData
+                {
+                    Address = "",
+                    Name = "Output Data Template",
+                    LastName = "Output Data Template",
+                    Type = "-",
+                    Value = "-"
+                });
+                StepDownComposite(displayDataTemplateStructure, outputDataTemplateComposite);
+            });
+        }
+
+        private static void StepDownComposite(ObservableCollection<object> collection, IEnumerable composite, int startAddress)
         {
             foreach (var component in composite)
             {
@@ -176,6 +195,33 @@ namespace _PlcAgent.Visual.TreeListView
                             actualItemCollection.Add(DisplayComponent(variable, startAddress));
                             break;
                     }
+                }
+            }
+        }
+
+        private static void StepDownComposite(ObservableCollection<object> collection, IEnumerable composite)
+        {
+            foreach (var component in composite)
+            {
+                var actualItemCollection = collection;
+
+                if (component.GetType() == typeof(OutputDataTemplateComposite))
+                {
+                    var compositeComponent = (OutputDataTemplateComposite)component;
+                    StepDownComposite(collection, compositeComponent);
+                }
+                else
+                {
+                    var variable = (OutputDataTemplateLeaf)component;
+                    actualItemCollection.Add(new DisplayData
+                    {
+                        Component = variable.Component,
+                        Address = "",
+                        Name = variable.Component.Name,
+                        LastName = variable.Component.LastName,
+                        Type = variable.Component.Type.ToString(),
+                        Value = ""
+                    });
                 }
             }
         }
@@ -221,7 +267,29 @@ namespace _PlcAgent.Visual.TreeListView
             });
         }
 
-        private static void StepDownComposite(ItemCollection items, CommunicationInterfaceComposite composite, int startAddress)
+        public override void Build(ObservableCollection<object> displayDataTemplateStructure, OutputDataTemplateComposite outputDataTemplateComposite)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                var header = new TreeListViewItem
+                {
+                    Header = new DisplayData
+                    {
+                        Address = "",
+                        Name = "Output Data Template",
+                        LastName = "Output Data Template",
+                        Type = "-",
+                        Value = "-"
+                    },
+                    IsExpanded = true
+                };
+                displayDataTemplateStructure.Clear();
+                displayDataTemplateStructure.Add(header);
+                StepDownComposite(header.Items, outputDataTemplateComposite);
+            });
+        }
+
+        private static void StepDownComposite(ItemCollection items, IEnumerable composite, int startAddress)
         {
             foreach (var component in composite)
             {
@@ -249,6 +317,46 @@ namespace _PlcAgent.Visual.TreeListView
                             actualItemCollection.Add(DisplayComponent(variable, startAddress));
                             break;
                     }
+                }
+            }
+        }
+
+        private static void StepDownComposite(ItemCollection items, IEnumerable composite)
+        {
+            foreach (var component in composite)
+            {
+                var actualItemCollection = items;
+
+                if (component.GetType() == typeof(OutputDataTemplateComposite))
+                {
+                    var compositeComponent = (OutputDataTemplateComposite)component;
+                    var displayData = new DisplayData
+                    {
+                        Component = compositeComponent.Component,
+                        Address = "",
+                        Name = compositeComponent.Component.Name,
+                        LastName = compositeComponent.Component.LastName,
+                        Type = "Composite",
+                        Value = ""
+                    };
+
+                    var header = new TreeListViewItem { Header = displayData };
+                    actualItemCollection.Add(header);
+
+                    StepDownComposite(header.Items, compositeComponent);
+                }
+                else
+                {
+                    var variable = (OutputDataTemplateLeaf)component;
+                    actualItemCollection.Add(new DisplayData
+                    {
+                        Component = variable.Component,
+                        Address = "",
+                        Name = variable.Component.Name,
+                        LastName = variable.Component.LastName,
+                        Type = variable.Component.Type.ToString(),
+                        Value = ""
+                    });
                 }
             }
         }
