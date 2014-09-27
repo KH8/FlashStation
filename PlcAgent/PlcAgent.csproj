@@ -187,6 +187,9 @@
     <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnlineSimple.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\Output\GuiOutputDataTemplate.xaml.cs">
+      <DependentUpon>GuiOutputDataTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml.cs">
       <DependentUpon>GuiPlcCommunicatorStatus.xaml</DependentUpon>
     </Compile>
@@ -307,6 +310,10 @@
     <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\Output\GuiOutputDataTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\PLC\GuiPlcCommunicatorStatus.xaml">
       <SubType>Designer</SubType>

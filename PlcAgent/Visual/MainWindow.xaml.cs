@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -15,12 +16,16 @@ using _PlcAgent.License;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
+using _PlcAgent.Output.OutputFileCreator;
+using _PlcAgent.Output.Template;
 using _PlcAgent.Signature;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
 using _PlcAgent.Visual.Gui.Analyzer;
 using _PlcAgent.Visual.Gui.DataAquisition;
+using _PlcAgent.Visual.Gui.Output;
 using _PlcAgent.Visual.Gui.Vector;
+using _PlcAgent.Visual.TreeListView;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
@@ -563,6 +568,27 @@ namespace _PlcAgent.Visual
             SelectTabItem(MainTabControl, mainTabControlSelection);
             SelectTabItem(ConnectionTabControl, connectionTabControlSelection);
             SelectTabItem(OutputTabControl, outputTabControlSelection);
+
+            //*----------------------------------------------------------------------------------------------------
+            var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
+
+            var template = OutputDataTemplateBuilder.ComponentConverter(cih.ReadInterfaceComposite);
+            var collection = new ObservableCollection<object>();
+            new DisplayDataHierarchicalBuilder().Build(collection, (OutputDataTemplateComposite)template);
+
+            var newtabItemTest = new TabItem { Header = "Test" };
+            MainTabControl.Items.Add(newtabItemTest);
+            MainTabControl.SelectedItem = newtabItemTest;
+
+            var newGridTest = new Grid();
+            newtabItemTest.Content = newGridTest;
+
+            newGridTest.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
+            newGridTest.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
+
+            var gridGuiOdt = new GuiComponent(0, "", new GuiOutputDataTemplate(collection));
+            gridGuiOdt.Initialize(0, 0, newGridTest);
+            //*/
         }
 
         private static void SelectTabItem(TabControl tabControl, object tabItemHeader)
