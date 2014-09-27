@@ -15,8 +15,6 @@ using _PlcAgent.License;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
-using _PlcAgent.Output.OutputFileCreator;
-using _PlcAgent.Output.Template;
 using _PlcAgent.Signature;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
@@ -63,12 +61,6 @@ namespace _PlcAgent.Visual
 
             UpdateGui();
             UpdateTreeView();
-
-            var cih = (CommunicationInterfaceHandler) _registry.CommunicationInterfaceHandlers.ReturnComponent(1);
-
-            var ofc = new OutputFileCreator(0, "", cih);
-            var template = OutputDataTemplateBuilder.ComponentConverter(cih.ReadInterfaceComposite);
-            ofc.CreateOutput("test.xml", (OutputDataTemplateComposite)template);
         }
 
         #endregion
