@@ -16,7 +16,6 @@ using _PlcAgent.License;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.Output;
-using _PlcAgent.Output.OutputFileCreator;
 using _PlcAgent.Output.Template;
 using _PlcAgent.Signature;
 using _PlcAgent.Vector;
