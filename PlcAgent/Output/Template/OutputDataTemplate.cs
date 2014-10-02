@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms.VisualStyles;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Output.OutputFileCreator;
 
 namespace _PlcAgent.Output.Template
 {
@@ -109,6 +112,21 @@ namespace _PlcAgent.Output.Template
         public override void Remove(OutputDataTemplateComponent component)
         {
             _children.Remove(component);
+        }
+
+        public void Import(string fileName)
+        {
+            
+        }
+
+        public void Export(string fileName)
+        {
+            new XmlFileCreator().CreateOutput(fileName, this);
+        }
+
+        public void Clear()
+        {
+            _children.Clear();
         }
 
         public override OutputDataTemplateComponent ReturnComponent(string name)

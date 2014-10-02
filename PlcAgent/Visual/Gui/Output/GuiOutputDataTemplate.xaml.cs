@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.General;
+using _PlcAgent.Output.Template;
 using _PlcAgent.Visual.Interfaces;
 using _PlcAgent.Visual.TreeListView;
 
@@ -18,6 +19,7 @@ namespace _PlcAgent.Visual.Gui.Output
         #region Variables
 
         private Point _storedPosition;
+        private readonly OutputDataTemplateComposite _outputDataTemplateComposite;
 
         #endregion
 
@@ -31,10 +33,16 @@ namespace _PlcAgent.Visual.Gui.Output
 
         #region Constructors
 
-        public GuiOutputDataTemplate(IEnumerable<object> displayDataTemplateStructure)
+        public GuiOutputDataTemplate(OutputDataTemplateComposite template)
         {
             InitializeComponent();
-            OutputDataTemplateTreeListView.ItemsSource = displayDataTemplateStructure;
+
+            _outputDataTemplateComposite = template;
+
+            var collection = new ObservableCollection<object>();
+            new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
+
+            OutputDataTemplateTreeListView.ItemsSource = collection;
         }
 
         #endregion
@@ -94,17 +102,27 @@ namespace _PlcAgent.Visual.Gui.Output
 
         private void Clear(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _outputDataTemplateComposite.Clear();
+
+            var collection = new ObservableCollection<object>();
+            new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
+
+            OutputDataTemplateTreeListView.ItemsSource = collection;
         }
 
         private void Import(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _outputDataTemplateComposite.Import("");
+
+            var collection = new ObservableCollection<object>();
+            new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
+
+            OutputDataTemplateTreeListView.ItemsSource = collection;
         }
 
         private void Export(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _outputDataTemplateComposite.Export("test_template.xml");
         }
 
         #endregion

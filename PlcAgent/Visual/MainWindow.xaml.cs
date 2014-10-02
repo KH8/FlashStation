@@ -572,8 +572,6 @@ namespace _PlcAgent.Visual
             var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
 
             var template = OutputDataTemplateBuilder.ComponentConverter(cih.ReadInterfaceComposite);
-            var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, (OutputDataTemplateComposite)template);
 
             var newtabItemTest = new TabItem { Header = "Test" };
             MainTabControl.Items.Add(newtabItemTest);
@@ -585,7 +583,7 @@ namespace _PlcAgent.Visual
             newGridTest.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
             newGridTest.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-            var gridGuiOdt = new GuiComponent(0, "", new GuiOutputDataTemplate(collection));
+            var gridGuiOdt = new GuiComponent(0, "", new GuiOutputDataTemplate((OutputDataTemplateComposite)template));
             gridGuiOdt.Initialize(0, 0, newGridTest);
 
             var guiOutputDataTemplate = (GuiOutputDataTemplate)gridGuiOdt.UserControl;
