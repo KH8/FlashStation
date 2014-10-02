@@ -588,6 +588,9 @@ namespace _PlcAgent.Visual
 
             var gridGuiOdt = new GuiComponent(0, "", new GuiOutputDataTemplate(collection));
             gridGuiOdt.Initialize(0, 0, newGridTest);
+
+            var guiOutputDataTemplate = (GuiOutputDataTemplate)gridGuiOdt.UserControl;
+            guiOutputDataTemplate.UpdateSizes(newGridTest.Height, newGridTest.Width);
             //*/
         }
 

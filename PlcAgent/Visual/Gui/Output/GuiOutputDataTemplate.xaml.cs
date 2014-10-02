@@ -52,8 +52,6 @@ namespace _PlcAgent.Visual.Gui.Output
 
             OutputDataTemplateTreeListView.Height = height;
             OutputDataTemplateTreeListView.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
-            OutputDataTemplateTreeListView.Height = height;
-            OutputDataTemplateTreeListView.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
         }
 
         #endregion
