@@ -40,7 +40,7 @@
         <treeListView:LevelToIndentConverter x:Key="LevelToIndentConverter"/>
 
         <DataTemplate x:Key="CellTemplateName">
-            <DockPanel Width="220" VerticalAlignment="Center" HorizontalAlignment="Left" >
+            <DockPanel Width="300" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" Margin="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type treeListView:TreeListViewItem}}}"
                       IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource  AncestorType={x:Type treeListView:TreeListViewItem}}}" ClickMode="Press"/>
                 <TextBlock Text="{Binding LastName}" />
@@ -52,29 +52,15 @@
             </DataTemplate.Triggers>
         </DataTemplate>
 
-        <DataTemplate x:Key="CellTemplateAddress">
-            <DockPanel Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                <TextBlock Text="{Binding Address}" />
-            </DockPanel>
-        </DataTemplate>
-
         <DataTemplate x:Key="CellTemplateType">
             <DockPanel Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <TextBlock Text="{Binding Type}" />
             </DockPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="CellTemplateValue">
-            <DockPanel Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                <TextBlock Text="{Binding Value}" />
-            </DockPanel>
-        </DataTemplate>
-
         <GridViewColumnCollection x:Key="Gvcc">
-            <GridViewColumn Header="Address" CellTemplate="{StaticResource CellTemplateAddress}"  />
             <GridViewColumn Header="Name" CellTemplate="{StaticResource CellTemplateName}" />
             <GridViewColumn Header="Type" CellTemplate="{StaticResource CellTemplateType}" />
-            <GridViewColumn Header="Value" CellTemplate="{StaticResource CellTemplateValue}" />
         </GridViewColumnCollection>
 
         <Style TargetType="{x:Type treeListView:TreeListViewItem}">
