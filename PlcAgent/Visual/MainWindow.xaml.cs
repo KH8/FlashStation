@@ -24,7 +24,6 @@ using _PlcAgent.Visual.Gui.Analyzer;
 using _PlcAgent.Visual.Gui.DataAquisition;
 using _PlcAgent.Visual.Gui.Output;
 using _PlcAgent.Visual.Gui.Vector;
-using _PlcAgent.Visual.TreeListView;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;

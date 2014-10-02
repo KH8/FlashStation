@@ -45,7 +45,7 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         public void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite)
         {
-            XmlFileCreator.CreateOutput(fileName, outputDataTemplateComposite);
+            XmlFileCreator.CreateOutput(fileName, outputDataTemplateComposite, XmlFileCreator.OutputConfiguration.Composite);
         }
 
         #endregion

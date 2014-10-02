@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Windows.Forms.VisualStyles;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Log;
 using _PlcAgent.Output.OutputFileCreator;
 
 namespace _PlcAgent.Output.Template
@@ -114,14 +113,10 @@ namespace _PlcAgent.Output.Template
             _children.Remove(component);
         }
 
-        public void Import(string fileName)
-        {
-            
-        }
-
         public void Export(string fileName)
         {
-            new XmlFileCreator().CreateOutput(fileName, this);
+            new XmlFileCreator().CreateOutput(fileName, this, XmlFileCreator.OutputConfiguration.Template);
+            Logger.Log("Output Data Templated exported to the file: " + fileName);
         }
 
         public void Clear()

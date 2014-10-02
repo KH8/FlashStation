@@ -2,44 +2,65 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
-using _PlcAgent.Log;
 using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Output.OutputFileCreator
 {
     class XmlFileCreator
     {
-        public void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite)
+        public enum OutputConfiguration
+        {
+            Composite,
+            Template
+        }
+
+        public void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             var settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
             using (var writer = XmlWriter.Create(fileName, settings))
             {
                 writer.WriteStartDocument();
-                writer.WriteStartElement("Composite");
+                writer.WriteStartElement(configuration.ToString());
 
-                WriteComponentToTheFile(writer, outputDataTemplateComposite);
+                WriteComponentToTheFile(writer, outputDataTemplateComposite, configuration);
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
-            Logger.Log(fileName + " XML output file created");
         }
 
-        public void WriteComponentToTheFile(XmlWriter writer, OutputDataTemplateComposite outputDataTemplateComposite)
+        private void WriteElement(XmlWriter writer, OutputDataTemplateComponent component, OutputConfiguration configuration)
+        {
+            switch (configuration)
+            {
+                    case OutputConfiguration.Composite:
+                        writer.WriteElementString("Position", component.Component.Pos.ToString(CultureInfo.InvariantCulture));
+                        writer.WriteElementString("Name", component.Component.Name);
+                        writer.WriteElementString("Type", component.Component.Type.ToString());
+                        writer.WriteElementString("Value", CleanInvalidXmlChars(component.Component.StringValue()).Trim());
+                    break;
+                    case OutputConfiguration.Template:
+                        writer.WriteElementString("Name", component.Component.Name);
+                        writer.WriteElementString("Type", component.Component.Type.ToString());
+                        writer.WriteElementString("InterfaceId", "");
+                        writer.WriteElementString("InterfaceType", "");
+                        writer.WriteElementString("Reference", "");
+                    break;
+            }
+        }
+
+        public void WriteComponentToTheFile(XmlWriter writer, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             foreach (var component in outputDataTemplateComposite.Cast<OutputDataTemplateComponent>())
             {
                 writer.WriteStartElement(component.Name);
                 if (component.GetType() == typeof(OutputDataTemplateComposite))
                 {
-                    WriteComponentToTheFile(writer, component as OutputDataTemplateComposite);
+                    WriteComponentToTheFile(writer, component as OutputDataTemplateComposite, configuration);
                 }
                 else
                 {
-                    writer.WriteElementString("Position", component.Component.Pos.ToString(CultureInfo.InvariantCulture));
-                    writer.WriteElementString("Name", component.Component.Name);
-                    writer.WriteElementString("Type", component.Component.Type.ToString());
-                    writer.WriteElementString("Value", CleanInvalidXmlChars(component.Component.StringValue()).Trim());
+                    WriteElement(writer, component, configuration);
                 }
                 writer.WriteEndElement();
             }

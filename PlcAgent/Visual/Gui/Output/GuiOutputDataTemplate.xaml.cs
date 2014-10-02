@@ -4,7 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using _PlcAgent.General;
+using _PlcAgent.Log;
 using _PlcAgent.Output.Template;
 using _PlcAgent.Visual.Interfaces;
 using _PlcAgent.Visual.TreeListView;
@@ -112,7 +114,9 @@ namespace _PlcAgent.Visual.Gui.Output
 
         private void Import(object sender, RoutedEventArgs e)
         {
-            _outputDataTemplateComposite.Import("");
+            _outputDataTemplateComposite.Clear();
+
+            //todo import logic
 
             var collection = new ObservableCollection<object>();
             new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
@@ -122,7 +126,18 @@ namespace _PlcAgent.Visual.Gui.Output
 
         private void Export(object sender, RoutedEventArgs e)
         {
-            _outputDataTemplateComposite.Export("test_template.xml");
+            var dlg = new SaveFileDialog
+            {
+                FileName = "OutputDataTemplate",
+                DefaultExt = ".xml",
+                Filter = "Extensible Markup Language File (.xml)|*.xml"
+            };
+
+            var result = dlg.ShowDialog();
+
+            if (result != true) return;
+            Logger.Log("Exporting Output Data Template to file: " + dlg.FileName);
+            _outputDataTemplateComposite.Export(dlg.FileName);
         }
 
         #endregion
