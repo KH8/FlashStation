@@ -18,7 +18,7 @@ namespace _PlcAgent.DataAquisition
 
         #region Methods
 
-        public CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile)
+        public CommunicationInterfaceComposite InitializeInterface(uint id, CommunicationInterfaceComponent.InterfaceType type, CommunicationInterfacePath pathFile, object sender)
         {
             var readAreaFound = false;
             var writeAreaFound = false;
@@ -29,7 +29,7 @@ namespace _PlcAgent.DataAquisition
             var readByteOverloaded = false;
             var writeByteOverloaded = false;
 
-            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString());
+            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString()) { Parent = sender, TypeOfInterface = type };
             var reader = new StreamReader(pathFile.Path[id]);
 
             var previousReadType = "";
@@ -43,7 +43,6 @@ namespace _PlcAgent.DataAquisition
                 case CommunicationInterfaceComponent.InterfaceType.ReadInterface:
                     while (true)
                     {
-                        //todo gotowiec?
                         line = reader.ReadLine();
                         if (line == null) break;
                         words = line.Split(';');

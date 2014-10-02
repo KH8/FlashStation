@@ -79,7 +79,7 @@ namespace _PlcAgent.Output
                 var interfaceInputComponent = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(interfaceVariable[1]);
                 if (interfaceInputComponent != null)
                 {
-                    if (interfaceInputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                    if (interfaceInputComponent.TypeOfVariable == CommunicationInterfaceComponent.VariableType.String)
                     {
                         fileName = (string) interfaceInputComponent.Value;
                     }
@@ -87,7 +87,7 @@ namespace _PlcAgent.Output
                 var interfaceOutputComponent = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(interfaceVariable[1]);
                 if (interfaceOutputComponent != null)
                 {
-                    if (interfaceOutputComponent.Type == CommunicationInterfaceComponent.VariableType.String)
+                    if (interfaceOutputComponent.TypeOfVariable == CommunicationInterfaceComponent.VariableType.String)
                     {
                         fileName = (string) interfaceOutputComponent.Value;
                     }
@@ -181,13 +181,13 @@ namespace _PlcAgent.Output
         protected override Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer) return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer) return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Reply"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer) return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Status"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer) return false;
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer) return false;
             return true;
         }
 

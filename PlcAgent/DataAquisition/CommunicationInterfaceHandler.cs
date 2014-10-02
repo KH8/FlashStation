@@ -76,9 +76,9 @@ namespace _PlcAgent.DataAquisition
             }
 
             _readInterfaceComposite = new CommunicationInterfaceHierarchicalBuilder().InitializeInterface(Header.Id,
-                CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile);
+                CommunicationInterfaceComponent.InterfaceType.ReadInterface, PathFile, this);
             _writeInterfaceComposite = new CommunicationInterfaceHierarchicalBuilder().InitializeInterface(Header.Id,
-                CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile);
+                CommunicationInterfaceComponent.InterfaceType.WriteInterface, PathFile, this);
             new DisplayDataHierarchicalBuilder().Build(_readInterfaceCollection, _writeInterfaceCollection, this);
 
             if (OnInterfaceUpdatedDelegate != null) OnInterfaceUpdatedDelegate();

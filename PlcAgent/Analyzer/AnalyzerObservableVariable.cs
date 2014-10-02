@@ -234,7 +234,7 @@ namespace _PlcAgent.Analyzer
 
         private static VariableType GetType(CommunicationInterfaceComponent communicationInterfaceVariable)
         {
-            switch (communicationInterfaceVariable.Type)
+            switch (communicationInterfaceVariable.TypeOfVariable)
             {
                 case CommunicationInterfaceComponent.VariableType.Bit:
                     return VariableType.Bit;

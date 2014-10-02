@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
+using _PlcAgent.DataAquisition;
 using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Output.OutputFileCreator
@@ -29,22 +30,27 @@ namespace _PlcAgent.Output.OutputFileCreator
             }
         }
 
-        private void WriteElement(XmlWriter writer, OutputDataTemplateComponent component, OutputConfiguration configuration)
+        private static void WriteElement(XmlWriter writer, OutputDataTemplateComponent component, OutputConfiguration configuration)
         {
             switch (configuration)
             {
                     case OutputConfiguration.Composite:
                         writer.WriteElementString("Position", component.Component.Pos.ToString(CultureInfo.InvariantCulture));
                         writer.WriteElementString("Name", component.Component.Name);
-                        writer.WriteElementString("Type", component.Component.Type.ToString());
+                        writer.WriteElementString("Type", component.Component.TypeOfVariable.ToString());
                         writer.WriteElementString("Value", CleanInvalidXmlChars(component.Component.StringValue()).Trim());
                     break;
                     case OutputConfiguration.Template:
                         writer.WriteElementString("Name", component.Component.Name);
-                        writer.WriteElementString("Type", component.Component.Type.ToString());
-                        writer.WriteElementString("InterfaceId", "");
-                        writer.WriteElementString("InterfaceType", "");
-                        writer.WriteElementString("Reference", "");
+                        writer.WriteElementString("Type", component.Component.TypeOfVariable.ToString());
+                        writer.WriteElementString("Reference", null);
+
+                        var id = 0;
+                        var parent = component.Component.GetFirstParent() as CommunicationInterfaceHandler;
+                        if (parent != null) id = (int) parent.Header.Id;
+
+                        writer.WriteElementString("InterfaceId", id.ToString(CultureInfo.InvariantCulture));
+                        writer.WriteElementString("InterfaceType", component.Component.TypeOfInterface.ToString());
                     break;
             }
         }

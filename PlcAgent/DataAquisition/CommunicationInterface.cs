@@ -10,22 +10,13 @@ namespace _PlcAgent.DataAquisition
 
     public abstract class CommunicationInterfaceComponent
     {
-        #region Variables
-
-        private readonly string _name;
-        private int _pos;
-        private readonly VariableType _type;
-
-        #endregion
-
-
         #region Constructors
 
         protected CommunicationInterfaceComponent(string name, int pos, VariableType type)
         {
-            _name = name;
-            _pos = pos;
-            _type = type;
+            Name = name;
+            Pos = pos;
+            TypeOfVariable = type;
         }
 
         #endregion
@@ -53,10 +44,7 @@ namespace _PlcAgent.DataAquisition
             WriteInterface,
         }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; protected set; }
 
         public string LastName
         {
@@ -67,18 +55,13 @@ namespace _PlcAgent.DataAquisition
             }
         }
 
-        public int Pos
-        {
-            get { return _pos; }
-            set { _pos = value; }
-        }
-
-        public VariableType Type
-        {
-            get { return _type; }
-        }
+        public int Pos { get; set; }
+        public VariableType TypeOfVariable { get; protected set; }
+        public InterfaceType TypeOfInterface { get; set; }
+        public object Parent { get; set; }
 
         public abstract object Value { get; set; }
+        
 
         #endregion
 
@@ -91,7 +74,16 @@ namespace _PlcAgent.DataAquisition
         public abstract void Remove(CommunicationInterfaceComponent c);
         public abstract void ReadValue(byte[] valByte);
         public abstract void WriteValue(byte[] valByte);
+
         public abstract CommunicationInterfaceComponent ReturnComponent(string name);
+        
+        public object GetFirstParent()
+        {
+            var component = Parent as CommunicationInterfaceComponent;
+            if (component == null) return Parent;
+            var parent = component;
+            return parent.GetFirstParent();
+        }
 
         #endregion
 
@@ -146,6 +138,8 @@ namespace _PlcAgent.DataAquisition
 
         public override void Add(CommunicationInterfaceComponent component)
         {
+            component.Parent = this;
+            component.TypeOfInterface = TypeOfInterface;
             _children.Add(component);
         }
 

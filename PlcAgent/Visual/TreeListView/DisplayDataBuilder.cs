@@ -86,7 +86,7 @@ namespace _PlcAgent.Visual.TreeListView
                 Address = "DBW " + address + "." + component.BitPosition,
                 Name = component.Name,
                 LastName = component.LastName,
-                Type = component.Type.ToString(),
+                Type = component.TypeOfVariable.ToString(),
                 Value = component.StringValue()
             };
         }
@@ -101,7 +101,7 @@ namespace _PlcAgent.Visual.TreeListView
                 Address = "DBW " + address,
                 Name = component.Name,
                 LastName = component.LastName,
-                Type = component.Type.ToString(),
+                Type = component.TypeOfVariable.ToString(),
                 Value = component.StringValue()
             };
         }
@@ -186,7 +186,7 @@ namespace _PlcAgent.Visual.TreeListView
                 else
                 {
                     var variable = (CommunicationInterfaceVariable)component;
-                    switch (variable.Type)
+                    switch (variable.TypeOfVariable)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
                             actualItemCollection.Add(DisplayComponent(variable as CiBit, startAddress));
@@ -219,7 +219,7 @@ namespace _PlcAgent.Visual.TreeListView
                         Address = "",
                         Name = variable.Component.Name,
                         LastName = variable.Component.LastName,
-                        Type = variable.Component.Type.ToString(),
+                        Type = variable.Component.TypeOfVariable.ToString(),
                         Value = ""
                     });
                 }
@@ -308,7 +308,7 @@ namespace _PlcAgent.Visual.TreeListView
                 else
                 {
                     var variable = (CommunicationInterfaceVariable)component;
-                    switch (variable.Type)
+                    switch (variable.TypeOfVariable)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
                             actualItemCollection.Add(DisplayComponent(variable as CiBit, startAddress));
@@ -354,7 +354,7 @@ namespace _PlcAgent.Visual.TreeListView
                         Address = "",
                         Name = variable.Component.Name,
                         LastName = variable.Component.LastName,
-                        Type = variable.Component.Type.ToString(),
+                        Type = variable.Component.TypeOfVariable.ToString(),
                         Value = ""
                     });
                 }

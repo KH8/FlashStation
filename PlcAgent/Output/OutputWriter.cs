@@ -54,15 +54,15 @@ namespace _PlcAgent.Output
                 }
                 else
                 {
-                    switch (component.Type)
+                    switch (component.TypeOfVariable)
                     {
                         case CommunicationInterfaceComponent.VariableType.Bit:
                             var variableCastedBit = (CiBit)component;
-                            list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.Type + "$" +
+                            list.Add(variableCastedBit.Pos + "." + variableCastedBit.BitPosition + "$" + variableCastedBit.Name + "$" + variableCastedBit.TypeOfVariable + "$" +
                                      variableCastedBit.StringValue());
                             break;
                         default:
-                            list.Add(component.Pos + "$" + component.Name + "$" + component.Type + "$" +
+                            list.Add(component.Pos + "$" + component.Name + "$" + component.TypeOfVariable + "$" +
                                      component.StringValue());
                             break;
                     }

@@ -319,16 +319,16 @@ namespace _PlcAgent.Analyzer
         protected override Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Reply"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Status"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
 
             return true;

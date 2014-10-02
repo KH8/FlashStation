@@ -363,34 +363,34 @@ namespace _PlcAgent.Vector
         protected override Boolean CheckInterface()
         {
             CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Version"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.String)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.String)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Reply"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Status"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type Active"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Version"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.String)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.String)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Fault Code"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
             component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Progress Percentage"));
-            if (component == null || component.Type != CommunicationInterfaceComponent.VariableType.Integer)
+            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
                 return false;
 
             return true;
