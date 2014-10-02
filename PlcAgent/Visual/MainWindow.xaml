@@ -45,7 +45,7 @@
         <!--TABS-->
         <Border Margin="0,26,0,50" BorderThickness="1" BorderBrush="#FF8C8E94">
             <Grid Background="#FFF0F0F0">
-                <TabControl Name="MainTabControl" HorizontalAlignment="Left" Height="292" VerticalAlignment="Top" Width="941" Margin="2,2,0,0" SelectionChanged="UpdateLog">
+                <TabControl Name="MainTabControl" HorizontalAlignment="Left" Height="292" VerticalAlignment="Top" Width="941" Margin="2,2,0,0" SelectionChanged="UpdateLog" BorderThickness="1">
                     <TabItem Name="ComponentManagerTabItem" Header="Component Manager">
                         <Grid>
                             <TreeView Name="ComponentManagerTreeView" Width="931" Height="220" HorizontalAlignment="Center" VerticalAlignment="Top" SelectedItemChanged="ComponentManagerSelectionChanged"/>
@@ -67,7 +67,7 @@
                 </TabControl>
                 <Grid Name="OutputTabControlGrid" HorizontalAlignment="Left" Height="250" VerticalAlignment="Bottom" Width="945" >
                     <Label Name="OutputTabControlLabel" Content="Hide" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" UseLayoutRounding="True" MouseEnter="Label_OnMouseEnter" MouseLeave="Label_OnMouseLeave" MouseDown="OutputTabControlLabel_OnMouseDown"></Label>
-                    <TabControl Name="OutputTabControl" HorizontalAlignment="Left" Height="248" VerticalAlignment="Bottom" Width="941" Margin="2,0,0,2" TabStripPlacement="Bottom" UseLayoutRounding="True">
+                    <TabControl Name="OutputTabControl" HorizontalAlignment="Left" Height="248" VerticalAlignment="Bottom" Width="941" Margin="2,0,0,2" TabStripPlacement="Bottom" UseLayoutRounding="True" BorderThickness="1">
                         <Label Content="Use EDIT menu to create new output handlers."></Label>
                     </TabControl>
                 </Grid>
@@ -82,7 +82,7 @@
                             </TransformGroup>
                         </Label.RenderTransform>
                     </Label>
-                        <TabControl Name="ConnectionTabControl" HorizontalAlignment="Right" Height="542" VerticalAlignment="Top" Width="350" Margin="0,2,2,0" TabStripPlacement="Right" UseLayoutRounding="True">
+                        <TabControl Name="ConnectionTabControl" HorizontalAlignment="Right" Height="542" VerticalAlignment="Top" Width="350" Margin="0,2,2,0" TabStripPlacement="Right" UseLayoutRounding="True" BorderThickness="1">
                                 <TabControl.Resources>
                                     <Style TargetType="{x:Type TabItem}">
                                         <Setter Property="HeaderTemplate">

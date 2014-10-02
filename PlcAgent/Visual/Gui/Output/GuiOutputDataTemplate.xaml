@@ -163,6 +163,11 @@
         </Style>
     </UserControl.Resources>
     <Grid Name="GeneralGrid" Background="White">
-        <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+        <Grid>
+            <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+        </Grid>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Name="ExportButton" Content="Export" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Export"/>
+        </Grid>
     </Grid>
 </UserControl>

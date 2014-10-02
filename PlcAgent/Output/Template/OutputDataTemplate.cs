@@ -154,12 +154,12 @@ namespace _PlcAgent.Output.Template
 
         public override void Add(OutputDataTemplateComponent c)
         {
-
+            throw new CompositeException("Error: Cannot add to a single leaf");
         }
 
         public override void Remove(OutputDataTemplateComponent c)
         {
-
+            throw new CompositeException("Error: Cannot remove from a single leaf");
         }
 
         public override OutputDataTemplateComponent ReturnComponent(string name)
