@@ -164,10 +164,13 @@
     </UserControl.Resources>
     <Grid Name="GeneralGrid" Background="White">
         <Grid>
-            <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+            <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="450" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
         </Grid>
-        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <Grid Name="FooterGrid" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="450">
+            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Right" Margin="0,0,190,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Clear"/>
+            <Button Name="ImportButton" Content="Import" HorizontalAlignment="Right" Margin="0,0,95,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Import"/>
             <Button Name="ExportButton" Content="Export" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Export"/>
+            <Label Name="FileNameLabel" Content="Template.xml" FontSize="10" HorizontalAlignment="Left" Width="200"></Label>
         </Grid>
     </Grid>
 </UserControl>

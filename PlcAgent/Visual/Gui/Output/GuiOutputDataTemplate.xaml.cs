@@ -52,6 +52,8 @@ namespace _PlcAgent.Visual.Gui.Output
 
             OutputDataTemplateTreeListView.Height = height - 30;
             OutputDataTemplateTreeListView.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
+
+            FooterGrid.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
         }
 
         #endregion
@@ -88,6 +90,16 @@ namespace _PlcAgent.Visual.Gui.Output
             // Initialize the drag & drop operation
             var dragData = new DataObject("Name", displayData);
             DragDrop.DoDragDrop(treeListViewItem, dragData, DragDropEffects.Move);
+        }
+
+        private void Clear(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void Import(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void Export(object sender, RoutedEventArgs e)
