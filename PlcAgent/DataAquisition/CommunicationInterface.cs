@@ -81,8 +81,7 @@ namespace _PlcAgent.DataAquisition
         {
             var component = Parent as CommunicationInterfaceComponent;
             if (component == null) return Parent;
-            var parent = component;
-            return parent.GetFirstParent();
+            return component.GetFirstParent();
         }
 
         #endregion
