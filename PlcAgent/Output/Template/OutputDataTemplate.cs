@@ -13,7 +13,6 @@ namespace _PlcAgent.Output.Template
     {
         #region Variables
 
-        private readonly CommunicationInterfaceComponent _communicationInterfaceComponent;
         private readonly OutputDataTemplateComponentType _type;
 
         #endregion
@@ -26,7 +25,7 @@ namespace _PlcAgent.Output.Template
             Name = name;
             Reference = reference;
             _type = type;
-            _communicationInterfaceComponent = component;
+            Component = component;
         }
 
         #endregion
@@ -44,15 +43,14 @@ namespace _PlcAgent.Output.Template
 
         public object Reference { get; set; }
 
+        public OutputDataTemplateComposite Parent { get; set; }
+
         public OutputDataTemplateComponentType Type
         {
             get { return _type; }
         }
 
-        public CommunicationInterfaceComponent Component
-        {
-            get { return _communicationInterfaceComponent; }
-        }
+        public CommunicationInterfaceComponent Component { get; set; }
 
         #endregion
 
@@ -105,6 +103,7 @@ namespace _PlcAgent.Output.Template
 
         public override void Add(OutputDataTemplateComponent component)
         {
+            component.Parent = this;
             _children.Add(component);
         }
 

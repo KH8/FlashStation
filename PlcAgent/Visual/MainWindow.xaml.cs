@@ -570,7 +570,7 @@ namespace _PlcAgent.Visual
             //*----------------------------------------------------------------------------------------------------
             var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
 
-            var template = OutputDataTemplateBuilder.ComponentConverter(cih.ReadInterfaceComposite);
+            var template = OutputDataTemplateBuilder.ComunicationInterfaceToTemplate(cih.ReadInterfaceComposite);
 
             var newtabItemTest = new TabItem { Header = "Test" };
             MainTabControl.Items.Add(newtabItemTest);

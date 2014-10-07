@@ -21,7 +21,7 @@ namespace _PlcAgent.Visual.Gui.Output
         #region Variables
 
         private Point _storedPosition;
-        private readonly OutputDataTemplateComposite _outputDataTemplateComposite;
+        private OutputDataTemplateComposite _outputDataTemplateComposite;
 
         #endregion
 
@@ -114,9 +114,17 @@ namespace _PlcAgent.Visual.Gui.Output
 
         private void Import(object sender, RoutedEventArgs e)
         {
-            _outputDataTemplateComposite.Clear();
+            // Create OpenFileDialog
+            var dlg = new OpenFileDialog { DefaultExt = ".xml", Filter = "eXtensible Markup Language File (.xml)|*.xml" };
+            // Set filter for file extension and default file extension
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
 
-            //todo import logic
+            // Get the selected file name and display in a TextBox
+            if (result != true) return;
+
+            _outputDataTemplateComposite.Clear();
+            _outputDataTemplateComposite = (OutputDataTemplateComposite)OutputDataTemplateBuilder.XmlFileToTemplate(dlg.FileName);
 
             var collection = new ObservableCollection<object>();
             new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
@@ -130,7 +138,7 @@ namespace _PlcAgent.Visual.Gui.Output
             {
                 FileName = "OutputDataTemplate",
                 DefaultExt = ".xml",
-                Filter = "Extensible Markup Language File (.xml)|*.xml"
+                Filter = "eXtensible Markup Language File (.xml)|*.xml"
             };
 
             var result = dlg.ShowDialog();

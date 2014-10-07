@@ -41,16 +41,15 @@ namespace _PlcAgent.Output.OutputFileCreator
                         writer.WriteElementString("Value", CleanInvalidXmlChars(component.Component.StringValue()).Trim());
                     break;
                     case OutputConfiguration.Template:
-                        writer.WriteElementString("Name", component.Component.Name);
-                        writer.WriteElementString("Type", component.Component.TypeOfVariable.ToString());
-                        writer.WriteElementString("Reference", null);
+                        writer.WriteAttributeString("Name", component.Component.Name);
+                        writer.WriteAttributeString("Reference", null);
 
                         var id = 0;
                         var parent = component.Component.GetOwner() as CommunicationInterfaceHandler;
                         if (parent != null) id = (int) parent.Header.Id;
 
-                        writer.WriteElementString("InterfaceId", id.ToString(CultureInfo.InvariantCulture));
-                        writer.WriteElementString("InterfaceType", component.Component.TypeOfInterface.ToString());
+                        writer.WriteAttributeString("InterfaceId", id.ToString(CultureInfo.InvariantCulture));
+                        writer.WriteAttributeString("InterfaceType", component.Component.TypeOfInterface.ToString());
                     break;
             }
         }

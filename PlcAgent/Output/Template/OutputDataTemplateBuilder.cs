@@ -1,11 +1,12 @@
 ﻿using System.Linq;
+using System.Xml;
 using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.Output.Template
 {
     static class OutputDataTemplateBuilder
     {
-        public static OutputDataTemplateComponent ComponentConverter(
+        public static OutputDataTemplateComponent ComunicationInterfaceToTemplate(
             CommunicationInterfaceComponent communicationInterfaceComponent)
         {
             var lastName = communicationInterfaceComponent.LastName.Replace('[', '_');
@@ -17,7 +18,7 @@ namespace _PlcAgent.Output.Template
             {
                 foreach (var component in ((CommunicationInterfaceComposite)communicationInterfaceComponent).Cast<CommunicationInterfaceComponent>())
                 {
-                    newComposite.Add(ComponentConverter(component));
+                    newComposite.Add(ComunicationInterfaceToTemplate(component));
                 }
             }
             else
@@ -26,6 +27,39 @@ namespace _PlcAgent.Output.Template
             }
 
             return newComposite;
+        }
+
+        public static OutputDataTemplateComponent XmlFileToTemplate(
+            string fileName)
+        {
+            var template = new OutputDataTemplateComposite("Template", null, new CommunicationInterfaceComposite("Template"));
+
+            var xmlReader = XmlReader.Create(fileName);
+            xmlReader.MoveToContent();
+
+            StepDownReader(xmlReader, template);
+
+            return template;
+        }
+
+        private static void StepDownReader(XmlReader xmlReader, OutputDataTemplateComponent template)
+        {
+            var actualTemplate = template;
+
+            while (xmlReader.Read())
+            {
+                switch (xmlReader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        var newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, new CommunicationInterfaceComposite(xmlReader.Name));
+                        actualTemplate.Add(newTemplate);
+                        actualTemplate = newTemplate;
+                        break;
+                    case XmlNodeType.EndElement:
+                        actualTemplate = actualTemplate.Parent;
+                        break;
+                }
+            }
         }
     }
 }
