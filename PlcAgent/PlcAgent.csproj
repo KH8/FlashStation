@@ -123,6 +123,7 @@
     <Compile Include="MainRegistry\RegistryAbstract.cs" />
     <Compile Include="MainRegistry\RegistryComponent.cs" />
     <Compile Include="MainRegistry\RegistryComposite.cs" />
+    <Compile Include="MainRegistry\RegistryContext.cs" />
     <Compile Include="Output\OutputFileCreator\OutputFileCreator.cs" />
     <Compile Include="Output\OutputFileCreator\XmlFileCreator.cs" />
     <Compile Include="Output\OutputHandlerComponent.cs" />

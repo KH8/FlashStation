@@ -62,6 +62,8 @@ namespace _PlcAgent.Visual
             _registry = new Registry();
             _registry.Initialize();
 
+            RegistryContext.Registry = _registry;
+
             UpdateGui();
             UpdateTreeView();
         }

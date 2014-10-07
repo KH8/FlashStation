@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Xml;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.Output.Template
 {
@@ -44,10 +46,18 @@ namespace _PlcAgent.Output.Template
                 switch (xmlReader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        var newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null,
-                                new CommunicationInterfaceComposite(xmlReader.Name));
+                        var newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, new CommunicationInterfaceComposite(xmlReader.Name));
                         actualTemplate.Add(newTemplate);
-                        if (!xmlReader.IsEmptyElement) actualTemplate = newTemplate;
+                        if (!xmlReader.IsEmptyElement)
+                        {
+                            actualTemplate = newTemplate;
+                            break;
+                        }
+                        var communicationInterfaceHandler =
+                            (CommunicationInterfaceHandler)
+                                RegistryContext.Registry.CommunicationInterfaceHandlers.ReturnComponent(
+                                    Convert.ToUInt32(xmlReader.GetAttribute("InterfaceId"), 16));
+                        newTemplate.Component = communicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(xmlReader.GetAttribute("Name"));
                         break;
                     case XmlNodeType.EndElement:
                         actualTemplate = actualTemplate.Parent;
