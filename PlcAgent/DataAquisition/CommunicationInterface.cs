@@ -58,7 +58,8 @@ namespace _PlcAgent.DataAquisition
         public int Pos { get; set; }
         public VariableType TypeOfVariable { get; protected set; }
         public InterfaceType TypeOfInterface { get; set; }
-        public object Parent { get; set; }
+        public CommunicationInterfaceComponent Parent { get; set; }
+        public object Owner { get; set; }
 
         public abstract object Value { get; set; }
         
@@ -77,12 +78,9 @@ namespace _PlcAgent.DataAquisition
 
         public abstract CommunicationInterfaceComponent ReturnComponent(string name);
         
-        public object GetFirstParent()
+        public object GetOwner()
         {
-            var component = Parent as CommunicationInterfaceComponent;
-            if (component == null) return Parent;
-            var parent = component;
-            return parent.GetFirstParent();
+            return Parent == null ? Owner : Parent.GetOwner();
         }
 
         #endregion

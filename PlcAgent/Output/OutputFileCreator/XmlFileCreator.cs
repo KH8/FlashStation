@@ -46,7 +46,7 @@ namespace _PlcAgent.Output.OutputFileCreator
                         writer.WriteElementString("Reference", null);
 
                         var id = 0;
-                        var parent = component.Component.GetFirstParent() as CommunicationInterfaceHandler;
+                        var parent = component.Component.GetOwner() as CommunicationInterfaceHandler;
                         if (parent != null) id = (int) parent.Header.Id;
 
                         writer.WriteElementString("InterfaceId", id.ToString(CultureInfo.InvariantCulture));

@@ -29,7 +29,7 @@ namespace _PlcAgent.DataAquisition
             var readByteOverloaded = false;
             var writeByteOverloaded = false;
 
-            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString()) { Parent = sender, TypeOfInterface = type };
+            var interfaceComposite = new CommunicationInterfaceComposite(type.ToString()) { Owner = sender, TypeOfInterface = type };
             var reader = new StreamReader(pathFile.Path[id]);
 
             var previousReadType = "";
