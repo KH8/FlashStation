@@ -37,13 +37,6 @@ namespace _PlcAgent.Output.Template
             var xmlReader = XmlReader.Create(fileName);
             xmlReader.MoveToContent();
 
-            StepDownReader(xmlReader, template);
-
-            return template;
-        }
-
-        private static void StepDownReader(XmlReader xmlReader, OutputDataTemplateComponent template)
-        {
             var actualTemplate = template;
 
             while (xmlReader.Read())
@@ -51,15 +44,18 @@ namespace _PlcAgent.Output.Template
                 switch (xmlReader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        var newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, new CommunicationInterfaceComposite(xmlReader.Name));
+                        var newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null,
+                                new CommunicationInterfaceComposite(xmlReader.Name));
                         actualTemplate.Add(newTemplate);
-                        actualTemplate = newTemplate;
+                        if (!xmlReader.IsEmptyElement) actualTemplate = newTemplate;
                         break;
                     case XmlNodeType.EndElement:
                         actualTemplate = actualTemplate.Parent;
                         break;
                 }
             }
+
+            return template;
         }
     }
 }
