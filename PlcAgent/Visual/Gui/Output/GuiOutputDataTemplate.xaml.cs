@@ -35,11 +35,11 @@ namespace _PlcAgent.Visual.Gui.Output
 
         #region Constructors
 
-        public GuiOutputDataTemplate(OutputDataTemplateComposite template)
+        public GuiOutputDataTemplate(OutputDataTemplate template)
         {
             InitializeComponent();
 
-            _outputDataTemplateComposite = template;
+            _outputDataTemplateComposite = template.Composite;
 
             var collection = new ObservableCollection<object>();
             new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);

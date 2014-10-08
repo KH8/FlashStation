@@ -6,6 +6,7 @@ using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
+using _PlcAgent.Output.Template;
 using _PlcAgent.PLC;
 using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
@@ -150,6 +151,37 @@ namespace _PlcAgent.MainRegistry
             GuiCommunicationInterfaceOnlines.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceOnlineHierarchical(component)));
 
             Logger.Log("ID: " + id + " new Communication Interface have been created");
+            return id;
+        }
+
+        public override uint AddOutputDataTemplate(Boolean save)
+        {
+            var id = AddOutputDataTemplate();
+            if (save && id != 0) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddOutputDataTemplate()
+        {
+            var id = OutputDataTemplates.GetFirstNotUsed();
+            return AddOutputHandler(id);
+        }
+
+        public override uint AddOutputDataTemplate(uint id)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Output Data Template \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
+            Logger.Log("ID: " + id + " Creation of the Output Data Template Component");
+            OutputDataTemplates.Add(new OutputDataTemplate(id, "OUT__TEMPLATE__" + id, OutputDataTemplateFile.Default));
+            var component = (OutputDataTemplate)OutputDataTemplates.ReturnComponent(id);
+
+            GuiOutputDataTemplates.Add(new GuiComponent(id, "", new GuiOutputDataTemplate(component)));
+
+            Logger.Log("ID: " + id + " new Output Data Template have been created");
             return id;
         }
 

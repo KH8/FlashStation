@@ -4,9 +4,31 @@ using System.Linq;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Log;
 using _PlcAgent.Output.OutputFileCreator;
+using Module = _PlcAgent.General.Module;
 
 namespace _PlcAgent.Output.Template
 {
+    public class OutputDataTemplate : Module
+    {
+        public OutputDataTemplateComposite Composite;
+        public OutputDataTemplateFile OutputDataTemplateFile;
+
+        public OutputDataTemplate(uint id, string name, OutputDataTemplateFile outputDataTemplateFile) : base(id, name)
+        {
+            OutputDataTemplateFile = outputDataTemplateFile;
+        }
+
+        public override void Initialize()
+        {
+            Logger.Log("ID: " + Header.Id + " Output Data Template Initialized");
+        }
+
+        public override void Deinitialize()
+        {
+            Logger.Log("ID: " + Header.Id + " Output Data Template Deinitialized");
+        }
+    }
+
     #region Component
 
     public abstract class OutputDataTemplateComponent

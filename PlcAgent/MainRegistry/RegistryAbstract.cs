@@ -13,6 +13,9 @@ namespace _PlcAgent.MainRegistry
         public RegistryComposite GuiComInterfacemunicationConfigurations = new RegistryComposite(0, "");
         public RegistryComposite GuiCommunicationInterfaceOnlines = new RegistryComposite(0, "");
 
+        public RegistryComposite OutputDataTemplates = new RegistryComposite(0, "");
+        public RegistryComposite GuiOutputDataTemplates = new RegistryComposite(0, "");
+
         public RegistryComposite OutputHandlers = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputHandlerComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
@@ -34,6 +37,7 @@ namespace _PlcAgent.MainRegistry
 
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface(uint plcConnectionId);
+        public abstract uint AddOutputDataTemplate();
         public abstract uint AddOutputHandler(uint communicationInterfaceId);
         public abstract uint AddVFlashBank();
         public abstract uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId);
@@ -41,6 +45,7 @@ namespace _PlcAgent.MainRegistry
 
         public abstract uint AddPlcCommunicator(Boolean save);
         public abstract uint AddCommunicationInterface(Boolean save, uint plcConnectionId);
+        public abstract uint AddOutputDataTemplate(Boolean save);
         public abstract uint AddOutputHandler(Boolean save, uint communicationInterfaceId);
         public abstract uint AddVFlashBank(Boolean save);
         public abstract uint AddVFlashChannel(Boolean save, uint communicationInterfaceId, uint vFlashBankId);
@@ -48,6 +53,7 @@ namespace _PlcAgent.MainRegistry
 
         public abstract uint AddPlcCommunicator(uint id);
         public abstract uint AddCommunicationInterface(uint id, uint plcConnectionId);
+        public abstract uint AddOutputDataTemplate(uint id);
         public abstract uint AddOutputHandler(uint id, uint communicationInterfaceId);
         public abstract uint AddVFlashBank(uint id);
         public abstract uint AddVFlashChannel(uint id, uint communicationInterfaceId, uint vFlashBankId);

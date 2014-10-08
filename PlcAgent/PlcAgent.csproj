@@ -142,6 +142,11 @@
     <Compile Include="General\ProjectFileStruture.cs" />
     <Compile Include="Output\Template\OutputDataTemplate.cs" />
     <Compile Include="Output\Template\OutputDataTemplateBuilder.cs" />
+    <Compile Include="Output\Template\OutputDataTemplateFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>OutputDataTemplateFile.settings</DependentUpon>
+    </Compile>
     <Compile Include="PLC\PlcCommunicatorComponent.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="MainRegistry\MainRegistry.cs" />
@@ -253,6 +258,10 @@
     <None Include="Output\OutputHandlerInterfaceAssignmentFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>OutputHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Output\Template\OutputDataTemplateFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputDataTemplateFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="PlcAgent.cd" />
     <None Include="Vector\VFlashHandlerInterfaceAssignmentFile.settings">
