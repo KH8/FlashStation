@@ -61,9 +61,9 @@ namespace _PlcAgent.Visual.Gui.Output
             GeneralGrid.Width = width;
 
             OutputDataTemplateTreeListView.Height = height - 30;
-            OutputDataTemplateTreeListView.Width = Limiter.DoubleLimit((width / 3) - 2, 0);
+            OutputDataTemplateTreeListView.Width = Limiter.DoubleLimit(width, 0);
 
-            FooterGrid.Width = Limiter.DoubleLimit((width / 3) - 2, 0);
+            FooterGrid.Width = Limiter.DoubleLimit(width, 0);
         }
 
         #endregion

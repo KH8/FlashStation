@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +17,15 @@ namespace _PlcAgent.Visual.TreeListView
 
         public class DisplayData : INotifyPropertyChanged
         {
+            #region Variables
+
             private string _value;
+
+            #endregion
+
+
+            #region Properties
+
             public CommunicationInterfaceComponent Component;
             public string Address { get; set; }
             public string Name { get; set; }
@@ -34,6 +43,31 @@ namespace _PlcAgent.Visual.TreeListView
                 }
             }
 
+            public string ComponentName
+            {
+                get { return Component != null ? Component.Name : "-"; }
+            }
+
+            public string ComponentInterfaceType
+            {
+                get { return Component != null ? Component.TypeOfInterface.ToString() : "-"; }
+            }
+
+            public string ComponentInterfaceName
+            {
+                get
+                {
+                    if (Component == null) return "-";
+                    var communicationInterfaceHandler = (CommunicationInterfaceHandler)Component.GetOwner();
+                    return communicationInterfaceHandler.Header.Name.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+
+            #endregion
+
+
+            #region Event Handlers
+
             public event PropertyChangedEventHandler PropertyChanged;
 
             [NotifyPropertyChangedInvocator]
@@ -42,6 +76,9 @@ namespace _PlcAgent.Visual.TreeListView
                 var handler = PropertyChanged;
                 if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
             }
+
+            #endregion
+
         }
 
         public class DisplayDataContainer : ObservableCollection<object>
@@ -332,13 +369,19 @@ namespace _PlcAgent.Visual.TreeListView
                     var compositeComponent = (OutputDataTemplateComposite)component;
                     var displayData = new DisplayData
                     {
-                        Component = compositeComponent.Component,
                         Address = "",
-                        Name = compositeComponent.Component.Name,
-                        LastName = compositeComponent.Component.LastName,
+                        Name = compositeComponent.Name,
+                        LastName = compositeComponent.Name,
                         Type = "Composite",
                         Value = ""
                     };
+
+                    if (compositeComponent.Component != null)
+                    {
+                        displayData.Component = compositeComponent.Component;
+                        displayData.Name = compositeComponent.Component.Name;
+                        displayData.LastName = compositeComponent.Component.LastName;
+                    }
 
                     var header = new TreeListViewItem { Header = displayData };
                     actualItemCollection.Add(header);
@@ -348,15 +391,24 @@ namespace _PlcAgent.Visual.TreeListView
                 else
                 {
                     var variable = (OutputDataTemplateLeaf)component;
-                    actualItemCollection.Add(new DisplayData
+                    var displayData = new DisplayData
                     {
-                        Component = variable.Component,
                         Address = "",
-                        Name = variable.Component.Name,
-                        LastName = variable.Component.LastName,
-                        Type = variable.Component.TypeOfVariable.ToString(),
+                        Name = variable.Name,
+                        LastName = variable.Name,
+                        Type = variable.Type.ToString(),
                         Value = ""
-                    });
+                    };
+
+                    if (variable.Component != null)
+                    {
+                        displayData.Component = variable.Component;
+                        displayData.Name = variable.Component.Name;
+                        displayData.LastName = variable.Component.LastName;
+                        displayData.Type = variable.Component.TypeOfVariable.ToString();
+                    }
+
+                    actualItemCollection.Add(displayData);
                 }
             }
         }

@@ -53,14 +53,35 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CellTemplateType">
-            <DockPanel Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" >
+            <DockPanel Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <TextBlock Text="{Binding Type}" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CellTemplateComponent">
+            <DockPanel Width="300" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding ComponentName}" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CellTemplateInterfaceName">
+            <DockPanel Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding ComponentInterfaceName}" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CellTemplateInterfaceType">
+            <DockPanel Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock Text="{Binding ComponentInterfaceType}" />
             </DockPanel>
         </DataTemplate>
 
         <GridViewColumnCollection x:Key="Gvcc">
             <GridViewColumn Header="Name" CellTemplate="{StaticResource CellTemplateName}" />
             <GridViewColumn Header="Type" CellTemplate="{StaticResource CellTemplateType}" />
+            <GridViewColumn Header="Interface Name" CellTemplate="{StaticResource CellTemplateInterfaceName}" />
+            <GridViewColumn Header="Interface Type" CellTemplate="{StaticResource CellTemplateInterfaceType}" />
+            <GridViewColumn Header="Component" CellTemplate="{StaticResource CellTemplateComponent}" />
         </GridViewColumnCollection>
 
         <Style TargetType="{x:Type treeListView:TreeListViewItem}">
@@ -150,9 +171,9 @@
     </UserControl.Resources>
     <Grid Name="GeneralGrid" Background="White">
         <Grid>
-            <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="450" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+            <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="450" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
         </Grid>
-        <Grid Name="FooterGrid" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="450">
+        <Grid Name="FooterGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="450">
             <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Right" Margin="0,0,190,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Clear"/>
             <Button Name="ImportButton" Content="Import" HorizontalAlignment="Right" Margin="0,0,95,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Import"/>
             <Button Name="ExportButton" Content="Export" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Export"/>

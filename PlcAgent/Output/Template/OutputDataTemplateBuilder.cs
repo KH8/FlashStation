@@ -14,7 +14,7 @@ namespace _PlcAgent.Output.Template
             var lastName = communicationInterfaceComponent.LastName.Replace('[', '_');
             lastName = lastName.Replace(']', '_');
 
-            OutputDataTemplateComponent newComposite = new OutputDataTemplateComposite(lastName, null, communicationInterfaceComponent);
+            OutputDataTemplateComponent newComposite = new OutputDataTemplateComposite(lastName, null, null);
 
             if (communicationInterfaceComponent.GetType() == typeof (CommunicationInterfaceComposite))
             {
@@ -48,7 +48,7 @@ namespace _PlcAgent.Output.Template
                 switch (xmlReader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        OutputDataTemplateComponent newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, new CommunicationInterfaceComposite(xmlReader.Name));
+                        OutputDataTemplateComponent newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, null);
                         
                         if (!xmlReader.IsEmptyElement)
                         {
@@ -64,11 +64,20 @@ namespace _PlcAgent.Output.Template
                             actualId = id;
                         }
 
-                        CommunicationInterfaceComponent component = new CiInteger("N/A", -1,
-                            CommunicationInterfaceComponent.VariableType.Integer, -1);
-                        if (actualCommunicationInterfaceHandler != null) component = actualCommunicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(xmlReader.GetAttribute("Name"));
-                        
-                        newTemplate = new OutputDataTemplateLeaf(xmlReader.Name, null, OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, component);
+                        if (actualCommunicationInterfaceHandler != null)
+                        {
+                            var component =
+                                actualCommunicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(
+                                    xmlReader.GetAttribute("Name"));
+                            newTemplate = new OutputDataTemplateLeaf(xmlReader.Name, null,
+                                OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, component);
+                        }
+                        else
+                        {
+                            newTemplate = new OutputDataTemplateLeaf("%component not available", null,
+                                OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, null);
+                        }
+
                         actualTemplate.Add(newTemplate);
                         break;
                     case XmlNodeType.EndElement:
