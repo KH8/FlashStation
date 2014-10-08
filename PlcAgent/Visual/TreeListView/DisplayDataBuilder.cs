@@ -254,8 +254,8 @@ namespace _PlcAgent.Visual.TreeListView
                     {
                         Component = variable.Component,
                         Address = "",
-                        Name = variable.Component.Name,
-                        LastName = variable.Component.LastName,
+                        Name = variable.Name,
+                        LastName = variable.Name,
                         Type = variable.Component.TypeOfVariable.ToString(),
                         Value = ""
                     });
@@ -379,8 +379,6 @@ namespace _PlcAgent.Visual.TreeListView
                     if (compositeComponent.Component != null)
                     {
                         displayData.Component = compositeComponent.Component;
-                        displayData.Name = compositeComponent.Component.Name;
-                        displayData.LastName = compositeComponent.Component.LastName;
                     }
 
                     var header = new TreeListViewItem { Header = displayData };
@@ -403,8 +401,6 @@ namespace _PlcAgent.Visual.TreeListView
                     if (variable.Component != null)
                     {
                         displayData.Component = variable.Component;
-                        displayData.Name = variable.Component.Name;
-                        displayData.LastName = variable.Component.LastName;
                         displayData.Type = variable.Component.TypeOfVariable.ToString();
                     }
 
