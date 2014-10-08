@@ -22,5 +22,24 @@ namespace _PlcAgent.Output.Template {
                 return defaultInstance;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                    </ArrayOfString>")]
+        public string[] TemplateFiles
+        {
+            get { return ((string[])(this["TemplateFiles"])); }
+            set { this["TemplateFiles"] = value; }
+        }
     }
 }

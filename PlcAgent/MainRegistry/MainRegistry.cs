@@ -589,6 +589,7 @@ namespace _PlcAgent.MainRegistry
             MainRegistryFile.Default.Reset();
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
+            OutputDataTemplateFile.Default.Reset();
             OutputHandlerFile.Default.Reset();
             OutputHandlerInterfaceAssignmentFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
@@ -604,11 +605,13 @@ namespace _PlcAgent.MainRegistry
             MainRegistryFile.Default.Reset();
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
+            OutputDataTemplateFile.Default.Reset();
             OutputHandlerFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
 
             MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
             MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
+            MainRegistryFile.Default.OutputDataTemplates = projectData.OutputDataTemplates;
             MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
             MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
             MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
@@ -622,6 +625,8 @@ namespace _PlcAgent.MainRegistry
             CommunicationInterfacePath.Default.Path = projectData.Path;
             CommunicationInterfacePath.Default.ConfigurationStatus = projectData.ConfigurationStatus;
             CommunicationInterfacePath.Default.Save();
+
+            OutputDataTemplateFile.Default.TemplateFiles = projectData.TemplatePaths;
 
             OutputHandlerFile.Default.FileNameSuffixes = projectData.FileNameSuffixes;
             OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
@@ -659,6 +664,7 @@ namespace _PlcAgent.MainRegistry
             {
                 PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
                 CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
+                OutputDataTemplates = MainRegistryFile.Default.OutputDataTemplates,
                 OutputHandlers = MainRegistryFile.Default.OutputHandlers,
                 VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
                 VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
@@ -667,6 +673,7 @@ namespace _PlcAgent.MainRegistry
                 ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
                 Path = CommunicationInterfacePath.Default.Path,
                 ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
+                TemplatePaths = OutputDataTemplateFile.Default.TemplateFiles,
                 FileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
                 StartAddress = OutputHandlerFile.Default.StartAddress,
                 EndAddress = OutputHandlerFile.Default.EndAddress,

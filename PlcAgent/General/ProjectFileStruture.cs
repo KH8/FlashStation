@@ -9,6 +9,7 @@ namespace _PlcAgent.General
         {
             public uint[][] PlcCommunicators;
             public uint[][] CommunicationInterfaceHandlers;
+            public uint[][] OutputDataTemplates;
             public uint[][] OutputHandlers;
             public uint[][] VFlashTypeBanks;
             public uint[][] VFlashHandlers;
@@ -19,6 +20,8 @@ namespace _PlcAgent.General
 
             public string[] Path;
             public int[] ConfigurationStatus;
+
+            public string[] TemplatePaths;
 
             public string[] FileNameSuffixes;
             public int[] StartAddress;
