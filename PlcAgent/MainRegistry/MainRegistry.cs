@@ -37,6 +37,10 @@ namespace _PlcAgent.MainRegistry
             {
                 AddCommunicationInterface(communicationInterfaceHandler[0], communicationInterfaceHandler[1]);
             }
+            foreach (var outputDataTemplate in MainRegistryFile.Default.OutputDataTemplates.Where(outputDataTemplate => outputDataTemplate != null))
+            {
+                AddOutputDataTemplate(outputDataTemplate[0]);
+            }
             foreach (var outputHandler in MainRegistryFile.Default.OutputHandlers.Where(outputHandler => outputHandler != null))
             {
                 AddOutputHandler(outputHandler[0], outputHandler[2]);
@@ -164,7 +168,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddOutputDataTemplate()
         {
             var id = OutputDataTemplates.GetFirstNotUsed();
-            return AddOutputHandler(id);
+            return AddOutputDataTemplate(id);
         }
 
         public override uint AddOutputDataTemplate(uint id)
@@ -176,7 +180,7 @@ namespace _PlcAgent.MainRegistry
             }
 
             Logger.Log("ID: " + id + " Creation of the Output Data Template Component");
-            OutputDataTemplates.Add(new OutputDataTemplate(id, "OUT__TEMPLATE__" + id, OutputDataTemplateFile.Default));
+            OutputDataTemplates.Add(new OutputDataTemplate(id, "TEMPLATE__" + id, OutputDataTemplateFile.Default));
             var component = (OutputDataTemplate)OutputDataTemplates.ReturnComponent(id);
 
             GuiOutputDataTemplates.Add(new GuiComponent(id, "", new GuiOutputDataTemplate(component)));
@@ -392,6 +396,15 @@ namespace _PlcAgent.MainRegistry
 
                 CommunicationInterfaceHandlers.Children.Remove(component);
             }
+            if (OutputDataTemplates.Cast<object>().Any(outputDataTemplate => component == outputDataTemplate))
+            {
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var outputDataTemplate = (OutputDataTemplate)component;
+                outputDataTemplate.Deinitialize();
+
+                OutputDataTemplates.Children.Remove(component);
+            }
             if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
             {
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
@@ -459,6 +472,9 @@ namespace _PlcAgent.MainRegistry
             GuiComInterfacemunicationConfigurations.Clear();
             GuiCommunicationInterfaceOnlines.Clear();
 
+            OutputDataTemplates.Clear();
+            GuiOutputDataTemplates.Clear();
+
             OutputHandlers.Clear();
             GuiOutputHandlerComponents.Clear();
             GuiOutputHandlerInterfaceAssignmentComponents.Clear();
@@ -505,6 +521,17 @@ namespace _PlcAgent.MainRegistry
                     communicationInterfaceHandler.PlcCommunicator.Header.Id;
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][2] = 0;
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][3] = 0;
+            }
+
+            MainRegistryFile.Default.OutputDataTemplates = new uint[9][];
+            foreach (OutputDataTemplate outputDataTemplate in OutputDataTemplates)
+            {
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id] = new uint[4];
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][0] =
+                    outputDataTemplate.Header.Id;
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][1] = 0;
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][2] = 0;
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][3] = 0;
             }
 
             MainRegistryFile.Default.OutputHandlers = new uint[9][];
@@ -668,6 +695,10 @@ namespace _PlcAgent.MainRegistry
                 throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.CommunicationInterfaceHandlers.Any(communicationInterfaceHandler => communicationInterfaceHandler != null && communicationInterfaceHandler[index] == component.Header.Id))
+            {
+                throw new Exception("The component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.OutputDataTemplates.Any(outputDataTemplate => outputDataTemplate != null && outputDataTemplate[index] == component.Header.Id))
             {
                 throw new Exception("The component is still assigned to another one");
             }

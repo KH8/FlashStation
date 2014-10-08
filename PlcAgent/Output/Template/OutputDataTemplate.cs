@@ -10,7 +10,7 @@ namespace _PlcAgent.Output.Template
 {
     public class OutputDataTemplate : Module
     {
-        public OutputDataTemplateComposite Composite;
+        public OutputDataTemplateComposite Composite = new OutputDataTemplateComposite("empty", null, null);
         public OutputDataTemplateFile OutputDataTemplateFile;
 
         public OutputDataTemplate(uint id, string name, OutputDataTemplateFile outputDataTemplateFile) : base(id, name)

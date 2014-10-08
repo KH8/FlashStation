@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -102,6 +101,11 @@ namespace _PlcAgent.Visual
 
             var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AssignInterface);
             window.Show();
+        }
+
+        private void AddOutputDataTemplate(object sender, RoutedEventArgs e)
+        {
+            AssignOutputDataTemplate();
         }
 
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
@@ -435,6 +439,25 @@ namespace _PlcAgent.Visual
                 guiComponent.TabItem = newtabItem;
             }
 
+            foreach (OutputDataTemplate record in _registry.OutputDataTemplates)
+            {
+                var newtabItem = new TabItem { Header = record.Header.Name };
+                MainTabControl.Items.Add(newtabItem);
+                MainTabControl.SelectedItem = newtabItem;
+
+                var newGrid = new Grid();
+                newtabItem.Content = newGrid;
+
+                newGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
+                newGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
+
+                var gridGuiOutputDataTemplate = (GuiComponent)_registry.GuiOutputDataTemplates.ReturnComponent(record.Header.Id);
+                gridGuiOutputDataTemplate.Initialize(0, 0, newGrid);
+
+                var gridGuiOutputDataTemplateGrid = (GuiOutputDataTemplate)gridGuiOutputDataTemplate.UserControl;
+                gridGuiOutputDataTemplateGrid.UpdateSizes(newGrid.Height, newGrid.Width);
+            }
+
             foreach (OutputHandler record in _registry.OutputHandlers)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
@@ -568,28 +591,6 @@ namespace _PlcAgent.Visual
             SelectTabItem(MainTabControl, mainTabControlSelection);
             SelectTabItem(ConnectionTabControl, connectionTabControlSelection);
             SelectTabItem(OutputTabControl, outputTabControlSelection);
-
-            //*----------------------------------------------------------------------------------------------------
-            var cih = (CommunicationInterfaceHandler)_registry.CommunicationInterfaceHandlers.ReturnComponent(1);
-
-            var template = OutputDataTemplateBuilder.ComunicationInterfaceToTemplate(cih.ReadInterfaceComposite);
-
-            var newtabItemTest = new TabItem { Header = "Test" };
-            MainTabControl.Items.Add(newtabItemTest);
-            MainTabControl.SelectedItem = newtabItemTest;
-
-            var newGridTest = new Grid();
-            newtabItemTest.Content = newGridTest;
-
-            newGridTest.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
-            newGridTest.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
-
-            var gridGuiOdt = new GuiComponent(0, "", new GuiOutputDataTemplate((OutputDataTemplateComposite)template));
-            gridGuiOdt.Initialize(0, 0, newGridTest);
-
-            var guiOutputDataTemplate = (GuiOutputDataTemplate)gridGuiOdt.UserControl;
-            guiOutputDataTemplate.UpdateSizes(newGridTest.Height, newGridTest.Width);
-            //*/
         }
 
         private static void SelectTabItem(TabControl tabControl, object tabItemHeader)
@@ -627,6 +628,18 @@ namespace _PlcAgent.Visual
                 var treeViewItem = new TreeViewItem
                 {
                     Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+
+            newHeader = new TreeViewItem { Header = "Output Data Templates", IsExpanded = true };
+            foreach (OutputDataTemplate record in _registry.OutputDataTemplates)
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name
                 };
                 _registryComponents.Add(treeViewItem, record);
                 newHeader.Items.Add(treeViewItem);
@@ -736,6 +749,15 @@ namespace _PlcAgent.Visual
         private void AssignInterface(uint plcConnectionId)
         {
             var newId = _registry.AddCommunicationInterface(true, plcConnectionId);
+            if (newId == 0) return;
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
+        private void AssignOutputDataTemplate()
+        {
+            var newId = _registry.AddOutputDataTemplate(true);
             if (newId == 0) return;
 
             UpdateGui();

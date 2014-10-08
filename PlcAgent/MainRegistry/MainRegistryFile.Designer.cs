@@ -56,6 +56,21 @@ namespace _PlcAgent.MainRegistry {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public uint[][] OutputDataTemplates
+        {
+            get
+            {
+                return ((uint[][])(this["OutputDataTemplates"]));
+            }
+            set
+            {
+                this["OutputDataTemplates"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] OutputHandlers
         {
             get
