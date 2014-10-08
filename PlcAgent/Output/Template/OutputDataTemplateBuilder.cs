@@ -39,25 +39,37 @@ namespace _PlcAgent.Output.Template
             var xmlReader = XmlReader.Create(fileName);
             xmlReader.MoveToContent();
 
-            var actualTemplate = template;
+            OutputDataTemplateComponent actualTemplate = template;
+            CommunicationInterfaceHandler actualCommunicationInterfaceHandler = null;
+            uint actualId = 0;
 
             while (xmlReader.Read())
             {
                 switch (xmlReader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        var newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, new CommunicationInterfaceComposite(xmlReader.Name));
-                        actualTemplate.Add(newTemplate);
+                        OutputDataTemplateComponent newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, new CommunicationInterfaceComposite(xmlReader.Name));
+                        
                         if (!xmlReader.IsEmptyElement)
                         {
+                            actualTemplate.Add(newTemplate);
                             actualTemplate = newTemplate;
                             break;
                         }
-                        var communicationInterfaceHandler =
-                            (CommunicationInterfaceHandler)
-                                RegistryContext.Registry.CommunicationInterfaceHandlers.ReturnComponent(
-                                    Convert.ToUInt32(xmlReader.GetAttribute("InterfaceId"), 16));
-                        newTemplate.Component = communicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(xmlReader.GetAttribute("Name"));
+                        
+                        var id = Convert.ToUInt32(xmlReader.GetAttribute("InterfaceId"), 16);
+                        if (id != actualId)
+                        {
+                            actualCommunicationInterfaceHandler = (CommunicationInterfaceHandler) RegistryContext.Registry.CommunicationInterfaceHandlers.ReturnComponent(id);
+                            actualId = id;
+                        }
+
+                        CommunicationInterfaceComponent component = new CiInteger("N/A", -1,
+                            CommunicationInterfaceComponent.VariableType.Integer, -1);
+                        if (actualCommunicationInterfaceHandler != null) component = actualCommunicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(xmlReader.GetAttribute("Name"));
+                        
+                        newTemplate = new OutputDataTemplateLeaf(xmlReader.Name, null, OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, component);
+                        actualTemplate.Add(newTemplate);
                         break;
                     case XmlNodeType.EndElement:
                         actualTemplate = actualTemplate.Parent;
