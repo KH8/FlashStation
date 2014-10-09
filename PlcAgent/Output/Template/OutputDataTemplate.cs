@@ -20,6 +20,7 @@ namespace _PlcAgent.Output.Template
 
         public override void Initialize()
         {
+
             Logger.Log("ID: " + Header.Id + " Output Data Template Initialized");
         }
 
@@ -136,7 +137,7 @@ namespace _PlcAgent.Output.Template
 
         public void Export(string fileName)
         {
-            new XmlFileCreator().CreateOutput(fileName, this, XmlFileCreator.OutputConfiguration.Template);
+            new XmlFileCreator().CreateOutput(fileName, this, FileCreator.OutputConfiguration.Template);
             Logger.Log("Output Data Templated exported to the file: " + fileName);
         }
 

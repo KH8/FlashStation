@@ -470,6 +470,9 @@
     <Resource Include="Analyzer\OxyPlot.xml" />
     <Resource Include="graph.ico" />
     <Resource Include="graph.png" />
+    <Resource Include="Output\Template\Empty_Template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Vector\Vector.vFlash.Automation.vFlash.dll" />
     <Content Include="Vector\Vector.vFlash.Automation.vFlashStation.dll" />
     <None Include="Log\Log.txt">

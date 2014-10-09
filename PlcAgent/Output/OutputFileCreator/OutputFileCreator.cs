@@ -18,7 +18,7 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         #region Properties
 
-        public XmlFileCreator XmlFileCreator { get; set; }
+        public FileCreator FileCreator { get; set; }
 
         public OutputHandlerFile OutputHandlerFile { get; set; }
         public OutputHandlerInterfaceAssignmentFile OutputHandlerInterfaceAssignmentFile { get; set; }
@@ -31,7 +31,7 @@ namespace _PlcAgent.Output.OutputFileCreator
         public OutputFileCreator(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler)
             : base(id, name, communicationInterfaceHandler)
         {
-            XmlFileCreator = new XmlFileCreator();
+            FileCreator = new XmlFileCreator();
 
             _communicationThread = new Thread(OutputCommunicationThread);
             _communicationThread.SetApartmentState(ApartmentState.STA);
@@ -45,7 +45,7 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         public void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite)
         {
-            XmlFileCreator.CreateOutput(fileName, outputDataTemplateComposite, XmlFileCreator.OutputConfiguration.Composite);
+            FileCreator.CreateOutput(fileName, outputDataTemplateComposite, FileCreator.OutputConfiguration.Composite);
         }
 
         #endregion

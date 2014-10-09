@@ -7,7 +7,7 @@ using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Output.OutputFileCreator
 {
-    class XmlFileCreator
+    internal abstract class FileCreator
     {
         public enum OutputConfiguration
         {
@@ -15,7 +15,13 @@ namespace _PlcAgent.Output.OutputFileCreator
             Template
         }
 
-        public void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
+        public abstract void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite,
+            OutputConfiguration configuration);
+    }
+
+    class XmlFileCreator : FileCreator
+    {
+        public override void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             var settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
             using (var writer = XmlWriter.Create(fileName, settings))
@@ -42,7 +48,7 @@ namespace _PlcAgent.Output.OutputFileCreator
                     break;
                     case OutputConfiguration.Template:
                         writer.WriteAttributeString("Name", component.Component.Name);
-                        writer.WriteAttributeString("Reference", null);
+                        writer.WriteAttributeString("Reference", "");
 
                         var id = 0;
                         var parent = component.Component.GetOwner() as CommunicationInterfaceHandler;
@@ -54,7 +60,7 @@ namespace _PlcAgent.Output.OutputFileCreator
             }
         }
 
-        public void WriteComponentToTheFile(XmlWriter writer, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
+        private void WriteComponentToTheFile(XmlWriter writer, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             foreach (var component in outputDataTemplateComposite.Cast<OutputDataTemplateComponent>())
             {
@@ -71,7 +77,7 @@ namespace _PlcAgent.Output.OutputFileCreator
             }
         }
 
-        internal static string CleanInvalidXmlChars(string text)
+        private static string CleanInvalidXmlChars(string text)
         {
             const string re = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
             return Regex.Replace(text, re, "");
