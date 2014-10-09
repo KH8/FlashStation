@@ -40,7 +40,6 @@ namespace _PlcAgent.Visual
     {
         #region Variables
 
-        private readonly Registry _registry;
         private Dictionary<TreeViewItem, RegistryComponent> _registryComponents;
 
         #endregion
@@ -58,10 +57,8 @@ namespace _PlcAgent.Visual
                                    LicenseHandler.LicenseCreationTime;
 
             Logger.Log("Registry initialization");
-            _registry = new Registry();
-            _registry.Initialize();
-
-            RegistryContext.Registry = _registry;
+            RegistryContext.Registry = new Registry();
+            RegistryContext.Registry.Initialize();
 
             UpdateGui();
             UpdateTreeView();
@@ -90,7 +87,7 @@ namespace _PlcAgent.Visual
         private void AddInterface(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
-            foreach (PLC.PlcCommunicator record in _registry.PlcCommunicators)
+            foreach (PLC.PlcCommunicator record in RegistryContext.Registry.PlcCommunicators)
             { 
                 newHeader.Items.Add(new TreeViewItem
                 {
@@ -111,7 +108,7 @@ namespace _PlcAgent.Visual
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem {Header = "Communication Interfaces", IsExpanded = true};
-            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
@@ -136,7 +133,7 @@ namespace _PlcAgent.Visual
                 Header = "Communication Interfaces",
                 IsExpanded = true
             };
-            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
@@ -146,7 +143,7 @@ namespace _PlcAgent.Visual
             }
 
             var newHeaderVFlashBank = new TreeViewItem {Header = "vFlash Banks", IsExpanded = true};
-            foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
+            foreach (VFlashTypeBank record in RegistryContext.Registry.VFlashTypeBanks)
             {
                 newHeaderVFlashBank.Items.Add(new TreeViewItem
                 {
@@ -162,7 +159,7 @@ namespace _PlcAgent.Visual
         private void AddAnalyzer(object sender, RoutedEventArgs e)
         {
             var newHeader = new TreeViewItem { Header = "Communication Interfaces", IsExpanded = true };
-            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
@@ -192,7 +189,7 @@ namespace _PlcAgent.Visual
 
         private void NewConfiguration(object sender, RoutedEventArgs e)
         {
-            _registry.MakeNewConfiguration();
+            RegistryContext.Registry.MakeNewConfiguration();
 
             UpdateGui();
             UpdateTreeView();
@@ -228,7 +225,7 @@ namespace _PlcAgent.Visual
 
                 var projectData = (ProjectFileStruture.ProjectSavedData)new BinaryFormatter().Deserialize(memoryStream);
 
-                _registry.LoadConfiguration(projectData);
+                RegistryContext.Registry.LoadConfiguration(projectData);
 
                 UpdateGui();
                 UpdateTreeView();
@@ -249,7 +246,7 @@ namespace _PlcAgent.Visual
             if (result == true)
             {
                 Logger.Log("Saveing configuration to file: " + dlg.FileName);
-                var projectData = _registry.SaveConfiguration();
+                var projectData = RegistryContext.Registry.SaveConfiguration();
 
                 IFormatter formatter = new BinaryFormatter();
 
@@ -272,7 +269,7 @@ namespace _PlcAgent.Visual
             var selection = (TreeViewItem)ComponentManagerTreeView.SelectedItem;
             try
             {
-                _registry.RemoveComponent(_registryComponents[selection]);
+                RegistryContext.Registry.RemoveComponent(_registryComponents[selection]);
             }
             catch (Exception exception)
             {
@@ -383,7 +380,7 @@ namespace _PlcAgent.Visual
             OutputTabControl.Items.Add(newTabForLabel);
             OutputTabControl.SelectedItem = labelOutputTabControl;
 
-            foreach (PLC.PlcCommunicator record in _registry.PlcCommunicators)
+            foreach (PLC.PlcCommunicator record in RegistryContext.Registry.PlcCommunicators)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
@@ -396,17 +393,17 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationStatus = (GuiComponent)_registry.GuiPlcCommunicatorStatuses.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationStatus = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorStatuses.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
-                var gridGuiPlcConfiguration = (GuiComponent)_registry.GuiPlcCommunicatorConfigurations.ReturnComponent(record.Header.Id);
+                var gridGuiPlcConfiguration = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfiguration.Initialize(0, 275, newGrid);
 
-                var gridGuiPlcConfigurationStatusBar = (GuiComponent)_registry.GuiPlcCommunicatorStatusBars.ReturnComponent(record.Header.Id);
+                var gridGuiPlcConfigurationStatusBar = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfigurationStatusBar.Initialize(95 * ((int)record.Header.Id - 1), -25, FooterGrid);
             }
 
-            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 ConnectionTabControl.Items.Add(newtabItem);
@@ -419,7 +416,7 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridGuiCommunicationInterfaceConfiguration = (GuiComponent)_registry.GuiComInterfacemunicationConfigurations.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationInterfaceConfiguration = (GuiComponent)RegistryContext.Registry.GuiComInterfacemunicationConfigurations.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
 
                 newtabItem = new TabItem { Header = record.Header.Name + " Online" };
@@ -432,14 +429,14 @@ namespace _PlcAgent.Visual
                 newGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
                 newGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-                var gridGuiCommunicationInterfaceOnline = (GuiComponent)_registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
+                var gridGuiCommunicationInterfaceOnline = (GuiComponent)RegistryContext.Registry.GuiCommunicationInterfaceOnlines.ReturnComponent(record.Header.Id);
                 gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
                 var guiComponent = (GuiCommunicationInterfaceOnlineHierarchical) gridGuiCommunicationInterfaceOnline.UserControl;
                 guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
                 guiComponent.TabItem = newtabItem;
             }
 
-            foreach (OutputDataTemplate record in _registry.OutputDataTemplates)
+            foreach (OutputDataTemplate record in RegistryContext.Registry.OutputDataTemplates)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 MainTabControl.Items.Add(newtabItem);
@@ -451,14 +448,14 @@ namespace _PlcAgent.Visual
                 newGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
                 newGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-                var gridGuiOutputDataTemplate = (GuiComponent)_registry.GuiOutputDataTemplates.ReturnComponent(record.Header.Id);
+                var gridGuiOutputDataTemplate = (GuiComponent)RegistryContext.Registry.GuiOutputDataTemplates.ReturnComponent(record.Header.Id);
                 gridGuiOutputDataTemplate.Initialize(0, 0, newGrid);
 
                 var gridGuiOutputDataTemplateGrid = (GuiOutputDataTemplate)gridGuiOutputDataTemplate.UserControl;
                 gridGuiOutputDataTemplateGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
-            foreach (OutputHandler record in _registry.OutputHandlers)
+            foreach (OutputHandler record in RegistryContext.Registry.OutputHandlers)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
@@ -475,14 +472,14 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var guiOutputHandlerComponent = (GuiComponent)_registry.GuiOutputHandlerComponents.ReturnComponent(record.Header.Id);
+                var guiOutputHandlerComponent = (GuiComponent)RegistryContext.Registry.GuiOutputHandlerComponents.ReturnComponent(record.Header.Id);
                 guiOutputHandlerComponent.Initialize(0, 0, newGrid);
 
-                var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 
-            foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
+            foreach (VFlashTypeBank record in RegistryContext.Registry.VFlashTypeBanks)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
                 OutputTabControl.Items.Add(newtabItem);
@@ -502,13 +499,13 @@ namespace _PlcAgent.Visual
                 newGrid.Height = Limiter.DoubleLimit(OutputTabControl.Height - 50.0, 0);
                 newGrid.Width = Limiter.DoubleLimit(OutputTabControl.Width - 10, 0);
 
-                var gridGuiVFlashPathBank = (GuiComponent)_registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);
+                var gridGuiVFlashPathBank = (GuiComponent)RegistryContext.Registry.GuiVFlashPathBanks.ReturnComponent(record.Header.Id);
                 gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
                 var guiComponent = (GuiVFlashPathBank)gridGuiVFlashPathBank.UserControl;
                 guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
-            foreach (VFlashHandler record in _registry.VFlashHandlers)
+            foreach (VFlashHandler record in RegistryContext.Registry.VFlashHandlers)
             {
 
                 var newtabItem = new TabItem { Header = record.Header.Name };
@@ -526,17 +523,17 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridVFlashComponent = (GuiComponent)_registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
+                var gridVFlashComponent = (GuiComponent)RegistryContext.Registry.GuiVFlashHandlerComponents.ReturnComponent(record.Header.Id);
                 gridVFlashComponent.Initialize(0, 0, newGrid);
 
-                var gridGuiVFlashStatusBar = (GuiComponent)_registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
+                var gridGuiVFlashStatusBar = (GuiComponent)RegistryContext.Registry.GuiVFlashStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiVFlashStatusBar.Initialize(95 * ((int)record.Header.Id - 1), 18, FooterGrid);
 
-                var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
             }
 
-            foreach (Analyzer.Analyzer record in _registry.Analyzers)
+            foreach (Analyzer.Analyzer record in RegistryContext.Registry.Analyzers)
             {
 
                 var newtabItem = new TabItem { Header = record.Header.Name };
@@ -554,16 +551,16 @@ namespace _PlcAgent.Visual
                 var newGrid = new Grid();
                 newScrollViewer.Content = newGrid;
 
-                var gridAnalyzerConfiguration = (GuiComponent)_registry.GuiAnalyzerConfigurations.ReturnComponent(record.Header.Id);
+                var gridAnalyzerConfiguration = (GuiComponent)RegistryContext.Registry.GuiAnalyzerConfigurations.ReturnComponent(record.Header.Id);
                 gridAnalyzerConfiguration.Initialize(0, 0, newGrid);
 
-                var gridAnalyzerControl = (GuiComponent)_registry.GuiAnalyzerControls.ReturnComponent(record.Header.Id);
+                var gridAnalyzerControl = (GuiComponent)RegistryContext.Registry.GuiAnalyzerControls.ReturnComponent(record.Header.Id);
                 gridAnalyzerControl.Initialize(0, 150, newGrid);
 
-                var gridGuiInterfaceAssignment = (GuiComponent)_registry.GuiAnalyzerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiAnalyzerInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
                 gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
 
-                var gridGuiDataCursorTable = (GuiComponent)_registry.GuiAnalyzerDataCursorTables.ReturnComponent(record.Header.Id);
+                var gridGuiDataCursorTable = (GuiComponent)RegistryContext.Registry.GuiAnalyzerDataCursorTables.ReturnComponent(record.Header.Id);
                 gridGuiDataCursorTable.Initialize(927, 0, newGrid);
 
                 newtabItem = new TabItem { Header = record.Header.Name };
@@ -576,7 +573,7 @@ namespace _PlcAgent.Visual
                 newGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
                 newGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-                var analyzerMainFrameGrid = (GuiComponent)_registry.GuiAnalyzerMainFrames.ReturnComponent(record.Header.Id);
+                var analyzerMainFrameGrid = (GuiComponent)RegistryContext.Registry.GuiAnalyzerMainFrames.ReturnComponent(record.Header.Id);
                 analyzerMainFrameGrid.Initialize(0, 0, newGrid);
 
                 var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame) analyzerMainFrameGrid.UserControl;
@@ -611,7 +608,7 @@ namespace _PlcAgent.Visual
             ComponentManagerTreeView.Items.Add(mainHeader);
             
             var newHeader= new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
-            foreach (PLC.PlcCommunicator record in _registry.PlcCommunicators)
+            foreach (PLC.PlcCommunicator record in RegistryContext.Registry.PlcCommunicators)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -623,7 +620,7 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem {Header = "Communication Interfaces", IsExpanded = true};
-            foreach (CommunicationInterfaceHandler record in _registry.CommunicationInterfaceHandlers)
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -635,7 +632,7 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem { Header = "Output Data Templates", IsExpanded = true };
-            foreach (OutputDataTemplate record in _registry.OutputDataTemplates)
+            foreach (OutputDataTemplate record in RegistryContext.Registry.OutputDataTemplates)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -647,7 +644,7 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem {Header = "Output Handlers", IsExpanded = true};
-            foreach (OutputHandler record in _registry.OutputHandlers)
+            foreach (OutputHandler record in RegistryContext.Registry.OutputHandlers)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -659,7 +656,7 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem {Header = "vFlash Banks", IsExpanded = true};
-            foreach (VFlashTypeBank record in _registry.VFlashTypeBanks)
+            foreach (VFlashTypeBank record in RegistryContext.Registry.VFlashTypeBanks)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -671,7 +668,7 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
             newHeader = new TreeViewItem {Header = "vFlash Channels", IsExpanded = true};
-            foreach (VFlashHandler record in _registry.VFlashHandlers)
+            foreach (VFlashHandler record in RegistryContext.Registry.VFlashHandlers)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -683,7 +680,7 @@ namespace _PlcAgent.Visual
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }   
 
             newHeader = new TreeViewItem { Header = "Analyzers", IsExpanded = true };
-            foreach (Analyzer.Analyzer record in _registry.Analyzers)
+            foreach (Analyzer.Analyzer record in RegistryContext.Registry.Analyzers)
             {
                 var treeViewItem = new TreeViewItem
                 {
@@ -739,7 +736,7 @@ namespace _PlcAgent.Visual
 
         private void AssignConnection()
         {
-            var newId = _registry.AddPlcCommunicator(true);
+            var newId = RegistryContext.Registry.AddPlcCommunicator(true);
             if (newId == 0) return;
 
             UpdateGui();
@@ -748,7 +745,7 @@ namespace _PlcAgent.Visual
 
         private void AssignInterface(uint plcConnectionId)
         {
-            var newId = _registry.AddCommunicationInterface(true, plcConnectionId);
+            var newId = RegistryContext.Registry.AddCommunicationInterface(true, plcConnectionId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -757,7 +754,7 @@ namespace _PlcAgent.Visual
 
         private void AssignOutputDataTemplate()
         {
-            var newId = _registry.AddOutputDataTemplate(true);
+            var newId = RegistryContext.Registry.AddOutputDataTemplate(true);
             if (newId == 0) return;
 
             UpdateGui();
@@ -766,7 +763,7 @@ namespace _PlcAgent.Visual
 
         private void AssignOutputFileHandler(uint communicationInterfaceId)
         {
-            var newId = _registry.AddOutputHandler(true, communicationInterfaceId);
+            var newId = RegistryContext.Registry.AddOutputHandler(true, communicationInterfaceId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -775,7 +772,7 @@ namespace _PlcAgent.Visual
 
         private void AssignVFlashBank()
         {
-            var newId = _registry.AddVFlashBank(true);
+            var newId = RegistryContext.Registry.AddVFlashBank(true);
             if (newId == 0) return;
 
             UpdateGui();
@@ -784,7 +781,7 @@ namespace _PlcAgent.Visual
 
         private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
-            var newId = _registry.AddVFlashChannel(true, communicationInterfaceId, vFlashBankId);
+            var newId = RegistryContext.Registry.AddVFlashChannel(true, communicationInterfaceId, vFlashBankId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -793,7 +790,7 @@ namespace _PlcAgent.Visual
 
         private void AssignAnalyzer(uint communicationInterfaceId)
         {
-            var newId = _registry.AddAnalyzer(true, communicationInterfaceId);
+            var newId = RegistryContext.Registry.AddAnalyzer(true, communicationInterfaceId);
             if (newId == 0) return;
 
             UpdateGui();
@@ -807,7 +804,7 @@ namespace _PlcAgent.Visual
 
         private void CloseApp()
         {
-            if(_registry != null) _registry.Deinitialize();
+            if(RegistryContext.Registry != null) RegistryContext.Registry.Deinitialize();
             Logger.Log("Program Closed");
             Environment.Exit(0);
         }

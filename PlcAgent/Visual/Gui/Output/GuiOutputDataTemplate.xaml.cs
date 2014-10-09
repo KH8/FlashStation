@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
 using _PlcAgent.General;
-using _PlcAgent.Log;
 using _PlcAgent.Output.Template;
 using _PlcAgent.Visual.Interfaces;
 using _PlcAgent.Visual.TreeListView;
@@ -21,7 +20,6 @@ namespace _PlcAgent.Visual.Gui.Output
         #region Variables
 
         private Point _storedPosition;
-        private OutputDataTemplateComposite _outputDataTemplateComposite;
 
         #endregion
 
@@ -35,14 +33,12 @@ namespace _PlcAgent.Visual.Gui.Output
 
         #region Constructors
 
-        public GuiOutputDataTemplate(OutputDataTemplate template)
+        public GuiOutputDataTemplate(OutputDataTemplate template) : base(template)
         {
             InitializeComponent();
 
-            _outputDataTemplateComposite = template.Composite;
-
             var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
+            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
 
             OutputDataTemplateTreeListView.ItemsSource = collection;
         }
@@ -104,10 +100,10 @@ namespace _PlcAgent.Visual.Gui.Output
 
         private void Clear(object sender, RoutedEventArgs e)
         {
-            _outputDataTemplateComposite.Clear();
+            OutputDataTemplate.Clear();
 
             var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
+            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
 
             OutputDataTemplateTreeListView.ItemsSource = collection;
         }
@@ -123,11 +119,10 @@ namespace _PlcAgent.Visual.Gui.Output
             // Get the selected file name and display in a TextBox
             if (result != true) return;
 
-            _outputDataTemplateComposite.Clear();
-            _outputDataTemplateComposite = (OutputDataTemplateComposite)OutputDataTemplateBuilder.XmlFileToTemplate(dlg.FileName);
+            OutputDataTemplate.Import(dlg.FileName);
 
             var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, _outputDataTemplateComposite);
+            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
 
             OutputDataTemplateTreeListView.ItemsSource = collection;
         }
@@ -144,8 +139,7 @@ namespace _PlcAgent.Visual.Gui.Output
             var result = dlg.ShowDialog();
 
             if (result != true) return;
-            Logger.Log("Exporting Output Data Template to file: " + dlg.FileName);
-            _outputDataTemplateComposite.Export(dlg.FileName);
+            OutputDataTemplate.Export(dlg.FileName);
         }
 
         #endregion

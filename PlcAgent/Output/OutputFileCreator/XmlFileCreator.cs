@@ -15,13 +15,13 @@ namespace _PlcAgent.Output.OutputFileCreator
             Template
         }
 
-        public abstract void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite,
+        public abstract void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite,
             OutputConfiguration configuration);
     }
 
     class XmlFileCreator : FileCreator
     {
-        public override void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
+        public override void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             var settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
             using (var writer = XmlWriter.Create(fileName, settings))
@@ -36,7 +36,7 @@ namespace _PlcAgent.Output.OutputFileCreator
             }
         }
 
-        private static void WriteElement(XmlWriter writer, OutputDataTemplateComponent component, OutputConfiguration configuration)
+        private static void WriteElement(XmlWriter writer, DataTemplateComponent component, OutputConfiguration configuration)
         {
             switch (configuration)
             {
@@ -60,14 +60,14 @@ namespace _PlcAgent.Output.OutputFileCreator
             }
         }
 
-        private void WriteComponentToTheFile(XmlWriter writer, OutputDataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
+        private void WriteComponentToTheFile(XmlWriter writer, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
-            foreach (var component in outputDataTemplateComposite.Cast<OutputDataTemplateComponent>())
+            foreach (var component in outputDataTemplateComposite.Cast<DataTemplateComponent>())
             {
                 writer.WriteStartElement(component.Name);
-                if (component.GetType() == typeof(OutputDataTemplateComposite))
+                if (component.GetType() == typeof(DataTemplateComposite))
                 {
-                    WriteComponentToTheFile(writer, component as OutputDataTemplateComposite, configuration);
+                    WriteComponentToTheFile(writer, component as DataTemplateComposite, configuration);
                 }
                 else
                 {

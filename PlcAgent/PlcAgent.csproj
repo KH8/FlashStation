@@ -140,8 +140,10 @@
     </Compile>
     <Compile Include="Output\OutputWriterFactory.cs" />
     <Compile Include="General\ProjectFileStruture.cs" />
+    <Compile Include="Output\Template\DataTemplate.cs" />
     <Compile Include="Output\Template\OutputDataTemplate.cs" />
     <Compile Include="Output\Template\OutputDataTemplateBuilder.cs" />
+    <Compile Include="Output\Template\OutputDataTemplateComponent.cs" />
     <Compile Include="Output\Template\OutputDataTemplateFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

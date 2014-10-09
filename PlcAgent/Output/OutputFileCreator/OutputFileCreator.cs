@@ -43,7 +43,7 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         #region Methods
 
-        public void CreateOutput(string fileName, OutputDataTemplateComposite outputDataTemplateComposite)
+        public void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite)
         {
             FileCreator.CreateOutput(fileName, outputDataTemplateComposite, FileCreator.OutputConfiguration.Composite);
         }

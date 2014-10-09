@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Xml;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.MainRegistry;
@@ -8,13 +9,13 @@ namespace _PlcAgent.Output.Template
 {
     static class OutputDataTemplateBuilder
     {
-        public static OutputDataTemplateComponent ComunicationInterfaceToTemplate(
+        public static DataTemplateComponent ComunicationInterfaceToTemplate(
             CommunicationInterfaceComponent communicationInterfaceComponent)
         {
             var lastName = communicationInterfaceComponent.LastName.Replace('[', '_');
             lastName = lastName.Replace(']', '_');
 
-            OutputDataTemplateComponent newComposite = new OutputDataTemplateComposite(lastName, null, null);
+            DataTemplateComponent newComposite = new DataTemplateComposite(lastName, null, null);
 
             if (communicationInterfaceComponent.GetType() == typeof (CommunicationInterfaceComposite))
             {
@@ -25,30 +26,31 @@ namespace _PlcAgent.Output.Template
             }
             else
             {
-                newComposite = new OutputDataTemplateLeaf(lastName, null, OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, communicationInterfaceComponent);
+                newComposite = new DataTemplateLeaf(lastName, null, DataTemplateComponent.DataTemplateComponentType.XmlWriterVariable, communicationInterfaceComponent);
             }
 
             return newComposite;
         }
 
-        public static OutputDataTemplateComponent XmlFileToTemplate(
+        public static DataTemplateComponent XmlFileToTemplate(
             string fileName)
         {
-            var template = new OutputDataTemplateComposite("Template", null, new CommunicationInterfaceComposite("Template"));
+            var template = new DataTemplateComposite("Template", null, new CommunicationInterfaceComposite("Template"));
 
             var xmlReader = XmlReader.Create(fileName);
             xmlReader.MoveToContent();
 
-            OutputDataTemplateComponent actualTemplate = template;
+            DataTemplateComponent actualTemplate = template;
             CommunicationInterfaceHandler actualCommunicationInterfaceHandler = null;
             uint actualId = 0;
+            var componentWasNotFound = false;
 
             while (xmlReader.Read())
             {
                 switch (xmlReader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        OutputDataTemplateComponent newTemplate = new OutputDataTemplateComposite(xmlReader.Name, null, null);
+                        DataTemplateComponent newTemplate = new DataTemplateComposite(xmlReader.Name, null, null);
                         
                         if (!xmlReader.IsEmptyElement)
                         {
@@ -69,13 +71,14 @@ namespace _PlcAgent.Output.Template
                             var component =
                                 actualCommunicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(
                                     xmlReader.GetAttribute("Name"));
-                            newTemplate = new OutputDataTemplateLeaf(xmlReader.Name, null,
-                                OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, component);
+                            newTemplate = new DataTemplateLeaf(xmlReader.Name, null,
+                                DataTemplateComponent.DataTemplateComponentType.XmlWriterVariable, component);
                         }
                         else
                         {
-                            newTemplate = new OutputDataTemplateLeaf("%component not available", null,
-                                OutputDataTemplateComponent.OutputDataTemplateComponentType.XmlWriterVariable, null);
+                            newTemplate = new DataTemplateLeaf("%component not available", null,
+                                DataTemplateComponent.DataTemplateComponentType.XmlWriterVariable, null);
+                            componentWasNotFound = true;
                         }
 
                         actualTemplate.Add(newTemplate);
@@ -85,6 +88,8 @@ namespace _PlcAgent.Output.Template
                         break;
                 }
             }
+
+            if (componentWasNotFound) MessageBox.Show("At leas one of the template components was not found within available interfaces.", "Component was not found");
 
             return template;
         }

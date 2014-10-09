@@ -111,7 +111,7 @@ namespace _PlcAgent.Visual.TreeListView
         #region Methods
 
         public abstract void Build(ObservableCollection<object> onlineReadDataStructure, ObservableCollection<object> onlineWriteDataStructure, CommunicationInterfaceHandler communicationHandler);
-        public abstract void Build(ObservableCollection<object> displayDataTemplateStructure, OutputDataTemplateComposite outputDataTemplateComposite);
+        public abstract void Build(ObservableCollection<object> displayDataTemplateStructure, DataTemplateComposite outputDataTemplateComposite);
 
         protected static DisplayData DisplayComponent(CiBit component, int plcStartAddress)
         {
@@ -192,7 +192,7 @@ namespace _PlcAgent.Visual.TreeListView
             });
         }
 
-        public override void Build(ObservableCollection<object> displayDataTemplateStructure, OutputDataTemplateComposite outputDataTemplateComposite)
+        public override void Build(ObservableCollection<object> displayDataTemplateStructure, DataTemplateComposite outputDataTemplateComposite)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -242,14 +242,14 @@ namespace _PlcAgent.Visual.TreeListView
             {
                 var actualItemCollection = collection;
 
-                if (component.GetType() == typeof(OutputDataTemplateComposite))
+                if (component.GetType() == typeof(DataTemplateComposite))
                 {
-                    var compositeComponent = (OutputDataTemplateComposite)component;
+                    var compositeComponent = (DataTemplateComposite)component;
                     StepDownComposite(collection, compositeComponent);
                 }
                 else
                 {
-                    var variable = (OutputDataTemplateLeaf)component;
+                    var variable = (DataTemplateLeaf)component;
                     actualItemCollection.Add(new DisplayData
                     {
                         Component = variable.Component,
@@ -304,7 +304,7 @@ namespace _PlcAgent.Visual.TreeListView
             });
         }
 
-        public override void Build(ObservableCollection<object> displayDataTemplateStructure, OutputDataTemplateComposite outputDataTemplateComposite)
+        public override void Build(ObservableCollection<object> displayDataTemplateStructure, DataTemplateComposite outputDataTemplateComposite)
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -364,9 +364,9 @@ namespace _PlcAgent.Visual.TreeListView
             {
                 var actualItemCollection = items;
 
-                if (component.GetType() == typeof(OutputDataTemplateComposite))
+                if (component.GetType() == typeof(DataTemplateComposite))
                 {
-                    var compositeComponent = (OutputDataTemplateComposite)component;
+                    var compositeComponent = (DataTemplateComposite)component;
                     var displayData = new DisplayData
                     {
                         Address = "",
@@ -388,7 +388,7 @@ namespace _PlcAgent.Visual.TreeListView
                 }
                 else
                 {
-                    var variable = (OutputDataTemplateLeaf)component;
+                    var variable = (DataTemplateLeaf)component;
                     var displayData = new DisplayData
                     {
                         Address = "",

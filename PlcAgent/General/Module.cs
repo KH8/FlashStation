@@ -51,7 +51,7 @@ namespace _PlcAgent.General
     {
         private readonly DisplayDataBuilder.DisplayDataContainer _outputDataTemplateCollection = new DisplayDataBuilder.DisplayDataContainer();
 
-        public OutputDataTemplateComposite OutputDataTemplate { get; set; }
+        public DataTemplateComposite OutputDataTemplate { get; set; }
         public DisplayDataBuilder.DisplayDataContainer ReadInterfaceCollection { get { return _outputDataTemplateCollection; } }
         public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
 
