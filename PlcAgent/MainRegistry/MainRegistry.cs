@@ -179,10 +179,24 @@ namespace _PlcAgent.MainRegistry
                 return 0;
             }
 
-            Logger.Log("ID: " + id + " Creation of the Output Data Template Component");
-            OutputDataTemplates.Add(new OutputDataTemplate(id, "TEMPLATE__" + id, OutputDataTemplateFile.Default));
-            var component = (OutputDataTemplate)OutputDataTemplates.ReturnComponent(id);
+            OutputDataTemplate component;
+            try
+            {
+                Logger.Log("ID: " + id + " Creation of the Output Data Template Component");
+                OutputDataTemplates.Add(new OutputDataTemplate(id, "TEMPLATE__" + id, OutputDataTemplateFile.Default));
+                component = (OutputDataTemplate)OutputDataTemplates.ReturnComponent(id);
 
+                Logger.Log("ID: " + id + " Initialization of the Output Data Template");
+                component.Initialize();
+            }
+            catch (Exception)
+            {
+                OutputDataTemplates.Remove(OutputDataTemplates.ReturnComponent(id));
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new Output Data Template failed");
+                return 0;
+            }
+            
             GuiOutputDataTemplates.Add(new GuiComponent(id, "", new GuiOutputDataTemplate(component)));
 
             Logger.Log("ID: " + id + " new Output Data Template have been created");

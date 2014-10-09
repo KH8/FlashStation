@@ -20,7 +20,7 @@ namespace _PlcAgent.Output.Template
 
         public override void Initialize()
         {
-
+            Composite = (OutputDataTemplateComposite)OutputDataTemplateBuilder.XmlFileToTemplate(OutputDataTemplateFile.TemplateFiles[Header.Id]);
             Logger.Log("ID: " + Header.Id + " Output Data Template Initialized");
         }
 

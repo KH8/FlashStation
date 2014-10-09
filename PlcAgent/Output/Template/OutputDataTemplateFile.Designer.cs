@@ -26,15 +26,15 @@ namespace _PlcAgent.Output.Template {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
-                                                                        <string>Output</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
+                                                                        <string>Output\\Template\\Empty_Template.xml</string>
                                                                     </ArrayOfString>")]
         public string[] TemplateFiles
         {
