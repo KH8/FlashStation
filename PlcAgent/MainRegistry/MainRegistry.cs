@@ -195,6 +195,7 @@ namespace _PlcAgent.MainRegistry
                 OutputDataTemplates.Remove(OutputDataTemplates.ReturnComponent(id));
                 MessageBox.Show("Component could not be created", "Component Creation Failed");
                 Logger.Log("Creation of a new Output Data Template failed");
+
                 return 0;
             }
             

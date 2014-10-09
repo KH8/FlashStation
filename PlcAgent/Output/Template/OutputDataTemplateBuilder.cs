@@ -26,7 +26,7 @@ namespace _PlcAgent.Output.Template
             }
             else
             {
-                newComposite = new DataTemplateLeaf(lastName, null, DataTemplateComponent.DataTemplateComponentType.XmlWriterVariable, communicationInterfaceComponent);
+                newComposite = new DataTemplateLeaf(lastName, null, DataTemplateComponent.DataTemplateComponentType.Assignment, communicationInterfaceComponent);
             }
 
             return newComposite;
@@ -66,19 +66,27 @@ namespace _PlcAgent.Output.Template
                             actualId = id;
                         }
 
+                        var conditionsCheck = false;
+
                         if (actualCommunicationInterfaceHandler != null)
                         {
                             var component =
                                 actualCommunicationInterfaceHandler.ReadInterfaceComposite.ReturnComponent(
                                     xmlReader.GetAttribute("Name"));
-                            newTemplate = new DataTemplateLeaf(xmlReader.Name, null,
-                                DataTemplateComponent.DataTemplateComponentType.XmlWriterVariable, component);
+
+                            if (component != null)
+                            {
+                                newTemplate = new DataTemplateLeaf(xmlReader.Name, null,
+                                    DataTemplateComponent.DataTemplateComponentType.Assignment, component);
+                                conditionsCheck = true;
+                            }
                         }
-                        else
+
+                        if (!conditionsCheck)
                         {
-                            newTemplate = new DataTemplateLeaf("%component not available", null,
-                                DataTemplateComponent.DataTemplateComponentType.XmlWriterVariable, null);
-                            componentWasNotFound = true;
+                           newTemplate = new DataTemplateLeaf("%component not available", null,
+                                DataTemplateComponent.DataTemplateComponentType.Assignment, null);
+                            componentWasNotFound = true; 
                         }
 
                         actualTemplate.Add(newTemplate);

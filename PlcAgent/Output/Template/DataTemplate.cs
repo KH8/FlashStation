@@ -35,7 +35,7 @@ namespace _PlcAgent.Output.Template
 
         public enum DataTemplateComponentType
         {
-            XmlWriterVariable,
+            Assignment,
             Composite
         }
 

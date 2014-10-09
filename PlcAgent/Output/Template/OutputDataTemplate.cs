@@ -1,4 +1,5 @@
-﻿using _PlcAgent.Log;
+﻿using System;
+using _PlcAgent.Log;
 using Module = _PlcAgent.General.Module;
 
 namespace _PlcAgent.Output.Template
@@ -31,10 +32,20 @@ namespace _PlcAgent.Output.Template
 
         public override void Initialize()
         {
-            Composite =
-                (DataTemplateComposite)
-                    OutputDataTemplateBuilder.XmlFileToTemplate(OutputDataTemplateFile.TemplateFiles[Header.Id]);
-            Logger.Log("ID: " + Header.Id + " Output Data Template Initialized");
+            try
+            {
+                Composite =
+                    (DataTemplateComposite)
+                        OutputDataTemplateBuilder.XmlFileToTemplate(OutputDataTemplateFile.TemplateFiles[Header.Id]);
+                Logger.Log("ID: " + Header.Id + " Output Data Template Initialized");
+            }
+            catch (Exception)
+            {
+                OutputDataTemplateFile.TemplateFiles[Header.Id] = "Output\\Template\\Empty_Template.xml";
+                OutputDataTemplateFile.Save();
+
+                throw new Exception("Composite could not be retrived from XML or file was not found");
+            }
         }
 
         public override void Deinitialize()
