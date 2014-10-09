@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace _PlcAgent.Output
+namespace _PlcAgent.Output.OutputHandler
 {
     public abstract class OutputHandlerComponent : UserControl
     {

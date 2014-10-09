@@ -5,7 +5,7 @@ using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 
-namespace _PlcAgent.Output
+namespace _PlcAgent.Output.OutputHandler
 {
     public class OutputHandler : ExecutiveModule
     {
@@ -94,19 +94,17 @@ namespace _PlcAgent.Output
                 }
             }
 
-            if (_outputWriter != null)
+            if (_outputWriter == null) return;
+            try{
+                _outputWriter.CreateOutput(fileName, directoryName,
+                    _outputWriter.InterfaceToStrings(CommunicationInterfaceHandler.ReadInterfaceComposite,
+                        OutputHandlerFile.Default.StartAddress[Header.Id],
+                        OutputHandlerFile.Default.EndAddress[Header.Id]));
+            }
+            catch (Exception)
             {
-                try{
-                    _outputWriter.CreateOutput(fileName, directoryName,
-                        _outputWriter.InterfaceToStrings(CommunicationInterfaceHandler.ReadInterfaceComposite,
-                            OutputHandlerFile.Default.StartAddress[Header.Id],
-                            OutputHandlerFile.Default.EndAddress[Header.Id]));
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("ID: " + Header.Id + " : Output File creation Failed!", "Error");
-                    Logger.Log("ID: " + Header.Id + " : Output File creation Failed");
-                }
+                MessageBox.Show("ID: " + Header.Id + " : Output File creation Failed!", "Error");
+                Logger.Log("ID: " + Header.Id + " : Output File creation Failed");
             }
         }
 

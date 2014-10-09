@@ -9,7 +9,7 @@ using CsvHelper;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Log;
 
-namespace _PlcAgent.Output
+namespace _PlcAgent.Output.OutputHandler
 {
     public abstract class OutputWriter
     {

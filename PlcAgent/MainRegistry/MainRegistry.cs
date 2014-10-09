@@ -6,6 +6,7 @@ using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
+using _PlcAgent.Output.OutputHandler;
 using _PlcAgent.Output.Template;
 using _PlcAgent.PLC;
 using _PlcAgent.Vector;

@@ -125,20 +125,21 @@
     <Compile Include="MainRegistry\RegistryComposite.cs" />
     <Compile Include="MainRegistry\RegistryContext.cs" />
     <Compile Include="Output\OutputFileCreator\OutputFileCreator.cs" />
-    <Compile Include="Output\OutputFileCreator\XmlFileCreator.cs" />
-    <Compile Include="Output\OutputHandlerComponent.cs" />
-    <Compile Include="Output\OutputHandlerFile.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    <Compile Include="Output\OutputFileCreator\FileCreator.cs" />
+    <Compile Include="Output\OutputHandler\OutputHandler.cs" />
+    <Compile Include="Output\OutputHandler\OutputHandlerComponent.cs" />
+    <Compile Include="Output\OutputHandler\OutputHandlerFile.Designer.cs">
       <DependentUpon>OutputHandlerFile.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Output\OutputHandler.cs" />
-    <Compile Include="Output\OutputHandlerInterfaceAssignmentFile.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>OutputHandlerInterfaceAssignmentFile.settings</DependentUpon>
     </Compile>
-    <Compile Include="Output\OutputWriterFactory.cs" />
+    <Compile Include="Output\OutputHandler\OutputHandlerInterfaceAssignmentFile.Designer.cs">
+      <DependentUpon>OutputHandlerInterfaceAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Output\OutputHandler\OutputWriter.cs" />
+    <Compile Include="Output\OutputHandler\OutputWriterFactory.cs" />
     <Compile Include="General\ProjectFileStruture.cs" />
     <Compile Include="Output\Template\DataTemplate.cs" />
     <Compile Include="Output\Template\OutputDataTemplate.cs" />
@@ -249,15 +250,15 @@
     <None Include="License\license.lic">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Output\OutputHandlerFile.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>OutputHandlerFile.Designer.cs</LastGenOutput>
-    </None>
     <None Include="MainRegistry\MainRegistryFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MainRegistryFile.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Output\OutputHandlerInterfaceAssignmentFile.settings">
+    <None Include="Output\OutputHandler\OutputHandlerFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputHandlerFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Output\OutputHandler\OutputHandlerInterfaceAssignmentFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>OutputHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
     </None>
@@ -388,7 +389,6 @@
     </Compile>
     <Compile Include="DataAquisition\DataMapper.cs" />
     <Compile Include="Log\Logger.cs" />
-    <Compile Include="Output\OutputWriter.cs" />
     <Compile Include="Vector\VFlashErrorCollector.cs" />
     <Compile Include="Vector\VFlashHandler.cs" />
     <Compile Include="Vector\VFlashStation.cs" />

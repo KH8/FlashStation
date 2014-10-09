@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace _PlcAgent.Output
+namespace _PlcAgent.Output.OutputHandler
 {
     class OutputWriterFactory
     {
