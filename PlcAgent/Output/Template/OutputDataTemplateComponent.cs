@@ -11,10 +11,12 @@ namespace _PlcAgent.Output.Template
         {
         }
 
+        protected abstract void OnTemplateUpdateDelegate();
+
         protected OutputDataTemplateComponent(OutputDataTemplate outputDataTemplate)
         {
             OutputDataTemplate = outputDataTemplate;
-            OutputDataTemplate.PropertyChanged += OnPropertyChangedEventHandler;
+            OutputDataTemplate.OnTemplateUpdateDelegate += OnTemplateUpdateDelegate;
         }
     }
 }

@@ -36,11 +36,7 @@ namespace _PlcAgent.Visual.Gui.Output
         public GuiOutputDataTemplate(OutputDataTemplate template) : base(template)
         {
             InitializeComponent();
-
-            var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
-
-            OutputDataTemplateTreeListView.ItemsSource = collection;
+            OnTemplateUpdateDelegate();
         }
 
         #endregion
@@ -67,8 +63,15 @@ namespace _PlcAgent.Visual.Gui.Output
 
         #region Event Handlers
 
-        public void OnInterfaceUpdatedDelegate()
+        protected override sealed void OnTemplateUpdateDelegate()
         {
+            var collection = new ObservableCollection<object>();
+            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
+
+            OutputDataTemplateTreeListView.ItemsSource = collection;
+
+            FileNameLabel.Content =
+                OutputDataTemplate.OutputDataTemplateFile.TemplateFiles[OutputDataTemplate.Header.Id];
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -101,11 +104,6 @@ namespace _PlcAgent.Visual.Gui.Output
         private void Clear(object sender, RoutedEventArgs e)
         {
             OutputDataTemplate.Clear();
-
-            var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
-
-            OutputDataTemplateTreeListView.ItemsSource = collection;
         }
 
         private void Import(object sender, RoutedEventArgs e)
@@ -120,11 +118,6 @@ namespace _PlcAgent.Visual.Gui.Output
             if (result != true) return;
 
             OutputDataTemplate.Import(dlg.FileName);
-
-            var collection = new ObservableCollection<object>();
-            new DisplayDataHierarchicalBuilder().Build(collection, OutputDataTemplate.Composite);
-
-            OutputDataTemplateTreeListView.ItemsSource = collection;
         }
 
         private void Export(object sender, RoutedEventArgs e)

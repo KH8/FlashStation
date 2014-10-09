@@ -10,6 +10,10 @@ namespace _PlcAgent.Output.Template
         public DataTemplateComposite Composite = new DataTemplateComposite("empty", null, null);
         public OutputDataTemplateFile OutputDataTemplateFile;
 
+        public delegate void TemplateUpdateDelegate();
+
+        public TemplateUpdateDelegate OnTemplateUpdateDelegate;
+
         #endregion
 
 
@@ -45,6 +49,8 @@ namespace _PlcAgent.Output.Template
 
             OutputDataTemplateFile.TemplateFiles[Header.Id] = "Output\\Template\\Empty_Template.xml";
             OutputDataTemplateFile.Save();
+
+            if (OnTemplateUpdateDelegate != null) OnTemplateUpdateDelegate();
         }
 
         public void Import(string fileName)
@@ -55,6 +61,8 @@ namespace _PlcAgent.Output.Template
 
             OutputDataTemplateFile.TemplateFiles[Header.Id] = fileName;
             OutputDataTemplateFile.Save();
+
+            if (OnTemplateUpdateDelegate != null) OnTemplateUpdateDelegate();
         }
 
         public void Export(string fileName)
