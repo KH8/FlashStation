@@ -31,7 +31,7 @@ namespace _PlcAgent.Visual.Gui.Output
             OutputTypeComboBox.Items.Add(new ComboBoxItem { Name = "Csv", Content = "*.csv" });
             OutputTypeComboBox.SelectedIndex = OutputFileCreator.OutputFileCreatorFile.SelectedIndex[OutputFileCreator.Header.Id];
 
-            OutputFileCreator.FileCreator = new XmlFileCreator();
+            OutputFileCreator.FileCreator = FileCreatorFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
 
             HeaderGroupBox.Header = "Output File Creator " + OutputFileCreator.Header.Id;
             _save = true;
@@ -51,7 +51,7 @@ namespace _PlcAgent.Visual.Gui.Output
             if (!_save) return; 
             var outputTypeComboBox = (ComboBox)sender;
             OutputFileCreator.OutputFileCreatorFile.SelectedIndex[OutputFileCreator.Header.Id] = outputTypeComboBox.SelectedIndex;
-            OutputFileCreator.FileCreator = new XmlFileCreator();
+            OutputFileCreator.FileCreator = FileCreatorFactory.CreateVariable(OutputTypeComboBox.SelectedItem.ToString());
             OutputFileCreator.OutputFileCreatorFile.Save();
         }
 

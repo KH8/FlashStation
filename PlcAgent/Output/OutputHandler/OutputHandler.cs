@@ -33,7 +33,8 @@ namespace _PlcAgent.Output.OutputHandler
 
         #region Constructors
 
-        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputHandlerFile outputHandlerFile, OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile) : base(id, name)
+        public OutputHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputHandlerFile outputHandlerFile, OutputHandlerInterfaceAssignmentFile outputHandlerInterfaceAssignmentFile)
+            : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             OutputHandlerFile = outputHandlerFile;

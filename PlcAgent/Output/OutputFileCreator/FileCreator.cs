@@ -1,8 +1,12 @@
 ﻿using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Xml;
+using CsvHelper;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Log;
 using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Output.OutputFileCreator
@@ -17,6 +21,29 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         public abstract void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite,
             OutputConfiguration configuration);
+    }
+
+    class FileCreatorFactory
+    {
+        public static FileCreator CreateVariable(string type)
+        {
+            FileCreator outputWriter = null;
+            if (type == null)
+            {
+                MessageBox.Show("No file type selected!", "Error");
+                return null;
+            }
+            switch (type)
+            {
+                case "System.Windows.Controls.ComboBoxItem: *.xml":
+                    outputWriter = new XmlFileCreator();
+                    break;
+                case "System.Windows.Controls.ComboBoxItem: *.csv":
+                    outputWriter = new XmlFileCreator();
+                    break;
+            }
+            return outputWriter;
+        }
     }
 
     class XmlFileCreator : FileCreator
@@ -34,6 +61,7 @@ namespace _PlcAgent.Output.OutputFileCreator
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
+            Logger.Log(fileName + " output file created");
         }
 
         private static void WriteElement(XmlWriter writer, DataTemplateComponent component, OutputConfiguration configuration)
@@ -81,6 +109,27 @@ namespace _PlcAgent.Output.OutputFileCreator
         {
             const string re = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
             return Regex.Replace(text, re, "");
+        }
+    }
+
+    internal class CsvFileCreator : FileCreator
+    {
+        public override void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
+        {
+            using (var streamWriter = File.AppendText(fileName))
+            {
+                var writer = new CsvWriter(streamWriter);
+                writer.Configuration.Delimiter = ";";
+
+                writer.WriteField("Position"); writer.WriteField("");
+                writer.WriteField("Name"); writer.WriteField("");
+                writer.WriteField("Type"); writer.WriteField("");
+                writer.WriteField("Value"); writer.WriteField("".Trim());
+                writer.NextRecord();
+
+                streamWriter.Close();
+            }
+            Logger.Log(fileName + " output file created");
         }
     }
 }

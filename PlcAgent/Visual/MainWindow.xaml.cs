@@ -811,6 +811,5 @@ namespace _PlcAgent.Visual
 
         #endregion
 
-
     }
 }
