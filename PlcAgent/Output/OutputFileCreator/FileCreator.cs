@@ -7,7 +7,7 @@ using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Output.OutputFileCreator
 {
-    internal abstract class FileCreator
+    public abstract class FileCreator
     {
         public enum OutputConfiguration
         {

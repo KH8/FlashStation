@@ -136,6 +136,7 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Output\OutputFileCreator\OutputFileCreatorComponent.cs" />
     <Compile Include="Output\OutputHandler\OutputHandler.cs" />
     <Compile Include="Output\OutputHandler\OutputHandlerComponent.cs" />
     <Compile Include="Output\OutputHandler\OutputHandlerFile.Designer.cs">
@@ -206,6 +207,9 @@
     </Compile>
     <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnlineSimple.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\Output\GuiOutputFileCreator.xaml.cs">
+      <DependentUpon>GuiOutputFileCreator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visual\Gui\Output\GuiOutputDataTemplate.xaml.cs">
       <DependentUpon>GuiOutputDataTemplate.xaml</DependentUpon>
@@ -342,6 +346,10 @@
     <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\Output\GuiOutputFileCreator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\Output\GuiOutputDataTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>

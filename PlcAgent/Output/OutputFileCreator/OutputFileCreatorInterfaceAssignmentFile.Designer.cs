@@ -13,7 +13,7 @@ namespace _PlcAgent.Output.OutputFileCreator {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class OutputFileCreatorInterfaceAssignmentFile : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class OutputFileCreatorInterfaceAssignmentFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static OutputFileCreatorInterfaceAssignmentFile defaultInstance = ((OutputFileCreatorInterfaceAssignmentFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new OutputFileCreatorInterfaceAssignmentFile())));
         

@@ -8,7 +8,7 @@ using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Output.OutputFileCreator
 {
-    class OutputFileCreator : OutputModule
+    public class OutputFileCreator : OutputModule
     {
         #region Variables
 
