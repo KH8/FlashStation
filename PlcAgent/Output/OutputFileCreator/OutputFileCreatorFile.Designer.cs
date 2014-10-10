@@ -22,53 +22,62 @@ namespace _PlcAgent.Output.OutputFileCreator {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int StartAddress {
-            get {
-                return ((int)(this["StartAddress"]));
-            }
-            set {
-                this["StartAddress"] = value;
-            }
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfInt>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                        <int>0</int>
+                                                                    </ArrayOfInt>")]
+        public int[] SelectedIndex
+        {
+            get { return ((int[])(this["SelectedIndex"])); }
+            set { this["SelectedIndex"] = value; }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int EndAddress {
-            get {
-                return ((int)(this["EndAddress"]));
-            }
-            set {
-                this["EndAddress"] = value;
-            }
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                        <string>noName</string>
+                                                                    </ArrayOfString>")]
+        public string[] FileNameSuffixes
+        {
+            get { return ((string[])(this["FileNameSuffixes"])); }
+            set { this["FileNameSuffixes"] = value; }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SelectedIndex {
-            get {
-                return ((int)(this["SelectedIndex"]));
-            }
-            set {
-                this["SelectedIndex"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string FileNameSuffix {
-            get {
-                return ((string)(this["FileNameSuffix"]));
-            }
-            set {
-                this["FileNameSuffix"] = value;
-            }
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                        <string>Output</string>
+                                                                    </ArrayOfString>")]
+        public string[] DirectoryPaths
+        {
+            get { return ((string[])(this["DirectoryPaths"])); }
+            set { this["DirectoryPaths"] = value; }
         }
     }
 }

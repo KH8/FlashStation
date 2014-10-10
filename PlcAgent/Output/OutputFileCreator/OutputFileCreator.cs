@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Threading;
+using System.Windows;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
@@ -66,9 +69,42 @@ namespace _PlcAgent.Output.OutputFileCreator
             Logger.Log("ID: " + Header.Id + " Output File Creator Deinitialized");
         }
 
-        public void CreateOutput(string fileName)
+        public void CreateOutput()
         {
-            FileCreator.CreateOutput(fileName, OutputDataTemplate.Composite, FileCreator.OutputConfiguration.Composite);
+            var fileName = OutputFileCreatorFile.Default.FileNameSuffixes[Header.Id];
+            var directoryName = OutputFileCreatorFile.Default.DirectoryPaths[Header.Id];
+
+            var interfaceVariable = fileName.Split('%');
+            if (interfaceVariable.Length > 1)
+            {
+                var interfaceInputComponent = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(interfaceVariable[1]);
+                if (interfaceInputComponent != null)
+                {
+                    if (interfaceInputComponent.TypeOfVariable == CommunicationInterfaceComponent.VariableType.String)
+                    {
+                        fileName = (string)interfaceInputComponent.Value;
+                    }
+                }
+                var interfaceOutputComponent = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(interfaceVariable[1]);
+                if (interfaceOutputComponent != null)
+                {
+                    if (interfaceOutputComponent.TypeOfVariable == CommunicationInterfaceComponent.VariableType.String)
+                    {
+                        fileName = (string)interfaceOutputComponent.Value;
+                    }
+                }
+            }
+
+            if (_fileCreator == null) return;
+            try
+            {
+                _fileCreator.CreateOutput(FileNameCreator(fileName, directoryName, "xml"), OutputDataTemplate.Composite, FileCreator.OutputConfiguration.Composite);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ID: " + Header.Id + " : Output File creation Failed!", "Error");
+                Logger.Log("ID: " + Header.Id + " : Output File creation Failed");
+            }
         }
 
         #endregion
@@ -78,6 +114,55 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         private void OutputCommunicationThread()
         {
+            Int16 counter = 0;
+            Int16 caseAuxiliary = 0;
+
+            while (_communicationThread.IsAlive)
+            {
+                PcControlModeChangeAllowed = false;
+
+                Int16 antwort;
+                Int16 status;
+
+                if (!PcControlMode && CheckInterface())
+                {
+                    var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
+
+                    switch (inputCompositeCommand)
+                    {
+                        case 100:
+                            if (caseAuxiliary != 100)
+                            {
+                                Logger.Log("ID: " + Header.Id + " : Output file creation requested from PLC");
+                                CreateOutput();
+                            }
+                            caseAuxiliary = 100;
+                            antwort = 100;
+                            status = 100;
+                            break;
+                        default:
+                            caseAuxiliary = 0;
+                            antwort = 0;
+                            status = 0;
+                            break;
+                    }
+                }
+                else
+                {
+                    antwort = 999;
+                    status = 999;
+                    PcControlModeChangeAllowed = true;
+                }
+
+                if (CommunicationInterfaceHandler.WriteInterfaceComposite != null && CheckInterface())
+                {
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Life Counter"), counter);
+                    counter++;
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Reply"), antwort);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Status"), status);
+                }
+                Thread.Sleep(200);
+            }
         }
 
         #endregion

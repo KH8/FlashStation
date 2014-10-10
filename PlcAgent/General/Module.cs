@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Output.Template;
@@ -93,6 +95,26 @@ namespace _PlcAgent.General
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
             OutputDataTemplate = outputDataTemplate;
+        }
+
+
+        protected static string FileNameCreator(string fixedName, string directoryPath, string extension)
+        {
+            if (!Directory.Exists(directoryPath)) { Directory.CreateDirectory(directoryPath); }
+            return directoryPath + "\\"
+                + DateTime.Now.Year
+                + FillTheStringUp(DateTime.Now.Month.ToString(CultureInfo.InvariantCulture))
+                + FillTheStringUp(DateTime.Now.Day.ToString(CultureInfo.InvariantCulture)) + "_"
+                + FillTheStringUp(DateTime.Now.Hour.ToString(CultureInfo.InvariantCulture))
+                + FillTheStringUp(DateTime.Now.Minute.ToString(CultureInfo.InvariantCulture))
+                + FillTheStringUp(DateTime.Now.Second.ToString(CultureInfo.InvariantCulture))
+                + "_" + fixedName.Trim() + "." + extension;
+        }
+
+        protected static string FillTheStringUp(string dateString)
+        {
+            if (dateString.Length < 2) return "0" + dateString;
+            return dateString;
         }
     }
 
