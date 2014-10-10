@@ -97,7 +97,6 @@ namespace _PlcAgent.General
             OutputDataTemplate = outputDataTemplate;
         }
 
-
         protected static string FileNameCreator(string fixedName, string directoryPath, string extension)
         {
             if (!Directory.Exists(directoryPath)) { Directory.CreateDirectory(directoryPath); }
