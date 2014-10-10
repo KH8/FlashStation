@@ -85,7 +85,7 @@ namespace _PlcAgent.Output.Template
 
                         if (!conditionsCheck)
                         {
-                           newTemplate = new DataTemplateLeaf("%component not available", null,
+                           newTemplate = new DataTemplateLeaf("component_not_available", null,
                                 DataTemplateComponent.DataTemplateComponentType.Assignment, null);
                             componentWasNotFound = true; 
                         }

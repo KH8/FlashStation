@@ -37,8 +37,6 @@ namespace _PlcAgent.Output.OutputFileCreator
         public OutputFileCreator(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputDataTemplate outputDataTemplate, OutputFileCreatorFile outputFileCreatorFile, OutputFileCreatorInterfaceAssignmentFile outputFileCreatorInterfaceAssignmentFile)
             : base(id, name, communicationInterfaceHandler, outputDataTemplate)
         {
-            FileCreator = new XmlFileCreator();
-
             OutputFileCreatorFile = outputFileCreatorFile;
             OutputFileCreatorInterfaceAssignmentFile = outputFileCreatorInterfaceAssignmentFile;
 
@@ -46,6 +44,7 @@ namespace _PlcAgent.Output.OutputFileCreator
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
 
+            if (OutputFileCreatorInterfaceAssignmentFile.Assignment == null) OutputFileCreatorInterfaceAssignmentFile.Assignment = new string[9][];
             Assignment = OutputFileCreatorInterfaceAssignmentFile.Assignment[Header.Id];
             CreateInterfaceAssignment();
         }
@@ -181,7 +180,7 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         protected override sealed void CreateInterfaceAssignment()
         {
-            if (Assignment.Length == 0) Assignment = new string[4];
+            if (Assignment == null || Assignment.Length == 0) Assignment = new string[4];
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
 
             InterfaceAssignmentCollection.Add(0, "Command", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);

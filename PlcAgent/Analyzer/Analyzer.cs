@@ -139,6 +139,7 @@ namespace _PlcAgent.Analyzer
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
 
+            if (AnalyzerAssignmentFile.Assignment == null) AnalyzerAssignmentFile.Assignment = new string[9][];
             Assignment = AnalyzerAssignmentFile.Assignment[Header.Id];
             CreateInterfaceAssignment();
         }

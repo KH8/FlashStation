@@ -44,7 +44,8 @@ namespace _PlcAgent.Output.OutputHandler
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
 
-            Assignment = outputHandlerInterfaceAssignmentFile.Assignment[Header.Id];
+            if (OutputHandlerInterfaceAssignmentFile.Assignment == null) OutputHandlerInterfaceAssignmentFile.Assignment = new string[9][];
+            Assignment = OutputHandlerInterfaceAssignmentFile.Assignment[Header.Id];
             CreateInterfaceAssignment();
         }
 

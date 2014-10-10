@@ -14,6 +14,7 @@ using _PlcAgent.General;
 using _PlcAgent.License;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Output.OutputFileCreator;
 using _PlcAgent.Output.OutputHandler;
 using _PlcAgent.Output.Template;
 using _PlcAgent.Signature;
@@ -103,6 +104,36 @@ namespace _PlcAgent.Visual
         private void AddOutputDataTemplate(object sender, RoutedEventArgs e)
         {
             AssignOutputDataTemplate();
+        }
+
+        private void AddOutputFileCreator(object sender, RoutedEventArgs e)
+        {
+            var newHeaderCommunicationInterface = new TreeViewItem
+            {
+                Header = "Communication Interfaces",
+                IsExpanded = true
+            };
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
+            {
+                newHeaderCommunicationInterface.Items.Add(new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
+                    AlternationCount = (int)record.Header.Id
+                });
+            }
+
+            var newHeaderOutputDataTemplate = new TreeViewItem { Header = "Output Data Templates", IsExpanded = true };
+            foreach (OutputDataTemplate record in RegistryContext.Registry.OutputDataTemplates)
+            {
+                newHeaderOutputDataTemplate.Items.Add(new TreeViewItem
+                {
+                    Header = record.Header.Name,
+                    AlternationCount = (int)record.Header.Id
+                });
+            }
+
+            var window = new ComponentCreationWindow("Select components to be assigned with a new Output File Creator", newHeaderCommunicationInterface, newHeaderOutputDataTemplate, AssignOutputFileCreator);
+            window.Show();
         }
 
         private void AddOutputFileHandler(object sender, RoutedEventArgs e)
@@ -455,6 +486,30 @@ namespace _PlcAgent.Visual
                 gridGuiOutputDataTemplateGrid.UpdateSizes(newGrid.Height, newGrid.Width);
             }
 
+            foreach (OutputFileCreator record in RegistryContext.Registry.OutputFileCreators)
+            {
+                var newtabItem = new TabItem { Header = record.Header.Name };
+                OutputTabControl.Items.Add(newtabItem);
+                OutputTabControl.SelectedItem = newtabItem;
+
+                var newScrollViewer = new ScrollViewer
+                {
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+                };
+                newtabItem.Content = newScrollViewer;
+                newtabItem.MouseDoubleClick += OutputTabControlLabel_OnMouseDown;
+
+                var newGrid = new Grid();
+                newScrollViewer.Content = newGrid;
+
+                var guiOutputFileCreatorComponent = (GuiComponent)RegistryContext.Registry.GuiOutputFileCreatorComponents.ReturnComponent(record.Header.Id);
+                guiOutputFileCreatorComponent.Initialize(0, 0, newGrid);
+
+                var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiOutputFileCreatorInterfaceAssignmentComponents.ReturnComponent(record.Header.Id);
+                gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
+            }
+
             foreach (OutputHandler record in RegistryContext.Registry.OutputHandlers)
             {
                 var newtabItem = new TabItem { Header = record.Header.Name };
@@ -643,6 +698,18 @@ namespace _PlcAgent.Visual
             }
             if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
+            newHeader = new TreeViewItem { Header = "Output File Creators", IsExpanded = true };
+            foreach (OutputFileCreator record in RegistryContext.Registry.OutputFileCreators)
+            {
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.OutputDataTemplate.Header.Name
+                };
+                _registryComponents.Add(treeViewItem, record);
+                newHeader.Items.Add(treeViewItem);
+            }
+            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+
             newHeader = new TreeViewItem {Header = "Output Handlers", IsExpanded = true};
             foreach (OutputHandler record in RegistryContext.Registry.OutputHandlers)
             {
@@ -761,6 +828,15 @@ namespace _PlcAgent.Visual
             UpdateTreeView();
         }
 
+        private void AssignOutputFileCreator(uint communicationInterfaceId, uint templateId)
+        {
+            var newId = RegistryContext.Registry.AddOutputFileCreator(true, communicationInterfaceId, templateId);
+            if (newId == 0) return;
+
+            UpdateGui();
+            UpdateTreeView();
+        }
+
         private void AssignOutputFileHandler(uint communicationInterfaceId)
         {
             var newId = RegistryContext.Registry.AddOutputHandler(true, communicationInterfaceId);
@@ -802,7 +878,7 @@ namespace _PlcAgent.Visual
 
         #region Methods
 
-        private void CloseApp()
+        private static void CloseApp()
         {
             if(RegistryContext.Registry != null) RegistryContext.Registry.Deinitialize();
             Logger.Log("Program Closed");

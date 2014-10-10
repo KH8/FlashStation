@@ -10,6 +10,7 @@ namespace _PlcAgent.General
             public uint[][] PlcCommunicators;
             public uint[][] CommunicationInterfaceHandlers;
             public uint[][] OutputDataTemplates;
+            public uint[][] OutputFileCreators;
             public uint[][] OutputHandlers;
             public uint[][] VFlashTypeBanks;
             public uint[][] VFlashHandlers;
@@ -23,11 +24,16 @@ namespace _PlcAgent.General
 
             public string[] TemplatePaths;
 
-            public string[] FileNameSuffixes;
-            public int[] StartAddress;
-            public int[] EndAddress;
-            public int[] SelectedIndex;
-            public string[] DirectoryPaths;
+            public string[] OutputFileCreatorFileNameSuffixes;
+            public int[] OutputFileCreatorSelectedIndex;
+            public string[] OutputFileCreatorDirectoryPaths;
+            public string[][] OutputFileCreatorAssignment;
+
+            public string[] OutputHandlerFileNameSuffixes;
+            public int[] OutputHandlerStartAddress;
+            public int[] OutputHandlerEndAddress;
+            public int[] OutputHandlerSelectedIndex;
+            public string[] OutputHandlerDirectoryPaths;
             public string[][] OutputHandlerAssignment;
 
             public string[][] TypeBank;

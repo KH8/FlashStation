@@ -57,6 +57,7 @@ namespace _PlcAgent.Vector
             _vFlashThread.SetApartmentState(ApartmentState.STA);
             _vFlashThread.IsBackground = true;
 
+            if (VFlashHandlerInterfaceAssignmentFile.Assignment == null) VFlashHandlerInterfaceAssignmentFile.Assignment = new string[9][];
             Assignment = VFlashHandlerInterfaceAssignmentFile.Assignment[Header.Id];
             CreateInterfaceAssignment();
         }

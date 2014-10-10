@@ -6,6 +6,7 @@ using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
+using _PlcAgent.Output.OutputFileCreator;
 using _PlcAgent.Output.OutputHandler;
 using _PlcAgent.Output.Template;
 using _PlcAgent.PLC;
@@ -25,6 +26,8 @@ namespace _PlcAgent.MainRegistry
         {
             if (MainRegistryFile.Default.PlcCommunicators == null) return;
             if (MainRegistryFile.Default.CommunicationInterfaceHandlers == null) return;
+            if (MainRegistryFile.Default.OutputDataTemplates == null) return;
+            if (MainRegistryFile.Default.OutputFileCreators == null) return;
             if (MainRegistryFile.Default.OutputHandlers == null) return;
             if (MainRegistryFile.Default.VFlashTypeBanks == null) return;
             if (MainRegistryFile.Default.VFlashHandlers == null) return;
@@ -41,6 +44,10 @@ namespace _PlcAgent.MainRegistry
             foreach (var outputDataTemplate in MainRegistryFile.Default.OutputDataTemplates.Where(outputDataTemplate => outputDataTemplate != null))
             {
                 AddOutputDataTemplate(outputDataTemplate[0]);
+            }
+            foreach (var outputFileCreator in MainRegistryFile.Default.OutputFileCreators.Where(outputFileCreator => outputFileCreator != null))
+            {
+                AddOutputFileCreator(outputFileCreator[0], outputFileCreator[2], outputFileCreator[4]);
             }
             foreach (var outputHandler in MainRegistryFile.Default.OutputHandlers.Where(outputHandler => outputHandler != null))
             {
@@ -202,6 +209,56 @@ namespace _PlcAgent.MainRegistry
             GuiOutputDataTemplates.Add(new GuiComponent(id, "", new GuiOutputDataTemplate(component)));
 
             Logger.Log("ID: " + id + " new Output Data Template have been created");
+            return id;
+        }
+
+        public override uint AddOutputFileCreator(Boolean save, uint communicationInterfaceId, uint templateId)
+        {
+            var id = AddOutputFileCreator(communicationInterfaceId, templateId);
+            if (save && id != 0) UpdateMainRegistryFile();
+            return id;
+        }
+
+        public override uint AddOutputFileCreator(uint communicationInterfaceId, uint templateId)
+        {
+            var id = OutputFileCreators.GetFirstNotUsed();
+            return AddOutputFileCreator(id, communicationInterfaceId, templateId);
+        }
+
+        public override uint AddOutputFileCreator(uint id, uint communicationInterfaceId, uint templateId)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Output File Creator \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
+            OutputFileCreator component;
+            try
+            {
+                Logger.Log("ID: " + id + " Creation of the Output File Creator Component");
+                OutputFileCreators.Add(
+                    new OutputFileCreator(id, "OUT__" + id,
+                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
+                        (OutputDataTemplate)OutputDataTemplates.ReturnComponent(templateId),
+                        OutputFileCreatorFile.Default,
+                        OutputFileCreatorInterfaceAssignmentFile.Default));
+                Logger.Log("ID: " + id + " Initialization of the Output File Creator");
+                component = (OutputFileCreator)OutputFileCreators.ReturnComponent(id);
+                component.Initialize();
+            }
+            catch (Exception)
+            {
+                OutputFileCreators.Remove(OutputFileCreators.ReturnComponent(id));
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new Output File Creator failed");
+                return 0;
+            }
+
+            GuiOutputFileCreatorComponents.Add(new GuiComponent(id, "", new GuiOutputFileCreator(component)));
+            GuiOutputFileCreatorInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
+
+            Logger.Log("ID: " + id + " new Output File Creator have been created");
             return id;
         }
 
@@ -414,12 +471,22 @@ namespace _PlcAgent.MainRegistry
             }
             if (OutputDataTemplates.Cast<object>().Any(outputDataTemplate => component == outputDataTemplate))
             {
+                CheckAssignment(component, 4);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var outputDataTemplate = (OutputDataTemplate)component;
                 outputDataTemplate.Deinitialize();
 
                 OutputDataTemplates.Children.Remove(component);
+            }
+            if (OutputFileCreators.Cast<object>().Any(outputFileCreator => component == outputFileCreator))
+            {
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var outputFileCreator = (OutputFileCreator)component;
+                outputFileCreator.Deinitialize();
+
+                OutputFileCreators.Children.Remove(component);
             }
             if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
             {
@@ -491,6 +558,10 @@ namespace _PlcAgent.MainRegistry
             OutputDataTemplates.Clear();
             GuiOutputDataTemplates.Clear();
 
+            OutputFileCreators.Clear();
+            GuiOutputFileCreatorComponents.Clear();
+            GuiOutputFileCreatorInterfaceAssignmentComponents.Clear();
+
             OutputHandlers.Clear();
             GuiOutputHandlerComponents.Clear();
             GuiOutputHandlerInterfaceAssignmentComponents.Clear();
@@ -519,81 +590,102 @@ namespace _PlcAgent.MainRegistry
             MainRegistryFile.Default.PlcCommunicators = new uint[9][];
             foreach (PlcCommunicator plcCommunicator in PlcCommunicators)
             {
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id] = new uint[4];
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id] = new uint[9];
                 MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][0] = 
                     plcCommunicator.Header.Id;
                 MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][1] = 0;
                 MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][2] = 0;
                 MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][3] = 0;
+                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][4] = 0;
             }
 
             MainRegistryFile.Default.CommunicationInterfaceHandlers = new uint[9][];
             foreach (CommunicationInterfaceHandler communicationInterfaceHandler in CommunicationInterfaceHandlers)
             {
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id] = new uint[4];
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id] = new uint[9];
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][0] = 
                     communicationInterfaceHandler.Header.Id;
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][1] =
                     communicationInterfaceHandler.PlcCommunicator.Header.Id;
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][2] = 0;
                 MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][3] = 0;
+                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][4] = 0;
             }
 
             MainRegistryFile.Default.OutputDataTemplates = new uint[9][];
             foreach (OutputDataTemplate outputDataTemplate in OutputDataTemplates)
             {
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id] = new uint[4];
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id] = new uint[9];
                 MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][0] =
                     outputDataTemplate.Header.Id;
                 MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][1] = 0;
                 MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][2] = 0;
                 MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][3] = 0;
+                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][4] = 0;
+            }
+
+            MainRegistryFile.Default.OutputFileCreators = new uint[9][];
+            foreach (OutputFileCreator outputFileCreator in OutputFileCreators)
+            {
+                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id] = new uint[9];
+                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][0] =
+                    outputFileCreator.Header.Id;
+                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][1] = 0;
+                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][2] =
+                    outputFileCreator.CommunicationInterfaceHandler.Header.Id;
+                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][3] = 0;
+                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][4] =
+                    outputFileCreator.OutputDataTemplate.Header.Id;
             }
 
             MainRegistryFile.Default.OutputHandlers = new uint[9][];
             foreach (OutputHandler outputHandler in OutputHandlers)
             {
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id] = new uint[4];
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id] = new uint[9];
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][0] = 
                     outputHandler.Header.Id;
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][1] = 0;
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][2] =
                     outputHandler.CommunicationInterfaceHandler.Header.Id;
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][3] = 0;
+                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][4] = 0;
             }
 
             MainRegistryFile.Default.VFlashTypeBanks = new uint[9][];
             foreach (VFlashTypeBank vFlashTypeBank in VFlashTypeBanks)
             {
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id] = new uint[4];
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id] = new uint[9];
                 MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][0] = 
                     vFlashTypeBank.Header.Id;
                 MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][1] = 0;
                 MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][2] = 0;
                 MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][3] = 0;
+                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][4] = 0;
             }
 
             MainRegistryFile.Default.VFlashHandlers = new uint[9][];
             foreach (VFlashHandler vFlashHandler in VFlashHandlers)
             {
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id] = new uint[4];
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id] = new uint[9];
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][0] = vFlashHandler.Header.Id;
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][1] = 0;
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][2] =
                     vFlashHandler.CommunicationInterfaceHandler.Header.Id;
                 MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][3] = 
                     vFlashHandler.VFlashTypeBank.Header.Id;
+                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][4] = 0;
             }
 
             MainRegistryFile.Default.Analyzers = new uint[9][];
             foreach (Analyzer.Analyzer analyzer in Analyzers)
             {
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id] = new uint[4];
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id] = new uint[9];
                 MainRegistryFile.Default.Analyzers[analyzer.Header.Id][0] = analyzer.Header.Id;
                 MainRegistryFile.Default.Analyzers[analyzer.Header.Id][1] = 0;
                 MainRegistryFile.Default.Analyzers[analyzer.Header.Id][2] =
                     analyzer.CommunicationInterfaceHandler.Header.Id;
                 MainRegistryFile.Default.Analyzers[analyzer.Header.Id][3] = 0;
+                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][4] = 0;
             }
             MainRegistryFile.Default.Save();
         }
@@ -606,6 +698,8 @@ namespace _PlcAgent.MainRegistry
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
             OutputDataTemplateFile.Default.Reset();
+            OutputFileCreatorFile.Default.Reset();
+            OutputFileCreatorInterfaceAssignmentFile.Default.Reset();
             OutputHandlerFile.Default.Reset();
             OutputHandlerInterfaceAssignmentFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
@@ -622,12 +716,14 @@ namespace _PlcAgent.MainRegistry
             PlcConfigurationFile.Default.Reset();
             CommunicationInterfacePath.Default.Reset();
             OutputDataTemplateFile.Default.Reset();
+            OutputFileCreatorFile.Default.Reset();
             OutputHandlerFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
 
             MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
             MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
             MainRegistryFile.Default.OutputDataTemplates = projectData.OutputDataTemplates;
+            MainRegistryFile.Default.OutputFileCreators = projectData.OutputFileCreators;
             MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
             MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
             MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
@@ -644,11 +740,19 @@ namespace _PlcAgent.MainRegistry
 
             OutputDataTemplateFile.Default.TemplateFiles = projectData.TemplatePaths;
 
-            OutputHandlerFile.Default.FileNameSuffixes = projectData.FileNameSuffixes;
-            OutputHandlerFile.Default.StartAddress = projectData.StartAddress;
-            OutputHandlerFile.Default.EndAddress = projectData.EndAddress;
-            OutputHandlerFile.Default.SelectedIndex = projectData.SelectedIndex;
-            OutputHandlerFile.Default.DirectoryPaths = projectData.DirectoryPaths;
+            OutputFileCreatorFile.Default.FileNameSuffixes = projectData.OutputFileCreatorFileNameSuffixes;
+            OutputFileCreatorFile.Default.SelectedIndex = projectData.OutputFileCreatorSelectedIndex;
+            OutputFileCreatorFile.Default.DirectoryPaths = projectData.OutputFileCreatorDirectoryPaths;
+            OutputFileCreatorFile.Default.Save();
+
+            OutputFileCreatorInterfaceAssignmentFile.Default.Assignment = projectData.OutputFileCreatorAssignment;
+            OutputFileCreatorInterfaceAssignmentFile.Default.Save();
+
+            OutputHandlerFile.Default.FileNameSuffixes = projectData.OutputHandlerFileNameSuffixes;
+            OutputHandlerFile.Default.StartAddress = projectData.OutputHandlerStartAddress;
+            OutputHandlerFile.Default.EndAddress = projectData.OutputHandlerEndAddress;
+            OutputHandlerFile.Default.SelectedIndex = projectData.OutputHandlerSelectedIndex;
+            OutputHandlerFile.Default.DirectoryPaths = projectData.OutputHandlerDirectoryPaths;
             OutputHandlerFile.Default.Save();
 
             OutputHandlerInterfaceAssignmentFile.Default.Assignment = projectData.OutputHandlerAssignment;
@@ -690,11 +794,15 @@ namespace _PlcAgent.MainRegistry
                 Path = CommunicationInterfacePath.Default.Path,
                 ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
                 TemplatePaths = OutputDataTemplateFile.Default.TemplateFiles,
-                FileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
-                StartAddress = OutputHandlerFile.Default.StartAddress,
-                EndAddress = OutputHandlerFile.Default.EndAddress,
-                SelectedIndex = OutputHandlerFile.Default.SelectedIndex,
-                DirectoryPaths = OutputHandlerFile.Default.DirectoryPaths,
+                OutputFileCreatorFileNameSuffixes = OutputFileCreatorFile.Default.FileNameSuffixes,
+                OutputFileCreatorSelectedIndex = OutputFileCreatorFile.Default.SelectedIndex,
+                OutputFileCreatorDirectoryPaths = OutputFileCreatorFile.Default.DirectoryPaths,
+                OutputFileCreatorAssignment = OutputFileCreatorInterfaceAssignmentFile.Default.Assignment,
+                OutputHandlerFileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
+                OutputHandlerStartAddress = OutputHandlerFile.Default.StartAddress,
+                OutputHandlerEndAddress = OutputHandlerFile.Default.EndAddress,
+                OutputHandlerSelectedIndex = OutputHandlerFile.Default.SelectedIndex,
+                OutputHandlerDirectoryPaths = OutputHandlerFile.Default.DirectoryPaths,
                 OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
                 VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,
@@ -722,6 +830,10 @@ namespace _PlcAgent.MainRegistry
                 throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.OutputDataTemplates.Any(outputDataTemplate => outputDataTemplate != null && outputDataTemplate[index] == component.Header.Id))
+            {
+                throw new Exception("The component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.OutputFileCreators.Any(outputFileCreator => outputFileCreator != null && outputFileCreator[index] == component.Header.Id))
             {
                 throw new Exception("The component is still assigned to another one");
             }

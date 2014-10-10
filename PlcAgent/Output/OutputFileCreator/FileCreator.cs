@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Navigation;
 using System.Xml;
 using CsvHelper;
 using _PlcAgent.DataAquisition;
@@ -66,6 +67,15 @@ namespace _PlcAgent.Output.OutputFileCreator
 
         private static void WriteElement(XmlWriter writer, DataTemplateComponent component, OutputConfiguration configuration)
         {
+            if (component.Component == null)
+            {
+                writer.WriteElementString("Position", "n/a");
+                writer.WriteElementString("Name", component.Name);
+                writer.WriteElementString("Type", "n/a");
+                writer.WriteElementString("Value", "n/a");
+                return;
+            }
+
             switch (configuration)
             {
                     case OutputConfiguration.Composite:
@@ -92,7 +102,7 @@ namespace _PlcAgent.Output.OutputFileCreator
         {
             foreach (var component in outputDataTemplateComposite.Cast<DataTemplateComponent>())
             {
-                writer.WriteStartElement(component.Name);
+                writer.WriteStartElement(CleanInvalidXmlChars(component.Name));
                 if (component.GetType() == typeof(DataTemplateComposite))
                 {
                     WriteComponentToTheFile(writer, component as DataTemplateComposite, configuration);
