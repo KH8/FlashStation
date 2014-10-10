@@ -3,7 +3,7 @@
   <Class Name="_PlcAgent.Analyzer.Analyzer" Collapsed="true">
     <Position X="16.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAkjgCAAgAAwIAAAICgAAAABAMAKBIAEQRAADEABA=</HashCode>
+      <HashCode>ABAAkjgCAAgAAwIAAAICgAAAABAMAKAIAEQQAABEQBA=</HashCode>
       <FileName>Analyzer\Analyzer.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -256,14 +256,14 @@
   <Class Name="_PlcAgent.General.InterfaceAssignment" Collapsed="true">
     <Position X="39.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAASQAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAASQAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>General\InterfaceAssignment.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.InterfaceAssignmentCollection" Collapsed="true">
     <Position X="41" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>General\InterfaceAssignment.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -285,14 +285,14 @@
   <Class Name="_PlcAgent.General.ExecutiveModule" Collapsed="true">
     <Position X="21.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAIAAAAAAAAAABAAAQAIAAABAACAAAA=</HashCode>
+      <HashCode>IAAAAQAAAAAAAAIAAAAAAQAAABAAAQBIAAABAACAQAA=</HashCode>
       <FileName>General\Module.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.General.OutputModule" Collapsed="true">
     <Position X="25.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAEAAAAAAAAAAAAACAAAAAAAAABAAACAAAAAAAA=</HashCode>
+      <HashCode>EAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>General\Module.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -373,39 +373,74 @@
       <FileName>MainRegistry\RegistryContext.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_PlcAgent.Output.OutputFileCreator.OutputFileCreator" Collapsed="true">
-    <Position X="25.75" Y="13.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAkAAAAAgAAQAAAgIAAAAAABCAAAAAAAEBAACAAAA=</HashCode>
-      <FileName>Output\OutputFileCreator\OutputFileCreator.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="_PlcAgent.Output.OutputFileCreator.FileCreator" Collapsed="true">
     <Position X="14.5" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Output\OutputFileCreator\XmlFileCreator.cs</FileName>
+      <FileName>Output\OutputFileCreator\FileCreator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputFileCreator.XmlFileCreator" Collapsed="true">
     <Position X="14.5" Y="21.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAEAAAAEAAAQAAAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Output\OutputFileCreator\XmlFileCreator.cs</FileName>
+      <FileName>Output\OutputFileCreator\FileCreator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_PlcAgent.Output.OutputHandler" Collapsed="true">
+  <Class Name="_PlcAgent.Output.OutputFileCreator.OutputFileCreator" Collapsed="true">
+    <Position X="25.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkAAAAAgAAQAAAgIAAAAAABCAAAAAAAEAAAAAQAA=</HashCode>
+      <FileName>Output\OutputFileCreator\OutputFileCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputHandler" Collapsed="true">
     <Position X="21.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAkAAAAAgAAQAAAhIAQAAAABCAAABAAAABAACgAAA=</HashCode>
-      <FileName>Output\OutputHandler.cs</FileName>
+      <HashCode>AAAAkAAAAAgAAQAAAhIAQAAAABCAAAAAAAAAAAAgQAA=</HashCode>
+      <FileName>Output\OutputHandler\OutputHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="_PlcAgent.Output.OutputHandlerComponent" Collapsed="true">
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputHandlerComponent" Collapsed="true">
     <Position X="8.5" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAAAAA=</HashCode>
-      <FileName>Output\OutputHandlerComponent.cs</FileName>
+      <FileName>Output\OutputHandler\OutputHandlerComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputWriter" Collapsed="true">
+    <Position X="11" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAACAQAgAAABAAEAAAAA=</HashCode>
+      <FileName>Output\OutputHandler\OutputWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputXmlWriter" Collapsed="true">
+    <Position X="8.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Output\OutputHandler\OutputWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputCsvWriter" Collapsed="true">
+    <Position X="11" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Output\OutputHandler\OutputWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputXlsWriter" Collapsed="true">
+    <Position X="13.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Output\OutputHandler\OutputWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_PlcAgent.Output.OutputHandler.OutputWriterFactory" Collapsed="true">
+    <Position X="41" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Output\OutputHandler\OutputWriterFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.OutputHandlerFile" Collapsed="true">
@@ -418,41 +453,6 @@
     <Position X="39.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIQAAAAABAAAAAAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="_PlcAgent.Output.OutputWriter" Collapsed="true">
-    <Position X="11" Y="14.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAACAQAgAAABAAEAAAAA=</HashCode>
-      <FileName>Output\OutputWriter.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="_PlcAgent.Output.OutputXmlWriter" Collapsed="true">
-    <Position X="8.75" Y="15.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Output\OutputWriter.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="_PlcAgent.Output.OutputCsvWriter" Collapsed="true">
-    <Position X="11" Y="15.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Output\OutputWriter.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="_PlcAgent.Output.OutputXlsWriter" Collapsed="true">
-    <Position X="13.25" Y="15.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Output\OutputWriter.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="_PlcAgent.Output.OutputWriterFactory" Collapsed="true">
-    <Position X="41" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
-      <FileName>Output\OutputWriterFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="_PlcAgent.Output.Template.DataTemplateComponent" Collapsed="true">
@@ -480,7 +480,7 @@
   <Class Name="_PlcAgent.Output.Template.OutputDataTemplate" Collapsed="true">
     <Position X="28" Y="10.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQCAIBIABAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AAEAAAAAAAAAAQCAIBIABAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Output\Template\OutputDataTemplate.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -494,7 +494,7 @@
   <Class Name="_PlcAgent.Output.Template.OutputDataTemplateComponent" Collapsed="true">
     <Position X="11.5" Y="20.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
       <FileName>Output\Template\OutputDataTemplateComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1071,7 +1071,7 @@
   <Class Name="_PlcAgent.Vector.VFlashHandler" Collapsed="true">
     <Position X="23.5" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AICIgAAAAAEAAQAABAIAAAAAEBUAAABQEAIhAASAAAA=</HashCode>
+      <HashCode>AICIgAAAAAEAAQAABAIAAAAAEBUAAABQEAIhAAQAQAA=</HashCode>
       <FileName>Vector\VFlashHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1242,7 +1242,7 @@
   <Class Name="_PlcAgent.Visual.Gui.Output.GuiOutputDataTemplate" Collapsed="true">
     <Position X="11.5" Y="22" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAIAAIBCBAAAAAAAAAgAAABABgAAA=</HashCode>
+      <HashCode>AAEAACAAAAAAAAAAIAAIBCBAAAAAAAAAgAAAAABgAAA=</HashCode>
       <FileName>Visual\Gui\Output\GuiOutputDataTemplate.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
