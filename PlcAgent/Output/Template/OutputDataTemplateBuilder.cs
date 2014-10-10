@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Xml;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.Output.Template
@@ -97,7 +98,12 @@ namespace _PlcAgent.Output.Template
                 }
             }
 
-            if (componentWasNotFound) MessageBox.Show("At leas one of the template components was not found within available interfaces.", "Component was not found");
+            if (componentWasNotFound)
+            {
+                MessageBox.Show("At least one of the template components was not found within available interfaces.",
+                    "Component was not found");
+                Logger.Log("Template Builder: At least one of the template components was not found within available interfaces.");
+            }
 
             return template;
         }

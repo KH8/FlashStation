@@ -30,7 +30,6 @@ namespace _PlcAgent.Analyzer
 
         #region Properties
 
-        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
         public AnalyzerAssignmentFile AnalyzerAssignmentFile { get; set; }
         public AnalyzerSetupFile AnalyzerSetupFile { get; set; }
         public AnalyzerChannelList AnalyzerChannels { get; set; }
@@ -140,7 +139,8 @@ namespace _PlcAgent.Analyzer
             _communicationThread.SetApartmentState(ApartmentState.STA);
             _communicationThread.IsBackground = true;
 
-            CreateInterfaceAssignment(id, AnalyzerAssignmentFile.Assignment);
+            Assignment = AnalyzerAssignmentFile.Assignment[Header.Id];
+            CreateInterfaceAssignment();
         }
 
         #endregion
@@ -316,70 +316,21 @@ namespace _PlcAgent.Analyzer
             public AnalyzerException(string info) : base(info) { }
         }
 
-        protected override Boolean CheckInterface()
+        protected override void AssignmentFileUpdate()
         {
-            CommunicationInterfaceComponent component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command"));
-            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
-                return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Life Counter"));
-            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
-                return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Reply"));
-            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
-                return false;
-            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Status"));
-            if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer)
-                return false;
-
-            return true;
-        }
-
-        protected override sealed void CreateInterfaceAssignment(uint id, string[][] assignment)
-        {
-            if (assignment[id].Length == 0) assignment[id] = new string[4];
-
-            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.In,
-                Name = "Command",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = AnalyzerAssignmentFile.Assignment[id][0]
-            });
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.Out,
-                Name = "Life Counter",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = AnalyzerAssignmentFile.Assignment[id][1]
-            });
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.Out,
-                Name = "Reply",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = AnalyzerAssignmentFile.Assignment[id][2]
-            });
-            InterfaceAssignmentCollection.Children.Add(new InterfaceAssignment
-            {
-                VariableDirection = InterfaceAssignment.Direction.Out,
-                Name = "Status",
-                Type = CommunicationInterfaceComponent.VariableType.Integer,
-                Assignment = AnalyzerAssignmentFile.Assignment[id][3]
-            });
-        }
-
-        public override void UpdateAssignment()
-        {
-            AnalyzerAssignmentFile.Assignment[Header.Id][0] =
-                InterfaceAssignmentCollection.GetAssignment("Command");
-            AnalyzerAssignmentFile.Assignment[Header.Id][1] =
-                InterfaceAssignmentCollection.GetAssignment("Life Counter");
-            AnalyzerAssignmentFile.Assignment[Header.Id][2] =
-                InterfaceAssignmentCollection.GetAssignment("Reply");
-            AnalyzerAssignmentFile.Assignment[Header.Id][3] =
-                InterfaceAssignmentCollection.GetAssignment("Status");
+            AnalyzerAssignmentFile.Assignment[Header.Id] = Assignment;
             AnalyzerAssignmentFile.Save();
+        }
+
+        protected override sealed void CreateInterfaceAssignment()
+        {
+            if (Assignment.Length == 0) Assignment = new string[4];
+            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
+
+            InterfaceAssignmentCollection.Add(0, "Command", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
+            InterfaceAssignmentCollection.Add(1, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(2, "Reply", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(3, "Status", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
         }
 
         #endregion

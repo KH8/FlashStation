@@ -79,17 +79,12 @@ namespace _PlcAgent.Output.OutputFileCreator
             Logger.Log("ID: " + Header.Id + " Output File Creator Deinitialized");
         }
 
-        public override void UpdateAssignment()
+        protected override void AssignmentFileUpdate()
         {
             throw new NotImplementedException();
         }
 
-        protected override bool CheckInterface()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void CreateInterfaceAssignment(uint id, string[][] assignment)
+        protected override void CreateInterfaceAssignment()
         {
             throw new NotImplementedException();
         }

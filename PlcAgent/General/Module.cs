@@ -30,12 +30,20 @@ namespace _PlcAgent.General
     {
         private Boolean _pcControlMode;
         protected Boolean PcControlModeChangeAllowed  { get; set; }
+        protected string[] Assignment { get; set; }
 
         public InterfaceAssignmentCollection InterfaceAssignmentCollection { get; set; }
+        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
 
-        public abstract void UpdateAssignment();
+        protected delegate void OnAssignmentUpdateDelegate();
+        protected OnAssignmentUpdateDelegate OnAssignmentUpdate;
+        abstract protected void AssignmentFileUpdate();
 
-        protected ExecutiveModule(uint id, string name) : base(id, name){}
+        protected ExecutiveModule(uint id, string name) : base(id, name)
+        {
+            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
+            OnAssignmentUpdate += AssignmentFileUpdate;
+        }
 
         public Boolean PcControlMode
         {
@@ -43,8 +51,34 @@ namespace _PlcAgent.General
             set { if (PcControlModeChangeAllowed) { _pcControlMode = value; } }
         }
 
-        protected abstract Boolean CheckInterface();
-        protected abstract void CreateInterfaceAssignment(uint id, string[][] assignment);
+        protected abstract void CreateInterfaceAssignment();
+
+        protected Boolean CheckInterface()
+        {
+            foreach (var assignment in InterfaceAssignmentCollection.Children)
+            {
+                CommunicationInterfaceComponent component = null;
+
+                switch (assignment.VariableDirection)
+                {
+                        case InterfaceAssignment.Direction.In:
+                            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(assignment.Name);
+                        break;
+                        case InterfaceAssignment.Direction.Out:
+                            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(assignment.Name);
+                        break;
+                }
+
+                if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer) return false;
+            }
+            return true;
+        }
+
+        public void UpdateAssignment()
+        {
+            foreach (var assignment in InterfaceAssignmentCollection.Children) { Assignment[assignment.Id] = assignment.Assignment; }
+            if (OnAssignmentUpdate != null) OnAssignmentUpdate();
+        }
     }
 
     public abstract class OutputModule : ExecutiveModule
@@ -53,16 +87,11 @@ namespace _PlcAgent.General
 
         public DataTemplateComposite OutputDataTemplate { get; set; }
         public DisplayDataBuilder.DisplayDataContainer ReadInterfaceCollection { get { return _outputDataTemplateCollection; } }
-        public CommunicationInterfaceHandler CommunicationInterfaceHandler { get; set; }
 
         protected OutputModule(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler)
             : base(id, name)
         {
             CommunicationInterfaceHandler = communicationInterfaceHandler;
-        }
-
-        public void ClearDataTemplate()
-        {
         }
     }
 

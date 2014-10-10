@@ -12,6 +12,7 @@ namespace _PlcAgent.General
             Out,
         }
 
+        public uint Id { get; set; }
         public Direction VariableDirection { get; set; }
         public string Name { get; set; }
         public CommunicationInterfaceComponent.VariableType Type { get; set; }
@@ -30,6 +31,18 @@ namespace _PlcAgent.General
         public string GetAssignment(string name)
         {
             return Children.Where(assignment => assignment.Name == name).Select(assignment => assignment.Assignment).FirstOrDefault();
+        }
+
+        public void Add(uint id, string name, CommunicationInterfaceComponent.VariableType type, InterfaceAssignment.Direction direction, string[] assignment)
+        {
+            Children.Add(new InterfaceAssignment
+            {
+                Id = id,
+                VariableDirection = direction,
+                Name = name,
+                Type = type,
+                Assignment = assignment[id]
+            });
         }
     }
 }
