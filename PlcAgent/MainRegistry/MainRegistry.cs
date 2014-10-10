@@ -237,7 +237,7 @@ namespace _PlcAgent.MainRegistry
                         OutputHandlerInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Output Handler");
                 component = (OutputHandler)OutputHandlers.ReturnComponent(id);
-                component.InitializeOutputHandler();
+                component.Initialize();
             }
             catch (Exception)
             {

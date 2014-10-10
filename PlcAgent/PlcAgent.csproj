@@ -126,6 +126,16 @@
     <Compile Include="MainRegistry\RegistryContext.cs" />
     <Compile Include="Output\OutputFileCreator\OutputFileCreator.cs" />
     <Compile Include="Output\OutputFileCreator\FileCreator.cs" />
+    <Compile Include="Output\OutputFileCreator\OutputFileCreatorFile.Designer.cs">
+      <DependentUpon>OutputFileCreatorFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Output\OutputFileCreator\OutputFileCreatorInterfaceAssignmentFile.Designer.cs">
+      <DependentUpon>OutputFileCreatorInterfaceAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <Compile Include="Output\OutputHandler\OutputHandler.cs" />
     <Compile Include="Output\OutputHandler\OutputHandlerComponent.cs" />
     <Compile Include="Output\OutputHandler\OutputHandlerFile.Designer.cs">
@@ -253,6 +263,14 @@
     <None Include="MainRegistry\MainRegistryFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MainRegistryFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Output\OutputFileCreator\OutputFileCreatorFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputFileCreatorFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Output\OutputFileCreator\OutputFileCreatorInterfaceAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>OutputFileCreatorInterfaceAssignmentFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="Output\OutputHandler\OutputHandlerFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

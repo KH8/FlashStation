@@ -12,7 +12,6 @@ namespace _PlcAgent.Output.OutputHandler
         #region Variables
 
         private OutputWriter _outputWriter;
-
         private readonly Thread _communicationThread;
 
         #endregion
@@ -54,18 +53,15 @@ namespace _PlcAgent.Output.OutputHandler
         #region Methods
 
         public override void Initialize()
-        {}
+        {
+            _communicationThread.Start();
+            Logger.Log("ID: " + Header.Id + " Output Handler Initialized");
+        }
 
         public override void Deinitialize()
         {
             _communicationThread.Abort();
             Logger.Log("ID: " + Header.Id + " Output Handler Deinitialized");
-        }
-
-        public void InitializeOutputHandler()
-        {
-            _communicationThread.Start();
-            Logger.Log("ID: " + Header.Id + " Output Handler Initialized");
         }
 
         public void CreateOutput()
