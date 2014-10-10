@@ -64,10 +64,10 @@ namespace _PlcAgent.General
                 switch (assignment.VariableDirection)
                 {
                         case InterfaceAssignment.Direction.In:
-                            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(assignment.Name);
+                            component = CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(assignment.Assignment);
                         break;
                         case InterfaceAssignment.Direction.Out:
-                            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(assignment.Name);
+                            component = CommunicationInterfaceHandler.WriteInterfaceComposite.ReturnVariable(assignment.Assignment);
                         break;
                 }
 
