@@ -39,7 +39,7 @@ namespace _PlcAgent.Output.OutputFileCreator
                     outputWriter = new XmlFileCreator();
                     break;
                 case "System.Windows.Controls.ComboBoxItem: *.csv":
-                    outputWriter = new XmlFileCreator();
+                    outputWriter = new CsvFileCreator();
                     break;
             }
             return outputWriter;
@@ -51,7 +51,7 @@ namespace _PlcAgent.Output.OutputFileCreator
         public override void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             var settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
-            using (var writer = XmlWriter.Create(fileName, settings))
+            using (var writer = XmlWriter.Create(fileName + ".xml", settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement(configuration.ToString());
@@ -125,20 +125,50 @@ namespace _PlcAgent.Output.OutputFileCreator
     {
         public override void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
-            using (var streamWriter = File.AppendText(fileName))
+            using (var streamWriter = File.AppendText(fileName + ".csv"))
             {
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
 
-                writer.WriteField("Position"); writer.WriteField("");
-                writer.WriteField("Name"); writer.WriteField("");
-                writer.WriteField("Type"); writer.WriteField("");
-                writer.WriteField("Value"); writer.WriteField("".Trim());
-                writer.NextRecord();
+                WriteComponentToTheFile(writer, outputDataTemplateComposite);
 
                 streamWriter.Close();
             }
             Logger.Log(fileName + " output file created");
+        }
+
+        private void WriteComponentToTheFile(CsvWriter writer, DataTemplateComposite outputDataTemplateComposite)
+        {
+            foreach (var component in outputDataTemplateComposite.Cast<DataTemplateComponent>())
+            {
+                if (component.GetType() == typeof(DataTemplateComposite))
+                {
+                    writer.WriteField(""); writer.WriteField("");
+                    writer.WriteField("Name"); writer.WriteField(component.Name);
+                    writer.WriteField(""); writer.WriteField("");
+                    writer.WriteField(""); writer.WriteField("");
+                    writer.NextRecord();
+                    WriteComponentToTheFile(writer, component as DataTemplateComposite);
+                }
+                else
+                {
+                    if (component.Component == null)
+                    {
+                        writer.WriteField("Position"); writer.WriteField("n/a");
+                        writer.WriteField("Name"); writer.WriteField(component.Name);
+                        writer.WriteField("Type"); writer.WriteField("n/a");
+                        writer.WriteField("Value"); writer.WriteField("n/a");
+                        writer.NextRecord();
+                        break;
+                    }
+
+                    writer.WriteField("Position"); writer.WriteField(component.Component.Pos);
+                    writer.WriteField("Name"); writer.WriteField(component.Component.Name);
+                    writer.WriteField("Type"); writer.WriteField(component.Component.TypeOfVariable.ToString());
+                    writer.WriteField("Value"); writer.WriteField(component.Component.StringValue().Trim());
+                    writer.NextRecord();
+                }
+            }
         }
     }
 }

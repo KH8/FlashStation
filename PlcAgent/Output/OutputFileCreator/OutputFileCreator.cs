@@ -95,7 +95,7 @@ namespace _PlcAgent.Output.OutputFileCreator
             if (_fileCreator == null) return;
             try
             {
-                _fileCreator.CreateOutput(FileNameCreator(fileName, directoryName, "xml"), OutputDataTemplate.Composite, FileCreator.OutputConfiguration.Composite);
+                _fileCreator.CreateOutput(FileNameCreator(fileName, directoryName), OutputDataTemplate.Composite, FileCreator.OutputConfiguration.Composite);
             }
             catch (Exception)
             {

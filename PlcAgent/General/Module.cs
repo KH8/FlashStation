@@ -97,7 +97,7 @@ namespace _PlcAgent.General
             OutputDataTemplate = outputDataTemplate;
         }
 
-        protected static string FileNameCreator(string fixedName, string directoryPath, string extension)
+        protected static string FileNameCreator(string fixedName, string directoryPath)
         {
             if (!Directory.Exists(directoryPath)) { Directory.CreateDirectory(directoryPath); }
             return directoryPath + "\\"
@@ -107,7 +107,7 @@ namespace _PlcAgent.General
                 + FillTheStringUp(DateTime.Now.Hour.ToString(CultureInfo.InvariantCulture))
                 + FillTheStringUp(DateTime.Now.Minute.ToString(CultureInfo.InvariantCulture))
                 + FillTheStringUp(DateTime.Now.Second.ToString(CultureInfo.InvariantCulture))
-                + "_" + fixedName.Trim() + "." + extension;
+                + "_" + fixedName.Trim();
         }
 
         protected static string FillTheStringUp(string dateString)
