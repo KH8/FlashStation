@@ -710,15 +710,7 @@ namespace _PlcAgent.MainRegistry
 
         public void LoadConfiguration(ProjectFileStruture.ProjectSavedData projectData)
         {
-            RemoveAll();
-
-            MainRegistryFile.Default.Reset();
-            PlcConfigurationFile.Default.Reset();
-            CommunicationInterfacePath.Default.Reset();
-            OutputDataTemplateFile.Default.Reset();
-            OutputFileCreatorFile.Default.Reset();
-            OutputHandlerFile.Default.Reset();
-            VFlashTypeBankFile.Default.Reset();
+            MakeNewConfiguration();
 
             MainRegistryFile.Default.PlcCommunicators = projectData.PlcCommunicators;
             MainRegistryFile.Default.CommunicationInterfaceHandlers = projectData.CommunicationInterfaceHandlers;
@@ -785,6 +777,7 @@ namespace _PlcAgent.MainRegistry
                 PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
                 CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
                 OutputDataTemplates = MainRegistryFile.Default.OutputDataTemplates,
+                OutputFileCreators = MainRegistryFile.Default.OutputFileCreators,
                 OutputHandlers = MainRegistryFile.Default.OutputHandlers,
                 VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
                 VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,

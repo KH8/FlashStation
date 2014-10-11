@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Navigation;
 using System.Xml;
 using CsvHelper;
 using _PlcAgent.DataAquisition;
