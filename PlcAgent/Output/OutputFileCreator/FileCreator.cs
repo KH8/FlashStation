@@ -51,7 +51,9 @@ namespace _PlcAgent.Output.OutputFileCreator
         public override void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
             var settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
-            using (var writer = XmlWriter.Create(fileName + ".xml", settings))
+
+            fileName += ".xml";
+            using (var writer = XmlWriter.Create(fileName, settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement(configuration.ToString());
@@ -125,7 +127,8 @@ namespace _PlcAgent.Output.OutputFileCreator
     {
         public override void CreateOutput(string fileName, DataTemplateComposite outputDataTemplateComposite, OutputConfiguration configuration)
         {
-            using (var streamWriter = File.AppendText(fileName + ".csv"))
+            fileName += ".csv";
+            using (var streamWriter = File.AppendText(fileName))
             {
                 var writer = new CsvWriter(streamWriter);
                 writer.Configuration.Delimiter = ";";
