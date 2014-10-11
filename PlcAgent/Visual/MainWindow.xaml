@@ -45,7 +45,7 @@
         </Menu>
         <!--TABS-->
         <Border Margin="0,26,0,50" BorderThickness="1" BorderBrush="#FF8C8E94">
-            <Grid Background="#FFE2E1E1">
+            <Grid Background="#FFF0F0F0">
                 <TabControl Name="MainTabControl" HorizontalAlignment="Left" Height="292" VerticalAlignment="Top" Width="941" Margin="2,2,0,0" SelectionChanged="UpdateLog" BorderThickness="1">
                     <TabItem Name="ComponentManagerTabItem" Header="Component Manager">
                         <Grid>
