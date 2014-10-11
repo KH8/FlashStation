@@ -176,9 +176,9 @@
             <treeListView:TreeListView x:Name="OutputDataTemplateTreeListView" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="450" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
         </Grid>
         <Grid Name="FooterGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="450">
-            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Right" Margin="0,0,190,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Clear"/>
-            <Button Name="ImportButton" Content="Import" HorizontalAlignment="Right" Margin="0,0,95,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Import"/>
-            <Button Name="ExportButton" Content="Export" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="Export"/>
+            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Right" Margin="0,0,190,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Clear"/>
+            <Button Name="ImportButton" Content="Import" HorizontalAlignment="Right" Margin="0,0,95,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Import"/>
+            <Button Name="ExportButton" Content="Export" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Export"/>
             <Label Name="FileNameLabel" Content="Template.xml" FontSize="10" HorizontalAlignment="Left" Width="450"></Label>
         </Grid>
     </Grid>

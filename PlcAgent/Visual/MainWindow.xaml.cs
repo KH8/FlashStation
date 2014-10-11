@@ -372,7 +372,7 @@ namespace _PlcAgent.Visual
             AboutGrid.Height = Limiter.DoubleLimit(MainTabControl.Height - 32, 0);
             AboutGrid.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
-            ComponentManagerTreeView.Height = Limiter.DoubleLimit(MainTabControl.Height - 62, 0);
+            ComponentManagerTreeView.Height = Limiter.DoubleLimit(MainTabControl.Height - 59, 0);
             ComponentManagerTreeView.Width = Limiter.DoubleLimit(MainTabControl.Width - 10, 0);
 
             UpdateGui();
