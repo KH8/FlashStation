@@ -4,6 +4,8 @@ using System.Windows;
 using Microsoft.Win32;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Log;
+using _PlcAgent.Output.OutputFileCreator;
+using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.Visual.Gui.DataAquisition
 {
@@ -52,6 +54,24 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
             Logger.Log("PLC Communication interface initialized with file: " + words[words.Length - 1]);
         }
 
+        private void ExportToTemplate(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog
+            {
+                FileName = CommunicationInterfaceHandler.Header.Name + "_Template",
+                DefaultExt = ".xml",
+                Filter = "eXtensible Markup Language File (.xml)|*.xml"
+            };
+            bool? result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result != true) return;
+
+            new XmlFileCreator().CreateOutput(dlg.FileName, (DataTemplateComposite)OutputDataTemplateBuilder.ComunicationInterfaceToTemplate(CommunicationInterfaceHandler.ReadInterfaceComposite), FileCreator.OutputConfiguration.Template);
+           
+            Logger.Log("PLC Communication interface exported to Template file: " + dlg.FileName);
+        }
+
         public void OnConnectionStatusChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != "ConnectionStatus") return;
@@ -65,5 +85,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
 
         #endregion
 
+        
     }
 }
