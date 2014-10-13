@@ -59,10 +59,9 @@ namespace _PlcAgent.Visual
 
             Logger.Log("Registry initialization");
             RegistryContext.Registry = new Registry();
-            RegistryContext.Registry.Initialize();
+            RegistryContext.Registry.OnRegistryUpdated += OnRegistryUpdated;
 
-            UpdateGui();
-            UpdateTreeView();
+            RegistryContext.Registry.Initialize();
         }
 
         #endregion
@@ -218,12 +217,15 @@ namespace _PlcAgent.Visual
             MainTabControl.SelectedItem = LogTabItem;
         }
 
+        private void OnRegistryUpdated()
+        {
+            UpdateGui();
+            UpdateTreeView();
+        }
+
         private void NewConfiguration(object sender, RoutedEventArgs e)
         {
             RegistryContext.Registry.MakeNewConfiguration();
-
-            UpdateGui();
-            UpdateTreeView();
             Logger.Log("New configuration");
         }
 
@@ -257,9 +259,6 @@ namespace _PlcAgent.Visual
                 var projectData = (ProjectFileStruture.ProjectSavedData)new BinaryFormatter().Deserialize(memoryStream);
 
                 RegistryContext.Registry.LoadConfiguration(projectData);
-
-                UpdateGui();
-                UpdateTreeView();
             }
             Logger.Log("Configuration loaded");
         }
@@ -306,9 +305,6 @@ namespace _PlcAgent.Visual
             {
                 MessageBox.Show(exception.Message, "Component cannot be removed");
             }
-            
-            UpdateGui();
-            UpdateTreeView();
         }
 
         #endregion
@@ -389,6 +385,7 @@ namespace _PlcAgent.Visual
         {
             var selection = (TabItem) MainTabControl.SelectedItem;
             var mainTabControlSelection = selection != null ? selection.Header : null;
+
             selection = (TabItem)OutputTabControl.SelectedItem;
             var outputTabControlSelection = selection != null ? selection.Header : null;
             selection = (TabItem)ConnectionTabControl.SelectedItem;
@@ -804,73 +801,41 @@ namespace _PlcAgent.Visual
         private void AssignConnection()
         {
             var newId = RegistryContext.Registry.AddPlcCommunicator(true);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignInterface(uint plcConnectionId)
         {
             var newId = RegistryContext.Registry.AddCommunicationInterface(true, plcConnectionId);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignOutputDataTemplate()
         {
             var newId = RegistryContext.Registry.AddOutputDataTemplate(true);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignOutputFileCreator(uint communicationInterfaceId, uint templateId)
         {
             var newId = RegistryContext.Registry.AddOutputFileCreator(true, communicationInterfaceId, templateId);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignOutputFileHandler(uint communicationInterfaceId)
         {
             var newId = RegistryContext.Registry.AddOutputHandler(true, communicationInterfaceId);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignVFlashBank()
         {
             var newId = RegistryContext.Registry.AddVFlashBank(true);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
         {
             var newId = RegistryContext.Registry.AddVFlashChannel(true, communicationInterfaceId, vFlashBankId);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void AssignAnalyzer(uint communicationInterfaceId)
         {
             var newId = RegistryContext.Registry.AddAnalyzer(true, communicationInterfaceId);
-            if (newId == 0) return;
-
-            UpdateGui();
-            UpdateTreeView();
         }
 
         #endregion

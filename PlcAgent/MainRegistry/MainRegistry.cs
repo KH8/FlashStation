@@ -66,14 +66,14 @@ namespace _PlcAgent.MainRegistry
                 AddAnalyzer(analyzer[0], analyzer[2]);
             }
 
-            UpdateMainRegistryFile();
+            UpdateRegistry();
             Logger.Log("Registry content initialized");
         }
 
         public override uint AddPlcCommunicator(Boolean save)
         {
             var id =  AddPlcCommunicator();
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -121,7 +121,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddCommunicationInterface(Boolean save, uint plcConnectionId)
         {
             var id = AddCommunicationInterface(plcConnectionId);
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -169,7 +169,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddOutputDataTemplate(Boolean save)
         {
             var id = AddOutputDataTemplate();
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -215,7 +215,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddOutputFileCreator(Boolean save, uint communicationInterfaceId, uint templateId)
         {
             var id = AddOutputFileCreator(communicationInterfaceId, templateId);
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -265,7 +265,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddOutputHandler(Boolean save, uint communicationInterfaceId)
         {
             var id = AddOutputHandler(communicationInterfaceId);
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -314,7 +314,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddVFlashBank(Boolean save)
         {
             var id = AddVFlashBank();
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -345,7 +345,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddVFlashChannel(Boolean save, uint communicationInterfaceId, uint vFlashBankId)
         {
             var id = AddVFlashChannel(communicationInterfaceId, vFlashBankId);
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -395,7 +395,7 @@ namespace _PlcAgent.MainRegistry
         public override uint AddAnalyzer(bool save, uint communicationInterfaceId)
         {
             var id = AddAnalyzer(communicationInterfaceId);
-            if (save && id != 0) UpdateMainRegistryFile();
+            if (save && id != 0) UpdateRegistry();
             return id;
         }
 
@@ -532,7 +532,7 @@ namespace _PlcAgent.MainRegistry
 
                 Analyzers.Children.Remove(component);
             }
-            UpdateMainRegistryFile();
+            UpdateRegistry();
         }
 
         public void Deinitialize()
@@ -581,8 +581,14 @@ namespace _PlcAgent.MainRegistry
             GuiAnalyzerInterfaceAssignmentComponents.Clear();
             GuiAnalyzerDataCursorTables.Clear();
 
-            UpdateMainRegistryFile();
+            UpdateRegistry();
             Logger.Log("Registry content removed");
+        }
+
+        private void UpdateRegistry()
+        {
+            UpdateMainRegistryFile();
+            if (OnRegistryUpdated != null) OnRegistryUpdated();
         }
 
         private void UpdateMainRegistryFile()

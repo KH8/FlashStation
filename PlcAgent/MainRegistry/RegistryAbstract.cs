@@ -39,6 +39,9 @@ namespace _PlcAgent.MainRegistry
         public RegistryComposite GuiAnalyzerInterfaceAssignmentComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerDataCursorTables = new RegistryComposite(0, "");
 
+        public delegate void RegistryUpdated();
+        public RegistryUpdated OnRegistryUpdated;
+
         public abstract uint AddPlcCommunicator();
         public abstract uint AddCommunicationInterface(uint plcConnectionId);
         public abstract uint AddOutputDataTemplate();
