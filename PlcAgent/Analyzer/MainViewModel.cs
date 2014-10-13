@@ -153,7 +153,8 @@ namespace _PlcAgent.Analyzer
             {
                 _dispatcher.Invoke(() =>
                 {
-                    if(_refreshPlot) _model.InvalidatePlot(true);
+                    if (!_refreshPlot) return;
+                    _model.InvalidatePlot(true);
                     _refreshPlot = false;
 
                     if (Equals(_newDataPoint, _emptyDataPoint)) return;
