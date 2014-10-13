@@ -112,9 +112,7 @@
             </Grid>
         </Border>
         <!--FOOTER-->
-        <Grid Name="FooterGrid" VerticalAlignment="Bottom" Height="50">
-            
-        </Grid>
+        <Grid Name="FooterGrid" VerticalAlignment="Bottom" Height="50"></Grid>
         <Label Name="LicenseLabel" Content="No valid license." HorizontalAlignment="Right" FontSize="10" VerticalAlignment="Bottom" Height="25" Margin="0,0,5,0"/>
     </Grid>
 </Window>

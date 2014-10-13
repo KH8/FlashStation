@@ -81,7 +81,7 @@ namespace _PlcAgent.Visual
 
         private void AddConnection(object sender, RoutedEventArgs e)
         {
-            AssignConnection();
+            RegistryContext.Registry.AddPlcCommunicator(true);
         }
 
         private void AddInterface(object sender, RoutedEventArgs e)
@@ -96,13 +96,13 @@ namespace _PlcAgent.Visual
                 }); 
             }
 
-            var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, AssignInterface);
+            var window = new ComponentCreationWindow("Select a PLC connection to be assigned with a new Communication Interface", newHeader, RegistryContext.Registry.AddCommunicationInterface);
             window.Show();
         }
 
         private void AddOutputDataTemplate(object sender, RoutedEventArgs e)
         {
-            AssignOutputDataTemplate();
+            RegistryContext.Registry.AddOutputDataTemplate(true);
         }
 
         private void AddOutputFileCreator(object sender, RoutedEventArgs e)
@@ -121,7 +121,11 @@ namespace _PlcAgent.Visual
                 });
             }
 
-            var newHeaderOutputDataTemplate = new TreeViewItem { Header = "Output Data Templates", IsExpanded = true };
+            var newHeaderOutputDataTemplate = new TreeViewItem
+            {
+                Header = "Output Data Templates", 
+                IsExpanded = true
+            };
             foreach (OutputDataTemplate record in RegistryContext.Registry.OutputDataTemplates)
             {
                 newHeaderOutputDataTemplate.Items.Add(new TreeViewItem
@@ -131,7 +135,7 @@ namespace _PlcAgent.Visual
                 });
             }
 
-            var window = new ComponentCreationWindow("Select components to be assigned with a new Output File Creator", newHeaderCommunicationInterface, newHeaderOutputDataTemplate, AssignOutputFileCreator);
+            var window = new ComponentCreationWindow("Select components to be assigned with a new Output File Creator", newHeaderCommunicationInterface, newHeaderOutputDataTemplate, RegistryContext.Registry.AddOutputFileCreator);
             window.Show();
         }
 
@@ -147,13 +151,13 @@ namespace _PlcAgent.Visual
                 });
             }
 
-            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Output Handler", newHeader, AssignOutputFileHandler);
+            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Output Handler", newHeader, RegistryContext.Registry.AddOutputHandler);
             window.Show();
         }
 
         private void AddVFlashBank(object sender, RoutedEventArgs e)
         {
-            AssignVFlashBank();
+            RegistryContext.Registry.AddVFlashBank(true);
         }
 
         private void AddVFlashChannel(object sender, RoutedEventArgs e)
@@ -182,7 +186,7 @@ namespace _PlcAgent.Visual
                 });
             }
 
-            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeaderCommunicationInterface, newHeaderVFlashBank, AssignVFlashChannel);
+            var window = new ComponentCreationWindow("Select components to be assigned with a new vFlash Channel", newHeaderCommunicationInterface, newHeaderVFlashBank, RegistryContext.Registry.AddVFlashChannel);
             window.Show();
         }
 
@@ -198,7 +202,7 @@ namespace _PlcAgent.Visual
                 });
             }
 
-            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Analyzer", newHeader, AssignAnalyzer);
+            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new Analyzer", newHeader, RegistryContext.Registry.AddAnalyzer);
             window.Show();
         }
 
@@ -791,51 +795,6 @@ namespace _PlcAgent.Visual
             }
             MainWindowConfigurationFile.Default.Save();
             UpdateSizes();
-        }
-
-        #endregion
-
-
-        #region Assignment Methods
-
-        private void AssignConnection()
-        {
-            var newId = RegistryContext.Registry.AddPlcCommunicator(true);
-        }
-
-        private void AssignInterface(uint plcConnectionId)
-        {
-            var newId = RegistryContext.Registry.AddCommunicationInterface(true, plcConnectionId);
-        }
-
-        private void AssignOutputDataTemplate()
-        {
-            var newId = RegistryContext.Registry.AddOutputDataTemplate(true);
-        }
-
-        private void AssignOutputFileCreator(uint communicationInterfaceId, uint templateId)
-        {
-            var newId = RegistryContext.Registry.AddOutputFileCreator(true, communicationInterfaceId, templateId);
-        }
-
-        private void AssignOutputFileHandler(uint communicationInterfaceId)
-        {
-            var newId = RegistryContext.Registry.AddOutputHandler(true, communicationInterfaceId);
-        }
-
-        private void AssignVFlashBank()
-        {
-            var newId = RegistryContext.Registry.AddVFlashBank(true);
-        }
-
-        private void AssignVFlashChannel(uint communicationInterfaceId, uint vFlashBankId)
-        {
-            var newId = RegistryContext.Registry.AddVFlashChannel(true, communicationInterfaceId, vFlashBankId);
-        }
-
-        private void AssignAnalyzer(uint communicationInterfaceId)
-        {
-            var newId = RegistryContext.Registry.AddAnalyzer(true, communicationInterfaceId);
         }
 
         #endregion

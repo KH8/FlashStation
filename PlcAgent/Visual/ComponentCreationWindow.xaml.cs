@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace _PlcAgent.Visual
@@ -8,8 +9,8 @@ namespace _PlcAgent.Visual
     /// </summary>
     public partial class ComponentCreationWindow
     {
-        public delegate void AssignmentDelegate(uint id);
-        public delegate void AssignmentDelegateExtended(uint id, uint idExtension);
+        public delegate uint AssignmentDelegate(Boolean save, uint id);
+        public delegate uint AssignmentDelegateExtended(Boolean save, uint id, uint idExtension);
 
         private readonly AssignmentDelegate _assignmentDelegate;
         private readonly AssignmentDelegateExtended _assignmentDelegateExtended;
@@ -68,7 +69,7 @@ namespace _PlcAgent.Visual
 
             if (_assignmentDelegate != null)
             {
-                _assignmentDelegate(result);
+                _assignmentDelegate(true, result);
                 Close();
                 return;
             }
@@ -78,7 +79,7 @@ namespace _PlcAgent.Visual
             var resultExtension = (uint)selectedItem.AlternationCount;
             if (resultExtension == 0) { return; }
 
-            _assignmentDelegateExtended(result, resultExtension);
+            _assignmentDelegateExtended(true, result, resultExtension);
             Close();
         }
     }
