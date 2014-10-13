@@ -2,6 +2,7 @@
 using System.Threading;
 using _PlcAgent.General;
 using _PlcAgent.Log;
+using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.PLC
 {

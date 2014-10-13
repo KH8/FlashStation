@@ -91,7 +91,7 @@ namespace _PlcAgent.Visual
             { 
                 newHeader.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 }); 
             }
@@ -116,7 +116,7 @@ namespace _PlcAgent.Visual
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -130,7 +130,7 @@ namespace _PlcAgent.Visual
             {
                 newHeaderOutputDataTemplate.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -146,7 +146,7 @@ namespace _PlcAgent.Visual
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -171,7 +171,7 @@ namespace _PlcAgent.Visual
             {
                 newHeaderCommunicationInterface.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -181,7 +181,7 @@ namespace _PlcAgent.Visual
             {
                 newHeaderVFlashBank.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -197,7 +197,7 @@ namespace _PlcAgent.Visual
             {
                 newHeader.Items.Add(new TreeViewItem
                 {
-                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name,
+                    Header = record.Description,
                     AlternationCount = (int)record.Header.Id
                 });
             }
@@ -219,12 +219,6 @@ namespace _PlcAgent.Visual
         private void ShowLog(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedItem = LogTabItem;
-        }
-
-        private void OnRegistryUpdated()
-        {
-            UpdateGui();
-            UpdateTreeView();
         }
 
         private void NewConfiguration(object sender, RoutedEventArgs e)
@@ -309,6 +303,12 @@ namespace _PlcAgent.Visual
 
 
         #region GUI Parameters Handleing
+
+        private void OnRegistryUpdated()
+        {
+            UpdateGui();
+            UpdateTreeView();
+        }
 
         private void UpdateLog(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _PlcAgent.General;
 using _PlcAgent.Log;
+using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.Vector
 {

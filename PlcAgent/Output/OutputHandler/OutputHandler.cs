@@ -4,6 +4,7 @@ using System.Windows;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
+using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.Output.OutputHandler
 {

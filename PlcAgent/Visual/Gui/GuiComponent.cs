@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using _PlcAgent.General;
+using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.Visual.Gui
 {

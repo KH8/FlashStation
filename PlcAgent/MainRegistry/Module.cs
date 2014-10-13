@@ -4,12 +4,12 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.General;
 using _PlcAgent.Output.Template;
 using _PlcAgent.Properties;
-using _PlcAgent.MainRegistry;
 using _PlcAgent.Visual.TreeListView;
 
-namespace _PlcAgent.General
+namespace _PlcAgent.MainRegistry
 {
     public abstract class Module : RegistryComponent, INotifyPropertyChanged
     {

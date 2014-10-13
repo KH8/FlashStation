@@ -119,9 +119,7 @@
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="License\LicenseHandler.cs" />
     <Compile Include="General\Limiter.cs" />
-    <Compile Include="General\Module.cs" />
-    <Compile Include="MainRegistry\RegistryAbstract.cs" />
-    <Compile Include="MainRegistry\RegistryComponent.cs" />
+    <Compile Include="MainRegistry\Module.cs" />
     <Compile Include="MainRegistry\RegistryComposite.cs" />
     <Compile Include="MainRegistry\RegistryContext.cs" />
     <Compile Include="Output\OutputFileCreator\OutputFileCreator.cs" />

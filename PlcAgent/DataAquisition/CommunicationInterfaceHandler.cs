@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using _PlcAgent.General;
 using _PlcAgent.Log;
+using _PlcAgent.MainRegistry;
 using _PlcAgent.PLC;
 using _PlcAgent.Visual.TreeListView;
 
@@ -41,7 +42,7 @@ namespace _PlcAgent.DataAquisition
 
         public override string Description
         {
-            get { return Header.Name; }
+            get { return Header.Name + " ; assigned components: " + PlcCommunicator.Header.Name; }
         }
 
         #endregion

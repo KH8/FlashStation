@@ -1,10 +1,11 @@
 ﻿using System;
 using _PlcAgent.Log;
-using Module = _PlcAgent.General.Module;
+using _PlcAgent.MainRegistry;
+using Module = _PlcAgent.MainRegistry.Module;
 
 namespace _PlcAgent.Output.Template
 {
-    public class OutputDataTemplate : Module
+    public class OutputDataTemplate : MainRegistry.Module
     {
         #region Properties
 
