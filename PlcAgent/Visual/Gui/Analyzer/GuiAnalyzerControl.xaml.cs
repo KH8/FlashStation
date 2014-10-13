@@ -16,7 +16,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
             InitializeComponent();
 
             Analyzer.CommunicationInterfaceHandler.PlcCommunicator.PropertyChanged += OnConnectionStatusChanged;
-            if (Analyzer.CommunicationInterfaceHandler.PlcCommunicator.ConnectionStatus != 1) AnalyzerStartStopButton.IsEnabled = false;
+            //if (Analyzer.CommunicationInterfaceHandler.PlcCommunicator.ConnectionStatus != 1) AnalyzerStartStopButton.IsEnabled = false;
         }
 
         #endregion

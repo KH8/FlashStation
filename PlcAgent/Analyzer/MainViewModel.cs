@@ -26,9 +26,11 @@ namespace _PlcAgent.Analyzer
 
         private readonly DataPoint _emptyDataPoint;
         private DataPoint _newDataPoint;
+        private DataPoint _actualDataPoint;
 
         private readonly Dispatcher _dispatcher;
         private readonly Thread _updateThread;
+        private readonly Thread _updateViewThread;
 
         private Boolean _refreshPlot ;
 
@@ -85,6 +87,7 @@ namespace _PlcAgent.Analyzer
 
             _emptyDataPoint = new DataPoint(-1.0, -1.0);
             _newDataPoint = _emptyDataPoint;
+            _actualDataPoint = _emptyDataPoint;
 
             _dispatcher = Dispatcher.CurrentDispatcher;
 
@@ -95,6 +98,11 @@ namespace _PlcAgent.Analyzer
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
             _updateThread.Start();
+
+            _updateViewThread = new Thread(UpdateView);
+            _updateViewThread.SetApartmentState(ApartmentState.STA);
+            _updateViewThread.IsBackground = true;
+            _updateViewThread.Start();
         }
 
         #endregion
@@ -104,6 +112,7 @@ namespace _PlcAgent.Analyzer
         public void AddPoint(DataPoint dataPoint)
         {
             _newDataPoint = dataPoint;
+            _actualDataPoint = _newDataPoint;
         }
 
         public void Clear()
@@ -153,19 +162,28 @@ namespace _PlcAgent.Analyzer
             {
                 _dispatcher.Invoke(() =>
                 {
+                    if (Equals(_newDataPoint, _emptyDataPoint)) return;
+                    _series.Points.Add(_newDataPoint);
+                    _newDataPoint = _emptyDataPoint;
+                    SynchronizeView(_actualDataPoint.X);
+                });
+                Thread.Sleep(5);
+            }
+        }
+
+        public void UpdateView()
+        {
+            while (_updateViewThread.IsAlive)
+            {
+                _dispatcher.Invoke(() =>
+                {
                     if (!_refreshPlot) return;
                     _model.InvalidatePlot(true);
                     _refreshPlot = false;
 
-                    if (Equals(_newDataPoint, _emptyDataPoint)) return;
-
-                    _series.Points.Add(_newDataPoint);
-                    SynchronizeView(_newDataPoint.X);
-                    _newDataPoint = _emptyDataPoint;
-
                     RaisePropertyChanged(() => _model);
                 });
-                Thread.Sleep(5);
+                Thread.Sleep(100);
             }
         }
 
