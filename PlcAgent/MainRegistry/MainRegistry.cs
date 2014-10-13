@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Windows;
 using _PlcAgent.Analyzer;
@@ -537,9 +538,10 @@ namespace _PlcAgent.MainRegistry
 
         public void Deinitialize()
         {
-            foreach (VFlashHandler vFlashHandler in VFlashHandlers) { vFlashHandler.Deinitialize(); }
-            foreach (Analyzer.Analyzer analyzer in Analyzers) { analyzer.Deinitialize(); }
-            foreach (PlcCommunicator plcCommunicator in PlcCommunicators) { plcCommunicator.CloseConnection(); }
+            foreach (var composite in Modules.Cast<object>().SelectMany(module => ((RegistryComposite) module).Cast<Module>()))
+            {
+                composite.Deinitialize();
+            }
         }
 
         public override void RemoveAll()

@@ -18,6 +18,11 @@ namespace _PlcAgent.Visual.Gui
 
         public readonly UserControl UserControl;
 
+        public override string Description
+        {
+            get { return "GuiComponent"; }
+        }
+
         #endregion
 
 
@@ -66,7 +71,6 @@ namespace _PlcAgent.Visual.Gui
         }
 
         #endregion
-
 
     }
 }

@@ -90,6 +90,11 @@ namespace _PlcAgent.Analyzer
 
         public UpdatePlotsDelegate OnUpdatePlotsDelegate;
 
+        public override string Description
+        {
+            get { return Header.Name + " ; assigned components: " + CommunicationInterfaceHandler.Header.Name; }
+        }
+
         #endregion
 
 

@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
@@ -60,7 +61,6 @@ namespace _PlcAgent.Visual
             Logger.Log("Registry initialization");
             RegistryContext.Registry = new Registry();
             RegistryContext.Registry.OnRegistryUpdated += OnRegistryUpdated;
-
             RegistryContext.Registry.Initialize();
         }
 
@@ -301,14 +301,8 @@ namespace _PlcAgent.Visual
         private void RemoveComponent(object sender, RoutedEventArgs e)
         {
             var selection = (TreeViewItem)ComponentManagerTreeView.SelectedItem;
-            try
-            {
-                RegistryContext.Registry.RemoveComponent(_registryComponents[selection]);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Component cannot be removed");
-            }
+            try { RegistryContext.Registry.RemoveComponent(_registryComponents[selection]);}
+            catch (Exception exception) { MessageBox.Show(exception.Message, "Component cannot be removed");}
         }
 
         #endregion
@@ -646,7 +640,7 @@ namespace _PlcAgent.Visual
             SelectTabItem(OutputTabControl, outputTabControlSelection);
         }
 
-        private static void SelectTabItem(TabControl tabControl, object tabItemHeader)
+        private static void SelectTabItem(Selector tabControl, object tabItemHeader)
         {
             if (tabItemHeader == null) return;
             foreach (var tabItem in tabControl.Items.Cast<object>().Where(item => item.GetType() == typeof (TabItem)).Cast<TabItem>().Where(tabItem => Equals(tabItem.Header, tabItemHeader)))
@@ -660,104 +654,26 @@ namespace _PlcAgent.Visual
             ComponentManagerTreeView.Items.Clear();
             _registryComponents = new Dictionary<TreeViewItem, RegistryComponent>();
 
-            var mainHeader = new TreeViewItem {Header = "Components", IsExpanded = true};
+            var mainHeader = new TreeViewItem { Header = "Components", IsExpanded = true };
             ComponentManagerTreeView.Items.Add(mainHeader);
-            
-            var newHeader= new TreeViewItem {Header = "PLC Connections", IsExpanded = true};
-            foreach (PLC.PlcCommunicator record in RegistryContext.Registry.PlcCommunicators)
-            {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem); 
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
 
-            newHeader = new TreeViewItem {Header = "Communication Interfaces", IsExpanded = true};
-            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
+            foreach (var record in RegistryContext.Registry.Modules)
             {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name + " ; assigned components: " + record.PlcCommunicator.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+                var module = (RegistryComponent)record;
+                var newHeader = new TreeViewItem { Header = module.Header.Name, IsExpanded = true };
 
-            newHeader = new TreeViewItem { Header = "Output Data Templates", IsExpanded = true };
-            foreach (OutputDataTemplate record in RegistryContext.Registry.OutputDataTemplates)
-            {
-                var treeViewItem = new TreeViewItem
+                var composite = (RegistryComposite)record;
+                foreach (RegistryComponent component in composite)
                 {
-                    Header = record.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
-
-            newHeader = new TreeViewItem { Header = "Output File Creators", IsExpanded = true };
-            foreach (OutputFileCreator record in RegistryContext.Registry.OutputFileCreators)
-            {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.OutputDataTemplate.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
-
-            newHeader = new TreeViewItem {Header = "Output Handlers", IsExpanded = true};
-            foreach (OutputHandler record in RegistryContext.Registry.OutputHandlers)
-            {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
-
-            newHeader = new TreeViewItem {Header = "vFlash Banks", IsExpanded = true};
-            foreach (VFlashTypeBank record in RegistryContext.Registry.VFlashTypeBanks)
-            {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
-
-            newHeader = new TreeViewItem {Header = "vFlash Channels", IsExpanded = true};
-            foreach (VFlashHandler record in RegistryContext.Registry.VFlashHandlers)
-            {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name + " ; " + record.VFlashTypeBank.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }   
-
-            newHeader = new TreeViewItem { Header = "Analyzers", IsExpanded = true };
-            foreach (Analyzer.Analyzer record in RegistryContext.Registry.Analyzers)
-            {
-                var treeViewItem = new TreeViewItem
-                {
-                    Header = record.Header.Name + " ; assigned components: " + record.CommunicationInterfaceHandler.Header.Name
-                };
-                _registryComponents.Add(treeViewItem, record);
-                newHeader.Items.Add(treeViewItem);
-            }
-            if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }     
+                    var treeViewItem = new TreeViewItem
+                    {
+                        Header = component.Description
+                    };
+                    _registryComponents.Add(treeViewItem, component);
+                    newHeader.Items.Add(treeViewItem);
+                }
+                if (!newHeader.Items.IsEmpty) { mainHeader.Items.Add(newHeader); }
+            }   
         }
 
         private void Label_OnMouseEnter(object sender, MouseEventArgs e)

@@ -8,6 +8,8 @@ namespace _PlcAgent.MainRegistry
             public string Name;
         }
 
+        public abstract string Description { get; }
+
         public RegistryComponentHeader Header;
 
         protected RegistryComponent(uint id, string name)

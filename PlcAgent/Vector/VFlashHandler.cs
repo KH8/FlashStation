@@ -36,6 +36,11 @@ namespace _PlcAgent.Vector
 
         public VFlashHandlerInterfaceAssignmentFile VFlashHandlerInterfaceAssignmentFile { get; set; }
 
+        public override string Description
+        {
+            get { return Header.Name + " ; assigned components: " + CommunicationInterfaceHandler.Header.Name + " ; " + VFlashTypeBank.Header.Name; }
+        }
+
         #endregion
 
 

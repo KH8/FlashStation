@@ -29,6 +29,11 @@ namespace _PlcAgent.Output.OutputFileCreator
         public OutputFileCreatorFile OutputFileCreatorFile { get; set; }
         public OutputFileCreatorInterfaceAssignmentFile OutputFileCreatorInterfaceAssignmentFile { get; set; }
 
+        public override string Description
+        {
+            get { return Header.Name + " ; assigned components: " + CommunicationInterfaceHandler.Header.Name + " ; " + OutputDataTemplate.Header.Name; }
+        }
+
         #endregion
 
 

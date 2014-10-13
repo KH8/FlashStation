@@ -28,6 +28,11 @@ namespace _PlcAgent.Output.OutputHandler
         public OutputHandlerFile OutputHandlerFile { get; set; }
         public OutputHandlerInterfaceAssignmentFile OutputHandlerInterfaceAssignmentFile { get; set; }
 
+        public override string Description
+        {
+            get { return Header.Name + " ; assigned components: " + CommunicationInterfaceHandler.Header.Name; }
+        }
+
         #endregion
 
 

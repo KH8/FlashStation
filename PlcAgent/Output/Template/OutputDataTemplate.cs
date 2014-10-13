@@ -15,6 +15,11 @@ namespace _PlcAgent.Output.Template
 
         public TemplateUpdateDelegate OnTemplateUpdateDelegate;
 
+        public override string Description
+        {
+            get { return Header.Name; }
+        }
+
         #endregion
 
 

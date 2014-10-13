@@ -5,7 +5,14 @@ namespace _PlcAgent.MainRegistry
 {
     class RegistryComposite : RegistryComponent, IEnumerable
     {
+        #region Variables
+
         private List<RegistryComponent> _children = new List<RegistryComponent>();
+
+        #endregion
+
+
+        #region Properties
 
         public List<RegistryComponent> Children
         {
@@ -13,10 +20,25 @@ namespace _PlcAgent.MainRegistry
             set { _children = value; }
         }
 
-        // Constructor
+        public override string Description
+        {
+            get { return "Registry Composite"; }
+        }
+
+        #endregion
+
+
+        #region Construtors
+
         public RegistryComposite(uint id, string name)
             : base(id, name)
-        {}
+        {
+        }
+
+        #endregion
+
+
+        #region Methods
 
         public void Add(RegistryComponent component)
         {
@@ -49,5 +71,7 @@ namespace _PlcAgent.MainRegistry
         {
             return _children.GetEnumerator();
         }
+
+        #endregion
     }
 }

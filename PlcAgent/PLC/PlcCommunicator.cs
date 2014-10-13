@@ -112,6 +112,11 @@ namespace _PlcAgent.PLC
             set { _writeBytes = value; }
         }
 
+        public override string Description
+        {
+            get { return Header.Name; }
+        }
+
         #endregion
 
 

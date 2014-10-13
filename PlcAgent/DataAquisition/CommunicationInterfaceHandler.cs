@@ -39,6 +39,11 @@ namespace _PlcAgent.DataAquisition
         public delegate void InterfaceUpdatedDelegate();
         public InterfaceUpdatedDelegate OnInterfaceUpdatedDelegate;
 
+        public override string Description
+        {
+            get { return Header.Name; }
+        }
+
         #endregion
 
 

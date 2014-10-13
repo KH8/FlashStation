@@ -4,40 +4,42 @@ namespace _PlcAgent.MainRegistry
 {
     abstract class RegistryAbstract
     {
-        public RegistryComposite PlcCommunicators = new RegistryComposite(0, "");
+        public RegistryComposite PlcCommunicators = new RegistryComposite(0, "Plc Connections");
         public RegistryComposite GuiPlcCommunicatorStatuses = new RegistryComposite(0, "");
         public RegistryComposite GuiPlcCommunicatorStatusBars = new RegistryComposite(0, "");
         public RegistryComposite GuiPlcCommunicatorConfigurations = new RegistryComposite(0, "");
 
-        public RegistryComposite CommunicationInterfaceHandlers = new RegistryComposite(0, "");
+        public RegistryComposite CommunicationInterfaceHandlers = new RegistryComposite(0, "Communication Interfaces");
         public RegistryComposite GuiComInterfacemunicationConfigurations = new RegistryComposite(0, "");
         public RegistryComposite GuiCommunicationInterfaceOnlines = new RegistryComposite(0, "");
 
-        public RegistryComposite OutputDataTemplates = new RegistryComposite(0, "");
+        public RegistryComposite OutputDataTemplates = new RegistryComposite(0, "Output Data Templates");
         public RegistryComposite GuiOutputDataTemplates = new RegistryComposite(0, "");
 
-        public RegistryComposite OutputFileCreators = new RegistryComposite(0, "");
+        public RegistryComposite OutputFileCreators = new RegistryComposite(0, "Output File Creators");
         public RegistryComposite GuiOutputFileCreatorComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputFileCreatorInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
-        public RegistryComposite OutputHandlers = new RegistryComposite(0, "");
+        public RegistryComposite OutputHandlers = new RegistryComposite(0, "Output Handlers");
         public RegistryComposite GuiOutputHandlerComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
-        public RegistryComposite VFlashTypeBanks = new RegistryComposite(0, "");
+        public RegistryComposite VFlashTypeBanks = new RegistryComposite(0, "vFlash Type Banks");
         public RegistryComposite GuiVFlashPathBanks = new RegistryComposite(0, "");
 
-        public RegistryComposite VFlashHandlers = new RegistryComposite(0, "");
+        public RegistryComposite VFlashHandlers = new RegistryComposite(0, "vFlash Handlers");
         public RegistryComposite GuiVFlashHandlerComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiVFlashStatusBars = new RegistryComposite(0, "");
         public RegistryComposite GuiVFlashHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
-        public RegistryComposite Analyzers = new RegistryComposite(0, "");
+        public RegistryComposite Analyzers = new RegistryComposite(0, "Analyzers");
         public RegistryComposite GuiAnalyzerConfigurations = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerControls = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerMainFrames = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerInterfaceAssignmentComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiAnalyzerDataCursorTables = new RegistryComposite(0, "");
+
+        public RegistryComposite Modules = new RegistryComposite(0, "Modules");
 
         public delegate void RegistryUpdated();
         public RegistryUpdated OnRegistryUpdated;
@@ -72,5 +74,17 @@ namespace _PlcAgent.MainRegistry
         public abstract void RemoveComponent(RegistryComponent component);
 
         public abstract void RemoveAll();
+
+        protected RegistryAbstract()
+        {
+            Modules.Add(PlcCommunicators);
+            Modules.Add(CommunicationInterfaceHandlers);
+            Modules.Add(OutputDataTemplates);
+            Modules.Add(OutputFileCreators);
+            Modules.Add(OutputHandlers);
+            Modules.Add(VFlashTypeBanks);
+            Modules.Add(VFlashHandlers);
+            Modules.Add(Analyzers);
+        }
     }
 }

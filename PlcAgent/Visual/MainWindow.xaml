@@ -51,7 +51,7 @@
                         <Grid>
                             <TreeView Name="ComponentManagerTreeView" Width="931" Height="220" HorizontalAlignment="Center" VerticalAlignment="Top" SelectedItemChanged="ComponentManagerSelectionChanged"/>
                             <Button Content="Remove" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Height="22" Margin="0,0,0,0" Click="RemoveComponent"/>
-                            <Label Name="ComponentManagerSelectionLabel" Content="no selection" Height="24" Margin="0,0,80,0" FontSize="10" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="245"/>
+                            <Label Name="ComponentManagerSelectionLabel" Content="no selection" Height="24" Margin="0,0,80,0" FontSize="10" HorizontalContentAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="851"/>
                         </Grid> 
                     </TabItem>
                     <TabItem Name="AboutTabItem" Header="About">
