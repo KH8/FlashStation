@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
-using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 
@@ -30,6 +32,10 @@ namespace _PlcAgent.PLC
         //Status
         private int _connectionStatus;
         private int _configurationStatus;
+
+        //Serialization
+        private int _serialize;
+        private string _serializeFileName;
 
         //Configuration
 
@@ -153,10 +159,14 @@ namespace _PlcAgent.PLC
         #region Methods
 
         public override void Initialize()
-        {}
+        {
+            _serialize = 0;
+        }
 
         public override void Deinitialize()
         {
+            _serialize = 0;
+
             CloseConnection();
             _communicationWatchDogThread.Abort();
             _dataAquisitionThread.Abort();
@@ -245,6 +255,12 @@ namespace _PlcAgent.PLC
             Logger.Log("ID: " + Header.Id + " Communication with PLC IP Address : " + PlcConfiguration.PlcIpAddress + " was closed");
         }
 
+        public void MakeABinary(string fileName)
+        {
+            _serializeFileName = fileName;
+            _serialize = 1;
+        }
+
         #endregion
 
 
@@ -259,6 +275,21 @@ namespace _PlcAgent.PLC
                     // Reading...
                     _errorReadByteNoDave = _daveConnection.readManyBytes(libnodave.daveDB, PlcConfiguration.PlcReadDbNumber, PlcConfiguration.PlcReadStartAddress, PlcConfiguration.PlcReadLength, _readBytesBuffer);
                     if (_errorReadByteNoDave == 0) _readBytes = _readBytesBuffer;
+
+                    if (_serialize == 1)
+                    {
+                        IFormatter formatter = new BinaryFormatter();
+
+                        Stream stream = new FileStream(_serializeFileName,
+                            FileMode.Create,
+                            FileAccess.Write, FileShare.None);
+                        formatter.Serialize(stream, _readBytesBuffer);
+                        stream.Close();
+
+                        Logger.Log("ID: " + Header.Id + " A binary file " + _serializeFileName + " was created.");
+                        _serialize = 0;
+                    }
+
                     Thread.Sleep(5);
                     // Writeing...
                     _errorWriteByteNoDave = _daveConnection.writeManyBytes(libnodave.daveDB, PlcConfiguration.PlcWriteDbNumber, PlcConfiguration.PlcWriteStartAddress, PlcConfiguration.PlcWriteLength, _writeBytesBuffer);

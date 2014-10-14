@@ -115,7 +115,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="DataAquisition\CommunicationInterfaceHandlerComponent.cs" />
-    <Compile Include="DB\DBConnection.cs" />
+    <Compile Include="DB\DbConnection.cs" />
     <Compile Include="License\BlowFish.cs" />
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="License\LicenseHandler.cs" />

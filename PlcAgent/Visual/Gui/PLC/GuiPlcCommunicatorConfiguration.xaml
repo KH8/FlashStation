@@ -37,5 +37,6 @@
             </Grid>
         </GroupBox>
         <Button Name="UseSettingsButton" Content="Use Settings" HorizontalAlignment="Left" Margin="0,355,0,0" VerticalAlignment="Top" Width="100" Click="StoreSettingsButton"/>
+        <Button Content="Save As Bnary" HorizontalAlignment="Left" Margin="220,355,0,0" VerticalAlignment="Top" Width="100" Click="MakeABinary"/>
     </Grid>
 </plc:PlcCommunicatorComponent>

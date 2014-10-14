@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Win32;
 using _PlcAgent.Log;
 using _PlcAgent.PLC;
 
@@ -217,7 +218,20 @@ namespace _PlcAgent.Visual.Gui.PLC
             }
         }
 
-        #endregion
+        private void MakeABinary(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog
+            {
+                FileName = PlcCommunicator.Header.Name + "_Export",
+                DefaultExt = ".bin",
+                Filter = "Binary file (.bin)|*.bin"
+            };
 
+            var result = dlg.ShowDialog();
+            if (result != true) return;
+            PlcCommunicator.MakeABinary(dlg.FileName);
+        }
+
+        #endregion
     }
 }
