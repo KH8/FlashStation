@@ -30,7 +30,6 @@ namespace _PlcAgent.Analyzer
 
         private readonly Dispatcher _dispatcher;
         private readonly Thread _updateThread;
-        private readonly Thread _updateViewThread;
 
         private Boolean _refreshPlot ;
 
@@ -98,11 +97,6 @@ namespace _PlcAgent.Analyzer
             _updateThread.SetApartmentState(ApartmentState.STA);
             _updateThread.IsBackground = true;
             _updateThread.Start();
-
-            _updateViewThread = new Thread(UpdateView);
-            _updateViewThread.SetApartmentState(ApartmentState.STA);
-            _updateViewThread.IsBackground = true;
-            _updateViewThread.Start();
         }
 
         #endregion
@@ -164,8 +158,8 @@ namespace _PlcAgent.Analyzer
                 {
                     if (Equals(_newDataPoint, _emptyDataPoint)) return;
                     _series.Points.Add(_newDataPoint);
+                    SynchronizeView(_newDataPoint.X);
                     _newDataPoint = _emptyDataPoint;
-                    SynchronizeView(_actualDataPoint.X);
                 });
                 Thread.Sleep(5);
             }
@@ -173,18 +167,14 @@ namespace _PlcAgent.Analyzer
 
         public void UpdateView()
         {
-            while (_updateViewThread.IsAlive)
+            _dispatcher.Invoke(() =>
             {
-                _dispatcher.Invoke(() =>
-                {
-                    if (!_refreshPlot) return;
-                    _model.InvalidatePlot(true);
-                    _refreshPlot = false;
+                if (!_refreshPlot) return;
+                _model.InvalidatePlot(true);
+                _refreshPlot = false;
 
-                    RaisePropertyChanged(() => _model);
-                });
-                Thread.Sleep(100);
-            }
+                RaisePropertyChanged(() => _model);
+            });
         }
 
         #endregion

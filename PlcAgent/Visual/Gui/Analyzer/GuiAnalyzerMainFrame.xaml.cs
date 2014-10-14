@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using _PlcAgent.General;
@@ -18,8 +19,7 @@ namespace _PlcAgent.Visual.Gui.Analyzer
         #region Variables
 
         private readonly List<GuiComponent> _channelList;
-
-        private readonly Thread _updateThread;
+        private Thread _updateThread;
 
         #endregion
 
@@ -133,17 +133,19 @@ namespace _PlcAgent.Visual.Gui.Analyzer
         {
             while (_updateThread.IsAlive)
             {
-                if (!Analyzer.Recording)
-                {
-                    var minimum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMinimum;
-                    var maximum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMaximum;
+                var minimum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMinimum;
+                var maximum = Analyzer.TimeObservableVariable.MainViewModel.HorizontalAxis.ActualMaximum;
 
-                    foreach (var analyzerChannel in Analyzer.AnalyzerChannels.Children.Where(analyzerChannel => analyzerChannel.AnalyzerObservableVariable != null))
+                Parallel.ForEach(Analyzer.AnalyzerChannels.Children,
+                    analyzerChannel =>
                     {
-                        analyzerChannel.AnalyzerObservableVariable.MainViewModel.SynchronizeView(minimum, maximum);
-                    }
-                }
-                Thread.Sleep(200);
+                        if (analyzerChannel.AnalyzerObservableVariable == null) return;
+                        if (!Analyzer.Recording) analyzerChannel.AnalyzerObservableVariable.MainViewModel.SynchronizeView(minimum, maximum);
+                        analyzerChannel.AnalyzerObservableVariable.MainViewModel.UpdateView();
+                    });
+                Analyzer.TimeObservableVariable.MainViewModel.UpdateView();
+
+                Thread.Sleep(50);
             }
         }
 

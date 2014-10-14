@@ -259,8 +259,6 @@ namespace _PlcAgent.Analyzer
                 
                 Thread.Sleep(AnalyzerSetupFile.SampleTime[Header.Id] - timeDifference);
                 lastMilliseconds = DateTime.Now.TimeOfDay.TotalMilliseconds;
-
-                Thread.Sleep(10);
             }
         }
 
