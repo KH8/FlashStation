@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.PLC;

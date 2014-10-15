@@ -13,7 +13,7 @@ namespace _PlcAgent.DB {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class DbConnectionHandlerInterfaceAssignmentFile : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class DbConnectionHandlerInterfaceAssignmentFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static DbConnectionHandlerInterfaceAssignmentFile defaultInstance = ((DbConnectionHandlerInterfaceAssignmentFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DbConnectionHandlerInterfaceAssignmentFile())));
         

@@ -13,7 +13,7 @@ namespace _PlcAgent.DB {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class DbConnectionHandlerFile : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class DbConnectionHandlerFile : global::System.Configuration.ApplicationSettingsBase {
         
         private static DbConnectionHandlerFile defaultInstance = ((DbConnectionHandlerFile)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DbConnectionHandlerFile())));
         
@@ -55,10 +55,10 @@ namespace _PlcAgent.DB {
                                                                         <string>PlcAgent</string>
                                                                         <string>PlcAgent</string>
                                                                     </ArrayOfString>")]
-        public string[] InitialCatalog
+        public string[] InitialCatalogs
         {
-            get { return ((string[])(this["InitialCatalog"])); }
-            set { this["InitialCatalog"] = value; }
+            get { return ((string[])(this["InitialCatalogs"])); }
+            set { this["InitialCatalogs"] = value; }
         }
     }
 }

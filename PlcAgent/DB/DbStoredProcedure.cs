@@ -8,6 +8,8 @@ namespace _PlcAgent.DB
 {
     public class DbConnection
     {
+        #region Methods
+
         public static SqlConnection CreateSqlConnection(string serverInstance, string initialCatalog)
         {
             var connectionString = "workstation id=" + Environment.MachineName;
@@ -20,14 +22,24 @@ namespace _PlcAgent.DB
 
             return new SqlConnection(connectionString);
         }
+
+        #endregion
+
     }
 
-    public class DbStoredProcedure
+    public class DbStoredProcedure : DbConnectionHandlerComponent
     {
-        private readonly SqlConnection _localConn = DbConnection.CreateSqlConnection("","");
+        #region Variables
+
+        private readonly SqlConnection _localConn;
 
         private string _spName = "";
         private List<SqlParameter> _prmList = new List<SqlParameter>();
+
+        #endregion
+
+
+        #region Parameters
 
         //  Public get-set exposing the private stored procedure name object field . . .
 
@@ -43,10 +55,24 @@ namespace _PlcAgent.DB
             set { _prmList = value; }
         }
 
-        public DbStoredProcedure()
+        #endregion
+
+
+        #region Constructors
+
+        public DbStoredProcedure(DbConnectionHandler dbConnectionHandler)
+            : base(dbConnectionHandler)
         {
-            //   Basic constructor . . .
+            _localConn =
+                DbConnection.CreateSqlConnection(
+                    DbConnectionHandler.DbConnectionHandlerFile.DbInstances[DbConnectionHandler.Header.Id],
+                    DbConnectionHandler.DbConnectionHandlerFile.InitialCatalogs[DbConnectionHandler.Header.Id]);
         }
+
+        #endregion
+
+
+        #region Methods
 
         public virtual DataTable ExecuteSp()
         {
@@ -115,5 +141,8 @@ namespace _PlcAgent.DB
 
             return dt.Rows.Count > 0 ? dt : null;
         }
+
+        #endregion
+
     }
 }

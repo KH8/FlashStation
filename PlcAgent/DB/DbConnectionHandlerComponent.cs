@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace _PlcAgent.DB
 {
-    class DbConnectionHandlerComponent
+    public abstract class DbConnectionHandlerComponent : UserControl
     {
+        protected DbConnectionHandler DbConnectionHandler;
+
+        protected void OnPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
+        {
+        }
+
+        protected DbConnectionHandlerComponent(DbConnectionHandler dbConnectionHandler)
+        {
+            DbConnectionHandler = dbConnectionHandler;
+            DbConnectionHandler.PropertyChanged += OnPropertyChangedEventHandler;
+        }
     }
 }

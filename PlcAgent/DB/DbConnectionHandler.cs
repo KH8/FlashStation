@@ -4,7 +4,7 @@ using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.DB
 {
-    class DbConnectionHandler : ExecutiveModule
+    public class DbConnectionHandler : ExecutiveModule
     {
         #region Properties
 

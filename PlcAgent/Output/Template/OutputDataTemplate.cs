@@ -1,7 +1,5 @@
 ﻿using System;
 using _PlcAgent.Log;
-using _PlcAgent.MainRegistry;
-using Module = _PlcAgent.MainRegistry.Module;
 
 namespace _PlcAgent.Output.Template
 {
