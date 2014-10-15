@@ -14,7 +14,7 @@
                 <Label Content="Output File Type:" HorizontalAlignment="Left" Margin="176,0,0,0" VerticalAlignment="Bottom"/>
                 
                 <TextBox Name="DirectoryPathBox" HorizontalAlignment="Left" Height="25" Margin="130,15,15,0" TextWrapping="Wrap" Text="Output\\" VerticalAlignment="Top" Width="150"/>
-                <TextBox Name="FileNameSuffixBox" HorizontalAlignment="Left" Height="25" Margin="130,42,15,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150" TextChanged="FileNameSuffixChanged"
+                <TextBox Name="FileNameSuffixBox" HorizontalAlignment="Left" Height="26" Margin="10,68,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="358" TextChanged="FileNameSuffixChanged"
                          Drop="TextBox_Drop" PreviewDragEnter="TextBox_DragEnter" PreviewDragOver="TextBox_DragEnter" AllowDrop="True"/>
 
                 <ComboBox Name="OutputTypeComboBox" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="107" SelectionChanged="ComboBoxOnSelectionChanged" Height="25"/>

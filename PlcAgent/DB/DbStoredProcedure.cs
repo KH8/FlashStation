@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows;
+using _PlcAgent.DataAquisition;
 
 namespace _PlcAgent.DB
 {
@@ -29,12 +31,28 @@ namespace _PlcAgent.DB
 
     public class DbStoredProcedure : DbConnectionHandlerComponent
     {
+        #region Classes
+
+        public class DbSpParameter
+        {
+            public CommunicationInterfaceComponent Component;
+            public string Name;
+
+            public SqlParameter CreateSqlParameter()
+            {
+                return new SqlParameter(Name, Component.Value);
+            }
+        }
+
+        #endregion
+
+
         #region Variables
 
         private readonly SqlConnection _localConn;
 
         private string _spName = "";
-        private List<SqlParameter> _prmList = new List<SqlParameter>();
+        private List<DbSpParameter> _parameterList = new List<DbSpParameter>();
 
         #endregion
 
@@ -49,10 +67,10 @@ namespace _PlcAgent.DB
             set { _spName = value; }
         }
 
-        public List<SqlParameter> SpPrms
+        public List<DbSpParameter> SpParameters
         {
-            get { return _prmList; }
-            set { _prmList = value; }
+            get { return _parameterList; }
+            set { _parameterList = value; }
         }
 
         #endregion
@@ -98,9 +116,9 @@ namespace _PlcAgent.DB
             //   parameters in a list object, so extract them and add
             //   them to the command object parameters property . . .
 
-            foreach (var localPrm in SpPrms)
+            foreach (var sqlPrm in SpParameters.Select(localPrm => localPrm.CreateSqlParameter()))
             {
-                cmd.Parameters.Add(localPrm);
+                cmd.Parameters.Add(sqlPrm);
             }
 
             //   Set up the command object connection property . . .

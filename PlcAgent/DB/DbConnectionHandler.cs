@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.MainRegistry;
 
@@ -10,6 +11,8 @@ namespace _PlcAgent.DB
 
         public DbConnectionHandlerFile DbConnectionHandlerFile { get; set; }
         public DbConnectionHandlerInterfaceAssignmentFile DbConnectionHandlerInterfaceAssignmentFile { get; set; }
+
+        public List<DbStoredProcedure> StoredProcedures { get; set; } 
 
         public override string Description
         {

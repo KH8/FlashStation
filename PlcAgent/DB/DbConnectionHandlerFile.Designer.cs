@@ -60,5 +60,24 @@ namespace _PlcAgent.DB {
             get { return ((string[])(this["InitialCatalogs"])); }
             set { this["InitialCatalogs"] = value; }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                        <string>SpConfiguration.xml</string>
+                                                                    </ArrayOfString>")]
+        public string[] ConfigurationFileNames
+        {
+            get { return ((string[])(this["ConfigurationFileNames"])); }
+            set { this["ConfigurationFileNames"] = value; }
+        }
     }
 }

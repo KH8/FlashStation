@@ -219,6 +219,12 @@
     <Compile Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml.cs">
       <DependentUpon>GuiCommunicationInterfaceOnlineSimple.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\DB\GuiDbStoredProcedures.xaml.cs">
+      <DependentUpon>GuiDbStoredProcedures.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\Gui\DB\GuiDbConnectionHandler.xaml.cs">
+      <DependentUpon>GuiDbConnectionHandler.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Gui\Output\GuiOutputFileCreator.xaml.cs">
       <DependentUpon>GuiOutputFileCreator.xaml</DependentUpon>
     </Compile>
@@ -365,6 +371,14 @@
     <Page Include="Visual\Gui\DataAquisition\GuiCommunicationInterfaceOnlineSimple.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\DB\GuiDbStoredProcedures.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visual\Gui\DB\GuiDbConnectionHandler.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Visual\Gui\Output\GuiOutputFileCreator.xaml">
       <Generator>MSBuild:Compile</Generator>
