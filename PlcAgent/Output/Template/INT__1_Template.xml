@@ -1,0 +1,1780 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template>
+	<HEADER>
+		<WT_Daten_Fixed>
+			<WT_Nummer Name="HEADER.WT_Daten_Fixed.WT_Nummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<WT_Leergewicht Name="HEADER.WT_Daten_Fixed.WT_Leergewicht" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Umlaufzaehler Name="HEADER.WT_Daten_Fixed.Umlaufzaehler" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Customer_Barcode Name="HEADER.WT_Daten_Fixed.Customer_Barcode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Getrag_System_Number Name="HEADER.WT_Daten_Fixed.Getrag_System_Number" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kunden_Getriebetyp Name="HEADER.WT_Daten_Fixed.Kunden_Getriebetyp" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Getrag_Getriebetyp Name="HEADER.WT_Daten_Fixed.Getrag_Getriebetyp" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Software_Version Name="HEADER.WT_Daten_Fixed.Software_Version" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+			<Zeitstempel_Y_Y Name="HEADER.WT_Daten_Fixed.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="HEADER.WT_Daten_Fixed.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="HEADER.WT_Daten_Fixed.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="HEADER.WT_Daten_Fixed.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="HEADER.WT_Daten_Fixed.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="HEADER.WT_Daten_Fixed.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</WT_Daten_Fixed>
+		<WT_Daten>
+			<Quellstation Name="HEADER.WT_Daten.Quellstation" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zielstation Name="HEADER.WT_Daten.Zielstation" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Aktuellstation Name="HEADER.WT_Daten.Aktuellstation" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NOK_Station Name="HEADER.WT_Daten.NOK_Station" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</WT_Daten>
+		<Teil_Aktuell_Daten>
+			<Getriebegewicht Name="HEADER.Teil_Aktuell_Daten.Getriebegewicht" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Restoelmenge Name="HEADER.Teil_Aktuell_Daten.Restoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP10_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP10_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OPXX1_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OPXX1_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP15_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP15_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP20_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP20_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP30_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP30_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP40_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP40_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OPXX2_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OPXX2_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP60_Steuerwort_Light Name="HEADER.Teil_Aktuell_Daten.OP60_Steuerwort_Light" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP60_Steuerwort_Main Name="HEADER.Teil_Aktuell_Daten.OP60_Steuerwort_Main" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP70_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP70_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP80_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP80_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP90_1_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP90_1_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP90_2_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP90_2_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP100_1_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP100_1_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP100_2_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP100_2_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP130_1_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP130_1_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP130_2_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP130_2_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP130_3_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP130_3_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP140_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP140_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP150_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP150_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OPXX3_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OPXX3_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP170_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP170_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP180_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP180_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<OP190_Steuerwort Name="HEADER.Teil_Aktuell_Daten.OP190_Steuerwort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Teil_Aktuell_Daten>
+	</HEADER>
+	<OP10>
+		<Header>
+			<Stationsnummer Name="OP10.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP10.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP10.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP10.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP10.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP10.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP10.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP10.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP10.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP10.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP10.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP10.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP10_Statuswort Name="OP10.Status.OP10_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			<Cap_Bar_Code_1 Name="OP10.Components.Cap_Bar_Code_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP10>
+	<OPXX>
+		<Header>
+			
+		</Header>
+		<Status>
+			
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OPXX>
+	<OP15>
+		<Header>
+			<Stationsnummer Name="OP15.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP15.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP15.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP15.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP15.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP15.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP15.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP15.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP15.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP15.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP15.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP15.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP15_Statuswort Name="OP15.Status.OP15_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			<Cap_Bar_Code_1 Name="OP15.Components.Cap_Bar_Code_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP15>
+	<OP20>
+		<Header>
+			<Stationsnummer Name="OP20.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP20.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP20.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP20.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP20.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP20.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP20.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP20.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP20.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP20.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP20.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP20.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP20_Statuswort Name="OP20.Status.OP20_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			<Harness_Bar_Code_Serienr Name="OP20.Components.Harness_Bar_Code_Serienr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Harness_Bar_Code_Chargnr Name="OP20.Components.Harness_Bar_Code_Chargnr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP20>
+	<OP30>
+		<Header>
+			<Stationsnummer Name="OP30.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP30.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP30.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP30.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP30.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP30.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP30.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP30.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP30.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP30.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP30.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP30.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP30_Statuswort Name="OP30.Status.OP30_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Getriebegewicht Name="OP30.Status.Getriebegewicht" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Restoelmenge_im_Getriebe Name="OP30.Status.Restoelmenge_im_Getriebe" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP30>
+	<OP40>
+		<Header>
+			<Stationsnummer Name="OP40.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP40.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP40.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP40.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP40.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP40.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP40.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP40.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP40.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP40.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP40.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP40.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP40_Statuswort Name="OP40.Status.OP40_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Nominalfuellmenge Name="OP40.Status.Nominalfuellmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Transportoelmenge Name="OP40.Status.Transportoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP40>
+	<OPXX_1>
+		<Header>
+			
+		</Header>
+		<Status>
+			
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OPXX_1>
+	<OP60>
+		<ZIELSTATION Name="OP60.ZIELSTATION" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<RES_CHAR>
+			<RES_CHAR_1_ Name="OP60.RES_CHAR[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_2_ Name="OP60.RES_CHAR[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_3_ Name="OP60.RES_CHAR[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_4_ Name="OP60.RES_CHAR[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_5_ Name="OP60.RES_CHAR[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_6_ Name="OP60.RES_CHAR[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_7_ Name="OP60.RES_CHAR[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_8_ Name="OP60.RES_CHAR[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_9_ Name="OP60.RES_CHAR[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_10_ Name="OP60.RES_CHAR[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_11_ Name="OP60.RES_CHAR[11]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_12_ Name="OP60.RES_CHAR[12]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_13_ Name="OP60.RES_CHAR[13]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_14_ Name="OP60.RES_CHAR[14]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_15_ Name="OP60.RES_CHAR[15]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_16_ Name="OP60.RES_CHAR[16]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_17_ Name="OP60.RES_CHAR[17]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_18_ Name="OP60.RES_CHAR[18]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_19_ Name="OP60.RES_CHAR[19]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_20_ Name="OP60.RES_CHAR[20]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</RES_CHAR>
+		<VER_PARAMETER>
+			<VER_PARAMETER_1_ Name="OP60.VER_PARAMETER[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_2_ Name="OP60.VER_PARAMETER[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_3_ Name="OP60.VER_PARAMETER[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_4_ Name="OP60.VER_PARAMETER[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_5_ Name="OP60.VER_PARAMETER[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_6_ Name="OP60.VER_PARAMETER[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_7_ Name="OP60.VER_PARAMETER[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_8_ Name="OP60.VER_PARAMETER[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_9_ Name="OP60.VER_PARAMETER[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_10_ Name="OP60.VER_PARAMETER[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_11_ Name="OP60.VER_PARAMETER[11]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_12_ Name="OP60.VER_PARAMETER[12]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_13_ Name="OP60.VER_PARAMETER[13]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_14_ Name="OP60.VER_PARAMETER[14]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_15_ Name="OP60.VER_PARAMETER[15]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_16_ Name="OP60.VER_PARAMETER[16]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_17_ Name="OP60.VER_PARAMETER[17]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_18_ Name="OP60.VER_PARAMETER[18]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_19_ Name="OP60.VER_PARAMETER[19]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_20_ Name="OP60.VER_PARAMETER[20]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</VER_PARAMETER>
+		<ANZ_PRF Name="OP60.ANZ_PRF" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<TP_ERG_1 Name="OP60.TP_ERG_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<TP_ERG_2 Name="OP60.TP_ERG_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<RES48_53>
+			<RES48_53_52_ Name="OP60.RES48_53[52]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES48_53_53_ Name="OP60.RES48_53[53]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</RES48_53>
+		<PRUEFUNG_1>
+			<Res54_0 Name="OP60.PRUEFUNG_1.Res54_0" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_IO_1 Name="OP60.PRUEFUNG_1.Station_IO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_NIO_1 Name="OP60.PRUEFUNG_1.Station_NIO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_n_abgw Name="OP60.PRUEFUNG_1.Station_n_abgw" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_4 Name="OP60.PRUEFUNG_1.Res54_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_5 Name="OP60.PRUEFUNG_1.Res54_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_6 Name="OP60.PRUEFUNG_1.Res54_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_7 Name="OP60.PRUEFUNG_1.Res54_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_gearb_2 Name="OP60.PRUEFUNG_1.Station_gearb_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Jahr Name="OP60.PRUEFUNG_1.Station_Jahr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Monat Name="OP60.PRUEFUNG_1.Station_Monat" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Tag Name="OP60.PRUEFUNG_1.Station_Tag" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Std Name="OP60.PRUEFUNG_1.Station_Std" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Min Name="OP60.PRUEFUNG_1.Station_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Sec Name="OP60.PRUEFUNG_1.Station_Sec" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Stationsnummer Name="OP60.PRUEFUNG_1.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehler_1_8>
+				<Fehler_1_8_1_ Name="OP60.PRUEFUNG_1.Fehler_1_8[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_2_ Name="OP60.PRUEFUNG_1.Fehler_1_8[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_3_ Name="OP60.PRUEFUNG_1.Fehler_1_8[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_4_ Name="OP60.PRUEFUNG_1.Fehler_1_8[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_5_ Name="OP60.PRUEFUNG_1.Fehler_1_8[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_6_ Name="OP60.PRUEFUNG_1.Fehler_1_8[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_7_ Name="OP60.PRUEFUNG_1.Fehler_1_8[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_8_ Name="OP60.PRUEFUNG_1.Fehler_1_8[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Fehler_1_8>
+			<SPUELMENGE Name="OP60.PRUEFUNG_1.SPUELMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NACHFUELLMENGE Name="OP60.PRUEFUNG_1.NACHFUELLMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<ABSAUGMENGE Name="OP60.PRUEFUNG_1.ABSAUGMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_BYTE>
+				<RES_BYTE_1_ Name="OP60.PRUEFUNG_1.RES_BYTE[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_2_ Name="OP60.PRUEFUNG_1.RES_BYTE[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_3_ Name="OP60.PRUEFUNG_1.RES_BYTE[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_4_ Name="OP60.PRUEFUNG_1.RES_BYTE[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_5_ Name="OP60.PRUEFUNG_1.RES_BYTE[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_6_ Name="OP60.PRUEFUNG_1.RES_BYTE[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_7_ Name="OP60.PRUEFUNG_1.RES_BYTE[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_8_ Name="OP60.PRUEFUNG_1.RES_BYTE[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_9_ Name="OP60.PRUEFUNG_1.RES_BYTE[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_10_ Name="OP60.PRUEFUNG_1.RES_BYTE[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</RES_BYTE>
+		</PRUEFUNG_1>
+		<PRUEFUNG_2>
+			<Res54_0 Name="OP60.PRUEFUNG_2.Res54_0" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_IO_1 Name="OP60.PRUEFUNG_2.Station_IO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_NIO_1 Name="OP60.PRUEFUNG_2.Station_NIO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_n_abgw Name="OP60.PRUEFUNG_2.Station_n_abgw" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_4 Name="OP60.PRUEFUNG_2.Res54_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_5 Name="OP60.PRUEFUNG_2.Res54_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_6 Name="OP60.PRUEFUNG_2.Res54_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_7 Name="OP60.PRUEFUNG_2.Res54_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_gearb_2 Name="OP60.PRUEFUNG_2.Station_gearb_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Jahr Name="OP60.PRUEFUNG_2.Station_Jahr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Monat Name="OP60.PRUEFUNG_2.Station_Monat" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Tag Name="OP60.PRUEFUNG_2.Station_Tag" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Std Name="OP60.PRUEFUNG_2.Station_Std" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Min Name="OP60.PRUEFUNG_2.Station_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Sec Name="OP60.PRUEFUNG_2.Station_Sec" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Stationsnummer Name="OP60.PRUEFUNG_2.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehler_1_8>
+				<Fehler_1_8_1_ Name="OP60.PRUEFUNG_2.Fehler_1_8[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_2_ Name="OP60.PRUEFUNG_2.Fehler_1_8[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_3_ Name="OP60.PRUEFUNG_2.Fehler_1_8[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_4_ Name="OP60.PRUEFUNG_2.Fehler_1_8[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_5_ Name="OP60.PRUEFUNG_2.Fehler_1_8[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_6_ Name="OP60.PRUEFUNG_2.Fehler_1_8[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_7_ Name="OP60.PRUEFUNG_2.Fehler_1_8[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_8_ Name="OP60.PRUEFUNG_2.Fehler_1_8[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Fehler_1_8>
+			<SPUELMENGE Name="OP60.PRUEFUNG_2.SPUELMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NACHFUELLMENGE Name="OP60.PRUEFUNG_2.NACHFUELLMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<ABSAUGMENGE Name="OP60.PRUEFUNG_2.ABSAUGMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_BYTE>
+				<RES_BYTE_1_ Name="OP60.PRUEFUNG_2.RES_BYTE[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_2_ Name="OP60.PRUEFUNG_2.RES_BYTE[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_3_ Name="OP60.PRUEFUNG_2.RES_BYTE[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_4_ Name="OP60.PRUEFUNG_2.RES_BYTE[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_5_ Name="OP60.PRUEFUNG_2.RES_BYTE[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_6_ Name="OP60.PRUEFUNG_2.RES_BYTE[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_7_ Name="OP60.PRUEFUNG_2.RES_BYTE[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_8_ Name="OP60.PRUEFUNG_2.RES_BYTE[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_9_ Name="OP60.PRUEFUNG_2.RES_BYTE[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_10_ Name="OP60.PRUEFUNG_2.RES_BYTE[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</RES_BYTE>
+		</PRUEFUNG_2>
+		<PRUEFUNG_LETZT>
+			<Res54_0 Name="OP60.PRUEFUNG_LETZT.Res54_0" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_IO_1 Name="OP60.PRUEFUNG_LETZT.Station_IO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_NIO_1 Name="OP60.PRUEFUNG_LETZT.Station_NIO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_n_abgw Name="OP60.PRUEFUNG_LETZT.Station_n_abgw" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_4 Name="OP60.PRUEFUNG_LETZT.Res54_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_5 Name="OP60.PRUEFUNG_LETZT.Res54_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_6 Name="OP60.PRUEFUNG_LETZT.Res54_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_7 Name="OP60.PRUEFUNG_LETZT.Res54_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_gearb_2 Name="OP60.PRUEFUNG_LETZT.Station_gearb_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Jahr Name="OP60.PRUEFUNG_LETZT.Station_Jahr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Monat Name="OP60.PRUEFUNG_LETZT.Station_Monat" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Tag Name="OP60.PRUEFUNG_LETZT.Station_Tag" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Std Name="OP60.PRUEFUNG_LETZT.Station_Std" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Min Name="OP60.PRUEFUNG_LETZT.Station_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Sec Name="OP60.PRUEFUNG_LETZT.Station_Sec" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Stationsnummer Name="OP60.PRUEFUNG_LETZT.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehler_1_8>
+				<Fehler_1_8_1_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_2_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_3_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_4_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_5_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_6_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_7_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_8_ Name="OP60.PRUEFUNG_LETZT.Fehler_1_8[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Fehler_1_8>
+			<SPUELMENGE Name="OP60.PRUEFUNG_LETZT.SPUELMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NACHFUELLMENGE Name="OP60.PRUEFUNG_LETZT.NACHFUELLMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<ABSAUGMENGE Name="OP60.PRUEFUNG_LETZT.ABSAUGMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_BYTE>
+				<RES_BYTE_1_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_2_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_3_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_4_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_5_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_6_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_7_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_8_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_9_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_10_ Name="OP60.PRUEFUNG_LETZT.RES_BYTE[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</RES_BYTE>
+		</PRUEFUNG_LETZT>
+		<RES198 Name="OP60.RES198" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<RES_200_399>
+			<RES_200_399_200_ Name="OP60.RES_200_399[200]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_201_ Name="OP60.RES_200_399[201]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_202_ Name="OP60.RES_200_399[202]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_203_ Name="OP60.RES_200_399[203]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_204_ Name="OP60.RES_200_399[204]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_205_ Name="OP60.RES_200_399[205]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_206_ Name="OP60.RES_200_399[206]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_207_ Name="OP60.RES_200_399[207]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_208_ Name="OP60.RES_200_399[208]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_209_ Name="OP60.RES_200_399[209]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_210_ Name="OP60.RES_200_399[210]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_211_ Name="OP60.RES_200_399[211]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_212_ Name="OP60.RES_200_399[212]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_213_ Name="OP60.RES_200_399[213]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_214_ Name="OP60.RES_200_399[214]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_215_ Name="OP60.RES_200_399[215]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_216_ Name="OP60.RES_200_399[216]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_217_ Name="OP60.RES_200_399[217]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_218_ Name="OP60.RES_200_399[218]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_219_ Name="OP60.RES_200_399[219]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_220_ Name="OP60.RES_200_399[220]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_221_ Name="OP60.RES_200_399[221]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_222_ Name="OP60.RES_200_399[222]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_223_ Name="OP60.RES_200_399[223]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_224_ Name="OP60.RES_200_399[224]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_225_ Name="OP60.RES_200_399[225]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_226_ Name="OP60.RES_200_399[226]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_227_ Name="OP60.RES_200_399[227]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_228_ Name="OP60.RES_200_399[228]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_229_ Name="OP60.RES_200_399[229]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_230_ Name="OP60.RES_200_399[230]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_231_ Name="OP60.RES_200_399[231]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_232_ Name="OP60.RES_200_399[232]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_233_ Name="OP60.RES_200_399[233]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_234_ Name="OP60.RES_200_399[234]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_235_ Name="OP60.RES_200_399[235]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_236_ Name="OP60.RES_200_399[236]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_237_ Name="OP60.RES_200_399[237]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_238_ Name="OP60.RES_200_399[238]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_239_ Name="OP60.RES_200_399[239]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_240_ Name="OP60.RES_200_399[240]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_241_ Name="OP60.RES_200_399[241]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_242_ Name="OP60.RES_200_399[242]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_243_ Name="OP60.RES_200_399[243]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_244_ Name="OP60.RES_200_399[244]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_245_ Name="OP60.RES_200_399[245]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_246_ Name="OP60.RES_200_399[246]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_247_ Name="OP60.RES_200_399[247]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_248_ Name="OP60.RES_200_399[248]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_249_ Name="OP60.RES_200_399[249]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_250_ Name="OP60.RES_200_399[250]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_251_ Name="OP60.RES_200_399[251]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_252_ Name="OP60.RES_200_399[252]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_253_ Name="OP60.RES_200_399[253]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_254_ Name="OP60.RES_200_399[254]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_255_ Name="OP60.RES_200_399[255]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_256_ Name="OP60.RES_200_399[256]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_257_ Name="OP60.RES_200_399[257]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_258_ Name="OP60.RES_200_399[258]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_259_ Name="OP60.RES_200_399[259]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_260_ Name="OP60.RES_200_399[260]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_261_ Name="OP60.RES_200_399[261]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_262_ Name="OP60.RES_200_399[262]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_263_ Name="OP60.RES_200_399[263]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_264_ Name="OP60.RES_200_399[264]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_265_ Name="OP60.RES_200_399[265]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_266_ Name="OP60.RES_200_399[266]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_267_ Name="OP60.RES_200_399[267]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_268_ Name="OP60.RES_200_399[268]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_269_ Name="OP60.RES_200_399[269]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_270_ Name="OP60.RES_200_399[270]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_271_ Name="OP60.RES_200_399[271]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_272_ Name="OP60.RES_200_399[272]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_273_ Name="OP60.RES_200_399[273]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_274_ Name="OP60.RES_200_399[274]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_275_ Name="OP60.RES_200_399[275]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_276_ Name="OP60.RES_200_399[276]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_277_ Name="OP60.RES_200_399[277]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_278_ Name="OP60.RES_200_399[278]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_279_ Name="OP60.RES_200_399[279]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_280_ Name="OP60.RES_200_399[280]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_281_ Name="OP60.RES_200_399[281]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_282_ Name="OP60.RES_200_399[282]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_283_ Name="OP60.RES_200_399[283]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_284_ Name="OP60.RES_200_399[284]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_285_ Name="OP60.RES_200_399[285]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_286_ Name="OP60.RES_200_399[286]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_287_ Name="OP60.RES_200_399[287]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_288_ Name="OP60.RES_200_399[288]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_289_ Name="OP60.RES_200_399[289]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_290_ Name="OP60.RES_200_399[290]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_291_ Name="OP60.RES_200_399[291]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_292_ Name="OP60.RES_200_399[292]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_293_ Name="OP60.RES_200_399[293]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_294_ Name="OP60.RES_200_399[294]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_295_ Name="OP60.RES_200_399[295]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_296_ Name="OP60.RES_200_399[296]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_297_ Name="OP60.RES_200_399[297]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_298_ Name="OP60.RES_200_399[298]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_299_ Name="OP60.RES_200_399[299]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_300_ Name="OP60.RES_200_399[300]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_301_ Name="OP60.RES_200_399[301]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_302_ Name="OP60.RES_200_399[302]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_303_ Name="OP60.RES_200_399[303]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_304_ Name="OP60.RES_200_399[304]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_305_ Name="OP60.RES_200_399[305]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_306_ Name="OP60.RES_200_399[306]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_307_ Name="OP60.RES_200_399[307]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_308_ Name="OP60.RES_200_399[308]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_309_ Name="OP60.RES_200_399[309]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_310_ Name="OP60.RES_200_399[310]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_311_ Name="OP60.RES_200_399[311]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_312_ Name="OP60.RES_200_399[312]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_313_ Name="OP60.RES_200_399[313]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_314_ Name="OP60.RES_200_399[314]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_315_ Name="OP60.RES_200_399[315]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_316_ Name="OP60.RES_200_399[316]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_317_ Name="OP60.RES_200_399[317]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_318_ Name="OP60.RES_200_399[318]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_319_ Name="OP60.RES_200_399[319]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_320_ Name="OP60.RES_200_399[320]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_321_ Name="OP60.RES_200_399[321]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_322_ Name="OP60.RES_200_399[322]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_323_ Name="OP60.RES_200_399[323]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_324_ Name="OP60.RES_200_399[324]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_325_ Name="OP60.RES_200_399[325]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_326_ Name="OP60.RES_200_399[326]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_327_ Name="OP60.RES_200_399[327]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_328_ Name="OP60.RES_200_399[328]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_329_ Name="OP60.RES_200_399[329]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_330_ Name="OP60.RES_200_399[330]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_331_ Name="OP60.RES_200_399[331]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_332_ Name="OP60.RES_200_399[332]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_333_ Name="OP60.RES_200_399[333]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_334_ Name="OP60.RES_200_399[334]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_335_ Name="OP60.RES_200_399[335]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_336_ Name="OP60.RES_200_399[336]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_337_ Name="OP60.RES_200_399[337]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_338_ Name="OP60.RES_200_399[338]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_339_ Name="OP60.RES_200_399[339]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_340_ Name="OP60.RES_200_399[340]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_341_ Name="OP60.RES_200_399[341]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_342_ Name="OP60.RES_200_399[342]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_343_ Name="OP60.RES_200_399[343]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_344_ Name="OP60.RES_200_399[344]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_345_ Name="OP60.RES_200_399[345]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_346_ Name="OP60.RES_200_399[346]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_347_ Name="OP60.RES_200_399[347]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_348_ Name="OP60.RES_200_399[348]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_349_ Name="OP60.RES_200_399[349]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_350_ Name="OP60.RES_200_399[350]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_351_ Name="OP60.RES_200_399[351]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_352_ Name="OP60.RES_200_399[352]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_353_ Name="OP60.RES_200_399[353]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_354_ Name="OP60.RES_200_399[354]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_355_ Name="OP60.RES_200_399[355]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_356_ Name="OP60.RES_200_399[356]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_357_ Name="OP60.RES_200_399[357]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_358_ Name="OP60.RES_200_399[358]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_359_ Name="OP60.RES_200_399[359]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_360_ Name="OP60.RES_200_399[360]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_361_ Name="OP60.RES_200_399[361]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_362_ Name="OP60.RES_200_399[362]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_363_ Name="OP60.RES_200_399[363]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_364_ Name="OP60.RES_200_399[364]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_365_ Name="OP60.RES_200_399[365]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_366_ Name="OP60.RES_200_399[366]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_367_ Name="OP60.RES_200_399[367]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_368_ Name="OP60.RES_200_399[368]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_369_ Name="OP60.RES_200_399[369]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_370_ Name="OP60.RES_200_399[370]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_371_ Name="OP60.RES_200_399[371]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_372_ Name="OP60.RES_200_399[372]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_373_ Name="OP60.RES_200_399[373]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_374_ Name="OP60.RES_200_399[374]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_375_ Name="OP60.RES_200_399[375]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_376_ Name="OP60.RES_200_399[376]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_377_ Name="OP60.RES_200_399[377]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_378_ Name="OP60.RES_200_399[378]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_379_ Name="OP60.RES_200_399[379]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_380_ Name="OP60.RES_200_399[380]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_381_ Name="OP60.RES_200_399[381]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_382_ Name="OP60.RES_200_399[382]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_383_ Name="OP60.RES_200_399[383]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_384_ Name="OP60.RES_200_399[384]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_385_ Name="OP60.RES_200_399[385]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_386_ Name="OP60.RES_200_399[386]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_387_ Name="OP60.RES_200_399[387]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_388_ Name="OP60.RES_200_399[388]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_389_ Name="OP60.RES_200_399[389]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_390_ Name="OP60.RES_200_399[390]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_391_ Name="OP60.RES_200_399[391]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_392_ Name="OP60.RES_200_399[392]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_393_ Name="OP60.RES_200_399[393]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_394_ Name="OP60.RES_200_399[394]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_395_ Name="OP60.RES_200_399[395]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_396_ Name="OP60.RES_200_399[396]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_397_ Name="OP60.RES_200_399[397]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_398_ Name="OP60.RES_200_399[398]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_399_ Name="OP60.RES_200_399[399]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</RES_200_399>
+	</OP60>
+	<OP70>
+		<ZIELSTATION Name="OP70.ZIELSTATION" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<RES_CHAR>
+			<RES_CHAR_1_ Name="OP70.RES_CHAR[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_2_ Name="OP70.RES_CHAR[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_3_ Name="OP70.RES_CHAR[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_4_ Name="OP70.RES_CHAR[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_5_ Name="OP70.RES_CHAR[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_6_ Name="OP70.RES_CHAR[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_7_ Name="OP70.RES_CHAR[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_8_ Name="OP70.RES_CHAR[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_9_ Name="OP70.RES_CHAR[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_10_ Name="OP70.RES_CHAR[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_11_ Name="OP70.RES_CHAR[11]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_12_ Name="OP70.RES_CHAR[12]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_13_ Name="OP70.RES_CHAR[13]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_14_ Name="OP70.RES_CHAR[14]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_15_ Name="OP70.RES_CHAR[15]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_16_ Name="OP70.RES_CHAR[16]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_17_ Name="OP70.RES_CHAR[17]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_18_ Name="OP70.RES_CHAR[18]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_19_ Name="OP70.RES_CHAR[19]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_CHAR_20_ Name="OP70.RES_CHAR[20]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</RES_CHAR>
+		<VER_PARAMETER>
+			<VER_PARAMETER_1_ Name="OP70.VER_PARAMETER[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_2_ Name="OP70.VER_PARAMETER[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_3_ Name="OP70.VER_PARAMETER[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_4_ Name="OP70.VER_PARAMETER[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_5_ Name="OP70.VER_PARAMETER[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_6_ Name="OP70.VER_PARAMETER[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_7_ Name="OP70.VER_PARAMETER[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_8_ Name="OP70.VER_PARAMETER[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_9_ Name="OP70.VER_PARAMETER[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_10_ Name="OP70.VER_PARAMETER[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_11_ Name="OP70.VER_PARAMETER[11]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_12_ Name="OP70.VER_PARAMETER[12]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_13_ Name="OP70.VER_PARAMETER[13]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_14_ Name="OP70.VER_PARAMETER[14]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_15_ Name="OP70.VER_PARAMETER[15]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_16_ Name="OP70.VER_PARAMETER[16]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_17_ Name="OP70.VER_PARAMETER[17]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_18_ Name="OP70.VER_PARAMETER[18]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_19_ Name="OP70.VER_PARAMETER[19]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<VER_PARAMETER_20_ Name="OP70.VER_PARAMETER[20]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</VER_PARAMETER>
+		<ANZ_PRF Name="OP70.ANZ_PRF" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<TP_ERG_1 Name="OP70.TP_ERG_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<TP_ERG_2 Name="OP70.TP_ERG_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<RES48_53>
+			<RES48_53_52_ Name="OP70.RES48_53[52]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES48_53_53_ Name="OP70.RES48_53[53]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</RES48_53>
+		<PRUEFUNG_1>
+			<Res54_0 Name="OP70.PRUEFUNG_1.Res54_0" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_IO_1 Name="OP70.PRUEFUNG_1.Station_IO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_NIO_1 Name="OP70.PRUEFUNG_1.Station_NIO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_n_abgw Name="OP70.PRUEFUNG_1.Station_n_abgw" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_4 Name="OP70.PRUEFUNG_1.Res54_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_5 Name="OP70.PRUEFUNG_1.Res54_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_6 Name="OP70.PRUEFUNG_1.Res54_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_7 Name="OP70.PRUEFUNG_1.Res54_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_gearb_2 Name="OP70.PRUEFUNG_1.Station_gearb_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Jahr Name="OP70.PRUEFUNG_1.Station_Jahr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Monat Name="OP70.PRUEFUNG_1.Station_Monat" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Tag Name="OP70.PRUEFUNG_1.Station_Tag" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Std Name="OP70.PRUEFUNG_1.Station_Std" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Min Name="OP70.PRUEFUNG_1.Station_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Sec Name="OP70.PRUEFUNG_1.Station_Sec" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Stationsnummer Name="OP70.PRUEFUNG_1.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehler_1_8>
+				<Fehler_1_8_1_ Name="OP70.PRUEFUNG_1.Fehler_1_8[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_2_ Name="OP70.PRUEFUNG_1.Fehler_1_8[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_3_ Name="OP70.PRUEFUNG_1.Fehler_1_8[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_4_ Name="OP70.PRUEFUNG_1.Fehler_1_8[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_5_ Name="OP70.PRUEFUNG_1.Fehler_1_8[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_6_ Name="OP70.PRUEFUNG_1.Fehler_1_8[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_7_ Name="OP70.PRUEFUNG_1.Fehler_1_8[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_8_ Name="OP70.PRUEFUNG_1.Fehler_1_8[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Fehler_1_8>
+			<SPUELMENGE Name="OP70.PRUEFUNG_1.SPUELMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NACHFUELLMENGE Name="OP70.PRUEFUNG_1.NACHFUELLMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<ABSAUGMENGE Name="OP70.PRUEFUNG_1.ABSAUGMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_BYTE>
+				<RES_BYTE_1_ Name="OP70.PRUEFUNG_1.RES_BYTE[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_2_ Name="OP70.PRUEFUNG_1.RES_BYTE[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_3_ Name="OP70.PRUEFUNG_1.RES_BYTE[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_4_ Name="OP70.PRUEFUNG_1.RES_BYTE[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_5_ Name="OP70.PRUEFUNG_1.RES_BYTE[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_6_ Name="OP70.PRUEFUNG_1.RES_BYTE[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_7_ Name="OP70.PRUEFUNG_1.RES_BYTE[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_8_ Name="OP70.PRUEFUNG_1.RES_BYTE[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_9_ Name="OP70.PRUEFUNG_1.RES_BYTE[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_10_ Name="OP70.PRUEFUNG_1.RES_BYTE[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</RES_BYTE>
+		</PRUEFUNG_1>
+		<PRUEFUNG_2>
+			<Res54_0 Name="OP70.PRUEFUNG_2.Res54_0" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_IO_1 Name="OP70.PRUEFUNG_2.Station_IO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_NIO_1 Name="OP70.PRUEFUNG_2.Station_NIO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_n_abgw Name="OP70.PRUEFUNG_2.Station_n_abgw" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_4 Name="OP70.PRUEFUNG_2.Res54_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_5 Name="OP70.PRUEFUNG_2.Res54_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_6 Name="OP70.PRUEFUNG_2.Res54_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_7 Name="OP70.PRUEFUNG_2.Res54_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_gearb_2 Name="OP70.PRUEFUNG_2.Station_gearb_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Jahr Name="OP70.PRUEFUNG_2.Station_Jahr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Monat Name="OP70.PRUEFUNG_2.Station_Monat" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Tag Name="OP70.PRUEFUNG_2.Station_Tag" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Std Name="OP70.PRUEFUNG_2.Station_Std" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Min Name="OP70.PRUEFUNG_2.Station_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Sec Name="OP70.PRUEFUNG_2.Station_Sec" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Stationsnummer Name="OP70.PRUEFUNG_2.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehler_1_8>
+				<Fehler_1_8_1_ Name="OP70.PRUEFUNG_2.Fehler_1_8[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_2_ Name="OP70.PRUEFUNG_2.Fehler_1_8[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_3_ Name="OP70.PRUEFUNG_2.Fehler_1_8[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_4_ Name="OP70.PRUEFUNG_2.Fehler_1_8[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_5_ Name="OP70.PRUEFUNG_2.Fehler_1_8[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_6_ Name="OP70.PRUEFUNG_2.Fehler_1_8[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_7_ Name="OP70.PRUEFUNG_2.Fehler_1_8[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_8_ Name="OP70.PRUEFUNG_2.Fehler_1_8[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Fehler_1_8>
+			<SPUELMENGE Name="OP70.PRUEFUNG_2.SPUELMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NACHFUELLMENGE Name="OP70.PRUEFUNG_2.NACHFUELLMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<ABSAUGMENGE Name="OP70.PRUEFUNG_2.ABSAUGMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_BYTE>
+				<RES_BYTE_1_ Name="OP70.PRUEFUNG_2.RES_BYTE[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_2_ Name="OP70.PRUEFUNG_2.RES_BYTE[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_3_ Name="OP70.PRUEFUNG_2.RES_BYTE[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_4_ Name="OP70.PRUEFUNG_2.RES_BYTE[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_5_ Name="OP70.PRUEFUNG_2.RES_BYTE[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_6_ Name="OP70.PRUEFUNG_2.RES_BYTE[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_7_ Name="OP70.PRUEFUNG_2.RES_BYTE[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_8_ Name="OP70.PRUEFUNG_2.RES_BYTE[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_9_ Name="OP70.PRUEFUNG_2.RES_BYTE[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_10_ Name="OP70.PRUEFUNG_2.RES_BYTE[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</RES_BYTE>
+		</PRUEFUNG_2>
+		<PRUEFUNG_LETZT>
+			<Res54_0 Name="OP70.PRUEFUNG_LETZT.Res54_0" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_IO_1 Name="OP70.PRUEFUNG_LETZT.Station_IO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_NIO_1 Name="OP70.PRUEFUNG_LETZT.Station_NIO_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_n_abgw Name="OP70.PRUEFUNG_LETZT.Station_n_abgw" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_4 Name="OP70.PRUEFUNG_LETZT.Res54_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_5 Name="OP70.PRUEFUNG_LETZT.Res54_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_6 Name="OP70.PRUEFUNG_LETZT.Res54_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Res54_7 Name="OP70.PRUEFUNG_LETZT.Res54_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_gearb_2 Name="OP70.PRUEFUNG_LETZT.Station_gearb_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Jahr Name="OP70.PRUEFUNG_LETZT.Station_Jahr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Monat Name="OP70.PRUEFUNG_LETZT.Station_Monat" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Tag Name="OP70.PRUEFUNG_LETZT.Station_Tag" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Std Name="OP70.PRUEFUNG_LETZT.Station_Std" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Min Name="OP70.PRUEFUNG_LETZT.Station_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Station_Sec Name="OP70.PRUEFUNG_LETZT.Station_Sec" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Stationsnummer Name="OP70.PRUEFUNG_LETZT.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehler_1_8>
+				<Fehler_1_8_1_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_2_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_3_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_4_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_5_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_6_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_7_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Fehler_1_8_8_ Name="OP70.PRUEFUNG_LETZT.Fehler_1_8[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Fehler_1_8>
+			<SPUELMENGE Name="OP70.PRUEFUNG_LETZT.SPUELMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<NACHFUELLMENGE Name="OP70.PRUEFUNG_LETZT.NACHFUELLMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<ABSAUGMENGE Name="OP70.PRUEFUNG_LETZT.ABSAUGMENGE" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_BYTE>
+				<RES_BYTE_1_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[1]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_2_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[2]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_3_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[3]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_4_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[4]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_5_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[5]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_6_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[6]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_7_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[7]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_8_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[8]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_9_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[9]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<RES_BYTE_10_ Name="OP70.PRUEFUNG_LETZT.RES_BYTE[10]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</RES_BYTE>
+		</PRUEFUNG_LETZT>
+		<RES198 Name="OP70.RES198" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		<RES_200_399>
+			<RES_200_399_200_ Name="OP70.RES_200_399[200]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_201_ Name="OP70.RES_200_399[201]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_202_ Name="OP70.RES_200_399[202]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_203_ Name="OP70.RES_200_399[203]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_204_ Name="OP70.RES_200_399[204]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_205_ Name="OP70.RES_200_399[205]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_206_ Name="OP70.RES_200_399[206]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_207_ Name="OP70.RES_200_399[207]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_208_ Name="OP70.RES_200_399[208]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_209_ Name="OP70.RES_200_399[209]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_210_ Name="OP70.RES_200_399[210]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_211_ Name="OP70.RES_200_399[211]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_212_ Name="OP70.RES_200_399[212]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_213_ Name="OP70.RES_200_399[213]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_214_ Name="OP70.RES_200_399[214]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_215_ Name="OP70.RES_200_399[215]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_216_ Name="OP70.RES_200_399[216]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_217_ Name="OP70.RES_200_399[217]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_218_ Name="OP70.RES_200_399[218]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_219_ Name="OP70.RES_200_399[219]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_220_ Name="OP70.RES_200_399[220]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_221_ Name="OP70.RES_200_399[221]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_222_ Name="OP70.RES_200_399[222]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_223_ Name="OP70.RES_200_399[223]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_224_ Name="OP70.RES_200_399[224]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_225_ Name="OP70.RES_200_399[225]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_226_ Name="OP70.RES_200_399[226]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_227_ Name="OP70.RES_200_399[227]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_228_ Name="OP70.RES_200_399[228]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_229_ Name="OP70.RES_200_399[229]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_230_ Name="OP70.RES_200_399[230]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_231_ Name="OP70.RES_200_399[231]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_232_ Name="OP70.RES_200_399[232]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_233_ Name="OP70.RES_200_399[233]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_234_ Name="OP70.RES_200_399[234]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_235_ Name="OP70.RES_200_399[235]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_236_ Name="OP70.RES_200_399[236]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_237_ Name="OP70.RES_200_399[237]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_238_ Name="OP70.RES_200_399[238]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_239_ Name="OP70.RES_200_399[239]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_240_ Name="OP70.RES_200_399[240]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_241_ Name="OP70.RES_200_399[241]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_242_ Name="OP70.RES_200_399[242]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_243_ Name="OP70.RES_200_399[243]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_244_ Name="OP70.RES_200_399[244]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_245_ Name="OP70.RES_200_399[245]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_246_ Name="OP70.RES_200_399[246]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_247_ Name="OP70.RES_200_399[247]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_248_ Name="OP70.RES_200_399[248]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_249_ Name="OP70.RES_200_399[249]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_250_ Name="OP70.RES_200_399[250]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_251_ Name="OP70.RES_200_399[251]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_252_ Name="OP70.RES_200_399[252]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_253_ Name="OP70.RES_200_399[253]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_254_ Name="OP70.RES_200_399[254]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_255_ Name="OP70.RES_200_399[255]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_256_ Name="OP70.RES_200_399[256]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_257_ Name="OP70.RES_200_399[257]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_258_ Name="OP70.RES_200_399[258]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_259_ Name="OP70.RES_200_399[259]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_260_ Name="OP70.RES_200_399[260]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_261_ Name="OP70.RES_200_399[261]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_262_ Name="OP70.RES_200_399[262]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_263_ Name="OP70.RES_200_399[263]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_264_ Name="OP70.RES_200_399[264]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_265_ Name="OP70.RES_200_399[265]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_266_ Name="OP70.RES_200_399[266]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_267_ Name="OP70.RES_200_399[267]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_268_ Name="OP70.RES_200_399[268]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_269_ Name="OP70.RES_200_399[269]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_270_ Name="OP70.RES_200_399[270]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_271_ Name="OP70.RES_200_399[271]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_272_ Name="OP70.RES_200_399[272]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_273_ Name="OP70.RES_200_399[273]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_274_ Name="OP70.RES_200_399[274]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_275_ Name="OP70.RES_200_399[275]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_276_ Name="OP70.RES_200_399[276]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_277_ Name="OP70.RES_200_399[277]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_278_ Name="OP70.RES_200_399[278]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_279_ Name="OP70.RES_200_399[279]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_280_ Name="OP70.RES_200_399[280]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_281_ Name="OP70.RES_200_399[281]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_282_ Name="OP70.RES_200_399[282]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_283_ Name="OP70.RES_200_399[283]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_284_ Name="OP70.RES_200_399[284]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_285_ Name="OP70.RES_200_399[285]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_286_ Name="OP70.RES_200_399[286]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_287_ Name="OP70.RES_200_399[287]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_288_ Name="OP70.RES_200_399[288]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_289_ Name="OP70.RES_200_399[289]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_290_ Name="OP70.RES_200_399[290]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_291_ Name="OP70.RES_200_399[291]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_292_ Name="OP70.RES_200_399[292]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_293_ Name="OP70.RES_200_399[293]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_294_ Name="OP70.RES_200_399[294]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_295_ Name="OP70.RES_200_399[295]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_296_ Name="OP70.RES_200_399[296]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_297_ Name="OP70.RES_200_399[297]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_298_ Name="OP70.RES_200_399[298]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_299_ Name="OP70.RES_200_399[299]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_300_ Name="OP70.RES_200_399[300]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_301_ Name="OP70.RES_200_399[301]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_302_ Name="OP70.RES_200_399[302]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_303_ Name="OP70.RES_200_399[303]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_304_ Name="OP70.RES_200_399[304]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_305_ Name="OP70.RES_200_399[305]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_306_ Name="OP70.RES_200_399[306]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_307_ Name="OP70.RES_200_399[307]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_308_ Name="OP70.RES_200_399[308]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_309_ Name="OP70.RES_200_399[309]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_310_ Name="OP70.RES_200_399[310]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_311_ Name="OP70.RES_200_399[311]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_312_ Name="OP70.RES_200_399[312]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_313_ Name="OP70.RES_200_399[313]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_314_ Name="OP70.RES_200_399[314]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_315_ Name="OP70.RES_200_399[315]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_316_ Name="OP70.RES_200_399[316]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_317_ Name="OP70.RES_200_399[317]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_318_ Name="OP70.RES_200_399[318]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_319_ Name="OP70.RES_200_399[319]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_320_ Name="OP70.RES_200_399[320]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_321_ Name="OP70.RES_200_399[321]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_322_ Name="OP70.RES_200_399[322]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_323_ Name="OP70.RES_200_399[323]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_324_ Name="OP70.RES_200_399[324]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_325_ Name="OP70.RES_200_399[325]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_326_ Name="OP70.RES_200_399[326]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_327_ Name="OP70.RES_200_399[327]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_328_ Name="OP70.RES_200_399[328]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_329_ Name="OP70.RES_200_399[329]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_330_ Name="OP70.RES_200_399[330]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_331_ Name="OP70.RES_200_399[331]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_332_ Name="OP70.RES_200_399[332]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_333_ Name="OP70.RES_200_399[333]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_334_ Name="OP70.RES_200_399[334]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_335_ Name="OP70.RES_200_399[335]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_336_ Name="OP70.RES_200_399[336]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_337_ Name="OP70.RES_200_399[337]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_338_ Name="OP70.RES_200_399[338]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_339_ Name="OP70.RES_200_399[339]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_340_ Name="OP70.RES_200_399[340]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_341_ Name="OP70.RES_200_399[341]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_342_ Name="OP70.RES_200_399[342]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_343_ Name="OP70.RES_200_399[343]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_344_ Name="OP70.RES_200_399[344]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_345_ Name="OP70.RES_200_399[345]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_346_ Name="OP70.RES_200_399[346]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_347_ Name="OP70.RES_200_399[347]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_348_ Name="OP70.RES_200_399[348]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_349_ Name="OP70.RES_200_399[349]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_350_ Name="OP70.RES_200_399[350]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_351_ Name="OP70.RES_200_399[351]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_352_ Name="OP70.RES_200_399[352]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_353_ Name="OP70.RES_200_399[353]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_354_ Name="OP70.RES_200_399[354]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_355_ Name="OP70.RES_200_399[355]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_356_ Name="OP70.RES_200_399[356]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_357_ Name="OP70.RES_200_399[357]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_358_ Name="OP70.RES_200_399[358]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_359_ Name="OP70.RES_200_399[359]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_360_ Name="OP70.RES_200_399[360]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_361_ Name="OP70.RES_200_399[361]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_362_ Name="OP70.RES_200_399[362]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_363_ Name="OP70.RES_200_399[363]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_364_ Name="OP70.RES_200_399[364]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_365_ Name="OP70.RES_200_399[365]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_366_ Name="OP70.RES_200_399[366]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_367_ Name="OP70.RES_200_399[367]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_368_ Name="OP70.RES_200_399[368]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_369_ Name="OP70.RES_200_399[369]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_370_ Name="OP70.RES_200_399[370]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_371_ Name="OP70.RES_200_399[371]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_372_ Name="OP70.RES_200_399[372]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_373_ Name="OP70.RES_200_399[373]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_374_ Name="OP70.RES_200_399[374]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_375_ Name="OP70.RES_200_399[375]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_376_ Name="OP70.RES_200_399[376]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_377_ Name="OP70.RES_200_399[377]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_378_ Name="OP70.RES_200_399[378]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_379_ Name="OP70.RES_200_399[379]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_380_ Name="OP70.RES_200_399[380]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_381_ Name="OP70.RES_200_399[381]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_382_ Name="OP70.RES_200_399[382]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_383_ Name="OP70.RES_200_399[383]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_384_ Name="OP70.RES_200_399[384]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_385_ Name="OP70.RES_200_399[385]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_386_ Name="OP70.RES_200_399[386]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_387_ Name="OP70.RES_200_399[387]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_388_ Name="OP70.RES_200_399[388]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_389_ Name="OP70.RES_200_399[389]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_390_ Name="OP70.RES_200_399[390]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_391_ Name="OP70.RES_200_399[391]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_392_ Name="OP70.RES_200_399[392]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_393_ Name="OP70.RES_200_399[393]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_394_ Name="OP70.RES_200_399[394]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_395_ Name="OP70.RES_200_399[395]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_396_ Name="OP70.RES_200_399[396]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_397_ Name="OP70.RES_200_399[397]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_398_ Name="OP70.RES_200_399[398]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<RES_200_399_399_ Name="OP70.RES_200_399[399]" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</RES_200_399>
+	</OP70>
+	<OP80>
+		<Header>
+			<Stationsnummer Name="OP80.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP80.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP80.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP80.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP80.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP80.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP80.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP80.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP80.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP80.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP80.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP80.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP80_Statuswort Name="OP80.Status.OP80_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Anzahl_SW_Flashs Name="OP80.Results.Anzahl_SW_Flashs" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_1 Name="OP80.Results.Ergebnis_Teilpruef_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_2 Name="OP80.Results.Ergebnis_Teilpruef_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_3 Name="OP80.Results.Ergebnis_Teilpruef_3" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_4 Name="OP80.Results.Ergebnis_Teilpruef_4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_5 Name="OP80.Results.Ergebnis_Teilpruef_5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_6 Name="OP80.Results.Ergebnis_Teilpruef_6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_7 Name="OP80.Results.Ergebnis_Teilpruef_7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Ergebnis_Teilpruef_8 Name="OP80.Results.Ergebnis_Teilpruef_8" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Results>
+		<Components>
+			<Geflashte_Fahrz_SW_Vers Name="OP80.Components.Geflashte_Fahrz_SW_Vers" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Neu_Geflash_Fz_SW_Vers Name="OP80.Components.Neu_Geflash_Fz_SW_Vers" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zuletzt_Gefla_Fz_SW_Vers Name="OP80.Components.Zuletzt_Gefla_Fz_SW_Vers" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP80>
+	<OP90_1>
+		<Header>
+			<Stationsnummer Name="OP90_1.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP90_1.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP90_1.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP90_1.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP90_1.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP90_1.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP90_1.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP90_1.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP90_1.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP90_1.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP90_1.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP90_1.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP90_1_Statuswort Name="OP90_1.Status.OP90_1_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP90_1>
+	<OP90_2>
+		<Header>
+			<Stationsnummer Name="OP90_2.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP90_2.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP90_2.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP90_2.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP90_2.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP90_2.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP90_2.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP90_2.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP90_2.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP90_2.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP90_2.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP90_2.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP90_2_Statuswort Name="OP90_2.Status.OP90_2_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Restoelmenge_im_Getriebe Name="OP90_2.Status.Restoelmenge_im_Getriebe" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP90_2>
+	<OP100_1>
+		<Header>
+			<Stationsnummer Name="OP100_1.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP100_1.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP100_1.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP100_1.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP100_1.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP100_1.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP100_1.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP100_1.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP100_1.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP100_1.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP100_1.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP100_1.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP100_1_Statuswort Name="OP100_1.Status.OP100_1_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Lichtschranke_1_6_OK Name="OP100_1.Results.Lichtschranke_1_6_OK" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Schrauber_Moment Name="OP100_1.Results.Schrauber_Moment" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Schrauber_Winkel Name="OP100_1.Results.Schrauber_Winkel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Results>
+		<Components>
+			<Component_1_Bar_Code Name="OP100_1.Components.Component_1_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Component_2_Bar_Code Name="OP100_1.Components.Component_2_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Component_3_Bar_Code Name="OP100_1.Components.Component_3_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Component_4_Bar_Code Name="OP100_1.Components.Component_4_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Component_5_Bar_Code Name="OP100_1.Components.Component_5_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Component_6_Bar_Code Name="OP100_1.Components.Component_6_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP100_1>
+	<OP100_2>
+		<Header>
+			<Stationsnummer Name="OP100_2.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP100_2.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP100_2.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP100_2.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP100_2.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP100_2.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP100_2.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP100_2.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP100_2.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP100_2.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP100_2.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP100_2.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP100_2_Statuswort Name="OP100_2.Status.OP100_2_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Schrauber_Moment Name="OP100_2.Results.Schrauber_Moment" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Schrauber_Winkel Name="OP100_2.Results.Schrauber_Winkel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Results>
+		<Components>
+			<Drain_Screw_Bar_Code Name="OP100_2.Components.Drain_Screw_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP100_2>
+	<OP130_1>
+		<Header>
+			<Stationsnummer Name="OP130_1.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP130_1.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP130_1.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP130_1.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP130_1.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP130_1.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP130_1.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP130_1.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP130_1.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP130_1.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP130_1.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP130_1.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP130_1_Statuswort Name="OP130_1.Status.OP130_1_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Kistler_CAP_Start_Kraft Name="OP130_1.Results.Kistler_CAP_Start_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CAP_Nomin_Kraft Name="OP130_1.Results.Kistler_CAP_Nomin_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CAP_Max_Kraft Name="OP130_1.Results.Kistler_CAP_Max_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CAP_Start_Entf Name="OP130_1.Results.Kistler_CAP_Start_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CAP_Nomin_Entf Name="OP130_1.Results.Kistler_CAP_Nomin_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CAP_Max_Entf Name="OP130_1.Results.Kistler_CAP_Max_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_PIN_Start_Kraft Name="OP130_1.Results.Kistler_PIN_Start_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_PIN_Nomin_Kraft Name="OP130_1.Results.Kistler_PIN_Nomin_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_PIN_Max_Kraft Name="OP130_1.Results.Kistler_PIN_Max_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_PIN_Start_Entf Name="OP130_1.Results.Kistler_PIN_Start_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_PIN_Nomin_Entf Name="OP130_1.Results.Kistler_PIN_Nomin_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_PIN_Max_Entf Name="OP130_1.Results.Kistler_PIN_Max_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS1_Start_Kraft Name="OP130_1.Results.Kistler_CS1_Start_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS1_Nomin_Kraft Name="OP130_1.Results.Kistler_CS1_Nomin_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS1_Max_Kraft Name="OP130_1.Results.Kistler_CS1_Max_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS1_Start_Entf Name="OP130_1.Results.Kistler_CS1_Start_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS1_Nomin_Entf Name="OP130_1.Results.Kistler_CS1_Nomin_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS1_Max_Entf Name="OP130_1.Results.Kistler_CS1_Max_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS2_Start_Kraft Name="OP130_1.Results.Kistler_CS2_Start_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS2_Nomin_Kraft Name="OP130_1.Results.Kistler_CS2_Nomin_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS2_Max_Kraft Name="OP130_1.Results.Kistler_CS2_Max_Kraft" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS2_Start_Entf Name="OP130_1.Results.Kistler_CS2_Start_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS2_Nomin_Entf Name="OP130_1.Results.Kistler_CS2_Nomin_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Kistler_CS2_Max_Entf Name="OP130_1.Results.Kistler_CS2_Max_Entf" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Results>
+		<Components>
+			<CAP_Bar_Code Name="OP130_1.Components.CAP_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<PIN_Bar_Code Name="OP130_1.Components.PIN_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<CS1_Bar_Code Name="OP130_1.Components.CS1_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<CS2_Bar_Code Name="OP130_1.Components.CS2_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP130_1>
+	<OP130_2>
+		<Header>
+			<Stationsnummer Name="OP130_2.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP130_2.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP130_2.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP130_2.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP130_2.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP130_2.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP130_2.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP130_2.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP130_2.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP130_2.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP130_2.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP130_2.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP130_2_Statuswort Name="OP130_2.Status.OP130_2_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Schrauber_A_Moment Name="OP130_2.Results.Schrauber_A_Moment" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Schrauber_A_Winkel Name="OP130_2.Results.Schrauber_A_Winkel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Schrauber_B_Moment Name="OP130_2.Results.Schrauber_B_Moment" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Schrauber_B_Winkel Name="OP130_2.Results.Schrauber_B_Winkel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Results>
+		<Components>
+			<Screw_A_Bar_Code Name="OP130_2.Components.Screw_A_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Screw_B_Bar_Code Name="OP130_2.Components.Screw_B_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Components>
+	</OP130_2>
+	<OP130_3>
+		<Header>
+			<Stationsnummer Name="OP130_3.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP130_3.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP130_3.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP130_3.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP130_3.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP130_3.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP130_3.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP130_3.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP130_3.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP130_3.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP130_3.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP130_3.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP130_3_Statuswort Name="OP130_3.Status.OP130_3_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Befetten_erledigt Name="OP130_3.Results.Befetten_erledigt" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fahrzeugsoftware_geflash Name="OP130_3.Results.Fahrzeugsoftware_geflash" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP130_3>
+	<OP140>
+		<Header>
+			<Stationsnummer Name="OP140.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP140.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP140.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP140.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP140.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP140.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP140.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP140.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP140.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP140.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP140.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP140.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP140_Statuswort Name="OP140.Status.OP140_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			<Position1 Name="OP140.Results.Position1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position2 Name="OP140.Results.Position2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position3 Name="OP140.Results.Position3" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position4 Name="OP140.Results.Position4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position5 Name="OP140.Results.Position5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position6 Name="OP140.Results.Position6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position7 Name="OP140.Results.Position7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position8 Name="OP140.Results.Position8" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position9 Name="OP140.Results.Position9" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position10 Name="OP140.Results.Position10" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position11 Name="OP140.Results.Position11" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position12 Name="OP140.Results.Position12" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position13 Name="OP140.Results.Position13" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position14 Name="OP140.Results.Position14" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position15 Name="OP140.Results.Position15" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position16 Name="OP140.Results.Position16" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position17 Name="OP140.Results.Position17" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position18 Name="OP140.Results.Position18" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position19 Name="OP140.Results.Position19" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position20 Name="OP140.Results.Position20" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position21 Name="OP140.Results.Position21" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position22 Name="OP140.Results.Position22" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position23 Name="OP140.Results.Position23" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position24 Name="OP140.Results.Position24" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position25 Name="OP140.Results.Position25" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position26 Name="OP140.Results.Position26" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position27 Name="OP140.Results.Position27" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position28 Name="OP140.Results.Position28" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position29 Name="OP140.Results.Position29" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Position30 Name="OP140.Results.Position30" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position1 Name="OP140.Results.Zweit_Versuch_Position1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position2 Name="OP140.Results.Zweit_Versuch_Position2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position3 Name="OP140.Results.Zweit_Versuch_Position3" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position4 Name="OP140.Results.Zweit_Versuch_Position4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position5 Name="OP140.Results.Zweit_Versuch_Position5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position6 Name="OP140.Results.Zweit_Versuch_Position6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position7 Name="OP140.Results.Zweit_Versuch_Position7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position8 Name="OP140.Results.Zweit_Versuch_Position8" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position9 Name="OP140.Results.Zweit_Versuch_Position9" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position10 Name="OP140.Results.Zweit_Versuch_Position10" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position11 Name="OP140.Results.Zweit_Versuch_Position11" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position12 Name="OP140.Results.Zweit_Versuch_Position12" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position13 Name="OP140.Results.Zweit_Versuch_Position13" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position14 Name="OP140.Results.Zweit_Versuch_Position14" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position15 Name="OP140.Results.Zweit_Versuch_Position15" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position16 Name="OP140.Results.Zweit_Versuch_Position16" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position17 Name="OP140.Results.Zweit_Versuch_Position17" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position18 Name="OP140.Results.Zweit_Versuch_Position18" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position19 Name="OP140.Results.Zweit_Versuch_Position19" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position20 Name="OP140.Results.Zweit_Versuch_Position20" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position21 Name="OP140.Results.Zweit_Versuch_Position21" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position22 Name="OP140.Results.Zweit_Versuch_Position22" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position23 Name="OP140.Results.Zweit_Versuch_Position23" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position24 Name="OP140.Results.Zweit_Versuch_Position24" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position25 Name="OP140.Results.Zweit_Versuch_Position25" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position26 Name="OP140.Results.Zweit_Versuch_Position26" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position27 Name="OP140.Results.Zweit_Versuch_Position27" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position28 Name="OP140.Results.Zweit_Versuch_Position28" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position29 Name="OP140.Results.Zweit_Versuch_Position29" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zweit_Versuch_Position30 Name="OP140.Results.Zweit_Versuch_Position30" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position1 Name="OP140.Results.Letzt_Versuch_Position1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position2 Name="OP140.Results.Letzt_Versuch_Position2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position3 Name="OP140.Results.Letzt_Versuch_Position3" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position4 Name="OP140.Results.Letzt_Versuch_Position4" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position5 Name="OP140.Results.Letzt_Versuch_Position5" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position6 Name="OP140.Results.Letzt_Versuch_Position6" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position7 Name="OP140.Results.Letzt_Versuch_Position7" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position8 Name="OP140.Results.Letzt_Versuch_Position8" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position9 Name="OP140.Results.Letzt_Versuch_Position9" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position10 Name="OP140.Results.Letzt_Versuch_Position10" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position11 Name="OP140.Results.Letzt_Versuch_Position11" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position12 Name="OP140.Results.Letzt_Versuch_Position12" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position13 Name="OP140.Results.Letzt_Versuch_Position13" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position14 Name="OP140.Results.Letzt_Versuch_Position14" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position15 Name="OP140.Results.Letzt_Versuch_Position15" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position16 Name="OP140.Results.Letzt_Versuch_Position16" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position17 Name="OP140.Results.Letzt_Versuch_Position17" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position18 Name="OP140.Results.Letzt_Versuch_Position18" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position19 Name="OP140.Results.Letzt_Versuch_Position19" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position20 Name="OP140.Results.Letzt_Versuch_Position20" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position21 Name="OP140.Results.Letzt_Versuch_Position21" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position22 Name="OP140.Results.Letzt_Versuch_Position22" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position23 Name="OP140.Results.Letzt_Versuch_Position23" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position24 Name="OP140.Results.Letzt_Versuch_Position24" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position25 Name="OP140.Results.Letzt_Versuch_Position25" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position26 Name="OP140.Results.Letzt_Versuch_Position26" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position27 Name="OP140.Results.Letzt_Versuch_Position27" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position28 Name="OP140.Results.Letzt_Versuch_Position28" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position29 Name="OP140.Results.Letzt_Versuch_Position29" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Letzt_Versuch_Position30 Name="OP140.Results.Letzt_Versuch_Position30" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP140>
+	<OP150>
+		<Header>
+			<Stationsnummer Name="OP150.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP150.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP150.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP150.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP150.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP150.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP150.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP150.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP150.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP150.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP150.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP150.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP150_Statuswort Name="OP150.Status.OP150_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Gepraegter_String_Oben Name="OP150.Status.Gepraegter_String_Oben" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Gepraegter_String_Oben Name="OP150.Status.Gepraegter_String_Oben" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Gepraegter_String_Oben Name="OP150.Status.Gepraegter_String_Oben" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Gepraegter_String_Unten Name="OP150.Status.Gepraegter_String_Unten" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Gepraegter_String_Unten Name="OP150.Status.Gepraegter_String_Unten" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Gepraegter_String_Unten Name="OP150.Status.Gepraegter_String_Unten" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP150>
+	<OPXX_2>
+		<Header>
+			
+		</Header>
+		<Status>
+			
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OPXX_2>
+	<OP170>
+		<Header>
+			<Stationsnummer Name="OP170.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP170.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP170.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP170.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP170.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP170.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP170.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP170.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP170.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP170.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP170.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP170.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP170_Statuswort Name="OP170.Status.OP170_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP170>
+	<OP180>
+		<Header>
+			<Stationsnummer Name="OP180.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP180.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP180.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP180.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP180.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP180.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP180.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP180.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP180.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP180.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP180.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP180.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP180_Statuswort Name="OP180.Status.OP180_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP180>
+	<OP190>
+		<Header>
+			<Stationsnummer Name="OP190.Header.Stationsnummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Y_Y Name="OP190.Header.Zeitstempel_Y_Y" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_M_M Name="OP190.Header.Zeitstempel_M_M" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_D_D Name="OP190.Header.Zeitstempel_D_D" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_H_H Name="OP190.Header.Zeitstempel_H_H" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_Min_Min Name="OP190.Header.Zeitstempel_Min_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Zeitstempel_S_S Name="OP190.Header.Zeitstempel_S_S" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlercode Name="OP190.Header.Fehlercode" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Fehlerbeschreibung Name="OP190.Header.Fehlerbeschreibung" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_IO Name="OP190.Header.Status_IO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_NIO Name="OP190.Header.Status_NIO" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<Status_Inaktiv Name="OP190.Header.Status_Inaktiv" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			
+		</Header>
+		<Status>
+			<OP190_Statuswort Name="OP190.Status.OP190_Statuswort" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			<WT_Leergewicht Name="OP190.Status.WT_Leergewicht" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+		</Status>
+		<Results>
+			
+		</Results>
+		<Components>
+			
+		</Components>
+	</OP190>
+	
+	<RECIPIES>
+		<OP10>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP10.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Soll_CAP_Teilenummer Name="RECIPIES.OP10.Components.Soll_CAP_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP10>
+		<OPXX>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OPXX.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OPXX.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OPXX>
+		<OP15>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP15.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP15.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Soll_CAP_Teilenummer Name="RECIPIES.OP15.Components.Soll_CAP_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP15>
+		<OP20>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP20.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP20.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Soll_Harness_Teilenummer Name="RECIPIES.OP20.Components.Soll_Harness_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP20>
+		<OP30>
+			<Setpoint>
+				<Maximalgewicht_Getriebe Name="RECIPIES.OP30.Setpoint.Maximalgewicht_Getriebe" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Minimalgewicht_Getriebe Name="RECIPIES.OP30.Setpoint.Minimalgewicht_Getriebe" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP30.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP30.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP30>
+		<OP40>
+			<Setpoint>
+				<Ueberfuellmenge Name="RECIPIES.OP40.Setpoint.Ueberfuellmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Nominalfuellmenge Name="RECIPIES.OP40.Setpoint.Nominalfuellmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Transportoelmenge Name="RECIPIES.OP40.Setpoint.Transportoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP40.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP40.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP40>
+		<OP60_L>
+			<Setpoint>
+				<Transportoelmenge Name="RECIPIES.OP60_L.Setpoint.Transportoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Nominalfuellmenge Name="RECIPIES.OP60_L.Setpoint.Nominalfuellmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<TCU_EOL_Pruefsoftware Name="RECIPIES.OP60_L.Setpoint.TCU_EOL_Pruefsoftware" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP60_L.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP60_L.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP60_L>
+		<OP60>
+			<Setpoint>
+				<Transportoelmenge Name="RECIPIES.OP60.Setpoint.Transportoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Nominalfuellmenge Name="RECIPIES.OP60.Setpoint.Nominalfuellmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<TCU_EOL_Pruefsoftware Name="RECIPIES.OP60.Setpoint.TCU_EOL_Pruefsoftware" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP60.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP60.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP60>
+		<OP70>
+			<Setpoint>
+				<Transportoelmenge Name="RECIPIES.OP70.Setpoint.Transportoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Nominalfuellmenge Name="RECIPIES.OP70.Setpoint.Nominalfuellmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<TCU_EOL_Pruefsoftware Name="RECIPIES.OP70.Setpoint.TCU_EOL_Pruefsoftware" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP70.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP70.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP70>
+		<OP80>
+			<Setpoint>
+				<TCU_EOL_Pruefsoftware Name="RECIPIES.OP80.Setpoint.TCU_EOL_Pruefsoftware" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP80.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP80.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<TCU_Kundensoftware_Vers Name="RECIPIES.OP80.Components.TCU_Kundensoftware_Vers" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Veh_Manu_Spare_Part_Nr Name="RECIPIES.OP80.Components.Veh_Manu_Spare_Part_Nr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Veh_Manu_ECU_HW_Nr Name="RECIPIES.OP80.Components.Veh_Manu_ECU_HW_Nr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Reserve_Nr_1 Name="RECIPIES.OP80.Components.Reserve_Nr_1" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Reserve_Nr_2 Name="RECIPIES.OP80.Components.Reserve_Nr_2" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Reserve_Nr_3 Name="RECIPIES.OP80.Components.Reserve_Nr_3" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP80>
+		<OP90_1>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP90_1.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP90_1.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP90_1>
+		<OP90_2>
+			<Setpoint>
+				<Max_Restoelmenge Name="RECIPIES.OP90_2.Setpoint.Max_Restoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Min_Restoelmenge Name="RECIPIES.OP90_2.Setpoint.Min_Restoelmenge" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP90_2.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP90_2.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP90_2>
+		<OP100_1>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP100_1.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP100_1.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Component_1_Teilenummer Name="RECIPIES.OP100_1.Components.Component_1_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Component_2_Teilenummer Name="RECIPIES.OP100_1.Components.Component_2_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Component_3_Teilenummer Name="RECIPIES.OP100_1.Components.Component_3_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Component_3_Farbe Name="RECIPIES.OP100_1.Components.Component_3_Farbe" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Component_5_Teilenummer Name="RECIPIES.OP100_1.Components.Component_5_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Component_6_Teilenummer Name="RECIPIES.OP100_1.Components.Component_6_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP100_1>
+		<OP100_2>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP100_2.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP100_2.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Drain_Screw_zul_Teilenr Name="RECIPIES.OP100_2.Components.Drain_Screw_zul_Teilenr" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP100_2>
+		<OP130_1>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP130_1.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP130_1.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<CAP_Teilenummer Name="RECIPIES.OP130_1.Components.CAP_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<PIN_Teilenummer Name="RECIPIES.OP130_1.Components.PIN_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<CS1_Teilenummer Name="RECIPIES.OP130_1.Components.CS1_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<CS2_Teilenummer Name="RECIPIES.OP130_1.Components.CS2_Teilenummer" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP130_1>
+		<OP130_2>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP130_2.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP130_2.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Screw_A_zulaess_Bar_Code Name="RECIPIES.OP130_2.Components.Screw_A_zulaess_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Screw_B_zulaess_Bar_Code Name="RECIPIES.OP130_2.Components.Screw_B_zulaess_Bar_Code" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP130_2>
+		<OP130_3>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP130_3.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP130_3.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP130_3>
+		<OP140>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP140.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP140.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP140>
+		<OP150>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP150.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP150.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				<Gearbox_Type Name="RECIPIES.OP150.Components.Gearbox_Type" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Index_Number Name="RECIPIES.OP150.Components.Index_Number" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+			</Components>
+		</OP150>
+		<OPXX_2>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OPXX_2.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OPXX_2.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OPXX_2>
+		<OP170>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP170.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP170.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP170>
+		<OP180>
+			<Setpoint>
+				
+				<Soll_Taktzeit Name="RECIPIES.OP180.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP180.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP180>
+		<OP190>
+			<Setpoint>
+				<WT_Leergewicht_Max Name="RECIPIES.OP190.Setpoint.WT_Leergewicht_Max" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<WT_Leergewicht_Min Name="RECIPIES.OP190.Setpoint.WT_Leergewicht_Min" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				
+				<Soll_Taktzeit Name="RECIPIES.OP190.Setpoint.Soll_Taktzeit" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+				<Naechstes_Ziel Name="RECIPIES.OP190.Setpoint.Naechstes_Ziel" Reference="" InterfaceId="1" InterfaceType="ReadInterface" />
+			</Setpoint>
+			<Components>
+				
+			</Components>
+		</OP190>
+	</RECIPIES>
+</Template>
