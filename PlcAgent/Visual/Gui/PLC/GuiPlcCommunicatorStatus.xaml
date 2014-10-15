@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:plc="clr-namespace:_PlcAgent.PLC"
              mc:Ignorable="d" 
-             d:DesignHeight="272" d:DesignWidth="320">
+             d:DesignHeight="268" d:DesignWidth="320">
     <Grid Name="GeneralGrid">
         <GroupBox Header="PLC Configuration" Height="242" Width="320" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Grid>
@@ -31,7 +31,7 @@
                 <Label Name="ActWriteLengthLabel" Content="Write Data Length" HorizontalAlignment="Left" Margin="160,186,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="110"/>
             </Grid>
         </GroupBox>
-        <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top" Height="25" Width="100" Click="ConnectionButtonClick"/>
+        <Button Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="0,247,0,0" VerticalAlignment="Top" Width="100" Click="ConnectionButtonClick"/>
         <CheckBox Name="StartUpConnectionControlBox" Content="Connect at Start Up" HorizontalAlignment="Left" Margin="181,251,0,0" VerticalAlignment="Top" FlowDirection="RightToLeft" Width="139" Checked="ConnectionAtStartUpChecked" Unchecked="ConnectionAtStartUpChecked"/>
     </Grid>
 </plc:PlcCommunicatorComponent>

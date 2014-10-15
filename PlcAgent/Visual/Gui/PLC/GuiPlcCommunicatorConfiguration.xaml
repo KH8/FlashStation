@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:plc="clr-namespace:_PlcAgent.PLC"
              mc:Ignorable="d" 
-             d:DesignWidth="320" Height="406.355"
+             d:DesignWidth="320" Height="377.355"
              HorizontalAlignment="Left" VerticalAlignment="Top">
     <Grid Name="GeneralGrid">
         <GroupBox Header="PLC Communication Setup" Width="320" Height="148" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -37,6 +37,6 @@
             </Grid>
         </GroupBox>
         <Button Name="UseSettingsButton" Content="Use Settings" HorizontalAlignment="Left" Margin="0,355,0,0" VerticalAlignment="Top" Width="100" Click="StoreSettingsButton"/>
-        <Button Content="Save As Binary" HorizontalAlignment="Left" Margin="0,382,0,0" VerticalAlignment="Top" Width="100" Click="MakeABinary"/>
+        <Button Content="Save As Binary" HorizontalAlignment="Left" Margin="105,355,0,0" VerticalAlignment="Top" Width="100" Click="MakeABinary"/>
     </Grid>
 </plc:PlcCommunicatorComponent>

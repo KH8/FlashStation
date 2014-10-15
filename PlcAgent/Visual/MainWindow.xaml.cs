@@ -423,7 +423,7 @@ namespace _PlcAgent.Visual
                 gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
 
                 var gridGuiPlcConfiguration = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorConfigurations.ReturnComponent(record.Header.Id);
-                gridGuiPlcConfiguration.Initialize(0, 275, newGrid);
+                gridGuiPlcConfiguration.Initialize(0, 272, newGrid);
 
                 var gridGuiPlcConfigurationStatusBar = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorStatusBars.ReturnComponent(record.Header.Id);
                 gridGuiPlcConfigurationStatusBar.Initialize(95 * ((int)record.Header.Id - 1), -25, FooterGrid);

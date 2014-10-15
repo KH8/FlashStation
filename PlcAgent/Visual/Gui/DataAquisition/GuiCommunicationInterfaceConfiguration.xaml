@@ -13,7 +13,7 @@
                 <TextBox Name="InterfacePathBox" HorizontalAlignment="Left" Height="25" Margin="150,5,0,0" TextWrapping="Wrap" Text="File not loaded" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="120"/>
             </Grid>
         </GroupBox>
-        <Button Name="LoadFileButton" Content="Load File" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="LoadSettingFile"/>
-        <Button x:Name="ExportTemplateButton" Content="Save as XML" HorizontalAlignment="Left" Margin="105,64,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="ExportToTemplate"/>
+        <Button Name="LoadFileButton" Content="Load File" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" Width="100" Click="LoadSettingFile"/>
+        <Button x:Name="ExportTemplateButton" Content="Save as XML" HorizontalAlignment="Left" Margin="105,64,0,0" VerticalAlignment="Top" Width="100" Click="ExportToTemplate"/>
     </Grid>
 </dataAquisition:CommunicationInterfaceHandlerComponent>
