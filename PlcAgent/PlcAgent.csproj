@@ -115,7 +115,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="DataAquisition\CommunicationInterfaceHandlerComponent.cs" />
-    <Compile Include="DB\DbConnection.cs" />
+    <Compile Include="DB\DbConnectionHandler.cs" />
+    <Compile Include="DB\DbConnectionHandlerComponent.cs" />
+    <Compile Include="DB\DbConnectionHandlerFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>DbConnectionHandlerFile.settings</DependentUpon>
+    </Compile>
+    <Compile Include="DB\DbStoredProcedure.cs" />
     <Compile Include="License\BlowFish.cs" />
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="License\LicenseHandler.cs" />
@@ -259,6 +266,10 @@
     </None>
     <None Include="DataAquisition\DB1000_NEW.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="DB\DbConnectionHandlerFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>DbConnectionHandlerFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="License\license.lic">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

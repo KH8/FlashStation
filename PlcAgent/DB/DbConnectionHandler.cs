@@ -3,7 +3,7 @@ using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.DB
 {
-    class DbConnection : ExecutiveModule
+    class DbConnectionHandler : ExecutiveModule
     {
         #region Properties
 
@@ -17,7 +17,7 @@ namespace _PlcAgent.DB
 
         #region Constructors
 
-        public DbConnection(uint id, string name) : base(id, name)
+        public DbConnectionHandler(uint id, string name) : base(id, name)
         {
         }
 
