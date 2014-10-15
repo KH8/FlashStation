@@ -41,8 +41,10 @@ namespace _PlcAgent.MainRegistry
         protected OnAssignmentUpdateDelegate OnAssignmentUpdate;
         abstract protected void AssignmentFileUpdate();
 
-        protected ExecutiveModule(uint id, string name) : base(id, name)
+        protected ExecutiveModule(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler)
+            : base(id, name)
         {
+            CommunicationInterfaceHandler = communicationInterfaceHandler;
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
             OnAssignmentUpdate += AssignmentFileUpdate;
         }
@@ -91,9 +93,8 @@ namespace _PlcAgent.MainRegistry
         public DisplayDataBuilder.DisplayDataContainer ReadInterfaceCollection { get { return _outputDataTemplateCollection; } }
 
         protected OutputModule(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, OutputDataTemplate outputDataTemplate)
-            : base(id, name)
+            : base(id, name, communicationInterfaceHandler)
         {
-            CommunicationInterfaceHandler = communicationInterfaceHandler;
             OutputDataTemplate = outputDataTemplate;
         }
 
@@ -119,7 +120,8 @@ namespace _PlcAgent.MainRegistry
 
     public abstract class InputModule : ExecutiveModule
     {
-        protected InputModule(uint id, string name) : base(id, name)
+        protected InputModule(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler)
+            : base(id, name, communicationInterfaceHandler)
         {
         }
     }

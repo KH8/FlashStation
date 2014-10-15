@@ -47,9 +47,9 @@ namespace _PlcAgent.Vector
 
         #region Constructors
 
-        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile) : base(id, name)
+        public VFlashHandler(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, VFlashTypeBank vFlashTypeBank, VFlashHandlerInterfaceAssignmentFile vFlashHandlerInterfaceAssignmentFile)
+            : base(id, name, communicationInterfaceHandler)
         {
-            CommunicationInterfaceHandler = communicationInterfaceHandler;
             VFlashHandlerInterfaceAssignmentFile = vFlashHandlerInterfaceAssignmentFile;
 
             _vFlashErrorCollector = new VFlashErrorCollector();

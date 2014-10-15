@@ -8,17 +8,15 @@ namespace _PlcAgent.DB
 {
     public class DbConnection
     {
-        public static SqlConnection CreateSqlConnection()
+        public static SqlConnection CreateSqlConnection(string serverInstance, string initialCatalog)
         {
             var connectionString = "workstation id=" + Environment.MachineName;
-            connectionString += ";packet size=4096;integrated security=SSPI;";
-
-            //   Use the name of the SQL Server instance hosting the DEMO database
-            //   as the data source value in connectionString . . .
-
-            connectionString += "data source=";
-            connectionString += "WIN-IGCFP7C5SC0\\SQLEXPRESS"; //  <-- The name of the SQL Server instance . . .
-            connectionString += ";persist security info=False;initial catalog=DEMO;MultipleActiveResultSets=True";
+            connectionString += ";packet size=4096";
+            connectionString += ";integrated security=SSPI";
+            connectionString += ";data source=" + serverInstance;
+            connectionString += ";persist security info=False";
+            connectionString += ";initial catalog=" + initialCatalog;
+            connectionString += ";MultipleActiveResultSets=True";
 
             return new SqlConnection(connectionString);
         }
@@ -26,7 +24,7 @@ namespace _PlcAgent.DB
 
     public class DbStoredProcedure
     {
-        private readonly SqlConnection _localConn = DbConnection.CreateSqlConnection();
+        private readonly SqlConnection _localConn = DbConnection.CreateSqlConnection("","");
 
         private string _spName = "";
         private List<SqlParameter> _prmList = new List<SqlParameter>();

@@ -123,6 +123,11 @@
       <DependentUpon>DbConnectionHandlerFile.settings</DependentUpon>
     </Compile>
     <Compile Include="DB\DbStoredProcedure.cs" />
+    <Compile Include="DB\DbConnectionHandlerInterfaceAssignmentFile.Designer.cs">
+      <DependentUpon>DbConnectionHandlerInterfaceAssignmentFile.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <Compile Include="License\BlowFish.cs" />
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="License\LicenseHandler.cs" />
@@ -270,6 +275,10 @@
     <None Include="DB\DbConnectionHandlerFile.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>DbConnectionHandlerFile.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DB\DbConnectionHandlerInterfaceAssignmentFile.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>DbConnectionHandlerInterfaceAssignmentFile.Designer.cs</LastGenOutput>
     </None>
     <None Include="License\license.lic">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

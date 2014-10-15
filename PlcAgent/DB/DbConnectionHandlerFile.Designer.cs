@@ -22,5 +22,43 @@ namespace _PlcAgent.DB {
                 return defaultInstance;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                        <string>WIN-IGCFP7C5SC0\\SQLEXPRESS</string>
+                                                                    </ArrayOfString>")]
+        public string[] DbInstances
+        {
+            get { return ((string[])(this["DbInstances"])); }
+            set { this["DbInstances"] = value; }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfString>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                        <string>PlcAgent</string>
+                                                                    </ArrayOfString>")]
+        public string[] InitialCatalog
+        {
+            get { return ((string[])(this["InitialCatalog"])); }
+            set { this["InitialCatalog"] = value; }
+        }
     }
 }

@@ -101,12 +101,12 @@ namespace _PlcAgent.Analyzer
 
         #region Constructors
 
-        public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile, AnalyzerSetupFile analyzerSetupFile) : base(id, name)
+        public Analyzer(uint id, string name, CommunicationInterfaceHandler communicationInterfaceHandler, AnalyzerAssignmentFile analyzerAssignmentFile, AnalyzerSetupFile analyzerSetupFile)
+            : base(id, name, communicationInterfaceHandler)
         {
             PcControlModeChangeAllowed = true;
             PcControlMode = false;
 
-            CommunicationInterfaceHandler = communicationInterfaceHandler;
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += Clear;
 
             AnalyzerAssignmentFile = analyzerAssignmentFile;
