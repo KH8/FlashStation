@@ -39,13 +39,13 @@ namespace _PlcAgent.Visual.Gui.DB
 
             CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
-            CommunicationReadInterfaceListBox.View = CreateGridView();
-            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
-            CommunicationReadInterfaceListBox.Foreground = Brushes.Black;
+            StoredProcedureListBox.View = CreateGridView();
+            StoredProcedureListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            StoredProcedureListBox.Foreground = Brushes.Black;
 
-            CommunicationWriteInterfaceListBox.View = CreateGridView();
-            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
-            CommunicationWriteInterfaceListBox.Foreground = Brushes.Black;
+            ParameterListBox.View = CreateGridView();
+            ParameterListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
+            ParameterListBox.Foreground = Brushes.Black;
 
         }
 
@@ -62,13 +62,13 @@ namespace _PlcAgent.Visual.Gui.DB
             GeneralGrid.Height = height;
             GeneralGrid.Width = width;
 
-            CommunicationReadInterfaceListBox.Height = height;
-            CommunicationReadInterfaceListBox.Width = Limiter.DoubleLimit((width/2) - 2, 0);
-            CommunicationWriteInterfaceListBox.Height = height;
-            CommunicationWriteInterfaceListBox.Width = Limiter.DoubleLimit((width/2) - 2, 0);
+            StoredProcedureListBox.Height = height;
+            StoredProcedureListBox.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
+            ParameterListBox.Height = height;
+            ParameterListBox.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
 
-            CommunicationReadInterfaceListBox.View = CreateGridView();
-            CommunicationWriteInterfaceListBox.View = CreateGridView();
+            StoredProcedureListBox.View = CreateGridView();
+            ParameterListBox.View = CreateGridView();
         }
 
         private GridView CreateGridView()
@@ -110,10 +110,10 @@ namespace _PlcAgent.Visual.Gui.DB
 
         public void OnInterfaceUpdatedDelegate()
         {
-            CommunicationReadInterfaceListBox.ItemsSource = null;
-            CommunicationReadInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
-            CommunicationWriteInterfaceListBox.ItemsSource = null;
-            CommunicationWriteInterfaceListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
+            StoredProcedureListBox.ItemsSource = null;
+            StoredProcedureListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            ParameterListBox.ItemsSource = null;
+            ParameterListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
