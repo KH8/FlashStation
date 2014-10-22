@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.General;
 using _PlcAgent.MainRegistry;
 
 namespace _PlcAgent.DB
@@ -48,12 +49,19 @@ namespace _PlcAgent.DB
 
         protected override void AssignmentFileUpdate()
         {
-            throw new NotImplementedException();
+            DbConnectionHandlerInterfaceAssignmentFile.Assignment[Header.Id] = Assignment;
+            DbConnectionHandlerInterfaceAssignmentFile.Save();
         }
 
         protected override void CreateInterfaceAssignment()
         {
-            throw new NotImplementedException();
+            if (Assignment == null || Assignment.Length == 0) Assignment = new string[4];
+            InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
+
+            InterfaceAssignmentCollection.Add(0, "Command", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
+            InterfaceAssignmentCollection.Add(1, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(2, "Reply", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(3, "Status", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
         }
 
         #endregion

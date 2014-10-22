@@ -101,6 +101,21 @@ namespace _PlcAgent.MainRegistry {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public uint[][] DbConnectionHandlers
+        {
+            get
+            {
+                return ((uint[][])(this["DbConnectionHandlers"]));
+            }
+            set
+            {
+                this["DbConnectionHandlers"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public uint[][] VFlashTypeBanks
         {
             get

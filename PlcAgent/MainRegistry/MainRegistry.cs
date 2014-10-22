@@ -42,6 +42,11 @@ namespace _PlcAgent.MainRegistry
         public RegistryComposite GuiOutputHandlerComponents = new RegistryComposite(0, "");
         public RegistryComposite GuiOutputHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
 
+        public RegistryComposite DbConnectionHandlers = new RegistryComposite(0, "DB Connection Handlers");
+        public RegistryComposite GuiDbConnectionHandlers = new RegistryComposite(0, "");
+        public RegistryComposite GuiDbConnectionHandlerInterfaceAssignmentComponents = new RegistryComposite(0, "");
+        public RegistryComposite GuiDbStoredProcedures = new RegistryComposite(0, "");
+
         public RegistryComposite VFlashTypeBanks = new RegistryComposite(0, "vFlash Type Banks");
         public RegistryComposite GuiVFlashPathBanks = new RegistryComposite(0, "");
 
@@ -67,6 +72,7 @@ namespace _PlcAgent.MainRegistry
         public abstract uint AddOutputDataTemplate();
         public abstract uint AddOutputFileCreator(uint communicationInterfaceId, uint templateId);
         public abstract uint AddOutputHandler(uint communicationInterfaceId);
+        public abstract uint AddDbConnectionHandler(uint communicationInterfaceId);
         public abstract uint AddVFlashBank();
         public abstract uint AddVFlashChannel(uint communicationInterfaceId, uint vFlashBankId);
         public abstract uint AddAnalyzer(uint communicationInterfaceId);
@@ -76,6 +82,7 @@ namespace _PlcAgent.MainRegistry
         public abstract uint AddOutputDataTemplate(Boolean save);
         public abstract uint AddOutputFileCreator(Boolean save, uint communicationInterfaceId, uint templateId);
         public abstract uint AddOutputHandler(Boolean save, uint communicationInterfaceId);
+        public abstract uint AddDbConnectionHandler(Boolean save, uint communicationInterfaceId);
         public abstract uint AddVFlashBank(Boolean save);
         public abstract uint AddVFlashChannel(Boolean save, uint communicationInterfaceId, uint vFlashBankId);
         public abstract uint AddAnalyzer(Boolean save, uint communicationInterfaceId);
@@ -85,6 +92,7 @@ namespace _PlcAgent.MainRegistry
         public abstract uint AddOutputDataTemplate(uint id);
         public abstract uint AddOutputFileCreator(uint id, uint communicationInterfaceId, uint templateId);
         public abstract uint AddOutputHandler(uint id, uint communicationInterfaceId);
+        public abstract uint AddDbConnectionHandler(uint id, uint communicationInterfaceId);
         public abstract uint AddVFlashBank(uint id);
         public abstract uint AddVFlashChannel(uint id, uint communicationInterfaceId, uint vFlashBankId);
         public abstract uint AddAnalyzer(uint id, uint communicationInterfaceId);
@@ -100,6 +108,7 @@ namespace _PlcAgent.MainRegistry
             Modules.Add(OutputDataTemplates);
             Modules.Add(OutputFileCreators);
             Modules.Add(OutputHandlers);
+            Modules.Add(DbConnectionHandlers);
             Modules.Add(VFlashTypeBanks);
             Modules.Add(VFlashHandlers);
             Modules.Add(Analyzers);
@@ -115,6 +124,7 @@ namespace _PlcAgent.MainRegistry
             if (MainRegistryFile.Default.OutputDataTemplates == null) return;
             if (MainRegistryFile.Default.OutputFileCreators == null) return;
             if (MainRegistryFile.Default.OutputHandlers == null) return;
+            if (MainRegistryFile.Default.DbConnectionHandlers == null) return;
             if (MainRegistryFile.Default.VFlashTypeBanks == null) return;
             if (MainRegistryFile.Default.VFlashHandlers == null) return;
             if (MainRegistryFile.Default.Analyzers == null) return;
@@ -139,6 +149,10 @@ namespace _PlcAgent.MainRegistry
             {
                 AddOutputHandler(outputHandler[0], outputHandler[2]);
             }
+            foreach (var dbConnectionHandler in MainRegistryFile.Default.DbConnectionHandlers.Where(dbConnectionHandler => dbConnectionHandler != null))
+            {
+                AddDbConnectionHandler(dbConnectionHandler[0], dbConnectionHandler[2]);
+            }
             foreach (var vFlashTypeBank in MainRegistryFile.Default.VFlashTypeBanks.Where(vFlashTypeBank => vFlashTypeBank != null))
             {
                 AddVFlashBank(vFlashTypeBank[0]);
@@ -156,9 +170,11 @@ namespace _PlcAgent.MainRegistry
             Logger.Log("Registry content initialized");
         }
 
+        #region Plc Communicator
+
         public override uint AddPlcCommunicator(Boolean save)
         {
-            var id =  AddPlcCommunicator();
+            var id = AddPlcCommunicator();
             if (save && id != 0) UpdateRegistry();
             return id;
         }
@@ -182,10 +198,10 @@ namespace _PlcAgent.MainRegistry
             {
                 Logger.Log("ID: " + id + " Creation of the PLC Connection Component");
                 PlcCommunicators.Add(
-                    new PlcCommunicator(id, "PLC__" + id, 
+                    new PlcCommunicator(id, "PLC__" + id,
                         PlcConfigurationFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the PLC Connection");
-                component = (PlcCommunicator)PlcCommunicators.ReturnComponent(id);
+                component = (PlcCommunicator) PlcCommunicators.ReturnComponent(id);
                 component.InitializeConnection();
             }
             catch (Exception)
@@ -204,6 +220,11 @@ namespace _PlcAgent.MainRegistry
             return id;
         }
 
+        #endregion
+
+
+        #region Communication Interface
+
         public override uint AddCommunicationInterface(Boolean save, uint plcConnectionId)
         {
             var id = AddCommunicationInterface(plcConnectionId);
@@ -221,7 +242,8 @@ namespace _PlcAgent.MainRegistry
         {
             if (id > 8)
             {
-                MessageBox.Show("Maximum number of Communicator Interface \ncomponents exceeded", "Component Creation Failed");
+                MessageBox.Show("Maximum number of Communicator Interface \ncomponents exceeded",
+                    "Component Creation Failed");
                 return 0;
             }
 
@@ -231,7 +253,7 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + id + " Creation of the Communication Interface Component");
                 CommunicationInterfaceHandlers.Add(
                     new CommunicationInterfaceHandler(id, "INT__" + id,
-                        (PlcCommunicator)PlcCommunicators.ReturnComponent(plcConnectionId), 
+                        (PlcCommunicator) PlcCommunicators.ReturnComponent(plcConnectionId),
                         CommunicationInterfacePath.Default));
                 Logger.Log("ID: " + id + " Initialization of the Communication Interface");
                 component = (CommunicationInterfaceHandler) CommunicationInterfaceHandlers.ReturnComponent(id);
@@ -245,12 +267,19 @@ namespace _PlcAgent.MainRegistry
                 return 0;
             }
 
-            GuiComInterfacemunicationConfigurations.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceConfiguration(component)));
-            GuiCommunicationInterfaceOnlines.Add(new GuiComponent(id, "", new GuiCommunicationInterfaceOnlineHierarchical(component)));
+            GuiComInterfacemunicationConfigurations.Add(new GuiComponent(id, "",
+                new GuiCommunicationInterfaceConfiguration(component)));
+            GuiCommunicationInterfaceOnlines.Add(new GuiComponent(id, "",
+                new GuiCommunicationInterfaceOnlineHierarchical(component)));
 
             Logger.Log("ID: " + id + " new Communication Interface have been created");
             return id;
         }
+
+        #endregion
+
+
+        #region Output Data Template
 
         public override uint AddOutputDataTemplate(Boolean save)
         {
@@ -269,7 +298,8 @@ namespace _PlcAgent.MainRegistry
         {
             if (id > 8)
             {
-                MessageBox.Show("Maximum number of Output Data Template \ncomponents exceeded", "Component Creation Failed");
+                MessageBox.Show("Maximum number of Output Data Template \ncomponents exceeded",
+                    "Component Creation Failed");
                 return 0;
             }
 
@@ -278,7 +308,7 @@ namespace _PlcAgent.MainRegistry
             {
                 Logger.Log("ID: " + id + " Creation of the Output Data Template Component");
                 OutputDataTemplates.Add(new OutputDataTemplate(id, "TEMPLATE__" + id, OutputDataTemplateFile.Default));
-                component = (OutputDataTemplate)OutputDataTemplates.ReturnComponent(id);
+                component = (OutputDataTemplate) OutputDataTemplates.ReturnComponent(id);
 
                 Logger.Log("ID: " + id + " Initialization of the Output Data Template");
                 component.Initialize();
@@ -291,12 +321,17 @@ namespace _PlcAgent.MainRegistry
 
                 return 0;
             }
-            
+
             GuiOutputDataTemplates.Add(new GuiComponent(id, "", new GuiOutputDataTemplate(component)));
 
             Logger.Log("ID: " + id + " new Output Data Template have been created");
             return id;
         }
+
+        #endregion
+
+
+        #region Output Data File Creator
 
         public override uint AddOutputFileCreator(Boolean save, uint communicationInterfaceId, uint templateId)
         {
@@ -315,7 +350,8 @@ namespace _PlcAgent.MainRegistry
         {
             if (id > 8)
             {
-                MessageBox.Show("Maximum number of Output File Creator \ncomponents exceeded", "Component Creation Failed");
+                MessageBox.Show("Maximum number of Output File Creator \ncomponents exceeded",
+                    "Component Creation Failed");
                 return 0;
             }
 
@@ -325,12 +361,13 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + id + " Creation of the Output File Creator Component");
                 OutputFileCreators.Add(
                     new OutputFileCreator(id, "OUT__" + id,
-                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
-                        (OutputDataTemplate)OutputDataTemplates.ReturnComponent(templateId),
+                        (CommunicationInterfaceHandler)
+                            CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
+                        (OutputDataTemplate) OutputDataTemplates.ReturnComponent(templateId),
                         OutputFileCreatorFile.Default,
                         OutputFileCreatorInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Output File Creator");
-                component = (OutputFileCreator)OutputFileCreators.ReturnComponent(id);
+                component = (OutputFileCreator) OutputFileCreators.ReturnComponent(id);
                 component.Initialize();
             }
             catch (Exception)
@@ -342,11 +379,17 @@ namespace _PlcAgent.MainRegistry
             }
 
             GuiOutputFileCreatorComponents.Add(new GuiComponent(id, "", new GuiOutputFileCreator(component)));
-            GuiOutputFileCreatorInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
+            GuiOutputFileCreatorInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
+                new GuiInterfaceAssignment(component)));
 
             Logger.Log("ID: " + id + " new Output File Creator have been created");
             return id;
         }
+
+        #endregion
+
+
+        #region Output Handler
 
         public override uint AddOutputHandler(Boolean save, uint communicationInterfaceId)
         {
@@ -375,7 +418,8 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + id + " Creation of the Output Handler Component");
                 OutputHandlers.Add(
                     new OutputHandler(id, "OUT__" + id,
-                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), 
+                        (CommunicationInterfaceHandler)
+                            CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
                         OutputHandlerFile.Default,
                         OutputHandlerInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Output Handler");
@@ -391,11 +435,73 @@ namespace _PlcAgent.MainRegistry
             }
 
             GuiOutputHandlerComponents.Add(new GuiComponent(id, "", new GuiOutputHandler(component)));
-            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
+            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
+                new GuiInterfaceAssignment(component)));
 
             Logger.Log("ID: " + id + " new Output Handler have been created");
             return id;
         }
+
+        #endregion
+
+
+        #region DB Connection Handler
+
+        public override uint AddDbConnectionHandler(Boolean save, uint communicationInterfaceId)
+        {
+            var id = AddOutputHandler(communicationInterfaceId);
+            if (save && id != 0) UpdateRegistry();
+            return id;
+        }
+
+        public override uint AddDbConnectionHandler(uint communicationInterfaceId)
+        {
+            var id = OutputHandlers.GetFirstNotUsed();
+            return AddOutputHandler(id, communicationInterfaceId);
+        }
+
+        public override uint AddDbConnectionHandler(uint id, uint communicationInterfaceId)
+        {
+            if (id > 8)
+            {
+                MessageBox.Show("Maximum number of Output Handler \ncomponents exceeded", "Component Creation Failed");
+                return 0;
+            }
+
+            OutputHandler component;
+            try
+            {
+                Logger.Log("ID: " + id + " Creation of the Output Handler Component");
+                OutputHandlers.Add(
+                    new OutputHandler(id, "OUT__" + id,
+                        (CommunicationInterfaceHandler)
+                            CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
+                        OutputHandlerFile.Default,
+                        OutputHandlerInterfaceAssignmentFile.Default));
+                Logger.Log("ID: " + id + " Initialization of the Output Handler");
+                component = (OutputHandler) OutputHandlers.ReturnComponent(id);
+                component.Initialize();
+            }
+            catch (Exception)
+            {
+                OutputHandlers.Remove(OutputHandlers.ReturnComponent(id));
+                MessageBox.Show("Component could not be created", "Component Creation Failed");
+                Logger.Log("Creation of a new Output Handler failed");
+                return 0;
+            }
+
+            GuiOutputHandlerComponents.Add(new GuiComponent(id, "", new GuiOutputHandler(component)));
+            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
+                new GuiInterfaceAssignment(component)));
+
+            Logger.Log("ID: " + id + " new Output Handler have been created");
+            return id;
+        }
+
+        #endregion
+
+
+        #region vFlash Bank
 
         public override uint AddVFlashBank(Boolean save)
         {
@@ -420,13 +526,18 @@ namespace _PlcAgent.MainRegistry
 
             Logger.Log("ID: " + id + " Creation of the vFlash Bank Component");
             VFlashTypeBanks.Add(new VFlashTypeBank(id, "VFLASH_BANK__" + id, VFlashTypeBankFile.Default));
-            var component = (VFlashTypeBank)VFlashTypeBanks.ReturnComponent(id);
+            var component = (VFlashTypeBank) VFlashTypeBanks.ReturnComponent(id);
 
             GuiVFlashPathBanks.Add(new GuiComponent(id, "", new GuiVFlashPathBank(component)));
 
             Logger.Log("ID: " + id + " new vFlash Bank have been created");
             return id;
         }
+
+        #endregion
+
+
+        #region vFlash Channel
 
         public override uint AddVFlashChannel(Boolean save, uint communicationInterfaceId, uint vFlashBankId)
         {
@@ -455,11 +566,12 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + id + " Creation of the vFlash Channel Component");
                 VFlashHandlers.Add(
                     new VFlashHandler(id, "VFLASH__" + id,
-                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
-                        (VFlashTypeBank)VFlashTypeBanks.ReturnComponent(vFlashBankId),
+                        (CommunicationInterfaceHandler)
+                            CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
+                        (VFlashTypeBank) VFlashTypeBanks.ReturnComponent(vFlashBankId),
                         VFlashHandlerInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the vFlash Channel");
-                component = (VFlashHandler)VFlashHandlers.ReturnComponent(id);
+                component = (VFlashHandler) VFlashHandlers.ReturnComponent(id);
                 component.InitializeVFlash();
             }
             catch (Exception)
@@ -472,11 +584,17 @@ namespace _PlcAgent.MainRegistry
 
             GuiVFlashHandlerComponents.Add(new GuiComponent(id, "", new GuiVFlashHandler(component)));
             GuiVFlashStatusBars.Add(new GuiComponent(id, "", new GuiVFlashStatusBar(component)));
-            GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "", new GuiInterfaceAssignment(component)));
+            GuiVFlashHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
+                new GuiInterfaceAssignment(component)));
 
             Logger.Log("ID: " + id + " new vFlash Channel have been created");
             return id;
         }
+
+        #endregion
+
+
+        #region Analyzer
 
         public override uint AddAnalyzer(bool save, uint communicationInterfaceId)
         {
@@ -505,9 +623,11 @@ namespace _PlcAgent.MainRegistry
                 Logger.Log("ID: " + id + " Creation of the Analyzer Component");
                 Analyzers.Add(
                     new Analyzer.Analyzer(id, "ANALYZER__" + id,
-                        (CommunicationInterfaceHandler)CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId), AnalyzerAssignmentFile.Default, AnalyzerSetupFile.Default));
+                        (CommunicationInterfaceHandler)
+                            CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
+                        AnalyzerAssignmentFile.Default, AnalyzerSetupFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the Analyzer");
-                component = (Analyzer.Analyzer)Analyzers.ReturnComponent(id);
+                component = (Analyzer.Analyzer) Analyzers.ReturnComponent(id);
                 component.Initialize();
             }
             catch (Exception)
@@ -527,6 +647,9 @@ namespace _PlcAgent.MainRegistry
             Logger.Log("ID: " + id + " new Analyzer have been created");
             return id;
         }
+
+        #endregion
+
 
         public override void RemoveComponent(RegistryComponent component)
         {
