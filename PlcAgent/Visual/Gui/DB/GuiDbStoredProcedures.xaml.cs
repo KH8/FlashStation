@@ -5,6 +5,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
 using _PlcAgent.Visual.TreeListView;
@@ -32,19 +33,19 @@ namespace _PlcAgent.Visual.Gui.DB
 
         #region Constructors
 
-        public GuiDbStoredProcedures(CommunicationInterfaceHandler communicationInterfaceHandler)
-            : base(communicationInterfaceHandler)
+        public GuiDbStoredProcedures(DbConnectionHandler dbConnectionHandler)
+            : base(dbConnectionHandler)
         {
             InitializeComponent();
 
-            CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
+            DbConnectionHandler.CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
             StoredProcedureListBox.View = CreateGridView();
-            StoredProcedureListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            StoredProcedureListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.ReadInterfaceCollection;
             StoredProcedureListBox.Foreground = Brushes.Black;
 
             ParameterListBox.View = CreateGridView();
-            ParameterListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
+            ParameterListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.WriteInterfaceCollection;
             ParameterListBox.Foreground = Brushes.Black;
 
         }
@@ -111,9 +112,9 @@ namespace _PlcAgent.Visual.Gui.DB
         public void OnInterfaceUpdatedDelegate()
         {
             StoredProcedureListBox.ItemsSource = null;
-            StoredProcedureListBox.ItemsSource = CommunicationInterfaceHandler.ReadInterfaceCollection;
+            StoredProcedureListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.ReadInterfaceCollection;
             ParameterListBox.ItemsSource = null;
-            ParameterListBox.ItemsSource = CommunicationInterfaceHandler.WriteInterfaceCollection;
+            ParameterListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.WriteInterfaceCollection;
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

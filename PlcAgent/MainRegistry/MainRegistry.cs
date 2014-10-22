@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using _PlcAgent.Analyzer;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.Output;
@@ -14,6 +15,7 @@ using _PlcAgent.Vector;
 using _PlcAgent.Visual.Gui;
 using _PlcAgent.Visual.Gui.Analyzer;
 using _PlcAgent.Visual.Gui.DataAquisition;
+using _PlcAgent.Visual.Gui.DB;
 using _PlcAgent.Visual.Gui.Output;
 using _PlcAgent.Visual.Gui.PLC;
 using _PlcAgent.Visual.Gui.Vector;
@@ -449,52 +451,53 @@ namespace _PlcAgent.MainRegistry
 
         public override uint AddDbConnectionHandler(Boolean save, uint communicationInterfaceId)
         {
-            var id = AddOutputHandler(communicationInterfaceId);
+            var id = AddDbConnectionHandler(communicationInterfaceId);
             if (save && id != 0) UpdateRegistry();
             return id;
         }
 
         public override uint AddDbConnectionHandler(uint communicationInterfaceId)
         {
-            var id = OutputHandlers.GetFirstNotUsed();
-            return AddOutputHandler(id, communicationInterfaceId);
+            var id = DbConnectionHandlers.GetFirstNotUsed();
+            return AddDbConnectionHandler(id, communicationInterfaceId);
         }
 
         public override uint AddDbConnectionHandler(uint id, uint communicationInterfaceId)
         {
             if (id > 8)
             {
-                MessageBox.Show("Maximum number of Output Handler \ncomponents exceeded", "Component Creation Failed");
+                MessageBox.Show("Maximum number of DB Connection Handler \ncomponents exceeded", "Component Creation Failed");
                 return 0;
             }
 
-            OutputHandler component;
+            DbConnectionHandler component;
             try
             {
-                Logger.Log("ID: " + id + " Creation of the Output Handler Component");
-                OutputHandlers.Add(
-                    new OutputHandler(id, "OUT__" + id,
+                Logger.Log("ID: " + id + " Creation of the DB Connection Handler Component");
+                DbConnectionHandlers.Add(
+                    new DbConnectionHandler(id, "DB__" + id,
                         (CommunicationInterfaceHandler)
                             CommunicationInterfaceHandlers.ReturnComponent(communicationInterfaceId),
-                        OutputHandlerFile.Default,
-                        OutputHandlerInterfaceAssignmentFile.Default));
-                Logger.Log("ID: " + id + " Initialization of the Output Handler");
-                component = (OutputHandler) OutputHandlers.ReturnComponent(id);
+                        DbConnectionHandlerFile.Default,
+                        DbConnectionHandlerInterfaceAssignmentFile.Default));
+                Logger.Log("ID: " + id + " Initialization of the DB Connection Handler");
+                component = (DbConnectionHandler) DbConnectionHandlers.ReturnComponent(id);
                 component.Initialize();
             }
             catch (Exception)
             {
-                OutputHandlers.Remove(OutputHandlers.ReturnComponent(id));
+                DbConnectionHandlers.Remove(DbConnectionHandlers.ReturnComponent(id));
                 MessageBox.Show("Component could not be created", "Component Creation Failed");
-                Logger.Log("Creation of a new Output Handler failed");
+                Logger.Log("Creation of a new DB Connection Handler failed");
                 return 0;
             }
 
-            GuiOutputHandlerComponents.Add(new GuiComponent(id, "", new GuiOutputHandler(component)));
-            GuiOutputHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
+            GuiDbConnectionHandlers.Add(new GuiComponent(id, "", new GuiDbConnectionHandler(component)));
+            GuiDbConnectionHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
                 new GuiInterfaceAssignment(component)));
+            GuiDbStoredProcedures.Add(new GuiComponent(id, "", new GuiDbStoredProcedures(component)));
 
-            Logger.Log("ID: " + id + " new Output Handler have been created");
+            Logger.Log("ID: " + id + " new DB Connection Handler have been created");
             return id;
         }
 
@@ -649,7 +652,7 @@ namespace _PlcAgent.MainRegistry
         }
 
         #endregion
-
+        
 
         public override void RemoveComponent(RegistryComponent component)
         {
@@ -705,6 +708,15 @@ namespace _PlcAgent.MainRegistry
                 outputHandler.Deinitialize();
 
                 OutputHandlers.Children.Remove(component);
+            }
+            if (DbConnectionHandlers.Cast<object>().Any(dbCommunicationHandler => component == dbCommunicationHandler))
+            {
+                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
+
+                var dbCommunicationHandler = (OutputHandler)component;
+                dbCommunicationHandler.Deinitialize();
+
+                DbConnectionHandlers.Children.Remove(component);
             }
             if (VFlashTypeBanks.Cast<object>().Any(vFlashTypeBank => component == vFlashTypeBank))
             {
@@ -775,6 +787,11 @@ namespace _PlcAgent.MainRegistry
             OutputHandlers.Clear();
             GuiOutputHandlerComponents.Clear();
             GuiOutputHandlerInterfaceAssignmentComponents.Clear();
+
+            DbConnectionHandlers.Clear();
+            GuiDbConnectionHandlers.Clear();
+            GuiDbConnectionHandlerInterfaceAssignmentComponents.Clear();
+            GuiDbStoredProcedures.Clear();
 
             VFlashTypeBanks.Clear();
             GuiVFlashPathBanks.Clear();
@@ -867,6 +884,19 @@ namespace _PlcAgent.MainRegistry
                 MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][4] = 0;
             }
 
+            MainRegistryFile.Default.DbConnectionHandlers = new uint[9][];
+            foreach (DbConnectionHandler dbConnectionHandler in DbConnectionHandlers)
+            {
+                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id] = new uint[9];
+                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][0] =
+                    dbConnectionHandler.Header.Id;
+                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][1] = 0;
+                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][2] =
+                    dbConnectionHandler.CommunicationInterfaceHandler.Header.Id;
+                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][3] = 0;
+                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][4] = 0;
+            }
+
             MainRegistryFile.Default.VFlashTypeBanks = new uint[9][];
             foreach (VFlashTypeBank vFlashTypeBank in VFlashTypeBanks)
             {
@@ -918,6 +948,8 @@ namespace _PlcAgent.MainRegistry
             OutputFileCreatorInterfaceAssignmentFile.Default.Reset();
             OutputHandlerFile.Default.Reset();
             OutputHandlerInterfaceAssignmentFile.Default.Reset();
+            DbConnectionHandlerFile.Default.Reset();
+            DbConnectionHandlerInterfaceAssignmentFile.Default.Reset();
             VFlashTypeBankFile.Default.Reset();
             VFlashHandlerInterfaceAssignmentFile.Default.Reset();
             AnalyzerAssignmentFile.Default.Reset();
@@ -966,6 +998,14 @@ namespace _PlcAgent.MainRegistry
             OutputHandlerInterfaceAssignmentFile.Default.Assignment = projectData.OutputHandlerAssignment;
             OutputHandlerInterfaceAssignmentFile.Default.Save();
 
+            DbConnectionHandlerFile.Default.DbInstances = projectData.DbConnectionHandlerFileDbInstances;
+            DbConnectionHandlerFile.Default.InitialCatalogs = projectData.DbConnectionHandlerFileInitialCatalogs;
+            DbConnectionHandlerFile.Default.ConfigurationFileNames = projectData.DbConnectionHandlerFileConfigurationFileNames;
+            DbConnectionHandlerFile.Default.Save();
+
+            DbConnectionHandlerInterfaceAssignmentFile.Default.Assignment = projectData.DbConnectionHandlerAssignment;
+            DbConnectionHandlerInterfaceAssignmentFile.Default.Save();
+
             VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
             VFlashTypeBankFile.Default.Save();
 
@@ -991,6 +1031,7 @@ namespace _PlcAgent.MainRegistry
             var projectData = new ProjectFileStruture.ProjectSavedData
             {
                 PlcCommunicators = MainRegistryFile.Default.PlcCommunicators,
+
                 CommunicationInterfaceHandlers = MainRegistryFile.Default.CommunicationInterfaceHandlers,
                 OutputDataTemplates = MainRegistryFile.Default.OutputDataTemplates,
                 OutputFileCreators = MainRegistryFile.Default.OutputFileCreators,
@@ -998,29 +1039,40 @@ namespace _PlcAgent.MainRegistry
                 VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
                 VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
                 Analyzers = MainRegistryFile.Default.Analyzers,
+
                 Configuration = PlcConfigurationFile.Default.Configuration,
                 ConnectAtStartUp = PlcConfigurationFile.Default.ConnectAtStartUp,
+
                 Path = CommunicationInterfacePath.Default.Path,
                 ConfigurationStatus = CommunicationInterfacePath.Default.ConfigurationStatus,
+
                 TemplatePaths = OutputDataTemplateFile.Default.TemplateFiles,
+
                 OutputFileCreatorFileNameSuffixes = OutputFileCreatorFile.Default.FileNameSuffixes,
                 OutputFileCreatorSelectedIndex = OutputFileCreatorFile.Default.SelectedIndex,
                 OutputFileCreatorDirectoryPaths = OutputFileCreatorFile.Default.DirectoryPaths,
+
                 OutputFileCreatorAssignment = OutputFileCreatorInterfaceAssignmentFile.Default.Assignment,
+
                 OutputHandlerFileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
                 OutputHandlerStartAddress = OutputHandlerFile.Default.StartAddress,
                 OutputHandlerEndAddress = OutputHandlerFile.Default.EndAddress,
                 OutputHandlerSelectedIndex = OutputHandlerFile.Default.SelectedIndex,
                 OutputHandlerDirectoryPaths = OutputHandlerFile.Default.DirectoryPaths,
+
                 OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
+
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
+
                 VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,
-                AnalyzerAssignment = AnalyzerAssignmentFile.Default.Assignment,
+
                 SampleTime = AnalyzerSetupFile.Default.SampleTime,
                 TimeRange = AnalyzerSetupFile.Default.TimeRange,
                 NumberOfChannels = AnalyzerSetupFile.Default.NumberOfChannels,
                 Channels = AnalyzerSetupFile.Default.Channels,
-                ShowDataCursors = AnalyzerSetupFile.Default.ShowDataCursors
+                ShowDataCursors = AnalyzerSetupFile.Default.ShowDataCursors,
+
+                AnalyzerAssignment = AnalyzerAssignmentFile.Default.Assignment,
             };
             return projectData;
         }

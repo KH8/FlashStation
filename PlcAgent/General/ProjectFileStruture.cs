@@ -36,6 +36,11 @@ namespace _PlcAgent.General
             public string[] OutputHandlerDirectoryPaths;
             public string[][] OutputHandlerAssignment;
 
+            public string[] DbConnectionHandlerFileDbInstances;
+            public string[] DbConnectionHandlerFileInitialCatalogs;
+            public string[] DbConnectionHandlerFileConfigurationFileNames;
+            public string[][] DbConnectionHandlerAssignment;
+
             public string[][] TypeBank;
             public string[][] VFlashHandlerAssignment;
 
