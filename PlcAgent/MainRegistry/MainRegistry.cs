@@ -670,10 +670,7 @@ namespace _PlcAgent.MainRegistry
 
         public void Deinitialize()
         {
-            foreach (var composite in Modules.Cast<object>().SelectMany(module => ((RegistryComposite) module).Cast<Module>()))
-            {
-                composite.Deinitialize();
-            }
+            foreach (var composite in Modules.Cast<object>().SelectMany(module => ((RegistryComposite) module).Cast<Module>())) composite.Deinitialize();
         }
 
         public override void RemoveAll()

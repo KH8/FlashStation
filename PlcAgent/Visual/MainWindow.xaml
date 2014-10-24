@@ -29,7 +29,7 @@
                 <Separator></Separator>
                 <MenuItem Header="_Add Output Data Template" Click="AddOutputDataTemplate"></MenuItem>
                 <MenuItem Header="_Add Output File Creator" Click="AddOutputFileCreator"></MenuItem>
-                <MenuItem Header="_Add SQL connection" IsEnabled="False"></MenuItem>
+                <MenuItem Header="_Add DB connection" Click="AddDbConnectionHandler"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Add Analyzer" Click="AddAnalyzer"></MenuItem>
                 <MenuItem Header="_Add VFlash Bank" Click="AddVFlashBank"></MenuItem>

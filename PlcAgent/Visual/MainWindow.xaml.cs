@@ -155,6 +155,22 @@ namespace _PlcAgent.Visual
             window.Show();
         }
 
+        private void AddDbConnectionHandler(object sender, RoutedEventArgs e)
+        {
+            var newHeader = new TreeViewItem { Header = "Communication Interfaces", IsExpanded = true };
+            foreach (CommunicationInterfaceHandler record in RegistryContext.Registry.CommunicationInterfaceHandlers)
+            {
+                newHeader.Items.Add(new TreeViewItem
+                {
+                    Header = record.Description,
+                    AlternationCount = (int)record.Header.Id
+                });
+            }
+
+            var window = new ComponentCreationWindow("Select a Communication Interface to be assigned with a new DB Connection Handler", newHeader, RegistryContext.Registry.AddDbConnectionHandler);
+            window.Show();
+        }
+
         private void AddVFlashBank(object sender, RoutedEventArgs e)
         {
             RegistryContext.Registry.AddVFlashBank(true);
