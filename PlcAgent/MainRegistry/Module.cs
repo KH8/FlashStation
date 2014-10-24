@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Output.Template;
@@ -17,6 +18,7 @@ namespace _PlcAgent.MainRegistry
 
         public abstract void Initialize();
         public abstract void Deinitialize();
+        public abstract void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl, TabControl connectionTabControl, Grid footerGrid);
 
         public event PropertyChangedEventHandler PropertyChanged;
 

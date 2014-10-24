@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
 
 namespace _PlcAgent.Output.OutputHandler
 {
@@ -69,6 +71,30 @@ namespace _PlcAgent.Output.OutputHandler
         {
             _communicationThread.Abort();
             Logger.Log("ID: " + Header.Id + " Output Handler Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            outputTabControl.Items.Add(newtabItem);
+            outputTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+            };
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            var guiOutputHandlerComponent = (GuiComponent)RegistryContext.Registry.GuiOutputHandlerComponents.ReturnComponent(Header.Id);
+            guiOutputHandlerComponent.Initialize(0, 0, newGrid);
+
+            var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiOutputHandlerInterfaceAssignmentComponents.ReturnComponent(Header.Id);
+            gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
         }
 
         public void CreateOutput()

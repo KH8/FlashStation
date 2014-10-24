@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
+using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
 using _PlcAgent.PLC;
+using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.DataAquisition;
 using _PlcAgent.Visual.TreeListView;
 
 namespace _PlcAgent.DataAquisition
@@ -100,6 +104,39 @@ namespace _PlcAgent.DataAquisition
             _communicationThread.Abort();
 
             Logger.Log("ID: " + Header.Id + " Communication interface Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            connectionTabControl.Items.Add(newtabItem);
+            connectionTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer();
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            var gridGuiCommunicationInterfaceConfiguration = (GuiComponent)RegistryContext.Registry.GuiComInterfacemunicationConfigurations.ReturnComponent(Header.Id);
+            gridGuiCommunicationInterfaceConfiguration.Initialize(0, 0, newGrid);
+
+            newtabItem = new TabItem { Header = Header.Name + " Online" };
+            mainTabControl.Items.Add(newtabItem);
+            mainTabControl.SelectedItem = newtabItem;
+
+            newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            newGrid.Height = Limiter.DoubleLimit(mainTabControl.Height - 32, 0);
+            newGrid.Width = Limiter.DoubleLimit(mainTabControl.Width - 10, 0);
+
+            var gridGuiCommunicationInterfaceOnline = (GuiComponent)RegistryContext.Registry.GuiCommunicationInterfaceOnlines.ReturnComponent(Header.Id);
+            gridGuiCommunicationInterfaceOnline.Initialize(0, 0, newGrid);
+            var guiComponent = (GuiCommunicationInterfaceOnlineHierarchical)gridGuiCommunicationInterfaceOnline.UserControl;
+            guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
+            guiComponent.TabItem = newtabItem;
         }
 
         public void InitializeInterface()

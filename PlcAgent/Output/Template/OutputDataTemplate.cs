@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Windows.Controls;
+using _PlcAgent.General;
 using _PlcAgent.Log;
+using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.Output;
 
 namespace _PlcAgent.Output.Template
 {
@@ -56,6 +61,26 @@ namespace _PlcAgent.Output.Template
         public override void Deinitialize()
         {
             Logger.Log("ID: " + Header.Id + " Output Data Template Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            mainTabControl.Items.Add(newtabItem);
+            mainTabControl.SelectedItem = newtabItem;
+
+            var newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            newGrid.Height = Limiter.DoubleLimit(mainTabControl.Height - 32, 0);
+            newGrid.Width = Limiter.DoubleLimit(mainTabControl.Width - 10, 0);
+
+            var gridGuiOutputDataTemplate = (GuiComponent)RegistryContext.Registry.GuiOutputDataTemplates.ReturnComponent(Header.Id);
+            gridGuiOutputDataTemplate.Initialize(0, 0, newGrid);
+
+            var gridGuiOutputDataTemplateGrid = (GuiOutputDataTemplate)gridGuiOutputDataTemplate.UserControl;
+            gridGuiOutputDataTemplateGrid.UpdateSizes(newGrid.Height, newGrid.Width);
         }
 
         public void Clear()

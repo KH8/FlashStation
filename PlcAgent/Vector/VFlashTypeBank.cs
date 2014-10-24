@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
+using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.Vector;
 
 namespace _PlcAgent.Vector
 {
@@ -110,6 +114,32 @@ namespace _PlcAgent.Vector
         public override void Deinitialize()
         {
             Logger.Log("ID: " + Header.Id + " vFlashTypeBank Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            outputTabControl.Items.Add(newtabItem);
+            outputTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+            };
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            newGrid.Height = Limiter.DoubleLimit(outputTabControl.Height - 50.0, 0);
+            newGrid.Width = Limiter.DoubleLimit(outputTabControl.Width - 10, 0);
+
+            var gridGuiVFlashPathBank = (GuiComponent)RegistryContext.Registry.GuiVFlashPathBanks.ReturnComponent(Header.Id);
+            gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
+            var guiComponent = (GuiVFlashPathBank)gridGuiVFlashPathBank.UserControl;
+            guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
         }
 
         public void Add(VFlashDisplayProjectData c)

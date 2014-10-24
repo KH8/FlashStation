@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using _PlcAgent.DataAquisition;
 using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;

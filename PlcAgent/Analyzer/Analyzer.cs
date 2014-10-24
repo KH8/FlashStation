@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using OxyPlot.Axes;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
 using _PlcAgent.Visual.Gui.Analyzer;
 
 namespace _PlcAgent.Analyzer
@@ -178,6 +180,52 @@ namespace _PlcAgent.Analyzer
             _communicationThread.Abort();
 
             Logger.Log("ID: " + Header.Id + " Analyzer Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            outputTabControl.Items.Add(newtabItem);
+            outputTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+            };
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            var gridAnalyzerConfiguration = (GuiComponent)RegistryContext.Registry.GuiAnalyzerConfigurations.ReturnComponent(Header.Id);
+            gridAnalyzerConfiguration.Initialize(0, 0, newGrid);
+
+            var gridAnalyzerControl = (GuiComponent)RegistryContext.Registry.GuiAnalyzerControls.ReturnComponent(Header.Id);
+            gridAnalyzerControl.Initialize(0, 150, newGrid);
+
+            var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiAnalyzerInterfaceAssignmentComponents.ReturnComponent(Header.Id);
+            gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
+
+            var gridGuiDataCursorTable = (GuiComponent)RegistryContext.Registry.GuiAnalyzerDataCursorTables.ReturnComponent(Header.Id);
+            gridGuiDataCursorTable.Initialize(927, 0, newGrid);
+
+            newtabItem = new TabItem { Header = Header.Name };
+            mainTabControl.Items.Add(newtabItem);
+            mainTabControl.SelectedItem = newtabItem;
+
+            newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            newGrid.Height = Limiter.DoubleLimit(mainTabControl.Height - 32, 0);
+            newGrid.Width = Limiter.DoubleLimit(mainTabControl.Width - 10, 0);
+
+            var analyzerMainFrameGrid = (GuiComponent)RegistryContext.Registry.GuiAnalyzerMainFrames.ReturnComponent(Header.Id);
+            analyzerMainFrameGrid.Initialize(0, 0, newGrid);
+
+            var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame)analyzerMainFrameGrid.UserControl;
+            guiAnalyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
         }
 
         public void StartStopRecording()

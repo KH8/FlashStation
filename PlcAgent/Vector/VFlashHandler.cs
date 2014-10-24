@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
 
 namespace _PlcAgent.Vector
 {
@@ -100,6 +102,33 @@ namespace _PlcAgent.Vector
             _vFlashThread.Abort();
 
             Logger.Log("ID: " + Header.Id + " vFlash Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            outputTabControl.Items.Add(newtabItem);
+            outputTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+            };
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            var gridVFlashComponent = (GuiComponent)RegistryContext.Registry.GuiVFlashHandlerComponents.ReturnComponent(Header.Id);
+            gridVFlashComponent.Initialize(0, 0, newGrid);
+
+            var gridGuiVFlashStatusBar = (GuiComponent)RegistryContext.Registry.GuiVFlashStatusBars.ReturnComponent(Header.Id);
+            gridGuiVFlashStatusBar.Initialize(95 * ((int)Header.Id - 1), 18, footerGrid);
+
+            var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiVFlashHandlerInterfaceAssignmentComponents.ReturnComponent(Header.Id);
+            gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
         }
 
         public void LoadProject(uint chanId)

@@ -3,8 +3,10 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using System.Windows.Controls;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
 
 namespace _PlcAgent.PLC
 {
@@ -174,6 +176,29 @@ namespace _PlcAgent.PLC
             _dataAquisitionThread.Abort();
 
             Logger.Log("ID: " + Header.Id + " PLC communication Deinitialized");
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            connectionTabControl.Items.Add(newtabItem);
+            connectionTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer();
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            var gridGuiCommunicationStatus = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorStatuses.ReturnComponent(Header.Id);
+            gridGuiCommunicationStatus.Initialize(0, 0, newGrid);
+
+            var gridGuiPlcConfiguration = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorConfigurations.ReturnComponent(Header.Id);
+            gridGuiPlcConfiguration.Initialize(0, 272, newGrid);
+
+            var gridGuiPlcConfigurationStatusBar = (GuiComponent)RegistryContext.Registry.GuiPlcCommunicatorStatusBars.ReturnComponent(Header.Id);
+            gridGuiPlcConfigurationStatusBar.Initialize(95 * ((int)Header.Id - 1), -25, footerGrid);
         }
 
         public void InitializeConnection()

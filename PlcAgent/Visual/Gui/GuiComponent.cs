@@ -60,6 +60,11 @@ namespace _PlcAgent.Visual.Gui
         public override void Deinitialize()
         {}
 
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+        }
+
         public void MakeVisible()
         {
             UserControl.Visibility = Visibility.Visible;

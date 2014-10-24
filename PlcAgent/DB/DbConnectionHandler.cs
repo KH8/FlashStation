@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
 using _PlcAgent.MainRegistry;
+using _PlcAgent.Visual.Gui;
+using _PlcAgent.Visual.Gui.DB;
 
 namespace _PlcAgent.DB
 {
@@ -30,6 +32,10 @@ namespace _PlcAgent.DB
         {
             DbConnectionHandlerFile = dbConnectionHandlerFile;
             DbConnectionHandlerInterfaceAssignmentFile = dbConnectionHandlerInterfaceAssignmentFile;
+
+            if (dbConnectionHandlerInterfaceAssignmentFile.Assignment == null) dbConnectionHandlerInterfaceAssignmentFile.Assignment = new string[9][];
+            Assignment = dbConnectionHandlerInterfaceAssignmentFile.Assignment[Header.Id];
+            CreateInterfaceAssignment();
         }
 
         #endregion
@@ -39,12 +45,50 @@ namespace _PlcAgent.DB
 
         public override void Initialize()
         {
-            throw new NotImplementedException();
         }
 
         public override void Deinitialize()
         {
-            throw new NotImplementedException();
+        }
+
+        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+            TabControl connectionTabControl, Grid footerGrid)
+        {
+            var newtabItem = new TabItem { Header = Header.Name };
+            outputTabControl.Items.Add(newtabItem);
+            outputTabControl.SelectedItem = newtabItem;
+
+            var newScrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+            };
+            newtabItem.Content = newScrollViewer;
+
+            var newGrid = new Grid();
+            newScrollViewer.Content = newGrid;
+
+            var gridDbConnectionHandler = (GuiComponent)RegistryContext.Registry.GuiDbConnectionHandlers.ReturnComponent(Header.Id);
+            gridDbConnectionHandler.Initialize(0, 0, newGrid);
+
+            var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiDbConnectionHandlerInterfaceAssignmentComponents.ReturnComponent(Header.Id);
+            gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
+
+            newtabItem = new TabItem { Header = Header.Name };
+            mainTabControl.Items.Add(newtabItem);
+            mainTabControl.SelectedItem = newtabItem;
+
+            newGrid = new Grid();
+            newtabItem.Content = newGrid;
+
+            newGrid.Height = Limiter.DoubleLimit(mainTabControl.Height - 32, 0);
+            newGrid.Width = Limiter.DoubleLimit(mainTabControl.Width - 10, 0);
+
+            var dbStoredProcedures = (GuiComponent)RegistryContext.Registry.GuiDbStoredProcedures.ReturnComponent(Header.Id);
+            dbStoredProcedures.Initialize(0, 0, newGrid);
+
+            var dbStoredProceduresGrid = (GuiDbStoredProcedures)dbStoredProcedures.UserControl;
+            dbStoredProceduresGrid.UpdateSizes(newGrid.Height, newGrid.Width);
         }
 
         protected override void AssignmentFileUpdate()
@@ -53,7 +97,7 @@ namespace _PlcAgent.DB
             DbConnectionHandlerInterfaceAssignmentFile.Save();
         }
 
-        protected override void CreateInterfaceAssignment()
+        protected override sealed void CreateInterfaceAssignment()
         {
             if (Assignment == null || Assignment.Length == 0) Assignment = new string[4];
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
