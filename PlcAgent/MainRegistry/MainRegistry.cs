@@ -656,105 +656,14 @@ namespace _PlcAgent.MainRegistry
 
         public override void RemoveComponent(RegistryComponent component)
         {
-            if (PlcCommunicators.Cast<object>().Any(plcCommunicator => component == plcCommunicator))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                foreach (var plcGuiCommunicationStatusBar in GuiPlcCommunicatorStatusBars.Cast<GuiComponent>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
-                {
-                    GuiPlcCommunicatorStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
-                    break;
-                }
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var plcCommunicator = (PlcCommunicator)component;
-                plcCommunicator.Deinitialize();
-
-                PlcCommunicators.Children.Remove(component);
-            }
-            if (CommunicationInterfaceHandlers.Cast<object>().Any(communicationInterfaceHandler => component == communicationInterfaceHandler))
+            foreach (var modulesComposite in Modules.Cast<RegistryComposite>().Where(modulesComposite => modulesComposite.Cast<object>().Any(module => component == module)))
             {
                 CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
-                var communicationInterfaceHandler = (CommunicationInterfaceHandler)component;
-                communicationInterfaceHandler.Deinitialize();
-
-                CommunicationInterfaceHandlers.Children.Remove(component);
-            }
-            if (OutputDataTemplates.Cast<object>().Any(outputDataTemplate => component == outputDataTemplate))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var outputDataTemplate = (OutputDataTemplate)component;
-                outputDataTemplate.Deinitialize();
-
-                OutputDataTemplates.Children.Remove(component);
-            }
-            if (OutputFileCreators.Cast<object>().Any(outputFileCreator => component == outputFileCreator))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var outputFileCreator = (OutputFileCreator)component;
-                outputFileCreator.Deinitialize();
-
-                OutputFileCreators.Children.Remove(component);
-            }
-            if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var outputHandler = (OutputHandler)component;
-                outputHandler.Deinitialize();
-
-                OutputHandlers.Children.Remove(component);
-            }
-            if (DbConnectionHandlers.Cast<object>().Any(dbCommunicationHandler => component == dbCommunicationHandler))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var dbCommunicationHandler = (OutputHandler)component;
-                dbCommunicationHandler.Deinitialize();
-
-                DbConnectionHandlers.Children.Remove(component);
-            }
-            if (VFlashTypeBanks.Cast<object>().Any(vFlashTypeBank => component == vFlashTypeBank))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var vFlashTypeBank = (VFlashTypeBank)component;
-                vFlashTypeBank.Deinitialize();
-
-                VFlashTypeBanks.Children.Remove(component);
-            }
-            if (VFlashHandlers.Cast<object>().Any(vFlashHandler => component == vFlashHandler))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                foreach (var guiVFlashStatusBar in GuiVFlashStatusBars.Cast<GuiComponent>().Where(guiVFlashStatusBar => guiVFlashStatusBar.Header.Id == component.Header.Id))
-                {
-                    GuiVFlashStatusBars.Children.Remove(guiVFlashStatusBar);
-                    break;
-                }
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var vFlashHandler = (VFlashHandler)component;
-                vFlashHandler.Deinitialize();
-
-                VFlashHandlers.Children.Remove(component);
-            }
-            if (Analyzers.Cast<object>().Any(analyzer => component == analyzer))
-            {
-                CheckAssignment(component, component.ReferencePosition);
-                Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
-
-                var analyzer = (Analyzer.Analyzer)component;
-                analyzer.Deinitialize();
-
-                Analyzers.Children.Remove(component);
+                var module = (Module)component;
+                module.Deinitialize();
+                modulesComposite.Children.Remove(component);
             }
             UpdateRegistry();
         }
