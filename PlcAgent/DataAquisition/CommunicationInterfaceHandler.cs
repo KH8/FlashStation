@@ -53,6 +53,7 @@ namespace _PlcAgent.DataAquisition
             CommunicationInterfacePath pathFile)
             : base(id, name)
         {
+            ReferencePosition = 2;
             PlcCommunicator = plcCommunicator;
             PathFile = pathFile;
 

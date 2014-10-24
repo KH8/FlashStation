@@ -131,6 +131,8 @@ namespace _PlcAgent.PLC
 
         public PlcCommunicator(uint id, string name, PlcConfigurationFile plcConfigurationFile) : base(id, name)
         {
+            ReferencePosition = 1;
+
             _readBytes = null;
             _writeBytes = null;
             _readBytesBuffer = null;

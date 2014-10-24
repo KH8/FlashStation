@@ -658,7 +658,7 @@ namespace _PlcAgent.MainRegistry
         {
             if (PlcCommunicators.Cast<object>().Any(plcCommunicator => component == plcCommunicator))
             {
-                CheckAssignment(component, 1);
+                CheckAssignment(component, component.ReferencePosition);
                 foreach (var plcGuiCommunicationStatusBar in GuiPlcCommunicatorStatusBars.Cast<GuiComponent>().Where(plcGuiCommunicationStatusBar => plcGuiCommunicationStatusBar.Header.Id == component.Header.Id))
                 {
                     GuiPlcCommunicatorStatusBars.Children.Remove(plcGuiCommunicationStatusBar);
@@ -673,7 +673,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (CommunicationInterfaceHandlers.Cast<object>().Any(communicationInterfaceHandler => component == communicationInterfaceHandler))
             {
-                CheckAssignment(component, 2);
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var communicationInterfaceHandler = (CommunicationInterfaceHandler)component;
@@ -683,7 +683,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (OutputDataTemplates.Cast<object>().Any(outputDataTemplate => component == outputDataTemplate))
             {
-                CheckAssignment(component, 4);
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var outputDataTemplate = (OutputDataTemplate)component;
@@ -693,6 +693,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (OutputFileCreators.Cast<object>().Any(outputFileCreator => component == outputFileCreator))
             {
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var outputFileCreator = (OutputFileCreator)component;
@@ -702,6 +703,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (OutputHandlers.Cast<object>().Any(outputHandler => component == outputHandler))
             {
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var outputHandler = (OutputHandler)component;
@@ -711,6 +713,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (DbConnectionHandlers.Cast<object>().Any(dbCommunicationHandler => component == dbCommunicationHandler))
             {
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var dbCommunicationHandler = (OutputHandler)component;
@@ -720,7 +723,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (VFlashTypeBanks.Cast<object>().Any(vFlashTypeBank => component == vFlashTypeBank))
             {
-                CheckAssignment(component, 3);
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var vFlashTypeBank = (VFlashTypeBank)component;
@@ -730,6 +733,7 @@ namespace _PlcAgent.MainRegistry
             }
             if (VFlashHandlers.Cast<object>().Any(vFlashHandler => component == vFlashHandler))
             {
+                CheckAssignment(component, component.ReferencePosition);
                 foreach (var guiVFlashStatusBar in GuiVFlashStatusBars.Cast<GuiComponent>().Where(guiVFlashStatusBar => guiVFlashStatusBar.Header.Id == component.Header.Id))
                 {
                     GuiVFlashStatusBars.Children.Remove(guiVFlashStatusBar);
@@ -744,11 +748,10 @@ namespace _PlcAgent.MainRegistry
             }
             if (Analyzers.Cast<object>().Any(analyzer => component == analyzer))
             {
-                var analyzer = (Analyzer.Analyzer) component;
-                if (analyzer.Recording) throw new Exception("At least one of the components function is still running");
-
+                CheckAssignment(component, component.ReferencePosition);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
+                var analyzer = (Analyzer.Analyzer)component;
                 analyzer.Deinitialize();
 
                 Analyzers.Children.Remove(component);
@@ -1083,9 +1086,10 @@ namespace _PlcAgent.MainRegistry
             return projectData;
         }
 
-        private void CheckAssignment(RegistryComponent component, int position)
+        private static void CheckAssignment(RegistryComponent component, int position)
         {
             if (component == null) return;
+            if (position == -1) return;
             var index = position;
 
             if (MainRegistryFile.Default.PlcCommunicators.Any(plcCommunicator => plcCommunicator != null && plcCommunicator[index] == component.Header.Id))

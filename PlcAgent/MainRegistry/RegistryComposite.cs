@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 namespace _PlcAgent.MainRegistry
 {
@@ -11,12 +12,15 @@ namespace _PlcAgent.MainRegistry
             public string Name;
         }
 
+        public int ReferencePosition { get; set; }
+
         public abstract string Description { get; }
 
         public RegistryComponentHeader Header;
 
         protected RegistryComponent(uint id, string name)
         {
+            ReferencePosition = -1;
             Header = new RegistryComponentHeader
             {
                 Id = id,

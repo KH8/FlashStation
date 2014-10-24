@@ -94,6 +94,7 @@ namespace _PlcAgent.Vector
 
         public VFlashTypeBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile) : base(id, name)
         {
+            ReferencePosition = 3;
             VFlashTypeBankFile = vFlashTypeBankFile;
         }
 

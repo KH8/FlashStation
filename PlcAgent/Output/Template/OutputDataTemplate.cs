@@ -26,6 +26,7 @@ namespace _PlcAgent.Output.Template
 
         public OutputDataTemplate(uint id, string name, OutputDataTemplateFile outputDataTemplateFile) : base(id, name)
         {
+            ReferencePosition = 4;
             OutputDataTemplateFile = outputDataTemplateFile;
         }
 
