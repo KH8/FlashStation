@@ -1054,6 +1054,12 @@ namespace _PlcAgent.MainRegistry
 
                 OutputFileCreatorAssignment = OutputFileCreatorInterfaceAssignmentFile.Default.Assignment,
 
+                DbConnectionHandlerFileDbInstances = DbConnectionHandlerFile.Default.DbInstances,
+                DbConnectionHandlerFileInitialCatalogs = DbConnectionHandlerFile.Default.InitialCatalogs,
+                DbConnectionHandlerFileConfigurationFileNames = DbConnectionHandlerFile.Default.ConfigurationFileNames,
+
+                DbConnectionHandlerAssignment = DbConnectionHandlerInterfaceAssignmentFile.Default.Assignment,
+
                 OutputHandlerFileNameSuffixes = OutputHandlerFile.Default.FileNameSuffixes,
                 OutputHandlerStartAddress = OutputHandlerFile.Default.StartAddress,
                 OutputHandlerEndAddress = OutputHandlerFile.Default.EndAddress,
@@ -1099,6 +1105,10 @@ namespace _PlcAgent.MainRegistry
                 throw new Exception("The component is still assigned to another one");
             }
             if (MainRegistryFile.Default.OutputHandlers.Any(outputHandler => outputHandler != null && outputHandler[index] == component.Header.Id))
+            {
+                throw new Exception("The component is still assigned to another one");
+            }
+            if (MainRegistryFile.Default.DbConnectionHandlers.Any(dbConnectionHandler => dbConnectionHandler != null && dbConnectionHandler[index] == component.Header.Id))
             {
                 throw new Exception("The component is still assigned to another one");
             }
