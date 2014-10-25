@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using _PlcAgent.DataAquisition;
 
@@ -35,13 +36,39 @@ namespace _PlcAgent.DB
 
         public class DbSpParameter
         {
-            public CommunicationInterfaceComponent Component;
-            public string Name;
+            #region Variables
+
+            private string _name;
+            private CommunicationInterfaceComponent _component;
+
+            #endregion
+
+
+            #region Properties
+
+            public string Name
+            {
+                get { return _name; }
+                set { _name = value; }
+            }
+            public CommunicationInterfaceComponent Component
+            {
+                get { return _component; }
+                set { _component = value; }
+            }
+
+            #endregion
+
+
+            #region Methods
 
             public SqlParameter CreateSqlParameter()
             {
-                return new SqlParameter(Name, Component.Value);
+                return new SqlParameter(_name, _component.Value);
             }
+
+            #endregion
+
         }
 
         #endregion

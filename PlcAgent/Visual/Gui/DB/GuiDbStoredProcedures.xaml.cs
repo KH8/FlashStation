@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -7,7 +7,6 @@ using System.Windows.Media;
 using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
-using _PlcAgent.Visual.TreeListView;
 
 namespace _PlcAgent.Visual.Gui.DB
 {
@@ -39,14 +38,13 @@ namespace _PlcAgent.Visual.Gui.DB
 
             DbConnectionHandler.CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
-            StoredProcedureListBox.View = CreateGridView();
-            StoredProcedureListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.ReadInterfaceCollection;
+            StoredProcedureListBox.View = CreateGridView("StoredProcedure");
+            StoredProcedureListBox.ItemsSource = DbConnectionHandler.StoredProcedures;
             StoredProcedureListBox.Foreground = Brushes.Black;
 
-            ParameterListBox.View = CreateGridView();
-            ParameterListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.WriteInterfaceCollection;
+            ParameterListBox.View = CreateGridView("Parameters");
+            ParameterListBox.ItemsSource = DbConnectionHandler.StoredProcedures.First().SpParameters;
             ParameterListBox.Foreground = Brushes.Black;
-
         }
 
         #endregion
@@ -67,38 +65,51 @@ namespace _PlcAgent.Visual.Gui.DB
             ParameterListBox.Height = height;
             ParameterListBox.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
 
-            StoredProcedureListBox.View = CreateGridView();
-            ParameterListBox.View = CreateGridView();
+            StoredProcedureListBox.View = CreateGridView("StoredProcedure");
+            ParameterListBox.View = CreateGridView("Parameters");
         }
 
-        private GridView CreateGridView()
+        private static GridView CreateGridView(string configuration)
         {
             var gridView = new GridView();
 
-            gridView.Columns.Add(new GridViewColumn
+            switch (configuration)
             {
-                Width = 80,
-                Header = "Addr.",
-                DisplayMemberBinding = new Binding("Address")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = Limiter.DoubleLimit((Width/2) - 280, 0),
-                Header = "Name",
-                DisplayMemberBinding = new Binding("Name")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 80,
-                Header = "Type",
-                DisplayMemberBinding = new Binding("Type")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 80,
-                Header = "Value",
-                DisplayMemberBinding = new Binding("Value")
-            });
+                case "StoredProcedure" :
+
+                    gridView.Columns.Add(new GridViewColumn
+                    {
+                        Width = 80,
+                        Header = "SpName",
+                        DisplayMemberBinding = new Binding("SpName")
+                    });
+
+                    break;
+                case "Parameters" :
+
+                    gridView.Columns.Add(new GridViewColumn
+                    {
+                        Width = 80,
+                        Header = "Name",
+                        DisplayMemberBinding = new Binding("Name")
+                    });
+
+                    gridView.Columns.Add(new GridViewColumn
+                    {
+                        Width = 200,
+                        Header = "Component",
+                        DisplayMemberBinding = new Binding("Component.Name")
+                    });
+
+                    gridView.Columns.Add(new GridViewColumn
+                    {
+                        Width = 80,
+                        Header = "Type",
+                        DisplayMemberBinding = new Binding("Component.Value")
+                    });
+
+                    break;
+            }
 
             return gridView;
         }
@@ -110,10 +121,10 @@ namespace _PlcAgent.Visual.Gui.DB
 
         public void OnInterfaceUpdatedDelegate()
         {
-            StoredProcedureListBox.ItemsSource = null;
+            /*StoredProcedureListBox.ItemsSource = null;
             StoredProcedureListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.ReadInterfaceCollection;
             ParameterListBox.ItemsSource = null;
-            ParameterListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.WriteInterfaceCollection;
+            ParameterListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.WriteInterfaceCollection;*/
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -124,43 +135,6 @@ namespace _PlcAgent.Visual.Gui.DB
 
         private void List_MouseMove(object sender, MouseEventArgs e)
         {
-            // Get the current mouse position
-            var mousePos = e.GetPosition(null);
-            var diff = _storedPosition - mousePos;
-
-            if (e.LeftButton != MouseButtonState.Pressed) return;
-            if (!(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) &&
-                !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)) return;
-            // Get the dragged ListViewItem
-            var listView = sender as ListView;
-            var listViewItem = FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
-
-            // Find the data behind the ListViewItem
-            if (listViewItem == null || listView == null) return;
-            var displayData = (DisplayDataBuilder.DisplayData)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
-
-            // Initialize the drag & drop operation
-            var dragData = new DataObject("Name", displayData);
-            DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
-        }
-
-        #endregion
-
-
-        #region Auxiliaries
-
-        private static T FindAncestor<T>(DependencyObject current)
-            where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T) current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            } while (current != null);
-            return null;
         }
 
         #endregion

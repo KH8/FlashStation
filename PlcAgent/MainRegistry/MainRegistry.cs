@@ -493,37 +493,60 @@ namespace _PlcAgent.MainRegistry
                 return 0;
             }
 
-            GuiDbConnectionHandlers.Add(new GuiComponent(id, "", new GuiDbConnectionHandler(component)));
-            GuiDbConnectionHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
-                new GuiInterfaceAssignment(component)));
-            GuiDbStoredProcedures.Add(new GuiComponent(id, "", new GuiDbStoredProcedures(component)));
-
             //for testing////////////////////////////////////////////////////////////
 
-            var sp = new DbStoredProcedure(component) {Name = "Procedure1", SpName = "Procedure1"};
+            var sp = new DbStoredProcedure(component) { Name = "Procedure1", SpName = "Procedure1" };
 
             var par = new DbStoredProcedure.DbSpParameter
             {
-                Name = "@Param1",
+                Name = "Param1",
                 Component = new CiInteger("int1", 0, CommunicationInterfaceComponent.VariableType.Integer, 99)
             };
             sp.SpParameters.Add(par);
             par = new DbStoredProcedure.DbSpParameter
             {
-                Name = "@Param2",
+                Name = "Param2",
                 Component = new CiInteger("int2", 0, CommunicationInterfaceComponent.VariableType.Integer, 92)
             };
             sp.SpParameters.Add(par);
             par = new DbStoredProcedure.DbSpParameter
             {
-                Name = "@Param3",
+                Name = "Param3",
                 Component = new CiInteger("int3", 0, CommunicationInterfaceComponent.VariableType.Integer, 93)
+            };
+            sp.SpParameters.Add(par);
+            par = new DbStoredProcedure.DbSpParameter
+            {
+                Name = "Param4",
+                Component = new CiInteger("int4", 0, CommunicationInterfaceComponent.VariableType.Integer, 93)
+            };
+            sp.SpParameters.Add(par);
+
+            component.StoredProcedures.Add(sp);
+
+            sp = new DbStoredProcedure(component) { Name = "Procedure2", SpName = "Procedure2" };
+
+            par = new DbStoredProcedure.DbSpParameter
+            {
+                Name = "Param1",
+                Component = new CiInteger("int1", 0, CommunicationInterfaceComponent.VariableType.Integer, 99)
+            };
+            sp.SpParameters.Add(par);
+            par = new DbStoredProcedure.DbSpParameter
+            {
+                Name = "Param2",
+                Component = new CiInteger("int2", 0, CommunicationInterfaceComponent.VariableType.Integer, 92)
             };
             sp.SpParameters.Add(par);
 
             component.StoredProcedures.Add(sp);
 
             /////////////////////////////////////////////////////////////////////////
+
+            GuiDbConnectionHandlers.Add(new GuiComponent(id, "", new GuiDbConnectionHandler(component)));
+            GuiDbConnectionHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
+                new GuiInterfaceAssignment(component)));
+            GuiDbStoredProcedures.Add(new GuiComponent(id, "", new GuiDbStoredProcedures(component)));
 
             Logger.Log("ID: " + id + " new DB Connection Handler have been created");
             return id;
