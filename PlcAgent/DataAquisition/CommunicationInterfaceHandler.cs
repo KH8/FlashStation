@@ -106,7 +106,7 @@ namespace _PlcAgent.DataAquisition
             Logger.Log("ID: " + Header.Id + " Communication interface Deinitialized");
         }
 
-        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+        public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
@@ -137,6 +137,21 @@ namespace _PlcAgent.DataAquisition
             var guiComponent = (GuiCommunicationInterfaceOnlineHierarchical)gridGuiCommunicationInterfaceOnline.UserControl;
             guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
             guiComponent.TabItem = newtabItem;
+        }
+
+        public override void TemplateRegistryComponentUpdateRegistryFile()
+        {
+            MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id] = new uint[9];
+            MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id][0] = Header.Id;
+            MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id][1] = PlcCommunicator.Header.Id;
+            MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id][2] = 0;
+            MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id][3] = 0;
+            MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id][4] = 0;
+        }
+
+        public override void TemplateRegistryComponentCheckAssignment(RegistryComponent component)
+        {
+            if (MainRegistryFile.Default.CommunicationInterfaceHandlers[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
         public void InitializeInterface()

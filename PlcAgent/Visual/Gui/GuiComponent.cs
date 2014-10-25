@@ -60,8 +60,16 @@ namespace _PlcAgent.Visual.Gui
         public override void Deinitialize()
         {}
 
-        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+        public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
             TabControl connectionTabControl, Grid footerGrid)
+        {
+        }
+
+        public override void TemplateRegistryComponentUpdateRegistryFile()
+        {
+        }
+
+        public override void TemplateRegistryComponentCheckAssignment(RegistryComponent component)
         {
         }
 

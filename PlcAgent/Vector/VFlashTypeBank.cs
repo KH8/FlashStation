@@ -116,7 +116,7 @@ namespace _PlcAgent.Vector
             Logger.Log("ID: " + Header.Id + " vFlashTypeBank Deinitialized");
         }
 
-        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+        public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
@@ -140,6 +140,21 @@ namespace _PlcAgent.Vector
             gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
             var guiComponent = (GuiVFlashPathBank)gridGuiVFlashPathBank.UserControl;
             guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
+        }
+
+        public override void TemplateRegistryComponentUpdateRegistryFile()
+        {
+            MainRegistryFile.Default.VFlashTypeBanks[Header.Id] = new uint[9];
+            MainRegistryFile.Default.VFlashTypeBanks[Header.Id][0] = Header.Id;
+            MainRegistryFile.Default.VFlashTypeBanks[Header.Id][1] = 0;
+            MainRegistryFile.Default.VFlashTypeBanks[Header.Id][2] = 0;
+            MainRegistryFile.Default.VFlashTypeBanks[Header.Id][3] = 0;
+            MainRegistryFile.Default.VFlashTypeBanks[Header.Id][4] = 0;
+        }
+
+        public override void TemplateRegistryComponentCheckAssignment(RegistryComponent component)
+        {
+            if (MainRegistryFile.Default.VFlashTypeBanks[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
         public void Add(VFlashDisplayProjectData c)

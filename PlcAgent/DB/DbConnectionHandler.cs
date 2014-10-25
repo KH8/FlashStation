@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;
@@ -51,7 +52,7 @@ namespace _PlcAgent.DB
         {
         }
 
-        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+        public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
@@ -89,6 +90,21 @@ namespace _PlcAgent.DB
 
             var dbStoredProceduresGrid = (GuiDbStoredProcedures)dbStoredProcedures.UserControl;
             dbStoredProceduresGrid.UpdateSizes(newGrid.Height, newGrid.Width);
+        }
+
+        public override void TemplateRegistryComponentUpdateRegistryFile()
+        {
+            MainRegistryFile.Default.DbConnectionHandlers[Header.Id] = new uint[9];
+            MainRegistryFile.Default.DbConnectionHandlers[Header.Id][0] = Header.Id;
+            MainRegistryFile.Default.DbConnectionHandlers[Header.Id][1] = 0;
+            MainRegistryFile.Default.DbConnectionHandlers[Header.Id][2] = CommunicationInterfaceHandler.Header.Id;
+            MainRegistryFile.Default.DbConnectionHandlers[Header.Id][3] = 0;
+            MainRegistryFile.Default.DbConnectionHandlers[Header.Id][4] = 0;
+        }
+
+        public override void TemplateRegistryComponentCheckAssignment(RegistryComponent component)
+        {
+            if (MainRegistryFile.Default.DbConnectionHandlers[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
         protected override void AssignmentFileUpdate()

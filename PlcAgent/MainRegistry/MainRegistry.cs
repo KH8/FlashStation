@@ -658,7 +658,7 @@ namespace _PlcAgent.MainRegistry
         {
             foreach (var modulesComposite in Modules.Cast<RegistryComposite>().Where(modulesComposite => modulesComposite.Cast<object>().Any(module => component == module)))
             {
-                CheckAssignment(component, component.ReferencePosition);
+                CheckAssignment(component);
                 Logger.Log("ID: " + component.Header.Id + " Component " + component.Header.Name + " has been removed");
 
                 var module = (Module)component;
@@ -730,118 +730,17 @@ namespace _PlcAgent.MainRegistry
         private void UpdateMainRegistryFile()
         {
             MainRegistryFile.Default.PlcCommunicators = new uint[9][];
-            foreach (PlcCommunicator plcCommunicator in PlcCommunicators)
-            {
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id] = new uint[9];
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][0] =
-                    plcCommunicator.Header.Id;
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][1] = 0;
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][2] = 0;
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][3] = 0;
-                MainRegistryFile.Default.PlcCommunicators[plcCommunicator.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.CommunicationInterfaceHandlers = new uint[9][];
-            foreach (CommunicationInterfaceHandler communicationInterfaceHandler in CommunicationInterfaceHandlers)
-            {
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id] = new uint[9];
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][0] =
-                    communicationInterfaceHandler.Header.Id;
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][1] =
-                    communicationInterfaceHandler.PlcCommunicator.Header.Id;
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][2] = 0;
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][3] = 0;
-                MainRegistryFile.Default.CommunicationInterfaceHandlers[communicationInterfaceHandler.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.OutputDataTemplates = new uint[9][];
-            foreach (OutputDataTemplate outputDataTemplate in OutputDataTemplates)
-            {
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id] = new uint[9];
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][0] =
-                    outputDataTemplate.Header.Id;
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][1] = 0;
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][2] = 0;
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][3] = 0;
-                MainRegistryFile.Default.OutputDataTemplates[outputDataTemplate.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.OutputFileCreators = new uint[9][];
-            foreach (OutputFileCreator outputFileCreator in OutputFileCreators)
-            {
-                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id] = new uint[9];
-                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][0] =
-                    outputFileCreator.Header.Id;
-                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][1] = 0;
-                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][2] =
-                    outputFileCreator.CommunicationInterfaceHandler.Header.Id;
-                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][3] = 0;
-                MainRegistryFile.Default.OutputFileCreators[outputFileCreator.Header.Id][4] =
-                    outputFileCreator.OutputDataTemplate.Header.Id;
-            }
-
             MainRegistryFile.Default.OutputHandlers = new uint[9][];
-            foreach (OutputHandler outputHandler in OutputHandlers)
-            {
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id] = new uint[9];
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][0] =
-                    outputHandler.Header.Id;
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][1] = 0;
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][2] =
-                    outputHandler.CommunicationInterfaceHandler.Header.Id;
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][3] = 0;
-                MainRegistryFile.Default.OutputHandlers[outputHandler.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.DbConnectionHandlers = new uint[9][];
-            foreach (DbConnectionHandler dbConnectionHandler in DbConnectionHandlers)
-            {
-                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id] = new uint[9];
-                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][0] =
-                    dbConnectionHandler.Header.Id;
-                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][1] = 0;
-                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][2] =
-                    dbConnectionHandler.CommunicationInterfaceHandler.Header.Id;
-                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][3] = 0;
-                MainRegistryFile.Default.DbConnectionHandlers[dbConnectionHandler.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.VFlashTypeBanks = new uint[9][];
-            foreach (VFlashTypeBank vFlashTypeBank in VFlashTypeBanks)
-            {
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id] = new uint[9];
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][0] =
-                    vFlashTypeBank.Header.Id;
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][1] = 0;
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][2] = 0;
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][3] = 0;
-                MainRegistryFile.Default.VFlashTypeBanks[vFlashTypeBank.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.VFlashHandlers = new uint[9][];
-            foreach (VFlashHandler vFlashHandler in VFlashHandlers)
-            {
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id] = new uint[9];
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][0] = vFlashHandler.Header.Id;
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][1] = 0;
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][2] =
-                    vFlashHandler.CommunicationInterfaceHandler.Header.Id;
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][3] =
-                    vFlashHandler.VFlashTypeBank.Header.Id;
-                MainRegistryFile.Default.VFlashHandlers[vFlashHandler.Header.Id][4] = 0;
-            }
-
             MainRegistryFile.Default.Analyzers = new uint[9][];
-            foreach (Analyzer.Analyzer analyzer in Analyzers)
-            {
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id] = new uint[9];
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][0] = analyzer.Header.Id;
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][1] = 0;
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][2] =
-                    analyzer.CommunicationInterfaceHandler.Header.Id;
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][3] = 0;
-                MainRegistryFile.Default.Analyzers[analyzer.Header.Id][4] = 0;
-            }
+
+            foreach (var moduleComponent in Modules.Cast<RegistryComposite>().SelectMany(module => module.Cast<Module>())) moduleComponent.TemplateRegistryComponentUpdateRegistryFile();
+
             MainRegistryFile.Default.Save();
         }
 
@@ -992,48 +891,11 @@ namespace _PlcAgent.MainRegistry
             return projectData;
         }
 
-        private static void CheckAssignment(RegistryComponent component, int position)
+        private void CheckAssignment(RegistryComponent component)
         {
             if (component == null) return;
-            if (position == -1) return;
-            var index = position;
-
-            if (MainRegistryFile.Default.PlcCommunicators.Any(plcCommunicator => plcCommunicator != null && plcCommunicator[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.CommunicationInterfaceHandlers.Any(communicationInterfaceHandler => communicationInterfaceHandler != null && communicationInterfaceHandler[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.OutputDataTemplates.Any(outputDataTemplate => outputDataTemplate != null && outputDataTemplate[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.OutputFileCreators.Any(outputFileCreator => outputFileCreator != null && outputFileCreator[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.OutputHandlers.Any(outputHandler => outputHandler != null && outputHandler[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.DbConnectionHandlers.Any(dbConnectionHandler => dbConnectionHandler != null && dbConnectionHandler[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.VFlashTypeBanks.Any(vFlashTypeBank => vFlashTypeBank != null && vFlashTypeBank[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.VFlashHandlers.Any(vFlashHandler => vFlashHandler != null && vFlashHandler[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
-            if (MainRegistryFile.Default.Analyzers.Any(analyzer => analyzer != null && analyzer[index] == component.Header.Id))
-            {
-                throw new Exception("The component is still assigned to another one");
-            }
+            if (component.ReferencePosition == -1) return;
+            foreach (var moduleComponent in Modules.Cast<RegistryComposite>().SelectMany(module => module.Cast<Module>())) moduleComponent.TemplateRegistryComponentCheckAssignment(component);
         }
     }
 }

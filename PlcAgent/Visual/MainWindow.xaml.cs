@@ -419,7 +419,7 @@ namespace _PlcAgent.Visual
             foreach (TabItem tabItem in ConnectionTabControl.Items) tabItem.MouseDoubleClick += ConnectionTabControlLabel_OnMouseDown;
             foreach (var module in from RegistryComposite moduleComposite in RegistryContext.Registry.Modules from Module module in moduleComposite select module)
             {
-                module.GuiUpdateTemplate(MainTabControl, OutputTabControl, ConnectionTabControl, FooterGrid);
+                module.TemplateGuiUpdate(MainTabControl, OutputTabControl, ConnectionTabControl, FooterGrid);
             }
 
             MainTabControl.Items.Add(ComponentManagerTabItem);

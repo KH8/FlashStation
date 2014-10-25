@@ -74,7 +74,7 @@ namespace _PlcAgent.Output.OutputFileCreator
             Logger.Log("ID: " + Header.Id + " Output File Creator Deinitialized");
         }
 
-        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+        public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
@@ -96,6 +96,21 @@ namespace _PlcAgent.Output.OutputFileCreator
 
             var gridGuiInterfaceAssignment = (GuiComponent)RegistryContext.Registry.GuiOutputFileCreatorInterfaceAssignmentComponents.ReturnComponent(Header.Id);
             gridGuiInterfaceAssignment.Initialize(402, 0, newGrid);
+        }
+
+        public override void TemplateRegistryComponentUpdateRegistryFile()
+        {
+            MainRegistryFile.Default.OutputFileCreators[Header.Id] = new uint[9];
+            MainRegistryFile.Default.OutputFileCreators[Header.Id][0] = Header.Id;
+            MainRegistryFile.Default.OutputFileCreators[Header.Id][1] = 0;
+            MainRegistryFile.Default.OutputFileCreators[Header.Id][2] = CommunicationInterfaceHandler.Header.Id;
+            MainRegistryFile.Default.OutputFileCreators[Header.Id][3] = 0;
+            MainRegistryFile.Default.OutputFileCreators[Header.Id][4] = OutputDataTemplate.Header.Id;
+        }
+
+        public override void TemplateRegistryComponentCheckAssignment(RegistryComponent component)
+        {
+            if (MainRegistryFile.Default.OutputFileCreators[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
         public void CreateOutput()

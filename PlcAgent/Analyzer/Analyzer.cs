@@ -182,7 +182,7 @@ namespace _PlcAgent.Analyzer
             Logger.Log("ID: " + Header.Id + " Analyzer Deinitialized");
         }
 
-        public override void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl,
+        public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
@@ -226,6 +226,21 @@ namespace _PlcAgent.Analyzer
 
             var guiAnalyzerMainFrameGrid = (GuiAnalyzerMainFrame)analyzerMainFrameGrid.UserControl;
             guiAnalyzerMainFrameGrid.UpdateSizes(newGrid.Height, newGrid.Width);
+        }
+
+        public override void TemplateRegistryComponentUpdateRegistryFile()
+        {
+            MainRegistryFile.Default.Analyzers[Header.Id] = new uint[9];
+            MainRegistryFile.Default.Analyzers[Header.Id][0] = Header.Id;
+            MainRegistryFile.Default.Analyzers[Header.Id][1] = 0;
+            MainRegistryFile.Default.Analyzers[Header.Id][2] = CommunicationInterfaceHandler.Header.Id;
+            MainRegistryFile.Default.Analyzers[Header.Id][3] = 0;
+            MainRegistryFile.Default.Analyzers[Header.Id][4] = 0;
+        }
+
+        public override void TemplateRegistryComponentCheckAssignment(RegistryComponent component)
+        {
+            if (MainRegistryFile.Default.Analyzers[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
         public void StartStopRecording()

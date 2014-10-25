@@ -18,7 +18,10 @@ namespace _PlcAgent.MainRegistry
 
         public abstract void Initialize();
         public abstract void Deinitialize();
-        public abstract void GuiUpdateTemplate(TabControl mainTabControl, TabControl outputTabControl, TabControl connectionTabControl, Grid footerGrid);
+
+        public abstract void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl, TabControl connectionTabControl, Grid footerGrid);
+        public abstract void TemplateRegistryComponentUpdateRegistryFile();
+        public abstract void TemplateRegistryComponentCheckAssignment(RegistryComponent component);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
