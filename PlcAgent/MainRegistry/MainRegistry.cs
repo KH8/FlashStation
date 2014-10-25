@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web.UI.WebControls;
 using System.Windows;
-using System.Windows.Documents;
 using _PlcAgent.Analyzer;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.DB;
@@ -499,6 +497,33 @@ namespace _PlcAgent.MainRegistry
             GuiDbConnectionHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",
                 new GuiInterfaceAssignment(component)));
             GuiDbStoredProcedures.Add(new GuiComponent(id, "", new GuiDbStoredProcedures(component)));
+
+            //for testing////////////////////////////////////////////////////////////
+
+            var sp = new DbStoredProcedure(component) {Name = "Procedure1", SpName = "Procedure1"};
+
+            var par = new DbStoredProcedure.DbSpParameter
+            {
+                Name = "@Param1",
+                Component = new CiInteger("int1", 0, CommunicationInterfaceComponent.VariableType.Integer, 99)
+            };
+            sp.SpParameters.Add(par);
+            par = new DbStoredProcedure.DbSpParameter
+            {
+                Name = "@Param2",
+                Component = new CiInteger("int2", 0, CommunicationInterfaceComponent.VariableType.Integer, 92)
+            };
+            sp.SpParameters.Add(par);
+            par = new DbStoredProcedure.DbSpParameter
+            {
+                Name = "@Param3",
+                Component = new CiInteger("int3", 0, CommunicationInterfaceComponent.VariableType.Integer, 93)
+            };
+            sp.SpParameters.Add(par);
+
+            component.StoredProcedures.Add(sp);
+
+            /////////////////////////////////////////////////////////////////////////
 
             Logger.Log("ID: " + id + " new DB Connection Handler have been created");
             return id;

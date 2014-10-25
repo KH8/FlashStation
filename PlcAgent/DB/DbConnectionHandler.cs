@@ -34,6 +34,8 @@ namespace _PlcAgent.DB
             DbConnectionHandlerFile = dbConnectionHandlerFile;
             DbConnectionHandlerInterfaceAssignmentFile = dbConnectionHandlerInterfaceAssignmentFile;
 
+            StoredProcedures = new List<DbStoredProcedure>();
+
             if (dbConnectionHandlerInterfaceAssignmentFile.Assignment == null) dbConnectionHandlerInterfaceAssignmentFile.Assignment = new string[9][];
             Assignment = dbConnectionHandlerInterfaceAssignmentFile.Assignment[Header.Id];
             CreateInterfaceAssignment();

@@ -59,8 +59,6 @@ namespace _PlcAgent.DB
 
         #region Parameters
 
-        //  Public get-set exposing the private stored procedure name object field . . .
-
         public string SpName
         {
             get { return _spName; }
@@ -100,11 +98,7 @@ namespace _PlcAgent.DB
 
             //  Make sure that the object has a stored procedure name . . . . . .
 
-            if (String.IsNullOrEmpty(SpName))
-            {
-                return null;
-            }
-
+            if (String.IsNullOrEmpty(SpName)) return null;
 
             //   Set up the command object, and tie the called stored
             //   procedure to the SPName object property . . .
@@ -116,10 +110,7 @@ namespace _PlcAgent.DB
             //   parameters in a list object, so extract them and add
             //   them to the command object parameters property . . .
 
-            foreach (var sqlPrm in SpParameters.Select(localPrm => localPrm.CreateSqlParameter()))
-            {
-                cmd.Parameters.Add(sqlPrm);
-            }
+            foreach (var sqlPrm in SpParameters.Select(localPrm => localPrm.CreateSqlParameter())) cmd.Parameters.Add(sqlPrm);
 
             //   Set up the command object connection property . . .
 
