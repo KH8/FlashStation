@@ -39,12 +39,13 @@ namespace _PlcAgent.Visual.Gui.DB
             DbConnectionHandler.CommunicationInterfaceHandler.OnInterfaceUpdatedDelegate += OnInterfaceUpdatedDelegate;
 
             StoredProcedureListBox.View = CreateGridView("StoredProcedure");
-            StoredProcedureListBox.ItemsSource = DbConnectionHandler.StoredProcedures;
             StoredProcedureListBox.Foreground = Brushes.Black;
 
             ParameterListBox.View = CreateGridView("Parameters");
-            ParameterListBox.ItemsSource = DbConnectionHandler.StoredProcedures.First().SpParameters;
             ParameterListBox.Foreground = Brushes.Black;
+
+            StoredProcedureListBox.ItemsSource = DbConnectionHandler.StoredProcedures;
+            StoredProcedureListBox.SelectedItem = DbConnectionHandler.StoredProcedures.First();
         }
 
         #endregion
@@ -85,6 +86,7 @@ namespace _PlcAgent.Visual.Gui.DB
                     });
 
                     break;
+
                 case "Parameters" :
 
                     gridView.Columns.Add(new GridViewColumn
@@ -121,10 +123,6 @@ namespace _PlcAgent.Visual.Gui.DB
 
         public void OnInterfaceUpdatedDelegate()
         {
-            /*StoredProcedureListBox.ItemsSource = null;
-            StoredProcedureListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.ReadInterfaceCollection;
-            ParameterListBox.ItemsSource = null;
-            ParameterListBox.ItemsSource = DbConnectionHandler.CommunicationInterfaceHandler.WriteInterfaceCollection;*/
         }
 
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -135,6 +133,12 @@ namespace _PlcAgent.Visual.Gui.DB
 
         private void List_MouseMove(object sender, MouseEventArgs e)
         {
+        }
+
+        private void StoredProcedureSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var sp = (DbStoredProcedure)StoredProcedureListBox.SelectedItem;
+            ParameterListBox.ItemsSource = sp.SpParameters;
         }
 
         #endregion

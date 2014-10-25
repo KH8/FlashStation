@@ -16,7 +16,7 @@
 
     </UserControl.Resources>
     <Grid Name="GeneralGrid">
-        <ListView Name="StoredProcedureListBox" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="449" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+        <ListView Name="StoredProcedureListBox" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="449" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove" SelectionChanged="StoredProcedureSelectionChanged"/>
         <ListView Name="ParameterListBox" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="449" Margin="451,0,0,0" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
     </Grid>
 </db:DbConnectionHandlerComponent>
