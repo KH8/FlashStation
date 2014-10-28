@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using _PlcAgent.DataAquisition;
 
@@ -30,6 +29,16 @@ namespace _PlcAgent.DB
 
     }
 
+    public class DbStoredProcedureList : DbConnectionHandlerComponent
+    {
+        public List<DbStoredProcedure> Items { get; set; } 
+
+        public DbStoredProcedureList(DbConnectionHandler dbConnectionHandler) : base(dbConnectionHandler)
+        {
+            Items = new List<DbStoredProcedure>();
+        }
+    }
+
     public class DbStoredProcedure : DbConnectionHandlerComponent
     {
         #region Classes
@@ -51,6 +60,7 @@ namespace _PlcAgent.DB
                 get { return _name; }
                 set { _name = value; }
             }
+
             public CommunicationInterfaceComponent Component
             {
                 get { return _component; }
@@ -78,8 +88,9 @@ namespace _PlcAgent.DB
 
         private readonly SqlConnection _localConn;
 
-        private string _spName = "";
-        private List<DbSpParameter> _parameterList = new List<DbSpParameter>();
+        private string _spName;
+        private int _spCommand;
+        private List<DbSpParameter> _parameterList;
 
         #endregion
 
@@ -90,6 +101,12 @@ namespace _PlcAgent.DB
         {
             get { return _spName; }
             set { _spName = value; }
+        }
+
+        public int SpCommand
+        {
+            get { return _spCommand; }
+            set { _spCommand = value; }
         }
 
         public List<DbSpParameter> SpParameters
@@ -103,9 +120,13 @@ namespace _PlcAgent.DB
 
         #region Constructors
 
-        public DbStoredProcedure(DbConnectionHandler dbConnectionHandler)
+        public DbStoredProcedure(string name, int command, DbConnectionHandler dbConnectionHandler)
             : base(dbConnectionHandler)
         {
+            _spName = name;
+            _spCommand = command;
+            _parameterList = new List<DbSpParameter>();
+
             _localConn =
                 DbConnection.CreateSqlConnection(
                     DbConnectionHandler.DbConnectionHandlerFile.DbInstances[DbConnectionHandler.Header.Id],

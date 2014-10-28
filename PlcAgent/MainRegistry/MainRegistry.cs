@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using _PlcAgent.Analyzer;
@@ -493,9 +492,11 @@ namespace _PlcAgent.MainRegistry
                 return 0;
             }
 
+            #region TESTING
+
             //for testing////////////////////////////////////////////////////////////
 
-            var sp = new DbStoredProcedure(component) { Name = "Procedure1", SpName = "Procedure1" };
+            var sp = new DbStoredProcedure("Procedure1", 100, component);
 
             var par = new DbStoredProcedure.DbSpParameter
             {
@@ -522,9 +523,9 @@ namespace _PlcAgent.MainRegistry
             };
             sp.SpParameters.Add(par);
 
-            component.StoredProcedures.Add(sp);
+            component.StoredProcedures.Items.Add(sp);
 
-            sp = new DbStoredProcedure(component) { Name = "Procedure2", SpName = "Procedure2" };
+            sp = new DbStoredProcedure("Procedure2", 200, component);
 
             par = new DbStoredProcedure.DbSpParameter
             {
@@ -539,9 +540,11 @@ namespace _PlcAgent.MainRegistry
             };
             sp.SpParameters.Add(par);
 
-            component.StoredProcedures.Add(sp);
+            component.StoredProcedures.Items.Add(sp);
 
             /////////////////////////////////////////////////////////////////////////
+
+            #endregion
 
             GuiDbConnectionHandlers.Add(new GuiComponent(id, "", new GuiDbConnectionHandler(component)));
             GuiDbConnectionHandlerInterfaceAssignmentComponents.Add(new GuiComponent(id, "",

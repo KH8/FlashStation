@@ -98,12 +98,11 @@ namespace _PlcAgent.Output.Template
                 }
             }
 
-            if (componentWasNotFound)
-            {
-                MessageBox.Show("At least one of the template components was not found within available interfaces.",
-                    "Component was not found");
-                Logger.Log("Template Builder: At least one of the template components was not found within available interfaces.");
-            }
+            if (!componentWasNotFound) return template;
+
+            MessageBox.Show("At least one of the template components was not found within available interfaces.",
+                "Component was not found");
+            Logger.Log("Template Builder: At least one of the template components was not found within available interfaces.");
 
             return template;
         }

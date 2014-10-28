@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.Win32;
 using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
@@ -45,8 +44,8 @@ namespace _PlcAgent.Visual.Gui.DB
             ParameterListBox.View = CreateGridView("Parameters");
             ParameterListBox.Foreground = Brushes.Black;
 
-            StoredProcedureListBox.ItemsSource = DbConnectionHandler.StoredProcedures;
-            StoredProcedureListBox.SelectedItem = DbConnectionHandler.StoredProcedures.First();
+            StoredProcedureListBox.ItemsSource = DbConnectionHandler.StoredProcedures.Items;
+            StoredProcedureListBox.SelectedItem = DbConnectionHandler.StoredProcedures.Items.First();
         }
 
         #endregion
@@ -80,39 +79,13 @@ namespace _PlcAgent.Visual.Gui.DB
             switch (configuration)
             {
                 case "StoredProcedure" :
-
-                    gridView.Columns.Add(new GridViewColumn
-                    {
-                        Width = 380,
-                        Header = "Stored Procedure Name",
-                        DisplayMemberBinding = new Binding("SpName")
-                    });
-
+                    gridView.Columns.Add(new GridViewColumn { Width = 80, Header = "Command", DisplayMemberBinding = new Binding("SpCommand") });
+                    gridView.Columns.Add(new GridViewColumn { Width = 300, Header = "Stored Procedure Name", DisplayMemberBinding = new Binding("SpName") });
                     break;
-
                 case "Parameters" :
-
-                    gridView.Columns.Add(new GridViewColumn
-                    {
-                        Width = 200,
-                        Header = "Parameter Name",
-                        DisplayMemberBinding = new Binding("Name")
-                    });
-
-                    gridView.Columns.Add(new GridViewColumn
-                    {
-                        Width = 400,
-                        Header = "Component",
-                        DisplayMemberBinding = new Binding("Component.Name")
-                    });
-
-                    gridView.Columns.Add(new GridViewColumn
-                    {
-                        Width = 100,
-                        Header = "Type",
-                        DisplayMemberBinding = new Binding("Component.Value")
-                    });
-
+                    gridView.Columns.Add(new GridViewColumn { Width = 200, Header = "Parameter Name", DisplayMemberBinding = new Binding("Name") });
+                    gridView.Columns.Add(new GridViewColumn { Width = 400, Header = "Component", DisplayMemberBinding = new Binding("Component.Name") });
+                    gridView.Columns.Add(new GridViewColumn { Width = 100, Header = "Type", DisplayMemberBinding = new Binding("Component.Value") });
                     break;
             }
 
@@ -146,6 +119,7 @@ namespace _PlcAgent.Visual.Gui.DB
 
         private void Clear(object sender, RoutedEventArgs e)
         {
+            DbConnectionHandler.StoredProcedures.Items.Clear();
         }
 
         private void Import(object sender, RoutedEventArgs e)

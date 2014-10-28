@@ -8,7 +8,7 @@ using _PlcAgent.Visual.Gui.Output;
 
 namespace _PlcAgent.Output.Template
 {
-    public class OutputDataTemplate : MainRegistry.Module
+    public class OutputDataTemplate : Module
     {
         #region Properties
 

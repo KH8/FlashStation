@@ -16,7 +16,7 @@ namespace _PlcAgent.DB
         public DbConnectionHandlerFile DbConnectionHandlerFile { get; set; }
         public DbConnectionHandlerInterfaceAssignmentFile DbConnectionHandlerInterfaceAssignmentFile { get; set; }
 
-        public List<DbStoredProcedure> StoredProcedures { get; set; } 
+        public DbStoredProcedureList StoredProcedures { get; set; } 
 
         public override string Description
         {
@@ -34,7 +34,7 @@ namespace _PlcAgent.DB
             DbConnectionHandlerFile = dbConnectionHandlerFile;
             DbConnectionHandlerInterfaceAssignmentFile = dbConnectionHandlerInterfaceAssignmentFile;
 
-            StoredProcedures = new List<DbStoredProcedure>();
+            StoredProcedures = new DbStoredProcedureList(this);
 
             if (dbConnectionHandlerInterfaceAssignmentFile.Assignment == null) dbConnectionHandlerInterfaceAssignmentFile.Assignment = new string[9][];
             Assignment = dbConnectionHandlerInterfaceAssignmentFile.Assignment[Header.Id];
