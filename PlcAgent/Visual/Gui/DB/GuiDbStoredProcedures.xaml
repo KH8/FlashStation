@@ -6,19 +6,28 @@
              xmlns:db="clr-namespace:_PlcAgent.DB"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="AlternationStyle" TargetType="{x:Type ListViewItem}">
-            <Style.Triggers>
-                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="#FFF6F6F6"></Setter>
-                </Trigger>
-            </Style.Triggers>
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
-
     </UserControl.Resources>
     <Grid Name="GeneralGrid">
         <Grid>
-            <ListView Name="StoredProcedureListBox" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="200" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove" SelectionChanged="StoredProcedureSelectionChanged"/>
-            <ListView Name="ParameterListBox" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="400" Margin="0,0,0,0" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+            <DataGrid Name="StoredProcedureListBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="510" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6" SelectionChanged="StoredProcedureSelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=SpCommand}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}" Header="Command" Width="80" IsReadOnly="False"/>
+                    <DataGridTextColumn Binding="{Binding SpName}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}"  Header="Stored Procedure Name" Width="300" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Name="ParameterListBox" VerticalAlignment="Top" HorizontalAlignment="Right" Width="400" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}" Header="Parameter Name" Width="300" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Component.Type}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}" Header="Type" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Component.GetOwner}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}" Header="Interface Name"  Width="100" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Component.Type}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}" Header="Interface Type" Width="100" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Component.Name}" HeaderStyle="{DynamicResource CenterGridHeaderStyle}"  Header="Component" Width="300" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
         <Grid Name="FooterGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="450">
             <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Right" Margin="0,0,190,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Clear"/>
