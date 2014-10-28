@@ -62,9 +62,9 @@ namespace _PlcAgent.Visual.Gui.DB
             GeneralGrid.Width = width;
 
             StoredProcedureListBox.Height = height;
-            StoredProcedureListBox.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
+            StoredProcedureListBox.Width = 400;
             ParameterListBox.Height = height;
-            ParameterListBox.Width = Limiter.DoubleLimit((width / 2) - 2, 0);
+            ParameterListBox.Width = Limiter.DoubleLimit(width - StoredProcedureListBox.Width - 4, 0);
 
             StoredProcedureListBox.View = CreateGridView("StoredProcedure");
             ParameterListBox.View = CreateGridView("Parameters");
@@ -80,8 +80,8 @@ namespace _PlcAgent.Visual.Gui.DB
 
                     gridView.Columns.Add(new GridViewColumn
                     {
-                        Width = 80,
-                        Header = "SpName",
+                        Width = 380,
+                        Header = "Stored Procedure Name",
                         DisplayMemberBinding = new Binding("SpName")
                     });
 
@@ -91,21 +91,21 @@ namespace _PlcAgent.Visual.Gui.DB
 
                     gridView.Columns.Add(new GridViewColumn
                     {
-                        Width = 80,
-                        Header = "Name",
+                        Width = 200,
+                        Header = "Parameter Name",
                         DisplayMemberBinding = new Binding("Name")
                     });
 
                     gridView.Columns.Add(new GridViewColumn
                     {
-                        Width = 200,
+                        Width = 400,
                         Header = "Component",
                         DisplayMemberBinding = new Binding("Component.Name")
                     });
 
                     gridView.Columns.Add(new GridViewColumn
                     {
-                        Width = 80,
+                        Width = 100,
                         Header = "Type",
                         DisplayMemberBinding = new Binding("Component.Value")
                     });

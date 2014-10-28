@@ -112,6 +112,11 @@ namespace _PlcAgent.Vector
 
     #region Controller (Composite) 
 
+    static class VFlashStationControllerContext
+    {
+        public static VFlashStationController VFlashStationController { get; set; }
+    }
+
     internal class VFlashStationController : VFlashStationComponent
     {
         private readonly List<VFlashStationComponent> _children = new List<VFlashStationComponent>();
@@ -120,6 +125,15 @@ namespace _PlcAgent.Vector
         public List<VFlashStationComponent> Children
         {
             get { return _children; }
+        }
+
+        public Boolean IsEmpty 
+        {
+            get
+            {
+                if (Children.Count == 0) return true;
+                return false;
+            }
         }
 
         //--- vFlash Station Constructor ---

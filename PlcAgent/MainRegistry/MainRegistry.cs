@@ -626,7 +626,7 @@ namespace _PlcAgent.MainRegistry
                         VFlashHandlerInterfaceAssignmentFile.Default));
                 Logger.Log("ID: " + id + " Initialization of the vFlash Channel");
                 component = (VFlashHandler) VFlashHandlers.ReturnComponent(id);
-                component.InitializeVFlash();
+                component.Initialize();
             }
             catch (Exception)
             {

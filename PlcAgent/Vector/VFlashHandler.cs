@@ -15,11 +15,11 @@ namespace _PlcAgent.Vector
     {
         #region Variables
 
-        private readonly VFlashStationController _vFlashStationController;
         private readonly VFlashErrorCollector _vFlashErrorCollector;
         private VFlashTypeBank _vFlashTypeBank;
 
         private readonly Thread _vFlashThread;
+        private VFlashChannel _vFlashChannel;
 
         #endregion
 
@@ -55,11 +55,7 @@ namespace _PlcAgent.Vector
             VFlashHandlerInterfaceAssignmentFile = vFlashHandlerInterfaceAssignmentFile;
 
             _vFlashErrorCollector = new VFlashErrorCollector();
-            _vFlashStationController = new VFlashStationController(ReportError, Header.Id);
-            _vFlashStationController.Add(new VFlashChannel(ReportError, "", Header.Id));
-
             _vFlashTypeBank = vFlashTypeBank;
-            _vFlashErrorCollector = new VFlashErrorCollector();
 
             _vFlashThread = new Thread(VFlashPlcCommunicationThread);
             _vFlashThread.SetApartmentState(ApartmentState.STA);
@@ -77,31 +73,52 @@ namespace _PlcAgent.Vector
 
         public void InitializeVFlash()
         {
+            if (VFlashStationControllerContext.VFlashStationController != null) return;
+            VFlashStationControllerContext.VFlashStationController = new VFlashStationController(ReportError, Header.Id);
             try
             {
-                _vFlashStationController.Initialize();
+                VFlashStationControllerContext.VFlashStationController.Initialize();
             }
             catch (Exception)
             {
                 MessageBox.Show("ID: " + Header.Id + " VFlash initialization failed", "VFlash Failed");
                 throw new FlashHandlerException("VFlash initialization failed");
             }
+        }
 
-            _vFlashThread.Start();
-            Logger.Log("ID: " + Header.Id + " vFlash Initialized");
+        public void DeinitializeVFlash()
+        {
+            if (VFlashStationControllerContext.VFlashStationController == null ||
+                !VFlashStationControllerContext.VFlashStationController.IsEmpty) return;
+            try
+            {
+                VFlashStationControllerContext.VFlashStationController.Deinitialize();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ID: " + Header.Id + " VFlash deinitialization failed", "VFlash Failed");
+                throw new FlashHandlerException("VFlash deinitialization failed");
+            }
         }
 
         public override void Initialize()
         {
+            InitializeVFlash();
+
+            VFlashStationControllerContext.VFlashStationController.Add(_vFlashChannel = new VFlashChannel(ReportError, "", Header.Id));
             
+            _vFlashThread.Start();
+            Logger.Log("ID: " + Header.Id + " vFlash Initialized");
         }
 
         public override void Deinitialize()
         {
-            _vFlashStationController.Deinitialize();
+            VFlashStationControllerContext.VFlashStationController.Remove(_vFlashChannel);
+            
             _vFlashThread.Abort();
-
             Logger.Log("ID: " + Header.Id + " vFlash Deinitialized");
+
+            DeinitializeVFlash();
         }
 
         public override void TemplateGuiUpdate(TabControl mainTabControl, TabControl outputTabControl,
@@ -148,14 +165,14 @@ namespace _PlcAgent.Vector
 
         public void LoadProject(uint chanId)
         {
-            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be loaded was not found");
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load); 
         }
 
         public void UnloadProject(uint chanId)
         {
-            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be unloaded was not found");
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Unload);
 
@@ -168,21 +185,21 @@ namespace _PlcAgent.Vector
 
         public void StartFlashing(uint chanId)
         {
-            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be flashed was not found");
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Start); 
         }
 
         public void AbortFlashing(uint chanId)
         {
-            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be aborted was not found");
             channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Abort); 
         }
 
         public void SetProjectPath(uint chanId, string projectPath)
         {
-            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be set was not found");
             channelFound.FlashProjectPath = projectPath;
             Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + chanId + " : New path assigned : \n" + channelFound.FlashProjectPath);
@@ -196,7 +213,7 @@ namespace _PlcAgent.Vector
 
         public VFlashChannel ReturnChannelSetup(uint chanId)
         {
-            return (VFlashChannel)_vFlashStationController.ReturnChannelSetup(chanId);
+            return (VFlashChannel)VFlashStationControllerContext.VFlashStationController.ReturnChannelSetup(chanId);
         }
 
         #endregion
@@ -215,7 +232,7 @@ namespace _PlcAgent.Vector
 
             while (_vFlashThread.IsAlive)
             {
-                var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
+                var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
                 PcControlModeChangeAllowed = false;
 
                 if (channelFound != null && !PcControlMode && CheckInterface())
@@ -403,7 +420,7 @@ namespace _PlcAgent.Vector
         {
             ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
             Logger.Log("ID: " + Header.Id + " VFlash: Fault on Channel nr. " + channelId + " : " + errorMessage);
-            var channelFound = (VFlashChannel)_vFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == channelId);
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == channelId);
             if (channelFound != null)
             {
                 channelFound.Command = VFlashStationComponent.VFlashCommand.NoCommand;
