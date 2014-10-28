@@ -16,7 +16,15 @@
 
     </UserControl.Resources>
     <Grid Name="GeneralGrid">
-        <ListView Name="StoredProcedureListBox" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="200" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove" SelectionChanged="StoredProcedureSelectionChanged"/>
-        <ListView Name="ParameterListBox" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="400" Margin="0,0,0,0" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+        <Grid>
+            <ListView Name="StoredProcedureListBox" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="200" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove" SelectionChanged="StoredProcedureSelectionChanged"/>
+            <ListView Name="ParameterListBox" HorizontalAlignment="Right" Height="400" VerticalAlignment="Top" Width="400" Margin="0,0,0,0" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" PreviewMouseLeftButtonDown="List_PreviewMouseLeftButtonDown" PreviewMouseMove="List_MouseMove"/>
+        </Grid>
+        <Grid Name="FooterGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="450">
+            <Button Name="ClearButton" Content="Clear" HorizontalAlignment="Right" Margin="0,0,190,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Clear"/>
+            <Button Name="ImportButton" Content="Import" HorizontalAlignment="Right" Margin="0,0,95,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Import"/>
+            <Button Name="ExportButton" Content="Export" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="90" Height="22" Click="Export"/>
+            <Label Name="FileNameLabel" Content="Template.xml" FontSize="10" HorizontalAlignment="Left" Width="450"></Label>
+        </Grid>
     </Grid>
 </db:DbConnectionHandlerComponent>

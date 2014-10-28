@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
@@ -61,13 +62,15 @@ namespace _PlcAgent.Visual.Gui.DB
             GeneralGrid.Height = height;
             GeneralGrid.Width = width;
 
-            StoredProcedureListBox.Height = height;
+            StoredProcedureListBox.Height = height - 27;
             StoredProcedureListBox.Width = 400;
-            ParameterListBox.Height = height;
+            ParameterListBox.Height = height - 27;
             ParameterListBox.Width = Limiter.DoubleLimit(width - StoredProcedureListBox.Width - 4, 0);
 
             StoredProcedureListBox.View = CreateGridView("StoredProcedure");
             ParameterListBox.View = CreateGridView("Parameters");
+
+            FooterGrid.Width = Limiter.DoubleLimit(width, 0);
         }
 
         private static GridView CreateGridView(string configuration)
@@ -139,6 +142,18 @@ namespace _PlcAgent.Visual.Gui.DB
         {
             var sp = (DbStoredProcedure)StoredProcedureListBox.SelectedItem;
             ParameterListBox.ItemsSource = sp.SpParameters;
+        }
+
+        private void Clear(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Import(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Export(object sender, RoutedEventArgs e)
+        {
         }
 
         #endregion
