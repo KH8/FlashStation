@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using _PlcAgent.Log;
+using _PlcAgent.Output;
 using _PlcAgent.Output.OutputFileCreator;
 using _PlcAgent.Visual.TreeListView;
 using ComboBox = System.Windows.Controls.ComboBox;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Controls;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.General;

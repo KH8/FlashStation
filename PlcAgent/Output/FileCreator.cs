@@ -6,10 +6,11 @@ using System.Windows;
 using System.Xml;
 using CsvHelper;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.DB;
 using _PlcAgent.Log;
 using _PlcAgent.Output.Template;
 
-namespace _PlcAgent.Output.OutputFileCreator
+namespace _PlcAgent.Output
 {
     public abstract class FileCreator
     {
@@ -59,6 +60,48 @@ namespace _PlcAgent.Output.OutputFileCreator
                 writer.WriteStartElement(configuration.ToString());
 
                 WriteComponentToTheFile(writer, outputDataTemplateComposite, configuration);
+
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+            }
+            Logger.Log(fileName + " output file created");
+        }
+
+        public void CreateOutput(string fileName, DbStoredProcedureList storedProcedures)
+        {
+            var settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
+
+            using (var writer = XmlWriter.Create(fileName, settings))
+            {
+                writer.WriteStartDocument();
+                writer.WriteStartElement("StoredProcedures");
+
+                foreach (var sp in storedProcedures.Items)
+                {
+                    writer.WriteStartElement("Procedure");
+
+                    writer.WriteAttributeString("Name", sp.SpName);
+                    writer.WriteAttributeString("Command", sp.SpCommand.ToString(CultureInfo.InvariantCulture));
+
+                    foreach (var parameter in sp.SpParameters)
+                    {
+                        writer.WriteStartElement("Parameter");
+
+                        writer.WriteAttributeString("Name", parameter.Name);
+                        writer.WriteAttributeString("Component", parameter.Component.Name);
+
+                        var id = 0;
+                        var parent = parameter.Component.GetOwner() as CommunicationInterfaceHandler;
+                        if (parent != null) id = (int)parent.Header.Id;
+
+                        writer.WriteAttributeString("InterfaceId", id.ToString(CultureInfo.InvariantCulture));
+                        writer.WriteAttributeString("InterfaceType", parameter.Component.TypeOfInterface.ToString());
+
+                        writer.WriteEndElement();
+                    }
+
+                    writer.WriteEndElement();
+                }
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();

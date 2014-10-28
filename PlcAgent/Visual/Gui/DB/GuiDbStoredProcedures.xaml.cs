@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using _PlcAgent.DB;
 using _PlcAgent.General;
 using _PlcAgent.Visual.Interfaces;
@@ -128,6 +129,17 @@ namespace _PlcAgent.Visual.Gui.DB
 
         private void Export(object sender, RoutedEventArgs e)
         {
+            var dlg = new SaveFileDialog
+            {
+                FileName = "StoredProcedures",
+                DefaultExt = ".xml",
+                Filter = "eXtensible Markup Language File (.xml)|*.xml"
+            };
+
+            var result = dlg.ShowDialog();
+
+            if (result != true) return;
+            DbConnectionHandler.StoredProcedures.Export(dlg.FileName);
         }
 
         #endregion

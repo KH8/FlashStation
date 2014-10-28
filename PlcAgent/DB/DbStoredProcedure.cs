@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using _PlcAgent.DataAquisition;
+using _PlcAgent.Log;
+using _PlcAgent.Output;
 
 namespace _PlcAgent.DB
 {
@@ -36,6 +38,17 @@ namespace _PlcAgent.DB
         public DbStoredProcedureList(DbConnectionHandler dbConnectionHandler) : base(dbConnectionHandler)
         {
             Items = new List<DbStoredProcedure>();
+        }
+
+        public void Import()
+        {
+
+        }
+
+        public void Export(string fileName)
+        {
+            new XmlFileCreator().CreateOutput(fileName, this);
+            Logger.Log("Stored Procedures exported to the file: " + fileName);
         }
     }
 

@@ -128,6 +128,7 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="DB\DbStoredProcedureBuilder.cs" />
     <Compile Include="License\BlowFish.cs" />
     <Compile Include="General\InterfaceAssignment.cs" />
     <Compile Include="License\LicenseHandler.cs" />
@@ -135,8 +136,8 @@
     <Compile Include="MainRegistry\Module.cs" />
     <Compile Include="MainRegistry\RegistryComposite.cs" />
     <Compile Include="MainRegistry\RegistryContext.cs" />
+    <Compile Include="Output\FileCreator.cs" />
     <Compile Include="Output\OutputFileCreator\OutputFileCreator.cs" />
-    <Compile Include="Output\OutputFileCreator\FileCreator.cs" />
     <Compile Include="Output\OutputFileCreator\OutputFileCreatorFile.Designer.cs">
       <DependentUpon>OutputFileCreatorFile.settings</DependentUpon>
       <AutoGen>True</AutoGen>

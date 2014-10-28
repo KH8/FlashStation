@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.Win32;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Log;
+using _PlcAgent.Output;
 using _PlcAgent.Output.OutputFileCreator;
 using _PlcAgent.Output.Template;
 

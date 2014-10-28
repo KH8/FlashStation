@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using _PlcAgent.DataAquisition;
 using _PlcAgent.Log;
-using _PlcAgent.Output.OutputFileCreator;
 
 namespace _PlcAgent.Output.Template
 {
