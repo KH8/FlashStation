@@ -28,7 +28,6 @@ namespace _PlcAgent.DB
         }
 
         #endregion
-
     }
 
     public class DbStoredProcedureList : DbConnectionHandlerComponent
@@ -40,9 +39,14 @@ namespace _PlcAgent.DB
             Items = new List<DbStoredProcedure>();
         }
 
-        public void Import()
+        public void Clear()
         {
+            Items.Clear();
+        }
 
+        public void Import(string fileName)
+        {
+            Items.Clear();
         }
 
         public void Export(string fileName)
@@ -61,6 +65,7 @@ namespace _PlcAgent.DB
             #region Variables
 
             private string _name;
+            private Type _type = Type.In;
             private CommunicationInterfaceComponent _component;
 
             #endregion
@@ -68,10 +73,48 @@ namespace _PlcAgent.DB
 
             #region Properties
 
+            public enum Type
+            {
+                In,
+                Out,
+            }
+
             public string Name
             {
                 get { return _name; }
                 set { _name = value; }
+            }
+
+            public Type ParameterType
+            {
+                get { return _type; }
+                set { _type = value; }
+            }
+
+            public string InterfaceName
+            {
+                get
+                {
+                    if (_component == null) return "-";
+                    var owner = (CommunicationInterfaceHandler)_component.GetOwner();
+                    return owner == null ? "-" : owner.Header.Name;
+                }
+            }
+
+            public string InterfaceTyp
+            {
+                get
+                {
+                    return _component == null ? "-" : _component.TypeOfInterface.ToString();
+                }
+            }
+
+            public string ComponentName
+            {
+                get
+                {
+                    return _component == null ? "-" : _component.Name;
+                }
             }
 
             public CommunicationInterfaceComponent Component

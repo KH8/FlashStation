@@ -82,11 +82,12 @@ namespace _PlcAgent.Visual.Gui.DB
 
         private void Clear(object sender, RoutedEventArgs e)
         {
-            DbConnectionHandler.StoredProcedures.Items.Clear();
+            DbConnectionHandler.StoredProcedures.Clear();
         }
 
         private void Import(object sender, RoutedEventArgs e)
         {
+
         }
 
         private void Export(object sender, RoutedEventArgs e)
