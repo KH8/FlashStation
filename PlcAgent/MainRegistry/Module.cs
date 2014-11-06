@@ -78,7 +78,11 @@ namespace _PlcAgent.MainRegistry
                         break;
                 }
 
-                if (component == null || component.TypeOfVariable != CommunicationInterfaceComponent.VariableType.Integer) return false;
+                if (component == null ||
+                    component.TypeOfVariable != assignment.Type)
+                {
+                    return false;
+                }
             }
             return true;
         }

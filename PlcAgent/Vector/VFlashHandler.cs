@@ -442,7 +442,7 @@ namespace _PlcAgent.Vector
             InterfaceAssignmentCollection.Add(0, "Command", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
             InterfaceAssignmentCollection.Add(1, "Program Type", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
             InterfaceAssignmentCollection.Add(2, "Program Version", CommunicationInterfaceComponent.VariableType.String, InterfaceAssignment.Direction.In, Assignment);
-            InterfaceAssignmentCollection.Add(3, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
+            InterfaceAssignmentCollection.Add(3, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
             InterfaceAssignmentCollection.Add(4, "Reply", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
             InterfaceAssignmentCollection.Add(5, "Status", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
             InterfaceAssignmentCollection.Add(6, "Program Type Active", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);

@@ -8,7 +8,7 @@ using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.DB
 {
-    static class DbStoredProcedureBuilder
+    /*static class DbStoredProcedureBuilder
     {
         public static DbStoredProcedureList XmlFileToTemplate(
             string fileName, DbConnectionHandler dbConnectionHandler)
@@ -82,5 +82,5 @@ namespace _PlcAgent.DB
 
             return template;
         }
-    }
+    }*/
 }
