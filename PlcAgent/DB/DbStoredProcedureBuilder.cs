@@ -10,7 +10,7 @@ namespace _PlcAgent.DB
 {
     static class DbStoredProcedureBuilder
     {
-        public static DbStoredProcedureList XmlFileToTemplate(
+        /*public static DbStoredProcedureList XmlFileToTemplate(
             string fileName, DbConnectionHandler dbConnectionHandler)
         {
             var template = new DbStoredProcedureList(dbConnectionHandler);
@@ -81,6 +81,6 @@ namespace _PlcAgent.DB
             Logger.Log("Template Builder: At least one of the template components was not found within available interfaces.");
 
             return template;
-        }
+        }*/
     }
 }
