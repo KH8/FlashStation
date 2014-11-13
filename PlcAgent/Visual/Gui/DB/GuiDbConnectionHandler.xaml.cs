@@ -17,6 +17,10 @@ namespace _PlcAgent.Visual.Gui.DB
 
             HeaderGroupBox.Header = "Db Communication " + DbConnectionHandler.Header.Id;
             _save = true;
+
+            DbInstanceBox.Text = DbConnectionHandler.DbConnectionHandlerFile.DbInstances[DbConnectionHandler.Header.Id];
+            InitialCatalogBox.Text = DbConnectionHandler.DbConnectionHandlerFile.InitialCatalogs[DbConnectionHandler.Header.Id];
+            ConfigurationFileBox.Text = DbConnectionHandler.DbConnectionHandlerFile.ConfigurationFileNames[DbConnectionHandler.Header.Id];
         }
     }
 }
