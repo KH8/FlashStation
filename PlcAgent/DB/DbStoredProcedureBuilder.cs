@@ -8,7 +8,7 @@ using _PlcAgent.Output.Template;
 
 namespace _PlcAgent.DB
 {
-    static class DbStoredProcedureBuilder
+    /*static class DbStoredProcedureBuilder
     {
         /*public static DbStoredProcedureList XmlFileToTemplate(
             string fileName, DbConnectionHandler dbConnectionHandler)
@@ -81,6 +81,6 @@ namespace _PlcAgent.DB
             Logger.Log("Template Builder: At least one of the template components was not found within available interfaces.");
 
             return template;
+<<<<<<< HEAD
         }*/
-    }
 }

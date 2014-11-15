@@ -232,7 +232,7 @@ namespace _PlcAgent.Vector
 
             while (_vFlashThread.IsAlive)
             {
-                var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == 1);
+                var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == Header.Id);
                 PcControlModeChangeAllowed = false;
 
                 if (channelFound != null && !PcControlMode && CheckInterface())
@@ -421,11 +421,10 @@ namespace _PlcAgent.Vector
             ErrorCollector.AddMessage(DateTime.Now + "Handle {0}: {1}", handle, errorMessage);
             Logger.Log("ID: " + Header.Id + " VFlash: Fault on Channel nr. " + channelId + " : " + errorMessage);
             var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == channelId);
-            if (channelFound != null)
-            {
-                channelFound.Command = VFlashStationComponent.VFlashCommand.NoCommand;
-                channelFound.Status = VFlashStationComponent.VFlashStatus.Fault;
-            }
+
+            if (channelFound == null) return;
+            channelFound.Command = VFlashStationComponent.VFlashCommand.NoCommand;
+            channelFound.Status = VFlashStationComponent.VFlashStatus.Fault;
         }
 
         protected override void AssignmentFileUpdate()
@@ -442,7 +441,7 @@ namespace _PlcAgent.Vector
             InterfaceAssignmentCollection.Add(0, "Command", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
             InterfaceAssignmentCollection.Add(1, "Program Type", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
             InterfaceAssignmentCollection.Add(2, "Program Version", CommunicationInterfaceComponent.VariableType.String, InterfaceAssignment.Direction.In, Assignment);
-            InterfaceAssignmentCollection.Add(3, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
+            InterfaceAssignmentCollection.Add(3, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
             InterfaceAssignmentCollection.Add(4, "Reply", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
             InterfaceAssignmentCollection.Add(5, "Status", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
             InterfaceAssignmentCollection.Add(6, "Program Type Active", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
