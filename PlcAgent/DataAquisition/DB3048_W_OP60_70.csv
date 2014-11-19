@@ -1,6 +1,6 @@
 #SYMBOL;#TYPE;#NOTUSED;#NOTUSED;#COMMENT
 #READ;;;;
-HEADER.WT_Daten_Fixed.WT_Nummer;INT;0;0;WT Nummer
+HEADER.WT_Daten_Fixed.WT_Nummer_NEW;INT;0;0;WT Nummer
 HEADER.WT_Daten_Fixed.WT_Leergewicht;DINT;L#0;L#0;WT Leergewicht Res_100kg_10kg_1kg_100g_10g_Res_Res
 HEADER.WT_Daten_Fixed.Umlaufzaehler;INT;0;0;Umlaufzähler
 HEADER.WT_Daten_Fixed.Customer_Barcode;STRING [ 30 ];'
