@@ -61,40 +61,13 @@ namespace _PlcAgent.Vector
             }
         }
 
-        /*public static class VFlashTypeConverter
+        public static class VFlashTypeBuilder
         {
-            public static string[] VFlashTypesToStrings(List<VFlashTypeComponent> list)
+            public static List<VFlashTypeComponent> Build(uint id, VFlashTypeBankFile vFlashTypeBankFile)
             {
-                var output = new string[list.Count];
-                uint i = 0;
-                foreach (var type in list.Cast<VFlashTypeComponent>())
-                {
-                    output[i] = type.Type + "=" + type.Version + "+" + type.Path;
-                    i++;
-                }
-                return output;
+                return vFlashTypeBankFile.TypeBank[id].Select(typeBank => new VFlashTypeComponent(typeBank)).ToList();
             }
-
-            public static void StringsToVFlashChannels(string[] types, VFlashTypeBank bank)
-            {
-                try
-                {
-                    var dictionary =
-                        types.Select(type => type.Split('='))
-                            .ToDictionary<string[], uint, string>(words => Convert.ToUInt16(words[0]), words => words[1]);
-                    var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
-                    foreach (var type in sortedDict)
-                    {
-                        var words = type.Value.Split('+');
-                        bank.Add(new VFlashTypeComponent(type.Key, words[0], words[1]));
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Log("Configuration is wrong : " + e.Message);
-                }
-            }
-        }*/
+        }
 
         #endregion
 
