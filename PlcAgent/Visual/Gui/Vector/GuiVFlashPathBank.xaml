@@ -28,9 +28,9 @@
                 <DataGridTextColumn Binding="{Binding Path=TransitionDelay}" Header="Transition Delay Time" Width="130" IsReadOnly="False"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="25" Width="100" Click="TypeCreation"/>
-        <Button Name="VFlashDeleteTypeButton" Content="Delete Type" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Bottom" Height="25" Width="100" Click="TypeCreation"/>
-        <Label Content="Version:" HorizontalAlignment="Left" Margin="210,0,0,1" VerticalAlignment="Bottom"/>
-        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="270,0,0,1" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
+        <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>
+        <Button Name="VFlashDeleteTypeButton" Content="Delete Type" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>
+        <Label Content="Version:" HorizontalAlignment="Left" Margin="210,0,0,-2" VerticalAlignment="Bottom"/>
+        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="270,0,0,-2" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
     </Grid>
 </UserControl>

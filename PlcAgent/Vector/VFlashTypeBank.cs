@@ -136,24 +136,18 @@ namespace _PlcAgent.Vector
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
-            outputTabControl.Items.Add(newtabItem);
-            outputTabControl.SelectedItem = newtabItem;
-
-            var newScrollViewer = new ScrollViewer
-            {
-                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
-            };
-            newtabItem.Content = newScrollViewer;
+            mainTabControl.Items.Add(newtabItem);
+            mainTabControl.SelectedItem = newtabItem;
 
             var newGrid = new Grid();
-            newScrollViewer.Content = newGrid;
+            newtabItem.Content = newGrid;
 
-            newGrid.Height = Limiter.DoubleLimit(outputTabControl.Height - 50.0, 0);
-            newGrid.Width = Limiter.DoubleLimit(outputTabControl.Width - 10, 0);
+            newGrid.Height = Limiter.DoubleLimit(mainTabControl.Height - 32.0, 0);
+            newGrid.Width = Limiter.DoubleLimit(mainTabControl.Width - 10, 0);
 
             var gridGuiVFlashPathBank = (GuiComponent)RegistryContext.Registry.GuiVFlashPathBanks.ReturnComponent(Header.Id);
             gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
+
             var guiComponent = (GuiVFlashPathBank)gridGuiVFlashPathBank.UserControl;
             guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
         }

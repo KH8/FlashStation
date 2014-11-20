@@ -38,9 +38,9 @@ namespace _PlcAgent.Visual.Gui.Vector
             GeneralGrid.Height = height;
             GeneralGrid.Width = width;
 
-            VersionDataGrid.Height = height - 30;
+            VersionDataGrid.Height = height - 27;
             VersionDataGrid.Width = 400;
-            SequenceDataGrid.Height = height - 30;
+            SequenceDataGrid.Height = height - 27;
             SequenceDataGrid.Width = Limiter.DoubleLimit(width - VersionDataGrid.Width - 4, 0);
         }
 
