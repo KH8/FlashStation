@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Web.UI;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Media;
-using Microsoft.Win32;
 using _PlcAgent.General;
 using _PlcAgent.Vector;
+using DataGrid = System.Windows.Controls.DataGrid;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace _PlcAgent.Visual.Gui.Vector
 {
@@ -20,6 +18,7 @@ namespace _PlcAgent.Visual.Gui.Vector
     {
         #region Variables
 
+        private DateTime _clickTimeStamp;
         private readonly VFlashTypeBank _vFlashTypeBank;
         private readonly VFlashTypeBankFile _vFlashTypeBankFile;
 
@@ -141,6 +140,12 @@ namespace _PlcAgent.Visual.Gui.Vector
 
         private void PathModyfication(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if ((DateTime.Now - _clickTimeStamp).TotalMilliseconds > SystemInformation.DoubleClickTime)
+            {
+                _clickTimeStamp = DateTime.Now;
+                return;
+            }
+
             var textBlock = (TextBlock) sender;
 
             var dlg = new OpenFileDialog

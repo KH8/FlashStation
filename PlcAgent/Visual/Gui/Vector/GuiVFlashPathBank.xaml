@@ -31,8 +31,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Id}" Header="TransitionConditions" Width="130" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Path=TransitionDelay}" Header="Transition Delay Time" Width="130" IsReadOnly="False"/>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Transition Conditions" Width="130" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=TransitionDelay}" Header="Delay Time [ms]" Width="130" IsReadOnly="False"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using Vector.vFlash.Automation;
@@ -23,6 +22,7 @@ namespace _PlcAgent.Vector
                 public int Id { get; set; }
                 public string Path { get; set; }
                 public int TransitionDelay { get; set; }
+
                 public Dictionary<VFlashStationResult, Boolean> TransitionConditions;
 
                 public Step(int id)
