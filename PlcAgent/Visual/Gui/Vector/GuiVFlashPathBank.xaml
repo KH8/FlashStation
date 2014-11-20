@@ -17,21 +17,29 @@
     <Grid Name="GeneralGrid">
         <DataGrid Name="VersionDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6" SelectionChanged="VersionSelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="330" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=Version}" Header="Version" Width="330" IsReadOnly="False"/>
                 <DataGridTextColumn Binding="{Binding Steps.Count}" Header="Steps" Width="50" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Name="SequenceDataGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Width="599" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="Step Nr." Width="60" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Path}" Header="Template File" Width="260" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Template File" Width="600" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path}" MouseLeftButtonDown="PathModyfication"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Id}" Header="TransitionConditions" Width="130" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Path=TransitionDelay}" Header="Transition Delay Time" Width="130" IsReadOnly="False"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>
-        <Button Name="VFlashDeleteTypeButton" Content="Delete Type" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>
+        <Button Name="VFlashDeleteTypeButton" Content="Delete Type" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeDeletion"/>
         <Label Content="Version:" HorizontalAlignment="Left" Margin="210,0,0,-2" VerticalAlignment="Bottom"/>
-        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="270,0,0,-2" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
+        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="270,0,0,-2" TextWrapping="Wrap" Text="1402-001" VerticalAlignment="Bottom" Width="70"/>
+        <Button x:Name="VFlashCreateStepButton" Content="Create Step" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="22" Width="100" Click="StepCreation" Margin="0,0,105,0"/>
+        <Button x:Name="VFlashDeleteStepButton" Content="Delete Step" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="22" Width="100" Click="StepDeletion"/>
     </Grid>
 </UserControl>

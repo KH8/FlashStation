@@ -162,12 +162,8 @@ namespace _PlcAgent.Vector
         public void Add(VFlashTypeComponent c)
         {
             var child = Children.FirstOrDefault(typeFound => typeFound.Version == c.Version);
-            if (child == null) Children.Add(c);
-            else
-            {
-                Children.Remove(child);
-                Children.Add(c);
-            }
+            if (child != null) return;
+            Children.Add(c);
         }
 
         public void Remove(VFlashTypeComponent c)
