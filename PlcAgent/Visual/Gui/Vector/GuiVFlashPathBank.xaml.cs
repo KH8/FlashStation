@@ -28,6 +28,8 @@ namespace _PlcAgent.Visual.Gui.Vector
 
             VersionDataGrid.ItemsSource = _vFlashTypeBank.Children;
             VersionDataGrid.Foreground = Brushes.Black;
+
+            SequenceDataGrid.Foreground = Brushes.Black;
         }
 
         public void UpdateSizes(double height, double width)
@@ -55,32 +57,29 @@ namespace _PlcAgent.Visual.Gui.Vector
             var result = dlg.ShowDialog();
             if (result != true) return;
             _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(TypeVersionBox.Text));
+
             UpdateVFlashProjectCollection();
         }
 
         private void UpdateVFlashProjectCollection()
         {
             /*_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeBank.VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
-            _vFlashTypeBankFile.Save();
+            _vFlashTypeBankFile.Save();*/
 
-            _vFlashProjectCollection.Clear();
-            foreach (var type in _vFlashTypeBank.Children.Cast<VFlashTypeBank.VFlashTypeComponent>())
-            {
-                _vFlashProjectCollection.Add(new VFlashTypeBank.VFlashDisplayProjectData
-                {
-                    Type = type.Type,
-                    Version = type.Version,
-                    Path = type.Path
-                });
-            }*/
+            VersionDataGrid.Items.Refresh();
+            SequenceDataGrid.Items.Refresh();
         }
 
-        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
+        private void VersionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var listView = (ListView)sender;
-            /*var projectdata = (VFlashTypeBank.VFlashDisplayProjectData)listView.SelectedItem;
-            if (projectdata != null) TypeNumberBox.Text = projectdata.Type.ToString(CultureInfo.InvariantCulture);
-            if (projectdata != null) TypeVersionBox.Text = projectdata.Version;*/
+            var gridView = (DataGrid)sender;
+            var template = (VFlashTypeBank.VFlashTypeComponent)gridView.SelectedItem;
+            if (template == null) return;
+
+            TypeVersionBox.Text = template.Version;
+            SequenceDataGrid.ItemsSource = template.Steps;
+
+            UpdateVFlashProjectCollection();
         }
     }
 }

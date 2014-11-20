@@ -15,9 +15,10 @@
         </Style>
     </UserControl.Resources>
     <Grid Name="GeneralGrid">
-        <DataGrid Name="VersionDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
+        <DataGrid Name="VersionDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6" SelectionChanged="VersionSelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="230" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="330" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Steps.Count}" Header="Steps" Width="50" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Name="SequenceDataGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Width="599" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">

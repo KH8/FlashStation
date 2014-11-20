@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using Vector.vFlash.Automation;
@@ -43,7 +44,7 @@ namespace _PlcAgent.Vector
             public VFlashTypeComponent(string version)
             {
                 Version = version;
-                Steps = new List<Step>();
+                Steps = new List<Step> {new Step(1)};
             }
         }
 
@@ -85,20 +86,9 @@ namespace _PlcAgent.Vector
         #endregion
 
 
-        #region Variables
-
-        private List<VFlashTypeComponent> _children = new List<VFlashTypeComponent>();
-
-        #endregion
-
-
         #region Properties
 
-        public List<VFlashTypeComponent> Children
-        {
-            get { return _children; }
-            set { _children = value; }
-        }
+        public List<VFlashTypeComponent> Children { get; set; }
 
         public VFlashTypeBankFile VFlashTypeBankFile;
 
@@ -114,6 +104,8 @@ namespace _PlcAgent.Vector
 
         public VFlashTypeBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile) : base(id, name)
         {
+            Children = new List<VFlashTypeComponent>();
+
             ReferencePosition = 3;
             VFlashTypeBankFile = vFlashTypeBankFile;
         }
@@ -169,18 +161,18 @@ namespace _PlcAgent.Vector
 
         public void Add(VFlashTypeComponent c)
         {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Version == c.Version);
-            if (child == null) _children.Add(c);
+            var child = Children.FirstOrDefault(typeFound => typeFound.Version == c.Version);
+            if (child == null) Children.Add(c);
             else
             {
-                _children.Remove(child);
-                _children.Add(c);
+                Children.Remove(child);
+                Children.Add(c);
             }
         }
 
         public void Remove(VFlashTypeComponent c)
         {
-            _children.Remove(c);
+            Children.Remove(c);
         }
 
         //temp
