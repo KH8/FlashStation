@@ -19,11 +19,6 @@ namespace _PlcAgent.Visual.Gui.Vector
         private readonly VFlashTypeBank _vFlashTypeBank;
         private readonly VFlashTypeBankFile _vFlashTypeBankFile;
 
-        private readonly ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData>();
-
-        public ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData> VFlashProjectCollection
-        { get { return _vFlashProjectCollection; } }
-
         public GuiVFlashPathBank(VFlashTypeBank vFlashTypeBank)
         {
             _vFlashTypeBank = vFlashTypeBank;
@@ -31,13 +26,8 @@ namespace _PlcAgent.Visual.Gui.Vector
 
             InitializeComponent();
 
-            VFlashBankListBox.ItemsSource = _vFlashProjectCollection;
-            VFlashBankListBox.View = CreateGridView();
-            VFlashBankListBox.Foreground = Brushes.Black;
-
-            VFlashTypeBank.VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id], _vFlashTypeBank);
-            UpdateVFlashProjectCollection();
-
+            VersionDataGrid.ItemsSource = _vFlashTypeBank.Children;
+            VersionDataGrid.Foreground = Brushes.Black;
         }
 
         public void UpdateSizes(double height, double width)
@@ -48,36 +38,10 @@ namespace _PlcAgent.Visual.Gui.Vector
             GeneralGrid.Height = height;
             GeneralGrid.Width = width;
 
-            VFlashBankListBox.Height = Limiter.DoubleLimit(height - 30, 0);
-            VFlashBankListBox.Width = width;
-
-            VFlashBankListBox.View = CreateGridView();
-        }
-
-        public GridView CreateGridView()
-        {
-            var gridView = new GridView();
-
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 60,
-                Header = "Type",
-                DisplayMemberBinding = new Binding("Type")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 60,
-                Header = "Version",
-                DisplayMemberBinding = new Binding("Version")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = Limiter.DoubleLimit(Width - 130, 0),
-                Header = "Path",
-                DisplayMemberBinding = new Binding("Path")
-            });
-
-            return gridView;
+            VersionDataGrid.Height = height - 30;
+            VersionDataGrid.Width = 400;
+            SequenceDataGrid.Height = height - 30;
+            SequenceDataGrid.Width = Limiter.DoubleLimit(width - VersionDataGrid.Width - 4, 0);
         }
 
         private void TypeCreation(object sender, RoutedEventArgs e)
@@ -90,13 +54,13 @@ namespace _PlcAgent.Visual.Gui.Vector
 
             var result = dlg.ShowDialog();
             if (result != true) return;
-            _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
+            _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(TypeVersionBox.Text));
             UpdateVFlashProjectCollection();
         }
 
         private void UpdateVFlashProjectCollection()
         {
-            _vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeBank.VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
+            /*_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeBank.VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
             _vFlashTypeBankFile.Save();
 
             _vFlashProjectCollection.Clear();
@@ -108,15 +72,15 @@ namespace _PlcAgent.Visual.Gui.Vector
                     Version = type.Version,
                     Path = type.Path
                 });
-            }
+            }*/
         }
 
         private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
         {
             var listView = (ListView)sender;
-            var projectdata = (VFlashTypeBank.VFlashDisplayProjectData)listView.SelectedItem;
+            /*var projectdata = (VFlashTypeBank.VFlashDisplayProjectData)listView.SelectedItem;
             if (projectdata != null) TypeNumberBox.Text = projectdata.Type.ToString(CultureInfo.InvariantCulture);
-            if (projectdata != null) TypeVersionBox.Text = projectdata.Version;
+            if (projectdata != null) TypeVersionBox.Text = projectdata.Version;*/
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using Vector.vFlash.Automation;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
@@ -14,26 +15,41 @@ namespace _PlcAgent.Vector
     {
         #region Subclasses
 
-        public class VFlashDisplayProjectData
+        public class VFlashTypeComponent
         {
-            public uint Type { get; set; }
-            public string Version { get; set; }
-            public string Path { get; set; }
-        }
-
-        public class VFlashTypeComponent : VFlashDisplayProjectData
-        {
-            public VFlashTypeComponent(uint type, string version, string path)
+            public class Step
             {
-                Type = type;
+                public int Id { get; set; }
+                public string Path { get; set; }
+                public int TransitionDelay { get; set; }
+                public Dictionary<VFlashStationResult, Boolean> TransitionConditions;
+
+                public Step(int id)
+                {
+                    Id = id;
+                    Path = "no path assigned";
+                    TransitionDelay = 100;
+                    TransitionConditions = new Dictionary<VFlashStationResult, bool>();
+                    foreach (VFlashStationResult result in Enum.GetValues(typeof(VFlashStationResult)))
+                    {
+                        TransitionConditions.Add(result, false);
+                    }
+                }
+            }
+            
+            public string Version { get; set; }
+            public List<Step> Steps { get; set; } 
+
+            public VFlashTypeComponent(string version)
+            {
                 Version = version;
-                Path = path;
+                Steps = new List<Step>();
             }
         }
 
-        public static class VFlashTypeConverter
+        /*public static class VFlashTypeConverter
         {
-            public static string[] VFlashTypesToStrings(List<VFlashDisplayProjectData> list)
+            public static string[] VFlashTypesToStrings(List<VFlashTypeComponent> list)
             {
                 var output = new string[list.Count];
                 uint i = 0;
@@ -64,21 +80,21 @@ namespace _PlcAgent.Vector
                     Logger.Log("Configuration is wrong : " + e.Message);
                 }
             }
-        }
+        }*/
 
         #endregion
 
 
         #region Variables
 
-        private List<VFlashDisplayProjectData> _children = new List<VFlashDisplayProjectData>();
+        private List<VFlashTypeComponent> _children = new List<VFlashTypeComponent>();
 
         #endregion
 
 
         #region Properties
 
-        public List<VFlashDisplayProjectData> Children
+        public List<VFlashTypeComponent> Children
         {
             get { return _children; }
             set { _children = value; }
@@ -157,38 +173,26 @@ namespace _PlcAgent.Vector
             if (MainRegistryFile.Default.VFlashTypeBanks[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
-        public void Add(VFlashDisplayProjectData c)
+        public void Add(VFlashTypeComponent c)
         {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Type == c.Type);
+            var child = _children.FirstOrDefault(typeFound => typeFound.Version == c.Version);
             if (child == null) _children.Add(c);
             else
             {
-                child.Path = c.Path;
-                child.Version = c.Version;
+                _children.Remove(child);
+                _children.Add(c);
             }
         }
 
-        public void Remove(VFlashDisplayProjectData c)
+        public void Remove(VFlashTypeComponent c)
         {
             _children.Remove(c);
         }
 
-        public string ReturnPath(uint type)
-        {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);
-            return child != null ? child.Path : null;
-        }
-
+        //temp
         public string ReturnPath(string version)
         {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Version == version);
-            return child != null ? child.Path : null;
-        }
-
-        public string ReturnVersion(uint type)
-        {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);
-            return child != null ? child.Version : null;
+            return "";
         }
 
         #endregion

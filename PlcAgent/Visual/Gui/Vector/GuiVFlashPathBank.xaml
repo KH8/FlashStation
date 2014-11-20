@@ -15,17 +15,22 @@
         </Style>
     </UserControl.Resources>
     <Grid Name="GeneralGrid">
-        <ListView Name="VFlashBankListBox" HorizontalAlignment="Left" Height="269" VerticalAlignment="Top" Width="854" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" SelectionChanged="VFlashProjectbankListViewSelection">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid Name="VersionDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="230" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Name="SequenceDataGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Width="599" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Step Nr." Width="60" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path}" Header="Template File" Width="260" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Id}" Header="TransitionConditions" Width="130" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=TransitionDelay}" Header="Transition Delay Time" Width="130" IsReadOnly="False"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="25" Width="100" Click="TypeCreation"/>
-        <Label Content="Type Number:" HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Bottom"/>
-        <Label Content="Version:" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom"/>
-        <TextBox Name="TypeNumberBox" HorizontalAlignment="Left" Height="23" Margin="200,0,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Bottom" Width="50"/>
-        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="320,0,0,0" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
+        <Button Name="VFlashDeleteTypeButton" Content="Delete Type" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Bottom" Height="25" Width="100" Click="TypeCreation"/>
+        <Label Content="Version:" HorizontalAlignment="Left" Margin="210,0,0,1" VerticalAlignment="Bottom"/>
+        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="270,0,0,1" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
     </Grid>
 </UserControl>
