@@ -83,8 +83,6 @@ namespace _PlcAgent.Visual.Gui.DataAquisition
                     })));
         }
 
-        #endregion
-
-        
+        #endregion 
     }
 }

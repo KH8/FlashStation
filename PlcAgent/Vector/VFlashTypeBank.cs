@@ -15,6 +15,18 @@ namespace _PlcAgent.Vector
     {
         #region Subclasses
 
+        public class VFlashTypeComponentStepCondition
+        {
+            public VFlashStationResult Result { get; set; }
+            public Boolean Condition { get; set; }
+
+            public VFlashTypeComponentStepCondition(VFlashStationResult result, Boolean condition)
+            {
+                Result = result;
+                Condition = condition;
+            }
+        }
+
         public class VFlashTypeComponent
         {
             public class Step
@@ -23,17 +35,18 @@ namespace _PlcAgent.Vector
                 public string Path { get; set; }
                 public int TransitionDelay { get; set; }
 
-                public Dictionary<VFlashStationResult, Boolean> TransitionConditions;
+                public List<VFlashTypeComponentStepCondition> TransitionConditions;
 
                 public Step(int id)
                 {
                     Id = id;
                     Path = "no path assigned";
                     TransitionDelay = 100;
-                    TransitionConditions = new Dictionary<VFlashStationResult, bool>();
+                    TransitionConditions = new List<VFlashTypeComponentStepCondition>();
                     foreach (VFlashStationResult result in Enum.GetValues(typeof(VFlashStationResult)))
                     {
-                        TransitionConditions.Add(result, false);
+                        var status = result == VFlashStationResult.Success;
+                        TransitionConditions.Add(new VFlashTypeComponentStepCondition(result, status));
                     }
                 }
             }

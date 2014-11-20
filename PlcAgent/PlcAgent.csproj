@@ -254,6 +254,9 @@
     <Compile Include="Visual\Gui\GuiInterfaceAssignment.xaml.cs">
       <DependentUpon>GuiInterfaceAssignment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visual\Gui\Vector\GuiVFlashPathBankTransitionConditions.xaml.cs">
+      <DependentUpon>GuiVFlashPathBankTransitionConditions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visual\Interfaces\IRefreshableGui.cs" />
     <Compile Include="Visual\Interfaces\IResizableGui.cs" />
     <Compile Include="Visual\MainWindowConfigurationFile.Designer.cs">
@@ -418,6 +421,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Visual\Gui\Vector\GuiVFlashPathBank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visual\Gui\Vector\GuiVFlashPathBankTransitionConditions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

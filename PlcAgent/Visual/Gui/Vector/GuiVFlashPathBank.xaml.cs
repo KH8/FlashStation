@@ -163,6 +163,21 @@ namespace _PlcAgent.Visual.Gui.Vector
             UpdateVFlashProjectCollection();
         }
 
+        private void ConditionsModyfication(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if ((DateTime.Now - _clickTimeStamp).TotalMilliseconds > SystemInformation.DoubleClickTime)
+            {
+                _clickTimeStamp = DateTime.Now;
+                return;
+            }
+
+            var textBlock = (TextBlock)sender;
+            var step = (VFlashTypeBank.VFlashTypeComponent.Step) textBlock.DataContext;
+
+            var window = new GuiVFlashPathBankTransitionConditions(step.TransitionConditions) {Topmost = true};
+            window.Show();
+        }
+
         #endregion
 
     }
