@@ -38,6 +38,7 @@ namespace _PlcAgent.Vector
             Unload,
             Start,
             Abort,
+            Sequence,
             NoCommand
         }
 
@@ -49,6 +50,8 @@ namespace _PlcAgent.Vector
             Unloading,
             Unloaded,
             Flashing,
+            SequenceActive,
+            SequenceDone,
             Flashed,
             Aborting,
             Aborted,
@@ -230,6 +233,8 @@ namespace _PlcAgent.Vector
 
     public class VFlashChannel : VFlashStationComponent
     {
+        #region Variables
+
         private long _projectHandle;
         private string _flashProjectPath;
         private Boolean _result;
@@ -240,6 +245,11 @@ namespace _PlcAgent.Vector
         private readonly ReportErrorDelegate _reportErrorDelegate;
 
         private readonly Thread _vFlashThread;
+
+        #endregion
+
+
+        #region Constructors
 
         public VFlashChannel(ReportErrorDelegate reportErrorDelegate, string flashProjectPath, uint channelId)
             : base(channelId)
@@ -262,6 +272,9 @@ namespace _PlcAgent.Vector
             _vFlashThread.Start();
         }
 
+        #endregion
+
+
         public long ProjectHandle
         {
             get { return _projectHandle; }
@@ -283,6 +296,8 @@ namespace _PlcAgent.Vector
                 OnPropertyChanged();
             }
         }
+
+        public VFlashTypeBank.VFlashTypeComponent FlashingSequence { get; set; }
 
         public bool Result
         {
@@ -376,6 +391,21 @@ namespace _PlcAgent.Vector
             return true;
         }
 
+        public bool StartFlashing(List<VFlashTypeBank.VFlashTypeComponentStepCondition> conditions)
+        {
+            if (ProjectHandle != -1)
+            {
+                var res = VFlashStationAPI.Start(ProjectHandle, UpdateProgress, UpdateStatus);
+                var resultCondition = conditions.First(vFlashTypeComponentStepCondition => vFlashTypeComponentStepCondition.Result == res);
+                if (!resultCondition.Condition)
+                {
+                    var errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
+                    _reportErrorDelegate(ChannelId, ProjectHandle, String.Format("Start reprogramming failed ({0}).", errMsg));
+                }
+            }
+            return true;
+        }
+
         public override bool AbortFlashing()
         {
             var errorOccurredButContinued = false;
@@ -390,6 +420,74 @@ namespace _PlcAgent.Vector
                 }
             }
             return !errorOccurredButContinued;
+        }
+
+        public bool ExecuteSequence(VFlashTypeBank.VFlashTypeComponent sequence)
+        {
+            Logger.Log("VFlash: Channel nr. " + ChannelId + " : Sequence " + sequence.Version + " has started");
+
+            Command = VFlashCommand.Sequence;
+
+            for (var i = 1; i < sequence.Steps.Count + 1; i++)
+            {
+                var id = i;
+                var actualStep = sequence.Steps.First(step => step.Id == id);
+
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Unloading");
+
+                Status = VFlashStatus.Unloading;
+                Result = UnloadProject();
+                if (Result)
+                {
+                    Result = false;
+                    Status = VFlashStatus.Unloaded;
+                    Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Unloaded succesfully");
+
+                    return false;
+                }
+
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Loading");
+
+                FlashProjectPath = actualStep.Path;
+                Status = VFlashStatus.Loading;
+                Result = LoadProject();
+                if (Result)
+                {
+                    Result = false;
+                    Status = VFlashStatus.Loaded;
+                    Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Loaded succesfully");
+
+                    return false;
+                }
+
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashing start");
+
+                Status = VFlashStatus.Flashing;
+                Result = StartFlashing(actualStep.TransitionConditions);
+                if (Result)
+                {
+                    Result = false;
+                    Status = VFlashStatus.Flashing;
+
+                    return false;
+                }
+
+                while (Status == VFlashStatus.Flashing) Thread.Sleep(5);
+
+                if (Status != VFlashStatus.Flashed)
+                {
+                    Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashing failed");
+                    return false;
+                }
+
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashed succesfully");
+                Thread.Sleep(actualStep.TransitionDelay);
+            }
+
+            Command = VFlashCommand.NoCommand;
+            Status = VFlashStatus.SequenceDone;
+
+            return true;
         }
 
         internal void UpdateStatus(long handle, VFlashStationStatus status)
@@ -421,6 +519,20 @@ namespace _PlcAgent.Vector
                 {
                     default:
                         Command = VFlashCommand.NoCommand;
+                        break;
+                    case VFlashCommand.Sequence:
+                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted }.Contains(Status))
+                        {
+                            Status = VFlashStatus.SequenceActive;
+                            Result = ExecuteSequence(FlashingSequence);
+                            if (Result)
+                            {
+                                Command = VFlashCommand.NoCommand;
+                                Result = false;
+                                Status = VFlashStatus.SequenceDone;
+                                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Sequence executed succesfully");
+                            }
+                        }
                         break;
                     case VFlashCommand.Load:
                         if (new List<VFlashStatus> { VFlashStatus.Created, VFlashStatus.Fault, VFlashStatus.Unloaded }.Contains(Status))

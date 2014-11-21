@@ -226,12 +226,6 @@ namespace _PlcAgent.Vector
             VFlashTypeBuilder.UpdateConfiguration(Header.Id, VFlashTypeBankFile.Default, Children);
         }
 
-        //temp
-        public string ReturnPath(string version)
-        {
-            return "";
-        }
-
         #endregion
     }
 }
