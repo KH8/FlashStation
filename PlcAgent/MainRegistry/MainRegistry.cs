@@ -827,6 +827,7 @@ namespace _PlcAgent.MainRegistry
             MainRegistryFile.Default.OutputDataTemplates = projectData.OutputDataTemplates;
             MainRegistryFile.Default.OutputFileCreators = projectData.OutputFileCreators;
             MainRegistryFile.Default.OutputHandlers = projectData.OutputHandlers;
+            MainRegistryFile.Default.DbConnectionHandlers = projectData.DbConnectionHandlers;
             MainRegistryFile.Default.VFlashTypeBanks = projectData.VFlashTypeBanks;
             MainRegistryFile.Default.VFlashHandlers = projectData.VFlashHandlers;
             MainRegistryFile.Default.Analyzers = projectData.Analyzers;
@@ -869,6 +870,7 @@ namespace _PlcAgent.MainRegistry
             DbConnectionHandlerInterfaceAssignmentFile.Default.Save();
 
             VFlashTypeBankFile.Default.TypeBank = projectData.TypeBank;
+            VFlashTypeBankFile.Default.Steps = projectData.Steps;
             VFlashTypeBankFile.Default.Save();
 
             VFlashHandlerInterfaceAssignmentFile.Default.Assignment = projectData.VFlashHandlerAssignment;
@@ -898,6 +900,7 @@ namespace _PlcAgent.MainRegistry
                 OutputDataTemplates = MainRegistryFile.Default.OutputDataTemplates,
                 OutputFileCreators = MainRegistryFile.Default.OutputFileCreators,
                 OutputHandlers = MainRegistryFile.Default.OutputHandlers,
+                DbConnectionHandlers = MainRegistryFile.Default.DbConnectionHandlers,
                 VFlashTypeBanks = MainRegistryFile.Default.VFlashTypeBanks,
                 VFlashHandlers = MainRegistryFile.Default.VFlashHandlers,
                 Analyzers = MainRegistryFile.Default.Analyzers,
@@ -931,6 +934,7 @@ namespace _PlcAgent.MainRegistry
                 OutputHandlerAssignment = OutputHandlerInterfaceAssignmentFile.Default.Assignment,
 
                 TypeBank = VFlashTypeBankFile.Default.TypeBank,
+                Steps = VFlashTypeBankFile.Default.Steps,
 
                 VFlashHandlerAssignment = VFlashHandlerInterfaceAssignmentFile.Default.Assignment,
 

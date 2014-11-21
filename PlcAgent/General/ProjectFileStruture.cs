@@ -12,6 +12,7 @@ namespace _PlcAgent.General
             public uint[][] OutputDataTemplates;
             public uint[][] OutputFileCreators;
             public uint[][] OutputHandlers;
+            public uint[][] DbConnectionHandlers;
             public uint[][] VFlashTypeBanks;
             public uint[][] VFlashHandlers;
             public uint[][] Analyzers;
@@ -42,6 +43,7 @@ namespace _PlcAgent.General
             public string[][] DbConnectionHandlerAssignment;
 
             public string[][] TypeBank;
+            public string[][][] Steps;
             public string[][] VFlashHandlerAssignment;
 
             public string[][] AnalyzerAssignment;
