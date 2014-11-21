@@ -85,7 +85,6 @@ namespace _PlcAgent.Analyzer
 
             _emptyDataPoint = new DataPoint(-1.0, -1.0);
             _newDataPoint = _emptyDataPoint;
-            _actualDataPoint = _emptyDataPoint;
 
             _dispatcher = Dispatcher.CurrentDispatcher;
 
@@ -105,7 +104,6 @@ namespace _PlcAgent.Analyzer
         public void AddPoint(DataPoint dataPoint)
         {
             _newDataPoint = dataPoint;
-            _actualDataPoint = _newDataPoint;
         }
 
         public void Clear()
