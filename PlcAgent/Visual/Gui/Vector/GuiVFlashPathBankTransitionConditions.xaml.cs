@@ -9,10 +9,16 @@ namespace _PlcAgent.Visual.Gui.Vector
     /// </summary>
     public partial class GuiVFlashPathBankTransitionConditions
     {
-        public GuiVFlashPathBankTransitionConditions(IEnumerable<VFlashTypeBank.VFlashTypeComponentStepCondition> conditions)
+        public delegate void UpdateDelegate();
+
+        private readonly UpdateDelegate _assignmentDelegate;
+
+        public GuiVFlashPathBankTransitionConditions(IEnumerable<VFlashTypeBank.VFlashTypeComponentStepCondition> conditions, UpdateDelegate updateDelegate)
         {
             InitializeComponent();
             ConditionsDataGrid.ItemsSource = conditions;
+
+            _assignmentDelegate += updateDelegate;
         }
 
         private void Closeing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -26,6 +32,7 @@ namespace _PlcAgent.Visual.Gui.Vector
             var condition = (VFlashTypeBank.VFlashTypeComponentStepCondition)checkBox.DataContext;
 
             condition.Condition = checkBox.IsChecked.Equals(true);
+            _assignmentDelegate();
         }
     }
 }

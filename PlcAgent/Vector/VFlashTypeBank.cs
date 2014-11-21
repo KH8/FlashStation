@@ -37,6 +37,14 @@ namespace _PlcAgent.Vector
 
                 public List<VFlashTypeComponentStepCondition> TransitionConditions;
 
+                public string TransitionSignature
+                {
+                    get
+                    {
+                        return TransitionConditions.OrderBy(o => o.Result).Aggregate("", (current, vFlashTypeComponentStepCondition) => current + Convert.ToInt32(vFlashTypeComponentStepCondition.Condition));
+                    }
+                }
+
                 public Step(int id)
                 {
                     Id = id;
@@ -47,6 +55,17 @@ namespace _PlcAgent.Vector
                     {
                         var status = result == VFlashStationResult.Success;
                         TransitionConditions.Add(new VFlashTypeComponentStepCondition(result, status));
+                    }
+                }
+
+                public void RestoreConditions(string signature)
+                {
+                    var conditions = signature.ToCharArray();
+                    var i = 0;
+                    foreach (var condition in TransitionConditions.OrderBy(o => o.Result))
+                    {
+                        condition.Condition = (conditions[i] == '1');
+                        i++;
                     }
                 }
             }
@@ -65,7 +84,52 @@ namespace _PlcAgent.Vector
         {
             public static List<VFlashTypeComponent> Build(uint id, VFlashTypeBankFile vFlashTypeBankFile)
             {
-                return vFlashTypeBankFile.TypeBank[id].Select(typeBank => new VFlashTypeComponent(typeBank)).ToList();
+                var newlist = new List<VFlashTypeComponent>();
+                var i = 0;
+
+                foreach (var newType in vFlashTypeBankFile.TypeBank[id].Select(type => new VFlashTypeComponent(type)))
+                {
+                    newType.Steps.Clear();
+
+                    foreach (var step in vFlashTypeBankFile.Steps[id][i])
+                    {
+                        var properties = step.Split(';');
+                        var newStep = new VFlashTypeComponent.Step(Convert.ToInt32(properties[0]))
+                        {
+                            Path = properties[1],
+                            TransitionDelay = Convert.ToInt32(properties[2])
+                        };
+                        newStep.RestoreConditions(properties[3]);
+                        newType.Steps.Add(newStep);
+                    }
+
+                    newlist.Add(newType);
+                    i++;
+                }
+
+                return newlist;
+            }
+
+            public static void UpdateConfiguration(uint id, VFlashTypeBankFile vFlashTypeBankFile, List<VFlashTypeComponent> children)
+            {
+                var i = 0;
+                vFlashTypeBankFile.TypeBank[id] = new string[children.Count];
+                vFlashTypeBankFile.Steps[id] = new string[children.Count][];
+                foreach (var vFlashTypeComponent in children)
+                {
+                    vFlashTypeBankFile.TypeBank[id][i] = vFlashTypeComponent.Version;
+                    vFlashTypeBankFile.Steps[id][i] = new string[vFlashTypeComponent.Steps.Count];
+
+                    var j = 0;
+                    foreach (var step in vFlashTypeComponent.Steps)
+                    {
+                        vFlashTypeBankFile.Steps[id][i][j] = step.Id + ";" + step.Path + ";" + step.TransitionDelay + ";" + step.TransitionSignature;
+                        j++;
+                    }
+                    i++;
+                }
+
+                vFlashTypeBankFile.Save();
             }
         }
 
@@ -90,10 +154,10 @@ namespace _PlcAgent.Vector
 
         public VFlashTypeBank(uint id, string name, VFlashTypeBankFile vFlashTypeBankFile) : base(id, name)
         {
-            Children = new List<VFlashTypeComponent>();
-
             ReferencePosition = 3;
             VFlashTypeBankFile = vFlashTypeBankFile;
+
+            Children = VFlashTypeBuilder.Build(Header.Id, vFlashTypeBankFile);
         }
 
         #endregion
@@ -155,6 +219,11 @@ namespace _PlcAgent.Vector
         public void Remove(VFlashTypeComponent c)
         {
             Children.Remove(c);
+        }
+
+        public void Update()
+        {
+            VFlashTypeBuilder.UpdateConfiguration(Header.Id, VFlashTypeBankFile.Default, Children);
         }
 
         //temp

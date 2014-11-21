@@ -8,7 +8,13 @@
     <Grid Name="GeneralGrid">
         <DataGrid Name="VersionDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6" SelectionChanged="VersionSelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Version}" Header="Version" Width="330" IsReadOnly="False"/>
+                <DataGridTextColumn Binding="{Binding Path=Version, NotifyOnTargetUpdated=True}" Header="Version" Width="330" IsReadOnly="False">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Steps.Count}" Header="Steps" Width="50" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -29,7 +35,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Path=TransitionDelay}" Header="Delay Time [ms]" Width="130" IsReadOnly="False"/>
+                <DataGridTextColumn Binding="{Binding Path=TransitionDelay, NotifyOnTargetUpdated=True}" Header="Delay Time [ms]" Width="130" IsReadOnly="False">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>

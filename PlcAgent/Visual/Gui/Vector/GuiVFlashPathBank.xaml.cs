@@ -18,9 +18,10 @@ namespace _PlcAgent.Visual.Gui.Vector
     {
         #region Variables
 
+        private readonly Boolean _save;
+
         private DateTime _clickTimeStamp;
         private readonly VFlashTypeBank _vFlashTypeBank;
-        private readonly VFlashTypeBankFile _vFlashTypeBankFile;
 
         #endregion
 
@@ -30,7 +31,6 @@ namespace _PlcAgent.Visual.Gui.Vector
         public GuiVFlashPathBank(VFlashTypeBank vFlashTypeBank)
         {
             _vFlashTypeBank = vFlashTypeBank;
-            _vFlashTypeBankFile = _vFlashTypeBank.VFlashTypeBankFile;
 
             InitializeComponent();
 
@@ -38,6 +38,8 @@ namespace _PlcAgent.Visual.Gui.Vector
             VersionDataGrid.Foreground = Brushes.Black;
 
             SequenceDataGrid.Foreground = Brushes.Black;
+
+            _save = true;
         }
 
         #endregion
@@ -61,8 +63,8 @@ namespace _PlcAgent.Visual.Gui.Vector
 
         private void UpdateVFlashProjectCollection()
         {
-            /*_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeBank.VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
-            _vFlashTypeBankFile.Save();*/
+            if (!_save) return;
+            _vFlashTypeBank.Update();
 
             VersionDataGrid.Items.Refresh();
             SequenceDataGrid.Items.Refresh();
@@ -174,8 +176,14 @@ namespace _PlcAgent.Visual.Gui.Vector
             var textBlock = (TextBlock)sender;
             var step = (VFlashTypeBank.VFlashTypeComponent.Step) textBlock.DataContext;
 
-            var window = new GuiVFlashPathBankTransitionConditions(step.TransitionConditions) {Topmost = true};
+            var window = new GuiVFlashPathBankTransitionConditions(step.TransitionConditions, _vFlashTypeBank.Update) {Topmost = true};
             window.Show();
+        }
+
+        private void TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (!_save) return;
+            _vFlashTypeBank.Update();
         }
 
         #endregion
