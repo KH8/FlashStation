@@ -567,8 +567,8 @@ namespace _PlcAgent.License
         /// <returns></returns>
         private uint Round(uint a, uint b, uint n)
         {
-            uint x1 = (_bfS0[wordByte0(b)] + _bfS1[wordByte1(b)]) ^ _bfS2[wordByte2(b)];
-            uint x2 = x1 + _bfS3[wordByte3(b)];
+            uint x1 = (_bfS0[WordByte0(b)] + _bfS1[WordByte1(b)]) ^ _bfS2[WordByte2(b)];
+            uint x2 = x1 + _bfS3[WordByte3(b)];
             uint x3 = x2 ^ _bfP[n];
             return x3 ^ a;
         }
@@ -790,25 +790,25 @@ namespace _PlcAgent.License
         #region Conversions
 
         //gets the first byte in a uint
-        private byte wordByte0(uint w)
+        private static byte WordByte0(uint w)
         {
             return (byte)(w / 256 / 256 / 256 % 256);
         }
 
         //gets the second byte in a uint
-        private byte wordByte1(uint w)
+        private static byte WordByte1(uint w)
         {
             return (byte)(w / 256 / 256 % 256);
         }
 
         //gets the third byte in a uint
-        private byte wordByte2(uint w)
+        private static byte WordByte2(uint w)
         {
             return (byte)(w / 256 % 256);
         }
 
         //gets the fourth byte in a uint
-        private byte wordByte3(uint w)
+        private static byte WordByte3(uint w)
         {
             return (byte)(w % 256);
         }

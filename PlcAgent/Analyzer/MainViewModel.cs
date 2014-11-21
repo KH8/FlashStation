@@ -26,7 +26,6 @@ namespace _PlcAgent.Analyzer
 
         private readonly DataPoint _emptyDataPoint;
         private DataPoint _newDataPoint;
-        private DataPoint _actualDataPoint;
 
         private readonly Dispatcher _dispatcher;
         private readonly Thread _updateThread;
