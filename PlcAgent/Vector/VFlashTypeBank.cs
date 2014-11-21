@@ -17,12 +17,12 @@ namespace _PlcAgent.Vector
 
         public class VFlashTypeComponentStepCondition
         {
-            public VFlashStationResult Result { get; set; }
+            public VFlashStationStatus Status { get; set; }
             public Boolean Condition { get; set; }
 
-            public VFlashTypeComponentStepCondition(VFlashStationResult result, Boolean condition)
+            public VFlashTypeComponentStepCondition(VFlashStationStatus status, Boolean condition)
             {
-                Result = result;
+                Status = status;
                 Condition = condition;
             }
         }
@@ -41,7 +41,7 @@ namespace _PlcAgent.Vector
                 {
                     get
                     {
-                        return TransitionConditions.OrderBy(o => o.Result).Aggregate("", (current, vFlashTypeComponentStepCondition) => current + Convert.ToInt32(vFlashTypeComponentStepCondition.Condition));
+                        return TransitionConditions.OrderBy(o => o.Status).Aggregate("", (current, vFlashTypeComponentStepCondition) => current + Convert.ToInt32(vFlashTypeComponentStepCondition.Condition));
                     }
                 }
 
@@ -51,10 +51,10 @@ namespace _PlcAgent.Vector
                     Path = "no path assigned";
                     TransitionDelay = 100;
                     TransitionConditions = new List<VFlashTypeComponentStepCondition>();
-                    foreach (VFlashStationResult result in Enum.GetValues(typeof(VFlashStationResult)))
+                    foreach (VFlashStationStatus stat in Enum.GetValues(typeof(VFlashStationStatus)))
                     {
-                        var status = result == VFlashStationResult.Success;
-                        TransitionConditions.Add(new VFlashTypeComponentStepCondition(result, status));
+                        var status = stat == VFlashStationStatus.Success;
+                        TransitionConditions.Add(new VFlashTypeComponentStepCondition(stat, status));
                     }
                 }
 
@@ -62,7 +62,7 @@ namespace _PlcAgent.Vector
                 {
                     var conditions = signature.ToCharArray();
                     var i = 0;
-                    foreach (var condition in TransitionConditions.OrderBy(o => o.Result))
+                    foreach (var condition in TransitionConditions.OrderBy(o => o.Status))
                     {
                         condition.Condition = (conditions[i] == '1');
                         i++;

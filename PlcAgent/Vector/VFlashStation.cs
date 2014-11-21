@@ -241,6 +241,7 @@ namespace _PlcAgent.Vector
 
         private uint _progressPercentage;
         private uint _remainingTimeInSecs;
+        private VFlashTypeBank.VFlashTypeComponent.Step _actualSequenceStep;
 
         private readonly ReportErrorDelegate _reportErrorDelegate;
 
@@ -391,15 +392,14 @@ namespace _PlcAgent.Vector
             return true;
         }
 
-        public bool StartFlashing(List<VFlashTypeBank.VFlashTypeComponentStepCondition> conditions)
+        public bool StartFlashing(VFlashCommand command)
         {
             if (ProjectHandle != -1)
             {
-                var res = VFlashStationAPI.Start(ProjectHandle, UpdateProgress, UpdateStatus);
-                var resultCondition = conditions.First(vFlashTypeComponentStepCondition => vFlashTypeComponentStepCondition.Result == res);
-                if (!resultCondition.Condition)
+                var res = VFlashStationAPI.Start(ProjectHandle, UpdateProgress, UpdateStatusConditioned);
+                if (res != VFlashStationResult.Success)
                 {
-                    var errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
+                    string errMsg = VFlashStationAPI.GetLastErrorMessage(ProjectHandle);
                     _reportErrorDelegate(ChannelId, ProjectHandle, String.Format("Start reprogramming failed ({0}).", errMsg));
                 }
             }
@@ -431,7 +431,7 @@ namespace _PlcAgent.Vector
             for (var i = 1; i < sequence.Steps.Count + 1; i++)
             {
                 var id = i;
-                var actualStep = sequence.Steps.First(step => step.Id == id);
+                _actualSequenceStep = sequence.Steps.First(step => step.Id == id);
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Unloading");
 
@@ -448,7 +448,7 @@ namespace _PlcAgent.Vector
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Loading");
 
-                FlashProjectPath = actualStep.Path;
+                FlashProjectPath = _actualSequenceStep.Path;
                 Status = VFlashStatus.Loading;
                 Result = LoadProject();
                 if (Result)
@@ -463,7 +463,7 @@ namespace _PlcAgent.Vector
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashing start");
 
                 Status = VFlashStatus.Flashing;
-                Result = StartFlashing(actualStep.TransitionConditions);
+                Result = StartFlashing(VFlashCommand.Sequence);
                 if (Result)
                 {
                     Result = false;
@@ -481,7 +481,7 @@ namespace _PlcAgent.Vector
                 }
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashed succesfully");
-                Thread.Sleep(actualStep.TransitionDelay);
+                Thread.Sleep(_actualSequenceStep.TransitionDelay);
             }
 
             Command = VFlashCommand.NoCommand;
@@ -497,6 +497,23 @@ namespace _PlcAgent.Vector
                 Status = VFlashStatus.Flashed;
                 ProgressPercentage = 0;
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully");
+            }
+            else
+            {
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashing failed with reason: " + status);
+                _reportErrorDelegate(ChannelId, ProjectHandle, String.Format("Flashing failed ({0}).", status));
+            }
+        }
+
+        internal void UpdateStatusConditioned(long handle, VFlashStationStatus status)
+        {
+
+            var statusCondition = _actualSequenceStep.TransitionConditions.First(vFlashTypeComponentStepCondition => vFlashTypeComponentStepCondition.Status == status);
+            if (!statusCondition.Condition)
+            {
+                Status = VFlashStatus.Flashed;
+                ProgressPercentage = 0;
+                Logger.Log("VFlash: Channel nr. " + ChannelId + " : Flashed succesfully in accordance with conditions set: " + status);
             }
             else
             {
