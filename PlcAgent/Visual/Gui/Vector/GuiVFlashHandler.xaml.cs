@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -164,6 +165,38 @@ namespace _PlcAgent.Visual.Gui.Vector
             }
             VFlashProjectPathLabel.Dispatcher.BeginInvoke(
                 (new Action(delegate { VFlashProjectPathLabel.Content = path; })));
+        }
+
+        protected override void OnFlashingSequenceChanged()
+        {
+            var sequence = "no version selected";
+
+            var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
+            if (channel == null) return;
+
+            if (channel.FlashingSequence != null)
+            {
+                sequence = channel.FlashingSequence.Version;
+            }
+
+            VFlashProjectPathLabel.Dispatcher.BeginInvoke(
+                (new Action(delegate { VFlashProjectPathLabel.Content = sequence; })));
+        }
+
+        protected override void OnFlashingStepChanged()
+        {
+            var step = "-";
+
+            var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
+            if (channel == null) return;
+
+            if (channel.FlashingSequence != null)
+            {
+                step = channel.FlashingStep.Id.ToString(CultureInfo.InvariantCulture);
+            }
+
+            VFlashProjectPathLabel.Dispatcher.BeginInvoke(
+                (new Action(delegate { VFlashProjectPathLabel.Content = step; })));
         }
 
         protected override void OnResultChanged()

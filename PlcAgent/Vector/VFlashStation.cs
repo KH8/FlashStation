@@ -237,11 +237,12 @@ namespace _PlcAgent.Vector
 
         private long _projectHandle;
         private string _flashProjectPath;
+        private VFlashTypeBank.VFlashTypeComponent _flashingSequence;
+        private VFlashTypeBank.VFlashTypeComponent.Step _flashingStep;
         private Boolean _result;
 
         private uint _progressPercentage;
         private uint _remainingTimeInSecs;
-        private VFlashTypeBank.VFlashTypeComponent.Step _actualSequenceStep;
 
         private readonly ReportErrorDelegate _reportErrorDelegate;
 
@@ -298,7 +299,27 @@ namespace _PlcAgent.Vector
             }
         }
 
-        public VFlashTypeBank.VFlashTypeComponent FlashingSequence { get; set; }
+        public VFlashTypeBank.VFlashTypeComponent FlashingSequence
+        {
+            get { return _flashingSequence; }
+            set
+            {
+                if (Equals(value, _flashingSequence)) return;
+                _flashingSequence = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public VFlashTypeBank.VFlashTypeComponent.Step FlashingStep
+        {
+            get { return _flashingStep; }
+            set
+            {
+                if (Equals(value, _flashingStep)) return;
+                _flashingStep = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool Result
         {
@@ -431,7 +452,7 @@ namespace _PlcAgent.Vector
             for (var i = 1; i < sequence.Steps.Count + 1; i++)
             {
                 var id = i;
-                _actualSequenceStep = sequence.Steps.First(step => step.Id == id);
+                FlashingStep = sequence.Steps.First(step => step.Id == id);
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Unloading");
 
@@ -448,7 +469,7 @@ namespace _PlcAgent.Vector
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Loading");
 
-                FlashProjectPath = _actualSequenceStep.Path;
+                FlashProjectPath = FlashingStep.Path;
                 Status = VFlashStatus.Loading;
                 Result = LoadProject();
                 if (Result)
@@ -481,7 +502,7 @@ namespace _PlcAgent.Vector
                 }
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashed succesfully");
-                Thread.Sleep(_actualSequenceStep.TransitionDelay);
+                Thread.Sleep(FlashingStep.TransitionDelay);
             }
 
             Command = VFlashCommand.NoCommand;
@@ -508,7 +529,7 @@ namespace _PlcAgent.Vector
         internal void UpdateStatusConditioned(long handle, VFlashStationStatus status)
         {
 
-            var statusCondition = _actualSequenceStep.TransitionConditions.First(vFlashTypeComponentStepCondition => vFlashTypeComponentStepCondition.Status == status);
+            var statusCondition = FlashingStep.TransitionConditions.First(vFlashTypeComponentStepCondition => vFlashTypeComponentStepCondition.Status == status);
             if (!statusCondition.Condition)
             {
                 Status = VFlashStatus.Flashed;

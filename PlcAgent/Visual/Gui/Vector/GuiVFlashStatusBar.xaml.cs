@@ -86,6 +86,14 @@ namespace _PlcAgent.Visual.Gui.Vector
         {
         }
 
+        protected override void OnFlashingSequenceChanged()
+        {
+        }
+
+        protected override void OnFlashingStepChanged()
+        {
+        }
+
         protected override void OnResultChanged()
         {
         }

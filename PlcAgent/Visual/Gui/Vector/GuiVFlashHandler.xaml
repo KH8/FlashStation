@@ -9,22 +9,28 @@
     <Grid Name="GeneralGrid">
         <GroupBox Name="HeaderGroupBox" Header="Channel X" HorizontalAlignment="Left" Height="215" VerticalAlignment="Top" Width="400">
             <Grid>
-                <Label Content="Actual Path: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="112" Margin="0,8,0,0"/>
-                <Label Content="Progress: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="61" Margin="0,54,0,0"/>
+                <Label Content="Actual Version: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="89" Margin="0,8,0,0"/>
+                <Label x:Name="VFlashProjectVersionLabel" Padding="5, 1, 0, 0" Content="no version" HorizontalAlignment="Center" Height="22" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="158" Margin="94,11,136,0" Background="White" BorderBrush="#FFCFCFCF" BorderThickness="1" RenderTransformOrigin="0.5,0.5"/>
+                <Label Content="Actual Step: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="74" Margin="257,8,0,0"/>
+                <Label x:Name="VFlashProjectStepLabel" Padding="5, 1, 0, 0" Content="-" HorizontalAlignment="Center" Height="22" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="50" Margin="336,11,2,0" Background="White" BorderBrush="#FFCFCFCF" BorderThickness="1" RenderTransformOrigin="0.5,0.5"/>
 
-                <ProgressBar Name="VFlashProgressBar" HorizontalAlignment="Center" Height="16" VerticalAlignment="Top" Width="383" Margin="0,79,0,0"/>
 
-                <Label Name="VFlashProjectPathLabel" Padding="5, 1, 0, 0" Content="Channel is not activated" HorizontalAlignment="Center" Height="22" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="383" Margin="0,33,0,0" Background="White" BorderBrush="#FFCFCFCF" BorderThickness="1" RenderTransformOrigin="0.5,0.5"/>
+
+                <Label Content="Actual Path: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="112" Margin="0,31,0,0"/>
+                <Label Content="Progress: " HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="61" Margin="0,77,0,0"/>
+
+                <ProgressBar Name="VFlashProgressBar" HorizontalAlignment="Center" Height="16" VerticalAlignment="Top" Width="384" Margin="2,102,2,0"/>
+
+                <Label Name="VFlashProjectPathLabel" Padding="5, 1, 0, 0" Content="Channel is not activated" HorizontalAlignment="Center" Height="22" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="384" Margin="2,56,2,0" Background="White" BorderBrush="#FFCFCFCF" BorderThickness="1" RenderTransformOrigin="0.5,0.5"/>
                 <Label Name="VFlashStatusLabel" Content="No project loaded." HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="301" FontSize="10" Margin="0,143,0,0"/>
-                <Label Name="VFlashTimeLabel" Content="Remaining time: 00:00:00" HorizontalAlignment="Right" Height="28" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="300" Margin="0,95,-1,0"/>
+                <Label Name="VFlashTimeLabel" Content="Remaining time: 00:00:00" HorizontalAlignment="Right" Height="28" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="300" Margin="0,118,-1,0"/>
 
                 <Button Name="VFlashLoadButton" Content="Load Path" HorizontalAlignment="Left" Margin="5,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="LoadVFlashProject"/>
                 <Button Name="VFlashUnloadButton" Content="Unload Path" HorizontalAlignment="Left" Margin="100,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="UnloadVFlashProject"/>
                 <Button Name="VFlashFlashButton" Content="Flash" HorizontalAlignment="Left" Margin="195,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="FlashVFlashProject"/>
                 <Button Name="VFlashFaultsButton" Content="Faults" HorizontalAlignment="Left" Margin="290,65,0,0" VerticalAlignment="Bottom" Width="90" Height="25" Click="VFlashShowFaults"/>
 
-                <CheckBox Name="VFlashControlBox" Content="PC Control" HorizontalAlignment="Right" Margin="0,147,309,0" VerticalAlignment="Top" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/>
-            </Grid>
+                <CheckBox Name="VFlashControlBox" Content="PC Control" HorizontalAlignment="Right" Margin="0,147,309,0" VerticalAlignment="Top" Checked="VFlashControlModeChanged" Unchecked="VFlashControlModeChanged"/></Grid>
         </GroupBox>
     </Grid>
 </vector:VFlashHandlerComponent>
