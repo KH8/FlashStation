@@ -102,6 +102,13 @@ namespace _PlcAgent.Visual.Gui.Vector
                         (new Action(delegate { VFlashFlashButton.Content = "Flash"; })));
                     _vFlashButtonEnables = 11;
                     break;
+                case VFlashStationComponent.VFlashStatus.SequenceDone:
+                    status = "Flashing Sequence succeed";
+                    colourBrush = Brushes.Green;
+                    VFlashFlashButton.Dispatcher.BeginInvoke(
+                        (new Action(delegate { VFlashFlashButton.Content = "Flash"; })));
+                    _vFlashButtonEnables = 11;
+                    break;
                 default:
                     status = channel.Status.ToString();
                     colourBrush = Brushes.Red;
@@ -179,8 +186,8 @@ namespace _PlcAgent.Visual.Gui.Vector
                 sequence = channel.FlashingSequence.Version;
             }
 
-            VFlashProjectPathLabel.Dispatcher.BeginInvoke(
-                (new Action(delegate { VFlashProjectPathLabel.Content = sequence; })));
+            VFlashProjectVersionLabel.Dispatcher.BeginInvoke(
+                (new Action(delegate { VFlashProjectVersionLabel.Content = sequence; })));
         }
 
         protected override void OnFlashingStepChanged()
@@ -195,8 +202,8 @@ namespace _PlcAgent.Visual.Gui.Vector
                 step = channel.FlashingStep.Id.ToString(CultureInfo.InvariantCulture);
             }
 
-            VFlashProjectPathLabel.Dispatcher.BeginInvoke(
-                (new Action(delegate { VFlashProjectPathLabel.Content = step; })));
+            VFlashProjectStepLabel.Dispatcher.BeginInvoke(
+                (new Action(delegate { VFlashProjectStepLabel.Content = step; })));
         }
 
         protected override void OnResultChanged()

@@ -167,7 +167,15 @@ namespace _PlcAgent.Vector
         {
             var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be loaded was not found");
-            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load); 
+            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
+
+            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
+            {
+                var version = channelFound.FlashProjectPath;
+                if (channelFound.FlashingSequence != null) version = channelFound.FlashingSequence.Version;
+
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), version);
+            }
         }
 
         public void UnloadProject(uint chanId)
@@ -178,8 +186,7 @@ namespace _PlcAgent.Vector
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
             {
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L     ");
             }
         }
 
@@ -206,8 +213,7 @@ namespace _PlcAgent.Vector
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
             {
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L     ");
             }
         }
 
@@ -220,8 +226,7 @@ namespace _PlcAgent.Vector
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
             {
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L     ");
             }  
         }
 
@@ -299,7 +304,7 @@ namespace _PlcAgent.Vector
                             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
                                 numberOfSteps = (short) channelFound.FlashingSequence.Steps.Count;
-                                actualStep = (short)channelFound.FlashingStep.Id;
+                                if (channelFound.FlashingStep != null) actualStep = (short)channelFound.FlashingStep.Id;
 
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.SequenceDone) antwort = 200;
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;

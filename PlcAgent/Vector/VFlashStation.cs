@@ -362,10 +362,7 @@ namespace _PlcAgent.Vector
 
         public void ExecuteCommand(VFlashCommand command)
         {
-            if (FlashProjectPath != "")
-            {
-                Command = command;
-            }
+            Command = command;
         }
 
         public override bool LoadProject()
@@ -463,8 +460,6 @@ namespace _PlcAgent.Vector
                     Result = false;
                     Status = VFlashStatus.Unloaded;
                     Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Unloaded succesfully");
-
-                    return false;
                 }
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Loading");
@@ -477,8 +472,6 @@ namespace _PlcAgent.Vector
                     Result = false;
                     Status = VFlashStatus.Loaded;
                     Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Loaded succesfully");
-
-                    return false;
                 }
 
                 Logger.Log("VFlash: Channel nr. " + ChannelId + " : Step " + i + " : Flashing start");
@@ -489,8 +482,6 @@ namespace _PlcAgent.Vector
                 {
                     Result = false;
                     Status = VFlashStatus.Flashing;
-
-                    return false;
                 }
 
                 while (Status == VFlashStatus.Flashing) Thread.Sleep(5);
@@ -530,7 +521,7 @@ namespace _PlcAgent.Vector
         {
 
             var statusCondition = FlashingStep.TransitionConditions.First(vFlashTypeComponentStepCondition => vFlashTypeComponentStepCondition.Status == status);
-            if (!statusCondition.Condition)
+            if (statusCondition.Condition)
             {
                 Status = VFlashStatus.Flashed;
                 ProgressPercentage = 0;
@@ -559,7 +550,7 @@ namespace _PlcAgent.Vector
                         Command = VFlashCommand.NoCommand;
                         break;
                     case VFlashCommand.Sequence:
-                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted }.Contains(Status))
+                        if (new List<VFlashStatus> { VFlashStatus.Created, VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed,  VFlashStatus.Aborted, VFlashStatus.Unloaded, VFlashStatus.SequenceDone }.Contains(Status))
                         {
                             Status = VFlashStatus.SequenceActive;
                             Result = ExecuteSequence(FlashingSequence);
@@ -587,7 +578,7 @@ namespace _PlcAgent.Vector
                         }
                         break;
                     case VFlashCommand.Unload:
-                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted }.Contains(Status))
+                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted, VFlashStatus.SequenceDone }.Contains(Status))
                         {
                             Status = VFlashStatus.Unloading;
                             Result = UnloadProject();
@@ -601,7 +592,7 @@ namespace _PlcAgent.Vector
                         }
                         break;
                     case VFlashCommand.Start:
-                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted }.Contains(Status))
+                        if (new List<VFlashStatus> { VFlashStatus.Loaded, VFlashStatus.Fault, VFlashStatus.Flashed, VFlashStatus.Aborted, VFlashStatus.SequenceDone }.Contains(Status))
                         {
                             Status = VFlashStatus.Flashing;
                             Result = StartFlashing();
