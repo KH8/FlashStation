@@ -203,7 +203,7 @@ namespace _PlcAgent.Visual.Gui.Vector
             }
 
             VFlashProjectStepLabel.Dispatcher.BeginInvoke(
-                (new Action(delegate { VFlashProjectStepLabel.Content = step; })));
+                (new Action(delegate { VFlashProjectStepLabel.Content = step + " / " + channel.FlashingSequence.Steps.Count; })));
         }
 
         protected override void OnResultChanged()

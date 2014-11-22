@@ -248,7 +248,7 @@ namespace _PlcAgent.Vector
             Int16 numberOfSteps = 0;
             Int16 actualStep = 0;
 
-            var version = "N/L ";
+            var version = "N/L     ";
 
             while (_vFlashThread.IsAlive)
             {
@@ -287,7 +287,7 @@ namespace _PlcAgent.Vector
                                 {
                                     Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                                " : Version change requested failed");
-                                    version = "N/L ";
+                                    version = "N/L     ";
                                     antwort = 999;
                                 }
                             }
@@ -323,7 +323,7 @@ namespace _PlcAgent.Vector
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded)
                                 {
-                                    version = "N/L ";
+                                    version = "N/L     ";
                                     antwort = 300;
                                 }
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -387,7 +387,7 @@ namespace _PlcAgent.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:
                             statusInt = 399;
-                            version = "N/L ";
+                            version = "N/L     ";
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloaded:
                             statusInt = 300;
