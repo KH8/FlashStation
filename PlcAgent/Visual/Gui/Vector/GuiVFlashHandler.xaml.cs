@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -101,6 +102,13 @@ namespace _PlcAgent.Visual.Gui.Vector
                         (new Action(delegate { VFlashFlashButton.Content = "Flash"; })));
                     _vFlashButtonEnables = 11;
                     break;
+                case VFlashStationComponent.VFlashStatus.SequenceDone:
+                    status = "Flashing Sequence succeed";
+                    colourBrush = Brushes.Green;
+                    VFlashFlashButton.Dispatcher.BeginInvoke(
+                        (new Action(delegate { VFlashFlashButton.Content = "Flash"; })));
+                    _vFlashButtonEnables = 11;
+                    break;
                 default:
                     status = channel.Status.ToString();
                     colourBrush = Brushes.Red;
@@ -164,6 +172,38 @@ namespace _PlcAgent.Visual.Gui.Vector
             }
             VFlashProjectPathLabel.Dispatcher.BeginInvoke(
                 (new Action(delegate { VFlashProjectPathLabel.Content = path; })));
+        }
+
+        protected override void OnFlashingSequenceChanged()
+        {
+            var sequence = "no version selected";
+
+            var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
+            if (channel == null) return;
+
+            if (channel.FlashingSequence != null)
+            {
+                sequence = channel.FlashingSequence.Version;
+            }
+
+            VFlashProjectVersionLabel.Dispatcher.BeginInvoke(
+                (new Action(delegate { VFlashProjectVersionLabel.Content = sequence; })));
+        }
+
+        protected override void OnFlashingStepChanged()
+        {
+            var step = "-";
+
+            var channel = VFlashHandler.ReturnChannelSetup(VFlashHandler.Header.Id);
+            if (channel == null) return;
+
+            if (channel.FlashingSequence != null)
+            {
+                step = channel.FlashingStep.Id.ToString(CultureInfo.InvariantCulture);
+            }
+
+            VFlashProjectStepLabel.Dispatcher.BeginInvoke(
+                (new Action(delegate { VFlashProjectStepLabel.Content = step + " / " + channel.FlashingSequence.Steps.Count; })));
         }
 
         protected override void OnResultChanged()

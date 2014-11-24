@@ -167,7 +167,15 @@ namespace _PlcAgent.Vector
         {
             var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
             if (channelFound == null) throw new FlashHandlerException("Error: Channel to be loaded was not found");
-            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load); 
+            channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
+
+            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
+            {
+                var version = channelFound.FlashProjectPath;
+                if (channelFound.FlashingSequence != null) version = channelFound.FlashingSequence.Version;
+
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), version);
+            }
         }
 
         public void UnloadProject(uint chanId)
@@ -178,8 +186,7 @@ namespace _PlcAgent.Vector
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
             {
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L     ");
             }
         }
 
@@ -206,8 +213,7 @@ namespace _PlcAgent.Vector
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
             {
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L     ");
             }
         }
 
@@ -220,8 +226,7 @@ namespace _PlcAgent.Vector
 
             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
             {
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
-                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L     ");
             }  
         }
 
@@ -240,9 +245,10 @@ namespace _PlcAgent.Vector
             Int16 counter = 0;
             Int16 antwort = 0;
             Int16 caseAuxiliary = 0;
-            Int16 programActive = 0;
+            Int16 numberOfSteps = 0;
+            Int16 actualStep = 0;
 
-            var version = "N/L ";
+            var version = "N/L     ";
 
             while (_vFlashThread.IsAlive)
             {
@@ -252,11 +258,16 @@ namespace _PlcAgent.Vector
                 if (channelFound != null && !PcControlMode && CheckInterface())
                 {
                     var inputCompositeCommand = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Command")).Value;
-                    var inputCompositeProgrammTyp = (Int16)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Type")).Value;
                     var inputCompositeProgrammVersion = (string)CommunicationInterfaceHandler.ReadInterfaceComposite.ReturnVariable(InterfaceAssignmentCollection.GetAssignment("Program Version")).Value;
 
                     switch (inputCompositeCommand)
                     {
+                        default:
+                            numberOfSteps = 0;
+                            actualStep = 0;
+                            antwort = 0;
+                            caseAuxiliary = 0;
+                            break;
                         case 100:
                             if (caseAuxiliary != 100)
                             {
@@ -268,16 +279,15 @@ namespace _PlcAgent.Vector
                                 if (versionFound != null)
                                 {
                                     SetProjectSequence(Header.Id, versionFound);
-                                    programActive = inputCompositeProgrammTyp;
                                     version = inputCompositeProgrammVersion;
+                                    numberOfSteps = (short) channelFound.FlashingSequence.Steps.Count;
                                     antwort = 100;
                                 }
                                 else
                                 {
                                     Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
                                                " : Version change requested failed");
-                                    programActive = 0;
-                                    version = "N/L ";
+                                    version = "N/L     ";
                                     antwort = 999;
                                 }
                             }
@@ -293,6 +303,9 @@ namespace _PlcAgent.Vector
                             }
                             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
+                                numberOfSteps = (short) channelFound.FlashingSequence.Steps.Count;
+                                if (channelFound.FlashingStep != null) actualStep = (short)channelFound.FlashingStep.Id;
+
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.SequenceDone) antwort = 200;
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
                             }
@@ -310,8 +323,7 @@ namespace _PlcAgent.Vector
                             {
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Unloaded)
                                 {
-                                    programActive = 0;
-                                    version = "N/L ";
+                                    version = "N/L     ";
                                     antwort = 300;
                                 }
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
@@ -348,10 +360,6 @@ namespace _PlcAgent.Vector
                             }
                             caseAuxiliary = 500;
                             break;
-                        default:
-                            antwort = 0;
-                            caseAuxiliary = 0;
-                            break;
                     }
                 }
                 else
@@ -379,7 +387,7 @@ namespace _PlcAgent.Vector
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloading:
                             statusInt = 399;
-                            version = "N/L ";
+                            version = "N/L     ";
                             break;
                         case VFlashStationComponent.VFlashStatus.Unloaded:
                             statusInt = 300;
@@ -412,9 +420,10 @@ namespace _PlcAgent.Vector
                     counter++;
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Reply"), antwort);
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Status"), statusInt);
-                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), programActive);
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), version);
                     CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Progress Percentage"), programPercentage);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Number Of Steps"), numberOfSteps);
+                    CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Actual Step"), actualStep);
                 }
                 Thread.Sleep(200);
             }
@@ -453,15 +462,15 @@ namespace _PlcAgent.Vector
             InterfaceAssignmentCollection = new InterfaceAssignmentCollection();
 
             InterfaceAssignmentCollection.Add(0, "Command", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
-            InterfaceAssignmentCollection.Add(1, "Program Type", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.In, Assignment);
-            InterfaceAssignmentCollection.Add(2, "Program Version", CommunicationInterfaceComponent.VariableType.String, InterfaceAssignment.Direction.In, Assignment);
-            InterfaceAssignmentCollection.Add(3, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
-            InterfaceAssignmentCollection.Add(4, "Reply", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
-            InterfaceAssignmentCollection.Add(5, "Status", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
-            InterfaceAssignmentCollection.Add(6, "Program Type Active", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
-            InterfaceAssignmentCollection.Add(7, "Version", CommunicationInterfaceComponent.VariableType.String, InterfaceAssignment.Direction.Out, Assignment);
-            InterfaceAssignmentCollection.Add(8, "Fault Code", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
-            InterfaceAssignmentCollection.Add(9, "Progress Percentage", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(1, "Program Version", CommunicationInterfaceComponent.VariableType.String, InterfaceAssignment.Direction.In, Assignment);
+            InterfaceAssignmentCollection.Add(2, "Life Counter", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(3, "Reply", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(4, "Status", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(5, "Version", CommunicationInterfaceComponent.VariableType.String, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(6, "Fault Code", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(7, "Progress Percentage", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(8, "Actual Step", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
+            InterfaceAssignmentCollection.Add(9, "Number Of Steps", CommunicationInterfaceComponent.VariableType.Integer, InterfaceAssignment.Direction.Out, Assignment);
         }
 
         #endregion

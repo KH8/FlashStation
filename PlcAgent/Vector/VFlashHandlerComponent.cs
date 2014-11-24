@@ -23,6 +23,12 @@ namespace _PlcAgent.Vector
                 case "FlashProjectPath":
                     OnFlashProjectPathChanged();
                     break;
+                case "FlashingSequence":
+                    OnFlashingSequenceChanged();
+                    break;
+                case "FlashingStep":
+                    OnFlashingStepChanged();
+                    break;
                 case "Result":
                     OnResultChanged();
                     break;
@@ -39,6 +45,8 @@ namespace _PlcAgent.Vector
         protected abstract void OnStatusChanged();
         protected abstract void OnProjectHandleChanged();
         protected abstract void OnFlashProjectPathChanged();
+        protected abstract void OnFlashingSequenceChanged();
+        protected abstract void OnFlashingStepChanged();
         protected abstract void OnResultChanged();
         protected abstract void OnProgressPercentageChanged();
         protected abstract void OnRemainingTimeInSecsChanged();

@@ -186,52 +186,37 @@ namespace _PlcAgent.DataAquisition
 
         public void ModifyValue(string name, BitArray bitArrayValue)
         {
-            foreach (var componentWord in from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select (CiWord)communicationInterfaceComponent)
-            {
-                componentWord.Value = bitArrayValue;
-                return;
-            }
-            throw new CompositeException("Error: Variable not found");
+            var componentWord = ReturnComponent(name);
+            if (componentWord == null) throw new CompositeException("Error: Variable not found");
+            componentWord.Value = bitArrayValue;
         }
 
         public void ModifyValue(string name, Int16 integerValue)
         {
-            foreach (var componentInteger in (from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select communicationInterfaceComponent).Cast<CiInteger>())
-            {
-                componentInteger.Value = integerValue;
-                return;
-            }
-            throw new CompositeException("Error: Variable not found");
+            var componentInteger = ReturnComponent(name);
+            if (componentInteger == null) throw new CompositeException("Error: Variable not found");
+            componentInteger.Value = integerValue;
         }
 
         public void ModifyValue(string name, Int32 doubleIntegerValue)
         {
-            foreach (var componentDoubleInteger in (from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select communicationInterfaceComponent).Cast<CiDoubleInteger>())
-            {
-                componentDoubleInteger.Value = doubleIntegerValue;
-                return;
-            }
-            throw new CompositeException("Error: Variable not found");
+            var componentDoubleInteger = ReturnComponent(name);
+            if (componentDoubleInteger == null) throw new CompositeException("Error: Variable not found");
+            componentDoubleInteger.Value = doubleIntegerValue;
         }
 
         public void ModifyValue(string name, float realValue)
         {
-            foreach (var componentReal in from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select (CiReal)communicationInterfaceComponent)
-            {
-                componentReal.Value = realValue;
-                return;
-            }
-            throw new CompositeException("Error: Variable not found");
+            var componentReal = ReturnComponent(name);
+            if (componentReal == null) throw new CompositeException("Error: Variable not found");
+            componentReal.Value = realValue;
         }
 
         public void ModifyValue(string name, string stringValue)
         {
-            foreach (var componentString in (from communicationInterfaceComponent in _children let component = communicationInterfaceComponent where component.Name == name select communicationInterfaceComponent).Cast<CiString>())
-            {
-                componentString.Value = stringValue;
-                return;
-            }
-            throw new CompositeException("Error: Variable not found");
+            var componentString = ReturnComponent(name);
+            if (componentString == null) throw new CompositeException("Error: Variable not found");
+            componentString.Value = stringValue;
         }
 
         #endregion

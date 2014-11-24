@@ -64,6 +64,12 @@ namespace _PlcAgent.Visual.Gui.Vector
                 case VFlashStationComponent.VFlashStatus.Aborting:
                     colourBrush = Brushes.Red;
                     break;
+                case VFlashStationComponent.VFlashStatus.SequenceActive:
+                    colourBrush = Brushes.DarkGray;
+                    break;
+                case VFlashStationComponent.VFlashStatus.SequenceDone:
+                    colourBrush = Brushes.GreenYellow;
+                    break;
                 case VFlashStationComponent.VFlashStatus.Flashed:
                     colourBrush = Brushes.GreenYellow;
                     break;
@@ -83,6 +89,14 @@ namespace _PlcAgent.Visual.Gui.Vector
         }
 
         protected override void OnFlashProjectPathChanged()
+        {
+        }
+
+        protected override void OnFlashingSequenceChanged()
+        {
+        }
+
+        protected override void OnFlashingStepChanged()
         {
         }
 
