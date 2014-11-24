@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Media;
 using _PlcAgent.General;
 using _PlcAgent.Vector;
+using DataGrid = System.Windows.Controls.DataGrid;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace _PlcAgent.Visual.Gui.Vector
 {
@@ -16,29 +16,36 @@ namespace _PlcAgent.Visual.Gui.Vector
     /// </summary>
     public partial class GuiVFlashPathBank
     {
+        #region Variables
+
+        private readonly Boolean _save;
+
+        private DateTime _clickTimeStamp;
         private readonly VFlashTypeBank _vFlashTypeBank;
-        private readonly VFlashTypeBankFile _vFlashTypeBankFile;
 
-        private readonly ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData> _vFlashProjectCollection = new ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData>();
+        #endregion
 
-        public ObservableCollection<VFlashTypeBank.VFlashDisplayProjectData> VFlashProjectCollection
-        { get { return _vFlashProjectCollection; } }
+
+        #region Creators
 
         public GuiVFlashPathBank(VFlashTypeBank vFlashTypeBank)
         {
             _vFlashTypeBank = vFlashTypeBank;
-            _vFlashTypeBankFile = _vFlashTypeBank.VFlashTypeBankFile;
 
             InitializeComponent();
 
-            VFlashBankListBox.ItemsSource = _vFlashProjectCollection;
-            VFlashBankListBox.View = CreateGridView();
-            VFlashBankListBox.Foreground = Brushes.Black;
+            VersionDataGrid.ItemsSource = _vFlashTypeBank.Children;
+            VersionDataGrid.Foreground = Brushes.Black;
 
-            VFlashTypeBank.VFlashTypeConverter.StringsToVFlashChannels(_vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id], _vFlashTypeBank);
-            UpdateVFlashProjectCollection();
+            SequenceDataGrid.Foreground = Brushes.Black;
 
+            _save = true;
         }
+
+        #endregion
+
+
+        #region Methods
 
         public void UpdateSizes(double height, double width)
         {
@@ -48,41 +55,102 @@ namespace _PlcAgent.Visual.Gui.Vector
             GeneralGrid.Height = height;
             GeneralGrid.Width = width;
 
-            VFlashBankListBox.Height = Limiter.DoubleLimit(height - 30, 0);
-            VFlashBankListBox.Width = width;
-
-            VFlashBankListBox.View = CreateGridView();
+            VersionDataGrid.Height = height - 27;
+            VersionDataGrid.Width = 400;
+            SequenceDataGrid.Height = height - 27;
+            SequenceDataGrid.Width = Limiter.DoubleLimit(width - VersionDataGrid.Width - 4, 0);
         }
 
-        public GridView CreateGridView()
+        private void UpdateVFlashProjectCollection()
         {
-            var gridView = new GridView();
+            if (!_save) return;
+            _vFlashTypeBank.Update();
 
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 60,
-                Header = "Type",
-                DisplayMemberBinding = new Binding("Type")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = 60,
-                Header = "Version",
-                DisplayMemberBinding = new Binding("Version")
-            });
-            gridView.Columns.Add(new GridViewColumn
-            {
-                Width = Limiter.DoubleLimit(Width - 130, 0),
-                Header = "Path",
-                DisplayMemberBinding = new Binding("Path")
-            });
-
-            return gridView;
+            VersionDataGrid.Items.Refresh();
+            SequenceDataGrid.Items.Refresh();
         }
+
+        #endregion
+
+
+        #region Event Handlers
 
         private void TypeCreation(object sender, RoutedEventArgs e)
         {
-            var dlg = new Microsoft.Win32.OpenFileDialog
+            var newtemplate = new VFlashTypeBank.VFlashTypeComponent(TypeVersionBox.Text);
+            _vFlashTypeBank.Add(newtemplate);
+
+            VersionDataGrid.SelectedItem = newtemplate;
+
+            UpdateVFlashProjectCollection();
+        }
+
+        private void TypeDeletion(object sender, RoutedEventArgs e)
+        {
+            var template = (VFlashTypeBank.VFlashTypeComponent) VersionDataGrid.SelectedItem;
+            if (template == null) return;
+
+            _vFlashTypeBank.Remove(template);
+            VersionDataGrid.SelectedItem = _vFlashTypeBank.Children.FirstOrDefault();
+
+            UpdateVFlashProjectCollection();
+        }
+
+        private void VersionSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SequenceDataGrid.ItemsSource = null;
+
+            var gridView = (DataGrid) sender;
+            var template = (VFlashTypeBank.VFlashTypeComponent) gridView.SelectedItem;
+            if (template == null) return;
+
+            TypeVersionBox.Text = template.Version;
+            SequenceDataGrid.ItemsSource = template.Steps;
+
+            UpdateVFlashProjectCollection();
+        }
+
+        private void StepCreation(object sender, RoutedEventArgs e)
+        {
+            var template = (VFlashTypeBank.VFlashTypeComponent)VersionDataGrid.SelectedItem;
+            if (template == null) return;
+
+            template.Steps.Add(new VFlashTypeBank.VFlashTypeComponent.Step(template.Steps.Count + 1));
+
+            UpdateVFlashProjectCollection();
+        }
+
+        private void StepDeletion(object sender, RoutedEventArgs e)
+        {
+            var step = (VFlashTypeBank.VFlashTypeComponent.Step)SequenceDataGrid.SelectedItem;
+            if (step == null) return;
+
+            var template = (VFlashTypeBank.VFlashTypeComponent)VersionDataGrid.SelectedItem;
+            if (template == null) return;
+
+            template.Steps.Remove(step);
+
+            foreach (var residualStep in template.Steps.Where(residualStep => residualStep.Id >= step.Id))
+            {
+                residualStep.Id --;
+            }
+
+            SequenceDataGrid.SelectedItem = template.Steps.FirstOrDefault();
+
+            UpdateVFlashProjectCollection();
+        }
+
+        private void PathModyfication(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if ((DateTime.Now - _clickTimeStamp).TotalMilliseconds > SystemInformation.DoubleClickTime)
+            {
+                _clickTimeStamp = DateTime.Now;
+                return;
+            }
+
+            var textBlock = (TextBlock) sender;
+
+            var dlg = new OpenFileDialog
             {
                 DefaultExt = ".vflashpack",
                 Filter = "Flash Path (.vflashpack)|*.vflashpack"
@@ -90,33 +158,35 @@ namespace _PlcAgent.Visual.Gui.Vector
 
             var result = dlg.ShowDialog();
             if (result != true) return;
-            _vFlashTypeBank.Add(new VFlashTypeBank.VFlashTypeComponent(Convert.ToUInt16(TypeNumberBox.Text), TypeVersionBox.Text, dlg.FileName));
+
+            var step = (VFlashTypeBank.VFlashTypeComponent.Step)textBlock.DataContext;
+            step.Path = dlg.FileName;
+
             UpdateVFlashProjectCollection();
         }
 
-        private void UpdateVFlashProjectCollection()
+        private void ConditionsModyfication(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            _vFlashTypeBankFile.TypeBank[_vFlashTypeBank.Header.Id] = VFlashTypeBank.VFlashTypeConverter.VFlashTypesToStrings(_vFlashTypeBank.Children);
-            _vFlashTypeBankFile.Save();
-
-            _vFlashProjectCollection.Clear();
-            foreach (var type in _vFlashTypeBank.Children.Cast<VFlashTypeBank.VFlashTypeComponent>())
+            if ((DateTime.Now - _clickTimeStamp).TotalMilliseconds > SystemInformation.DoubleClickTime)
             {
-                _vFlashProjectCollection.Add(new VFlashTypeBank.VFlashDisplayProjectData
-                {
-                    Type = type.Type,
-                    Version = type.Version,
-                    Path = type.Path
-                });
+                _clickTimeStamp = DateTime.Now;
+                return;
             }
+
+            var textBlock = (TextBlock)sender;
+            var step = (VFlashTypeBank.VFlashTypeComponent.Step) textBlock.DataContext;
+
+            var window = new GuiVFlashPathBankTransitionConditions(step.TransitionConditions, _vFlashTypeBank.Update) {Topmost = true};
+            window.Show();
         }
 
-        private void VFlashProjectbankListViewSelection(object sender, SelectionChangedEventArgs e)
+        private void TextChanged(object sender, RoutedEventArgs e)
         {
-            var listView = (ListView)sender;
-            var projectdata = (VFlashTypeBank.VFlashDisplayProjectData)listView.SelectedItem;
-            if (projectdata != null) TypeNumberBox.Text = projectdata.Type.ToString(CultureInfo.InvariantCulture);
-            if (projectdata != null) TypeVersionBox.Text = projectdata.Version;
+            if (!_save) return;
+            _vFlashTypeBank.Update();
         }
+
+        #endregion
+
     }
 }

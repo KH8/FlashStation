@@ -9,7 +9,12 @@
     <Grid Name="GeneralGrid">
         <GroupBox Name="HeaderGroupBox" Header="DB Communication X" HorizontalAlignment="Left" Height="215" VerticalAlignment="Top" Width="400">
             <Grid>
-                
+                <Label Content="Data Base Instance:" HorizontalAlignment="Left" Margin="5,15,0,0" VerticalAlignment="Top"/>
+                <TextBox Name="DbInstanceBox" HorizontalAlignment="Left" Height="26" Margin="10,41,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="368"/>
+                <Label Content="Initial Catalog:" HorizontalAlignment="Left" Margin="5,67,0,0" VerticalAlignment="Top"/>
+                <TextBox Name="InitialCatalogBox" HorizontalAlignment="Left" Height="26" Margin="10,93,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="368"/>
+                <Label Content="Configuration File:" HorizontalAlignment="Left" Margin="5,119,0,0" VerticalAlignment="Top"/>
+                <TextBox Name="ConfigurationFileBox" HorizontalAlignment="Left" Height="26" Margin="10,145,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="368"/>
             </Grid>
         </GroupBox>
     </Grid>

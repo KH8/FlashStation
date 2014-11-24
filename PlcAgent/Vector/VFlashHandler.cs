@@ -208,6 +208,20 @@ namespace _PlcAgent.Vector
             {
                 CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
                 CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
+            }
+        }
+
+        public void SetProjectSequence(uint chanId, VFlashTypeBank.VFlashTypeComponent component)
+        {
+            var channelFound = (VFlashChannel)VFlashStationControllerContext.VFlashStationController.Children.FirstOrDefault(channel => channel.ChannelId == chanId);
+            if (channelFound == null) throw new FlashHandlerException("Error: Channel to be set was not found");
+            channelFound.FlashingSequence = component;
+            Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + chanId + " : New sequence assigned : \n" + component.Version);
+
+            if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
+            {
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Program Type Active"), (Int16)0);
+                CommunicationInterfaceHandler.WriteInterfaceComposite.ModifyValue(InterfaceAssignmentCollection.GetAssignment("Version"), "N/L ");
             }  
         }
 
@@ -247,13 +261,13 @@ namespace _PlcAgent.Vector
                             if (caseAuxiliary != 100)
                             {
                                 Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
-                                           " : Path change requested from PLC");
-                                var returnedPath =
-                                    _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion);
-                                if (returnedPath != null)
+                                           " : Version requested from PLC");
+                                
+                                var versionFound = VFlashTypeBank.Children.FirstOrDefault(child => child.Version == inputCompositeProgrammVersion);
+
+                                if (versionFound != null)
                                 {
-                                    SetProjectPath(Header.Id,
-                                        _vFlashTypeBank.ReturnPath(inputCompositeProgrammVersion));
+                                    SetProjectSequence(Header.Id, versionFound);
                                     programActive = inputCompositeProgrammTyp;
                                     version = inputCompositeProgrammVersion;
                                     antwort = 100;
@@ -261,7 +275,7 @@ namespace _PlcAgent.Vector
                                 else
                                 {
                                     Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
-                                               " : Path change requested failed");
+                                               " : Version change requested failed");
                                     programActive = 0;
                                     version = "N/L ";
                                     antwort = 999;
@@ -273,13 +287,13 @@ namespace _PlcAgent.Vector
                             if (caseAuxiliary != 200)
                             {
                                 Logger.Log("ID: " + Header.Id + " VFlash: Channel nr. " + channelFound.ChannelId +
-                                           " : Path load requested from PLC");
-                                channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Load);
+                                           " : Sequence execution requested from PLC");
+                                channelFound.ExecuteCommand(VFlashStationComponent.VFlashCommand.Sequence);
                                 Thread.Sleep(200);
                             }
                             if (CommunicationInterfaceHandler.WriteInterfaceComposite != null)
                             {
-                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.Loaded) antwort = 200;
+                                if (channelFound.Status == VFlashStationComponent.VFlashStatus.SequenceDone) antwort = 200;
                                 if (channelFound.Status == VFlashStationComponent.VFlashStatus.Fault) antwort = 999;
                             }
                             caseAuxiliary = 200;

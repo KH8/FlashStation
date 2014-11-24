@@ -47,5 +47,30 @@ namespace _PlcAgent.Vector {
                 this["TypeBank"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<ArrayOfArrayOfArrayOfString>
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                            <ArrayOfArrayOfString />
+                                                                        </ArrayOfArrayOfArrayOfString>")]
+        public string[][][] Steps
+        {
+            get
+            {
+                return ((string[][][])(this["Steps"]));
+            }
+            set
+            {
+                this["Steps"] = value;
+            }
+        }
     }
 }

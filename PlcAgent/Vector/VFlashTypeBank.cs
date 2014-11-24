@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using Vector.vFlash.Automation;
 using _PlcAgent.General;
 using _PlcAgent.Log;
 using _PlcAgent.MainRegistry;
@@ -14,75 +15,130 @@ namespace _PlcAgent.Vector
     {
         #region Subclasses
 
-        public class VFlashDisplayProjectData
+        public class VFlashTypeComponentStepCondition
         {
-            public uint Type { get; set; }
-            public string Version { get; set; }
-            public string Path { get; set; }
-        }
+            public VFlashStationStatus Status { get; set; }
+            public Boolean Condition { get; set; }
 
-        public class VFlashTypeComponent : VFlashDisplayProjectData
-        {
-            public VFlashTypeComponent(uint type, string version, string path)
+            public VFlashTypeComponentStepCondition(VFlashStationStatus status, Boolean condition)
             {
-                Type = type;
-                Version = version;
-                Path = path;
+                Status = status;
+                Condition = condition;
             }
         }
 
-        public static class VFlashTypeConverter
+        public class VFlashTypeComponent
         {
-            public static string[] VFlashTypesToStrings(List<VFlashDisplayProjectData> list)
+            public class Step
             {
-                var output = new string[list.Count];
-                uint i = 0;
-                foreach (var type in list.Cast<VFlashTypeComponent>())
-                {
-                    output[i] = type.Type + "=" + type.Version + "+" + type.Path;
-                    i++;
-                }
-                return output;
-            }
+                public int Id { get; set; }
+                public string Path { get; set; }
+                public int TransitionDelay { get; set; }
 
-            public static void StringsToVFlashChannels(string[] types, VFlashTypeBank bank)
-            {
-                try
+                public List<VFlashTypeComponentStepCondition> TransitionConditions;
+
+                public string TransitionSignature
                 {
-                    var dictionary =
-                        types.Select(type => type.Split('='))
-                            .ToDictionary<string[], uint, string>(words => Convert.ToUInt16(words[0]), words => words[1]);
-                    var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
-                    foreach (var type in sortedDict)
+                    get
                     {
-                        var words = type.Value.Split('+');
-                        bank.Add(new VFlashTypeComponent(type.Key, words[0], words[1]));
+                        return TransitionConditions.OrderBy(o => o.Status).Aggregate("", (current, vFlashTypeComponentStepCondition) => current + Convert.ToInt32(vFlashTypeComponentStepCondition.Condition));
                     }
                 }
-                catch (Exception e)
+
+                public Step(int id)
                 {
-                    Logger.Log("Configuration is wrong : " + e.Message);
+                    Id = id;
+                    Path = "no path assigned";
+                    TransitionDelay = 100;
+                    TransitionConditions = new List<VFlashTypeComponentStepCondition>();
+                    foreach (VFlashStationStatus stat in Enum.GetValues(typeof(VFlashStationStatus)))
+                    {
+                        var status = stat == VFlashStationStatus.Success;
+                        TransitionConditions.Add(new VFlashTypeComponentStepCondition(stat, status));
+                    }
                 }
+
+                public void RestoreConditions(string signature)
+                {
+                    var conditions = signature.ToCharArray();
+                    var i = 0;
+                    foreach (var condition in TransitionConditions.OrderBy(o => o.Status))
+                    {
+                        condition.Condition = (conditions[i] == '1');
+                        i++;
+                    }
+                }
+            }
+            
+            public string Version { get; set; }
+            public List<Step> Steps { get; set; } 
+
+            public VFlashTypeComponent(string version)
+            {
+                Version = version;
+                Steps = new List<Step> {new Step(1)};
             }
         }
 
-        #endregion
+        public static class VFlashTypeBuilder
+        {
+            public static List<VFlashTypeComponent> Build(uint id, VFlashTypeBankFile vFlashTypeBankFile)
+            {
+                var newlist = new List<VFlashTypeComponent>();
+                var i = 0;
 
+                foreach (var newType in vFlashTypeBankFile.TypeBank[id].Select(type => new VFlashTypeComponent(type)))
+                {
+                    newType.Steps.Clear();
 
-        #region Variables
+                    foreach (var step in vFlashTypeBankFile.Steps[id][i])
+                    {
+                        var properties = step.Split(';');
+                        var newStep = new VFlashTypeComponent.Step(Convert.ToInt32(properties[0]))
+                        {
+                            Path = properties[1],
+                            TransitionDelay = Convert.ToInt32(properties[2])
+                        };
+                        newStep.RestoreConditions(properties[3]);
+                        newType.Steps.Add(newStep);
+                    }
 
-        private List<VFlashDisplayProjectData> _children = new List<VFlashDisplayProjectData>();
+                    newlist.Add(newType);
+                    i++;
+                }
+
+                return newlist;
+            }
+
+            public static void UpdateConfiguration(uint id, VFlashTypeBankFile vFlashTypeBankFile, List<VFlashTypeComponent> children)
+            {
+                var i = 0;
+                vFlashTypeBankFile.TypeBank[id] = new string[children.Count];
+                vFlashTypeBankFile.Steps[id] = new string[children.Count][];
+                foreach (var vFlashTypeComponent in children)
+                {
+                    vFlashTypeBankFile.TypeBank[id][i] = vFlashTypeComponent.Version;
+                    vFlashTypeBankFile.Steps[id][i] = new string[vFlashTypeComponent.Steps.Count];
+
+                    var j = 0;
+                    foreach (var step in vFlashTypeComponent.Steps)
+                    {
+                        vFlashTypeBankFile.Steps[id][i][j] = step.Id + ";" + step.Path + ";" + step.TransitionDelay + ";" + step.TransitionSignature;
+                        j++;
+                    }
+                    i++;
+                }
+
+                vFlashTypeBankFile.Save();
+            }
+        }
 
         #endregion
 
 
         #region Properties
 
-        public List<VFlashDisplayProjectData> Children
-        {
-            get { return _children; }
-            set { _children = value; }
-        }
+        public List<VFlashTypeComponent> Children { get; set; }
 
         public VFlashTypeBankFile VFlashTypeBankFile;
 
@@ -100,6 +156,8 @@ namespace _PlcAgent.Vector
         {
             ReferencePosition = 3;
             VFlashTypeBankFile = vFlashTypeBankFile;
+
+            Children = VFlashTypeBuilder.Build(Header.Id, vFlashTypeBankFile);
         }
 
         #endregion
@@ -120,24 +178,18 @@ namespace _PlcAgent.Vector
             TabControl connectionTabControl, Grid footerGrid)
         {
             var newtabItem = new TabItem { Header = Header.Name };
-            outputTabControl.Items.Add(newtabItem);
-            outputTabControl.SelectedItem = newtabItem;
-
-            var newScrollViewer = new ScrollViewer
-            {
-                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
-            };
-            newtabItem.Content = newScrollViewer;
+            mainTabControl.Items.Add(newtabItem);
+            mainTabControl.SelectedItem = newtabItem;
 
             var newGrid = new Grid();
-            newScrollViewer.Content = newGrid;
+            newtabItem.Content = newGrid;
 
-            newGrid.Height = Limiter.DoubleLimit(outputTabControl.Height - 50.0, 0);
-            newGrid.Width = Limiter.DoubleLimit(outputTabControl.Width - 10, 0);
+            newGrid.Height = Limiter.DoubleLimit(mainTabControl.Height - 32.0, 0);
+            newGrid.Width = Limiter.DoubleLimit(mainTabControl.Width - 10, 0);
 
             var gridGuiVFlashPathBank = (GuiComponent)RegistryContext.Registry.GuiVFlashPathBanks.ReturnComponent(Header.Id);
             gridGuiVFlashPathBank.Initialize(0, 0, newGrid);
+
             var guiComponent = (GuiVFlashPathBank)gridGuiVFlashPathBank.UserControl;
             guiComponent.UpdateSizes(newGrid.Height, newGrid.Width);
         }
@@ -157,38 +209,21 @@ namespace _PlcAgent.Vector
             if (MainRegistryFile.Default.VFlashTypeBanks[Header.Id][component.ReferencePosition] == component.Header.Id) throw new Exception("The component is still assigned to another one");
         }
 
-        public void Add(VFlashDisplayProjectData c)
+        public void Add(VFlashTypeComponent c)
         {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Type == c.Type);
-            if (child == null) _children.Add(c);
-            else
-            {
-                child.Path = c.Path;
-                child.Version = c.Version;
-            }
+            var child = Children.FirstOrDefault(typeFound => typeFound.Version == c.Version);
+            if (child != null) return;
+            Children.Add(c);
         }
 
-        public void Remove(VFlashDisplayProjectData c)
+        public void Remove(VFlashTypeComponent c)
         {
-            _children.Remove(c);
+            Children.Remove(c);
         }
 
-        public string ReturnPath(uint type)
+        public void Update()
         {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);
-            return child != null ? child.Path : null;
-        }
-
-        public string ReturnPath(string version)
-        {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Version == version);
-            return child != null ? child.Path : null;
-        }
-
-        public string ReturnVersion(uint type)
-        {
-            var child = _children.FirstOrDefault(typeFound => typeFound.Type == type);
-            return child != null ? child.Version : null;
+            VFlashTypeBuilder.UpdateConfiguration(Header.Id, VFlashTypeBankFile.Default, Children);
         }
 
         #endregion

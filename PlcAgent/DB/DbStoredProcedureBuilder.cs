@@ -1,12 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Xml;
-using _PlcAgent.DataAquisition;
-using _PlcAgent.Log;
-using _PlcAgent.MainRegistry;
-using _PlcAgent.Output.Template;
-
-namespace _PlcAgent.DB
+﻿namespace _PlcAgent.DB
 {
     /*static class DbStoredProcedureBuilder
     {

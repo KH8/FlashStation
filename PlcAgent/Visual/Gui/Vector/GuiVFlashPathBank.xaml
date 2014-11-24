@@ -5,27 +5,50 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" Width="854">
-    <UserControl.Resources>
-        <Style x:Key="AlternationStyle" TargetType="{x:Type ListViewItem}">
-            <Style.Triggers>
-                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="#FFF6F6F6"></Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
     <Grid Name="GeneralGrid">
-        <ListView Name="VFlashBankListBox" HorizontalAlignment="Left" Height="269" VerticalAlignment="Top" Width="854" ItemContainerStyle="{StaticResource AlternationStyle}" AlternationCount="2" SelectionChanged="VFlashProjectbankListViewSelection">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="25" Width="100" Click="TypeCreation"/>
-        <Label Content="Type Number:" HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Bottom"/>
-        <Label Content="Version:" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom"/>
-        <TextBox Name="TypeNumberBox" HorizontalAlignment="Left" Height="23" Margin="200,0,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Bottom" Width="50"/>
-        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="320,0,0,0" TextWrapping="Wrap" Text="-001" VerticalAlignment="Bottom" Width="70"/>
+        <DataGrid Name="VersionDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6" SelectionChanged="VersionSelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Version, NotifyOnTargetUpdated=True}" Header="Version" Width="330" IsReadOnly="False">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Steps.Count}" Header="Steps" Width="50" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Name="SequenceDataGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Width="599" Height="268" AutoGenerateColumns="False" BorderThickness="1" GridLinesVisibility="None" Background="White" AlternatingRowBackground="#FFF6F6F6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Step Nr." Width="60" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Template File" Width="600" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path}" MouseLeftButtonDown="PathModyfication"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Transition Conditions" Width="130" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="click to configure" TextAlignment="Center" MouseLeftButtonDown="ConditionsModyfication"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Path=TransitionDelay, NotifyOnTargetUpdated=True}" Header="Delay Time [ms]" Width="130" IsReadOnly="False">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="VFlashCreateTypeButton" Content="Create Type" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeCreation"/>
+        <Button Name="VFlashDeleteTypeButton" Content="Delete Type" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Bottom" Height="22" Width="100" Click="TypeDeletion"/>
+        <Label Content="Version:" HorizontalAlignment="Left" Margin="210,0,0,-2" VerticalAlignment="Bottom"/>
+        <TextBox Name="TypeVersionBox" HorizontalAlignment="Left" Height="23" Margin="270,0,0,-2" TextWrapping="Wrap" Text="1402-001" VerticalAlignment="Bottom" Width="70"/>
+        <Button x:Name="VFlashCreateStepButton" Content="Create Step" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="22" Width="100" Click="StepCreation" Margin="0,0,105,0"/>
+        <Button x:Name="VFlashDeleteStepButton" Content="Delete Step" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="22" Width="100" Click="StepDeletion"/>
     </Grid>
 </UserControl>

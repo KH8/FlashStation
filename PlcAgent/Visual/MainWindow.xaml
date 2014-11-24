@@ -62,7 +62,7 @@
                     </TabItem>
                     <TabItem Name="LogTabItem" Header="Log">
                         <Grid>
-                            <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="502" Margin="0,0,0,0" VerticalAlignment="Top" Width="800"/>
+                            <ListBox Name="LogListBox" HorizontalAlignment="Center" Height="260" VerticalAlignment="Top" Width="931"/>
                         </Grid>
                     </TabItem>
                 </TabControl>
